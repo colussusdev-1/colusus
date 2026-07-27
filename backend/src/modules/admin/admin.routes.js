@@ -11,7 +11,16 @@ import {
 } from "./admin.controller.js";
 
 
+import {
+    getAllDocuments,
+    getDocumentById,
+    updateDocumentStatus
+} from "./admin.document.controller.js";
+
+
+
 const router = express.Router();
+
 
 
 
@@ -20,6 +29,7 @@ const router = express.Router();
 | Admin Dashboard
 |--------------------------------------------------------------------------
 */
+
 
 router.get(
 
@@ -44,6 +54,8 @@ router.get(
 */
 
 
+// Get all applications
+
 router.get(
 
     "/applications",
@@ -57,6 +69,9 @@ router.get(
 );
 
 
+
+
+// Get single application
 
 router.get(
 
@@ -72,6 +87,9 @@ router.get(
 
 
 
+
+// Update application status
+
 router.patch(
 
     "/applications/:id/status",
@@ -83,6 +101,68 @@ router.patch(
     updateApplicationStatus
 
 );
+
+
+
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Admin Document Management
+|--------------------------------------------------------------------------
+*/
+
+
+// Get all documents
+
+router.get(
+
+    "/documents",
+
+    authenticate,
+
+    allowRoles("ADMIN", "STAFF"),
+
+    getAllDocuments
+
+);
+
+
+
+
+// Get single document
+
+router.get(
+
+    "/documents/:id",
+
+    authenticate,
+
+    allowRoles("ADMIN", "STAFF"),
+
+    getDocumentById
+
+);
+
+
+
+
+// Update document status
+
+router.patch(
+
+    "/documents/:id/status",
+
+    authenticate,
+
+    allowRoles("ADMIN", "STAFF"),
+
+    updateDocumentStatus
+
+);
+
+
 
 
 
