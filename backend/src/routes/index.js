@@ -1,24 +1,102 @@
 import express from "express";
 
 import healthRoutes from "./health.routes.js";
-import authRoutes from "./auth.routes.js";
-import userRoutes from "./user.routes.js";
-import applicationRoutes from "./application.routes.js";
-import documentRoutes from "./document.routes.js";
 
+import authRoutes from "../modules/auth/auth.routes.js";
+import userRoutes from "../modules/users/user.routes.js";
+
+import applicationRoutes from "../modules/applications/application.routes.js";
+import documentRoutes from "../modules/documents/document.routes.js";
+import clientProfileRoutes from "../modules/client-profile/clinet-profile.routes.js";
+import adminRoutes from "../modules/admin/admin.routes.js"
 
 const router = express.Router();
 
 
-router.use("/health", healthRoutes);
 
-router.use("/auth", authRoutes);
+/*
+|--------------------------------------------------------------------------
+| Health Routes
+|--------------------------------------------------------------------------
+*/
 
-router.use("/users", userRoutes);
+router.use(
+    "/health",
+    healthRoutes
+);
 
-router.use("/applications", applicationRoutes);
 
-router.use("/documents", documentRoutes);
 
+/*
+|--------------------------------------------------------------------------
+| Authentication Routes
+|--------------------------------------------------------------------------
+*/
+
+router.use(
+    "/auth",
+    authRoutes
+);
+
+
+
+/*
+|--------------------------------------------------------------------------
+| User Routes
+|--------------------------------------------------------------------------
+*/
+
+router.use(
+    "/users",
+    userRoutes
+);
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Application Routes
+|--------------------------------------------------------------------------
+*/
+
+router.use(
+    "/applications",
+    applicationRoutes
+);
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Document Routes
+|--------------------------------------------------------------------------
+*/
+
+router.use(
+    "/documents",
+    documentRoutes
+);
+
+
+/*
+|--------------------------------
+|Client Profile
+|-------------------------------
+|
+*/
+
+router.use(
+    "/client-profile",
+    clientProfileRoutes
+);
+
+/*
+Admin 
+*/
+
+router.use(
+    "/admin",
+    adminRoutes
+);
 
 export default router;

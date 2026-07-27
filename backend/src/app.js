@@ -8,7 +8,8 @@ import morgan from "morgan";
 import notFound from "./middleware/notFound.js";
 import errorHandler from "./middleware/errorHandler.js";
 
-import apiRoutes from "./routes/index.js";
+import routes from "./routes/index.js";
+
 
 const app = express();
 
@@ -42,28 +43,11 @@ app.use(morgan("dev"));
 
 /*
 |--------------------------------------------------------------------------
-| Health Check
-|--------------------------------------------------------------------------
-*/
-
-
-
-
-
-/*
-|--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
-|
-| Future routes will enter here:
-|
-| /api/v1/auth
-| /api/v1/users
-| /api/v1/applications
-| /api/v1/documents
-|
-|--------------------------------------------------------------------------
 */
+
+app.use("/api/v1", routes);
 
 
 
@@ -71,13 +55,7 @@ app.use(morgan("dev"));
 |--------------------------------------------------------------------------
 | Error Handling
 |--------------------------------------------------------------------------
-|
-| IMPORTANT:
-| These must always be the last middleware.
-|
-|--------------------------------------------------------------------------
 */
-app.use("/api/v1", apiRoutes);
 
 app.use(notFound);
 
