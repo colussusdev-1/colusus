@@ -1,0 +1,348 @@
+/* ==========================================================
+   HERO
+========================================================== */
+
+.work-hero{
+    position:relative;
+    overflow:hidden;
+    isolation:isolate;
+
+    display:flex;
+    align-items:center;
+
+    min-height:100vh;
+
+    background:var(--wp-bg-primary);
+
+    padding:clamp(7rem,10vw,9rem) 0;
+}
+
+/* ==========================================================
+   BACKGROUND
+========================================================== */
+
+.hero-gradient,
+.hero-grid,
+.hero-decor{
+    position:absolute;
+    pointer-events:none;
+}
+
+.hero-gradient{
+
+    inset:0;
+    z-index:-5;
+
+    background:
+
+        radial-gradient(
+            circle at 15% 18%,
+            color-mix(in srgb, var(--primary) 22%, transparent),
+            transparent 45%
+        ),
+
+        radial-gradient(
+            circle at 82% 14%,
+            color-mix(in srgb, var(--primary-light) 16%, transparent),
+            transparent 42%
+        ),
+
+        radial-gradient(
+            circle at 50% 110%,
+            rgba(255,255,255,.04),
+            transparent 60%
+        );
+}
+
+.hero-grid{
+
+    inset:0;
+
+    z-index:-4;
+
+    opacity:.05;
+
+    background-image:
+
+        linear-gradient(
+            rgba(255,255,255,.08) 1px,
+            transparent 1px
+        ),
+
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.08) 1px,
+            transparent 1px
+        );
+
+    background-size:60px 60px;
+}
+
+/* ==========================================================
+   DECOR
+========================================================== */
+
+.hero-decor{
+
+    border-radius:50%;
+
+    filter:blur(120px);
+
+    z-index:-3;
+}
+
+.hero-decor-1{
+
+    width:320px;
+    height:320px;
+
+    top:-120px;
+    left:-80px;
+
+    background:
+        color-mix(in srgb, var(--primary) 22%, transparent);
+}
+
+.hero-decor-2{
+
+    width:260px;
+    height:260px;
+
+    right:-80px;
+    bottom:-90px;
+
+    background:
+        color-mix(in srgb, var(--primary-light) 18%, transparent);
+}
+
+.hero-decor-3{
+
+    width:220px;
+    height:220px;
+
+    top:45%;
+    left:48%;
+
+    background:
+        rgba(255,255,255,.05);
+}
+
+/* ==========================================================
+   LEFT OVERLAY
+========================================================== */
+
+.work-hero::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+
+        radial-gradient(
+            circle at 18% 35%,
+            rgba(126,87,194,.18),
+            transparent 38%
+        ),
+
+        radial-gradient(
+            circle at 22% 70%,
+            rgba(255,193,7,.10),
+            transparent 32%
+        );
+
+    filter:blur(80px);
+
+    opacity:.9;
+
+    z-index:0;
+
+    pointer-events:none;
+}
+
+/* ==========================================================
+   CONTAINER
+========================================================== */
+
+.hero-container{
+
+    position:relative;
+
+    z-index:2;
+
+    display:grid;
+
+    grid-template-columns:
+        minmax(0,560px)
+        minmax(0,700px);
+
+    align-items:flex-start;
+
+    gap:clamp(3rem,6vw,6rem);
+
+    padding-inline:
+        clamp(1.5rem,5vw,5rem);
+}
+
+/* ==========================================================
+   RIGHT SIDE
+========================================================== */
+
+.hero-scene-wrapper{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    width:100%;
+}
+
+/* ==========================================================
+   SCROLL
+========================================================== */
+
+.hero-scroll{
+
+    position:absolute;
+
+    left:50%;
+    bottom:2rem;
+
+    transform:translateX(-50%);
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    gap:.75rem;
+
+    cursor:pointer;
+
+    color:var(--wp-text-secondary);
+
+    z-index:5;
+}
+
+.hero-scroll-mouse{
+
+    width:30px;
+    height:48px;
+
+    border-radius:999px;
+
+    border:1px solid var(--wp-border-primary);
+
+    display:flex;
+    justify-content:center;
+
+    padding-top:8px;
+
+    background:
+        rgba(255,255,255,.03);
+
+    backdrop-filter:blur(10px);
+}
+
+.hero-scroll-dot{
+
+    width:6px;
+    height:6px;
+
+    border-radius:50%;
+
+    background:var(--primary);
+
+    box-shadow:
+        0 0 12px
+        color-mix(in srgb, var(--primary) 55%, transparent);
+
+    animation:scrollDot 1.6s ease infinite;
+}
+
+@keyframes scrollDot{
+
+    0%{
+        transform:translateY(0);
+        opacity:1;
+    }
+
+    100%{
+        transform:translateY(14px);
+        opacity:.15;
+    }
+
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width:1200px){
+
+    .hero-container{
+
+        grid-template-columns:1fr;
+
+        justify-items:center;
+
+        gap:4rem;
+
+    }
+
+    .work-hero::before{
+
+        width:100%;
+
+        background:
+
+            linear-gradient(
+
+                180deg,
+
+                rgba(7,12,24,.95),
+
+                rgba(7,12,24,.82),
+
+                rgba(7,12,24,.45),
+
+                transparent
+
+            );
+
+    }
+
+}
+
+@media (max-width:768px){
+
+    .work-hero{
+
+        min-height:auto;
+
+        padding:6rem 0 4rem;
+    }
+
+    .hero-container{
+
+        gap:3rem;
+
+        padding-inline:1.2rem;
+    }
+
+    .hero-scene-wrapper{
+
+        transform:scale(.82);
+
+        transform-origin:center top;
+    }
+
+    .hero-scroll{
+
+        display:none;
+    }
+
+}

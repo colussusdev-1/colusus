@@ -1,0 +1,861 @@
+/* =====================================================
+   OFFSHORE HERO
+===================================================== */
+
+
+.offshore-hero{
+
+
+    position:relative;
+
+    min-height:760px;
+
+    display:flex;
+
+    align-items:center;
+
+    overflow:hidden;
+
+    color:white;
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   BACKGROUND IMAGE
+===================================================== */
+
+
+.offshore-hero__background{
+
+
+    position:absolute;
+
+    inset:0;
+
+
+    background-image:
+
+    url("/images/globaly.jpg");
+
+
+    background-size:cover;
+
+
+    background-position:center;
+
+
+    transform:scale(1.05);
+
+
+    z-index:0;
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   OVERLAY
+===================================================== */
+
+
+.offshore-hero__overlay{
+
+
+    position:absolute;
+
+    inset:0;
+
+
+    background:
+
+
+    linear-gradient(
+
+        90deg,
+
+        rgba(2,6,23,.92),
+
+        rgba(2,6,23,.78),
+
+        rgba(2,6,23,.55)
+
+    );
+
+
+    z-index:1;
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
+
+.offshore-hero__container{
+
+
+    position:relative;
+
+
+    z-index:2;
+
+
+    width:min(1200px,92%);
+
+
+    margin:auto;
+
+
+}
+
+
+
+
+
+
+
+
+/* =====================================================
+   CONTENT
+===================================================== */
+
+
+.offshore-hero__content{
+
+
+    max-width:720px;
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   BADGE
+===================================================== */
+
+
+.offshore-badge{
+
+
+    display:inline-flex;
+
+
+    align-items:center;
+
+
+    padding:.7rem 1.2rem;
+
+
+    border-radius:999px;
+
+
+    background:
+
+    rgba(255,255,255,.12);
+
+
+
+    border:
+
+    1px solid rgba(255,255,255,.25);
+
+
+
+    backdrop-filter:blur(20px);
+
+
+
+    font-size:.78rem;
+
+
+
+    font-weight:700;
+
+
+
+    letter-spacing:.12em;
+
+
+
+    text-transform:uppercase;
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   TITLE
+===================================================== */
+
+
+.offshore-hero h1{
+
+
+    margin-top:1.8rem;
+
+
+    font-size:
+
+    clamp(3rem,6vw,5rem);
+
+
+    line-height:1.05;
+
+
+    letter-spacing:-2px;
+
+
+    font-weight:900;
+
+
+}
+
+
+
+
+.offshore-hero h1 span{
+
+
+    display:block;
+
+
+    color:#60a5fa;
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   DESCRIPTION
+===================================================== */
+
+
+.offshore-description{
+
+
+    margin-top:1.6rem;
+
+
+    max-width:600px;
+
+
+    color:
+
+    rgba(255,255,255,.78);
+
+
+
+    font-size:1.05rem;
+
+
+    line-height:1.8;
+
+
+}
+
+
+
+.mobile-copy{
+
+
+    display:none;
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+
+.offshore-actions{
+
+
+    display:flex;
+
+
+    gap:1rem;
+
+
+    margin-top:2.5rem;
+
+
+}
+
+
+
+
+
+.offshore-primary,
+.offshore-secondary{
+
+
+    height:56px;
+
+
+    padding:0 2rem;
+
+
+    border-radius:999px;
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    justify-content:center;
+
+
+    gap:.7rem;
+
+
+    font-size:.95rem;
+
+
+    font-weight:700;
+
+
+    cursor:pointer;
+
+
+    transition:.35s ease;
+
+
+}
+
+
+
+
+
+
+
+.offshore-primary{
+
+
+    border:none;
+
+
+    color:white;
+
+
+    background:
+
+
+    linear-gradient(
+
+        135deg,
+
+        #2563eb,
+
+        #0ea5e9
+
+    );
+
+
+    box-shadow:
+
+
+    0 20px 50px rgba(37,99,235,.45);
+
+
+}
+
+
+
+
+
+.offshore-primary:hover{
+
+
+    transform:translateY(-4px);
+
+
+}
+
+
+
+
+
+
+
+.offshore-secondary{
+
+
+    color:white;
+
+
+    background:
+
+
+    rgba(255,255,255,.12);
+
+
+
+    border:
+
+    1px solid rgba(255,255,255,.25);
+
+
+
+    backdrop-filter:blur(20px);
+
+
+}
+
+
+
+
+.offshore-secondary:hover{
+
+
+    background:white;
+
+
+    color:#0f172a;
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   TRUST ITEMS
+===================================================== */
+
+
+.offshore-trust{
+
+
+    display:flex;
+
+
+    gap:1rem;
+
+
+    margin-top:2.5rem;
+
+
+}
+
+
+
+
+
+.offshore-trust div{
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    gap:.55rem;
+
+
+    padding:.75rem 1rem;
+
+
+    border-radius:999px;
+
+
+    background:
+
+
+    rgba(255,255,255,.10);
+
+
+
+    border:
+
+    1px solid rgba(255,255,255,.15);
+
+
+
+    backdrop-filter:blur(18px);
+
+
+
+    font-size:.85rem;
+
+
+}
+
+
+
+
+
+
+
+.offshore-trust svg{
+
+
+    color:#60a5fa;
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   LARGE TABLET
+===================================================== */
+
+
+@media(max-width:992px){
+
+
+    .offshore-hero{
+
+
+        min-height:700px;
+
+
+    }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+
+@media(max-width:768px){
+
+
+
+    .offshore-hero{
+
+
+        min-height:620px;
+
+
+        text-align:center;
+
+
+    }
+
+
+
+
+
+
+
+    .offshore-hero__background{
+
+
+        opacity:.22;
+
+
+        filter:blur(5px);
+
+
+        transform:scale(1.15);
+
+
+    }
+
+
+
+
+
+
+
+    .offshore-hero__overlay{
+
+
+        background:
+
+
+        linear-gradient(
+
+            180deg,
+
+            rgba(2,6,23,.80),
+
+            rgba(2,6,23,.96)
+
+        );
+
+
+    }
+
+
+
+
+
+
+
+    .offshore-hero__container{
+
+
+        width:92%;
+
+
+    }
+
+
+
+
+
+
+
+
+    .offshore-hero__content{
+
+
+        max-width:100%;
+
+
+    }
+
+
+
+
+
+
+
+
+    .offshore-badge{
+
+
+        font-size:.68rem;
+
+
+        padding:.55rem 1rem;
+
+
+    }
+
+
+
+
+
+
+
+
+    .offshore-hero h1{
+
+
+        margin-top:1.3rem;
+
+
+        font-size:2.15rem;
+
+
+        line-height:1.1;
+
+
+        letter-spacing:-1px;
+
+
+    }
+
+
+
+
+
+
+
+
+
+    .desktop-copy{
+
+
+        display:none;
+
+
+    }
+
+
+
+
+
+    .mobile-copy{
+
+
+        display:block;
+
+
+        max-width:320px;
+
+
+        margin:1rem auto 0;
+
+
+        font-size:.95rem;
+
+
+        line-height:1.6;
+
+
+    }
+
+
+
+
+
+
+
+
+
+    .offshore-actions{
+
+
+        flex-direction:column;
+
+
+        margin-top:2rem;
+
+
+    }
+
+
+
+
+
+
+
+    .offshore-primary,
+    .offshore-secondary{
+
+
+        width:100%;
+
+
+        height:52px;
+
+
+    }
+
+
+
+
+
+
+
+
+    .offshore-trust{
+
+
+        justify-content:center;
+
+
+        gap:.5rem;
+
+
+        margin-top:1.8rem;
+
+
+    }
+
+
+
+
+
+
+
+    .offshore-trust div{
+
+
+        flex:1;
+
+
+        justify-content:center;
+
+
+        padding:.65rem .4rem;
+
+
+        font-size:.7rem;
+
+
+    }
+
+
+
+
+
+
+
+    .offshore-trust svg{
+
+
+        display:none;
+
+
+    }
+
+
+
+
+
+}

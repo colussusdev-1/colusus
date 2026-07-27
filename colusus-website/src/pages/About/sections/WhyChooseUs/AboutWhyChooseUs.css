@@ -1,0 +1,1039 @@
+/*=====================================================
+  ABOUT WHY CHOOSE US
+=====================================================*/
+
+.about-why{
+
+    position:relative;
+
+    overflow:hidden;
+
+    padding:7rem 0;
+
+    isolation:isolate;
+
+    background:
+
+        radial-gradient(circle at 15% 15%,
+            rgba(28,140,255,.10),
+            transparent 30%),
+
+        radial-gradient(circle at 90% 25%,
+            rgba(0,185,255,.08),
+            transparent 35%),
+
+        radial-gradient(circle at 50% 100%,
+            rgba(0,86,179,.16),
+            transparent 55%),
+
+        linear-gradient(
+            180deg,
+            #041327 0%,
+            #071C36 45%,
+            #061A31 100%
+        );
+
+    color:white;
+}
+
+/*=====================================================
+  MOVING AURORA
+=====================================================*/
+
+.about-why::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:900px;
+    height:900px;
+
+    left:-260px;
+    top:-280px;
+
+    border-radius:50%;
+
+    background:
+
+        radial-gradient(circle,
+            rgba(0,132,255,.18),
+            transparent 70%);
+
+    filter:blur(120px);
+
+    animation:auroraOne 18s ease-in-out infinite alternate;
+
+    pointer-events:none;
+}
+
+.about-why::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:700px;
+    height:700px;
+
+    right:-180px;
+    bottom:-220px;
+
+    border-radius:50%;
+
+    background:
+
+        radial-gradient(circle,
+            rgba(0,185,255,.12),
+            transparent 72%);
+
+    filter:blur(110px);
+
+    animation:auroraTwo 16s ease-in-out infinite alternate;
+
+    pointer-events:none;
+}
+
+/*=====================================================
+  CINEMATIC OVERLAY
+=====================================================*/
+
+.about-why .container{
+
+    position:relative;
+
+    z-index:5;
+}
+
+/* subtle film grain */
+
+.about-why .container::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:-80px;
+
+    opacity:.05;
+
+    background-image:
+
+        radial-gradient(circle,
+            rgba(255,255,255,.35) 1px,
+            transparent 1px);
+
+    background-size:22px 22px;
+
+    pointer-events:none;
+}
+
+/*=====================================================
+  HEADER
+=====================================================*/
+
+.about-why-header{
+
+    position:relative;
+
+    max-width:760px;
+
+    margin:0 auto;
+
+    text-align:center;
+
+    z-index:4;
+}
+
+/*=====================================================
+  TAG
+=====================================================*/
+
+.about-why-tag{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:.7rem 1.35rem;
+
+    margin-bottom:1.8rem;
+
+    border-radius:999px;
+
+    color:#A9D5FF;
+
+    font-size:.8rem;
+
+    font-weight:700;
+
+    letter-spacing:.16em;
+
+    text-transform:uppercase;
+
+    background:
+
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.10),
+            rgba(255,255,255,.04)
+        );
+
+    backdrop-filter:blur(24px);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    box-shadow:
+
+        inset 0 1px 0 rgba(255,255,255,.10),
+
+        0 10px 35px rgba(0,0,0,.20);
+}
+
+/*=====================================================
+  TITLE
+=====================================================*/
+
+.about-why-header h2{
+
+    font-size:clamp(2.8rem,5vw,5rem);
+
+    line-height:1.05;
+
+    font-weight:800;
+
+    margin-bottom:1.7rem;
+
+    color:white;
+
+    letter-spacing:-.03em;
+}
+
+.about-why-header h2 span{
+
+    display:block;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            #7EC9FF,
+            #FFFFFF,
+            #8FD6FF
+        );
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+}
+
+/*=====================================================
+  DESCRIPTION
+=====================================================*/
+
+.about-why-header p{
+
+    max-width:640px;
+
+    margin:auto;
+
+    color:rgba(255,255,255,.78);
+
+    line-height:2;
+
+    font-size:1.04rem;
+}
+
+/*=====================================================
+  DIVIDER
+=====================================================*/
+
+.about-why-header::after{
+
+    content:"";
+
+    display:block;
+
+    width:180px;
+
+    height:1px;
+
+    margin:3rem auto;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.35),
+            transparent
+        );
+
+    box-shadow:
+
+        0 0 18px rgba(110,185,255,.45);
+}
+
+/*=====================================================
+  PILL SECTION WRAPPER
+=====================================================*/
+
+.about-why-pills{
+
+    position:relative;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:1rem;
+
+    margin-bottom:4rem;
+
+    z-index:5;
+}
+
+/*=====================================================
+  FLOATING LIGHT PARTICLES
+=====================================================*/
+
+.about-why-particles{
+
+    position:absolute;
+
+    inset:0;
+
+    overflow:hidden;
+
+    pointer-events:none;
+}
+
+.about-why-particles span{
+
+    position:absolute;
+
+    width:5px;
+    height:5px;
+
+    border-radius:50%;
+
+    background:white;
+
+    opacity:.15;
+
+    animation:particleFloat linear infinite;
+}
+
+/*=====================================================
+  KEYFRAMES
+=====================================================*/
+
+@keyframes auroraOne{
+
+    from{
+
+        transform:
+            translate(0,0)
+            scale(1);
+    }
+
+    to{
+
+        transform:
+            translate(120px,80px)
+            scale(1.25);
+    }
+}
+
+@keyframes auroraTwo{
+
+    from{
+
+        transform:
+            translate(0,0)
+            scale(1);
+    }
+
+    to{
+
+        transform:
+            translate(-100px,-60px)
+            scale(1.18);
+    }
+}
+
+@keyframes particleFloat{
+
+    from{
+
+        transform:
+            translateY(100px);
+
+        opacity:0;
+    }
+
+    20%{
+
+        opacity:.18;
+    }
+
+    80%{
+
+        opacity:.18;
+    }
+
+    to{
+
+        transform:
+            translateY(-850px);
+
+        opacity:0;
+    }
+}
+
+/* =====================================================
+   WHY CHOOSE US - PILLS
+===================================================== */
+
+.about-whychoose-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2, minmax(260px,1fr));
+
+    gap:1rem;
+}
+
+/* =====================================================
+   PREMIUM GLASS PILL
+===================================================== */
+
+.about-why-card{
+
+    position:relative;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:1rem;
+
+    padding:1rem 1.2rem;
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.08),
+            rgba(255,255,255,.04)
+        );
+
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.08),
+        0 18px 40px rgba(0,0,0,.28);
+
+    transition:.45s ease;
+}
+
+.about-why-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:1px;
+
+    border-radius:inherit;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.10),
+            transparent 35%,
+            rgba(255,255,255,.02)
+        );
+
+    pointer-events:none;
+}
+
+.about-why-card:hover{
+
+    transform:
+        translateY(-6px)
+        scale(1.02);
+
+    border-color:
+        rgba(255,255,255,.18);
+
+    box-shadow:
+        0 26px 60px rgba(0,0,0,.42);
+}
+
+/* =====================================================
+   ICON
+===================================================== */
+
+.about-why-icon{
+
+    width:58px;
+    height:58px;
+
+    border-radius:18px;
+
+    flex-shrink:0;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    color:#fff;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.16),
+            rgba(255,255,255,.08)
+        );
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.16),
+        0 10px 24px rgba(0,0,0,.25);
+}
+
+.about-why-icon svg{
+
+    font-size:1.45rem;
+}
+
+/* =====================================================
+   TEXT
+===================================================== */
+
+.about-why-card h3{
+
+    color:#fff;
+
+    font-size:1rem;
+
+    margin-bottom:.3rem;
+
+    font-weight:700;
+}
+
+.about-why-card p{
+
+    color:rgba(255,255,255,.72);
+
+    font-size:.87rem;
+
+    line-height:1.65;
+}
+
+/* =====================================================
+   BOTTOM TRUST STRIP
+===================================================== */
+
+.about-why-footer{
+
+    margin-top:2.4rem;
+
+    display:flex;
+
+    justify-content:center;
+}
+
+.about-why-strip{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:.8rem;
+
+    padding:1rem 1.3rem;
+
+    border-radius:999px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.08),
+            rgba(255,255,255,.04)
+        );
+
+    backdrop-filter:blur(26px);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.08),
+        0 18px 45px rgba(0,0,0,.28);
+}
+
+.about-why-pill{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:.45rem;
+
+    padding:.55rem .9rem;
+
+    border-radius:999px;
+
+    background:
+        rgba(255,255,255,.06);
+
+    color:rgba(255,255,255,.92);
+
+    font-size:.82rem;
+
+    font-weight:600;
+}
+
+.about-why-pill svg{
+
+    color:#78B7FF;
+
+    font-size:.95rem;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:992px){
+
+    .about-whychoose{
+
+        padding:5rem 0;
+    }
+
+    .about-whychoose-grid{
+
+        grid-template-columns:1fr;
+    }
+
+    .about-why-title{
+
+        font-size:2.6rem;
+    }
+
+    .about-why-strip{
+
+        border-radius:26px;
+
+        justify-content:flex-start;
+    }
+}
+
+@media(max-width:768px){
+
+    .about-why-card{
+
+        padding:1rem;
+    }
+
+    .about-why-icon{
+
+        width:52px;
+        height:52px;
+    }
+
+    .about-why-title{
+
+        font-size:2.1rem;
+    }
+
+    .about-why-description{
+
+        font-size:1rem;
+    }
+
+    .about-why-strip{
+
+        flex-direction:column;
+
+        align-items:stretch;
+    }
+
+    .about-why-pill{
+
+        justify-content:center;
+    }
+}
+
+
+
+
+
+
+/* =====================================================
+   FEATURE PILLS
+===================================================== */
+
+.about-why-pill-strip{
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:.8rem;
+
+    margin-top:4rem;
+}
+
+.about-why-pill{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:.55rem;
+
+    padding:.7rem 1.15rem;
+
+    border-radius:999px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.09),
+            rgba(255,255,255,.04)
+        );
+
+    border:1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(24px);
+
+    -webkit-backdrop-filter:blur(24px);
+
+    color:rgba(255,255,255,.9);
+
+    font-size:.82rem;
+
+    font-weight:600;
+
+    transition:.35s ease;
+}
+
+.about-why-pill svg{
+
+    color:#7DC2FF;
+
+    font-size:1rem;
+}
+
+.about-why-pill:hover{
+
+    transform:translateY(-4px);
+
+    border-color:rgba(125,194,255,.45);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.12),
+            rgba(255,255,255,.06)
+        );
+
+    box-shadow:
+        0 14px 34px rgba(0,0,0,.28);
+}
+
+/* =====================================================
+   FLOATING EFFECTS
+===================================================== */
+
+
+
+.about-why-card:nth-child(1){
+
+    animation:floatOne 6s ease-in-out infinite;
+}
+
+.about-why-card:nth-child(2){
+
+    animation:floatTwo 7s ease-in-out infinite;
+}
+
+.about-why-card:nth-child(3){
+
+    animation:floatThree 6.5s ease-in-out infinite;
+}
+
+.about-why-card:nth-child(4){
+
+    animation:floatFour 7.5s ease-in-out infinite;
+}
+
+@keyframes floatOne{
+
+    50%{
+
+        transform:translateY(-8px);
+    }
+}
+
+@keyframes floatTwo{
+
+    50%{
+
+        transform:translateY(-10px);
+    }
+}
+
+@keyframes floatThree{
+
+    50%{
+
+        transform:translateY(-7px);
+    }
+}
+
+@keyframes floatFour{
+
+    50%{
+
+        transform:translateY(-9px);
+    }
+}
+
+
+
+/* =====================================================
+   STATS
+===================================================== */
+
+.about-why-stats{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:3.5rem;
+
+    margin:3rem 0 2.2rem;
+
+    flex-wrap:wrap;
+
+    color: #FFFFFF;
+}
+
+.about-why-stats > h3 {
+    color:lightblue;
+}
+
+.about-why-stat{
+
+    text-align:center;
+}
+
+.about-why-stat strong{
+
+    display:block;
+
+    font-size:2.3rem;
+
+    line-height:1;
+
+    font-weight:800;
+
+    color:#ffffff;
+}
+
+.about-why-stat span{
+
+    display:block;
+
+    margin-top:.45rem;
+
+    font-size:.88rem;
+
+    color:rgba(255,255,255,.72);
+
+    letter-spacing:.04em;
+}
+
+/* =====================================================
+   QUOTE
+===================================================== */
+
+.about-why-quote{
+
+    max-width:760px;
+
+    margin:0 auto;
+
+    padding:1.1rem 1.8rem;
+
+    border-radius:999px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    color:rgba(255,255,255,.9);
+
+    font-size:1rem;
+
+    font-style:italic;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.08),
+            rgba(255,255,255,.03)
+        );
+
+    border:1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(24px);
+
+    -webkit-backdrop-filter:blur(24px);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.08),
+        0 18px 45px rgba(0,0,0,.28);
+}
+
+.about-why-quote::before{
+
+    content:"“";
+
+    color:#7DC2FF;
+
+    font-size:2rem;
+
+    margin-right:.45rem;
+
+    line-height:1;
+}
+
+.about-why-quote::after{
+
+    content:"”";
+
+    color:#7DC2FF;
+
+    font-size:2rem;
+
+    margin-left:.45rem;
+
+    line-height:1;
+}
+
+
+
+
+
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width:992px){
+
+    .about-why{
+
+        padding:5rem 0;
+    }
+
+    .about-why-grid{
+
+        grid-template-columns:repeat(2,1fr);
+
+        gap:1rem;
+    }
+
+    .about-why-heading{
+
+        font-size:2.4rem;
+    }
+}
+
+@media (max-width:768px){
+
+    .about-why{
+
+        padding:4.5rem 0;
+    }
+
+    .about-why-grid{
+
+        grid-template-columns:1fr;
+    }
+
+    .about-why-heading{
+
+        font-size:2rem;
+    }
+
+    .about-why-description{
+
+        font-size:.98rem;
+    }
+
+    .about-why-card{
+
+        min-height:auto;
+
+        padding:1.2rem;
+    }
+
+    .about-why-pill-strip{
+
+        justify-content:flex-start;
+    }
+}
+
+
+@media(max-width:768px){
+
+    .about-why-stats{
+
+        gap:1.8rem;
+    }
+
+    .about-why-stat strong{
+
+        font-size:1.8rem;
+    }
+
+    .about-why-quote{
+
+        border-radius:24px;
+
+        padding:1.1rem 1.3rem;
+
+        font-size:.92rem;
+    }
+}

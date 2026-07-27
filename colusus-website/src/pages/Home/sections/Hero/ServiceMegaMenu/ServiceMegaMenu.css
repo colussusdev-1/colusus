@@ -1,0 +1,662 @@
+/* =====================================================
+   SERVICE MEGA MENU V2
+   Premium Liquid Glass
+===================================================== */
+
+
+.serviceMenu{
+
+
+    position:absolute;
+
+
+    top:105px;
+
+    left:0;
+
+
+
+    width:390px;
+
+
+
+    padding:20px;
+
+
+
+    border-radius:28px;
+
+
+
+    background:
+
+    linear-gradient(
+        145deg,
+        rgba(255,255,255,.22),
+        rgba(255,255,255,.08)
+    );
+
+
+
+    border:
+
+    1px solid rgba(255,255,255,.25);
+
+
+
+    backdrop-filter:
+
+    blur(40px);
+
+
+
+    -webkit-backdrop-filter:
+
+    blur(40px);
+
+
+
+    box-shadow:
+
+    0 30px 90px rgba(0,0,0,.5);
+
+
+
+    z-index:120;
+
+
+
+    animation:
+
+    serviceMenuIn .35s cubic-bezier(.22,1,.36,1);
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+
+.serviceMenu__header{
+
+
+    display:flex;
+
+
+    justify-content:space-between;
+
+
+    align-items:center;
+
+
+    margin-bottom:18px;
+
+
+}
+
+
+
+
+.serviceMenu__title{
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    gap:8px;
+
+
+
+    color:white;
+
+
+    font-size:1rem;
+
+
+    font-weight:700;
+
+
+}
+
+
+
+
+.serviceMenu__title svg{
+
+
+    color:#7FCBFF;
+
+
+    font-size:18px;
+
+
+}
+
+
+
+
+
+.serviceMenu__header p{
+
+
+    margin:5px 0 0;
+
+
+    color:
+
+    rgba(255,255,255,.65);
+
+
+
+    font-size:.78rem;
+
+
+}
+
+
+
+
+
+.serviceMenu__header button{
+
+
+    width:34px;
+
+
+    height:34px;
+
+
+
+    border-radius:50%;
+
+
+    border:none;
+
+
+
+    display:flex;
+
+
+    justify-content:center;
+
+
+    align-items:center;
+
+
+
+    cursor:pointer;
+
+
+
+    background:
+
+    rgba(255,255,255,.12);
+
+
+
+    color:white;
+
+
+
+    transition:.25s;
+
+
+}
+
+
+
+
+.serviceMenu__header button:hover{
+
+
+    background:
+
+    rgba(255,255,255,.25);
+
+
+    transform:rotate(90deg);
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   SERVICE LIST
+===================================================== */
+
+
+.serviceMenu__list{
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    gap:9px;
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+
+.serviceMenu__footer{
+
+
+    margin-top:18px;
+
+
+    padding-top:16px;
+
+
+
+    border-top:
+
+    1px solid rgba(255,255,255,.15);
+
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    gap:12px;
+
+
+}
+
+
+
+
+
+.serviceMenu__footer span{
+
+
+    color:
+
+    rgba(255,255,255,.65);
+
+
+
+    font-size:.78rem;
+
+
+}
+
+
+
+
+
+.serviceMenu__footer button{
+
+
+    height:44px;
+
+
+
+    border:none;
+
+
+    border-radius:999px;
+
+
+
+    background:white;
+
+
+    color:#020617;
+
+
+
+    font-weight:700;
+
+
+
+    cursor:pointer;
+
+
+
+    transition:.3s;
+
+
+}
+
+
+
+
+.serviceMenu__footer button:hover{
+
+
+    transform:translateY(-3px);
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   OVERLAY
+===================================================== */
+
+
+.serviceMenu__overlay{
+
+
+    display:none;
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   OPEN ANIMATION
+===================================================== */
+
+
+@keyframes serviceMenuIn{
+
+
+    from{
+
+
+        opacity:0;
+
+
+        transform:
+
+
+        translateY(-20px)
+
+        scale(.96);
+
+
+        filter:blur(10px);
+
+
+    }
+
+
+
+    to{
+
+
+        opacity:1;
+
+
+        transform:
+
+
+        translateY(0)
+
+        scale(1);
+
+
+        filter:blur(0);
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+
+/* =====================================================
+   MOBILE SHEET
+===================================================== */
+
+@media(max-width:768px){
+
+
+    .serviceMenu__overlay{
+
+        display:block;
+
+        position:fixed;
+
+        inset:0;
+
+        background:
+        rgba(0,0,0,.45);
+
+        backdrop-filter:
+        blur(10px);
+
+        -webkit-backdrop-filter:
+        blur(10px);
+
+        z-index:110;
+
+    }
+
+
+
+
+    .serviceMenu{
+
+        position:fixed;
+
+        left:0;
+
+        bottom:0;
+
+        top:auto;
+
+
+        width:100%;
+
+
+        max-height:85vh;
+
+
+        overflow-y:auto;
+
+        overflow-x:hidden;
+
+
+        padding:
+
+        24px
+
+        20px
+
+        30px;
+
+
+
+        border-radius:
+
+
+        32px
+
+        32px
+
+        0
+
+        0;
+
+
+
+        z-index:120;
+
+
+
+        animation:
+
+        sheetUp .45s cubic-bezier(.22,1,.36,1);
+
+
+
+        -webkit-overflow-scrolling:touch;
+
+    }
+
+
+
+
+
+    .serviceMenu::-webkit-scrollbar{
+
+        width:5px;
+
+    }
+
+
+
+    .serviceMenu::-webkit-scrollbar-thumb{
+
+        background:
+        rgba(255,255,255,.25);
+
+        border-radius:999px;
+
+    }
+
+
+
+
+
+    .serviceMenu__header{
+
+        position:sticky;
+
+        top:0;
+
+        z-index:2;
+
+
+        padding-bottom:15px;
+
+
+        background:
+
+        linear-gradient(
+            180deg,
+            rgba(15,23,42,.95),
+            rgba(15,23,42,.75),
+            transparent
+        );
+
+    }
+
+
+
+
+
+    .serviceMenu__list{
+
+        gap:8px;
+
+    }
+
+
+
+
+
+    .serviceMenu__footer{
+
+        padding-bottom:20px;
+
+    }
+
+
+
+
+
+    .serviceMenu__footer button{
+
+        height:50px;
+
+    }
+
+
+}
+
+
+
+
+
+@keyframes sheetUp{
+
+
+    from{
+
+
+        opacity:0;
+
+
+        transform:
+
+        translateY(100%);
+
+
+    }
+
+
+
+    to{
+
+
+        opacity:1;
+
+
+        transform:
+
+        translateY(0);
+
+
+    }
+
+
+}

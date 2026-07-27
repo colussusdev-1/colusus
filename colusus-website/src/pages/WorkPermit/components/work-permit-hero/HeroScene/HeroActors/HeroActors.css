@@ -1,0 +1,233 @@
+/* ==========================================================
+   HERO ACTORS SYSTEM v2
+========================================================== */
+
+.hero-actors{
+    position:absolute;
+    inset:0;
+    z-index:10;
+    pointer-events:none;
+}
+
+/* ==========================================================
+   CORE INTELLIGENCE PULSE
+========================================================== */
+
+.actor-core-pulse{
+    position:absolute;
+
+    top:22%;
+    right:18%;
+
+    display:flex;
+    align-items:center;
+    gap:.8rem;
+
+    color:#fff;
+    font-size:.85rem;
+}
+
+.core-ring{
+
+    width:60px;
+    height:60px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(59,130,246,0.4);
+
+    position:absolute;
+
+    animation:ringPulse 2.5s infinite ease-in-out;
+}
+
+.core-dot{
+
+    width:12px;
+    height:12px;
+
+    border-radius:50%;
+
+    background:#3b82f6;
+
+    box-shadow:0 0 25px rgba(59,130,246,0.8);
+
+    position:relative;
+}
+
+.core-label{
+    margin-left:70px;
+    color:rgba(255,255,255,0.85);
+}
+
+@keyframes ringPulse{
+
+    0%{
+        transform:scale(0.8);
+        opacity:0.6;
+    }
+
+    50%{
+        transform:scale(1.4);
+        opacity:0.2;
+    }
+
+    100%{
+        transform:scale(0.8);
+        opacity:0.6;
+    }
+}
+
+/* ==========================================================
+   ROUTE SYSTEM (STRUCTURED FLOW)
+========================================================== */
+
+.actor-routes{
+    position:absolute;
+    inset:0;
+}
+
+.route{
+
+    position:absolute;
+
+    width:8px;
+    height:8px;
+
+    border-radius:50%;
+
+    background:rgba(59,130,246,0.8);
+
+    box-shadow:0 0 18px rgba(59,130,246,0.6);
+
+    animation:floatRoute 3s infinite ease-in-out;
+}
+
+.route-canada{
+    top:35%;
+    left:30%;
+}
+
+.route-germany{
+    top:28%;
+    left:55%;
+    animation-delay:.4s;
+}
+
+.route-uk{
+    top:42%;
+    left:65%;
+    animation-delay:.8s;
+}
+
+@keyframes floatRoute{
+
+    0%,100%{
+        transform:translateY(0);
+        opacity:.6;
+    }
+
+    50%{
+        transform:translateY(-10px);
+        opacity:1;
+    }
+}
+
+/* ==========================================================
+   FLOW PARTICLES (NOW DIRECTIONAL FEEL)
+========================================================== */
+
+.actor-flow{
+    position:absolute;
+    inset:0;
+}
+
+.actor-flow span{
+
+    position:absolute;
+
+    width:3px;
+    height:3px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,0.6);
+
+    animation:flow 5s infinite linear;
+}
+
+.actor-flow span:nth-child(1){ top:20%; left:60%; }
+.actor-flow span:nth-child(2){ top:55%; left:70%; }
+.actor-flow span:nth-child(3){ top:60%; left:40%; }
+.actor-flow span:nth-child(4){ top:30%; left:45%; }
+.actor-flow span:nth-child(5){ top:75%; left:55%; }
+
+@keyframes flow{
+
+    0%{
+        transform:translateY(0);
+        opacity:.2;
+    }
+
+    50%{
+        opacity:.9;
+    }
+
+    100%{
+        transform:translateY(-25px);
+        opacity:.2;
+    }
+}
+
+/* ==========================================================
+   ACTION NODE (SYSTEM TRIGGER)
+========================================================== */
+
+.actor-action-node{
+
+    position:absolute;
+
+    bottom:18%;
+    right:12%;
+
+    display:flex;
+    align-items:center;
+    gap:.6rem;
+
+    padding:.7rem 1.1rem;
+
+    border-radius:999px;
+
+    background:rgba(255,255,255,0.06);
+
+    border:1px solid rgba(255,255,255,0.12);
+
+    backdrop-filter:blur(16px);
+
+    color:#fff;
+
+    font-size:.85rem;
+
+    cursor:pointer;
+
+    pointer-events:auto;
+
+    transition:all .25s ease;
+}
+
+.actor-action-node:hover{
+    transform:translateY(-3px);
+    background:rgba(255,255,255,0.1);
+}
+
+.node-glow{
+
+    width:10px;
+    height:10px;
+
+    border-radius:50%;
+
+    background:var(--wp-primary);
+
+    box-shadow:0 0 20px rgba(59,130,246,0.7);
+}

@@ -1,0 +1,196 @@
+.contact-options{
+
+    padding:0 0 2rem;
+
+}
+
+.contact-options-grid{
+
+    width:min(1100px,94%);
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(4,minmax(0,1fr));
+
+    gap:1rem;
+
+}
+
+.contact-option-card{
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    border-radius:20px;
+
+    padding:1.25rem;
+
+    text-align:center;
+
+    transition:.3s ease;
+
+    cursor:pointer;
+
+    overflow:hidden;
+
+    position:relative;
+
+}
+
+.contact-option-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+    linear-gradient(
+        135deg,
+        rgba(0,86,179,.04),
+        transparent
+    );
+
+    opacity:0;
+
+    transition:.3s;
+
+}
+
+.contact-option-card:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:
+    0 12px 30px rgba(0,0,0,.06);
+
+}
+
+.contact-option-card:hover::before{
+
+    opacity:1;
+
+}
+
+.option-icon{
+
+    width:52px;
+
+    height:52px;
+
+    margin:auto;
+
+    margin-bottom:.9rem;
+
+    display:grid;
+
+    place-items:center;
+
+    border-radius:14px;
+
+    background:
+    rgba(0,86,179,.08);
+
+    color:var(--primary);
+
+    font-size:1.15rem;
+
+}
+
+.contact-option-card h3{
+
+    font-size:1rem;
+
+    font-weight:600;
+
+    color:var(--heading);
+
+    margin-bottom:.35rem;
+
+}
+
+.contact-option-card span{
+
+    display:block;
+
+    font-size:.9rem;
+
+    line-height:1.5;
+
+    color:var(--text-light);
+
+    word-break:break-word;
+
+}
+
+/* ==========================
+   TABLET
+========================== */
+
+@media(max-width:992px){
+
+    .contact-options-grid{
+
+        grid-template-columns:
+        repeat(2,1fr);
+
+    }
+
+}
+
+/* ==========================
+   MOBILE
+========================== */
+
+@media(max-width:576px){
+
+    .contact-options{
+
+        padding:0 0 1.5rem;
+
+    }
+
+    .contact-options-grid{
+
+        gap:.75rem;
+
+    }
+
+    .contact-option-card{
+
+        padding:1rem;
+
+        border-radius:16px;
+
+    }
+
+    .option-icon{
+
+        width:44px;
+
+        height:44px;
+
+        font-size:1rem;
+
+        margin-bottom:.75rem;
+
+    }
+
+    .contact-option-card h3{
+
+        font-size:.95rem;
+
+    }
+
+    .contact-option-card span{
+
+        font-size:.8rem;
+
+    }
+
+}

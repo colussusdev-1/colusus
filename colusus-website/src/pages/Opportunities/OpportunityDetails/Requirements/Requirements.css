@@ -1,0 +1,340 @@
+/* =====================================
+   REQUIREMENTS SECTION
+===================================== */
+
+
+.requirements-section{
+
+    padding:70px 20px;
+
+}
+
+
+
+.requirements-container{
+
+    max-width:900px;
+
+    margin:auto;
+
+}
+
+
+
+
+
+/* HEADER */
+
+
+.requirements-header{
+
+    margin-bottom:35px;
+
+}
+
+
+
+.requirements-badge{
+
+    width:max-content;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+
+    padding:7px 14px;
+
+
+    border-radius:999px;
+
+
+    background:
+
+    rgba(37,99,235,.1);
+
+
+    color:#2563eb;
+
+
+    font-size:.8rem;
+
+    font-weight:600;
+
+
+}
+
+
+
+.requirements-badge svg{
+
+    font-size:16px;
+
+}
+
+
+
+
+.requirements-header h2{
+
+    margin-top:18px;
+
+    font-size:
+
+    clamp(2rem,4vw,2.8rem);
+
+
+    color:#0f172a;
+
+    letter-spacing:-1px;
+
+
+}
+
+
+
+.requirements-header p{
+
+    max-width:520px;
+
+
+    margin-top:12px;
+
+
+    color:#64748b;
+
+
+    line-height:1.7;
+
+}
+
+
+
+
+
+
+
+/* LIST */
+
+
+.requirements-list{
+
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+
+
+}
+
+
+
+
+
+.requirement-item{
+
+
+    display:flex;
+
+    align-items:center;
+
+    gap:16px;
+
+
+    padding:18px 20px;
+
+
+    background:white;
+
+
+    border-radius:18px;
+
+
+    border:1px solid #e5e7eb;
+
+
+    box-shadow:
+
+    0 8px 25px rgba(15,23,42,.05);
+
+
+    transition:.3s ease;
+
+
+    animation:
+
+    requirementReveal .5s ease forwards;
+
+
+}
+
+
+
+
+.requirement-item:hover{
+
+
+    transform:translateX(6px);
+
+
+    border-color:#2563eb;
+
+
+}
+
+
+
+
+
+
+
+.requirement-check{
+
+
+    width:34px;
+
+    height:34px;
+
+
+    flex-shrink:0;
+
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+
+    border-radius:50%;
+
+
+    background:
+
+    rgba(34,197,94,.12);
+
+
+    color:#16a34a;
+
+
+}
+
+
+
+.requirement-check svg{
+
+
+    font-size:20px;
+
+
+}
+
+
+
+
+.requirement-item span{
+
+
+    color:#334155;
+
+
+    font-size:.95rem;
+
+
+    line-height:1.5;
+
+
+    font-weight:500;
+
+
+}
+
+
+
+
+
+
+
+@keyframes requirementReveal{
+
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(15px);
+
+    }
+
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+
+}
+
+
+
+
+
+
+
+/* MOBILE */
+
+
+@media(max-width:600px){
+
+
+    .requirements-section{
+
+        padding:50px 16px;
+
+    }
+
+
+
+    .requirement-item{
+
+
+        padding:15px;
+
+
+        gap:12px;
+
+
+        border-radius:15px;
+
+
+    }
+
+
+
+    .requirement-check{
+
+
+        width:30px;
+
+        height:30px;
+
+    }
+
+
+
+    .requirement-item span{
+
+
+        font-size:.9rem;
+
+    }
+
+
+}

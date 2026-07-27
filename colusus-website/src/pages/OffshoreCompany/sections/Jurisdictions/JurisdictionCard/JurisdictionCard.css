@@ -1,0 +1,260 @@
+/* ==================================================
+   CARD
+================================================== */
+
+.jurisdiction-card{
+
+    position:relative;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:1.25rem;
+
+    padding:1.5rem;
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    border-radius:28px;
+
+    overflow:hidden;
+
+    transition:.35s ease;
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.04);
+
+}
+
+.jurisdiction-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+    linear-gradient(
+        135deg,
+        rgba(0,86,179,.05),
+        transparent 45%
+    );
+
+    opacity:0;
+
+    transition:.35s;
+
+}
+
+.jurisdiction-card:hover{
+
+    transform:translateY(-8px);
+
+    border-color:rgba(0,86,179,.18);
+
+    box-shadow:
+    0 25px 60px rgba(0,0,0,.08);
+
+}
+
+.jurisdiction-card:hover::before{
+
+    opacity:1;
+
+}
+
+/* ==================================================
+   TOP
+================================================== */
+
+.jurisdiction-top{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+}
+
+.jurisdiction-top img{
+
+    width:58px;
+
+    height:58px;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    border:1px solid var(--border);
+
+}
+
+.jurisdiction-top svg{
+
+    font-size:1.2rem;
+
+    color:var(--primary);
+
+}
+
+/* ==================================================
+   COUNTRY
+================================================== */
+
+.jurisdiction-card h3{
+
+    font-size:1.4rem;
+
+    color:var(--heading);
+
+    margin:0;
+
+}
+
+/* ==================================================
+   META
+================================================== */
+
+.jurisdiction-meta{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:.8rem;
+
+}
+
+.jurisdiction-meta div{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:.65rem;
+
+    color:var(--text);
+
+    font-size:.92rem;
+
+}
+
+.jurisdiction-meta svg{
+
+    color:var(--primary);
+
+}
+
+/* ==================================================
+   COST
+================================================== */
+
+.jurisdiction-cost{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:.6rem;
+
+    width:max-content;
+
+    padding:.65rem 1rem;
+
+    border-radius:999px;
+
+    background:rgba(0,86,179,.08);
+
+    color:var(--primary);
+
+    font-size:.85rem;
+
+    font-weight:600;
+
+}
+
+.jurisdiction-cost svg{
+
+    font-size:1rem;
+
+}
+
+/* ==================================================
+   DESCRIPTION
+================================================== */
+
+.jurisdiction-card p{
+
+    color:var(--text-light);
+
+    line-height:1.8;
+
+    flex:1;
+
+}
+
+/* ==================================================
+   BUTTON
+================================================== */
+
+.jurisdiction-card button{
+
+    height:50px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:var(--primary);
+
+    color:#fff;
+
+    font-weight:600;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:.65rem;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.jurisdiction-card button:hover{
+
+    transform:translateY(-2px);
+
+}
+
+/* ==================================================
+   MOBILE
+================================================== */
+
+@media(max-width:768px){
+
+    .jurisdiction-card{
+
+        padding:1.25rem;
+
+        border-radius:22px;
+
+    }
+
+    .jurisdiction-card h3{
+
+        font-size:1.2rem;
+
+    }
+
+}

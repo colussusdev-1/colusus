@@ -1,0 +1,113 @@
+/* ==========================================
+   SATELLITE SYSTEM
+========================================== */
+
+.satellite-system{
+
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:9;
+}
+
+/* ==========================================
+   SATELLITE ORBIT CONTAINER
+========================================== */
+
+.satellite{
+
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    width:420px;
+    height:420px;
+
+    margin-left:-210px;
+    margin-top:-210px;
+
+    animation:rotateSatellite 20s linear infinite;
+}
+
+/* ==========================================
+   SATELLITE BODY
+========================================== */
+
+.satellite-core{
+
+    position:absolute;
+
+    left:50%;
+    top:-8px;
+
+    transform:translateX(-50%);
+
+    width:14px;
+    height:14px;
+
+    border-radius:50%;
+
+    background:var(--accent);
+
+    box-shadow:
+        0 0 10px rgba(0,174,239,.9),
+        0 0 22px rgba(0,174,239,.55),
+        0 0 42px rgba(0,174,239,.25);
+}
+
+/* ==========================================
+   SATELLITE VARIANTS
+========================================== */
+
+.satellite-one{
+
+    animation-duration:18s;
+}
+
+.satellite-two{
+
+    width:470px;
+    height:470px;
+
+    margin-left:-235px;
+    margin-top:-235px;
+
+    animation-duration:28s;
+
+    animation-direction:reverse;
+}
+
+.satellite-three{
+
+    width:520px;
+    height:520px;
+
+    margin-left:-260px;
+    margin-top:-260px;
+
+    animation-duration:38s;
+}
+
+/* ==========================================
+   ROTATION
+========================================== */
+
+@keyframes rotateSatellite{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}

@@ -1,0 +1,254 @@
+/* =====================================================
+   RESULT SEQUENCE CONTAINER
+===================================================== */
+
+
+.result-sequence{
+
+    width:100%;
+
+    min-height:380px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    overflow:hidden;
+
+    position:relative;
+
+}
+
+
+
+
+
+
+/* =====================================================
+   ACTIVE STEP
+===================================================== */
+
+
+.sequence-item{
+
+    width:100%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+
+    animation:
+
+    stepEnter .65s cubic-bezier(.2,.8,.2,1)
+    forwards;
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   STEP TRANSITION
+===================================================== */
+
+
+@keyframes stepEnter{
+
+
+    from{
+
+        opacity:0;
+
+
+        transform:
+
+        translateY(25px)
+
+        scale(.97);
+
+
+        filter:blur(6px);
+
+    }
+
+
+
+
+    to{
+
+        opacity:1;
+
+
+        transform:
+
+        translateY(0)
+
+        scale(1);
+
+
+        filter:blur(0);
+
+    }
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   PREMIUM SCORE ENTRANCE
+===================================================== */
+
+
+.score-step{
+
+
+    animation:
+
+    scoreEnter .9s cubic-bezier(.2,.8,.2,1);
+
+}
+
+
+
+@keyframes scoreEnter{
+
+
+    0%{
+
+        opacity:0;
+
+
+        transform:
+
+        scale(.85);
+
+
+        filter:blur(10px);
+
+    }
+
+
+
+    60%{
+
+        opacity:1;
+
+
+        transform:
+
+        scale(1.05);
+
+    }
+
+
+
+    100%{
+
+
+        transform:
+
+        scale(1);
+
+
+        filter:blur(0);
+
+    }
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   CTA FINAL REVEAL
+===================================================== */
+
+
+.cta-step{
+
+
+    animation:
+
+    ctaEnter .7s cubic-bezier(.2,.8,.2,1);
+
+
+}
+
+
+
+
+@keyframes ctaEnter{
+
+
+    from{
+
+
+        opacity:0;
+
+
+        transform:
+
+        translateY(30px);
+
+
+    }
+
+
+
+    to{
+
+
+        opacity:1;
+
+
+        transform:
+
+        translateY(0);
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+
+@media(max-width:500px){
+
+
+    .result-sequence{
+
+
+        min-height:340px;
+
+    }
+
+
+}

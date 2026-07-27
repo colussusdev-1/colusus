@@ -1,0 +1,193 @@
+/* ==========================================================
+   WORK PERMIT DESIGN SYSTEM
+   Module Scoped Variables
+   Everything inside .work-permit only
+========================================================== */
+
+.work-permit {
+
+    /* ======================================================
+       COLORS
+    ====================================================== */
+
+    --wp-primary: #3B82F6;
+    --wp-primary-light: #60A5FA;
+    --wp-primary-dark: #1D4ED8;
+
+    --wp-secondary: #8B5CF6;
+    --wp-accent: #06B6D4;
+
+    --wp-success: #22C55E;
+    --wp-warning: #F59E0B;
+    --wp-danger: #EF4444;
+
+    /* ======================================================
+       BACKGROUND
+    ====================================================== */
+
+    --wp-bg-primary: #030712;
+    --wp-bg-secondary: #0F172A;
+    --wp-bg-tertiary: #111827;
+
+    /* ======================================================
+       GLASS SURFACES
+    ====================================================== */
+
+    --wp-surface-primary: rgba(255,255,255,.08);
+    --wp-surface-secondary: rgba(255,255,255,.05);
+    --wp-surface-hover: rgba(255,255,255,.12);
+
+    /* ======================================================
+       TEXT
+    ====================================================== */
+
+    --wp-text-primary: #FFFFFF;
+    --wp-text-secondary: rgba(255,255,255,.78);
+    --wp-text-muted: rgba(255,255,255,.55);
+
+    /* ======================================================
+       BORDER
+    ====================================================== */
+
+    --wp-border-primary: rgba(255,255,255,.15);
+    --wp-border-secondary: rgba(255,255,255,.08);
+
+    /* ======================================================
+       GRADIENTS
+    ====================================================== */
+
+    --wp-gradient-primary:
+        linear-gradient(
+            135deg,
+            #3B82F6 0%,
+            #2563EB 50%,
+            #1D4ED8 100%
+        );
+
+    --wp-gradient-secondary:
+        linear-gradient(
+            135deg,
+            #8B5CF6,
+            #6D28D9
+        );
+
+    --wp-gradient-hero:
+        radial-gradient(
+            circle at top,
+            rgba(59,130,246,.18),
+            transparent 65%
+        );
+
+    --wp-gradient-glass:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.12),
+            rgba(255,255,255,.04)
+        );
+
+    /* ======================================================
+       TYPOGRAPHY
+    ====================================================== */
+
+    --wp-font-family:
+        "Inter",
+        "SF Pro Display",
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        sans-serif;
+
+    --wp-fs-xs: .75rem;
+    --wp-fs-sm: .875rem;
+    --wp-fs-base: 1rem;
+    --wp-fs-lg: 1.125rem;
+    --wp-fs-xl: 1.25rem;
+    --wp-fs-2xl: 1.5rem;
+    --wp-fs-3xl: 2rem;
+    --wp-fs-4xl: 3rem;
+    --wp-fs-5xl: 4.5rem;
+
+    --wp-fw-regular: 400;
+    --wp-fw-medium: 500;
+    --wp-fw-semibold: 600;
+    --wp-fw-bold: 700;
+
+    /* ======================================================
+       SPACING
+    ====================================================== */
+
+    --wp-space-1: 4px;
+    --wp-space-2: 8px;
+    --wp-space-3: 12px;
+    --wp-space-4: 16px;
+    --wp-space-5: 24px;
+    --wp-space-6: 32px;
+    --wp-space-7: 48px;
+    --wp-space-8: 64px;
+    --wp-space-9: 96px;
+    --wp-space-10: 128px;
+
+    /* ======================================================
+       BORDER RADIUS
+    ====================================================== */
+
+    --wp-radius-sm: 8px;
+    --wp-radius-md: 12px;
+    --wp-radius-lg: 18px;
+    --wp-radius-xl: 24px;
+    --wp-radius-2xl: 32px;
+    --wp-radius-pill: 999px;
+
+    /* ======================================================
+       SHADOWS
+    ====================================================== */
+
+    --wp-shadow-sm:
+        0 8px 20px rgba(0,0,0,.15);
+
+    --wp-shadow-md:
+        0 18px 45px rgba(0,0,0,.25);
+
+    --wp-shadow-lg:
+        0 30px 70px rgba(0,0,0,.35);
+
+    --wp-shadow-xl:
+        0 45px 100px rgba(0,0,0,.45);
+
+    --wp-shadow-glow:
+        0 0 45px rgba(59,130,246,.25);
+
+    /* ======================================================
+       BLUR
+    ====================================================== */
+
+    --wp-blur-sm: 8px;
+    --wp-blur-md: 16px;
+    --wp-blur-lg: 24px;
+    --wp-blur-xl: 40px;
+
+    /* ======================================================
+       TRANSITIONS
+    ====================================================== */
+
+    --wp-transition-fast: .2s ease;
+    --wp-transition: .35s ease;
+    --wp-transition-slow: .6s ease;
+
+    /* ======================================================
+       LAYOUT
+    ====================================================== */
+
+    --wp-container-width: 1400px;
+    --wp-section-padding: 120px;
+    --wp-header-height: 90px;
+
+    /* ======================================================
+       Z-INDEX
+    ====================================================== */
+
+    --wp-z-background: 1;
+    --wp-z-content: 5;
+    --wp-z-overlay: 20;
+    --wp-z-modal: 100;
+}

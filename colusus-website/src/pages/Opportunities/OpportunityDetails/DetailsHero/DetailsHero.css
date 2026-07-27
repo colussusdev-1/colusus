@@ -1,0 +1,888 @@
+/* =====================================================
+   DETAILS HERO
+===================================================== */
+
+.details-hero{
+
+    position:relative;
+
+    min-height:620px;
+
+    overflow:hidden;
+
+    border-radius:0 0 42px 42px;
+
+    isolation:isolate;
+
+}
+
+
+
+
+/* =====================================================
+   BACKGROUND IMAGE
+===================================================== */
+
+
+.details-hero__image{
+
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    animation:detailsHeroZoom 18s ease-in-out infinite alternate;
+
+}
+
+
+
+@keyframes detailsHeroZoom{
+
+    from{
+
+        transform:scale(1);
+
+    }
+
+
+    to{
+
+        transform:scale(1.07);
+
+    }
+
+}
+
+
+
+
+
+
+/* =====================================================
+   OVERLAY
+===================================================== */
+
+
+.details-hero__overlay{
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:1;
+
+
+    background:
+
+    linear-gradient(
+
+        90deg,
+
+        rgba(3,10,25,.96),
+
+        rgba(3,10,25,.82) 45%,
+
+        rgba(3,10,25,.45)
+
+    );
+
+
+}
+
+
+
+
+
+
+
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
+
+.details-hero__container{
+
+    position:relative;
+
+    z-index:3;
+
+
+    width:min(1200px,92%);
+
+    min-height:620px;
+
+
+    margin:auto;
+
+
+    padding:110px 0 70px;
+
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+
+}
+
+
+
+
+
+
+
+
+/* =====================================================
+   COUNTRY BADGE
+===================================================== */
+
+
+.details-hero__country{
+
+
+    display:flex;
+
+    align-items:center;
+
+    gap:.7rem;
+
+
+    width:max-content;
+
+
+    padding:.55rem 1.15rem;
+
+
+    border-radius:999px;
+
+
+    background:
+
+    rgba(255,255,255,.12);
+
+
+    border:
+
+    1px solid rgba(255,255,255,.18);
+
+
+    backdrop-filter:blur(18px);
+
+
+    color:white;
+
+
+    font-size:.85rem;
+
+    font-weight:700;
+
+
+}
+
+
+
+
+
+.details-hero__flag{
+
+
+    width:30px;
+
+    height:30px;
+
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+
+    border-radius:50%;
+
+
+    overflow:hidden;
+
+
+    background:rgba(255,255,255,.15);
+
+
+    font-size:1.3rem;
+
+}
+
+
+
+
+.details-hero__flag img{
+
+
+    width:100%;
+
+    height:100%;
+
+
+    object-fit:cover;
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   TITLE
+===================================================== */
+
+
+.details-hero h1{
+
+
+    margin-top:25px;
+
+
+    max-width:850px;
+
+
+    color:white;
+
+
+    font-size:
+
+    clamp(2.5rem,5vw,4.2rem);
+
+
+    line-height:1.05;
+
+
+    letter-spacing:-2px;
+
+
+    font-weight:800;
+
+
+}
+
+
+
+
+.details-hero h1 span{
+
+
+    display:block;
+
+
+    color:rgba(255,255,255,.65);
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   LOCATION
+===================================================== */
+
+
+.details-hero__location{
+
+
+    margin-top:18px;
+
+
+    color:white;
+
+
+    font-size:.95rem;
+
+
+    font-weight:600;
+
+
+    opacity:.9;
+
+
+}
+
+
+
+
+
+
+
+
+/* =====================================================
+   DESCRIPTION
+===================================================== */
+
+
+.details-hero__description{
+
+
+    max-width:620px;
+
+
+    margin-top:15px;
+
+
+    color:rgba(255,255,255,.78);
+
+
+    line-height:1.8;
+
+
+    font-size:1rem;
+
+
+}
+
+
+
+
+
+
+
+
+/* =====================================================
+   ACTIONS
+===================================================== */
+
+
+.details-hero__actions{
+
+
+    display:flex;
+
+
+    gap:15px;
+
+
+    margin-top:32px;
+
+
+}
+
+
+
+
+
+.details-hero__primary,
+.details-hero__secondary{
+
+
+    height:52px;
+
+
+    padding:0 28px;
+
+
+    border-radius:999px;
+
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+
+    gap:.6rem;
+
+
+    font-weight:700;
+
+
+    cursor:pointer;
+
+
+    transition:.35s ease;
+
+
+}
+
+
+
+
+
+.details-hero__primary{
+
+
+    background:white;
+
+
+    color:#061329;
+
+
+    border:none;
+
+
+}
+
+
+
+
+
+.details-hero__primary:hover{
+
+
+    transform:translateY(-3px);
+
+
+    box-shadow:
+
+    0 15px 35px rgba(255,255,255,.18);
+
+
+}
+
+
+
+
+
+.details-hero__secondary{
+
+
+    background:
+
+    rgba(255,255,255,.12);
+
+
+    color:white;
+
+
+    border:
+
+    1px solid rgba(255,255,255,.25);
+
+
+}
+
+
+
+
+
+.details-hero__secondary:hover{
+
+
+    background:
+
+    rgba(255,255,255,.2);
+
+
+}
+
+
+
+
+
+
+
+
+/* =====================================================
+   TRUST STATS
+===================================================== */
+
+
+.details-hero__stats{
+
+
+    display:flex;
+
+
+    flex-wrap:wrap;
+
+
+    gap:14px;
+
+
+    margin-top:45px;
+
+
+}
+
+
+
+
+
+.details-hero__stat{
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    gap:12px;
+
+
+    padding:.85rem 1rem;
+
+
+    min-width:190px;
+
+
+    border-radius:18px;
+
+
+    background:
+
+    rgba(255,255,255,.11);
+
+
+    border:
+
+    1px solid rgba(255,255,255,.16);
+
+
+    backdrop-filter:blur(18px);
+
+
+    color:white;
+
+
+}
+
+
+
+
+
+
+.details-hero__icon{
+
+
+    width:38px;
+
+
+    height:38px;
+
+
+    border-radius:12px;
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    justify-content:center;
+
+
+    background:white;
+
+
+    color:#2563eb;
+
+
+}
+
+
+
+
+
+
+
+.details-hero__stat span{
+
+
+    display:block;
+
+
+    font-size:.7rem;
+
+
+    opacity:.65;
+
+
+}
+
+
+
+
+.details-hero__stat strong{
+
+
+    display:block;
+
+
+    margin-top:3px;
+
+
+    font-size:.9rem;
+
+
+    max-width:130px;
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+
+@media(max-width:900px){
+
+
+.details-hero__container{
+
+
+    padding:100px 0 60px;
+
+
+}
+
+
+
+.details-hero h1{
+
+
+    font-size:3rem;
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+
+@media(max-width:700px){
+
+
+.details-hero{
+
+
+    min-height:590px;
+
+
+    border-radius:0 0 28px 28px;
+
+
+}
+
+
+
+
+.details-hero__overlay{
+
+
+    background:
+
+
+    linear-gradient(
+
+        180deg,
+
+        rgba(3,10,25,.7),
+
+        rgba(3,10,25,.96)
+
+    );
+
+
+}
+
+
+
+
+.details-hero__container{
+
+
+    width:90%;
+
+
+    min-height:590px;
+
+
+    padding:75px 0 45px;
+
+
+    justify-content:flex-start;
+
+
+}
+
+
+
+
+
+.details-hero__country{
+
+
+    padding:.5rem .9rem;
+
+
+    font-size:.78rem;
+
+
+}
+
+
+
+.details-hero__flag{
+
+
+    width:26px;
+
+    height:26px;
+
+
+}
+
+
+
+.details-hero h1{
+
+
+    margin-top:20px;
+
+
+    font-size:2.15rem;
+
+
+    letter-spacing:-1px;
+
+
+}
+
+
+
+
+.details-hero__location{
+
+
+    font-size:.85rem;
+
+
+}
+
+
+
+.details-hero__description{
+
+
+    font-size:.92rem;
+
+
+    line-height:1.65;
+
+
+}
+
+
+
+
+
+.details-hero__actions{
+
+
+    flex-direction:column;
+
+
+    margin-top:25px;
+
+
+}
+
+
+
+
+
+.details-hero__primary,
+.details-hero__secondary{
+
+
+    width:100%;
+
+
+}
+
+
+
+
+
+
+
+.details-hero__stats{
+
+
+    margin-top:30px;
+
+
+    flex-wrap:nowrap;
+
+
+    overflow-x:auto;
+
+
+    padding-bottom:10px;
+
+
+    scrollbar-width:none;
+
+
+}
+
+
+
+.details-hero__stats::-webkit-scrollbar{
+
+
+    display:none;
+
+
+}
+
+
+
+
+.details-hero__stat{
+
+
+    flex-shrink:0;
+
+
+    min-width:210px;
+
+
+}
+
+
+
+}

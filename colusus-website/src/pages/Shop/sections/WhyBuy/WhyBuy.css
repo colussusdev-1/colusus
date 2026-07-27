@@ -1,0 +1,162 @@
+.why-buy{
+
+    padding:5rem 0;
+
+}
+
+.why-buy-container{
+
+    width:min(1280px,94%);
+
+    margin:auto;
+
+}
+
+.why-buy-header{
+
+    text-align:center;
+
+    max-width:700px;
+
+    margin:0 auto 3rem;
+
+}
+
+.why-buy-header span{
+
+    display:inline-block;
+
+    padding:.65rem 1rem;
+
+    border-radius:999px;
+
+    background:rgba(0,86,179,.08);
+
+    color:var(--primary);
+
+    font-weight:600;
+
+    margin-bottom:1rem;
+
+}
+
+.why-buy-header h2{
+
+    font-size:clamp(2rem,4vw,3rem);
+
+    margin-bottom:1rem;
+
+    color:var(--heading);
+
+}
+
+.why-buy-header p{
+
+    color:var(--text-light);
+
+    line-height:1.8;
+
+}
+
+.why-buy-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(4,1fr);
+
+    gap:1.5rem;
+
+}
+
+.benefit-card{
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    border-radius:24px;
+
+    padding:2rem;
+
+    transition:.3s;
+
+}
+
+.benefit-card:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:
+    0 20px 40px rgba(0,0,0,.06);
+
+}
+
+.benefit-icon{
+
+    width:60px;
+    height:60px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:16px;
+
+    background:rgba(0,86,179,.08);
+
+    color:var(--primary);
+
+    font-size:1.5rem;
+
+    margin-bottom:1rem;
+
+}
+
+.benefit-card h3{
+
+    margin-bottom:.75rem;
+
+    color:var(--heading);
+
+}
+
+.benefit-card p{
+
+    color:var(--text-light);
+
+    line-height:1.7;
+
+}
+
+@media(max-width:992px){
+
+    .why-buy-grid{
+
+        grid-template-columns:
+        repeat(2,1fr);
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .why-buy{
+
+        padding:3rem 0;
+
+    }
+
+    .why-buy-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .benefit-card{
+
+        padding:1.5rem;
+
+    }
+
+}

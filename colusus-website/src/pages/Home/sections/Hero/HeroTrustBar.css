@@ -1,0 +1,338 @@
+/* =====================================================
+   HERO TRUST BAR
+===================================================== */
+
+.hero-trust{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:.6rem;
+
+    margin-top:2rem;
+
+    padding:.65rem .9rem;
+
+    width:100%;
+
+    max-width:620px;
+
+    background:
+    rgba(255,255,255,.82);
+
+    backdrop-filter:blur(18px);
+
+    -webkit-backdrop-filter:blur(18px);
+
+    border:
+    1px solid rgba(255,255,255,.5);
+
+    border-radius:999px;
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.08);
+
+}
+
+
+
+/* =====================================================
+   TRUST ITEM
+===================================================== */
+
+.trust-item{
+
+    flex:1;
+
+    min-width:0;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:.4rem;
+
+    padding-right:.6rem;
+
+    border-right:
+    1px solid rgba(0,0,0,.08);
+
+}
+
+
+.trust-item:last-child{
+
+    border-right:none;
+
+    padding-right:0;
+
+}
+
+
+
+/* =====================================================
+   ICON
+===================================================== */
+
+
+.trust-icon{
+
+    width:25px;
+
+    height:25px;
+
+    flex-shrink:0;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:
+    rgba(38,118,255,.08);
+
+    color:var(--primary);
+
+}
+
+
+.trust-icon svg{
+
+    width:13px;
+
+    height:13px;
+
+}
+
+
+.star-icon{
+
+    background:#FFF7DB;
+
+    color:#F7B500;
+
+}
+
+
+
+/* =====================================================
+   TEXT
+===================================================== */
+
+
+.trust-content{
+
+    min-width:0;
+
+}
+
+
+.trust-content strong{
+
+    display:block;
+
+    color:var(--heading);
+
+    font-size:.65rem;
+
+    font-weight:700;
+
+    line-height:1.1;
+
+    white-space:normal;
+
+    overflow-wrap:anywhere;
+
+}
+
+
+
+.trust-content span{
+
+    display:block;
+
+    color:var(--text);
+
+    font-size:.55rem;
+
+    line-height:1.1;
+
+    margin-top:2px;
+
+    white-space:normal;
+
+    overflow-wrap:anywhere;
+
+}
+
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+
+@media(max-width:992px){
+
+
+    .hero-trust{
+
+        margin-left:auto;
+
+        margin-right:auto;
+
+    }
+
+
+}
+
+
+
+/* =====================================================
+   MOBILE PREMIUM GRID
+===================================================== */
+
+
+@media(max-width:768px){
+
+
+    .hero-trust{
+
+        width:100%;
+
+        max-width:none;
+
+        display:grid;
+
+        grid-template-columns:
+        repeat(2,1fr);
+
+        gap:.55rem;
+
+        padding:.75rem;
+
+        border-radius:18px;
+
+    }
+
+
+
+    .trust-item{
+
+        border:none;
+
+        padding:0;
+
+        gap:.45rem;
+
+        justify-content:flex-start;
+
+    }
+
+
+
+    .trust-icon{
+
+        width:27px;
+
+        height:27px;
+
+    }
+
+
+
+    .trust-icon svg{
+
+        width:14px;
+
+        height:14px;
+
+    }
+
+
+
+    .trust-content strong{
+
+        font-size:.68rem;
+
+    }
+
+
+
+    .trust-content span{
+
+        font-size:.57rem;
+
+    }
+
+
+}
+
+
+
+/* =====================================================
+   SMALL PHONES
+===================================================== */
+
+
+@media(max-width:400px){
+
+
+    .hero-trust{
+
+        gap:.4rem;
+
+        padding:.6rem;
+
+    }
+
+
+
+    .trust-item{
+
+        gap:.35rem;
+
+    }
+
+
+
+    .trust-icon{
+
+        width:24px;
+
+        height:24px;
+
+    }
+
+
+
+    .trust-icon svg{
+
+        width:12px;
+
+        height:12px;
+
+    }
+
+
+
+    .trust-content strong{
+
+        font-size:.62rem;
+
+    }
+
+
+
+    .trust-content span{
+
+        font-size:.52rem;
+
+    }
+
+
+}

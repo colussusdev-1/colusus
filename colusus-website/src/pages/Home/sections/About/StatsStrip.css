@@ -1,0 +1,239 @@
+/* =====================================================
+   STATS STRIP
+===================================================== */
+
+.stats-strip {
+
+    position: relative;
+
+    overflow: hidden;
+
+    padding: 0;
+
+    margin: 0;
+
+    background: #ffffff;
+
+    border-top: 1px solid rgba(0, 86, 179, .06);
+
+    border-bottom: 1px solid rgba(0, 86, 179, .08);
+
+    z-index: 5;
+}
+
+/* =====================================================
+   MOVING TRACK
+===================================================== */
+
+.stats-track {
+
+    display: flex;
+
+    align-items: center;
+
+    width: max-content;
+
+    white-space: nowrap;
+
+    animation: statsScroll 28s linear infinite;
+
+    padding: 1rem 0;
+}
+
+.stats-strip:hover .stats-track {
+
+    animation-play-state: paused;
+}
+
+/* =====================================================
+   STRIP ITEMS
+===================================================== */
+
+.stat-item {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: .75rem;
+
+    margin-right: 3rem;
+
+    padding-right: 3rem;
+
+    position: relative;
+
+    flex-shrink: 0;
+}
+
+/* Divider */
+
+.stat-item::after {
+
+    content: "";
+
+    position: absolute;
+
+    right: 0;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 1px;
+
+    height: 22px;
+
+    background: rgba(0, 86, 179, .12);
+}
+
+.stat-item:last-child::after {
+
+    display: none;
+}
+
+/* =====================================================
+   ICON
+===================================================== */
+
+.stat-item svg {
+
+    width: 22px;
+
+    height: 22px;
+
+    color: var(--primary);
+
+    flex-shrink: 0;
+}
+
+/* =====================================================
+   VALUE
+===================================================== */
+
+.stat-item strong {
+
+    font-size: 1.05rem;
+
+    font-weight: 800;
+
+    color: var(--primary);
+
+    letter-spacing: -.02em;
+}
+
+/* =====================================================
+   LABEL
+===================================================== */
+
+.stat-item span {
+
+    font-size: .92rem;
+
+    font-weight: 500;
+
+    color: #4f5d75;
+}
+
+/* =====================================================
+   HOVER
+===================================================== */
+
+.stat-item:hover svg {
+
+    transform: scale(1.12);
+
+    transition: .3s ease;
+}
+
+.stat-item:hover strong {
+
+    color: #00489A;
+}
+
+.stat-item:hover span {
+
+    color: #0f172a;
+}
+
+/* =====================================================
+   ANIMATION
+===================================================== */
+
+@keyframes statsScroll {
+
+    from {
+
+        transform: translateX(0);
+    }
+
+    to {
+
+        transform: translateX(-50%);
+    }
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 992px) {
+
+    .stats-track {
+
+        padding: .9rem 0;
+
+        animation-duration: 22s;
+    }
+
+    .stat-item {
+
+        margin-right: 2rem;
+
+        padding-right: 2rem;
+    }
+
+    .stat-item strong {
+
+        font-size: .98rem;
+    }
+
+    .stat-item span {
+
+        font-size: .84rem;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .stats-track {
+
+        animation-duration: 18s;
+    }
+
+    .stat-item {
+
+        gap: .55rem;
+
+        margin-right: 1.6rem;
+
+        padding-right: 1.6rem;
+    }
+
+    .stat-item svg {
+
+        width: 18px;
+
+        height: 18px;
+    }
+
+    .stat-item strong {
+
+        font-size: .9rem;
+    }
+
+    .stat-item span {
+
+        font-size: .8rem;
+    }
+}

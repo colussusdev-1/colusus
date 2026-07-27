@@ -1,0 +1,535 @@
+/* =========================================
+   CONSULTATION DETAILS CARD
+========================================= */
+
+
+.consultationInfo{
+
+
+    margin-top:24px;
+
+
+    padding:28px;
+
+
+    border-radius:26px;
+
+
+    background:
+
+
+    rgba(255,255,255,.85);
+
+
+    border:
+
+
+    1px solid #e2e8f0;
+
+
+    box-shadow:
+
+
+    0 20px 60px rgba(15,23,42,.06);
+
+
+}
+
+
+
+
+
+
+
+
+/* HEADER */
+
+
+.consultationInfo__header{
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    gap:14px;
+
+
+    margin-bottom:25px;
+
+
+}
+
+
+
+
+.consultationInfo__icon{
+
+
+    width:42px;
+
+
+    height:42px;
+
+
+    display:grid;
+
+
+    place-items:center;
+
+
+    border-radius:14px;
+
+
+    background:
+
+
+    linear-gradient(
+        135deg,
+        #2563eb,
+        #1d4ed8
+    );
+
+
+    color:white;
+
+
+}
+
+
+
+
+
+
+.consultationInfo__header h3{
+
+
+    margin:0;
+
+
+    font-size:1.05rem;
+
+
+    color:#0f172a;
+
+
+}
+
+
+
+.consultationInfo__header p{
+
+
+    margin:3px 0 0;
+
+
+    font-size:.82rem;
+
+
+    color:#64748b;
+
+
+}
+
+
+
+
+
+
+
+
+/* CONTENT */
+
+
+.consultationInfo__grid{
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    gap:22px;
+
+
+}
+
+
+
+
+
+.consultationInfo__field{
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    gap:8px;
+
+
+}
+
+
+
+.consultationInfo__field label{
+
+
+    font-size:.78rem;
+
+
+    font-weight:700;
+
+
+    color:#334155;
+
+
+}
+
+
+
+
+
+
+
+
+/* DATE INPUT */
+
+
+.consultationInfo__input{
+
+
+    height:48px;
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    gap:10px;
+
+
+    padding:0 14px;
+
+
+    background:#f8fafc;
+
+
+    border-radius:14px;
+
+
+    border:
+
+
+    1px solid #e2e8f0;
+
+
+}
+
+
+
+.consultationInfo__input svg{
+
+
+    color:#64748b;
+
+
+}
+
+
+
+.consultationInfo__input input{
+
+
+    width:100%;
+
+
+    border:none;
+
+
+    outline:none;
+
+
+    background:transparent;
+
+
+    font-size:.9rem;
+
+
+}
+
+
+
+
+
+.consultationInfo__input:focus-within{
+
+
+    border-color:#2563eb;
+
+
+    background:white;
+
+
+    box-shadow:
+
+
+    0 0 0 4px rgba(37,99,235,.1);
+
+
+}
+
+
+
+
+
+
+
+
+
+/* CONSULTATION TYPES */
+
+
+.consultationInfo__types{
+
+
+    display:flex;
+
+
+    flex-wrap:wrap;
+
+
+    gap:12px;
+
+
+}
+
+
+
+
+.consultationInfo__types button{
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    gap:8px;
+
+
+    padding:12px 18px;
+
+
+    border-radius:999px;
+
+
+    border:
+
+
+    1px solid #e2e8f0;
+
+
+    background:#f8fafc;
+
+
+    color:#475569;
+
+
+    font-size:.82rem;
+
+
+    font-weight:600;
+
+
+    cursor:pointer;
+
+
+    transition:.25s;
+
+
+}
+
+
+
+
+
+.consultationInfo__types button svg{
+
+
+    font-size:1rem;
+
+
+}
+
+
+
+
+
+
+
+.consultationInfo__types button:hover{
+
+
+    border-color:#2563eb;
+
+
+    color:#2563eb;
+
+
+}
+
+
+
+
+
+
+.consultationInfo__types button.active{
+
+
+    background:#2563eb;
+
+
+    color:white;
+
+
+    border-color:#2563eb;
+
+
+    box-shadow:
+
+
+    0 10px 25px rgba(37,99,235,.25);
+
+
+}
+
+
+
+
+
+
+
+
+
+/* TEXTAREA */
+
+
+.consultationInfo textarea{
+
+
+    min-height:120px;
+
+
+    resize:none;
+
+
+    border-radius:16px;
+
+
+    border:
+
+
+    1px solid #e2e8f0;
+
+
+    background:#f8fafc;
+
+
+    padding:15px;
+
+
+    outline:none;
+
+
+    font-size:.9rem;
+
+
+    line-height:1.6;
+
+
+}
+
+
+
+
+.consultationInfo textarea:focus{
+
+
+    background:white;
+
+
+    border-color:#2563eb;
+
+
+    box-shadow:
+
+
+    0 0 0 4px rgba(37,99,235,.1);
+
+
+}
+
+
+
+
+
+
+
+
+
+/* MOBILE */
+
+
+@media(max-width:768px){
+
+
+
+    .consultationInfo{
+
+
+        padding:20px;
+
+
+        border-radius:22px;
+
+
+    }
+
+
+
+
+
+    .consultationInfo__types{
+
+
+        flex-direction:column;
+
+
+    }
+
+
+
+
+    .consultationInfo__types button{
+
+
+        width:100%;
+
+
+        justify-content:center;
+
+
+    }
+
+
+
+}

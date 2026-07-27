@@ -1,0 +1,321 @@
+/* =====================================================
+   TRUSTED NETWORK SECTION
+===================================================== */
+
+
+.trusted-network{
+
+    position:relative;
+
+    padding:7rem 0;
+
+    background:
+
+    linear-gradient(
+        180deg,
+        #ffffff,
+        #f8fafc
+    );
+
+    overflow:hidden;
+
+}
+
+
+
+
+.trusted-network::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:400px;
+
+    height:400px;
+
+
+    left:-200px;
+
+    top:100px;
+
+
+    border-radius:50%;
+
+
+    background:
+
+    rgba(37,99,235,.08);
+
+
+    filter:blur(100px);
+
+
+}
+
+
+
+
+
+.trusted-container{
+
+
+    position:relative;
+
+
+    z-index:2;
+
+
+    width:min(1200px,92%);
+
+
+    margin:auto;
+
+
+}
+
+
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+
+.trusted-header{
+
+
+    max-width:720px;
+
+
+    text-align:center;
+
+
+    margin:0 auto 4rem;
+
+
+}
+
+
+
+.trusted-header span{
+
+
+    display:inline-flex;
+
+
+    align-items:center;
+
+
+    justify-content:center;
+
+
+    padding:.55rem 1.1rem;
+
+
+    border-radius:999px;
+
+
+    background:
+
+    rgba(37,99,235,.08);
+
+
+    color:#2563eb;
+
+
+    font-size:.75rem;
+
+
+    font-weight:800;
+
+
+    letter-spacing:.12em;
+
+
+    text-transform:uppercase;
+
+
+    margin-bottom:1.2rem;
+
+
+}
+
+
+
+
+
+.trusted-header h2{
+
+
+    font-size:
+
+    clamp(2rem,4vw,3.1rem);
+
+
+    line-height:1.15;
+
+
+    letter-spacing:-1px;
+
+
+    color:#0f172a;
+
+
+    margin-bottom:1.2rem;
+
+
+}
+
+
+
+
+
+.trusted-header p{
+
+
+    color:#64748b;
+
+
+    line-height:1.8;
+
+
+    font-size:1rem;
+
+
+}
+
+
+
+
+
+/* =====================================================
+   GRID
+===================================================== */
+
+
+.network-grid{
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+    repeat(3,1fr);
+
+
+    gap:1.5rem;
+
+
+}
+
+
+
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+
+@media(max-width:1050px){
+
+
+    .network-grid{
+
+
+        grid-template-columns:
+
+        repeat(2,1fr);
+
+
+    }
+
+
+}
+
+
+
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+
+@media(max-width:768px){
+
+
+    .trusted-network{
+
+
+        padding:5rem 0;
+
+
+    }
+
+
+
+
+
+    .trusted-container{
+
+
+        width:92%;
+
+
+    }
+
+
+
+
+    .trusted-header{
+
+
+        margin-bottom:2.5rem;
+
+
+    }
+
+
+
+
+
+    .trusted-header h2{
+
+
+        font-size:2rem;
+
+
+    }
+
+
+
+
+
+    .trusted-header p{
+
+
+        font-size:.92rem;
+
+
+    }
+
+
+
+
+
+    .network-grid{
+
+
+        grid-template-columns:1fr;
+
+
+        gap:1rem;
+
+
+    }
+
+
+}

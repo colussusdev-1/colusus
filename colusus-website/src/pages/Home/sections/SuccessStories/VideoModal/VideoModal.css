@@ -1,0 +1,528 @@
+/* =====================================
+   MODAL BACKDROP
+===================================== */
+
+.video-modal{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:9999;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:30px;
+
+}
+
+
+.video-modal__overlay{
+
+    position:absolute;
+
+    inset:0;
+
+
+    background:
+
+    rgba(2,8,23,.88);
+
+
+    backdrop-filter:
+
+    blur(18px);
+
+}
+
+
+
+/* =====================================
+   CONTAINER
+===================================== */
+
+
+.video-modal__container{
+
+    position:relative;
+
+    z-index:2;
+
+
+    width:min(1000px,100%);
+
+
+    max-height:90vh;
+
+
+    overflow:auto;
+
+
+    background:
+
+    rgba(255,255,255,.96);
+
+
+    border-radius:32px;
+
+
+    box-shadow:
+
+    0 50px 120px rgba(0,0,0,.45);
+
+
+    overflow:hidden;
+
+
+    animation:
+
+    modalReveal .45s cubic-bezier(.16,1,.3,1);
+
+}
+
+
+
+
+
+@keyframes modalReveal{
+
+
+    from{
+
+        opacity:0;
+
+        transform:
+
+        translateY(40px)
+
+        scale(.94);
+
+    }
+
+
+    to{
+
+        opacity:1;
+
+        transform:none;
+
+    }
+
+}
+
+
+
+
+
+/* =====================================
+   CLOSE BUTTON
+===================================== */
+
+
+.video-modal__close{
+
+    position:absolute;
+
+
+    top:20px;
+
+    right:20px;
+
+
+    z-index:10;
+
+
+    width:46px;
+
+    height:46px;
+
+
+    border-radius:50%;
+
+
+    border:none;
+
+
+    background:
+
+    rgba(255,255,255,.95);
+
+
+    color:#0f172a;
+
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+
+    cursor:pointer;
+
+
+    font-size:1.4rem;
+
+
+    box-shadow:
+
+    0 15px 40px rgba(0,0,0,.25);
+
+
+    transition:.3s ease;
+
+}
+
+
+
+.video-modal__close:hover{
+
+    transform:rotate(90deg) scale(1.05);
+
+}
+
+
+
+/* =====================================
+   VIDEO
+===================================== */
+
+
+.video-modal__video{
+
+    width:100%;
+
+
+    aspect-ratio:16/9;
+
+
+    background:#000;
+
+}
+
+
+
+.video-modal__video iframe{
+
+    width:100%;
+
+    height:100%;
+
+
+    border:none;
+
+}
+
+
+
+/* =====================================
+   INFO PANEL
+===================================== */
+
+
+.video-modal__info{
+
+    padding:35px 40px;
+
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        #ffffff,
+
+        #f8fafc
+
+    );
+
+}
+
+
+
+
+
+/* badge */
+
+
+.video-modal__badge{
+
+    display:inline-flex;
+
+
+    align-items:center;
+
+
+    gap:8px;
+
+
+    padding:8px 16px;
+
+
+    border-radius:999px;
+
+
+    background:#eff6ff;
+
+
+    color:#2563eb;
+
+
+    font-size:.8rem;
+
+
+    font-weight:700;
+
+}
+
+
+
+
+.video-modal__badge svg{
+
+    font-size:1rem;
+
+}
+
+
+
+
+
+/* heading */
+
+
+.video-modal__info h2{
+
+    margin-top:20px;
+
+
+    font-size:
+
+    clamp(1.8rem,3vw,2.5rem);
+
+
+    line-height:1.15;
+
+
+    letter-spacing:-1px;
+
+
+    color:#0f172a;
+
+}
+
+
+
+.video-modal__info h2 span{
+
+    display:block;
+
+
+    color:#2563eb;
+
+}
+
+
+
+
+
+.video-modal__info p{
+
+    margin-top:16px;
+
+
+    max-width:700px;
+
+
+    color:#64748b;
+
+
+    line-height:1.8;
+
+
+    font-size:1rem;
+
+}
+
+
+
+
+/* =====================================
+   META CARDS
+===================================== */
+
+
+.video-modal__meta{
+
+    display:grid;
+
+
+    grid-template-columns:
+
+    repeat(3,1fr);
+
+
+    gap:15px;
+
+
+    margin-top:30px;
+
+}
+
+
+
+.video-modal__meta div{
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    gap:12px;
+
+
+    padding:16px;
+
+
+    border-radius:20px;
+
+
+    background:white;
+
+
+    border:
+
+    1px solid #e2e8f0;
+
+
+    box-shadow:
+
+    0 10px 30px rgba(15,23,42,.05);
+
+}
+
+
+
+.video-modal__meta svg{
+
+    flex-shrink:0;
+
+
+    font-size:1.4rem;
+
+
+    color:#2563eb;
+
+}
+
+
+
+
+.video-modal__meta span{
+
+    display:flex;
+
+    flex-direction:column;
+
+
+    color:#64748b;
+
+
+    font-size:.75rem;
+
+}
+
+
+
+
+.video-modal__meta strong{
+
+
+    margin-top:3px;
+
+
+    color:#0f172a;
+
+
+    font-size:.9rem;
+
+}
+
+
+
+
+
+/* =====================================
+   MOBILE
+===================================== */
+
+
+@media(max-width:700px){
+
+
+    .video-modal{
+
+        padding:12px;
+
+    }
+
+
+
+    .video-modal__container{
+
+        max-height:95vh;
+
+
+        border-radius:24px;
+
+    }
+
+
+
+    .video-modal__close{
+
+        width:40px;
+
+        height:40px;
+
+        top:12px;
+
+        right:12px;
+
+    }
+
+
+
+    .video-modal__info{
+
+        padding:24px;
+
+    }
+
+
+
+    .video-modal__meta{
+
+        grid-template-columns:1fr;
+
+        gap:12px;
+
+    }
+
+
+
+    .video-modal__info h2{
+
+        font-size:1.6rem;
+
+    }
+
+
+}

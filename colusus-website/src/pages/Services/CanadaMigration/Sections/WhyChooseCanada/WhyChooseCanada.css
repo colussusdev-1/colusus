@@ -1,0 +1,629 @@
+.why-canada {
+
+    padding: 7rem 0;
+
+    background:
+        linear-gradient(180deg,
+            #ffffff 0%,
+            #f7f9fc 100%);
+}
+
+.why-canada-header {
+
+    max-width: 760px;
+
+    margin: 0 auto 4rem;
+
+    text-align: center;
+}
+
+.why-canada-tag {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: .45rem 1rem;
+
+    border-radius: 999px;
+
+    background: rgba(22, 92, 255, .08);
+
+    color: var(--primary-color);
+
+    font-size: .82rem;
+
+    font-weight: 700;
+
+    letter-spacing: .12em;
+
+    text-transform: uppercase;
+
+    margin-bottom: 1.2rem;
+}
+
+.why-canada-header h2 {
+
+    font-size: clamp(2.3rem, 4vw, 3.6rem);
+
+    line-height: 1.1;
+
+    font-weight: 800;
+
+    color: #111827;
+
+    margin-bottom: 1rem;
+}
+
+.why-canada-header h2 span {
+
+    color: var(--primary-color);
+}
+
+.why-canada-header p {
+
+    font-size: 1.05rem;
+
+    color: #6b7280;
+
+    line-height: 1.8;
+}
+
+/* ========================= */
+
+.why-canada-layout {
+
+    display: grid;
+
+    grid-template-columns: .95fr 1.05fr;
+
+    gap: 2rem;
+
+    align-items: start;
+}
+
+/* ========================= */
+
+.why-feature-card {
+
+    position: sticky;
+
+    top: 110px;
+
+    background: rgba(255,255,255,.82);
+
+    backdrop-filter: blur(24px);
+
+    -webkit-backdrop-filter: blur(24px);
+
+    border: 1px solid rgba(255,255,255,.6);
+
+    border-radius: 28px;
+
+    padding: 2rem;
+
+    box-shadow:
+        0 20px 60px rgba(15,23,42,.08);
+
+    overflow: hidden;
+}
+
+.why-feature-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+
+        radial-gradient(circle at top right,
+
+            rgba(37,99,235,.08),
+
+            transparent 55%);
+
+    pointer-events: none;
+}
+
+.why-feature-icon {
+
+    width: 72px;
+
+    height: 72px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 22px;
+
+    background: var(--primary-color);
+
+    color: #fff;
+
+    font-size: 2rem;
+
+    margin-bottom: 1.4rem;
+}
+
+.why-feature-badge {
+
+    display: inline-flex;
+
+    padding: .45rem .9rem;
+
+    border-radius: 999px;
+
+    background: rgba(37,99,235,.08);
+
+    color: var(--primary-color);
+
+    font-size: .78rem;
+
+    font-weight: 700;
+
+    margin-bottom: 1rem;
+}
+
+.why-feature-card h3 {
+
+    font-size: 1.8rem;
+
+    margin-bottom: 1rem;
+
+    color: #111827;
+}
+
+.why-feature-card p {
+
+    color: #6b7280;
+
+    line-height: 1.8;
+
+    margin-bottom: 1.5rem;
+}
+
+/* ==========================================
+   FEATURE HIGHLIGHTS
+========================================== */
+
+.why-feature-card ul {
+
+    list-style: none;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: .9rem;
+
+    margin: 0;
+
+    padding: 0;
+}
+
+.why-feature-card li {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: .8rem;
+
+    font-size: .96rem;
+
+    color: #374151;
+
+    font-weight: 500;
+}
+
+.why-feature-card li::before {
+
+    content: "";
+
+    width: 8px;
+
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: var(--primary-color);
+
+    flex-shrink: 0;
+}
+
+
+/* ==========================================
+   RIGHT COLUMN
+========================================== */
+
+.why-small-grid {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 1rem;
+}
+
+
+/* ==========================================
+   SMALL CARDS
+========================================== */
+
+.why-small-card {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    width: 100%;
+
+    padding: 1.15rem 1.25rem;
+
+    border: 1px solid rgba(15,23,42,.08);
+
+    border-radius: 20px;
+
+    background: rgba(255,255,255,.82);
+
+    backdrop-filter: blur(20px);
+
+    -webkit-backdrop-filter: blur(20px);
+
+    cursor: pointer;
+
+    transition: .35s ease;
+
+    text-align: left;
+}
+
+.why-small-card:hover {
+
+    transform: translateY(-4px);
+
+    border-color: rgba(37,99,235,.25);
+
+    box-shadow:
+
+        0 14px 35px rgba(15,23,42,.08);
+}
+
+.why-small-left {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 1rem;
+}
+
+
+/* ==========================================
+   ICON
+========================================== */
+
+.why-small-icon {
+
+    width: 56px;
+
+    height: 56px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 18px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            rgba(37,99,235,.12),
+            rgba(37,99,235,.04)
+        );
+
+    color: var(--primary-color);
+
+    font-size: 1.45rem;
+
+    flex-shrink: 0;
+
+    transition: .35s ease;
+}
+
+.why-small-card:hover .why-small-icon {
+
+    transform: scale(1.08);
+}
+
+
+/* ==========================================
+   TEXT
+========================================== */
+
+.why-small-card h4 {
+
+    margin: 0;
+
+    font-size: 1rem;
+
+    color: #111827;
+
+    font-weight: 700;
+}
+
+.why-small-card span {
+
+    display: block;
+
+    margin-top: .3rem;
+
+    color: #6b7280;
+
+    font-size: .85rem;
+}
+
+
+/* ==========================================
+   ARROW
+========================================== */
+
+.why-small-card svg:last-child {
+
+    font-size: 1.2rem;
+
+    color: var(--primary-color);
+
+    transition: .35s ease;
+}
+
+.why-small-card:hover svg:last-child {
+
+    transform: translateX(6px);
+}
+
+
+/* ==========================================
+   STATS
+========================================== */
+
+.why-canada-stats {
+
+    margin-top: 4rem;
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 1.5rem;
+}
+
+.stat-card {
+
+    position: relative;
+
+    padding: 2rem;
+
+    text-align: center;
+
+    border-radius: 24px;
+
+    background: rgba(255,255,255,.8);
+
+    backdrop-filter: blur(20px);
+
+    -webkit-backdrop-filter: blur(20px);
+
+    border: 1px solid rgba(15,23,42,.08);
+
+    overflow: hidden;
+
+    transition: .35s ease;
+}
+
+.stat-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background: linear-gradient(
+        135deg,
+        rgba(37,99,235,.05),
+        transparent 60%
+    );
+
+    opacity: 0;
+
+    transition: .35s ease;
+}
+
+.stat-card:hover {
+
+    transform: translateY(-6px);
+
+    box-shadow: 0 20px 45px rgba(15,23,42,.08);
+}
+
+.stat-card:hover::before {
+
+    opacity: 1;
+}
+
+.stat-card h3 {
+
+    margin: 0 0 .6rem;
+
+    font-size: clamp(2rem, 4vw, 2.8rem);
+
+    color: var(--primary-color);
+
+    font-weight: 800;
+
+    line-height: 1;
+}
+
+.stat-card span {
+
+    display: block;
+
+    color: #6b7280;
+
+    line-height: 1.7;
+
+    font-size: .95rem;
+}
+
+
+/* ==========================================
+   TABLET
+========================================== */
+
+@media (max-width: 992px) {
+
+    .why-canada {
+
+        padding: 5rem 0;
+    }
+
+    .why-canada-layout {
+
+        grid-template-columns: 1fr;
+
+        gap: 2rem;
+    }
+
+    .why-feature-card {
+
+        position: static;
+    }
+
+    .why-canada-stats {
+
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 768px) {
+
+    .why-canada-header {
+
+        margin-bottom: 3rem;
+    }
+
+    .why-feature-card {
+
+        padding: 1.5rem;
+    }
+
+    .why-feature-icon {
+
+        width: 60px;
+
+        height: 60px;
+
+        border-radius: 18px;
+
+        font-size: 1.6rem;
+    }
+
+    .why-feature-card h3 {
+
+        font-size: 1.5rem;
+    }
+
+    .why-small-card {
+
+        padding: 1rem;
+    }
+
+    .why-small-icon {
+
+        width: 48px;
+
+        height: 48px;
+
+        border-radius: 16px;
+
+        font-size: 1.25rem;
+    }
+
+    .why-small-card h4 {
+
+        font-size: .95rem;
+    }
+
+    .why-small-card span {
+
+        font-size: .8rem;
+    }
+
+    .why-canada-stats {
+
+        grid-template-columns: 1fr;
+
+        gap: 1rem;
+    }
+
+    .stat-card {
+
+        padding: 1.5rem;
+    }
+
+}
+
+
+/* ==========================================
+   SMALL PHONES
+========================================== */
+
+@media (max-width: 480px) {
+
+    .why-canada {
+
+        padding: 4rem 0;
+    }
+
+    .why-canada-header h2 {
+
+        font-size: 2rem;
+    }
+
+    .why-canada-header p {
+
+        font-size: .95rem;
+    }
+
+    .why-feature-card {
+
+        border-radius: 22px;
+    }
+
+    .why-small-card {
+
+        border-radius: 18px;
+    }
+
+    .stat-card {
+
+        border-radius: 20px;
+    }
+
+}

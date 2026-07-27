@@ -1,0 +1,431 @@
+/* =====================================================
+   CONSULTATION BENEFITS
+===================================================== */
+
+
+.consultationBenefits{
+
+    padding:5rem 0;
+
+    background:#ffffff;
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+
+.consultationBenefits__header{
+
+
+    max-width:650px;
+
+
+    margin:0 auto 3rem;
+
+
+    text-align:center;
+
+
+}
+
+
+
+
+.consultationBenefits__header span{
+
+
+    display:inline-flex;
+
+
+    padding:.45rem 1rem;
+
+
+    border-radius:999px;
+
+
+    background:#eff6ff;
+
+
+    color:#2563eb;
+
+
+    font-size:.75rem;
+
+
+    font-weight:800;
+
+
+    text-transform:uppercase;
+
+
+    letter-spacing:.1em;
+
+
+}
+
+
+
+
+
+
+
+.consultationBenefits__header h2{
+
+
+    margin-top:1.2rem;
+
+
+    font-size:
+
+
+    clamp(2rem,4vw,3rem);
+
+
+
+    line-height:1.15;
+
+
+    letter-spacing:-1px;
+
+
+    color:#0f172a;
+
+
+    font-weight:800;
+
+
+}
+
+
+
+
+
+.consultationBenefits__header h2 strong{
+
+
+    display:block;
+
+
+    color:#2563eb;
+
+
+}
+
+
+
+
+
+
+
+.consultationBenefits__header p{
+
+
+    margin-top:1rem;
+
+
+    color:#64748b;
+
+
+    line-height:1.8;
+
+
+    font-size:1rem;
+
+
+}
+
+
+
+
+
+
+
+
+/* =====================================================
+   GRID
+===================================================== */
+
+
+.consultationBenefits__grid{
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+    repeat(3,1fr);
+
+
+
+    gap:24px;
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   CARD
+===================================================== */
+
+
+.consultationBenefits__card{
+
+
+    position:relative;
+
+
+    padding:30px 28px;
+
+
+    border-radius:28px;
+
+
+
+    background:
+
+
+    linear-gradient(
+
+        180deg,
+
+        #ffffff,
+
+        #f8fbff
+
+    );
+
+
+
+    border:
+
+
+    1px solid #e5e7eb;
+
+
+
+    box-shadow:
+
+
+    0 20px 45px rgba(15,23,42,.06);
+
+
+
+    transition:.35s ease;
+
+
+}
+
+
+
+
+
+.consultationBenefits__card:hover{
+
+
+    transform:translateY(-8px);
+
+
+
+    box-shadow:
+
+
+    0 30px 60px rgba(15,23,42,.12);
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   ICON
+===================================================== */
+
+
+.consultationBenefits__icon{
+
+
+    width:58px;
+
+
+    height:58px;
+
+
+    display:grid;
+
+
+    place-items:center;
+
+
+
+    border-radius:20px;
+
+
+
+    background:#eff6ff;
+
+
+
+    color:#2563eb;
+
+
+
+    font-size:1.5rem;
+
+
+
+    margin-bottom:1.4rem;
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   TEXT
+===================================================== */
+
+
+.consultationBenefits__card h3{
+
+
+    font-size:1.15rem;
+
+
+    color:#0f172a;
+
+
+    margin-bottom:.8rem;
+
+
+    font-weight:750;
+
+
+}
+
+
+
+
+
+
+.consultationBenefits__card p{
+
+
+    color:#64748b;
+
+
+    line-height:1.75;
+
+
+    font-size:.95rem;
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+
+@media(max-width:1000px){
+
+
+    .consultationBenefits__grid{
+
+
+        grid-template-columns:
+
+        repeat(2,1fr);
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+
+@media(max-width:650px){
+
+
+    .consultationBenefits{
+
+
+        padding:4rem 0;
+
+
+    }
+
+
+
+
+    .consultationBenefits__grid{
+
+
+        grid-template-columns:1fr;
+
+
+        gap:18px;
+
+
+    }
+
+
+
+
+    .consultationBenefits__card{
+
+
+        padding:25px 22px;
+
+
+    }
+
+
+
+}

@@ -1,0 +1,579 @@
+/* ==========================================
+   CONSULTATION BOOKING FORM
+========================================== */
+
+
+.consultationBookingForm{
+
+
+    padding:90px 0;
+
+
+    background:
+
+
+    linear-gradient(
+        180deg,
+        #f8fafc,
+        #ffffff
+    );
+
+
+}
+
+
+
+
+
+/* ==========================================
+   HEADER
+========================================== */
+
+
+.consultationBookingForm__header{
+
+
+    max-width:650px;
+
+
+    margin:0 auto 45px;
+
+
+    text-align:center;
+
+
+}
+
+
+
+.consultationBookingForm__header span{
+
+
+    display:inline-flex;
+
+
+    padding:7px 16px;
+
+
+    border-radius:999px;
+
+
+    background:#eff6ff;
+
+
+    color:#2563eb;
+
+
+    font-size:.78rem;
+
+
+    font-weight:800;
+
+
+    letter-spacing:.08em;
+
+
+    text-transform:uppercase;
+
+
+}
+
+
+
+
+
+.consultationBookingForm__header h2{
+
+
+    margin-top:18px;
+
+
+    font-size:clamp(
+        2rem,
+        4vw,
+        3rem
+    );
+
+
+    line-height:1.15;
+
+
+    letter-spacing:-1px;
+
+
+    color:#0f172a;
+
+
+}
+
+
+
+
+
+.consultationBookingForm__header p{
+
+
+    margin-top:15px;
+
+
+    color:#64748b;
+
+
+    font-size:1rem;
+
+
+    line-height:1.7;
+
+
+}
+
+
+
+
+
+
+
+
+
+/* ==========================================
+   FORM WRAPPER
+========================================== */
+
+
+.consultationBookingForm__wrapper{
+
+
+    max-width:900px;
+
+
+    margin:auto;
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    gap:24px;
+
+
+}
+
+
+
+
+
+
+
+
+
+/* ==========================================
+   SECTION CARDS
+========================================== */
+
+
+.consultationBookingForm__wrapper > div{
+
+
+    background:
+
+
+    rgba(255,255,255,.9);
+
+
+    border:
+
+
+    1px solid #e2e8f0;
+
+
+    border-radius:28px;
+
+
+    padding:30px;
+
+
+    box-shadow:
+
+
+    0 20px 50px rgba(15,23,42,.05);
+
+
+}
+
+
+
+
+
+
+
+
+
+/* ==========================================
+   REVIEW PAYMENT STRIP
+========================================== */
+
+
+.consultationBookingForm__review{
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    justify-content:space-between;
+
+
+    gap:20px;
+
+
+    padding:22px 28px;
+
+
+    border-radius:24px;
+
+
+    background:
+
+
+    linear-gradient(
+        135deg,
+        #0f172a,
+        #1e293b
+    );
+
+
+    box-shadow:
+
+
+    0 25px 60px rgba(15,23,42,.2);
+
+
+}
+
+
+
+
+
+
+
+.consultationBookingForm__review span{
+
+
+    display:block;
+
+
+    color:
+
+
+    rgba(255,255,255,.65);
+
+
+    font-size:.85rem;
+
+
+}
+
+
+
+
+
+.consultationBookingForm__review strong{
+
+
+    display:block;
+
+
+    margin-top:5px;
+
+
+    color:white;
+
+
+    font-size:1.7rem;
+
+
+}
+
+
+
+
+
+
+
+
+
+/* ==========================================
+   SUBMIT BUTTON
+========================================== */
+
+
+.consultationBookingForm__submit{
+
+
+    height:52px;
+
+
+    padding:0 35px;
+
+
+    border:none;
+
+
+    border-radius:999px;
+
+
+    background:#2563eb;
+
+
+    color:white;
+
+
+    font-weight:800;
+
+
+    cursor:pointer;
+
+
+    font-size:.95rem;
+
+
+    transition:.35s ease;
+
+
+    box-shadow:
+
+
+    0 15px 35px rgba(37,99,235,.3);
+
+
+}
+
+
+
+
+
+
+.consultationBookingForm__submit:hover{
+
+
+    transform:translateY(-3px);
+
+
+    background:#1d4ed8;
+
+
+    box-shadow:
+
+
+    0 25px 50px rgba(37,99,235,.35);
+
+
+}
+
+
+
+
+
+
+
+
+
+/* ==========================================
+   INPUT CONSISTENCY
+========================================== */
+
+
+.consultationBookingForm input,
+.consultationBookingForm select,
+.consultationBookingForm textarea{
+
+
+    font-family:inherit;
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================
+   TABLET
+========================================== */
+
+
+@media(max-width:900px){
+
+
+    .consultationBookingForm{
+
+
+        padding:70px 0;
+
+
+    }
+
+
+
+
+
+    .consultationBookingForm__review{
+
+
+        flex-direction:column;
+
+
+        align-items:stretch;
+
+
+        text-align:center;
+
+
+    }
+
+
+
+
+
+    .consultationBookingForm__submit{
+
+
+        width:100%;
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+
+@media(max-width:600px){
+
+
+
+    .consultationBookingForm{
+
+
+        padding:55px 0;
+
+
+    }
+
+
+
+
+
+    .consultationBookingForm__header{
+
+
+        margin-bottom:30px;
+
+
+    }
+
+
+
+
+
+
+    .consultationBookingForm__header h2{
+
+
+        font-size:1.8rem;
+
+
+    }
+
+
+
+
+
+
+    .consultationBookingForm__header p{
+
+
+        font-size:.9rem;
+
+
+    }
+
+
+
+
+
+
+    .consultationBookingForm__wrapper{
+
+
+        gap:18px;
+
+
+    }
+
+
+
+
+
+
+    .consultationBookingForm__wrapper > div{
+
+
+        padding:20px;
+
+
+        border-radius:22px;
+
+
+    }
+
+
+
+
+
+
+    .consultationBookingForm__review{
+
+
+        padding:20px;
+
+
+        border-radius:20px;
+
+
+    }
+
+
+
+
+
+
+    .consultationBookingForm__review strong{
+
+
+        font-size:1.5rem;
+
+
+    }
+
+
+
+}

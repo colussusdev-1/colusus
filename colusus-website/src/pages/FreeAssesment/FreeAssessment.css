@@ -1,0 +1,559 @@
+.free-assessment{
+    position:relative;
+    min-height:100vh;
+    overflow:hidden;
+    background:#f8fafc;
+}
+
+/* BACKGROUND */
+.free-assessment__background{
+    position:absolute;
+    inset:0;
+    background:
+    linear-gradient(
+        120deg,
+        #020617,
+        #0f172a
+    );
+}
+
+.assessment-glow{
+    position:absolute;
+    width:600px;
+    height:600px;
+    right:-150px;
+    top:100px;
+    background:
+    radial-gradient(
+        circle,
+        rgba(14,165,233,.35),
+        transparent 65%
+    );
+}
+
+/* HERO */
+
+.assessment-hero{
+    position:relative;
+
+    z-index:2;
+
+
+    max-width:1200px;
+
+    margin:auto;
+
+
+    min-height:800px;
+
+
+    padding:
+
+    100px 24px;
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+    1fr 420px;
+
+
+    gap:70px;
+
+
+    align-items:center;
+
+
+}
+
+
+
+
+
+
+
+/* CONTENT */
+
+
+.assessment-content{
+
+
+    color:white;
+
+
+}
+
+
+
+
+.assessment-badge{
+
+
+    display:inline-flex;
+
+
+    padding:
+
+    8px 18px;
+
+
+    border-radius:999px;
+
+
+    background:
+
+    rgba(255,255,255,.12);
+
+
+    border:
+
+    1px solid rgba(255,255,255,.2);
+
+
+    backdrop-filter:blur(20px);
+
+
+    font-size:.85rem;
+
+
+}
+
+
+
+
+
+.assessment-content h1{
+
+
+    margin-top:30px;
+
+
+    font-size:
+
+    clamp(
+        3rem,
+        6vw,
+        5rem
+    );
+
+
+    line-height:1;
+
+
+    letter-spacing:-3px;
+
+
+}
+
+
+
+
+.assessment-content h1 span{
+
+
+    display:block;
+
+
+    color:#38bdf8;
+
+
+}
+
+
+
+
+
+
+
+.assessment-content p{
+
+
+    margin-top:25px;
+
+
+    max-width:580px;
+
+
+    color:
+
+    rgba(255,255,255,.75);
+
+
+    font-size:1.15rem;
+
+
+    line-height:1.7;
+
+
+}
+
+
+
+
+
+
+
+
+/* BUTTON */
+
+
+.assessment-start{
+
+
+    margin-top:40px;
+
+
+    height:58px;
+
+
+    padding:
+
+    0 32px;
+
+
+    border-radius:999px;
+
+
+    border:none;
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    gap:10px;
+
+
+    background:white;
+
+
+    color:#0f172a;
+
+
+    font-weight:600;
+
+
+    cursor:pointer;
+
+
+    transition:.3s ease;
+
+
+}
+
+
+
+.assessment-start:hover{
+
+
+    transform:translateY(-4px);
+
+
+}
+
+
+
+
+
+
+
+
+/* TRUST */
+
+
+.assessment-trust{
+
+
+    margin-top:45px;
+
+
+    display:flex;
+
+
+    gap:25px;
+
+
+    flex-wrap:wrap;
+
+
+}
+
+
+
+.trust-item{
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    gap:8px;
+
+
+    color:
+
+    rgba(255,255,255,.75);
+
+
+    font-size:.9rem;
+
+
+}
+
+
+
+.trust-item svg{
+
+
+    color:#38bdf8;
+
+
+}
+
+
+
+
+
+
+
+
+
+/* VISUAL */
+
+
+.assessment-visual{
+
+
+    display:flex;
+
+    justify-content:center;
+
+
+}
+
+
+
+
+.assessment-card{
+
+
+    width:330px;
+
+
+    padding:35px;
+
+
+    border-radius:35px;
+
+
+    background:
+
+    rgba(255,255,255,.12);
+
+
+    backdrop-filter:
+
+    blur(25px);
+
+
+    border:
+
+    1px solid rgba(255,255,255,.2);
+
+
+    color:white;
+
+
+    box-shadow:
+
+    0 30px 80px rgba(0,0,0,.25);
+
+
+}
+
+
+
+
+
+.assessment-card span{
+
+
+    opacity:.7;
+
+
+}
+
+
+
+
+
+.assessment-card h3{
+
+
+    margin-top:20px;
+
+
+    font-size:2rem;
+
+
+    line-height:1.3;
+
+
+}
+
+
+
+
+.mini-progress{
+
+
+    height:8px;
+
+
+    margin-top:30px;
+
+
+    background:
+
+    rgba(255,255,255,.2);
+
+
+    border-radius:20px;
+
+
+}
+
+
+
+.mini-progress span{
+
+
+    display:block;
+
+
+    width:65%;
+
+
+    height:100%;
+
+
+    background:#38bdf8;
+
+
+    border-radius:20px;
+
+
+}
+
+
+
+
+
+.assessment-card p{
+
+
+    margin-top:20px;
+
+
+    color:
+
+    rgba(255,255,255,.7);
+
+
+}
+
+
+
+
+
+
+
+
+
+/* MOBILE */
+
+
+@media(max-width:900px){
+
+
+    .assessment-hero{
+
+
+        grid-template-columns:1fr;
+
+
+        text-align:center;
+
+
+        padding-top:80px;
+
+
+    }
+
+
+
+    .assessment-content p{
+
+
+        margin-inline:auto;
+
+
+    }
+
+
+
+    .assessment-start{
+
+
+        margin-inline:auto;
+
+
+    }
+
+
+
+    .assessment-trust{
+
+
+        justify-content:center;
+
+
+    }
+
+
+}
+
+
+
+@media(max-width:600px){
+
+
+    .assessment-content h1{
+
+
+        font-size:2.7rem;
+
+
+        letter-spacing:-1px;
+
+
+    }
+
+
+
+    .assessment-card{
+
+
+        width:100%;
+
+
+    }
+
+
+}

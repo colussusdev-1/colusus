@@ -1,0 +1,141 @@
+/* ==================================
+   BLOG GRID SECTION
+================================== */
+
+.blog-grid-section{
+
+    padding:5rem 0 7rem;
+
+}
+
+.blog-grid-container{
+
+    width:min(1280px,92%);
+
+    margin:auto;
+
+}
+
+/* ==================================
+   HEADER
+================================== */
+
+.blog-grid-header{
+
+    text-align:center;
+
+    max-width:760px;
+
+    margin:0 auto 4rem;
+
+}
+
+.blog-grid-header span{
+
+    display:inline-block;
+
+    margin-bottom:1rem;
+
+    padding:.55rem 1rem;
+
+    border-radius:999px;
+
+    background:rgba(0,86,179,.08);
+
+    color:var(--primary);
+
+    font-size:.85rem;
+
+    font-weight:600;
+
+}
+
+.blog-grid-header h2{
+
+    font-size:clamp(2rem,4vw,3rem);
+
+    color:var(--heading);
+
+    line-height:1.2;
+
+    margin-bottom:1rem;
+
+}
+
+.blog-grid-header p{
+
+    color:var(--text-light);
+
+    line-height:1.8;
+
+}
+
+/* ==================================
+   GRID
+================================== */
+
+.blog-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(3,1fr);
+
+    gap:2rem;
+
+}
+
+/* ==================================
+   LARGE DESKTOP
+================================== */
+
+@media(max-width:1200px){
+
+    .blog-grid{
+
+        grid-template-columns:
+        repeat(2,1fr);
+
+    }
+
+}
+
+/* ==================================
+   TABLET
+================================== */
+
+@media(max-width:768px){
+
+    .blog-grid-section{
+
+        padding:4rem 0 5rem;
+
+    }
+
+    .blog-grid-header{
+
+        margin-bottom:2.5rem;
+
+    }
+
+    .blog-grid{
+
+        gap:1.5rem;
+
+    }
+
+}
+
+/* ==================================
+   MOBILE
+================================== */
+
+@media(max-width:640px){
+
+    .blog-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}

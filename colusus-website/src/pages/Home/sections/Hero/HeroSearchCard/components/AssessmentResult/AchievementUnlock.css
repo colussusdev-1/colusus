@@ -1,0 +1,415 @@
+/* =====================================================
+   ACHIEVEMENT UNLOCK
+===================================================== */
+
+
+.achievement-unlock{
+
+    position:relative;
+
+    text-align:center;
+
+    padding:1.2rem 0 1.5rem;
+
+    overflow:hidden;
+
+    animation:
+    achievementReveal .8s ease forwards;
+
+}
+
+
+
+
+/* ICON */
+
+.unlock-icon{
+
+    width:86px;
+
+    height:86px;
+
+    margin:0 auto 1rem;
+
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+
+    border-radius:50%;
+
+
+    background:
+
+    linear-gradient(
+        135deg,
+        #10b981,
+        #22c55e
+    );
+
+
+    color:white;
+
+
+    box-shadow:
+
+    0 25px 60px rgba(16,185,129,.35);
+
+
+    animation:
+
+    unlockPop .8s cubic-bezier(.2,.8,.2,1);
+
+}
+
+
+
+.unlock-icon svg{
+
+    font-size:46px;
+
+}
+
+
+
+
+
+/* LABEL */
+
+
+.unlock-label{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:.4rem;
+
+
+    padding:.45rem 1rem;
+
+
+    border-radius:999px;
+
+
+    background:
+
+    rgba(16,185,129,.12);
+
+
+    color:#059669;
+
+
+    font-size:.72rem;
+
+
+    font-weight:800;
+
+
+    margin-bottom:.8rem;
+
+}
+
+
+.unlock-label svg{
+
+    font-size:15px;
+
+}
+
+
+
+
+
+/* TITLE */
+
+
+.achievement-unlock h2{
+
+    max-width:340px;
+
+    margin:
+
+    0 auto .7rem;
+
+
+    color:var(--heading);
+
+
+    font-size:1.55rem;
+
+
+    line-height:1.25;
+
+
+    font-weight:950;
+
+}
+
+
+
+
+
+/* DESCRIPTION */
+
+
+.achievement-unlock p{
+
+    max-width:330px;
+
+
+    margin:
+
+    0 auto 1.2rem;
+
+
+    color:var(--text);
+
+
+    font-size:.9rem;
+
+
+    line-height:1.6;
+
+}
+
+
+
+
+/* PATHWAY PREVIEW */
+
+
+.achievement-status{
+
+
+    display:grid;
+
+
+    grid-template-columns:1fr 1fr;
+
+
+    gap:.5rem;
+
+
+    padding:.9rem;
+
+
+    border-radius:18px;
+
+
+    background:
+
+    rgba(38,118,255,.06);
+
+
+    border:
+
+    1px solid rgba(38,118,255,.08);
+
+}
+
+
+
+.achievement-status span{
+
+
+    color:var(--text);
+
+
+    font-size:.7rem;
+
+
+    font-weight:700;
+
+
+}
+
+
+
+.achievement-status strong{
+
+
+    color:var(--heading);
+
+
+    font-size:.78rem;
+
+
+    font-weight:850;
+
+
+}
+
+
+
+
+
+
+/* PARTICLES */
+
+
+.achievement-particles span{
+
+    position:absolute;
+
+
+    width:8px;
+
+    height:8px;
+
+
+    border-radius:50%;
+
+
+    background:#fbbf24;
+
+
+    opacity:0;
+
+}
+
+
+
+
+
+.achievement-particles span:nth-child(1){
+
+    left:20%;
+
+    animation:
+    particleFloat 2s infinite;
+
+}
+
+
+
+.achievement-particles span:nth-child(2){
+
+    right:20%;
+
+    animation:
+    particleFloat 2.4s infinite .3s;
+
+}
+
+
+
+.achievement-particles span:nth-child(3){
+
+    left:50%;
+
+    animation:
+    particleFloat 2.8s infinite .5s;
+
+}
+
+
+
+.achievement-particles span:nth-child(4){
+
+    right:40%;
+
+    animation:
+    particleFloat 2.2s infinite .7s;
+
+}
+
+
+
+
+
+
+
+/* ANIMATIONS */
+
+
+@keyframes achievementReveal{
+
+
+    from{
+
+        opacity:0;
+
+        transform:
+        translateY(35px)
+        scale(.96);
+
+    }
+
+
+    to{
+
+        opacity:1;
+
+        transform:
+        translateY(0)
+        scale(1);
+
+    }
+
+}
+
+
+
+
+@keyframes unlockPop{
+
+
+    0%{
+
+        transform:scale(0);
+
+    }
+
+
+    70%{
+
+        transform:scale(1.15);
+
+    }
+
+
+    100%{
+
+        transform:scale(1);
+
+    }
+
+}
+
+
+
+
+@keyframes particleFloat{
+
+
+    0%{
+
+        opacity:0;
+
+        transform:
+        translateY(30px);
+
+    }
+
+
+    40%{
+
+        opacity:1;
+
+    }
+
+
+    100%{
+
+        opacity:0;
+
+        transform:
+        translateY(-70px);
+
+    }
+
+}

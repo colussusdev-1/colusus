@@ -1,0 +1,602 @@
+/* =====================================================
+   HERO BASE
+===================================================== */
+
+
+.hero{
+
+    position:relative;
+
+    min-height:100vh;
+
+    overflow:hidden;
+
+    display:flex;
+
+    align-items:center;
+
+    padding:9rem 0 5rem;
+
+    background:#050C18;
+
+    isolation:isolate;
+
+}
+
+
+
+
+/* =====================================================
+   VIDEO
+===================================================== */
+
+
+.hero-video{
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:-3;
+
+}
+
+
+.hero-video video{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    object-position:center;
+
+    opacity:0;
+
+    filter:
+    brightness(.65)
+    saturate(.9)
+    blur(1px);
+
+
+    animation:
+    heroFade 1.5s ease forwards;
+
+}
+
+
+
+.hero-video::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+
+    background:
+
+    linear-gradient(
+        90deg,
+        rgba(5, 12, 24, 0.562),
+        rgba(5, 12, 24, 0.445),
+        rgba(5, 12, 24, 0.635)
+    );
+
+
+}
+
+
+
+
+
+
+/* =====================================================
+   GRID BACKGROUND
+===================================================== */
+
+
+.hero-bg{
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:-2;
+
+}
+
+
+
+.grid-pattern{
+
+    position:absolute;
+
+    inset:0;
+
+
+    background-image:
+
+    linear-gradient(
+        rgba(255,255,255,.04) 1px,
+        transparent 1px
+    ),
+
+    linear-gradient(
+        90deg,
+        rgba(255,255,255,.04) 1px,
+        transparent 1px
+    );
+
+
+    background-size:
+    70px 70px;
+
+
+    opacity:.25;
+
+
+    mask-image:
+    radial-gradient(circle,black,transparent 75%);
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
+
+.hero-container{
+
+    position:relative;
+
+    z-index:5;
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+    1.1fr .9fr;
+
+
+    gap:5rem;
+
+
+    align-items:center;
+
+}
+
+
+
+
+
+
+/* =====================================================
+   CONTENT
+===================================================== */
+
+
+.hero-content{
+
+    max-width:650px;
+
+}
+
+
+
+
+
+.hero-eyebrow{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    margin-bottom:35px;
+
+}
+
+
+
+.hero-line{
+
+    width:55px;
+
+    height:3px;
+
+    background:#7FCBFF;
+
+    border-radius:50px;
+
+}
+
+
+
+.hero-eyebrow strong{
+
+    display:block;
+
+    color:white;
+
+    font-size:.85rem;
+
+    letter-spacing:.12em;
+
+    text-transform:uppercase;
+
+}
+
+
+
+.hero-eyebrow p{
+
+    margin:5px 0 0;
+
+    color:
+    rgba(255,255,255,.7);
+
+}
+
+
+
+
+
+/* =====================================================
+   TITLE
+===================================================== */
+
+
+.hero-content h1{
+
+    color:white;
+
+    font-size:
+
+    clamp(
+        3rem,
+        5vw,
+        5rem
+    );
+
+
+    line-height:1.05;
+
+
+    font-weight:800;
+
+
+    letter-spacing:-2px;
+
+
+}
+
+
+
+.hero-content h1 span{
+
+    display:block;
+
+    color:#7FCBFF;
+
+}
+
+
+
+
+
+
+.hero-description{
+
+    margin-top:25px;
+
+
+    color:
+    rgba(255,255,255,.82);
+
+
+    font-size:1.08rem;
+
+
+    line-height:1.8;
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+
+.hero-buttons{
+
+    display:flex;
+
+    gap:16px;
+
+    margin-top:40px;
+
+    margin-bottom:40px;
+
+}
+
+
+
+
+.hero-buttons .btn{
+
+    height:58px;
+
+    padding:
+    0 32px;
+
+
+    border-radius:999px;
+
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+
+    font-weight:700;
+
+    cursor:pointer;
+
+
+    transition:.35s ease;
+
+}
+
+
+
+
+
+
+
+/* PRIMARY */
+
+
+.btn-primary{
+
+
+    background:white;
+
+
+    color:#020617;
+
+
+    text-decoration:none;
+
+
+}
+
+
+
+
+.btn-primary:hover{
+
+
+    transform:translateY(-4px);
+
+
+    box-shadow:
+    0 20px 40px rgba(0,0,0,.3);
+
+
+}
+
+
+
+
+
+
+
+/* SECONDARY GLASS */
+
+
+.btn-secondary{
+
+
+    color:white;
+
+
+    background:
+
+    rgba(255,255,255,.12);
+
+
+    border:
+
+    1px solid rgba(255,255,255,.25);
+
+
+    backdrop-filter:
+    blur(20px);
+
+
+}
+
+
+
+
+
+.btn-secondary:hover,
+
+
+.btn-secondary.active{
+
+
+    background:white;
+
+
+    color:#020617;
+
+
+    transform:translateY(-4px);
+
+
+}
+
+
+
+
+
+
+/* =====================================================
+   VISUAL
+===================================================== */
+
+.hero-right{
+    display:flex;
+    justify-content:center;
+}
+
+.hero-mobile-summary{
+    display:none;
+}
+
+
+/* =====================================================
+   ANIMATION
+===================================================== */
+
+@keyframes heroFade{
+    from{
+        opacity:0;
+        transform:scale(1.05);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width:992px){
+
+    .hero{
+        min-height:auto;
+        padding:8rem 0 4rem;
+    }
+
+    .hero-container{
+        grid-template-columns:1fr;
+        gap:3rem;
+        text-align:center;
+    }
+
+    .hero-content{
+        margin:auto;
+        max-width:700px;
+    }
+
+    .hero-eyebrow{
+        justify-content:center;
+        margin-bottom:24px;
+    }
+
+    .hero-buttons{
+        justify-content:center;
+    }
+
+    .hero-right{
+        max-width:550px;
+        margin:0 auto;
+    }
+}
+
+@media (max-width:600px){
+
+    .hero{
+        min-height:auto;
+        padding:7rem 0 3rem;
+    }
+
+    .hero-container{
+        gap:2rem;
+    }
+
+    .hero-content{
+        max-width:100%;
+    }
+
+    .hero-eyebrow{
+        justify-content:center;
+        gap:12px;
+        margin-bottom:16px;
+    }
+
+    .hero-line{
+        width:36px;
+    }
+
+    .hero-eyebrow strong{
+        font-size:.75rem;
+        letter-spacing:.15em;
+    }
+
+    .hero-eyebrow-text{
+        display:none;
+    }
+
+    .hero-content h1{
+        font-size:clamp(2.3rem,9vw,2.8rem);
+        line-height:1.08;
+        letter-spacing:-1px;
+    }
+
+    .hero-description{
+        display:none;
+    }
+
+    .hero-mobile-summary{
+        display:block;
+        max-width:340px;
+        margin:16px auto 0;
+        color:rgba(255,255,255,.82);
+        font-size:.95rem;
+        line-height:1.65;
+    }
+
+    .hero-buttons{
+        flex-direction:column;
+        gap:12px;
+        margin:24px 0;
+    }
+
+    .hero-buttons .btn{
+        width:100%;
+        height:54px;
+    }
+
+    .hero-right{
+        max-width:100%;
+    }
+}

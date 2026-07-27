@@ -1,0 +1,942 @@
+/* ==========================================
+   ASSESSMENT JOURNEY
+========================================== */
+
+
+.assessmentJourney{
+
+    min-height:720px;
+
+    padding:90px 24px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:
+
+    linear-gradient(
+        135deg,
+        #020617,
+        #0f172a
+    );
+
+    color:white;
+
+}
+
+
+
+
+
+
+/* BACKGROUND GLOW */
+
+
+.assessmentJourney::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:500px;
+
+    height:500px;
+
+    top:-150px;
+
+    left:-120px;
+
+    background:
+
+    radial-gradient(
+        circle,
+        rgba(56,189,248,.35),
+        transparent 70%
+    );
+
+    filter:blur(40px);
+
+}
+
+
+
+
+
+
+.assessmentJourney::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:450px;
+
+    height:450px;
+
+    right:-120px;
+
+    bottom:-120px;
+
+    background:
+
+    radial-gradient(
+        circle,
+        rgba(14,165,233,.25),
+        transparent 70%
+    );
+
+    filter:blur(50px);
+
+}
+
+
+
+
+
+
+
+/* CONTAINER */
+
+
+.journey-container{
+
+    position:relative;
+
+    z-index:2;
+
+    max-width:760px;
+
+    margin:auto;
+
+}
+
+
+
+
+
+
+
+
+
+/* TOP */
+
+
+.journey-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:25px;
+
+}
+
+
+
+.journey-top span{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:8px 16px;
+
+    border-radius:999px;
+
+    background:
+
+    rgba(255,255,255,.1);
+
+    border:
+
+    1px solid rgba(255,255,255,.15);
+
+    backdrop-filter:
+
+    blur(20px);
+
+    font-size:.85rem;
+
+}
+
+
+.journey-top svg{
+
+    color:#38bdf8;
+
+}
+
+
+
+.journey-top p{
+
+    color:
+
+    rgba(255,255,255,.6);
+
+    font-size:.9rem;
+
+}
+
+
+
+
+
+
+
+
+
+/* PROGRESS */
+
+
+.journey-progress{
+
+    height:8px;
+
+    width:100%;
+
+    background:
+
+    rgba(255,255,255,.12);
+
+    border-radius:50px;
+
+    overflow:hidden;
+
+    margin-bottom:35px;
+
+}
+
+
+
+.journey-progress div{
+
+    height:100%;
+
+    background:
+
+    linear-gradient(
+        90deg,
+        #38bdf8,
+        #0ea5e9
+    );
+
+    border-radius:50px;
+
+    transition:.5s ease;
+
+}
+
+
+
+
+
+
+
+
+
+/* MAIN CARD */
+
+
+.journey-card{
+
+
+    padding:45px;
+
+
+    border-radius:36px;
+
+
+    background:
+
+    rgba(255,255,255,.08);
+
+
+    border:
+
+    1px solid rgba(255,255,255,.16);
+
+
+    backdrop-filter:
+
+    blur(30px);
+
+
+    box-shadow:
+
+
+    0 40px 100px rgba(0,0,0,.35);
+
+
+    animation:
+
+    cardEnter .5s ease;
+
+
+}
+
+
+
+
+
+@keyframes cardEnter{
+
+
+    from{
+
+        opacity:0;
+
+        transform:
+
+        translateY(25px);
+
+    }
+
+
+    to{
+
+        opacity:1;
+
+        transform:
+
+        translateY(0);
+
+    }
+
+
+}
+
+
+
+
+
+
+
+
+
+/* QUESTION */
+
+
+.journey-card h1{
+
+
+    font-size:
+
+    clamp(
+        2rem,
+        4vw,
+        3rem
+    );
+
+
+    line-height:1.15;
+
+
+    letter-spacing:-1.5px;
+
+
+}
+
+
+
+.journey-card > p{
+
+
+    margin-top:15px;
+
+
+    color:
+
+    rgba(255,255,255,.65);
+
+
+    line-height:1.6;
+
+
+}
+
+
+
+
+
+
+
+
+
+/* OPTIONS */
+
+
+.journey-options{
+
+
+    margin-top:35px;
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+    repeat(2,1fr);
+
+
+    gap:16px;
+
+
+}
+
+
+
+
+
+
+
+.journey-options button{
+
+
+    min-height:70px;
+
+
+    padding:18px;
+
+
+    border-radius:22px;
+
+
+    border:
+
+    1px solid rgba(255,255,255,.15);
+
+
+    background:
+
+
+    rgba(255,255,255,.06);
+
+
+    color:white;
+
+
+    cursor:pointer;
+
+
+    text-align:left;
+
+
+    font-size:1rem;
+
+
+    transition:.3s ease;
+
+
+}
+
+
+
+
+
+
+.journey-options button:hover{
+
+
+    background:
+
+    rgba(255,255,255,.12);
+
+
+    transform:
+
+    translateY(-3px);
+
+
+}
+
+
+
+
+
+
+
+.journey-options button.active{
+
+
+    background:white;
+
+
+    color:#0f172a;
+
+
+    border-color:white;
+
+
+    box-shadow:
+
+    0 15px 35px rgba(0,0,0,.2);
+
+
+}
+
+
+
+
+
+
+
+
+
+/* ACTIONS */
+
+
+.journey-actions{
+
+
+    margin-top:35px;
+
+
+    display:flex;
+
+
+    justify-content:space-between;
+
+
+    gap:20px;
+
+
+}
+
+
+
+
+
+.journey-actions button{
+
+
+    height:52px;
+
+
+    padding:0 28px;
+
+
+    border-radius:999px;
+
+
+    border:none;
+
+
+    cursor:pointer;
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    gap:10px;
+
+
+    font-weight:600;
+
+
+    transition:.3s ease;
+
+
+}
+
+
+
+
+
+.journey-actions button:first-child{
+
+
+    background:
+
+    rgba(255,255,255,.1);
+
+
+    color:white;
+
+
+    border:
+
+    1px solid rgba(255,255,255,.15);
+
+
+}
+
+
+
+
+
+.journey-actions button:last-child{
+
+
+    background:white;
+
+
+    color:#0f172a;
+
+
+}
+
+
+
+
+
+.journey-actions button:hover{
+
+
+    transform:
+
+    translateY(-3px);
+
+
+}
+
+
+.journey-actions button:disabled{
+
+
+    opacity:.35;
+
+    cursor:not-allowed;
+
+}
+
+
+/* =====================================
+   QUESTION TRANSITIONS
+===================================== */
+
+
+.journey-card{
+
+    animation-duration:.45s;
+
+    animation-timing-function:
+    cubic-bezier(.22,1,.36,1);
+
+}
+
+
+
+.journey-card.next{
+
+
+    animation-name:
+    slideNext;
+
+
+}
+
+
+
+.journey-card.back{
+
+
+    animation-name:
+    slideBack;
+
+
+}
+
+
+
+
+
+@keyframes slideNext{
+
+
+from{
+
+
+    opacity:0;
+
+
+    transform:
+
+    translateX(60px)
+
+    scale(.98);
+
+
+}
+
+
+
+to{
+
+
+    opacity:1;
+
+
+    transform:
+
+    translateX(0)
+
+    scale(1);
+
+
+}
+
+
+}
+
+
+
+
+
+@keyframes slideBack{
+
+
+from{
+
+
+    opacity:0;
+
+
+    transform:
+
+    translateX(-60px)
+
+    scale(.98);
+
+
+}
+
+
+
+to{
+
+
+    opacity:1;
+
+
+    transform:
+
+    translateX(0)
+
+    scale(1);
+
+
+}
+
+
+}
+
+
+/* =====================================
+   COMPACT JOURNEY MOBILE
+===================================== */
+
+
+@media(max-width:600px){
+
+
+.assessmentJourney{
+
+
+    padding:
+
+    35px 16px;
+
+
+    min-height:auto;
+
+
+}
+
+
+
+
+.journey-container{
+
+
+    width:100%;
+
+
+}
+
+
+
+
+/* TOP */
+
+
+.journey-top{
+
+
+    margin-bottom:15px;
+
+
+}
+
+
+
+
+.journey-top span{
+
+
+    padding:
+
+    7px 12px;
+
+
+    font-size:.75rem;
+
+
+}
+
+
+
+
+/* PROGRESS */
+
+
+.journey-progress{
+
+
+    height:6px;
+
+
+    margin-bottom:20px;
+
+
+}
+
+
+
+
+
+
+/* CARD */
+
+
+.journey-card{
+
+
+    padding:22px 18px;
+
+
+    border-radius:24px;
+
+
+}
+
+
+
+
+.journey-card h1{
+
+
+    font-size:1.55rem;
+
+
+    letter-spacing:-.5px;
+
+
+}
+
+
+
+.journey-card p{
+
+
+    font-size:.85rem;
+
+
+    margin-top:10px;
+
+
+}
+
+
+
+
+
+
+/* OPTIONS */
+
+
+.journey-options{
+
+
+    margin-top:22px;
+
+
+    gap:10px;
+
+
+}
+
+
+
+
+.journey-options button{
+
+
+    min-height:55px;
+
+
+    padding:14px;
+
+
+    border-radius:16px;
+
+
+    font-size:.9rem;
+
+
+}
+
+
+
+
+
+
+/* ACTIONS */
+
+
+.journey-actions{
+
+
+    position:sticky;
+
+
+    bottom:10px;
+
+
+    margin-top:25px;
+
+
+    padding-top:10px;
+
+
+}
+
+
+
+
+.journey-actions button{
+
+
+    height:48px;
+
+
+    padding:0 20px;
+
+
+    font-size:.9rem;
+
+
+}
+
+
+
+}

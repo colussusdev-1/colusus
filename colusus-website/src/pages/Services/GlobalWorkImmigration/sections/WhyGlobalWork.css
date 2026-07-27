@@ -1,0 +1,845 @@
+/* =====================================================
+   WHY GLOBAL WORK
+===================================================== */
+
+.why-global {
+
+    position: relative;
+
+    padding: 5rem 0;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(circle at 10% 20%,
+            rgba(37, 99, 235, .08),
+            transparent 40%),
+
+        radial-gradient(circle at 90% 10%,
+            rgba(0, 86, 179, .06),
+            transparent 45%),
+
+        linear-gradient(180deg,
+            #ffffff,
+            #f8fafc);
+}
+
+
+/* soft background glow */
+
+.why-global::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+
+    height: 500px;
+
+    top: -200px;
+
+    left: -200px;
+
+    background:
+        radial-gradient(circle,
+            rgba(37, 99, 235, .12),
+            transparent 70%);
+
+    filter: blur(80px);
+
+    pointer-events: none;
+}
+
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
+
+.why-global .container {
+
+    position: relative;
+
+    z-index: 2;
+
+}
+
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+
+.why-global-header {
+
+    max-width: 720px;
+
+    margin: 0 auto 3.5rem;
+
+    text-align: center;
+
+}
+
+
+
+.why-global-tag {
+
+
+    display: inline-flex;
+
+    align-items: center;
+
+
+    padding: .55rem 1.1rem;
+
+
+    border-radius: 999px;
+
+
+    background:
+        rgba(37, 99, 235, .08);
+
+
+    border:
+        1px solid rgba(37, 99, 235, .12);
+
+
+    color: #2563eb;
+
+
+    font-size: .75rem;
+
+
+    font-weight: 700;
+
+
+    letter-spacing: .12em;
+
+
+    margin-bottom: 1.2rem;
+
+}
+
+
+
+
+.why-global-header h2 {
+
+
+    font-size:
+        clamp(2rem, 4vw, 3.2rem);
+
+
+    line-height: 1.15;
+
+
+    color: #0f172a;
+
+
+    font-weight: 800;
+
+
+    margin-bottom: 1rem;
+
+}
+
+
+
+
+.why-global-header h2 span {
+
+
+    display: block;
+
+
+    color: #2563eb;
+
+}
+
+
+
+
+.why-global-header p {
+
+
+    max-width: 620px;
+
+
+    margin: 0 auto;
+
+
+    color: #64748b;
+
+
+    font-size: 1rem;
+
+
+    line-height: 1.8;
+
+}
+
+
+
+/* =====================================================
+   GRID
+===================================================== */
+
+
+.why-grid {
+
+
+    display: grid;
+
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+
+    gap: 1.2rem;
+
+
+}
+
+
+
+
+/* =====================================================
+   CARD
+===================================================== */
+
+
+.why-card {
+
+
+    position: relative;
+
+
+    padding: 1.8rem 1.4rem;
+
+
+    min-height: 240px;
+
+
+    display: flex;
+
+
+    flex-direction: column;
+
+
+    justify-content: flex-start;
+
+
+    text-align: center;
+
+
+    overflow: hidden;
+
+
+
+    border-radius: 24px;
+
+
+
+    background:
+        rgba(255, 255, 255, .65);
+
+
+
+    border:
+        1px solid rgba(255, 255, 255, .8);
+
+
+
+    backdrop-filter:
+        blur(18px);
+
+
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+
+
+    box-shadow:
+
+
+        0 15px 45px rgba(15, 23, 42, .06);
+
+
+
+    transition:
+        transform .35s ease,
+        box-shadow .35s ease,
+        border-color .35s ease;
+
+
+}
+
+
+
+.why-card::before {
+
+
+    content: "";
+
+
+    position: absolute;
+
+
+    inset: 0;
+
+
+    background:
+
+        linear-gradient(120deg,
+
+            rgba(255, 255, 255, .7),
+
+            transparent 45%);
+
+
+    opacity: .5;
+
+
+    pointer-events: none;
+
+}
+
+
+
+.why-card:hover {
+
+
+    transform:
+        translateY(-8px);
+
+
+
+    border-color:
+        rgba(37, 99, 235, .2);
+
+
+
+    box-shadow:
+
+        0 25px 60px rgba(15, 23, 42, .12);
+
+}
+
+.why-card-files {
+
+    position: absolute;
+
+    top: 18px;
+
+    right: 20px;
+
+    width: 65px;
+
+    height: 55px;
+
+    opacity: .8;
+
+}
+
+
+
+.why-card-files span {
+
+    position: absolute;
+
+    width: 45px;
+
+    height: 34px;
+
+    border-radius: 8px;
+
+    background:
+        rgba(255, 255, 255, .5);
+
+    border:
+        1px solid rgba(255, 255, 255, .8);
+
+    backdrop-filter: blur(10px);
+
+    transition: .45s ease;
+
+}
+
+
+
+.why-card-files span:nth-child(1) {
+
+    top: 0;
+
+    right: 0;
+
+}
+
+
+
+.why-card-files span:nth-child(2) {
+
+    top: 8px;
+
+    right: 9px;
+
+}
+
+
+
+.why-card-files span:nth-child(3) {
+
+    top: 16px;
+
+    right: 18px;
+
+}
+
+
+
+
+.why-card:hover .why-card-files span:nth-child(1) {
+
+    transform:
+        translate(15px, -8px) rotate(12deg);
+
+}
+
+
+
+.why-card:hover .why-card-files span:nth-child(2) {
+
+    transform:
+        translate(8px, -3px) rotate(5deg);
+
+}
+
+
+
+.why-card:hover .why-card-files span:nth-child(3) {
+
+    transform:
+        translate(-4px, 5px);
+
+}
+
+/* =====================================================
+   ICON
+===================================================== */
+
+
+.why-icon {
+
+
+    width: 58px;
+
+
+    height: 58px;
+
+
+    display: flex;
+
+
+    align-items: center;
+
+
+    justify-content: center;
+
+
+
+    margin: 0 auto 1.2rem;
+
+
+
+    border-radius: 18px;
+
+
+
+    background:
+
+        rgba(37, 99, 235, .08);
+
+
+
+    color: #2563eb;
+
+
+
+    font-size: 1.6rem;
+
+
+
+    transition: .35s ease;
+
+
+}
+
+
+
+
+.why-card:hover .why-icon {
+
+
+    background: #2563eb;
+
+
+    color: #ffffff;
+
+
+    transform:
+        scale(1.08);
+
+
+}
+
+
+
+/* =====================================================
+   CONTENT
+===================================================== */
+
+
+.why-content h3 {
+
+
+    font-size: 1.05rem;
+
+
+    font-weight: 750;
+
+
+    color: #0f172a;
+
+
+    margin-bottom: .6rem;
+
+
+}
+
+
+
+
+.why-content p {
+
+
+    color: #64748b;
+
+
+    font-size: .9rem;
+
+
+    line-height: 1.65;
+
+
+}
+
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+
+@media(max-width:1000px) {
+
+
+    .why-grid {
+
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+
+}
+
+
+
+@media(max-width:600px) {
+
+
+    .why-global {
+
+
+        padding: 4rem 0;
+
+    }
+
+
+
+    .why-global-header {
+
+
+        margin-bottom: 2.5rem;
+
+    }
+
+
+
+    .why-global-header h2 {
+
+
+        font-size: 2rem;
+
+    }
+
+
+
+    .why-grid {
+
+
+        grid-template-columns: 1fr;
+
+
+    }
+
+
+
+    .why-card {
+
+
+        min-height: auto;
+
+
+        padding: 1.6rem 1.3rem;
+
+
+        border-radius: 20px;
+
+    }
+
+
+
+    .why-icon {
+
+
+        width: 52px;
+
+        height: 52px;
+
+
+        font-size: 1.4rem;
+
+    }
+
+
+}
+
+/* =====================================================
+   CARD THEMES
+===================================================== */
+
+
+.why-card.blue::after{
+
+    background:
+    radial-gradient(
+        circle,
+        rgba(37,99,235,.18),
+        transparent 65%
+    );
+
+}
+
+
+.why-card.green::after{
+
+    background:
+    radial-gradient(
+        circle,
+        rgba(16,185,129,.18),
+        transparent 65%
+    );
+
+}
+
+
+
+.why-card.orange::after{
+
+    background:
+    radial-gradient(
+        circle,
+        rgba(249,115,22,.18),
+        transparent 65%
+    );
+
+}
+
+
+
+.why-card.purple::after{
+
+    background:
+    radial-gradient(
+        circle,
+        rgba(139,92,246,.18),
+        transparent 65%
+    );
+
+}
+
+
+
+.why-card::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:220px;
+
+    height:220px;
+
+    bottom:-120px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+
+    filter:blur(40px);
+
+
+    opacity:.7;
+
+
+    pointer-events:none;
+
+}
+
+
+/* =====================================================
+   CARD ENTRANCE + FLOAT
+===================================================== */
+
+
+.why-card {
+
+    animation: whyReveal .7s ease forwards;
+
+    opacity:0;
+
+    transform:
+        translateY(35px);
+
+}
+
+
+
+.why-card:nth-child(1){
+
+    animation-delay:.1s;
+
+}
+
+
+.why-card:nth-child(2){
+
+    animation-delay:.2s;
+
+}
+
+
+.why-card:nth-child(3){
+
+    animation-delay:.3s;
+
+}
+
+
+.why-card:nth-child(4){
+
+    animation-delay:.4s;
+
+}
+
+
+
+
+@keyframes whyReveal {
+
+
+    from {
+
+        opacity:0;
+
+        transform:
+            translateY(35px);
+
+    }
+
+
+    to {
+
+        opacity:1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+
+
+
+/* =====================================================
+   DOCUMENT FLOATING MOTION
+===================================================== */
+
+
+.why-card-files {
+
+
+    animation:
+
+        fileFloat 5s ease-in-out infinite;
+
+
+}
+
+
+
+@keyframes fileFloat {
+
+
+    0%,
+    100% {
+
+        transform:
+            translateY(0);
+
+    }
+
+
+    50% {
+
+        transform:
+            translateY(-6px);
+
+    }
+
+}
+
+.why-card:hover {
+
+    transform:
+
+        translateY(-10px);
+
+}
+
+
+.why-card:hover .why-card-files {
+
+
+    animation-play-state:paused;
+
+
+}

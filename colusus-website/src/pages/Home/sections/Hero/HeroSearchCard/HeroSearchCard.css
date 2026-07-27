@@ -1,0 +1,531 @@
+/* =====================================================
+   HERO CARD BASE
+===================================================== */
+
+
+.hero-card{
+
+    width:100%;
+
+    max-width:380px;
+
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+
+    border-radius:28px;
+
+
+    overflow:hidden;
+
+
+    transition:
+
+    height .6s cubic-bezier(.2,.8,.2,1),
+
+    transform .35s ease,
+
+    box-shadow .35s ease;
+
+
+}
+
+
+
+
+
+
+/* =====================================================
+   FORM STATE
+===================================================== */
+
+
+.hero-card-form{
+
+
+    min-height:520px;
+
+
+    padding:1.5rem;
+
+
+    background:
+
+    rgba(255,255,255,.88);
+
+
+    backdrop-filter:
+
+    blur(22px);
+
+
+    -webkit-backdrop-filter:
+
+    blur(22px);
+
+
+
+    border:
+
+    1px solid rgba(255,255,255,.55);
+
+
+
+    box-shadow:
+
+    0 25px 70px rgba(0,0,0,.12),
+
+    0 10px 30px rgba(0,0,0,.05);
+
+
+}
+
+
+
+
+
+
+.hero-card-form:hover{
+
+
+    transform:
+
+    translateY(-6px);
+
+
+
+    box-shadow:
+
+    0 35px 90px rgba(0,0,0,.16);
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   RESULT CARD
+===================================================== */
+
+
+.hero-card-result{
+
+
+    padding:1.5rem;
+
+
+    background:
+
+    rgba(255,255,255,.94);
+
+
+
+    backdrop-filter:
+
+    blur(24px);
+
+
+
+    -webkit-backdrop-filter:
+
+    blur(24px);
+
+
+
+    border:
+
+    1px solid rgba(255,255,255,.65);
+
+
+
+    box-shadow:
+
+    0 25px 70px rgba(0,0,0,.12);
+
+
+
+    animation:
+
+    resultCardMorph .7s cubic-bezier(.2,.8,.2,1);
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   RESULT HEIGHT STATES
+===================================================== */
+
+
+.hero-card-result.step-1{
+
+
+    min-height:380px;
+
+
+}
+
+
+
+
+.hero-card-result.step-2{
+
+
+    min-height:420px;
+
+
+}
+
+
+
+
+.hero-card-result.step-3{
+
+
+    min-height:360px;
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   RESULT CONTENT
+===================================================== */
+
+
+.eligibility-result{
+
+
+    width:100%;
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    justify-content:center;
+
+
+
+    text-align:center;
+
+
+}
+
+
+
+
+
+
+
+.result-content{
+
+
+    width:100%;
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   CTA BUTTON
+===================================================== */
+
+
+.consult-btn{
+
+
+    width:100%;
+
+
+    height:52px;
+
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    justify-content:center;
+
+
+
+    gap:.6rem;
+
+
+
+    border:none;
+
+
+    border-radius:15px;
+
+
+
+    cursor:pointer;
+
+
+
+    background:
+
+
+    linear-gradient(
+
+        135deg,
+
+        #020617,
+
+        #111827
+
+    );
+
+
+
+    color:white;
+
+
+
+    font-size:.88rem;
+
+
+    font-weight:800;
+
+
+
+    transition:.35s ease;
+
+
+}
+
+
+
+
+
+
+.consult-btn:hover{
+
+
+    transform:
+
+    translateY(-3px);
+
+
+
+    box-shadow:
+
+    0 20px 45px rgba(2,6,23,.25);
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   STEP CHANGE ANIMATION
+===================================================== */
+
+
+.sequence-item{
+
+
+    animation:
+
+    stepReplace .65s cubic-bezier(.2,.8,.2,1);
+
+
+}
+
+
+
+
+
+@keyframes stepReplace{
+
+
+    from{
+
+
+        opacity:0;
+
+
+        transform:
+
+        translateY(25px)
+
+        scale(.96);
+
+
+
+        filter:blur(6px);
+
+
+    }
+
+
+
+
+    to{
+
+
+        opacity:1;
+
+
+        transform:
+
+        translateY(0)
+
+        scale(1);
+
+
+
+        filter:blur(0);
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+
+@keyframes resultCardMorph{
+
+
+    from{
+
+
+        opacity:0;
+
+
+        transform:
+
+        scale(.96);
+
+
+    }
+
+
+
+    to{
+
+
+        opacity:1;
+
+
+        transform:
+
+        scale(1);
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+
+@media(max-width:768px){
+
+
+    .hero-card-form,
+    .hero-card-result{
+
+
+        max-width:100%;
+
+
+        border-radius:24px;
+
+
+    }
+
+
+
+    .hero-card-form{
+
+
+        min-height:500px;
+
+
+        padding:1.25rem;
+
+
+    }
+
+
+}
+
+
+
+
+@media(max-width:480px){
+
+
+    .hero-card-form,
+    .hero-card-result{
+
+
+        border-radius:22px;
+
+
+    }
+
+
+
+    .hero-card-form{
+
+
+        min-height:460px;
+
+
+        padding:1rem;
+
+
+    }
+
+
+
+}

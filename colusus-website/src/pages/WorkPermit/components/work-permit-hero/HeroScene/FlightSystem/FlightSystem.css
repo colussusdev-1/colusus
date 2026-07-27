@@ -1,0 +1,207 @@
+/* ==========================================================
+   FLIGHT SYSTEM
+========================================================== */
+
+.flight-system{
+
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    width:360px;
+    height:360px;
+
+    transform:translate(-50%,-50%);
+
+    pointer-events:none;
+
+    z-index:30;
+}
+
+/* ==========================================================
+   ORBIT
+========================================================== */
+
+.flight-orbit{
+
+    position:absolute;
+
+    inset:0;
+
+    border-radius:50%;
+
+    animation:orbitFlight 16s linear infinite;
+}
+
+/* ==========================================================
+   PLANE
+========================================================== */
+
+.flight-plane{
+
+    position:absolute;
+
+    top:-20px;
+    left:50%;
+
+    transform:translateX(-50%) rotate(90deg);
+
+    width:42px;
+    height:42px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.10);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    backdrop-filter:blur(12px);
+
+    -webkit-backdrop-filter:blur(12px);
+
+    color:#ffffff;
+
+    font-size:18px;
+
+    box-shadow:
+        0 0 25px rgba(0,174,239,.35),
+        inset 0 0 10px rgba(255,255,255,.08);
+
+    overflow:visible;
+}
+
+/* ==========================================================
+   ENGINE GLOW
+========================================================== */
+
+.flight-plane::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:-8px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,174,239,.45),
+            transparent 70%
+        );
+
+    animation:enginePulse 2.5s ease-in-out infinite;
+
+    z-index:-1;
+}
+
+/* ==========================================================
+   FLIGHT TRAIL
+========================================================== */
+
+.flight-trail{
+
+    position:absolute;
+
+    top:0;
+    left:50%;
+
+    width:2px;
+    height:90px;
+
+    transform:translateX(-50%);
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0,174,239,.85),
+            rgba(0,174,239,.25),
+            transparent
+        );
+
+    filter:blur(1px);
+
+    opacity:.8;
+}
+
+/* ==========================================================
+   ORBIT ROTATION
+========================================================== */
+
+@keyframes orbitFlight{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+/* ==========================================================
+   ENGINE PULSE
+========================================================== */
+
+@keyframes enginePulse{
+
+    0%,100%{
+
+        opacity:.35;
+
+        transform:scale(.85);
+
+    }
+
+    50%{
+
+        opacity:1;
+
+        transform:scale(1.25);
+
+    }
+
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width:768px){
+
+    .flight-system{
+
+        width:280px;
+        height:280px;
+
+    }
+
+    .flight-plane{
+
+        width:34px;
+        height:34px;
+
+        font-size:15px;
+
+        top:-17px;
+
+    }
+
+    .flight-trail{
+
+        height:70px;
+
+    }
+
+}

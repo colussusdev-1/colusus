@@ -1,0 +1,387 @@
+/* ==========================================================
+   DASHBOARD
+========================================================== */
+
+.dashboard{
+
+    position:relative;
+    overflow:hidden;
+
+    width:340px;
+
+    display:flex;
+    flex-direction:column;
+
+    gap:1.4rem;
+
+    padding:1.5rem;
+
+    border-radius:22px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(6,12,24,.86),
+            rgba(10,18,34,.72)
+        );
+
+    border:1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(26px);
+    -webkit-backdrop-filter:blur(26px);
+
+    box-shadow:
+        0 24px 70px rgba(0,0,0,.45),
+        0 0 45px rgba(0,86,179,.08);
+
+    color:var(--white);
+}
+
+/* ==========================================================
+   AMBIENT GLOW
+========================================================== */
+
+.dashboard::before{
+
+    content:"";
+
+    position:absolute;
+    inset:0;
+
+    background:
+
+        radial-gradient(
+            circle at top left,
+            rgba(0,174,239,.12),
+            transparent 45%
+        ),
+
+        radial-gradient(
+            circle at bottom right,
+            rgba(0,86,179,.10),
+            transparent 55%
+        );
+
+    pointer-events:none;
+}
+
+/* ==========================================================
+   CORE
+========================================================== */
+
+.dashboard-core{
+
+    position:relative;
+    z-index:2;
+
+    display:flex;
+    flex-direction:column;
+
+    gap:1rem;
+}
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.core-top{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.core-badge{
+
+    display:inline-flex;
+    align-items:center;
+
+    padding:.42rem .85rem;
+
+    border-radius:999px;
+
+    background:rgba(255,255,255,.05);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    color:var(--accent);
+
+    font-size:.72rem;
+    font-weight:600;
+
+    letter-spacing:.04em;
+}
+
+.core-status{
+
+    display:flex;
+    align-items:center;
+    gap:.45rem;
+
+    color:rgba(255,255,255,.72);
+
+    font-size:.78rem;
+}
+
+.core-status::before{
+
+    content:"";
+
+    width:8px;
+    height:8px;
+
+    border-radius:50%;
+
+    background:var(--success);
+
+    box-shadow:0 0 14px rgba(22,163,74,.6);
+}
+
+/* ==========================================================
+   SCORE
+========================================================== */
+
+.core-body{
+
+    display:flex;
+    align-items:center;
+
+    gap:1rem;
+}
+
+.core-score{
+
+    font-size:2.8rem;
+    font-weight:800;
+
+    line-height:1;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff,
+            #9fdcff
+        );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.core-text{
+
+    display:flex;
+    flex-direction:column;
+    gap:.35rem;
+}
+
+.core-text h3{
+
+    margin:0;
+
+    color:var(--white);
+
+    font-size:1rem;
+    font-weight:700;
+}
+
+.core-text p{
+
+    margin:0;
+
+    color:rgba(255,255,255,.60);
+
+    font-size:.82rem;
+
+    line-height:1.5;
+}
+
+/* ==========================================================
+   PATH
+========================================================== */
+
+.dashboard-path{
+
+    position:relative;
+    z-index:2;
+
+    display:flex;
+    flex-direction:column;
+
+    gap:.7rem;
+}
+
+.path-title{
+
+    color:rgba(255,255,255,.45);
+
+    font-size:.8rem;
+
+    text-transform:uppercase;
+
+    letter-spacing:.08em;
+}
+
+.path-card{
+
+    display:flex;
+    align-items:center;
+
+    gap:.9rem;
+
+    padding:.9rem;
+
+    border-radius:16px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.05),
+            rgba(255,255,255,.025)
+        );
+
+    border:1px solid rgba(255,255,255,.06);
+
+    transition:.35s ease;
+}
+
+.path-card:hover{
+
+    border-color:rgba(0,174,239,.22);
+
+    transform:translateY(-2px);
+}
+
+.path-flag{
+
+    font-size:1.5rem;
+
+    flex-shrink:0;
+}
+
+.path-info{
+
+    flex:1;
+}
+
+.path-info strong{
+
+    display:block;
+
+    color:var(--white);
+
+    font-size:.9rem;
+    font-weight:600;
+}
+
+.path-info small{
+
+    display:block;
+
+    margin-top:.2rem;
+
+    color:rgba(255,255,255,.55);
+
+    font-size:.75rem;
+}
+
+.path-dot{
+
+    width:10px;
+    height:10px;
+
+    border-radius:50%;
+
+    background:var(--accent);
+
+    box-shadow:
+        0 0 18px rgba(0,174,239,.75);
+}
+
+/* ==========================================================
+   ACTION
+========================================================== */
+
+.dashboard-action{
+
+    position:relative;
+    z-index:2;
+
+    display:flex;
+    flex-direction:column;
+
+    gap:.9rem;
+}
+
+.dashboard-action p{
+
+    margin:0;
+
+    color:rgba(255,255,255,.60);
+
+    font-size:.82rem;
+
+    line-height:1.6;
+}
+
+/* ==========================================================
+   BUTTON
+========================================================== */
+
+.dashboard-btn{
+
+    width:100%;
+    height:48px;
+
+    border:none;
+    cursor:pointer;
+
+    border-radius:14px;
+
+    font-size:.9rem;
+    font-weight:600;
+
+    color:var(--white);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--primary-light)
+        );
+
+    transition:all .3s ease;
+
+    box-shadow:
+        0 12px 30px rgba(0,86,179,.25);
+}
+
+.dashboard-btn:hover{
+
+    transform:translateY(-2px);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary-light),
+            var(--accent)
+        );
+
+    box-shadow:
+        0 18px 36px rgba(0,174,239,.30);
+}
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media (max-width:768px){
+
+    .dashboard{
+
+        width:100%;
+        max-width:360px;
+
+        margin:0 auto;
+    }
+
+}

@@ -1,0 +1,248 @@
+/* =====================================================
+   HEADER
+===================================================== */
+
+.hero-card-header{
+    margin-bottom:1.4rem;
+}
+
+.card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:1rem;
+}
+
+.card-badge{
+    display:inline-flex;
+    align-items:center;
+    padding:.45rem .9rem;
+
+    border-radius:999px;
+
+    background:
+    rgba(38,118,255,.08);
+
+    color:var(--primary);
+
+    font-size:.72rem;
+    font-weight:800;
+}
+
+.card-time{
+    color:var(--text);
+    font-size:.75rem;
+    font-weight:600;
+}
+
+.hero-card-header h3{
+    margin:0 0 .7rem;
+
+    font-size:1.7rem;
+    line-height:1.2;
+
+    color:var(--heading);
+
+    font-weight:900;
+}
+
+.hero-card-header p{
+    margin:0;
+
+    color:var(--text);
+
+    font-size:.92rem;
+    line-height:1.7;
+}
+
+
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.hero-form{
+    display:flex;
+    flex-direction:column;
+    gap:.9rem;
+}
+
+
+
+/* =====================================================
+   INPUTS
+===================================================== */
+
+.input-icon{
+    position:relative;
+}
+
+.input-icon svg{
+    position:absolute;
+
+    left:16px;
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:var(--primary);
+
+    font-size:18px;
+
+    z-index:2;
+}
+
+.input-icon select{
+    width:100%;
+    height:56px;
+
+    padding-left:46px;
+    padding-right:1rem;
+
+    border:1px solid #e5e7eb;
+    border-radius:16px;
+
+    background:white;
+
+    color:var(--heading);
+
+    font-size:.9rem;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s ease;
+}
+
+.input-icon select:hover{
+    border-color:var(--primary);
+}
+
+.input-icon select:focus{
+    outline:none;
+
+    border-color:var(--primary);
+
+    box-shadow:
+    0 0 0 4px rgba(38,118,255,.12);
+}
+
+
+
+/* =====================================================
+   CTA BUTTON
+===================================================== */
+
+.hero-submit{
+    height:58px;
+
+    margin-top:.3rem;
+
+    border:none;
+    border-radius:18px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:.6rem;
+
+    cursor:pointer;
+
+    background:
+    linear-gradient(
+        135deg,
+        var(--primary),
+        #4f8dff
+    );
+
+    color:white;
+
+    font-size:.92rem;
+    font-weight:800;
+
+    transition:.35s ease;
+}
+
+.hero-submit:hover{
+    transform:translateY(-3px);
+
+    box-shadow:
+    0 18px 40px rgba(38,118,255,.28);
+}
+
+.hero-submit svg{
+    transition:.3s ease;
+}
+
+.hero-submit:hover svg{
+    transform:translateX(5px);
+}
+
+
+
+/* =====================================================
+   TRUST STRIP
+===================================================== */
+
+.hero-card-footer{
+    margin-top:1.4rem;
+
+    padding-top:1rem;
+
+    border-top:
+    1px solid #edf2f7;
+
+    display:flex;
+    justify-content:space-between;
+    gap:.5rem;
+}
+
+.hero-card-footer div{
+    font-size:.72rem;
+
+    color:var(--text);
+
+    font-weight:600;
+
+    text-align:center;
+}
+
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:768px){
+
+    .hero-card-header h3{
+        font-size:1.45rem;
+    }
+
+    .hero-card-header p{
+        font-size:.85rem;
+    }
+
+    .input-icon select{
+        height:54px;
+    }
+
+    .hero-card-footer{
+        gap:.3rem;
+    }
+
+    .hero-card-footer div{
+        font-size:.65rem;
+    }
+}
+
+@media(max-width:480px){
+
+    .hero-card-header h3{
+        font-size:1.3rem;
+    }
+
+    .hero-card-footer{
+        display:none;
+    }
+}

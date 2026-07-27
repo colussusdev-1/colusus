@@ -1,0 +1,166 @@
+/* ==========================================================
+   WORK PERMIT GLASS SYSTEM
+========================================================== */
+
+.work-permit .wp-glass {
+
+    position: relative;
+
+    background: var(--wp-surface-primary);
+
+    backdrop-filter: blur(var(--wp-blur-lg));
+    -webkit-backdrop-filter: blur(var(--wp-blur-lg));
+
+    border: 1px solid var(--wp-border-primary);
+
+    border-radius: var(--wp-radius-xl);
+
+    box-shadow: var(--wp-shadow-md);
+
+    overflow: hidden;
+
+    transition:
+        transform var(--wp-transition),
+        background var(--wp-transition),
+        border-color var(--wp-transition),
+        box-shadow var(--wp-transition);
+}
+
+/* ==========================================
+   TOP LIGHT REFLECTION
+========================================== */
+
+.work-permit .wp-glass::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:linear-gradient(
+        180deg,
+        rgba(255,255,255,.18),
+        transparent 45%
+    );
+
+    pointer-events:none;
+
+}
+
+/* ==========================================
+   BOTTOM GLOW
+========================================== */
+
+.work-permit .wp-glass::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:-20%;
+
+    bottom:-40%;
+
+    width:140%;
+
+    height:120%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(59,130,246,.12),
+            transparent 70%
+        );
+
+    opacity:.8;
+
+    pointer-events:none;
+
+}
+
+/* ==========================================
+   HOVER
+========================================== */
+
+.work-permit .wp-glass:hover{
+
+    background:var(--wp-surface-hover);
+
+    border-color:rgba(255,255,255,.22);
+
+    box-shadow:
+        var(--wp-shadow-lg),
+        var(--wp-shadow-glow);
+
+    transform:translateY(-6px);
+
+}
+
+/* ==========================================
+   GLASS SIZES
+========================================== */
+
+.work-permit .wp-glass-sm{
+
+    border-radius:var(--wp-radius-md);
+
+}
+
+.work-permit .wp-glass-lg{
+
+    border-radius:var(--wp-radius-2xl);
+
+}
+
+/* ==========================================
+   INTERACTIVE
+========================================== */
+
+.work-permit .wp-glass-clickable{
+
+    cursor:pointer;
+
+}
+
+.work-permit .wp-glass-clickable:active{
+
+    transform:scale(.98);
+
+}
+
+/* ==========================================
+   NO HOVER
+========================================== */
+
+.work-permit .wp-glass-static:hover{
+
+    transform:none;
+
+    box-shadow:var(--wp-shadow-md);
+
+    background:var(--wp-surface-primary);
+
+}
+
+/* ==========================================
+   OUTLINE VARIANT
+========================================== */
+
+.work-permit .wp-glass-outline{
+
+    background:transparent;
+
+    border:1px solid var(--wp-border-primary);
+
+}
+
+/* ==========================================
+   FILLED VARIANT
+========================================== */
+
+.work-permit .wp-glass-filled{
+
+    background:rgba(255,255,255,.12);
+
+}

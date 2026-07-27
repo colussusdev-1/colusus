@@ -1,0 +1,483 @@
+
+/* =====================================================
+   LEFT CONTENT
+===================================================== */
+
+.tvHeroContent{
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    gap:1.75rem;
+
+    max-width:620px;
+
+    width:100%;
+}
+
+/* Badge */
+
+.tvHeroContent__badge{
+
+    width:max-content;
+
+    padding:.7rem 1rem;
+
+    border-radius:999px;
+
+    background:rgba(37,99,235,.08);
+
+    color:#2563eb;
+
+    border:1px solid rgba(37,99,235,.15);
+
+    font-size:.78rem;
+
+    font-weight:700;
+
+    letter-spacing:.12em;
+}
+
+/* Heading */
+
+.tvHeroContent h1{
+
+    font-size:clamp(2.8rem,6vw,5rem);
+
+    line-height:1.05;
+
+    color:#0f172a;
+
+    font-weight:800;
+}
+
+.tvHeroContent h1 span{
+
+    display:block;
+
+    background:linear-gradient(135deg,#2563eb,#60a5fa);
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+}
+
+/* Paragraph */
+
+.tvHeroContent p{
+
+    font-size:1.08rem;
+
+    line-height:1.9;
+
+    color:#64748b;
+
+    max-width:560px;
+}
+
+/* Buttons */
+
+.tvHeroContent__buttons{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:1rem;
+}
+
+.tvHeroContent__primary,
+.tvHeroContent__secondary{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:.7rem;
+
+    text-decoration:none;
+
+    padding:1rem 1.6rem;
+
+    border-radius:18px;
+
+    font-weight:700;
+
+    transition:.35s;
+}
+
+.tvHeroContent__primary{
+
+    color:white;
+
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+
+    box-shadow:0 20px 45px rgba(37,99,235,.25);
+}
+
+.tvHeroContent__primary:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 25px 55px rgba(37,99,235,.35);
+}
+
+.tvHeroContent__secondary{
+
+    color:#0f172a;
+
+    background:white;
+
+    border:1px solid rgba(15,23,42,.08);
+}
+
+.tvHeroContent__secondary:hover{
+
+    transform:translateY(-4px);
+
+}
+
+/* Trust Strip */
+
+.tvHeroContent__trust{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:1rem;
+
+    padding:1rem;
+
+    border-radius:22px;
+
+    background:rgba(255,255,255,.75);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.8);
+
+    box-shadow:0 20px 40px rgba(15,23,42,.06);
+}
+
+.tvHeroContent__trust div{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:.55rem;
+
+    font-weight:600;
+
+    color:#334155;
+}
+
+.tvHeroContent__trust svg{
+
+    color:#2563eb;
+
+    font-size:1.1rem;
+}
+
+/* Rating */
+
+.tvHeroContent__rating{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:1rem;
+
+    padding:1.2rem 1.4rem;
+
+    border-radius:22px;
+
+    background:white;
+
+    border:1px solid rgba(15,23,42,.06);
+
+    box-shadow:0 18px 40px rgba(15,23,42,.05);
+}
+
+.tvHeroContent__stars{
+
+    display:flex;
+
+    gap:.25rem;
+
+    color:#f59e0b;
+
+    font-size:1.1rem;
+
+    flex-shrink:0;
+}
+
+.tvHeroContent__rating p{
+
+    margin:0;
+
+    font-size:.95rem;
+
+    line-height:1.7;
+
+    color:#64748b;
+}
+
+/* =======================================
+   TABLET
+======================================= */
+
+@media(max-width:992px){
+
+    .tvHeroContent{
+
+        max-width:100%;
+
+        align-items:center;
+
+        text-align:center;
+    }
+
+    .tvHeroContent p{
+
+        max-width:100%;
+    }
+
+    .tvHeroContent__buttons{
+
+        justify-content:center;
+    }
+
+    .tvHeroContent__trust{
+
+        justify-content:center;
+    }
+
+}
+
+/* =======================================
+   MOBILE
+======================================= */
+
+@media(max-width:768px){
+
+    .tvHeroContent{
+
+        gap:1.4rem;
+    }
+
+    .tvHeroContent h1{
+
+        font-size:2.5rem;
+    }
+
+    .tvHeroContent__buttons{
+
+        flex-direction:column;
+
+        width:100%;
+    }
+
+    .tvHeroContent__primary,
+    .tvHeroContent__secondary{
+
+        width:100%;
+    }
+
+    .tvHeroContent__trust{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+    }
+
+    .tvHeroContent__rating{
+
+        flex-direction:column;
+
+        text-align:left;
+    }
+
+}
+
+/* =======================================
+   SMALL MOBILE
+======================================= */
+
+@media(max-width:480px){
+
+    .tvHeroContent h1{
+
+        font-size:2.1rem;
+    }
+
+    .tvHeroContent__badge{
+
+        font-size:.72rem;
+    }
+
+    .tvHeroContent p{
+
+        font-size:1rem;
+    }
+
+    .tvHeroContent__trust{
+
+        padding:.9rem;
+    }
+
+}
+
+/* ==========================================
+   TESTIMONIAL CARD
+========================================== */
+
+.tvHeroContent__testimonial{
+
+    padding:1.4rem;
+
+    border-radius:24px;
+
+    background:rgba(255,255,255,.78);
+
+    backdrop-filter:blur(24px);
+
+    border:1px solid rgba(255,255,255,.8);
+
+    box-shadow:
+        0 20px 50px rgba(15,23,42,.07);
+
+    transition:.35s;
+}
+
+.tvHeroContent__testimonial:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:
+        0 30px 60px rgba(37,99,235,.12);
+
+}
+
+.tvHeroContent__testimonialTop{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:1rem;
+
+}
+
+.tvHeroContent__avatar{
+
+    width:52px;
+
+    height:52px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-weight:700;
+
+    color:white;
+
+    background:linear-gradient(135deg,#2563eb,#60a5fa);
+
+    flex-shrink:0;
+
+}
+
+.tvHeroContent__person{
+
+    flex:1;
+
+}
+
+.tvHeroContent__person h4{
+
+    margin:0;
+
+    color:#0f172a;
+
+    font-size:1rem;
+
+}
+
+.tvHeroContent__person span{
+
+    font-size:.85rem;
+
+    color:#64748b;
+
+}
+
+.tvHeroContent__verified{
+
+    color:#22c55e;
+
+    font-size:1.4rem;
+
+}
+
+.tvHeroContent__stars{
+
+    display:flex;
+
+    gap:.25rem;
+
+    color:#f59e0b;
+
+    margin:1rem 0 .8rem;
+
+}
+
+.tvHeroContent__quote{
+
+    margin:0;
+
+    color:#475569;
+
+    line-height:1.8;
+
+    font-size:.95rem;
+
+    font-style:italic;
+
+}
+
+@media (max-width:768px){
+
+    .tvHeroContent__testimonial{
+
+        padding:1.2rem;
+
+    }
+
+    .tvHeroContent__testimonialTop{
+
+        gap:.8rem;
+
+    }
+
+    .tvHeroContent__avatar{
+
+        width:46px;
+
+        height:46px;
+
+    }
+
+}

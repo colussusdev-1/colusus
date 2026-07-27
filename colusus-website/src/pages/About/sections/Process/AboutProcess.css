@@ -1,0 +1,511 @@
+
+/* =====================================================
+   ABOUT PROCESS (BASE)
+===================================================== */
+
+.about-process {
+
+    position: relative;
+
+    padding: 7rem 0;
+
+    background:
+        radial-gradient(circle at 10% 20%, rgba(0,86,179,.06), transparent 45%),
+        radial-gradient(circle at 90% 10%, rgba(0,86,179,.08), transparent 50%),
+        #ffffff;
+
+    overflow: hidden;
+}
+
+/* =====================================================
+   BACKGROUND LAYER (SOFT DEPTH)
+===================================================== */
+
+.about-process::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 700px;
+
+    height: 700px;
+
+    top: -280px;
+
+    right: -260px;
+
+    background: radial-gradient(circle, rgba(0,86,179,.10), transparent 70%);
+
+    filter: blur(90px);
+
+    pointer-events: none;
+}
+
+.about-process::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+
+    height: 500px;
+
+    bottom: -200px;
+
+    left: -200px;
+
+    background: radial-gradient(circle, rgba(0,86,179,.07), transparent 70%);
+
+    filter: blur(80px);
+
+    pointer-events: none;
+}
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
+.about-process .container {
+
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 1100px;
+
+    margin: 0 auto;
+}
+
+/* =====================================================
+   HEADER SECTION
+===================================================== */
+
+.about-process-header {
+
+    text-align: center;
+
+    max-width: 750px;
+
+    margin: 0 auto 5rem;
+}
+
+.about-process-tag {
+
+    display: inline-flex;
+
+    padding: .65rem 1.2rem;
+
+    border-radius: 999px;
+
+    background: rgba(0,86,179,.08);
+
+    color: var(--primary);
+
+    font-size: .78rem;
+
+    font-weight: 700;
+
+    letter-spacing: .08em;
+
+    margin-bottom: 1.3rem;
+}
+
+.about-process-header h2 {
+
+    font-size: clamp(2.3rem, 4vw, 3.4rem);
+
+    line-height: 1.1;
+
+    color: var(--heading);
+
+    margin-bottom: 1rem;
+}
+
+.about-process-header h2 span {
+
+    color: var(--primary);
+
+    display: inline-block;
+}
+
+.about-process-header p {
+
+    font-size: 1rem;
+
+    line-height: 1.9;
+
+    color: var(--text);
+
+    max-width: 600px;
+
+    margin: 0 auto;
+}
+
+/* =====================================================
+   TIMELINE
+===================================================== */
+
+.about-process-timeline {
+
+    max-width: 900px;
+
+    margin: 0 auto;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 1rem;
+}
+
+/* =====================================================
+   STEP
+===================================================== */
+
+.timeline-step {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 1.5rem;
+
+    position: relative;
+}
+
+/* =====================================================
+   LEFT SIDE
+===================================================== */
+
+.timeline-marker {
+
+    width: 60px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+}
+
+/* =====================================================
+   ICON NODE
+===================================================== */
+
+.timeline-dot {
+
+    width: 56px;
+
+    height: 56px;
+
+    border-radius: 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: rgba(0, 86, 179, .08);
+
+    border: 1px solid rgba(0, 86, 179, .15);
+
+    backdrop-filter: blur(16px);
+
+    -webkit-backdrop-filter: blur(16px);
+
+    color: var(--primary);
+
+    font-size: 1.35rem;
+
+    position: relative;
+
+    z-index: 2;
+
+    transition: all .35s ease;
+}
+
+.timeline-dot::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: -8px;
+
+    border-radius: 22px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,86,179,.15),
+            transparent 75%
+        );
+
+    opacity: 0;
+
+    transition: .35s ease;
+
+    z-index: -1;
+}
+
+/* =====================================================
+   CONNECTING LINE
+===================================================== */
+
+.timeline-line {
+
+    width: 2px;
+
+    flex: 1;
+
+    min-height: 90px;
+
+    margin-top: .75rem;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0,86,179,.35),
+            rgba(0,86,179,.08)
+        );
+}
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.timeline-card {
+
+    flex: 1;
+
+    padding: 1.25rem 1.5rem;
+
+    border-radius: 20px;
+
+    background: rgba(255,255,255,.78);
+
+    border: 1px solid rgba(0,86,179,.10);
+
+    backdrop-filter: blur(18px);
+
+    -webkit-backdrop-filter: blur(18px);
+
+    position: relative;
+
+    overflow: hidden;
+
+    transition: all .35s ease;
+}
+
+.timeline-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at left,
+            rgba(0,86,179,.08),
+            transparent 65%
+        );
+
+    pointer-events: none;
+}
+
+/* =====================================================
+   CONTENT
+===================================================== */
+
+.timeline-number {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: .4rem .8rem;
+
+    border-radius: 999px;
+
+    background: rgba(0,86,179,.08);
+
+    color: var(--primary);
+
+    font-size: .72rem;
+
+    font-weight: 700;
+
+    letter-spacing: .08em;
+
+    margin-bottom: .75rem;
+}
+
+.timeline-card h3 {
+
+    font-size: 1.15rem;
+
+    font-weight: 700;
+
+    color: var(--heading);
+
+    margin-bottom: .45rem;
+}
+
+.timeline-card p {
+
+    font-size: .95rem;
+
+    line-height: 1.7;
+
+    color: var(--text);
+
+    max-width: 600px;
+}
+
+/* =====================================================
+   HOVER
+===================================================== */
+
+.timeline-step:hover .timeline-card {
+
+    transform: translateY(-4px);
+
+    border-color: rgba(0,86,179,.22);
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.08);
+}
+
+.timeline-step:hover .timeline-dot {
+
+    transform: scale(1.08);
+}
+
+.timeline-step:hover .timeline-dot::before {
+
+    opacity: 1;
+}
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 992px) {
+
+    .timeline-step {
+
+        gap: 1rem;
+    }
+
+    .timeline-line {
+
+        min-height: 80px;
+    }
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .about-process {
+
+        padding: 5rem 0;
+    }
+
+    .about-process-header {
+
+        margin-bottom: 3rem;
+    }
+
+    .about-process-header h2 {
+
+        font-size: 2.2rem;
+    }
+
+    .timeline-marker {
+
+        width: 48px;
+    }
+
+    .timeline-dot {
+
+        width: 44px;
+
+        height: 44px;
+
+        border-radius: 14px;
+
+        font-size: 1rem;
+    }
+
+    .timeline-line {
+
+        min-height: 70px;
+
+        margin-top: .5rem;
+    }
+
+    .timeline-card {
+
+        padding: 1rem;
+    }
+
+    .timeline-number {
+
+        font-size: .65rem;
+
+        padding: .3rem .6rem;
+    }
+
+    .timeline-card h3 {
+
+        font-size: 1rem;
+    }
+
+    .timeline-card p {
+
+        font-size: .85rem;
+
+        line-height: 1.6;
+    }
+}
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 480px) {
+
+    .timeline-step {
+
+        gap: .85rem;
+    }
+
+    .timeline-dot {
+
+        width: 40px;
+
+        height: 40px;
+
+        font-size: .95rem;
+    }
+
+    .timeline-card {
+
+        padding: .95rem;
+    }
+
+    .timeline-card p {
+
+        font-size: .82rem;
+    }
+}

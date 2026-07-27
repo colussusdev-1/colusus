@@ -1,0 +1,592 @@
+/* ==================================================
+   JURISDICTIONS SECTION
+   Premium Information Layout
+================================================== */
+
+
+.jurisdictions{
+
+    position:relative;
+
+    padding:7rem 0;
+
+    background:
+
+    linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #f8fafc 100%
+    );
+
+    overflow:hidden;
+
+}
+
+
+/* subtle background glow */
+
+.jurisdictions::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:450px;
+
+    height:450px;
+
+    top:-200px;
+
+    right:-200px;
+
+    border-radius:50%;
+
+    background:
+
+    rgba(37,99,235,.08);
+
+    filter:blur(100px);
+
+}
+
+
+
+
+.jurisdictions-container{
+
+    position:relative;
+
+    z-index:2;
+
+    width:min(1200px,92%);
+
+    margin:auto;
+
+}
+
+
+
+
+
+/* ==================================================
+   HEADER
+================================================== */
+
+
+.jurisdictions-header{
+
+    max-width:720px;
+
+    margin:0 auto 4rem;
+
+    text-align:center;
+
+}
+
+
+
+.jurisdictions-header span{
+
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+
+    padding:.55rem 1.1rem;
+
+
+    border-radius:999px;
+
+
+    background:
+
+    rgba(37,99,235,.08);
+
+
+    color:#2563eb;
+
+
+    font-size:.75rem;
+
+
+    font-weight:800;
+
+
+    letter-spacing:.12em;
+
+
+    text-transform:uppercase;
+
+
+    margin-bottom:1.2rem;
+
+
+}
+
+
+
+.jurisdictions-header h2{
+
+
+    font-size:
+
+    clamp(2rem,4vw,3.2rem);
+
+
+    line-height:1.1;
+
+
+    letter-spacing:-1px;
+
+
+    color:#0f172a;
+
+
+    margin-bottom:1.2rem;
+
+
+}
+
+
+
+
+
+.jurisdictions-header p{
+
+
+    color:#64748b;
+
+
+    font-size:1rem;
+
+
+    line-height:1.8;
+
+
+}
+
+
+
+
+
+/* ==================================================
+   GRID
+================================================== */
+
+
+.jurisdictions-grid{
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+    repeat(3,1fr);
+
+
+    gap:1.5rem;
+
+
+}
+
+
+
+
+
+/* ==================================================
+   CTA
+================================================== */
+
+
+.jurisdictions-cta{
+
+
+    margin-top:5rem;
+
+
+    padding:3.5rem 2rem;
+
+
+    border-radius:35px;
+
+
+    text-align:center;
+
+
+    color:white;
+
+
+    background:
+
+
+    linear-gradient(
+        135deg,
+        #020617,
+        #0f172a 55%,
+        #1e40af
+    );
+
+
+    box-shadow:
+
+    0 30px 80px rgba(15,23,42,.18);
+
+
+    position:relative;
+
+
+    overflow:hidden;
+
+
+}
+
+
+
+
+
+.jurisdictions-cta::before{
+
+
+    content:"";
+
+
+    position:absolute;
+
+
+    width:300px;
+
+
+    height:300px;
+
+
+    right:-100px;
+
+
+    top:-120px;
+
+
+    background:
+
+    rgba(96,165,250,.25);
+
+
+    filter:blur(70px);
+
+
+}
+
+
+
+
+
+.jurisdictions-cta h3{
+
+
+    position:relative;
+
+
+    z-index:2;
+
+
+    max-width:650px;
+
+
+    margin:auto;
+
+
+    font-size:
+
+    clamp(1.6rem,3vw,2.3rem);
+
+
+    line-height:1.25;
+
+
+    letter-spacing:-.5px;
+
+
+}
+
+
+
+
+
+.jurisdictions-cta p{
+
+
+    position:relative;
+
+
+    z-index:2;
+
+
+    max-width:600px;
+
+
+    margin:1rem auto 2rem;
+
+
+    color:
+
+    rgba(255,255,255,.75);
+
+
+    line-height:1.8;
+
+
+}
+
+
+
+
+.jurisdictions-cta button{
+
+
+    position:relative;
+
+
+    z-index:2;
+
+
+    display:inline-flex;
+
+
+    align-items:center;
+
+
+    justify-content:center;
+
+
+    gap:.7rem;
+
+
+    height:55px;
+
+
+    padding:0 2rem;
+
+
+    border:none;
+
+
+    border-radius:999px;
+
+
+    background:white;
+
+
+    color:#0f172a;
+
+
+    font-weight:700;
+
+
+    cursor:pointer;
+
+
+    transition:.35s ease;
+
+
+}
+
+
+
+
+.jurisdictions-cta button:hover{
+
+
+    transform:translateY(-5px);
+
+
+    box-shadow:
+
+    0 20px 40px rgba(0,0,0,.2);
+
+
+}
+
+
+
+
+.jurisdictions-cta svg{
+
+
+    transition:.3s;
+
+
+}
+
+
+
+.jurisdictions-cta button:hover svg{
+
+
+    transform:translateX(5px);
+
+
+}
+
+
+
+
+
+/* ==================================================
+   TABLET
+================================================== */
+
+
+@media(max-width:1050px){
+
+
+    .jurisdictions-grid{
+
+
+        grid-template-columns:
+
+        repeat(2,1fr);
+
+    }
+
+
+}
+
+
+
+
+
+/* ==================================================
+   MOBILE
+================================================== */
+
+
+@media(max-width:768px){
+
+
+
+    .jurisdictions{
+
+
+        padding:5rem 0;
+
+    }
+
+
+
+
+    .jurisdictions-container{
+
+
+        width:92%;
+
+
+    }
+
+
+
+
+
+    .jurisdictions-header{
+
+
+        margin-bottom:2.5rem;
+
+
+    }
+
+
+
+
+    .jurisdictions-header h2{
+
+
+        font-size:2rem;
+
+
+    }
+
+
+
+
+
+    .jurisdictions-header p{
+
+
+        font-size:.92rem;
+
+
+    }
+
+
+
+
+
+    .jurisdictions-grid{
+
+
+        grid-template-columns:1fr;
+
+
+        gap:1rem;
+
+
+    }
+
+
+
+
+
+    .jurisdictions-cta{
+
+
+        margin-top:3rem;
+
+
+        padding:2.5rem 1.4rem;
+
+
+        border-radius:28px;
+
+
+    }
+
+
+
+
+    .jurisdictions-cta h3{
+
+
+        font-size:1.45rem;
+
+
+    }
+
+
+
+
+    .jurisdictions-cta p{
+
+
+        font-size:.9rem;
+
+
+    }
+
+
+
+
+
+    .jurisdictions-cta button{
+
+
+        width:100%;
+
+
+    }
+
+
+
+}

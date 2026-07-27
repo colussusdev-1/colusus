@@ -1,0 +1,312 @@
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    z-index: var(--z-sticky);
+
+    transition: all .35s ease;
+}
+
+/* Soft dark overlay while over hero */
+
+.navbar::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0,0,0,.35),
+            rgba(0,0,0,0)
+        );
+
+    opacity:1;
+
+    transition:.35s;
+
+    pointer-events:none;
+}
+
+/* Glass Navbar */
+
+.navbar.scrolled{
+
+    background:rgba(255,255,255,.78);
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    border-bottom:1px solid rgba(255,255,255,.4);
+
+    box-shadow:var(--shadow-md);
+}
+
+.navbar.scrolled::before{
+
+    opacity:0;
+}
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
+.navbar-container{
+
+    position:relative;
+
+    z-index:2;
+
+    height:90px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    transition:.35s ease;
+}
+
+.navbar.scrolled .navbar-container{
+
+    height:72px;
+}
+
+/* =====================================================
+   LOGO
+===================================================== */
+
+.logo{
+
+    display:flex;
+
+    align-items:center;
+
+    flex-shrink:0;
+}
+
+.logo img{
+
+    height:110px;
+
+    width:auto;
+
+    display:block;
+
+    transition:.35s ease;
+}
+
+.logo:hover img{
+
+    transform:scale(1.03);
+}
+
+.navbar.scrolled .logo img{
+
+    height:72px;
+}
+
+/* =====================================================
+   NAVIGATION LINKS
+===================================================== */
+
+/* Hero */
+
+.navbar:not(.scrolled) .nav-link{
+
+    color:rgba(255,255,255,.92);
+
+    transition:.3s;
+}
+
+.navbar:not(.scrolled) .nav-link:hover{
+
+    color:#fff;
+}
+
+/* Active */
+
+.navbar:not(.scrolled) .nav-link.active{
+
+    color:#fff;
+}
+
+/* Scrolled */
+
+.navbar.scrolled .nav-link{
+
+    color:var(--heading);
+}
+
+.navbar.scrolled .nav-link:hover{
+
+    color:var(--primary);
+}
+
+.navbar.scrolled .nav-link.active{
+
+    color:var(--primary);
+}
+
+/* =====================================================
+   RIGHT ACTIONS
+===================================================== */
+
+.nav-actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:.8rem;
+
+    flex-shrink:0;
+}
+
+/* =====================================================
+   SEARCH BUTTON
+===================================================== */
+
+.search-btn{
+
+    width:44px;
+    height:44px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:50%;
+
+    font-size:1.2rem;
+
+    transition:.3s ease;
+}
+
+/* Hero */
+
+.navbar:not(.scrolled) .search-btn{
+
+    color:rgba(255,255,255,.92);
+}
+
+.navbar:not(.scrolled) .search-btn:hover{
+
+    background:rgba(255,255,255,.12);
+
+    color:#fff;
+}
+
+/* Scrolled */
+
+.navbar.scrolled .search-btn{
+
+    color:var(--heading);
+}
+
+.navbar.scrolled .search-btn:hover{
+
+    background:var(--surface-light);
+
+    color:var(--primary);
+}
+
+/* =====================================================
+   MOBILE MENU
+===================================================== */
+
+.menu-btn{
+
+    display:none;
+
+    width:46px;
+    height:46px;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:50%;
+
+    font-size:1.6rem;
+
+    transition:.3s ease;
+
+    cursor:pointer;
+}
+
+/* Hero */
+
+.navbar:not(.scrolled) .menu-btn{
+
+    background:rgba(255,255,255,.08);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    backdrop-filter:blur(10px);
+
+    color:#fff;
+}
+
+.navbar:not(.scrolled) .menu-btn:hover{
+
+    background:rgba(255,255,255,.18);
+}
+
+/* Scrolled */
+
+.navbar.scrolled .menu-btn{
+
+    background:var(--surface);
+
+    color:var(--heading);
+
+    box-shadow:var(--shadow-sm);
+}
+
+.navbar.scrolled .menu-btn:hover{
+
+    background:var(--primary);
+
+    color:#fff;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width:992px){
+
+    .search-btn{
+
+        display:none;
+    }
+
+    .menu-btn{
+
+        display:flex;
+    }
+
+    .logo img{
+
+        height:80px;
+    }
+
+    .navbar.scrolled .logo img{
+
+        height:60px;
+    }
+
+}

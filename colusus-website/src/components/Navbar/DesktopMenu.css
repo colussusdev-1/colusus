@@ -1,0 +1,410 @@
+/* =====================================================
+   DESKTOP MENU
+===================================================== */
+
+.desktop-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.8rem;
+}
+
+/* =====================================================
+   LINKS
+===================================================== */
+
+.desktop-nav>a {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    height: 90px;
+
+    color: rgba(255, 255, 255, .92  );
+
+    font-size: 15px;
+    font-weight: 600;
+
+    transition: .3s ease;
+}
+
+.navbar.scrolled .desktop-nav>a {
+    height: 72px;
+     color: var(--heading);
+}
+
+.desktop-nav>a:hover,
+.desktop-nav>a.active {
+    color: var(--primary);
+}
+
+/* Underline */
+
+.desktop-nav>a::after {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    bottom: 22px;
+
+    transform: translateX(-50%);
+
+    width: 0;
+    height: 2px;
+
+    background: var(--primary);
+
+    border-radius: 999px;
+
+    transition: width .3s ease;
+}
+
+.desktop-nav>a:hover::after,
+.desktop-nav>a.active::after {
+    width: 100%;
+}
+
+/* =====================================================
+   DROPDOWN
+===================================================== */
+
+.dropdown {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    height: 90px;
+}
+
+.navbar.scrolled .dropdown {
+    height: 72px;
+}
+
+/* Trigger */
+
+.dropdown-btn {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+
+    height: 100%;
+
+    color: rgba(255, 255, 255, .92);
+
+    font-size: 15px;
+    font-weight: 600;
+
+    transition: .3s ease;
+}
+
+.navbar.scrolled .dropdown-btn{
+    color: var(--heading);
+}
+
+.dropdown-btn:hover {
+    color: var(--primary);
+}
+
+/* Active parent */
+
+.dropdown.active .dropdown-btn {
+    color: var(--primary);
+}
+
+/* Underline */
+
+.dropdown-btn::after {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    bottom: 22px;
+
+    transform: translateX(-50%);
+
+    width: 0;
+    height: 2px;
+
+    background: var(--primary);
+
+    border-radius: 999px;
+
+    transition: width .3s ease;
+}
+
+.dropdown:hover .dropdown-btn::after,
+.dropdown.active .dropdown-btn::after {
+    width: 100%;
+}
+
+/* Chevron */
+
+.dropdown-icon {
+    font-size: 18px;
+
+    transition: transform .3s ease;
+}
+
+.dropdown:hover .dropdown-icon {
+    transform: rotate(180deg);
+}
+
+/* =====================================================
+   DROPDOWN MENU
+===================================================== */
+
+.dropdown-menu {
+    position: absolute;
+
+    top: calc(100% + 14px);
+    left: 50%;
+
+    transform: translateX(-50%) translateY(14px);
+
+    width: 320px;
+
+    padding: .8rem;
+
+    background: rgba(255, 255, 255, .96);
+
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+
+    border: 1px solid rgba(255, 255, 255, .8);
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 18px 45px rgba(0, 0, 0, .08),
+        0 8px 20px rgba(0, 0, 0, .05);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        opacity .3s ease,
+        transform .3s ease,
+        visibility .3s ease;
+
+    z-index: 1000;
+}
+
+/* Arrow */
+
+.dropdown-menu::before {
+    content: "";
+
+    position: absolute;
+
+    top: -8px;
+    left: 50%;
+
+    width: 16px;
+    height: 16px;
+
+    background: white;
+
+    border-top: 1px solid rgba(0, 0, 0, .05);
+    border-left: 1px solid rgba(0, 0, 0, .05);
+
+    transform:
+        translateX(-50%)
+        rotate(45deg);
+}
+
+.dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+
+    transform:
+        translateX(-50%)
+        translateY(0);
+}
+
+/* =====================================================
+   DROPDOWN LINKS
+===================================================== */
+
+.dropdown-menu a {
+    display: flex;
+    align-items: center;
+
+    padding: .95rem 1rem;
+
+    border-radius: 12px;
+
+    color: var(--heading);
+
+    font-size: .95rem;
+    font-weight: 500;
+
+    transition: .25s ease;
+}
+
+.dropdown-menu a:hover {
+    background: rgba(18, 110, 255, .06);
+
+    color: var(--primary);
+
+    padding-left: 1.4rem;
+}
+
+.dropdown-menu a.active {
+    background: rgba(18, 110, 255, .09);
+
+    color: var(--primary);
+
+    font-weight: 600;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 992px) {
+
+    .desktop-nav {
+        display: none;
+    }
+
+}
+
+
+
+/* =========================
+   DROPDOWN BASE
+========================= */
+
+.dropdown {
+
+  position: relative;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.dropdown-btn {
+
+  background: none;
+
+  border: none;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.4rem;
+
+  cursor: pointer;
+
+  font: inherit;
+
+  color: inherit;
+}
+
+/* icon animation */
+
+.dropdown-icon {
+
+  transition: 0.25s ease;
+
+}
+
+.dropdown-icon.rotate {
+
+  transform: rotate(180deg);
+}
+
+/* =========================
+   MENU (PREMIUM GLASS)
+========================= */
+
+.dropdown-menu {
+
+  position: absolute;
+
+  top: 120%;
+
+  left: 0;
+
+  min-width: 260px;
+
+  padding: 0.8rem;
+
+  border-radius: 14px;
+
+  background: rgba(255,255,255,0.92);
+
+  backdrop-filter: blur(18px);
+
+  box-shadow: 0 25px 60px rgba(0,0,0,0.12);
+
+  opacity: 0;
+
+  visibility: hidden;
+
+  transform: translateY(10px);
+
+  transition: all 0.25s ease;
+
+  z-index: 999;
+}
+
+/* open state */
+
+.dropdown-menu.show {
+
+  opacity: 1;
+
+  visibility: visible;
+
+  transform: translateY(0);
+}
+
+/* =========================
+   LINKS
+========================= */
+
+.dropdown-menu a {
+
+  display: block;
+
+  padding: 0.7rem 0.9rem;
+
+  border-radius: 10px;
+
+  color: var(--text);
+
+  transition: 0.2s ease;
+}
+
+.dropdown-menu a:hover {
+
+  background: rgba(0,86,179,0.08);
+
+  color: var(--primary);
+}
+
+/* active link */
+
+.dropdown-menu a.active {
+
+  background: rgba(0,86,179,0.12);
+
+  color: var(--primary);
+
+  font-weight: 600;
+}
+
+/* parent active state */
+
+.dropdown.active .dropdown-btn {
+
+  color: var(--primary);
+}

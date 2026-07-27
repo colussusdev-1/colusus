@@ -1,0 +1,104 @@
+/* =========================
+   FLIGHT SCENE ROOT
+========================= */
+
+.flight-scene {
+    position: relative;
+    width: 100%;
+}
+
+/* 🔥 CRITICAL FIX: shared coordinate stage */
+.flight-stage {
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
+/* =========================
+   SVG LAYER (LOCKED)
+========================= */
+
+.flight-scene-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: visible;
+    pointer-events: none;
+
+    z-index: 1;
+}
+
+/* =========================
+   OVERLAY LAYER (LOCKED TO SVG)
+========================= */
+
+.flight-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    pointer-events: none;
+
+    z-index: 10;
+}
+
+/* =========================
+   PLANE (CRITICAL STABILITY FIX)
+========================= */
+
+.flight-overlay .plane {
+    position: absolute;
+
+    transform-origin: center;
+    will-change: transform;
+
+    z-index: 20;
+
+    /* 🔥 ensures pixel-perfect alignment */
+    backface-visibility: hidden;
+}
+
+/* =========================
+   CLOUDS
+========================= */
+
+.flight-overlay .clouds {
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    top: 0;
+    left: 0;
+
+    pointer-events: none;
+
+    z-index: 5;
+}
+
+/* =========================
+   TIMELINE SAFETY FIX
+========================= */
+
+.services-timeline {
+    position: relative;
+
+    /* 🔥 IMPORTANT: prevents clipping */
+    overflow: visible;
+}
+
+/* =========================
+   HARD FIX FOR VISUAL DRIFT
+========================= */
+
+svg,
+.flight-overlay {
+    transform: translateZ(0);
+}

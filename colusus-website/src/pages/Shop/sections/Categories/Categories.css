@@ -1,0 +1,146 @@
+/* ==================================
+   CATEGORIES
+================================== */
+
+.shop-categories{
+
+    padding:2rem 0 4rem;
+
+}
+
+.shop-categories-container{
+
+    width:min(1280px,92%);
+
+    margin:auto;
+
+}
+
+.categories-header{
+
+    text-align:center;
+
+    max-width:700px;
+
+    margin:0 auto 2.5rem;
+
+}
+
+.categories-header h2{
+
+    font-size:clamp(2rem,4vw,3rem);
+
+    color:var(--heading);
+
+    margin-bottom:1rem;
+
+}
+
+.categories-header p{
+
+    color:var(--text-light);
+
+    line-height:1.8;
+
+}
+
+/* ==================================
+   PILLS
+================================== */
+
+.categories-list{
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:1rem;
+
+}
+
+.category-pill{
+
+    border:none;
+
+    cursor:pointer;
+
+    padding:.9rem 1.4rem;
+
+    border-radius:999px;
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    color:var(--heading);
+
+    font-weight:500;
+
+    transition:.3s;
+
+}
+
+.category-pill:hover{
+
+    transform:translateY(-2px);
+
+    border-color:var(--primary);
+
+}
+
+.category-pill.active{
+
+    background:var(--primary);
+
+    color:#fff;
+
+    border-color:var(--primary);
+
+    box-shadow:
+    0 12px 30px rgba(0,86,179,.18);
+
+}
+
+/* ==================================
+   MOBILE
+================================== */
+
+@media(max-width:768px){
+
+    .shop-categories{
+
+        padding:1rem 0 3rem;
+
+    }
+
+    .categories-list{
+
+        justify-content:flex-start;
+
+        overflow-x:auto;
+
+        flex-wrap:nowrap;
+
+        padding-bottom:.5rem;
+
+        scrollbar-width:none;
+
+    }
+
+    .categories-list::-webkit-scrollbar{
+
+        display:none;
+
+    }
+
+    .category-pill{
+
+        white-space:nowrap;
+
+        flex-shrink:0;
+
+    }
+
+}

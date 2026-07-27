@@ -1,0 +1,302 @@
+/* =========================================
+   PERSONAL INFO CARD
+========================================= */
+
+
+.personalInfo{
+
+    padding:28px;
+
+    border-radius:26px;
+
+    background:
+
+    rgba(255,255,255,.85);
+
+    border:
+
+    1px solid rgba(226,232,240,.8);
+
+    box-shadow:
+
+    0 20px 60px rgba(15,23,42,.06);
+
+}
+
+
+
+/* HEADER */
+
+.personalInfo__header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    margin-bottom:25px;
+
+}
+
+
+
+.personalInfo__icon{
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:14px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+
+    linear-gradient(
+        135deg,
+        #2563eb,
+        #1d4ed8
+    );
+
+    color:white;
+
+    font-size:1.1rem;
+
+}
+
+
+
+.personalInfo__header h3{
+
+    margin:0;
+
+    font-size:1.05rem;
+
+    color:#0f172a;
+
+    font-weight:750;
+
+}
+
+
+
+.personalInfo__header p{
+
+    margin:3px 0 0;
+
+    font-size:.82rem;
+
+    color:#64748b;
+
+}
+
+
+
+
+
+
+/* GRID */
+
+
+.personalInfo__grid{
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(2,1fr);
+
+    gap:18px;
+
+}
+
+
+
+
+
+.personalInfo__field{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:7px;
+
+}
+
+
+
+.personalInfo__field label{
+
+    font-size:.78rem;
+
+    font-weight:650;
+
+    color:#334155;
+
+}
+
+
+
+
+
+
+
+/* INPUT WITH ICON */
+
+
+.personalInfo__input{
+
+
+    height:48px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:0 14px;
+
+
+    border-radius:14px;
+
+
+    background:#f8fafc;
+
+
+    border:
+
+    1px solid #e2e8f0;
+
+
+    transition:.25s;
+
+}
+
+
+
+.personalInfo__input svg{
+
+
+    color:#64748b;
+
+    font-size:1rem;
+
+}
+
+
+
+.personalInfo__input input{
+
+
+    border:none;
+
+    outline:none;
+
+    background:transparent;
+
+    width:100%;
+
+    font-size:.9rem;
+
+    color:#0f172a;
+
+}
+
+
+
+
+
+
+
+/* NORMAL INPUT */
+
+
+.personalInfo__plain,
+.personalInfo__field select{
+
+
+    height:48px;
+
+
+    border-radius:14px;
+
+
+    border:
+
+    1px solid #e2e8f0;
+
+
+    background:#f8fafc;
+
+
+    padding:0 14px;
+
+
+    outline:none;
+
+
+    font-size:.9rem;
+
+    color:#0f172a;
+
+}
+
+
+
+
+.personalInfo__input:focus-within,
+.personalInfo__plain:focus,
+.personalInfo__field select:focus{
+
+
+    border-color:#2563eb;
+
+
+    background:white;
+
+
+    box-shadow:
+
+    0 0 0 4px rgba(37,99,235,.10);
+
+}
+
+
+
+
+
+/* MOBILE */
+
+
+@media(max-width:768px){
+
+
+    .personalInfo{
+
+        padding:20px;
+
+        border-radius:22px;
+
+    }
+
+
+
+    .personalInfo__grid{
+
+
+        grid-template-columns:1fr;
+
+        gap:15px;
+
+    }
+
+
+
+}

@@ -1,0 +1,173 @@
+/* ==========================================================
+   ORBIT SYSTEM
+   Wraps the 360px globe with animated orbital rings
+========================================================== */
+
+.orbit-system{
+    position:absolute;
+
+    inset:0;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    pointer-events:none;
+
+    z-index:4;
+}
+
+/* ==========================================================
+   BASE ORBIT
+========================================================== */
+
+.orbit{
+
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    transform:translate(-50%, -50%);
+
+    border-radius:50%;
+
+    animation:orbitRotate 22s linear infinite;
+
+    transform-origin:center center;
+
+    will-change:transform;
+}
+
+/* ==========================================================
+   PRIMARY ORBIT
+========================================================== */
+
+.orbit-primary{
+
+    width:390px;
+    height:390px;
+
+    border:1px solid rgba(0,174,239,.28);
+
+    box-shadow:
+        0 0 28px rgba(0,174,239,.12);
+}
+
+/* ==========================================================
+   SECONDARY ORBIT
+========================================================== */
+
+.orbit-secondary{
+
+    width:430px;
+    height:430px;
+
+    border:1px dashed rgba(26,115,232,.22);
+
+    animation-duration:34s;
+    animation-direction:reverse;
+
+    opacity:.75;
+}
+
+/* ==========================================================
+   TERTIARY ORBIT
+========================================================== */
+
+.orbit-tertiary{
+
+    width:470px;
+    height:470px;
+
+    border:1px solid rgba(255,255,255,.10);
+
+    animation-duration:48s;
+
+    opacity:.45;
+}
+
+/* ==========================================================
+   GLOW LAYER
+========================================================== */
+
+.orbit::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:-2px;
+
+    border-radius:inherit;
+
+    border:inherit;
+
+    opacity:.35;
+
+    filter:blur(8px);
+}
+
+/* ==========================================================
+   MOVING NODE
+========================================================== */
+
+.orbit-node{
+
+    position:absolute;
+
+    left:50%;
+    top:-6px;
+
+    transform:translateX(-50%);
+
+    width:10px;
+    height:10px;
+
+    border-radius:50%;
+
+    background:var(--accent);
+
+    box-shadow:
+        0 0 12px rgba(0,174,239,.8),
+        0 0 24px rgba(0,174,239,.45);
+}
+
+.orbit-node::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:-4px;
+
+    border-radius:50%;
+
+    background:rgba(0,174,239,.25);
+
+    filter:blur(6px);
+}
+
+/* ==========================================================
+   ANIMATION
+========================================================== */
+
+@keyframes orbitRotate{
+
+    from{
+
+        transform:
+            translate(-50%, -50%)
+            rotate(0deg);
+
+    }
+
+    to{
+
+        transform:
+            translate(-50%, -50%)
+            rotate(360deg);
+
+    }
+
+}
