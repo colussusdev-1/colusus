@@ -8,11 +8,10 @@ import userRoutes from "../modules/users/user.routes.js";
 import applicationRoutes from "../modules/applications/application.routes.js";
 import documentRoutes from "../modules/documents/document.routes.js";
 import clientProfileRoutes from "../modules/client-profile/clinet-profile.routes.js";
-import adminRoutes from "../modules/admin/admin.routes.js"
+import adminRoutes from "../modules/admin/admin.routes.js";
+import clientRoutes from "../modules/client/client.routes.js";
 
 const router = express.Router();
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -20,12 +19,7 @@ const router = express.Router();
 |--------------------------------------------------------------------------
 */
 
-router.use(
-    "/health",
-    healthRoutes
-);
-
-
+router.use("/health", healthRoutes);
 
 /*
 |--------------------------------------------------------------------------
@@ -33,12 +27,7 @@ router.use(
 |--------------------------------------------------------------------------
 */
 
-router.use(
-    "/auth",
-    authRoutes
-);
-
-
+router.use("/auth", authRoutes);
 
 /*
 |--------------------------------------------------------------------------
@@ -46,12 +35,15 @@ router.use(
 |--------------------------------------------------------------------------
 */
 
-router.use(
-    "/users",
-    userRoutes
-);
+router.use("/users", userRoutes);
 
+/*
+|--------------------------------------------------------------------------
+| Client Routes
+|--------------------------------------------------------------------------
+*/
 
+router.use("/client", clientRoutes);
 
 /*
 |--------------------------------------------------------------------------
@@ -59,12 +51,7 @@ router.use(
 |--------------------------------------------------------------------------
 */
 
-router.use(
-    "/applications",
-    applicationRoutes
-);
-
-
+router.use("/applications", applicationRoutes);
 
 /*
 |--------------------------------------------------------------------------
@@ -72,11 +59,7 @@ router.use(
 |--------------------------------------------------------------------------
 */
 
-router.use(
-    "/documents",
-    documentRoutes
-);
-
+router.use("/documents", documentRoutes);
 
 /*
 |--------------------------------
@@ -85,18 +68,12 @@ router.use(
 |
 */
 
-router.use(
-    "/client-profile",
-    clientProfileRoutes
-);
+router.use("/client-profile", clientProfileRoutes);
 
 /*
 Admin 
 */
 
-router.use(
-    "/admin",
-    adminRoutes
-);
+router.use("/admin", adminRoutes);
 
 export default router;
