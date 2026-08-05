@@ -3,7 +3,6 @@ import {
     HiOutlineClipboardCheck
 } from "react-icons/hi";
 
-
 import "./Requirements.css";
 
 
@@ -17,6 +16,10 @@ const Requirements = ({
 
 
 
+    if (!requirements.length) return null;
+
+
+
     return (
 
         <section className="requirements-section">
@@ -26,40 +29,35 @@ const Requirements = ({
 
 
 
-                {/* HEADER */}
-
                 <div className="requirements-header">
 
 
-                    <div className="requirements-badge">
-
+                    <div className="requirements-label">
 
                         <HiOutlineClipboardCheck />
 
-
-                        <span>
-                            Eligibility Check
-                        </span>
-
+                        Eligibility Requirements
 
                     </div>
 
 
 
-
                     <h2>
-                        Requirements
+
+                        Check If You Qualify
+
                     </h2>
+
 
 
 
                     <p>
 
-                        Review the basic conditions required
-                        before applying for this opportunity.
+                        Review the essential criteria
+                        required before starting your
+                        application process.
 
                     </p>
-
 
 
                 </div>
@@ -69,37 +67,26 @@ const Requirements = ({
 
 
 
-
-                {/* REQUIREMENT LIST */}
-
-
                 <div className="requirements-list">
 
 
                     {
                         requirements.map(
+
                             (item,index)=>(
 
 
-                                <article
-
-                                    key={index}
+                                <div
 
                                     className="requirement-item"
+
+                                    key={index}
 
                                 >
 
 
 
-                                    <div className="requirement-check">
-
-
-                                        <HiCheckCircle />
-
-
-                                    </div>
-
-
+                                    <HiCheckCircle />
 
 
 
@@ -111,21 +98,43 @@ const Requirements = ({
 
 
 
-
-                                </article>
+                                </div>
 
 
                             )
+
                         )
                     }
+
 
 
                 </div>
 
 
 
-            </div>
 
+
+                <div className="requirements-footer">
+
+
+                    <HiCheckCircle />
+
+
+                    <span>
+
+                        Meeting these requirements does not
+                        guarantee approval. Final decisions
+                        depend on official assessment.
+
+                    </span>
+
+
+                </div>
+
+
+
+
+            </div>
 
 
         </section>

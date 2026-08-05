@@ -243,32 +243,6 @@ const About = ({
 
                             type="button"
 
-                            className="home-about-primary-btn"
-
-                            onClick={() => openServices()}
-
-                        >
-
-                            Explore Your Options
-
-
-                            <HiOutlineArrowRight />
-
-
-                        </button>
-
-
-
-
-
-
-
-
-
-                        <button
-
-                            type="button"
-
                             className="home-about-contact-btn"
 
                             onClick={scrollToContact}

@@ -2,451 +2,243 @@
    COUPON SECTION
 ========================================= */
 
+.couponSection {
 
-.couponSection{
+    margin-top: 24px;
 
+    padding: 30px;
 
-    margin-top:24px;
+    border-radius: 26px;
 
+    background: rgba(255, 255, 255, .9);
 
-    padding:28px;
-
-
-    border-radius:26px;
-
-
-    background:
-
-
-    rgba(255,255,255,.85);
-
-
-    border:
-
-
-    1px solid #e2e8f0;
-
+    border: 1px solid #e2e8f0;
 
     box-shadow:
-
-
-    0 20px 60px rgba(15,23,42,.06);
-
+        0 20px 60px rgba(15, 23, 42, .05);
 
 }
-
-
-
-
-
-
-
 
 /* HEADER */
 
+.couponSection__header {
 
-.couponSection__header{
+    display: flex;
 
+    align-items: flex-start;
 
-    display:flex;
+    gap: 16px;
 
-
-    align-items:center;
-
-
-    gap:14px;
-
-
-    margin-bottom:22px;
-
+    margin-bottom: 24px;
 
 }
 
+.couponSection__icon {
 
+    width: 48px;
 
+    height: 48px;
 
+    border-radius: 16px;
 
-.couponSection__icon{
+    display: grid;
 
-
-    width:42px;
-
-
-    height:42px;
-
-
-    border-radius:14px;
-
-
-    display:grid;
-
-
-    place-items:center;
-
+    place-items: center;
 
     background:
+        linear-gradient(135deg,
+            #2563eb,
+            #1d4ed8);
 
+    color: white;
 
-    linear-gradient(
-        135deg,
-        #2563eb,
-        #1d4ed8
-    );
-
-
-    color:white;
-
+    flex-shrink: 0;
 
 }
 
+.couponSection__icon svg {
 
-
-
-.couponSection__header h3{
-
-
-    margin:0;
-
-
-    font-size:1.05rem;
-
-
-    color:#0f172a;
-
+    font-size: 1.2rem;
 
 }
 
+.couponSection__header h3 {
 
+    margin: 0;
 
+    color: #0f172a;
 
+    font-size: 1.08rem;
 
-.couponSection__header p{
-
-
-    margin:3px 0 0;
-
-
-    font-size:.82rem;
-
-
-    color:#64748b;
-
+    font-weight: 700;
 
 }
 
+.couponSection__header p {
 
+    margin-top: 6px;
 
+    color: #64748b;
 
+    line-height: 1.6;
 
-
-
-
-
-/* ACTION ROW */
-
-
-.couponSection__action{
-
-
-    display:flex;
-
-
-    gap:12px;
-
+    font-size: .9rem;
 
 }
 
+/* INPUT */
 
+.couponSection__input {
 
+    display: flex;
 
+    align-items: center;
 
-.couponSection__input{
+    gap: 12px;
 
+    height: 56px;
 
-    flex:1;
+    padding: 0 18px;
 
+    border-radius: 16px;
 
-    height:48px;
+    background: #f8fafc;
 
+    border: 1px solid #e2e8f0;
 
-    display:flex;
-
-
-    align-items:center;
-
-
-    gap:10px;
-
-
-    padding:0 14px;
-
-
-    border-radius:14px;
-
-
-    background:#f8fafc;
-
-
-    border:
-
-
-    1px solid #e2e8f0;
-
-
-    transition:.25s;
-
+    transition: .3s;
 
 }
 
+.couponSection__input:hover {
 
-
-.couponSection__input svg{
-
-
-    color:#64748b;
-
+    border-color: #bfdbfe;
 
 }
 
+.couponSection__input:focus-within {
 
+    background: white;
 
-.couponSection__input input{
-
-
-    width:100%;
-
-
-    border:none;
-
-
-    outline:none;
-
-
-    background:transparent;
-
-
-    font-size:.9rem;
-
-
-    font-weight:600;
-
-
-    letter-spacing:.5px;
-
-
-}
-
-
-
-
-
-.couponSection__input:focus-within{
-
-
-    background:white;
-
-
-    border-color:#2563eb;
-
+    border-color: #2563eb;
 
     box-shadow:
-
-
-    0 0 0 4px rgba(37,99,235,.1);
-
+        0 0 0 4px rgba(37, 99, 235, .08);
 
 }
 
+.couponSection__input svg {
 
+    color: #64748b;
 
-
-
-
-
-
-
-/* BUTTON */
-
-
-.couponSection__action button{
-
-
-    height:48px;
-
-
-    padding:0 24px;
-
-
-    border:none;
-
-
-    border-radius:999px;
-
-
-    background:#0f172a;
-
-
-    color:white;
-
-
-    font-weight:700;
-
-
-    font-size:.85rem;
-
-
-    cursor:pointer;
-
-
-    transition:.3s;
-
+    font-size: 1.15rem;
 
 }
 
+.couponSection__input input {
 
+    flex: 1;
 
-.couponSection__action button:hover{
+    border: none;
 
+    background: none;
 
-    transform:translateY(-2px);
+    outline: none;
 
+    font-size: .95rem;
 
-    background:#2563eb;
+    font-weight: 600;
 
+    letter-spacing: .08em;
+
+    text-transform: uppercase;
 
 }
 
+/* HINT */
 
+.couponSection__hint {
 
+    display: flex;
 
+    align-items: center;
 
+    gap: 8px;
 
+    margin-top: 14px;
 
+    color: #64748b;
 
+    font-size: .85rem;
+
+}
+
+.couponSection__hint svg {
+
+    color: #2563eb;
+
+    flex-shrink: 0;
+
+}
 
 /* STATUS */
 
+.couponMessage {
 
-.couponMessage{
+    margin-top: 18px;
 
+    display: flex;
 
-    margin-top:16px;
+    align-items: center;
 
+    gap: 10px;
 
-    display:flex;
+    padding: 14px 16px;
 
+    border-radius: 14px;
 
-    align-items:center;
+    font-size: .9rem;
 
-
-    gap:10px;
-
-
-    padding:12px 16px;
-
-
-    border-radius:14px;
-
-
-    font-size:.85rem;
-
-
-    font-weight:600;
-
+    font-weight: 600;
 
 }
 
+.couponMessage svg {
 
-
-
-
-.couponMessage svg{
-
-
-    font-size:1.2rem;
-
+    font-size: 1.15rem;
 
 }
 
+.couponMessage.success {
 
+    background: #ecfdf5;
 
+    color: #047857;
 
-
-.couponMessage.success{
-
-
-    background:#ecfdf5;
-
-
-    color:#047857;
-
+    border: 1px solid #bbf7d0;
 
 }
 
+.couponMessage.error {
 
+    background: #fef2f2;
 
+    color: #dc2626;
 
-.couponMessage.error{
-
-
-    background:#fef2f2;
-
-
-    color:#dc2626;
-
+    border: 1px solid #fecaca;
 
 }
-
-
-
-
-
-
-
-
 
 /* MOBILE */
 
+@media(max-width:768px) {
 
-@media(max-width:768px){
+    .couponSection {
 
+        padding: 22px;
 
-
-    .couponSection{
-
-
-        padding:20px;
-
-
-        border-radius:22px;
-
+        border-radius: 22px;
 
     }
-
-
-
-
-
-    .couponSection__action{
-
-
-        flex-direction:column;
-
-
-    }
-
-
-
-
-
-    .couponSection__action button{
-
-
-        width:100%;
-
-
-    }
-
-
 
 }

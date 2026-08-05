@@ -3,326 +3,179 @@ import {
     HiOutlineChatAlt2,
     HiOutlineVideoCamera,
     HiOutlinePhone,
-    HiOutlineOfficeBuilding
+    HiOutlineOfficeBuilding,
 } from "react-icons/hi";
-
 
 import "./ConsultationInfo.css";
 
-
-
 const ConsultationInfo = ({
     formData,
-    updateField
+    updateField,
 }) => {
 
-
+    /*
+    |--------------------------------------------------------------------------
+    | Consultation Types
+    |--------------------------------------------------------------------------
+    */
 
     const consultationTypes = [
 
         {
-            title:"Online Meeting",
-            icon:<HiOutlineVideoCamera/>
+            label: "Online Meeting",
+            value: "VIDEO",
+            icon: <HiOutlineVideoCamera />,
         },
 
         {
-            title:"Phone Consultation",
-            icon:<HiOutlinePhone/>
+            label: "Phone Consultation",
+            value: "PHONE",
+            icon: <HiOutlinePhone />,
         },
 
         {
-            title:"Office Visit",
-            icon:<HiOutlineOfficeBuilding/>
-        }
+            label: "Office Visit",
+            value: "PHYSICAL",
+            icon: <HiOutlineOfficeBuilding />,
+        },
 
     ];
 
-
-
-
-
-
-
     return (
-
-
 
         <div className="consultationInfo">
 
-
-
-
-
+            {/* ==========================================
+                HEADER
+            ========================================== */}
 
             <div className="consultationInfo__header">
 
-
                 <div className="consultationInfo__icon">
-
-
-                    <HiOutlineChatAlt2/>
-
-
+                    <HiOutlineChatAlt2 />
                 </div>
 
-
-
                 <div>
-
 
                     <h3>
                         Consultation Details
                     </h3>
 
-
                     <p>
-                        Select your preferred consultation schedule
+                        Select your preferred consultation method
+                        and booking date.
                     </p>
-
 
                 </div>
 
-
             </div>
 
-
-
-
-
-
-
-
+            {/* ==========================================
+                FORM GRID
+            ========================================== */}
 
             <div className="consultationInfo__grid">
 
-
-
-
-
-
-
-                {/* DATE */}
-
-
+                {/* ==========================================
+                    CONSULTATION DATE
+                ========================================== */}
 
                 <div className="consultationInfo__field">
 
-
                     <label>
-                        Consultation Booking Date
+                        Consultation Date
                     </label>
-
-
-
 
                     <div className="consultationInfo__input">
 
-
-                        <HiOutlineCalendar/>
-
+                        <HiOutlineCalendar />
 
                         <input
-
                             type="date"
-
-                            value={
-                                formData.consultationDate
-                            }
-
-
-                            onChange={(e)=>
-
+                            value={formData.consultationDate}
+                            onChange={(e) =>
                                 updateField(
                                     "consultationDate",
                                     e.target.value
                                 )
-
                             }
-
                         />
-
 
                     </div>
 
-
-
                 </div>
 
-
-
-
-
-
-
-
-
-                {/* TYPE */}
-
-
+                {/* ==========================================
+                    CONSULTATION TYPE
+                ========================================== */}
 
                 <div className="consultationInfo__field">
-
 
                     <label>
                         Consultation Type
                     </label>
 
-
-
-
                     <div className="consultationInfo__types">
 
+                        {consultationTypes.map((item) => (
 
-                        {
-                            consultationTypes.map(item=>(
+                            <button
+                                key={item.value}
+                                type="button"
+                                className={
+                                    formData.consultationType === item.value
+                                        ? "active"
+                                        : ""
+                                }
+                                onClick={() => {
+                                    console.log("Selected:", item.value);
+                                    updateField("consultationType", item.value);
+                                }}
+                            >
 
+                                {item.icon}
 
-                                <button
+                                <span>
+                                    {item.label}
+                                </span>
 
+                            </button>
 
-                                    type="button"
-
-
-                                    key={item.title}
-
-
-
-                                    className={
-
-                                        formData.consultationType === item.title
-
-                                        ?
-
-                                        "active"
-
-                                        :
-
-                                        ""
-
-                                    }
-
-
-
-                                    onClick={()=>
-
-
-                                        updateField(
-
-                                            "consultationType",
-
-                                            item.title
-
-                                        )
-
-
-                                    }
-
-
-                                >
-
-
-
-                                    {item.icon}
-
-
-
-                                    <span>
-
-                                        {item.title}
-
-                                    </span>
-
-
-
-                                </button>
-
-
-
-                            ))
-                        }
-
+                        ))}
 
                     </div>
 
-
-
                 </div>
 
-
-
-
-
-
-
-
-
-                {/* MESSAGE */}
-
-
+                {/* ==========================================
+                    MESSAGE
+                ========================================== */}
 
                 <div className="consultationInfo__field">
 
-
                     <label>
-                        Message
+                        Additional Information
                     </label>
 
-
-
                     <textarea
-
-
-                        placeholder="Tell us about your migration goals..."
-
-
-                        value={
-                            formData.message
-                        }
-
-
-
-                        onChange={(e)=>
-
-
+                        placeholder="Tell us about your migration goals, preferred destination, current situation or any questions you would like us to address during the consultation."
+                        value={formData.message}
+                        onChange={(e) =>
                             updateField(
-
                                 "message",
-
                                 e.target.value
-
                             )
-
-
                         }
-
-
                     />
-
-
 
                 </div>
 
-
-
-
-
-
-
             </div>
 
-
-
-
-
-
-
         </div>
-
 
     );
 
 };
-
-
 
 export default ConsultationInfo;

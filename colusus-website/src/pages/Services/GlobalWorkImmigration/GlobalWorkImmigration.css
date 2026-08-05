@@ -1,306 +1,157 @@
+/* =====================================================
+   GLOBAL WORK IMMIGRATION PAGE
+===================================================== */
+
+
 .global-work {
 
-    padding: 5rem 1rem;
+    width: 100%;
 
-    background: #f6f8fc;
+    min-height: 100vh;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
 }
 
-/* =========================
-   HERO
-========================= */
 
-.global-hero {
 
-    text-align: center;
 
-    max-width: 800px;
 
-    margin: 0 auto 3rem;
+/* =====================================================
+   HERO FULL WIDTH CONTROL
+===================================================== */
+
+
+.global-work .global-hero {
+
+
+    width: 100%;
+
+    min-height: 100vh;
+
+
 }
 
-.global-hero .tag {
 
-    display: inline-block;
 
-    padding: 0.4rem 0.9rem;
 
-    border-radius: 999px;
 
-    font-size: 0.75rem;
 
-    font-weight: 600;
+/* =====================================================
+   SECTION TRANSITION
+===================================================== */
 
-    background: rgba(37,99,235,0.08);
 
-    color: #2563eb;
+.global-work section {
 
-    margin-bottom: 1rem;
-}
 
-.global-hero h1 {
-
-    font-size: 2.4rem;
-
-    font-weight: 700;
-
-    color: #0f172a;
-}
-
-.global-hero h1 span {
-
-    color: #2563eb;
-}
-
-.global-hero p {
-
-    color: #64748b;
-
-    margin-top: 0.8rem;
-}
-
-/* =========================
-   GRID
-========================= */
-
-.program-grid {
-
-    display: grid;
-
-    grid-template-columns: repeat(2, 1fr);
-
-    gap: 1.2rem;
-
-    max-width: 1000px;
-
-    margin: 0 auto;
-}
-
-/* =========================
-   CARD CORE
-========================= */
-
-.program-card {
+    width: 100%;
 
     position: relative;
 
-    display: flex;
 
-    flex-direction: column;
-
-    justify-content: space-between;
-
-    padding: 1.5rem;
-
-    border-radius: 24px;
-
-    text-decoration: none;
-
-    color: inherit;
-
-    background: rgba(255,255,255,0.75);
-
-    backdrop-filter: blur(18px);
-
-    border: 1px solid rgba(0,0,0,0.06);
-
-    box-shadow: 0 18px 40px rgba(0,0,0,0.06);
-
-    transition: all 0.35s ease;
-
-    overflow: hidden;
-
-    min-height: 240px;
 }
 
-/* .program-card::before {
 
-    content:"";
 
-    position:absolute;
 
-    top:0;
 
-    left:0;
 
-    width:100%;
 
-    height:90px;
+/* =====================================================
+   GENERAL CONTENT CONTAINER
+===================================================== */
 
-    background-image:url("/images/toronto.webp");
 
-    background-size:cover;
+.global-work .container,
+.global-work .trust-container,
+.global-work .why-container,
+.global-work .work-container,
+.global-work .benefits-container,
+.global-work .how-container {
 
-    background-position:center;
 
-    opacity:.18;
+    width: min(1200px, 92%);
 
-    mask-image:linear-gradient(
-        to bottom,
-        black,
-        transparent
-    );
+    margin: auto;
 
-    -webkit-mask-image:linear-gradient(
-        to bottom,
-        black,
-        transparent
-    );
 
-} */
-
-/* =========================
-   HOVER LIFT + EXPAND FEEL
-========================= */
-
-.program-card:hover {
-
-    transform: translateY(-6px) scale(1.01);
-
-    box-shadow: 0 30px 70px rgba(0,0,0,0.12);
-
-    border-color: rgba(37,99,235,0.25);
 }
 
-/* =========================
-   TOP SECTION
-========================= */
 
-.card-top h3 {
 
-    font-size: 1.15rem;
 
-    margin-top: 0.5rem;
 
-    color: #0f172a;
+
+/* =====================================================
+   PREMIUM PAGE BACKGROUND FLOW
+===================================================== */
+
+
+.global-work section:nth-child(even) {
+
+
+    background:
+
+
+        linear-gradient(180deg,
+
+            #ffffff,
+
+            #f8fafc);
+
+
 }
 
-.card-top p {
 
-    font-size: 0.9rem;
 
-    color: #64748b;
 
-    margin-top: 0.4rem;
+
+
+/* =====================================================
+   REMOVE OLD HERO CONFLICTS
+===================================================== */
+
+
+.global-work .global-hero h1 {
+
+
+    max-width: none;
+
+
 }
 
-/* =========================
-   BADGE
-========================= */
 
-.badge {
+.global-work .global-hero p {
 
-    display: inline-block;
 
-    font-size: 0.7rem;
+    margin-top: 0;
 
-    font-weight: 600;
 
-    padding: 0.3rem 0.7rem;
-
-    border-radius: 999px;
-
-    background: rgba(37,99,235,0.1);
-
-    color: #2563eb;
 }
 
-/* =========================
-   PREVIEW SECTION (KEY PART)
-========================= */
 
-.card-preview {
 
-    margin-top: 1rem;
 
-    max-height: 0;
 
-    opacity: 0;
-
-    overflow: hidden;
-
-    transform: translateY(10px);
-
-    transition: all 0.35s ease;
-}
-
-/* EXPAND ON HOVER */
-
-.program-card:hover .card-preview {
-
-    max-height: 140px;
-
-    opacity: 1;
-
-    transform: translateY(0);
-}
-
-.card-preview ul {
-
-    padding-left: 1rem;
-
-    margin: 0;
-}
-
-.card-preview li {
-
-    font-size: 0.85rem;
-
-    color: #475569;
-
-    margin-bottom: 0.3rem;
-}
-
-/* =========================
-   CTA
-========================= */
-
-.card-cta {
-
-    margin-top: 1rem;
-
-    font-weight: 600;
-
-    color: #2563eb;
-
-    display: flex;
-
-    justify-content: flex-end;
-
-    transition: 0.2s ease;
-}
-
-.program-card:hover .card-cta {
-
-    letter-spacing: 0.5px;
-}
-
-/* =========================
+/* =====================================================
    RESPONSIVE
-========================= */
+===================================================== */
 
-@media (max-width: 768px) {
 
-    .program-grid {
+@media(max-width:768px) {
 
-        grid-template-columns: 1fr;
+
+    .global-work .global-hero {
+
+
+        min-height: 100vh;
+
+
     }
 
-    .global-hero h1 {
 
-        font-size: 1.7rem;
-    }
 
-    .program-card {
-
-        min-height: auto;
-    }
-
-    .card-preview {
-
-        max-height: none;
-
-        opacity: 1;
-
-        transform: none;
-    }
 }

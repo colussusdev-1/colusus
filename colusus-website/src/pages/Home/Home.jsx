@@ -1,4 +1,8 @@
-import { useState } from "react";
+import {
+    useState,
+    useRef,
+    useEffect
+} from "react";
 
 
 import Hero from "./sections/Hero/Hero";
@@ -30,13 +34,28 @@ const Home = () => {
 
 
 
-    const [showServices,setShowServices] = useState(false);
+    const [showServices, setShowServices] = useState(false);
+
+
+    const serviceMenuRef = useRef(null);
+
+
+
+
+
+
 
     const openServices = () => {
 
         setShowServices(true);
 
     };
+
+
+
+
+
+
 
     const closeServices = () => {
 
@@ -48,42 +67,98 @@ const Home = () => {
 
 
 
+
+
+    useEffect(() => {
+
+
+        if (showServices) {
+
+
+            setTimeout(() => {
+
+
+                serviceMenuRef.current?.scrollIntoView({
+
+                    behavior: "smooth",
+
+                    block: "center"
+
+                });
+
+
+            }, 50);
+
+
+        }
+
+
+    }, [showServices]);
+
+
+
+
+
+
+
+
+
     return (
 
 
-        <>
-
-
-
-            <main>
+        <main>
 
 
 
 
-                <Hero
+            <Hero
 
-                    openServices={openServices}
+                openServices={openServices}
 
-                />
+            />
 
 
 
 
 
-                <StatsStrip />
+
+
+            <StatsStrip />
 
 
 
 
 
-                <About
 
-                    openServices={openServices}
 
-                />
 
-                {
-                    showServices && (
+            <About
+
+                openServices={openServices}
+
+            />
+
+
+
+
+
+
+
+
+
+            {
+                showServices && (
+
+
+                    <div
+
+                        ref={serviceMenuRef}
+
+                        className="service-menu-anchor"
+
+                    >
+
+
 
                         <ServiceMegaMenu
 
@@ -93,40 +168,62 @@ const Home = () => {
 
                         />
 
-                    )
-                }
+
+
+                    </div>
+
+
+                )
+            }
 
 
 
 
 
 
-                <Countries />
 
 
-
-                <Services />
-
-
-
-                <ZeroDepositProgram />
-
-
-
-                <SuccessStories />
-
-
-
-                <ContactCTA />
-
-
-
-            </main>
+            <Countries />
 
 
 
 
-        </>
+
+
+
+            <Services />
+
+
+
+
+
+
+
+            <ZeroDepositProgram />
+
+
+
+
+
+
+
+            <SuccessStories />
+
+
+
+
+
+
+
+            <ContactCTA />
+
+
+
+
+
+
+        </main>
+
 
     );
 

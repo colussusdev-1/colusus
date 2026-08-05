@@ -3,26 +3,23 @@ import express from "express";
 import authenticate from "../../middleware/auth.middleware.js";
 import { allowRoles } from "../../middleware/role.middleware.js";
 
+import clientRoutes from "./admin.client.routes.js";
+
 import {
-    getDashboardStats,
-    getAllApplications,
-    getApplicationById,
-    updateApplicationStatus
+  getDashboardStats,
+  getAllApplications,
+  getApplicationById,
+  updateApplicationStatus,
 } from "./admin.controller.js";
 
-
 import {
-    getAllDocuments,
-    getDocumentById,
-    updateDocumentStatus
+  getAllDocuments,
+  getDocumentById,
+  updateDocumentStatus,
+  getDocumentsByStatus,
 } from "./admin.document.controller.js";
 
-
-
 const router = express.Router();
-
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -30,22 +27,15 @@ const router = express.Router();
 |--------------------------------------------------------------------------
 */
 
-
 router.get(
+  "/dashboard",
 
-    "/dashboard",
+  authenticate,
 
-    authenticate,
+  allowRoles("ADMIN", "STAFF"),
 
-    allowRoles("ADMIN", "STAFF"),
-
-    getDashboardStats
-
+  getDashboardStats,
 );
-
-
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -53,59 +43,35 @@ router.get(
 |--------------------------------------------------------------------------
 */
 
-
-// Get all applications
-
 router.get(
+  "/applications",
 
-    "/applications",
+  authenticate,
 
-    authenticate,
+  allowRoles("ADMIN", "STAFF"),
 
-    allowRoles("ADMIN", "STAFF"),
-
-    getAllApplications
-
+  getAllApplications,
 );
 
-
-
-
-// Get single application
-
 router.get(
+  "/applications/:id",
 
-    "/applications/:id",
+  authenticate,
 
-    authenticate,
+  allowRoles("ADMIN", "STAFF"),
 
-    allowRoles("ADMIN", "STAFF"),
-
-    getApplicationById
-
+  getApplicationById,
 );
-
-
-
-
-// Update application status
 
 router.patch(
+  "/applications/:id/status",
 
-    "/applications/:id/status",
+  authenticate,
 
-    authenticate,
+  allowRoles("ADMIN", "STAFF"),
 
-    allowRoles("ADMIN", "STAFF"),
-
-    updateApplicationStatus
-
+  updateApplicationStatus,
 );
-
-
-
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -113,57 +79,67 @@ router.patch(
 |--------------------------------------------------------------------------
 */
 
-
 // Get all documents
 
 router.get(
+  "/documents",
 
-    "/documents",
+  authenticate,
 
-    authenticate,
+  allowRoles("ADMIN", "STAFF"),
 
-    allowRoles("ADMIN", "STAFF"),
-
-    getAllDocuments
-
+  getAllDocuments,
 );
 
-
-
-
-// Get single document
+// Get document by id
 
 router.get(
+  "/documents/:id",
 
-    "/documents/:id",
+  authenticate,
 
-    authenticate,
+  allowRoles("ADMIN", "STAFF"),
 
-    allowRoles("ADMIN", "STAFF"),
-
-    getDocumentById
-
+  getDocumentById,
 );
 
+// Filter documents by status
+//
+// Example:
+// GET /api/v1/admin/documents/status/APPROVED
 
+router.get(
+  "/documents/status/:status",
 
+  authenticate,
+
+  allowRoles("ADMIN", "STAFF"),
+
+  getDocumentsByStatus,
+);
 
 // Update document status
 
 router.patch(
+  "/documents/:id/status",
 
-    "/documents/:id/status",
+  authenticate,
 
-    authenticate,
+  allowRoles("ADMIN", "STAFF"),
 
-    allowRoles("ADMIN", "STAFF"),
-
-    updateDocumentStatus
-
+  updateDocumentStatus,
 );
 
+/*
+|--------------------------------------------------------------------------
+| Admin Client Management
+|--------------------------------------------------------------------------
+*/
 
+router.use(
+  "/clients",
 
-
+  clientRoutes,
+);
 
 export default router;

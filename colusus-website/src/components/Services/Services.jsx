@@ -1,4 +1,6 @@
-import { useRef } from "react";
+import {
+    useRef
+} from "react";
 
 import "./Services.css";
 
@@ -6,117 +8,365 @@ import services from "./servicesData";
 
 import FlightScene from "./FlightScene/FlightScene";
 import ServiceCard from "./ServiceCard/ServiceCard";
-import { HiOutlineGlobeAlt, HiOutlineArrowRight } from "react-icons/hi";
+
+import {
+    HiOutlineGlobeAlt,
+    HiOutlineArrowRight
+} from "react-icons/hi";
+
+
+
 const Services = () => {
+
 
     const sectionRef = useRef(null);
 
     const cardRefs = useRef([]);
 
+
+
+
+    const scrollToOpportunities = () => {
+
+
+        const opportunitiesSection =
+            document.getElementById(
+                "global-opportunities"
+            );
+
+
+        if (opportunitiesSection) {
+
+
+            opportunitiesSection.scrollIntoView({
+
+                behavior: "smooth",
+
+                block: "start"
+
+            });
+
+
+        }
+
+
+    };
+
+
+
+
+
+
+
+
     return (
 
+
         <section
+
             ref={sectionRef}
+
             className="services"
+
         >
 
-            {/* Background */}
+
+
+
+
+
+
+            {/* BACKGROUND */}
 
             <div className="services-bg">
 
+
                 <span className="star star-1"></span>
+
                 <span className="star star-2"></span>
+
                 <span className="star star-3"></span>
 
+
+
                 <span className="aurora aurora-1"></span>
+
                 <span className="aurora aurora-2"></span>
 
+
+
             </div>
+
+
+
+
+
+
+
+
 
             <div className="container">
 
-                {/* Header */}
 
-                <div className="services-header">
+
+
+
+
+
+                {/* HEADER */}
+
+
+                <header className="services-header">
+
+
 
                     <span className="section-tag dark">
-                        Our Services
+
+                        Migration Pathways
+
                     </span>
+
+
+
+
+
+
 
                     <h2>
 
-                        Every Journey Begins
 
-                        <span> With The Right Path.</span>
+                        Discover Your Route
+
+                        <span>
+
+                            To Global Opportunities
+
+                        </span>
+
 
                     </h2>
 
+
+
+
+
+
+
                     <p>
 
-                        From study visas to permanent residency,
-                        overseas employment,
-                        visitor visas and
-                        international education,
-                        we guide you through every
-                        step of your journey.
+
+                        Choose the migration pathway
+                        that matches your goals,
+                        experience and future plans.
+                        Our team helps you navigate
+                        the right process from start
+                        to relocation.
+
 
                     </p>
 
-                </div>
 
-                {/* Timeline */}
+
+
+                </header>
+
+
+
+
+
+
+
+
+
+
+
+
+                {/* PATHWAY JOURNEY */}
+
 
                 <div className="services-timeline">
 
+
+
+
+
+
+
                     <FlightScene
+
                         sectionRef={sectionRef}
+
                         cardRefs={cardRefs}
+
                         totalStops={services.length}
+
                     />
+
+
+
+
+
+
+
+
+
+
 
                     <div className="timeline-column">
 
-                        {services.map((service, index) => (
 
-                            <ServiceCard
-                                key={service.id}
-                                ref={(el) => {
 
-                                    cardRefs.current[index] = el;
+                        {
+                            services.map(
 
-                                }}
-                                service={service}
-                                index={index}
-                                total={services.length}
-                            />
+                                (service, index) => (
 
-                        ))}
+
+                                    <ServiceCard
+
+
+                                        key={service.id}
+
+
+
+                                        ref={(element) => {
+
+
+                                            cardRefs.current[index] =
+                                                element;
+
+
+                                        }}
+
+
+
+                                        service={service}
+
+
+
+                                        index={index}
+
+
+
+                                        total={services.length}
+
+
+
+                                    />
+
+
+                                )
+
+                            )
+                        }
+
+
+
+
 
                     </div>
 
+
+
+
+
+
+
                 </div>
 
-                {/* Call to Action */}
-                <div className="destinations-cta">
 
-                    <button className="destinations-btn">
 
-                        <HiOutlineGlobeAlt className="btn-icon left" />
 
-                        <span>View all 20+ destinations</span>
 
-                        <HiOutlineArrowRight className="btn-icon right" />
+
+
+
+
+
+
+
+
+                {/* OPPORTUNITIES CTA */}
+
+
+
+                <div className="opportunities-cta">
+
+
+
+
+
+                    <button
+
+
+                        className="opportunities-btn"
+
+
+
+                        onClick={scrollToOpportunities}
+
+
+
+                        type="button"
+
+
+
+                    >
+
+
+
+
+                        <HiOutlineGlobeAlt />
+
+
+
+
+
+                        <span>
+
+                            Explore Available Opportunities
+
+                        </span>
+
+
+
+
+
+                        <HiOutlineArrowRight />
+
+
+
 
                     </button>
 
+
+
+
+
                 </div>
+
+
+
+
+
+
 
             </div>
 
+
+
+
+
+
+
+
         </section>
+
 
     );
 
 };
+
+
 
 export default Services;

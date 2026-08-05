@@ -3,189 +3,466 @@ import "./Footer.css";
 import { Link } from "react-router-dom";
 
 import {
-    HiOutlineShoppingBag,
-    HiOutlineNewspaper,
     HiOutlineMail,
     HiOutlinePhone,
     HiOutlineGlobeAlt,
+    HiOutlineLocationMarker,
+    HiOutlineArrowRight
 } from "react-icons/hi";
 
+
 const Footer = () => {
+
+
     return (
+
         <footer className="footer">
+
+
+            {/* MAIN FOOTER */}
 
             <div className="footer-main">
 
+
                 <div className="container footer-grid">
 
-                    {/* ABOUT */}
-                    <div className="footer-col about">
 
-                        <h3>About</h3>
+
+                    {/* BRAND */}
+
+                    <div className="footer-col footer-brand">
+
+
+                        <h3>
+                            Colossus Migration
+                        </h3>
+
 
                         <p>
-                            Colossus Migration & Tours helps professionals,
-                            students, families and entrepreneurs relocate
-                            confidently through trusted immigration, verified
-                            overseas opportunities and expert travel guidance.
+
+                            Helping professionals, students,
+                            families and entrepreneurs achieve
+                            their global goals through trusted
+                            immigration, relocation and travel
+                            solutions.
+
                         </p>
+
+
 
                         <div className="contact">
 
+
                             <div className="contact-item">
+
                                 <HiOutlineMail />
-                                <span>admin@colossusmigration.com</span>
+
+                                <span>
+                                    admin@colossusmigration.com
+                                </span>
+
                             </div>
 
-                            <div className="contact-item">
-                                <HiOutlinePhone />
-                                <span>+234-703-520-9306</span>
-                            </div>
+
+
 
                             <div className="contact-item">
+
                                 <HiOutlinePhone />
-                                <span>+234-902-695-3513</span>
+
+                                <span>
+                                    +234-703-520-9306
+                                </span>
+
                             </div>
+
+
+
+
+                            <div className="contact-item">
+
+                                <HiOutlineLocationMarker />
+
+                                <span>
+                                    Lagos, Nigeria
+                                </span>
+
+                            </div>
+
 
                         </div>
 
+
+
                     </div>
 
-                    {/* QUICK LINKS */}
+
+
+
+
+
+
+
+
+                    {/* COMPANY */}
+
+
                     <div className="footer-col">
 
-                        <h3>Quick Links</h3>
+
+                        <h3>
+                            Company
+                        </h3>
+
+
 
                         <ul>
 
-                            <li>
-                                <Link to="/">Home</Link>
-                            </li>
 
                             <li>
-                                <Link to="/about">About Us</Link>
-                            </li>
-
-                            <li>
-                                <Link to="/offshore-company">
-                                    Offshore Company Formation
+                                <Link to="/">
+                                    Home
                                 </Link>
                             </li>
 
+
+
                             <li>
-                                <Link to="/overseas-job-matching">
-                                    Overseas Job Matching
+                                <Link to="/about">
+                                    About Us
                                 </Link>
                             </li>
+
+
+                            <li>
+                                <Link to="/contact">
+                                    Contact
+                                </Link>
+                            </li>
+
+
+
+                            <li>
+                                <Link to="/consultation">
+                                    Book Consultation
+                                </Link>
+                            </li>
+
+
 
                         </ul>
 
-                        <div className="footer-actions">
-
-                            <button className="footer-pill">
-
-                                <HiOutlineShoppingBag />
-
-                                <span>Shop</span>
-
-                            </button>
-
-                            <button className="footer-pill">
-
-                                <HiOutlineNewspaper />
-
-                                <span>Blog</span>
-
-                            </button>
-
-                        </div>
 
                     </div>
+
+
+
+
+
+
+
+
 
                     {/* SERVICES */}
+
+
+
                     <div className="footer-col">
 
-                        <h3>Our Services</h3>
+
+                        <h3>
+                            Services
+                        </h3>
+
+
 
                         <ul>
 
+
+
                             <li>
-                                <Link to="/services">
+
+                                <Link to="/services/canada-migration">
+
                                     Canada Immigration
+
                                 </Link>
+
                             </li>
 
+
+
+
                             <li>
-                                <Link to="/services">
+
+                                <Link to="/services/global-works">
+
                                     Global Work Pathways
+
                                 </Link>
+
                             </li>
 
-                            <li>
-                                <Link to="/services">
-                                    Tourist Visas
-                                </Link>
-                            </li>
+
+
 
                             <li>
-                                <Link to="/services">
-                                    Study Permits
+
+                                <Link to="/services/tourist-visa">
+
+                                    Tourist Visa
+
                                 </Link>
+
+                            </li>
+
+
+
+
+                            <li>
+
+                                <Link to="/opportunities/bulgaria">
+
+                                    Work Opportunities
+
+                                </Link>
+
+                            </li>
+
+
+
+
+                            <li>
+
+                                <Link to="/free-assessment">
+
+                                    Free Assessment
+
+                                </Link>
+
+                            </li>
+
+
+                        </ul>
+
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
+                    {/* EXPLORE */}
+
+
+
+                    <div className="footer-col">
+
+
+                        <h3>
+                            Explore
+                        </h3>
+
+
+
+                        <ul>
+
+
+                            <li>
+
+                                <Link to="/opportunities/canada">
+
+                                    Canada Opportunities
+
+                                </Link>
+
+                            </li>
+
+
+
+
+                            <li>
+
+                                <Link to="/opportunities/germany">
+
+                                    Germany Opportunities
+
+                                </Link>
+
+                            </li>
+
+
+
+
+                            <li>
+
+                                <Link to="/opportunities/bulgaria">
+
+                                    Bulgaria Opportunities
+
+                                </Link>
+
                             </li>
 
                         </ul>
 
+
+
                     </div>
 
-                    {/* NEWSLETTER */}
-                    <div className="footer-col newsletter-card">
 
-                        <h3>Newsletter</h3>
+
+
+
+
+
+
+
+                    {/* NEWSLETTER */}
+
+
+
+                    {/* <div className="footer-col newsletter-card">
+
+
+                        <h3>
+                            Stay Updated
+                        </h3>
+
+
 
                         <p>
-                            Get migration updates, visa opportunities and
-                            exclusive announcements directly in your inbox.
+
+                            Get migration updates,
+                            visa opportunities and
+                            international travel news.
+
                         </p>
+
+
+
 
                         <div className="newsletter">
 
+
                             <input
+
                                 type="email"
-                                placeholder="Email address"
+
+                                placeholder="Your email address"
+
                             />
 
+
                             <button>
-                                GO
+
+                                <HiOutlineArrowRight />
+
                             </button>
 
+
                         </div>
+
+
+
+
+
 
                         <div className="newsletter-note">
 
+
                             <HiOutlineGlobeAlt />
 
+
                             <span>
-                                Trusted by applicants across multiple countries.
+
+                                Connecting opportunities worldwide
+
                             </span>
+
 
                         </div>
 
+
+
                     </div>
+ */}
+
+
 
                 </div>
 
+
             </div>
+
+
+
+
+
+
+
+
+
+            {/* BOTTOM */}
+
+
 
             <div className="footer-bottom">
 
-                <p>
-                    © 2026 Colossus Migration & Tours. All rights reserved.
-                </p>
+
+                <div className="container footer-bottom-inner">
+
+
+                    <p>
+
+                        © 2026 Colossus Migration & Tours.
+                        All rights reserved.
+
+                    </p>
+
+
+
+                    {/* <div className="footer-legal">
+
+
+                        <Link to="/privacy">
+
+                            Privacy Policy
+
+                        </Link>
+
+
+
+                        <Link to="/terms">
+
+                            Terms & Conditions
+
+                        </Link>
+
+
+                    </div> */}
+
+
+                </div>
+
 
             </div>
 
+
+
+
         </footer>
+
+
     );
+
 };
+
+
 
 export default Footer;

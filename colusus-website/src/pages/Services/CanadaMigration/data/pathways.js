@@ -1,8 +1,8 @@
 import {
-    HiOutlineHome,
-    HiOutlineBriefcase,
-    HiOutlineAcademicCap,
-    HiOutlineUsers,
+  HiOutlineHome,
+  HiOutlineBriefcase,
+  HiOutlineAcademicCap,
+  HiOutlineUsers,
 } from "react-icons/hi";
 
 import torontoImage from "../../../../assets/countryimage/toronto.jpg";
@@ -11,97 +11,97 @@ import familyImage from "../../../../assets/countryimage/family.jpg";
 import programsImage from "../../../../assets/countryimage/programs.jpg";
 
 export const pathways = [
+  {
+    id: "express-entry",
 
-    {
-        id: "express-entry",
+    icon: HiOutlineHome,
 
-        icon: HiOutlineHome,
+    image: torontoImage,
 
-        image: torontoImage,
+    title: "Express Entry",
 
-        title: "Express Entry",
+    badge: "Permanent Residence",
 
-        badge: "Popular",
+    description:
+      "A strategic immigration pathway for skilled professionals seeking permanent residence in Canada through competitive federal programs.",
 
-        description:
-            "Canada's fastest pathway for skilled professionals seeking permanent residence.",
+    services: [
+      "Eligibility Assessment",
 
-        services: [
-            "Profile Creation",
-            "CRS Score Review",
-            "ITA Support",
-        ],
+      "CRS Score Strategy",
 
-        path: "/services/canada/express-entry",
-    },
+      "Application Preparation",
+    ],
 
-    {
-        id: "pnp",
+    path: "/services/canada/express-entry",
+  },
 
-        icon: HiOutlineBriefcase,
+  {
+    id: "pnp",
 
-        image: pnpImage,
+    icon: HiOutlineBriefcase,
 
-        title: "Provincial Nominee Program",
+    image: pnpImage,
 
-        badge: "PNP",
+    title: "Provincial Nominee Program",
 
-        description:
-            "Immigrate through province-specific streams designed for local labour needs.",
+    badge: "Province-Based Pathway",
 
-        services: [
-            "Eligibility Review",
-            "PNP Application",
-            "Province Selection",
-        ],
+    description:
+      "Discover opportunities through Canadian provinces looking for skilled workers, entrepreneurs and professionals.",
 
-        path: "/services/canada/pnp",
-    },
+    services: [
+      "Province Matching",
 
-    {
-        id: "family",
+      "Nomination Support",
 
-        icon: HiOutlineUsers,
+      "Application Guidance",
+    ],
 
-        image: familyImage,
+    path: "/services/canada/pnp",
+  },
 
-        title: "Family Sponsorship",
+  {
+    id: "family",
 
-        badge: "Family",
+    icon: HiOutlineUsers,
 
-        description:
-            "Sponsor eligible family members for permanent residence.",
+    image: familyImage,
 
-        services: [
-            "Spouse",
-            "Children",
-            "Parents",
-        ],
+    title: "Family Sponsorship",
 
-        path: "/services/canada/family-sponsorship",
-    },
+    badge: "Family Reunion",
 
-    {
-        id: "other",
+    description:
+      "Reconnect with your loved ones through Canada's family sponsorship programs with structured application support.",
 
-        icon: HiOutlineAcademicCap,
+    services: [
+      "Spouse Sponsorship",
 
-        image: programsImage,
+      "Children Sponsorship",
 
-        title: "Other Programs",
+      "Parent Sponsorship",
+    ],
 
-        badge: "More",
+    path: "/services/canada/family-sponsorship",
+  },
 
-        description:
-            "Explore Atlantic, Rural and Business immigration programs.",
+  {
+    id: "other",
 
-        services: [
-            "Atlantic Program",
-            "RNIP",
-            "Business Immigration",
-        ],
+    icon: HiOutlineAcademicCap,
 
-        path: "/services/canada/other-programs",
-    },
+    image: programsImage,
 
+    title: "Alternative Programs",
+
+    badge: "More Opportunities",
+
+    description:
+      "Explore additional Canadian pathways designed for students, entrepreneurs and specialised applicants.",
+
+    services: ["Study Pathways", "Business Immigration", "Regional Programs"],
+
+    path: "/services/canada/other-programs",
+  },
 ];

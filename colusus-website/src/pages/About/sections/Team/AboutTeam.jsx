@@ -94,7 +94,7 @@ const technology = [
     {
         name:"Akosile Olaide J.",
 
-        role:"Web Developer",
+        role:"Software / Website Developer",
 
         tag:"Digital Development",
 
@@ -108,7 +108,7 @@ const technology = [
     {
         name:"Udeme Sam",
 
-        role:"Website Developer / Software",
+        role:"Software / Web Developer",
 
         tag:"Technology",
 

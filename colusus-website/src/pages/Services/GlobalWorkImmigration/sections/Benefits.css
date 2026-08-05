@@ -1,0 +1,278 @@
+.benefit-card {
+
+    position: relative;
+
+    overflow: hidden;
+
+    min-height: 330px;
+
+    padding: 2rem;
+
+    border-radius: 30px;
+
+    background:
+
+        linear-gradient(145deg,
+            rgba(255, 255, 255, .85),
+            rgba(248, 250, 252, .65));
+
+
+    border:
+
+        1px solid rgba(226, 232, 240, .8);
+
+
+    backdrop-filter: blur(20px);
+
+
+    box-shadow:
+
+        0 20px 60px rgba(15, 23, 42, .06);
+
+
+    display: flex;
+
+    flex-direction: column;
+
+
+    transition: .45s ease;
+
+
+}
+
+
+
+.benefit-card:hover {
+
+    transform: translateY(-12px);
+
+    box-shadow:
+
+        0 35px 90px rgba(37, 99, 235, .16);
+
+
+}
+
+
+
+
+/* TOP ICON + SMALL NUMBER */
+
+.benefit-top {
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+
+    margin-bottom: 2rem;
+
+
+}
+
+
+
+
+.benefit-icon {
+
+
+    width: 68px;
+
+    height: 68px;
+
+
+    border-radius: 22px;
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+    background:
+
+        linear-gradient(135deg,
+            rgba(37, 99, 235, .15),
+            rgba(37, 99, 235, .05));
+
+
+    color: #2563eb;
+
+
+    font-size: 2rem;
+
+
+    box-shadow:
+
+        inset 0 0 0 1px rgba(37, 99, 235, .1);
+
+
+    transition: .4s ease;
+
+
+}
+
+
+
+
+.benefit-card:hover .benefit-icon {
+
+
+    background: #2563eb;
+
+    color: white;
+
+    transform: scale(1.08) rotate(-5deg);
+
+
+}
+
+
+
+
+.benefit-number {
+
+
+    font-size: .9rem;
+
+    font-weight: 800;
+
+    letter-spacing: .15em;
+
+
+    color: #2563eb;
+
+
+    background:
+
+        rgba(37, 99, 235, .08);
+
+
+    padding: .5rem .8rem;
+
+
+    border-radius: 999px;
+
+
+}
+
+
+
+/* CONTENT */
+
+
+.benefit-content {
+
+
+    position: relative;
+
+    z-index: 2;
+
+
+}
+
+
+
+.benefit-content h3 {
+
+
+    font-size: 1.25rem;
+
+    font-weight: 800;
+
+
+    color: #0f172a;
+
+
+    margin-bottom: .8rem;
+
+
+}
+
+
+
+.benefit-content p {
+
+
+    color: #64748b;
+
+
+    line-height: 1.8;
+
+
+    font-size: .95rem;
+
+
+}
+
+
+
+/* LARGE BASE NUMBER */
+
+
+.benefit-footer-number {
+
+
+    margin-top: auto;
+
+
+    font-size: 5rem;
+
+
+    font-weight: 900;
+
+
+    line-height: 1;
+
+
+    color:
+
+        rgba(37, 99, 235, .05);
+
+
+    text-align: right;
+
+
+    position: relative;
+
+
+    z-index: 1;
+
+
+}
+
+
+
+
+.benefit-glow {
+
+
+    position: absolute;
+
+
+    width: 260px;
+
+    height: 260px;
+
+
+    right: -120px;
+
+    bottom: -120px;
+
+
+    background:
+
+        radial-gradient(circle,
+            rgba(37, 99, 235, .18),
+            transparent 70%);
+
+
+    filter: blur(35px);
+
+
+}

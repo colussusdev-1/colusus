@@ -2,483 +2,728 @@
    SERVICES
 ===================================================== */
 
-.services{
+.services {
 
-    position:relative;
+    position: relative;
 
-    overflow:hidden;
+    overflow: hidden;
 
-    padding:10rem 0;
+    padding: 120px 0;
 
     background:
-        linear-gradient(
-            180deg,
+        linear-gradient(180deg,
             #050C18 0%,
-            #081426 25%,
-            #0B1E39 55%,
-            #081426 80%,
-            #050C18 100%
-        );
+            #081426 45%,
+            #050C18 100%);
 
-    color:#fff;
+    color: #fff;
+
 }
+
+
+
 
 /* =====================================================
    BACKGROUND
 ===================================================== */
 
-.services-bg{
 
-    position:absolute;
+.services-bg {
 
-    inset:0;
+    position: absolute;
 
-    overflow:hidden;
+    inset: 0;
 
-    pointer-events:none;
+    overflow: hidden;
 
-    z-index:0;
+    pointer-events: none;
+
+    z-index: 0;
+
 }
+
+
+
+
 
 /* =====================================================
    STARS
 ===================================================== */
 
-.star{
 
-    position:absolute;
+.star {
 
-    width:3px;
-    height:3px;
+    position: absolute;
 
-    border-radius:50%;
+    width: 3px;
 
-    background:#fff;
+    height: 3px;
+
+    border-radius: 50%;
+
+    background: #fff;
 
     box-shadow:
-        0 0 12px rgba(255,255,255,.9);
+        0 0 12px rgba(255, 255, 255, .9);
 
-    animation:twinkle 5s ease-in-out infinite;
+    animation: twinkle 5s ease-in-out infinite;
+
 }
 
-.star-1{
 
-    top:12%;
-    left:14%;
+
+.star-1 {
+
+    top: 12%;
+
+    left: 14%;
+
 }
 
-.star-2{
 
-    top:34%;
-    right:18%;
+.star-2 {
 
-    animation-delay:1.8s;
+    top: 34%;
+
+    right: 18%;
+
+    animation-delay: 1.8s;
+
 }
 
-.star-3{
 
-    bottom:18%;
-    left:72%;
+.star-3 {
 
-    animation-delay:3s;
+    bottom: 18%;
+
+    left: 72%;
+
+    animation-delay: 3s;
+
 }
+
+
+
+
 
 /* =====================================================
    AURORA
 ===================================================== */
 
-.aurora{
 
-    position:absolute;
+.aurora {
 
-    border-radius:50%;
+    position: absolute;
 
-    filter:blur(120px);
+    border-radius: 50%;
 
-    opacity:.45;
+    filter: blur(120px);
 
-    animation:auroraMove 18s ease-in-out infinite;
+    opacity: .4;
+
+    animation: auroraMove 18s ease-in-out infinite;
+
 }
 
-.aurora-1{
 
-    width:620px;
-    height:620px;
 
-    background:#0E6CFF;
+.aurora-1 {
 
-    top:-220px;
-    left:-180px;
+    width: 620px;
+
+    height: 620px;
+
+    background: #0E6CFF;
+
+    top: -220px;
+
+    left: -180px;
+
 }
 
-.aurora-2{
 
-    width:520px;
-    height:520px;
 
-    background:#00D6A3;
+.aurora-2 {
 
-    right:-180px;
-    bottom:-180px;
+    width: 520px;
 
-    animation-delay:9s;
+    height: 520px;
+
+    background: #00D6A3;
+
+    right: -180px;
+
+    bottom: -180px;
+
+    animation-delay: 9s;
+
 }
+
+
+
+
 
 /* =====================================================
    CONTAINER
 ===================================================== */
 
-.services .container{
 
-    position:relative;
+.services .container {
 
-    z-index:5;
+    position: relative;
+
+    z-index: 5;
+
 }
+
+
+
+
 
 /* =====================================================
    HEADER
 ===================================================== */
 
-.services-header{
 
-    max-width:760px;
+.services-header {
 
-    margin:0 auto 7rem;
+    max-width: 780px;
 
-    text-align:center;
+    margin: 0 auto 80px;
+
+    text-align: center;
+
 }
 
-.section-tag.dark{
 
-    display:inline-flex;
 
-    align-items:center;
 
-    padding:.7rem 1.2rem;
+.section-tag.dark {
 
-    border-radius:999px;
+    display: inline-flex;
 
-    background:rgba(255,255,255,.08);
+    align-items: center;
 
-    border:1px solid rgba(255,255,255,.12);
+    padding: 10px 20px;
 
-    backdrop-filter:blur(25px);
+    border-radius: 999px;
 
-    color:#7FCBFF;
+    background: rgba(255, 255, 255, .08);
 
-    font-size:.82rem;
+    border: 1px solid rgba(255, 255, 255, .12);
 
-    font-weight:700;
+    backdrop-filter: blur(20px);
 
-    letter-spacing:.12em;
+    color: #7FCBFF;
 
-    text-transform:uppercase;
+    font-size: .8rem;
 
-    margin-bottom:1.5rem;
+    font-weight: 700;
+
+    letter-spacing: .12em;
+
+    text-transform: uppercase;
+
+    margin-bottom: 25px;
+
 }
 
-.services-header h2{
 
-    font-size:clamp(2.8rem,5vw,4.8rem);
 
-    line-height:1.08;
 
-    margin-bottom:1.6rem;
+.services-header h2 {
 
-    font-weight:800;
 
-      color: var(--text-muted);
+    font-size:
+
+        clamp(2.6rem, 5vw, 4.5rem);
+
+
+    line-height: 1.08;
+
+    margin-bottom: 24px;
+
+    font-weight: 800;
+
+    letter-spacing: -2px;
+
+    color: white;
+
 }
 
-.services-header h2 span{
 
-    display:block;
 
-    color:#7FCBFF;
+.services-header h2 span {
+
+
+    display: block;
+
+    color: #7FCBFF;
+
 }
 
-.services-header p{
 
-    max-width:650px;
 
-    margin:auto;
 
-    color:rgba(255,255,255,.72);
+.services-header p {
 
-    font-size:1.08rem;
 
-    line-height:1.9;
+    max-width: 650px;
+
+    margin: auto;
+
+    color: rgba(255, 255, 255, .72);
+
+    font-size: 1.05rem;
+
+    line-height: 1.8;
+
 }
+
+
+
+
 
 /* =====================================================
    TIMELINE
 ===================================================== */
 
 
-.timeline-column {
+.services-timeline {
+
     position: relative;
 
+    width: 100%;
+
+    max-width: 1200px;
+
+    margin: auto;
+
+}
+
+
+
+
+
+/* FLIGHT PATH GUIDE */
+
+
+.services-timeline::before {
+
+
+    content: "";
+
+
+    position: absolute;
+
+
+    left: 50%;
+
+
+    transform: translateX(-50%);
+
+
+    top: 20px;
+
+
+    bottom: 20px;
+
+
+    width: 2px;
+
+
+    background:
+
+        linear-gradient(to bottom,
+
+            transparent,
+
+            rgba(127, 203, 255, .35),
+
+            rgba(127, 203, 255, .7),
+
+            rgba(127, 203, 255, .35),
+
+            transparent);
+
+
+    z-index: 1;
+
+}
+
+
+
+
+
+/* =====================================================
+   SERVICE COLUMN
+===================================================== */
+
+
+.timeline-column {
+
+
+    position: relative;
+
+
     display: flex;
+
+
     flex-direction: column;
 
-    gap: 6rem;
+
+    gap: 80px;
+
 
     width: 100%;
+
+
+    z-index: 5;
+
 }
 
-.services-timeline{
 
-    position:relative;
 
-    width:100%;
 
-    max-width:1200px;
 
-    margin:auto;
-
-    min-height:2500px;
-}
-
-/* center guide */
-
-.services-timeline::before{
-
-    content:"";
-
-    position:absolute;
-
-    left:50%;
-
-    transform:translateX(-50%);
-
-    top:0;
-
-    bottom:0;
-
-    width:2px;
-
-    background:
-        linear-gradient(
-            to bottom,
-            transparent,
-            rgba(127,203,255,.25),
-            rgba(127,203,255,.6),
-            rgba(127,203,255,.25),
-            transparent
-        );
-
-    z-index:1;
-}
 
 /* =====================================================
-   COLUMN
+   FLOATING LIGHT
 ===================================================== */
 
-.services-list{
 
-    position:relative;
+.services::before {
 
-    display:flex;
 
-    flex-direction:column;
+    content: "";
 
-    gap:7rem;
 
-    z-index:5;
-}
+    position: absolute;
 
-/* =====================================================
-   FLOATING PARTICLES
-===================================================== */
 
-.services::before{
+    inset: 0;
 
-    content:"";
-
-    position:absolute;
-
-    inset:0;
 
     background:
+
+
         radial-gradient(circle at 20% 30%,
-        rgba(255,255,255,.06),
-        transparent 28%),
 
-        radial-gradient(circle at 70% 60%,
-        rgba(127,203,255,.08),
-        transparent 24%),
+            rgba(255, 255, 255, .05),
 
-        radial-gradient(circle at 90% 15%,
-        rgba(255,255,255,.04),
-        transparent 20%);
+            transparent 30%),
 
-    animation:particles 18s linear infinite;
+
+        radial-gradient(circle at 80% 70%,
+
+            rgba(127, 203, 255, .08),
+
+            transparent 25%);
+
+
+    animation: particles 20s linear infinite;
+
 }
+
+
+
+
+
+
+
+/* =====================================================
+   DESTINATION CTA
+===================================================== */
 
 
 .destinations-cta {
+
+
     display: flex;
+
+
     justify-content: center;
-    margin-top: 5rem;
+
+
+    margin-top: 80px;
+
+
     position: relative;
+
+
     z-index: 10;
+
+
 }
 
-.destinations-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.7rem;
 
-    padding: 0.75rem 1.4rem;
+
+
+
+.destinations-btn {
+
+
+    display: inline-flex;
+
+
+    align-items: center;
+
+
+    gap: 12px;
+
+
+    padding: 14px 24px;
+
 
     border-radius: 999px;
 
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(127, 203, 255, 0.25);
 
-    color: #fff;
-    font-size: 0.9rem;
+    background: rgba(255, 255, 255, .08);
+
+
+    border: 1px solid rgba(127, 203, 255, .3);
+
+
+    color: white;
+
+
+    font-size: .95rem;
+
+
     font-weight: 600;
+
 
     cursor: pointer;
 
+
     backdrop-filter: blur(20px);
 
-    transition: all 0.3s ease;
+
+    transition: .35s ease;
+
+
 }
+
+
+
 
 .destinations-btn:hover {
-    transform: translateY(-2px);
-    background: rgba(127, 203, 255, 0.12);
-    border-color: rgba(127, 203, 255, 0.5);
-    box-shadow: 0 10px 30px rgba(127, 203, 255, 0.15);
+
+
+    transform: translateY(-4px);
+
+
+    background: rgba(127, 203, 255, .15);
+
+
+    border-color: #7FCBFF;
+
+
 }
 
-.btn-icon {
-    font-size: 1.1rem;
-    opacity: 0.9;
-}
 
-.btn-icon.left {
+
+
+
+
+.destinations-btn svg:first-child {
+
+
     color: #7FCBFF;
+
 }
 
-.btn-icon.right {
-    transition: transform 0.3s ease;
+
+
+
+.destinations-btn svg:last-child {
+
+
+    transition: .3s ease;
+
 }
 
-.destinations-btn:hover .btn-icon.right {
-    transform: translateX(4px);
-} 
+
+
+.destinations-btn:hover svg:last-child {
+
+
+    transform: translateX(5px);
+
+}
+
+
+
+
+
 /* =====================================================
    ANIMATIONS
 ===================================================== */
 
-@keyframes auroraMove{
 
-    0%{
+@keyframes auroraMove {
 
-        transform:translate(0,0) scale(1);
+
+    0%,
+    100% {
+
+        transform: translate(0, 0) scale(1);
+
     }
 
-    50%{
 
-        transform:translate(120px,-60px) scale(1.2);
+    50% {
+
+        transform: translate(100px, -50px) scale(1.2);
+
     }
 
-    100%{
-
-        transform:translate(0,0) scale(1);
-    }
 
 }
 
-@keyframes twinkle{
 
-    0%,100%{
 
-        opacity:.3;
 
-        transform:scale(.8);
+@keyframes twinkle {
+
+
+    0%,
+    100% {
+
+        opacity: .3;
+
+        transform: scale(.8);
+
     }
 
-    50%{
 
-        opacity:1;
+    50% {
 
-        transform:scale(1.8);
+        opacity: 1;
+
+        transform: scale(1.8);
+
     }
+
 
 }
 
-@keyframes particles{
 
-    from{
 
-        transform:translateY(0);
+
+@keyframes particles {
+
+
+    from {
+
+        transform: translateY(0);
+
     }
 
-    to{
 
-        transform:translateY(-80px);
+    to {
+
+        transform: translateY(-80px);
+
     }
+
 
 }
+
+
+
+
+
+
 
 /* =====================================================
    RESPONSIVE
 ===================================================== */
 
-@media (max-width:992px){
 
-    .services{
+@media(max-width:992px) {
 
-        padding:8rem 0;
+
+    .services {
+
+        padding: 90px 0;
+
     }
 
-    .services-timeline{
 
-        min-height:auto;
+
+    .services-timeline::before {
+
+        left: 25px;
+
     }
 
-    .services-timeline::before{
 
-        display:none;
+
+    .timeline-column {
+
+        gap: 45px;
+
     }
 
-    .services-list{
-
-        gap:3rem;
-    }
 
 }
 
-@media (max-width:768px){
 
-    .services{
 
-        padding:6rem 0;
+
+
+@media(max-width:768px) {
+
+
+    .services {
+
+        padding: 70px 0;
+
     }
 
-    .services-header{
 
-        margin-bottom:4rem;
+
+    .services-header {
+
+        margin-bottom: 50px;
+
     }
 
-    .services-header h2{
 
-        font-size:2.4rem;
+
+    .services-header h2 {
+
+        font-size: 2.3rem;
+
+        letter-spacing: -1px;
+
     }
 
-    .services-header p{
 
-        font-size:1rem;
+
+    .services-header p {
+
+        font-size: .95rem;
+
     }
 
-    .services-list{
 
-        gap:2rem;
+
+    .services-timeline::before {
+
+        display: none;
+
     }
+
+
+
+    .timeline-column {
+
+        gap: 30px;
+
+    }
+
+
 
 }
-

@@ -2,48 +2,55 @@
    TOURIST PROCESS SECTION
 ================================================= */
 
-.touristProcess{
 
-    position:relative;
+.tourist-process {
 
-    margin-top:6rem;
+    position: relative;
 
-    padding:5rem 0;
+    padding: 7rem 0;
 
-    overflow:hidden;
+    overflow: hidden;
+
+    background:
+        linear-gradient(180deg,
+            #ffffff,
+            #f8fafc);
 
 }
 
 
-/* background glow */
 
-.touristProcess::before{
 
-    content:"";
+.tourist-process::before {
 
-    position:absolute;
 
-    width:500px;
+    content: "";
 
-    height:500px;
+    position: absolute;
 
-    top:10%;
+    width: 600px;
 
-    left:50%;
+    height: 600px;
 
-    transform:translateX(-50%);
+    top: 20%;
+
+    left: 50%;
+
+    transform: translateX(-50%);
 
     background:
 
-    radial-gradient(
-        circle,
-        rgba(37,99,235,.12),
-        transparent 70%
-    );
+        radial-gradient(circle,
+            rgba(37, 99, 235, .12),
+            transparent 70%);
 
-    pointer-events:none;
+    pointer-events: none;
 
 }
+
+
+
+
 
 
 
@@ -52,92 +59,118 @@
 ================================================= */
 
 
-.touristProcess__heading{
-
-    position:relative;
-
-    max-width:760px;
-
-    margin:0 auto 4rem;
-
-    text-align:center;
-
-    z-index:2;
-
-}
+.tourist-process-header {
 
 
-.touristProcess__badge{
+    position: relative;
 
-    display:inline-flex;
+    max-width: 760px;
 
-    align-items:center;
+    margin: 0 auto 4.5rem;
 
-    padding:.65rem 1.1rem;
+    text-align: center;
 
-    border-radius:999px;
-
-    background:#eff6ff;
-
-    border:1px solid rgba(37,99,235,.12);
-
-    color:#2563eb;
-
-    font-size:.75rem;
-
-    font-weight:800;
-
-    letter-spacing:.15em;
-
-    text-transform:uppercase;
+    z-index: 2;
 
 }
 
 
 
-.touristProcess__heading h2{
+.tourist-process-tag {
 
-    margin:1.4rem 0 1rem;
+
+    display: inline-flex;
+
+    padding: .5rem 1rem;
+
+    border-radius: 999px;
+
+
+    background:
+
+        rgba(37, 99, 235, .08);
+
+
+    border:
+
+        1px solid rgba(37, 99, 235, .15);
+
+
+    color:
+
+        var(--primary-color);
+
+
+    font-size: .75rem;
+
+    font-weight: 800;
+
+    letter-spacing: .15em;
+
+}
+
+
+
+
+.tourist-process-header h2 {
+
+
+    margin: 1.5rem 0 1rem;
+
 
     font-size:
 
-    clamp(2.2rem,5vw,3.8rem);
+        clamp(2.3rem, 5vw, 3.8rem);
 
-    line-height:1.08;
 
-    letter-spacing:-1.5px;
+    line-height: 1.1;
 
-    color:#0f172a;
 
-    font-weight:800;
+    font-weight: 800;
+
+
+    letter-spacing: -1.5px;
+
+
+    color: #111827;
+
 
 }
 
 
 
-.touristProcess__heading h2 span{
+.tourist-process-header h2 span {
 
-    display:block;
 
-    color:#2563eb;
+    display: block;
+
+    color: var(--primary-color);
+
+}
+
+
+
+.tourist-process-header p {
+
+
+    max-width: 650px;
+
+    margin: auto;
+
+
+    color: #6b7280;
+
+
+    line-height: 1.8;
+
+
+    font-size: 1.05rem;
+
 
 }
 
 
 
-.touristProcess__heading p{
-
-    max-width:620px;
-
-    margin:auto;
-
-    color:#64748b;
-
-    font-size:1rem;
-
-    line-height:1.8;
-
-}
 
 
 
@@ -146,17 +179,25 @@
 ================================================= */
 
 
-.touristProcess__grid{
+.tourist-process-grid {
 
-    position:relative;
 
-    display:grid;
+    position: relative;
 
-    grid-template-columns:1fr;
 
-    gap:3rem;
+    display: grid;
+
+
+    grid-template-columns: repeat(3, 1fr);
+
+
+    gap: 1.5rem;
+
 
 }
+
+
+
 
 
 
@@ -165,103 +206,139 @@
 ================================================= */
 
 
-.tpCard{
+.tpCard {
 
-    position:relative;
+
+    position: relative;
 
 }
+
+
 
 
 
 /* =================================================
-   ICON + TIMELINE
+   ICON
 ================================================= */
 
 
-.tpCard__top{
+.tpCard__top {
 
-    position:relative;
 
-    display:flex;
+    display: flex;
 
-    align-items:center;
+    align-items: center;
 
-    margin-bottom:1.5rem;
+    margin-bottom: 1.5rem;
+
 
 }
 
 
 
-.tpCard__circle{
 
-    position:relative;
+.tpCard__circle {
 
-    width:72px;
 
-    height:72px;
+    width: 76px;
 
-    flex-shrink:0;
+    height: 76px;
 
-    display:flex;
 
-    align-items:center;
+    display: flex;
 
-    justify-content:center;
+    align-items: center;
 
-    border-radius:50%;
+    justify-content: center;
 
-    color:white;
 
-    font-size:1.8rem;
+    border-radius: 24px;
+
 
     background:
 
-    linear-gradient(
-        135deg,
-        #2563eb,
-        #60a5fa
-    );
+        linear-gradient(135deg,
+            var(--primary-color),
+            #60a5fa);
+
+
+    color: white;
+
+
+    font-size: 2rem;
+
 
     box-shadow:
 
-    0 15px 40px rgba(37,99,235,.35);
+        0 20px 45px rgba(37, 99, 235, .35);
 
-    z-index:2;
+
+    position: relative;
+
+    z-index: 2;
 
 }
 
 
 
-.tpCard__circle::before{
 
-    content:"";
+.tpCard__circle::after {
 
-    position:absolute;
 
-    inset:-10px;
+    content: "";
 
-    border-radius:50%;
+
+    position: absolute;
+
+
+    inset: -8px;
+
+
+    border-radius: 30px;
+
 
     background:
 
-    rgba(37,99,235,.15);
+        rgba(37, 99, 235, .15);
 
-    filter:blur(12px);
 
-    z-index:-1;
+    filter: blur(15px);
+
+
+    z-index: -1;
+
+}
+
+
+
+
+
+/* CONNECTOR */
+
+
+.tpCard__line {
+
+
+    flex: 1;
+
+
+    height: 2px;
+
+
+    margin-left: 1rem;
+
+
+    background:
+
+
+        linear-gradient(90deg,
+            var(--primary-color),
+            rgba(37, 99, 235, .1));
+
 
 }
 
 
-
-/* timeline line */
-
-
-.tpCard__line{
-
-    display:none;
-
-}
 
 
 
@@ -270,176 +347,299 @@
 ================================================= */
 
 
-.tpCard__glass{
+.tpCard__glass {
 
-    position:relative;
 
-    padding:1.8rem;
+    position: relative;
 
-    border-radius:30px;
+
+    padding: 2rem;
+
+
+    min-height: 300px;
+
+
+    border-radius: 30px;
+
 
     background:
 
-    rgba(255,255,255,.75);
+        rgba(255, 255, 255, .75);
 
-    backdrop-filter:blur(25px);
 
-    -webkit-backdrop-filter:blur(25px);
+    backdrop-filter: blur(25px);
+
+
+    -webkit-backdrop-filter: blur(25px);
+
 
     border:
 
-    1px solid rgba(255,255,255,.8);
+        1px solid rgba(255, 255, 255, .8);
+
 
     box-shadow:
 
-    0 25px 70px rgba(15,23,42,.08);
 
-    transition:
+        0 25px 70px rgba(15, 23, 42, .08);
 
-    transform .35s ease,
 
-    box-shadow .35s ease;
+    transition: .35s ease;
+
 
 }
 
 
 
-.tpCard__glass::before{
 
-    content:"";
+.tpCard__glass:hover {
 
-    position:absolute;
 
-    inset:0;
+    transform:
 
-    border-radius:30px;
+        translateY(-10px);
 
-    padding:1px;
+
+    box-shadow:
+
+
+        0 35px 90px rgba(37, 99, 235, .16);
+
+
+}
+
+
+
+
+
+.tpCard__step {
+
+
+    display: inline-flex;
+
+
+    margin-bottom: 1rem;
+
+
+    color:
+
+        var(--primary-color);
+
+
+    font-size: .75rem;
+
+
+    font-weight: 800;
+
+
+    letter-spacing: .15em;
+
+
+}
+
+
+
+
+.tpCard__glass h3 {
+
+
+    margin-bottom: .8rem;
+
+
+    color: #111827;
+
+
+    font-size: 1.35rem;
+
+
+    font-weight: 800;
+
+
+}
+
+
+
+
+.tpCard__glass p {
+
+
+    color: #6b7280;
+
+
+    line-height: 1.8;
+
+
+    font-size: .95rem;
+
+
+}
+
+
+
+
+
+
+
+/* =================================================
+   FOOTER PILL
+================================================= */
+
+
+.tpCard__footer {
+
+
+    margin-top: 1.5rem;
+
+}
+
+
+
+.tpCard__pill {
+
+
+    display: inline-flex;
+
+
+    align-items: center;
+
+
+    gap: .45rem;
+
+
+    padding: .55rem 1rem;
+
+
+    border-radius: 999px;
+
 
     background:
 
-    linear-gradient(
-        135deg,
-        rgba(37,99,235,.25),
-        transparent
-    );
+        rgba(37, 99, 235, .08);
 
-    -webkit-mask:
 
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
+    color:
 
-    -webkit-mask-composite:xor;
+        var(--primary-color);
 
-    mask-composite:exclude;
 
-    pointer-events:none;
+    font-size: .8rem;
+
+
+    font-weight: 700;
+
 
 }
 
 
 
-.tpCard__glass:hover{
-
-    transform:translateY(-8px);
-
-    box-shadow:
-
-    0 35px 90px rgba(37,99,235,.15);
-
-}
 
 
 
 /* =================================================
-   TEXT
+   NOTE PANEL
 ================================================= */
 
 
-.tpCard__step{
+.tourist-process-note {
 
-    display:inline-flex;
 
-    margin-bottom:.8rem;
+    margin-top: 4rem;
 
-    color:#2563eb;
 
-    font-size:.75rem;
+    display: flex;
 
-    font-weight:800;
 
-    letter-spacing:.14em;
+    gap: 1.5rem;
 
-    text-transform:uppercase;
+
+    align-items: center;
+
+
+    padding: 2rem 2.5rem;
+
+
+    border-radius: 28px;
+
+
+    background:
+
+        rgba(37, 99, 235, .06);
+
+
+    border:
+
+        1px solid rgba(37, 99, 235, .12);
+
 
 }
 
 
 
-.tpCard__glass h3{
+.tourist-process-note-icon {
 
-    margin-bottom:.9rem;
 
-    color:#0f172a;
+    width: 65px;
 
-    font-size:1.4rem;
 
-    font-weight:800;
+    height: 65px;
+
+
+    border-radius: 20px;
+
+
+    display: flex;
+
+
+    align-items: center;
+
+
+    justify-content: center;
+
+
+    background: white;
+
+
+    color: var(--primary-color);
+
+
+    font-size: 2rem;
+
 
 }
 
 
 
-.tpCard__glass p{
 
-    margin-bottom:1.5rem;
 
-    color:#64748b;
+.tourist-process-note h3 {
 
-    line-height:1.75;
 
-    font-size:.95rem;
+    margin: 0 0 .5rem;
+
+
+    color: #111827;
+
 
 }
 
 
 
-/* =================================================
-   STATUS PILL
-================================================= */
+.tourist-process-note p {
 
 
-.tpCard__pill{
+    margin: 0;
 
-    display:inline-flex;
 
-    align-items:center;
+    color: #6b7280;
 
-    gap:.45rem;
 
-    padding:.55rem .9rem;
+    line-height: 1.7;
 
-    border-radius:999px;
-
-    background:#eff6ff;
-
-    border:1px solid rgba(37,99,235,.12);
-
-    color:#2563eb;
-
-    font-size:.78rem;
-
-    font-weight:700;
 
 }
 
 
 
-.tpCard__pill svg{
-
-    font-size:1rem;
-
-}
 
 
 
@@ -448,39 +648,21 @@
 ================================================= */
 
 
-@media(min-width:768px){
+@media(max-width:992px) {
 
 
-    .touristProcess{
-
-        padding:6rem 0;
-
-    }
+    .tourist-process-grid {
 
 
-    .touristProcess__grid{
-
-        grid-template-columns:repeat(3,1fr);
-
-        gap:2rem;
+        grid-template-columns: 1fr;
 
     }
 
 
-    .tpCard__top{
-
-        margin-bottom:2rem;
-
-    }
+    .tpCard__line {
 
 
-    .tpCard__circle{
-
-        width:78px;
-
-        height:78px;
-
-        font-size:2rem;
+        display: none;
 
     }
 
@@ -489,116 +671,67 @@
 
 
 
-/* =================================================
-   DESKTOP TIMELINE
-================================================= */
-
-
-@media(min-width:992px){
-
-
-    .touristProcess__grid{
-
-        gap:1.5rem;
-
-    }
-
-
-    .tpCard__line{
-
-        display:block;
-
-        flex:1;
-
-        height:3px;
-
-        margin-left:1rem;
-
-        background:
-
-        linear-gradient(
-            90deg,
-            #2563eb,
-            #dbeafe
-        );
-
-    }
-
-
-    .tpCard__glass{
-
-        min-height:310px;
-
-    }
-
-
-}
-
 
 
 /* =================================================
-   MOBILE POLISH
+   MOBILE
 ================================================= */
 
 
-@media(max-width:480px){
+@media(max-width:600px) {
 
 
-    .touristProcess{
-
-        margin-top:4rem;
-
-        padding:3rem 0;
-
-    }
+    .tourist-process {
 
 
-    .touristProcess__heading{
-
-        margin-bottom:3rem;
-
-        padding:0 1rem;
+        padding: 4rem 0;
 
     }
 
 
-    .touristProcess__heading h2{
 
-        font-size:2rem;
-
-    }
+    .tourist-process-header h2 {
 
 
-    .touristProcess__heading p{
-
-        font-size:.92rem;
+        font-size: 2rem;
 
     }
 
 
-    .tpCard__glass{
 
-        padding:1.5rem;
+    .tpCard__glass {
 
-        border-radius:24px;
+
+        padding: 1.5rem;
+
+        min-height: auto;
+
 
     }
 
 
-    .tpCard__circle{
 
-        width:62px;
+    .tpCard__circle {
 
-        height:62px;
 
-        font-size:1.5rem;
+        width: 62px;
+
+        height: 62px;
+
+        font-size: 1.5rem;
 
     }
 
 
-    .tpCard__glass h3{
 
-        font-size:1.25rem;
+    .tourist-process-note {
+
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        padding: 1.5rem;
 
     }
 

@@ -1,748 +1,1124 @@
-/* =====================================================
+/* ==========================================================
    BOOKING SUMMARY
-===================================================== */
+========================================================== */
 
+.bookingSummary {
 
-.bookingSummary{
+    position: relative;
 
-    padding:90px 0;
+    overflow: hidden;
+
+    padding: 110px 0;
 
     background:
-    linear-gradient(
-        180deg,
-        #f8fafc,
-        #ffffff
-    );
+        radial-gradient(circle at top left, #dbeafe 0%, transparent 35%),
+        radial-gradient(circle at bottom right, #eff6ff 0%, transparent 35%),
+        linear-gradient(180deg, #f8fafc, #ffffff);
 
 }
 
+.bookingSummary::before {
 
+    content: "";
 
-/* =====================================================
-   HEADER
-===================================================== */
+    position: absolute;
 
+    width: 450px;
 
-.bookingSummary__header{
+    height: 450px;
 
-    text-align:center;
+    top: -220px;
 
-    max-width:650px;
+    right: -180px;
 
-    margin:0 auto 55px;
+    border-radius: 50%;
 
-}
-
-
-
-.bookingSummary__header span{
-
-    display:inline-flex;
-
-    padding:8px 18px;
-
-    border-radius:999px;
-
-    background:#eff6ff;
-
-    color:#2563eb;
-
-    font-size:.75rem;
-
-    font-weight:800;
-
-    letter-spacing:.08em;
+    background: rgba(37, 99, 235, .05);
 
 }
 
+.bookingSummary::after {
 
+    content: "";
 
-.bookingSummary__header h2{
+    position: absolute;
 
-    margin-top:18px;
+    width: 380px;
 
-    font-size:clamp(2rem,4vw,3rem);
+    height: 380px;
 
-    color:#0f172a;
+    left: -170px;
 
-    letter-spacing:-1px;
+    bottom: -170px;
 
-}
+    border-radius: 50%;
 
-
-
-.bookingSummary__header p{
-
-    margin-top:15px;
-
-    color:#64748b;
-
-    line-height:1.7;
+    background: rgba(59, 130, 246, .05);
 
 }
 
+.bookingSummary .container {
 
+    position: relative;
 
+    z-index: 2;
 
+}
 
+/* ==========================================================
+   HERO
+========================================================== */
 
-/* =====================================================
+.bookingSummary__hero {
+
+    max-width: 760px;
+
+    margin: 0 auto 70px;
+
+    text-align: center;
+
+}
+
+.bookingSummary__successIcon {
+
+    width: 82px;
+
+    height: 82px;
+
+    margin: 0 auto 28px;
+
+    border-radius: 50%;
+
+    display: grid;
+
+    place-items: center;
+
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+
+    color: #fff;
+
+    font-size: 2.6rem;
+
+    box-shadow:
+        0 20px 45px rgba(34, 197, 94, .35);
+
+}
+
+.bookingSummary__hero span {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 8px 18px;
+
+    border-radius: 999px;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    font-size: .76rem;
+
+    font-weight: 800;
+
+    letter-spacing: .12em;
+
+    text-transform: uppercase;
+
+}
+
+.bookingSummary__hero h2 {
+
+    margin-top: 22px;
+
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+
+    color: #0f172a;
+
+    line-height: 1.1;
+
+    letter-spacing: -1.5px;
+
+}
+
+.bookingSummary__hero p {
+
+    margin: 22px auto 0;
+
+    max-width: 620px;
+
+    color: #64748b;
+
+    line-height: 1.8;
+
+    font-size: 1.05rem;
+
+}
+
+/* ==========================================================
+   LAYOUT
+========================================================== */
+
+.bookingSummary__layout {
+
+    display: grid;
+
+    grid-template-columns: 1.7fr .9fr;
+
+    gap: 40px;
+
+    align-items: start;
+
+}
+
+.bookingSummary__content {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 26px;
+
+}
+
+/* ==========================================================
+   SUMMARY CARD
+========================================================== */
+
+.summaryCard {
+
+    background: #fff;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 28px;
+
+    padding: 34px;
+
+    box-shadow:
+        0 25px 70px rgba(15, 23, 42, .06);
+
+    transition: .35s ease;
+
+}
+
+.summaryCard:hover {
+
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 30px 80px rgba(15, 23, 42, .09);
+
+}
+
+.summaryCard__header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    padding-bottom: 24px;
+
+    border-bottom: 1px solid #edf2f7;
+
+    margin-bottom: 26px;
+
+}
+
+.summaryCard__icon {
+
+    width: 60px;
+
+    height: 60px;
+
+    border-radius: 18px;
+
+    display: grid;
+
+    place-items: center;
+
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+
+    color: white;
+
+    font-size: 1.55rem;
+
+    flex-shrink: 0;
+
+}
+
+.summaryCard__header span {
+
+    display: block;
+
+    font-size: .72rem;
+
+    color: #94a3b8;
+
+    font-weight: 800;
+
+    letter-spacing: .15em;
+
+    text-transform: uppercase;
+
+}
+
+.summaryCard__header h3 {
+
+    margin-top: 6px;
+
+    font-size: 1.35rem;
+
+    color: #0f172a;
+
+}
+
+/* ==========================================================
    GRID
-===================================================== */
+========================================================== */
 
+.summaryGrid {
 
-.bookingSummary__grid{
+    display: grid;
 
+    grid-template-columns: repeat(2, 1fr);
 
-    display:grid;
-
-    grid-template-columns:
-
-    1.1fr .9fr;
-
-
-    gap:35px;
-
-    align-items:start;
-
+    gap: 22px;
 
 }
 
+.summaryGrid>div {
 
+    display: flex;
 
+    flex-direction: column;
 
+    gap: 8px;
 
+    padding: 18px;
 
+    border-radius: 18px;
 
-/* =====================================================
-   SUMMARY BOXES
-===================================================== */
+    background: #f8fafc;
 
+    border: 1px solid #edf2f7;
 
-.bookingSummary__details{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:20px;
+    transition: .3s;
 
 }
 
+.summaryGrid>div:hover {
 
+    background: white;
 
-
-
-.summaryBox{
-
-
-    background:white;
-
-
-    border-radius:24px;
-
-
-    padding:26px;
-
-
-    border:1px solid #e2e8f0;
-
+    border-color: #dbeafe;
 
     box-shadow:
-
-    0 20px 50px rgba(15,23,42,.06);
-
+        0 10px 25px rgba(37, 99, 235, .08);
 
 }
 
+.summaryGrid label {
 
+    font-size: .78rem;
 
+    font-weight: 700;
 
+    color: #94a3b8;
 
+    text-transform: uppercase;
 
-.summaryBox__title{
-
-
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
-
-    color:#0f172a;
-
-
-    font-weight:800;
-
-
-    font-size:1rem;
-
-
-    padding-bottom:18px;
-
-
-    border-bottom:1px solid #f1f5f9;
-
+    letter-spacing: .08em;
 
 }
 
+.summaryGrid strong {
 
+    font-size: 1rem;
 
-.summaryBox__title svg{
+    color: #0f172a;
 
+    line-height: 1.5;
 
-    color:#2563eb;
-
-    font-size:20px;
-
-
-}
-
-
-
-
-
-
-.summaryRow{
-
-
-    display:flex;
-
-    justify-content:space-between;
-
-    gap:20px;
-
-
-    padding:14px 0;
-
-
-    border-bottom:1px solid #f8fafc;
-
+    font-weight: 700;
 
 }
 
+/* ==========================================================
+   CHECKOUT SIDEBAR
+========================================================== */
 
+.bookingSummary__sidebar {
 
-.summaryRow:last-child{
+    position: sticky;
 
-    border-bottom:none;
+    top: 120px;
 
-}
-
-
-
-
-.summaryRow span{
-
-
-    color:#64748b;
-
-    font-size:.9rem;
+    align-self: start;
 
 }
 
+/* ==========================================================
+   CHECKOUT CARD
+========================================================== */
 
+.checkoutCard {
 
-.summaryRow strong{
+    position: relative;
 
+    overflow: hidden;
 
-    color:#0f172a;
+    padding: 38px;
 
-    font-size:.9rem;
-
-    text-align:right;
-
-}
-
-
-
-
-
-
-
-
-/* =====================================================
-   CHECKOUT
-===================================================== */
-
-
-.bookingSummary__checkout{
-
-
-    position:sticky;
-
-    top:120px;
-
-
-}
-
-
-
-
-
-
-.checkoutCard{
-
-
-    padding:35px;
-
-
-    border-radius:32px;
-
+    border-radius: 32px;
 
     background:
+        linear-gradient(145deg,
+            #0f172a,
+            #1e293b);
 
-
-    linear-gradient(
-
-        145deg,
-
-        #0f172a,
-
-        #1e293b
-
-    );
-
-
-    color:white;
-
+    color: white;
 
     box-shadow:
-
-
-    0 35px 90px rgba(15,23,42,.25);
-
+        0 35px 80px rgba(15, 23, 42, .28);
 
 }
 
+.checkoutCard::before {
 
+    content: "";
 
+    position: absolute;
 
+    width: 260px;
 
+    height: 260px;
 
+    top: -120px;
 
-.checkoutCard__icon{
+    right: -100px;
 
-
-    width:55px;
-
-
-    height:55px;
-
-
-    border-radius:18px;
-
-
-    display:grid;
-
-
-    place-items:center;
-
+    border-radius: 50%;
 
     background:
-
-    rgba(255,255,255,.12);
-
-
-    font-size:1.5rem;
-
+        rgba(255, 255, 255, .05);
 
 }
 
+.checkoutCard__top {
 
+    display: flex;
 
+    align-items: center;
 
+    gap: 18px;
 
+    margin-bottom: 32px;
 
+    position: relative;
 
-.checkoutCard h3{
-
-
-    margin-top:25px;
-
-
-    font-size:1.5rem;
-
-
-}
-
-
-
-
-
-.checkoutCard p{
-
-
-    margin-top:10px;
-
-
-    color:rgba(255,255,255,.65);
-
+    z-index: 2;
 
 }
 
+.checkoutCard__icon {
 
+    width: 64px;
 
+    height: 64px;
 
+    border-radius: 20px;
 
+    display: grid;
 
+    place-items: center;
 
-.checkoutCard ul{
+    background:
+        rgba(255, 255, 255, .12);
 
+    backdrop-filter: blur(10px);
 
-    list-style:none;
+    font-size: 1.7rem;
 
-
-    padding:25px 0;
-
-
-    margin:0;
-
-
-    display:flex;
-
-
-    flex-direction:column;
-
-
-    gap:15px;
-
+    flex-shrink: 0;
 
 }
 
+.checkoutCard__top span {
 
+    display: block;
 
+    color: rgba(255, 255, 255, .65);
 
+    font-size: .72rem;
 
+    letter-spacing: .12em;
 
+    text-transform: uppercase;
 
-.checkoutCard li{
-
-
-    display:flex;
-
-
-    align-items:center;
-
-
-    gap:10px;
-
-
-    font-size:.9rem;
-
-
-    color:rgba(255,255,255,.85);
-
+    font-weight: 700;
 
 }
 
+.checkoutCard__top h3 {
 
+    margin-top: 6px;
 
+    font-size: 1.45rem;
 
-.checkoutCard li svg{
-
-
-    color:#60a5fa;
-
-
-    flex-shrink:0;
-
+    color: white;
 
 }
 
+/* ==========================================================
+   PRICE BREAKDOWN
+========================================================== */
 
+.checkoutBreakdown {
 
+    display: flex;
 
+    flex-direction: column;
 
+    gap: 16px;
 
+    margin-bottom: 30px;
 
+    position: relative;
 
+    z-index: 2;
 
-/* =====================================================
-   PRICE
-===================================================== */
+}
 
+.checkoutRow {
 
-.checkoutPrice{
+    display: flex;
 
+    justify-content: space-between;
 
-    margin-top:15px;
+    align-items: center;
 
+    gap: 20px;
 
-    padding:22px 0;
+    color: rgba(255, 255, 255, .85);
 
+}
+
+.checkoutRow span {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    font-size: .92rem;
+
+}
+
+.checkoutRow strong {
+
+    font-size: .95rem;
+
+    font-weight: 700;
+
+}
+
+.checkoutRow.success {
+
+    color: #4ade80;
+
+}
+
+.checkoutRow.discount {
+
+    color: #22c55e;
+
+}
+
+.checkoutDivider {
+
+    height: 1px;
+
+    background:
+        rgba(255, 255, 255, .12);
+
+    margin: 8px 0;
+
+}
+
+.checkoutRow.total {
+
+    padding-top: 8px;
+
+}
+
+.checkoutRow.total span {
+
+    font-size: 1rem;
+
+    font-weight: 700;
+
+}
+
+.checkoutRow.total strong {
+
+    font-size: 2rem;
+
+    color: white;
+
+}
+
+/* ==========================================================
+   TRUST FEATURES
+========================================================== */
+
+.checkoutFeatures {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 16px;
+
+    padding: 28px 0;
 
     border-top:
-
-    1px solid rgba(255,255,255,.15);
-
+        1px solid rgba(255, 255, 255, .1);
 
     border-bottom:
+        1px solid rgba(255, 255, 255, .1);
 
-    1px solid rgba(255,255,255,.15);
+    margin-bottom: 30px;
 
+    position: relative;
 
-    display:flex;
-
-
-    justify-content:space-between;
-
-
-    align-items:center;
-
+    z-index: 2;
 
 }
 
+.checkoutFeatures div {
 
+    display: flex;
 
-.checkoutPrice span{
+    align-items: center;
 
+    gap: 12px;
 
-    color:rgba(255,255,255,.7);
+    color: rgba(255, 255, 255, .82);
 
-
-}
-
-
-
-.checkoutPrice strong{
-
-
-    font-size:1.8rem;
-
+    font-size: .9rem;
 
 }
 
+.checkoutFeatures svg {
 
+    font-size: 1.2rem;
 
+    color: #60a5fa;
 
-
-
-
-
-
-/* =====================================================
-   BUTTON
-===================================================== */
-
-
-.checkoutButton{
-
-
-    width:100%;
-
-
-    height:55px;
-
-
-    margin-top:25px;
-
-
-    border:none;
-
-
-    border-radius:999px;
-
-
-    background:white;
-
-
-    color:#0f172a;
-
-
-    font-weight:800;
-
-
-    cursor:pointer;
-
-
-    transition:.3s ease;
-
+    flex-shrink: 0;
 
 }
 
+/* ==========================================================
+   PAYMENT BUTTON
+========================================================== */
 
+.checkoutButton {
 
+    width: 100%;
 
-.checkoutButton:hover{
+    height: 62px;
 
+    border: none;
 
-    transform:translateY(-4px);
+    border-radius: 18px;
 
+    background: white;
+
+    color: #0f172a;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    font-size: 1rem;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition: .35s ease;
+
+    position: relative;
+
+    z-index: 2;
+
+}
+
+.checkoutButton:hover {
+
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 22px 45px rgba(0, 0, 0, .22);
+
+}
+
+.checkoutButton svg {
+
+    transition: .35s;
+
+}
+
+.checkoutButton:hover svg {
+
+    transform: translateX(5px);
+
+}
+
+.checkoutCard small {
+
+    display: block;
+
+    margin-top: 22px;
+
+    color: rgba(255, 255, 255, .55);
+
+    text-align: center;
+
+    line-height: 1.7;
+
+    font-size: .82rem;
+
+    position: relative;
+
+    z-index: 2;
+
+}
+
+/* ==========================================================
+   TABLET
+========================================================== */
+
+@media (max-width:1100px) {
+
+    .bookingSummary__layout {
+
+        grid-template-columns: 1fr;
+
+        gap: 40px;
+
+    }
+
+    .bookingSummary__sidebar {
+
+        position: relative;
+
+        top: 0;
+
+    }
+
+}
+
+@media (max-width:900px) {
+
+    .bookingSummary {
+
+        padding: 90px 0;
+
+    }
+
+    .bookingSummary__hero {
+
+        margin-bottom: 55px;
+
+    }
+
+    .bookingSummary__hero h2 {
+
+        font-size: clamp(2rem, 6vw, 3rem);
+
+    }
+
+    .summaryCard {
+
+        padding: 28px;
+
+        border-radius: 24px;
+
+    }
+
+    .summaryCard__icon {
+
+        width: 56px;
+
+        height: 56px;
+
+    }
+
+    .checkoutCard {
+
+        padding: 30px;
+
+        border-radius: 28px;
+
+    }
+
+}
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media (max-width:768px) {
+
+    .bookingSummary {
+
+        padding: 70px 0;
+
+    }
+
+    .bookingSummary::before,
+
+    .bookingSummary::after {
+
+        display: none;
+
+    }
+
+    .bookingSummary__hero {
+
+        margin-bottom: 45px;
+
+    }
+
+    .bookingSummary__successIcon {
+
+        width: 72px;
+
+        height: 72px;
+
+        font-size: 2.2rem;
+
+    }
+
+    .bookingSummary__hero h2 {
+
+        font-size: 2rem;
+
+    }
+
+    .bookingSummary__hero p {
+
+        font-size: .95rem;
+
+    }
+
+    .summaryGrid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .summaryCard {
+
+        padding: 24px;
+
+        border-radius: 22px;
+
+    }
+
+    .summaryCard__header {
+
+        gap: 14px;
+
+        margin-bottom: 20px;
+
+        padding-bottom: 20px;
+
+    }
+
+    .summaryCard__icon {
+
+        width: 52px;
+
+        height: 52px;
+
+        border-radius: 16px;
+
+        font-size: 1.35rem;
+
+    }
+
+    .checkoutCard {
+
+        padding: 28px;
+
+        border-radius: 24px;
+
+    }
+
+    .checkoutCard__top {
+
+        margin-bottom: 24px;
+
+    }
+
+    .checkoutCard__icon {
+
+        width: 56px;
+
+        height: 56px;
+
+        border-radius: 18px;
+
+    }
+
+    .checkoutRow.total strong {
+
+        font-size: 1.7rem;
+
+    }
+
+    .checkoutButton {
+
+        height: 58px;
+
+        border-radius: 16px;
+
+    }
+
+}
+
+@media (max-width:480px) {
+
+    .bookingSummary {
+
+        padding: 60px 0;
+
+    }
+
+    .bookingSummary__hero {
+
+        margin-bottom: 36px;
+
+    }
+
+    .bookingSummary__hero h2 {
+
+        font-size: 1.7rem;
+
+    }
+
+    .bookingSummary__hero p {
+
+        font-size: .9rem;
+
+    }
+
+    .summaryCard {
+
+        padding: 20px;
+
+    }
+
+    .summaryCard__header {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+    }
+
+    .summaryGrid>div {
+
+        padding: 16px;
+
+    }
+
+    .checkoutCard {
+
+        padding: 22px;
+
+    }
+
+    .checkoutRow {
+
+        font-size: .9rem;
+
+    }
+
+    .checkoutRow.total strong {
+
+        font-size: 1.5rem;
+
+    }
+
+    .checkoutButton {
+
+        height: 56px;
+
+        font-size: .92rem;
+
+    }
+
+}
+
+/* ==========================================================
+   PREMIUM ANIMATIONS
+========================================================== */
+
+@keyframes fadeUp {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(40px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+.bookingSummary__hero {
+
+    animation: fadeUp .6s ease both;
+
+}
+
+.summaryCard {
+
+    animation: fadeUp .6s ease both;
+
+}
+
+.summaryCard:nth-child(1) {
+
+    animation-delay: .08s;
+
+}
+
+.summaryCard:nth-child(2) {
+
+    animation-delay: .16s;
+
+}
+
+.summaryCard:nth-child(3) {
+
+    animation-delay: .24s;
+
+}
+
+.bookingSummary__sidebar {
+
+    animation: fadeUp .6s ease .32s both;
+
+}
+
+/* ==========================================================
+   FLOATING EFFECT
+========================================================== */
+
+@keyframes floating {
+
+    0% {
+
+        transform: translateY(0);
+
+    }
+
+    50% {
+
+        transform: translateY(-6px);
+
+    }
+
+    100% {
+
+        transform: translateY(0);
+
+    }
+
+}
+
+.bookingSummary__successIcon {
+
+    animation:
+
+        fadeUp .6s ease,
+
+        floating 4s ease-in-out infinite;
+
+}
+
+/* ==========================================================
+   PREMIUM SCROLLBAR
+========================================================== */
+
+::-webkit-scrollbar {
+
+    width: 10px;
+
+}
+
+::-webkit-scrollbar-track {
+
+    background: #f8fafc;
+
+}
+
+::-webkit-scrollbar-thumb {
+
+    background: #cbd5e1;
+
+    border-radius: 999px;
+
+}
+
+::-webkit-scrollbar-thumb:hover {
+
+    background: #94a3b8;
+
+}
+
+/* ==========================================================
+   FOCUS STATES
+========================================================== */
+
+.checkoutButton:focus-visible {
+
+    outline: 3px solid rgba(96, 165, 250, .45);
+
+    outline-offset: 4px;
+
+}
+
+.summaryCard:focus-within {
+
+    border-color: #bfdbfe;
 
     box-shadow:
 
-    0 20px 40px rgba(0,0,0,.2);
-
-
-}
-
-
-
-
-
-
-
-
-.checkoutCard small{
-
-
-    display:block;
-
-
-    margin-top:18px;
-
-
-    text-align:center;
-
-
-    color:rgba(255,255,255,.5);
-
-
-}
-
-
-
-
-
-
-
-
-
-/* =====================================================
-   TABLET
-===================================================== */
-
-
-@media(max-width:992px){
-
-
-
-.bookingSummary__grid{
-
-
-    grid-template-columns:1fr;
-
-
-}
-
-
-
-.bookingSummary__checkout{
-
-
-    position:relative;
-
-
-    top:0;
-
-
-}
-
-
-
-}
-
-
-
-
-
-
-
-
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
-
-@media(max-width:600px){
-
-
-
-.bookingSummary{
-
-
-    padding:60px 0;
-
-
-}
-
-
-
-
-
-.bookingSummary__header{
-
-
-    margin-bottom:35px;
-
-
-}
-
-
-
-
-.summaryBox{
-
-
-    padding:20px;
-
-
-    border-radius:20px;
-
-
-}
-
-
-
-.summaryRow{
-
-
-    flex-direction:column;
-
-
-    gap:6px;
-
-
-}
-
-
-
-.summaryRow strong{
-
-
-    text-align:left;
-
-
-}
-
-
-
-
-
-.checkoutCard{
-
-
-    padding:25px;
-
-
-    border-radius:25px;
-
-
-}
-
-
-
-.checkoutPrice strong{
-
-
-    font-size:1.5rem;
-
-
-}
-
-
+        0 20px 45px rgba(37, 99, 235, .12);
 
 }

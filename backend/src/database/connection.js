@@ -3,21 +3,24 @@ import mongoose from "mongoose";
 import config from "../config/environment.js";
 import logger from "../config/logger.js";
 
+import seedDatabase from "../seeders/index.js";
 
 const connectDatabase = async () => {
-    try {
-        await mongoose.connect(config.mongoUri);
+  try {
+    await mongoose.connect(config.mongoUri);
 
-        logger.info("MongoDB Connected Successfully");
+    logger.info("MongoDB Connected Successfully");
 
-    } catch (error) {
+    await seedDatabase();
 
-        logger.error("MongoDB Connection Failed");
-        logger.error(error.message);
+    logger.info("Database Seed Completed");
+  } catch (error) {
+    logger.error("MongoDB Connection Failed");
 
-        process.exit(1);
-    }
+    logger.error(error.message);
+
+    process.exit(1);
+  }
 };
-
 
 export default connectDatabase;

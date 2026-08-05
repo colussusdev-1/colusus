@@ -1,77 +1,157 @@
+/* ==========================================================
+   WHY CANADA SECTION
+========================================================== */
+
 .why-canada {
 
-    padding: 7rem 0;
+    position: relative;
+
+    padding: 8rem 0;
 
     background:
+        radial-gradient(circle at top left,
+            rgba(0, 86, 179, .08),
+            transparent 35%),
         linear-gradient(180deg,
-            #ffffff 0%,
-            #f7f9fc 100%);
+            #ffffff,
+            #f7f9fc);
+
+    overflow: hidden;
+
 }
+
+
+
+.why-canada::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 420px;
+
+    height: 420px;
+
+    right: -180px;
+
+    bottom: -180px;
+
+    border-radius: 50%;
+
+    background: rgba(0, 86, 179, .06);
+
+    filter: blur(100px);
+
+}
+
+
+
+
+
+
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
 
 .why-canada-header {
 
     max-width: 760px;
 
-    margin: 0 auto 4rem;
+    margin: 0 auto 4.5rem;
 
     text-align: center;
+
 }
 
+
 .why-canada-tag {
+
 
     display: inline-flex;
 
     align-items: center;
 
-    padding: .45rem 1rem;
+    padding: .55rem 1.2rem;
 
     border-radius: 999px;
 
-    background: rgba(22, 92, 255, .08);
+    background: rgba(0, 86, 179, .08);
+
+    border: 1px solid rgba(0, 86, 179, .15);
 
     color: var(--primary-color);
 
-    font-size: .82rem;
-
-    font-weight: 700;
-
-    letter-spacing: .12em;
-
-    text-transform: uppercase;
-
-    margin-bottom: 1.2rem;
-}
-
-.why-canada-header h2 {
-
-    font-size: clamp(2.3rem, 4vw, 3.6rem);
-
-    line-height: 1.1;
+    font-size: .78rem;
 
     font-weight: 800;
 
+    letter-spacing: .14em;
+
+    text-transform: uppercase;
+
+    margin-bottom: 1.5rem;
+
+}
+
+
+
+.why-canada-header h2 {
+
+
+    font-size: clamp(2.4rem, 4vw, 3.8rem);
+
+    line-height: 1.1;
+
+    font-weight: 850;
+
     color: #111827;
 
-    margin-bottom: 1rem;
+    margin-bottom: 1.2rem;
+
 }
+
+
 
 .why-canada-header h2 span {
 
+
+    display: block;
+
     color: var(--primary-color);
+
 }
+
+
 
 .why-canada-header p {
 
-    font-size: 1.05rem;
 
-    color: #6b7280;
+    max-width: 700px;
 
-    line-height: 1.8;
+    margin: auto;
+
+    color: #64748b;
+
+    font-size: 1.08rem;
+
+    line-height: 1.9;
+
 }
 
-/* ========================= */
+
+
+
+
+
+/* ==========================================================
+   MAIN GRID
+========================================================== */
+
 
 .why-canada-layout {
+
 
     display: grid;
 
@@ -80,58 +160,140 @@
     gap: 2rem;
 
     align-items: start;
+
 }
 
-/* ========================= */
+
+
+
+
+
+
+/* ==========================================================
+   FEATURE CARD
+========================================================== */
+
 
 .why-feature-card {
 
+
     position: sticky;
 
-    top: 110px;
+    top: 120px;
 
-    background: rgba(255,255,255,.82);
+    padding: 2.5rem;
 
-    backdrop-filter: blur(24px);
 
-    -webkit-backdrop-filter: blur(24px);
+    border-radius: 32px;
 
-    border: 1px solid rgba(255,255,255,.6);
 
-    border-radius: 28px;
+    background:
 
-    padding: 2rem;
+        rgba(255, 255, 255, .75);
+
+
+    backdrop-filter: blur(30px);
+
+    -webkit-backdrop-filter: blur(30px);
+
+
+    border: 1px solid rgba(255, 255, 255, .8);
+
 
     box-shadow:
-        0 20px 60px rgba(15,23,42,.08);
+
+        0 30px 80px rgba(15, 23, 42, .10);
+
 
     overflow: hidden;
+
+
+    isolation: isolate;
+
 }
 
-.why-feature-card::before {
+
+
+
+
+.why-feature-glow {
+
+
+    position: absolute;
+
+    width: 280px;
+
+    height: 280px;
+
+    top: -120px;
+
+    right: -100px;
+
+    border-radius: 50%;
+
+
+    background:
+
+        radial-gradient(circle,
+
+            rgba(0, 86, 179, .18),
+
+            transparent 70%);
+
+
+    z-index: -1;
+
+}
+
+
+
+
+
+
+.why-feature-card::after {
+
 
     content: "";
+
 
     position: absolute;
 
     inset: 0;
 
+
     background:
 
-        radial-gradient(circle at top right,
+        linear-gradient(135deg,
 
-            rgba(37,99,235,.08),
+            rgba(0, 86, 179, .05),
 
-            transparent 55%);
+            transparent 50%);
+
 
     pointer-events: none;
+
+
 }
+
+
+
+
+
+
+
+
+/* ==========================================================
+   FEATURE ICON
+========================================================== */
+
 
 .why-feature-icon {
 
-    width: 72px;
 
-    height: 72px;
+    width: 76px;
+
+    height: 76px;
+
 
     display: flex;
 
@@ -139,123 +301,210 @@
 
     justify-content: center;
 
-    border-radius: 22px;
 
-    background: var(--primary-color);
+    border-radius: 24px;
 
-    color: #fff;
 
-    font-size: 2rem;
+    background:
 
-    margin-bottom: 1.4rem;
+        linear-gradient(135deg,
+
+            #0056b3,
+
+            #1d4ed8);
+
+
+    color: white;
+
+
+    font-size: 2.1rem;
+
+
+    margin-bottom: 1.5rem;
+
+
+    box-shadow:
+
+        0 15px 35px rgba(0, 86, 179, .35);
+
+
 }
+
+
+
+
 
 .why-feature-badge {
 
+
     display: inline-flex;
 
-    padding: .45rem .9rem;
+
+    padding: .45rem 1rem;
+
 
     border-radius: 999px;
 
-    background: rgba(37,99,235,.08);
+
+    background: rgba(0, 86, 179, .08);
+
 
     color: var(--primary-color);
 
-    font-size: .78rem;
 
-    font-weight: 700;
+    font-size: .75rem;
+
+
+    font-weight: 800;
+
+
+    letter-spacing: .08em;
+
+
+    text-transform: uppercase;
+
 
     margin-bottom: 1rem;
+
 }
+
+
+
 
 .why-feature-card h3 {
 
-    font-size: 1.8rem;
+
+    font-size: 2rem;
+
+
+    line-height: 1.25;
+
+
+    color: #111827;
+
 
     margin-bottom: 1rem;
 
-    color: #111827;
+
 }
+
+
 
 .why-feature-card p {
 
-    color: #6b7280;
 
-    line-height: 1.8;
+    color: #64748b;
 
-    margin-bottom: 1.5rem;
-}
 
-/* ==========================================
-   FEATURE HIGHLIGHTS
-========================================== */
+    line-height: 1.85;
 
-.why-feature-card ul {
 
-    list-style: none;
+    margin-bottom: 2rem;
 
-    display: flex;
-
-    flex-direction: column;
-
-    gap: .9rem;
-
-    margin: 0;
-
-    padding: 0;
-}
-
-.why-feature-card li {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: .8rem;
-
-    font-size: .96rem;
-
-    color: #374151;
-
-    font-weight: 500;
-}
-
-.why-feature-card li::before {
-
-    content: "";
-
-    width: 8px;
-
-    height: 8px;
-
-    border-radius: 50%;
-
-    background: var(--primary-color);
-
-    flex-shrink: 0;
 }
 
 
-/* ==========================================
-   RIGHT COLUMN
-========================================== */
 
-.why-small-grid {
+
+
+
+/* ==========================================================
+   HIGHLIGHTS
+========================================================== */
+
+
+.why-highlights {
+
 
     display: flex;
 
     flex-direction: column;
 
     gap: 1rem;
+
 }
 
 
-/* ==========================================
+
+
+
+.highlight-item {
+
+
+    display: flex;
+
+    align-items: center;
+
+    gap: .9rem;
+
+
+    color: #374151;
+
+
+    font-size: .98rem;
+
+
+    font-weight: 600;
+
+
+}
+
+
+
+
+
+.highlight-item span {
+
+
+    width: 10px;
+
+    height: 10px;
+
+    border-radius: 50%;
+
+
+    background: var(--primary-color);
+
+
+    box-shadow:
+
+        0 0 0 6px rgba(0, 86, 179, .12);
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================
    SMALL CARDS
-========================================== */
+========================================================== */
+
+
+.why-small-grid {
+
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 1rem;
+
+}
+
+
+
+
 
 .why-small-card {
+
+
+    width: 100%;
+
 
     display: flex;
 
@@ -263,57 +512,94 @@
 
     justify-content: space-between;
 
-    width: 100%;
 
-    padding: 1.15rem 1.25rem;
+    padding: 1.3rem 1.5rem;
 
-    border: 1px solid rgba(15,23,42,.08);
 
-    border-radius: 20px;
+    border-radius: 24px;
 
-    background: rgba(255,255,255,.82);
+
+    border: 1px solid rgba(15, 23, 42, .08);
+
+
+    background:
+
+        rgba(255, 255, 255, .8);
+
 
     backdrop-filter: blur(20px);
 
-    -webkit-backdrop-filter: blur(20px);
 
     cursor: pointer;
 
+
     transition: .35s ease;
 
+
     text-align: left;
+
 }
+
+
 
 .why-small-card:hover {
 
-    transform: translateY(-4px);
 
-    border-color: rgba(37,99,235,.25);
+    transform: translateY(-5px);
+
 
     box-shadow:
 
-        0 14px 35px rgba(15,23,42,.08);
+        0 20px 45px rgba(15, 23, 42, .08);
+
+
 }
 
+
+
+
+
+.why-small-card.active {
+
+
+    border-color: rgba(0, 86, 179, .35);
+
+
+    background:
+
+        rgba(0, 86, 179, .05);
+
+
+}
+
+
+
+
+
 .why-small-left {
+
 
     display: flex;
 
     align-items: center;
 
     gap: 1rem;
+
 }
 
 
-/* ==========================================
-   ICON
-========================================== */
+
+
+
+
 
 .why-small-icon {
 
-    width: 56px;
 
-    height: 56px;
+    width: 58px;
+
+    height: 58px;
+
 
     display: flex;
 
@@ -321,309 +607,335 @@
 
     justify-content: center;
 
+
     border-radius: 18px;
+
 
     background:
 
-        linear-gradient(
-            135deg,
-            rgba(37,99,235,.12),
-            rgba(37,99,235,.04)
-        );
+        rgba(0, 86, 179, .08);
+
 
     color: var(--primary-color);
 
-    font-size: 1.45rem;
 
-    flex-shrink: 0;
+    font-size: 1.5rem;
+
 
     transition: .35s ease;
-}
 
-.why-small-card:hover .why-small-icon {
 
-    transform: scale(1.08);
 }
 
 
-/* ==========================================
-   TEXT
-========================================== */
+
+
+
+.why-small-card:hover .why-small-icon,
+
+.why-small-card.active .why-small-icon {
+
+
+    background: var(--primary-color);
+
+    color: white;
+
+}
+
+
+
+
 
 .why-small-card h4 {
 
+
     margin: 0;
 
-    font-size: 1rem;
+    font-size: 1.05rem;
 
     color: #111827;
 
-    font-weight: 700;
 }
+
+
+
+
 
 .why-small-card span {
 
+
     display: block;
 
-    margin-top: .3rem;
+    margin-top: .35rem;
 
-    color: #6b7280;
 
-    font-size: .85rem;
+    color: #64748b;
+
+    font-size: .82rem;
+
 }
 
 
-/* ==========================================
-   ARROW
-========================================== */
 
-.why-small-card svg:last-child {
 
-    font-size: 1.2rem;
+
+.why-small-card svg {
+
 
     color: var(--primary-color);
 
+
     transition: .35s ease;
-}
 
-.why-small-card:hover svg:last-child {
-
-    transform: translateX(6px);
 }
 
 
-/* ==========================================
+
+.why-small-card:hover svg {
+
+
+    transform: translateX(7px);
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================
    STATS
-========================================== */
+========================================================== */
+
 
 .why-canada-stats {
 
-    margin-top: 4rem;
+
+    margin-top: 5rem;
+
 
     display: grid;
 
+
     grid-template-columns: repeat(3, 1fr);
 
+
     gap: 1.5rem;
+
+
 }
+
+
+
+
 
 .stat-card {
 
+
     position: relative;
 
-    padding: 2rem;
+
+    padding: 2.2rem;
+
 
     text-align: center;
 
-    border-radius: 24px;
 
-    background: rgba(255,255,255,.8);
+    border-radius: 28px;
+
+
+    background:
+
+        rgba(255, 255, 255, .8);
+
 
     backdrop-filter: blur(20px);
 
-    -webkit-backdrop-filter: blur(20px);
 
-    border: 1px solid rgba(15,23,42,.08);
+    border: 1px solid rgba(15, 23, 42, .08);
 
-    overflow: hidden;
 
     transition: .35s ease;
+
+
 }
 
-.stat-card::before {
 
-    content: "";
 
-    position: absolute;
 
-    inset: 0;
-
-    background: linear-gradient(
-        135deg,
-        rgba(37,99,235,.05),
-        transparent 60%
-    );
-
-    opacity: 0;
-
-    transition: .35s ease;
-}
 
 .stat-card:hover {
 
-    transform: translateY(-6px);
 
-    box-shadow: 0 20px 45px rgba(15,23,42,.08);
+    transform: translateY(-8px);
+
+
+    box-shadow:
+
+        0 25px 55px rgba(15, 23, 42, .1);
+
+
 }
 
-.stat-card:hover::before {
 
-    opacity: 1;
-}
+
+
 
 .stat-card h3 {
 
-    margin: 0 0 .6rem;
 
-    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-size: 3rem;
+
+
+    font-weight: 900;
+
 
     color: var(--primary-color);
 
-    font-weight: 800;
 
-    line-height: 1;
+    margin-bottom: .6rem;
+
+
 }
+
+
+
+
 
 .stat-card span {
 
-    display: block;
 
-    color: #6b7280;
+    color: #64748b;
+
 
     line-height: 1.7;
 
-    font-size: .95rem;
+
 }
 
 
-/* ==========================================
-   TABLET
-========================================== */
 
-@media (max-width: 992px) {
 
-    .why-canada {
 
-        padding: 5rem 0;
-    }
+
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+
+@media(max-width:992px) {
+
 
     .why-canada-layout {
 
+
         grid-template-columns: 1fr;
 
-        gap: 2rem;
     }
+
+
 
     .why-feature-card {
 
-        position: static;
+
+        position: relative;
+
+        top: 0;
+
     }
 
+
+
     .why-canada-stats {
+
 
         grid-template-columns: repeat(2, 1fr);
+
     }
 
 }
 
 
-/* ==========================================
-   MOBILE
-========================================== */
-
-@media (max-width: 768px) {
-
-    .why-canada-header {
-
-        margin-bottom: 3rem;
-    }
-
-    .why-feature-card {
-
-        padding: 1.5rem;
-    }
-
-    .why-feature-icon {
-
-        width: 60px;
-
-        height: 60px;
-
-        border-radius: 18px;
-
-        font-size: 1.6rem;
-    }
-
-    .why-feature-card h3 {
-
-        font-size: 1.5rem;
-    }
-
-    .why-small-card {
-
-        padding: 1rem;
-    }
-
-    .why-small-icon {
-
-        width: 48px;
-
-        height: 48px;
-
-        border-radius: 16px;
-
-        font-size: 1.25rem;
-    }
-
-    .why-small-card h4 {
-
-        font-size: .95rem;
-    }
-
-    .why-small-card span {
-
-        font-size: .8rem;
-    }
-
-    .why-canada-stats {
-
-        grid-template-columns: 1fr;
-
-        gap: 1rem;
-    }
-
-    .stat-card {
-
-        padding: 1.5rem;
-    }
-
-}
 
 
-/* ==========================================
-   SMALL PHONES
-========================================== */
 
-@media (max-width: 480px) {
+@media(max-width:768px) {
+
 
     .why-canada {
 
-        padding: 4rem 0;
+
+        padding: 5rem 0;
+
     }
 
-    .why-canada-header h2 {
-
-        font-size: 2rem;
-    }
-
-    .why-canada-header p {
-
-        font-size: .95rem;
-    }
 
     .why-feature-card {
 
-        border-radius: 22px;
+
+        padding: 1.7rem;
+
+        border-radius: 24px;
+
     }
+
+
+    .why-feature-card h3 {
+
+
+        font-size: 1.6rem;
+
+    }
+
+
 
     .why-small-card {
 
+
+        padding: 1rem;
+
         border-radius: 18px;
+
     }
 
-    .stat-card {
 
-        border-radius: 20px;
+
+    .why-canada-stats {
+
+
+        grid-template-columns: 1fr;
+
     }
+
+}
+
+
+
+@media(max-width:480px) {
+
+
+    .why-canada-header h2 {
+
+
+        font-size: 2rem;
+
+    }
+
+
+    .why-feature-icon {
+
+
+        width: 62px;
+
+        height: 62px;
+
+        font-size: 1.6rem;
+
+    }
+
 
 }

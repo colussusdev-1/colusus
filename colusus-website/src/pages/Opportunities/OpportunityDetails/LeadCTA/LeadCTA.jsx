@@ -23,13 +23,23 @@ const LeadCTA = ({
     };
 
 
+    const openWhatsApp = () => {
+
+        window.open(
+            "YOUR_WHATSAPP_LINK",
+            "_blank"
+        );
+
+    };
+
+
+
     return (
 
         <section className="lead-cta">
 
 
-            <div className="lead-cta-card">
-
+            <div className="lead-cta-container">
 
 
                 <div className="lead-cta-content">
@@ -37,40 +47,29 @@ const LeadCTA = ({
 
                     <div className="lead-cta-badge">
 
-                        <span>
-                            {country.flag}
-                        </span>
+                        {country.flag}
 
-                        Start Your Migration Journey
+                        {opportunity.title}
 
                     </div>
 
 
 
 
-
                     <h2>
 
-                        Ready To Explore
-
-                        <span>
-                            {" "}
-                            {opportunity.title}
-                        </span>
-
-                        ?
+                        Ready To Start Your
+                        Migration Journey?
 
                     </h2>
 
 
 
 
-
                     <p>
 
-                        Get a personalised assessment from our
-                        migration specialists and understand the
-                        best pathway available for your profile.
+                        Check your eligibility and speak
+                        with a migration specialist.
 
                     </p>
 
@@ -89,9 +88,9 @@ const LeadCTA = ({
 
                         >
 
-                            Book Free Consultation
+                            Start Assessment
 
-                            <HiArrowRight/>
+                            <HiArrowRight />
 
                         </button>
 
@@ -103,62 +102,49 @@ const LeadCTA = ({
 
                             className="lead-secondary"
 
+                            onClick={openWhatsApp}
+
                         >
 
-                            <HiOutlineChatAlt2/>
+                            <HiOutlineChatAlt2 />
 
-                            WhatsApp Advisor
+                            Chat With Advisor
 
                         </button>
 
 
+
+                    </div>
+
+
+
+
+                    <div className="lead-trust">
+
+
+                        <span>
+
+                            <HiOutlineCheckCircle />
+
+                            Expert guidance
+
+                        </span>
+
+
+                        <span>
+
+                            <HiOutlineCheckCircle />
+
+                            Secure process
+
+                        </span>
+
+
                     </div>
 
 
 
                 </div>
-
-
-
-
-
-
-
-                <div className="lead-cta-side">
-
-
-                    <div className="advisor-card">
-
-
-                        <div className="advisor-icon">
-
-                            <HiOutlineCheckCircle/>
-
-                        </div>
-
-
-
-                        <strong>
-
-                            Expert Guidance
-
-                        </strong>
-
-
-                        <p>
-
-                            Eligibility review,
-                            pathway selection,
-                            and application guidance.
-
-                        </p>
-
-
-                    </div>
-
-
-                </div>
-
 
 
             </div>

@@ -1,6 +1,11 @@
 import "./Hero.css";
 
-import { FiArrowRight } from "react-icons/fi";
+import {
+    FiArrowRight,
+    FiGlobe,
+    FiShield,
+    FiClock
+} from "react-icons/fi";
 
 import {
     useNavigate
@@ -18,46 +23,136 @@ const Hero = () => {
 
         <section className="contact-hero">
 
+
+            <div className="contact-hero-glow"></div>
+
+
+
             <div className="contact-hero-container">
+
+
 
                 <span className="contact-badge">
 
-                    Contact Colossus Migration
+                    CONTACT COLOSSUS MIGRATION
 
                 </span>
 
 
 
+
+
                 <h1>
 
-                    Let's Discuss Your
-                    Global Plans
+                    Your Journey Abroad
+
+                    <span>
+
+                        Starts With A Conversation
+
+                    </span>
 
                 </h1>
 
 
 
+
+
                 <p>
 
-                    Whether you're exploring immigration,
-                    overseas jobs, company formation or travel
-                    opportunities, our team is ready to help.
+                    Whether you are planning to study overseas,
+                    secure international employment, relocate your
+                    family or explore global opportunities, our
+                    experts are ready to guide your next move.
 
                 </p>
 
 
 
-                <button
 
-                    onClick={() => navigate("/consultation")}
 
-                >
+                <div className="contact-actions">
 
-                    Book Consultation
 
-                    <FiArrowRight />
+                    <button
 
-                </button>
+                        onClick={() => navigate("/consultation")}
+
+                        className="contact-primary"
+
+                    >
+
+                        Book Consultation
+
+                        <FiArrowRight />
+
+                    </button>
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+                <div className="contact-trust">
+
+
+
+                    <div>
+
+                        <FiGlobe />
+
+                        <span>
+
+                            Global Opportunities
+
+                        </span>
+
+                    </div>
+
+
+
+
+                    <div>
+
+                        <FiShield />
+
+                        <span>
+
+                            Trusted Guidance
+
+                        </span>
+
+                    </div>
+
+
+
+
+                    <div>
+
+                        <FiClock />
+
+                        <span>
+
+                            Fast Response
+
+                        </span>
+
+                    </div>
+
+
+
+                </div>
+
+
+
+
 
             </div>
 
@@ -66,5 +161,6 @@ const Hero = () => {
     );
 
 };
+
 
 export default Hero;

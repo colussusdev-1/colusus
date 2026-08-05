@@ -1,47 +1,104 @@
 import "./GlobalWorkImmigration.css";
 
-import { Link } from "react-router-dom";
 
-import { globalPrograms } from "./data/globalWorkData";
-import Navbar from "../../../components/Navbar/Navbar";
 import GlobalWorksHero from "./components/GlobalWorksHero";
+
+import TrustStats from "./sections/TrustStats";
+
 import WhyGlobalWork from "./sections/WhyGlobalWork";
+
+import WorkOpportunities from "./sections/WorkOpportunities";
+
+import Benefits from "./sections/Benefits";
+
 import HowItWorks from "./sections/HowItWorks";
-// import GlobalCTA from "./sections/GlobalCTA";
-import SuccessStories from "./sections/SuccessStories";
-import GlobalFAQ from "./sections/GlobalFAQ";
+
 import EligibilityMiniForm from "./sections/EligibilityMiniForm";
+
+import SuccessStories from "./sections/SuccessStories";
+
+import GlobalFAQ from "./sections/GlobalFAQ";
+
+import GlobalCTA from "./sections/GlobalCTA";
+
+
 
 const GlobalWorkImmigration = () => {
 
+
     return (
 
-        <div className="global-work">
 
-            <div className="container">
+        <main className="global-work">
 
-                {/* HERO */}
 
-               <GlobalWorksHero/>
+            {/* FULL SCREEN HERO */}
 
-               <WhyGlobalWork/>
+            <GlobalWorksHero />
 
-               <HowItWorks/>
 
-               {/* <GlobalCTA/> */}
 
-              <SuccessStories/>
+            {/* TRUST */}
 
-              <GlobalFAQ/>
+            <TrustStats />
 
-        
-          
 
-            </div>
 
-        </div>
+            {/* WHY GLOBAL WORK */}
+
+            <WhyGlobalWork />
+
+
+
+            {/* AVAILABLE PATHWAYS */}
+
+            <WorkOpportunities />
+
+
+
+            {/* BENEFITS */}
+
+            <Benefits />
+
+
+
+            {/* PROCESS */}
+
+            <HowItWorks />
+
+
+
+            {/* ELIGIBILITY */}
+
+            {/* <EligibilityMiniForm /> */}
+
+
+
+            {/* SUCCESS STORIES */}
+
+            <SuccessStories />
+
+
+
+            {/* FAQ */}
+
+            <GlobalFAQ />
+
+
+
+            {/* FINAL CONVERSION */}
+
+            <GlobalCTA />
+
+
+
+        </main>
+
 
     );
+
+
 };
+
 
 export default GlobalWorkImmigration;

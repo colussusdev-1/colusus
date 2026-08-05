@@ -1,4 +1,5 @@
 import Document from "../documents/document.model.js";
+import workflowService from "../workflows/workflow.service.js";
 
 /*
 |--------------------------------------------------------------------------
@@ -12,6 +13,8 @@ const getAllDocuments = async () => {
     .populate("user", "name email")
 
     .populate("application", "type destinationCountry status")
+
+    .populate("reviewedBy", "name email")
 
     .sort({
       createdAt: -1,
@@ -29,17 +32,11 @@ const getAllDocuments = async () => {
 const getDocumentById = async (documentId) => {
   const document = await Document.findById(documentId)
 
-    .populate(
-      "user",
+    .populate("user", "name email")
 
-      "name email",
-    )
+    .populate("application", "type destinationCountry status")
 
-    .populate(
-      "application",
-
-      "type destinationCountry status",
-    );
+    .populate("reviewedBy", "name email");
 
   return document;
 };
@@ -56,6 +53,8 @@ const updateDocumentStatus = async (
   status,
 
   reviewNote,
+
+  adminId,
 ) => {
   const document = await Document.findByIdAndUpdate(
     documentId,
@@ -64,6 +63,10 @@ const updateDocumentStatus = async (
       status,
 
       reviewNote,
+
+      reviewedBy: adminId,
+
+      reviewedAt: new Date(),
     },
 
     {
@@ -73,7 +76,45 @@ const updateDocumentStatus = async (
     },
   );
 
+  if (!document) {
+    return null;
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Trigger Workflow Automation
+  |--------------------------------------------------------------------------
+  */
+
+  await workflowService.handleDocumentStatusChange({
+    userId: document.user,
+
+    documentId: document._id,
+
+    status: document.status,
+  });
+
   return document;
+};
+
+/*
+|--------------------------------------------------------------------------
+| Get Documents By Status
+|--------------------------------------------------------------------------
+*/
+
+const getDocumentsByStatus = async (status) => {
+  return await Document.find({
+    status,
+  })
+
+    .populate("user", "name email")
+
+    .populate("application", "type destinationCountry status")
+
+    .sort({
+      createdAt: -1,
+    });
 };
 
 export default {
@@ -82,4 +123,6 @@ export default {
   getDocumentById,
 
   updateDocumentStatus,
+
+  getDocumentsByStatus,
 };

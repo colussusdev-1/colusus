@@ -4,7 +4,9 @@ import {
     HiArrowRight,
     HiOutlineClock,
     HiOutlineLocationMarker,
-    HiOutlineBadgeCheck
+    HiOutlineBadgeCheck,
+    HiOutlineCurrencyDollar,
+    HiOutlineTrendingUp
 } from "react-icons/hi";
 
 import "./OpportunityCard.css";
@@ -16,12 +18,39 @@ const OpportunityCard = ({
 }) => {
 
 
+    if (!opportunity) return null;
+
+
+
+    const opportunitySlug =
+        opportunity.slug ||
+        opportunity.id;
+
+
+
+    const positions =
+        opportunity.positions ||
+        [];
+
+
+
+    const benefits =
+        opportunity.benefits ||
+        opportunity.highlights ||
+        [];
+
+
+
+
     return (
+
 
         <article className="opportunity-card">
 
 
-            {/* VISUAL AREA */}
+
+            {/* IMAGE */}
+
 
             <div className="opportunity-card__visual">
 
@@ -39,7 +68,7 @@ const OpportunityCard = ({
 
 
 
-                <div className="opportunity-card__overlay"></div>
+                <div className="opportunity-card__overlay" />
 
 
 
@@ -48,14 +77,19 @@ const OpportunityCard = ({
                 <div className="opportunity-card__category">
 
 
-                    {
-                        opportunity.icon
-                    }
+                    <span>
+
+                        {opportunity.icon || "🌍"}
+
+                    </span>
 
 
                     <span>
 
-                        {opportunity.category}
+                        {
+                            opportunity.category ||
+                            "Opportunity"
+                        }
 
                     </span>
 
@@ -63,7 +97,28 @@ const OpportunityCard = ({
                 </div>
 
 
+
+
+
+                {
+                    opportunity.demand && (
+
+                        <div className="opportunity-card__demand">
+
+                            <HiOutlineTrendingUp />
+
+                            {opportunity.demand}
+
+                        </div>
+
+                    )
+                }
+
+
+
+
             </div>
+
 
 
 
@@ -93,7 +148,10 @@ const OpportunityCard = ({
 
                 <p className="opportunity-card__description">
 
-                    {opportunity.description}
+                    {
+                        opportunity.description ||
+                        "Explore this migration opportunity and begin your application process."
+                    }
 
                 </p>
 
@@ -104,23 +162,25 @@ const OpportunityCard = ({
 
 
 
-                {/* QUICK DETAILS */}
+                {/* MAIN FACTS */}
 
 
                 <div className="opportunity-card__facts">
+
 
 
                     <div>
 
                         <HiOutlineBadgeCheck />
 
-
                         <span>
 
-                            {opportunity.type}
+                            {
+                                opportunity.type ||
+                                "Work Permit"
+                            }
 
                         </span>
-
 
                     </div>
 
@@ -132,10 +192,13 @@ const OpportunityCard = ({
 
                         <HiOutlineClock />
 
-
                         <span>
 
-                            {opportunity.duration}
+                            {
+                                opportunity.duration ||
+                                opportunity.timeline ||
+                                "Processing Available"
+                            }
 
                         </span>
 
@@ -150,15 +213,19 @@ const OpportunityCard = ({
 
                         <HiOutlineLocationMarker />
 
-
                         <span>
 
-                            {opportunity.location}
+                            {
+                                opportunity.location ||
+                                countrySlug
+                            }
 
                         </span>
 
 
                     </div>
+
+
 
 
 
@@ -171,20 +238,142 @@ const OpportunityCard = ({
 
 
 
-                {/* ACTION */}
+
+                {/* SALARY */}
+
+
+
+                {
+                    opportunity.salary && (
+
+                        <div className="opportunity-card__salary">
+
+                            <HiOutlineCurrencyDollar />
+
+                            <strong>
+                                Salary:
+                            </strong>
+
+                            <span>
+
+                                {opportunity.salary}
+
+                            </span>
+
+
+                        </div>
+
+                    )
+                }
+
+
+
+
+
+
+
+
+
+                {/* POSITIONS */}
+
+
+                {
+                    positions.length > 0 && (
+
+                        <div className="opportunity-card__section">
+
+
+                            <h4>
+                                Available Positions
+                            </h4>
+
+
+
+                            <ul>
+
+                                {
+                                    positions.slice(0, 3).map(
+                                        (position, index) => (
+
+                                            <li key={index}>
+
+                                                {
+                                                    position.title ||
+                                                    position.sector
+                                                }
+
+
+                                            </li>
+
+                                        )
+                                    )
+                                }
+
+
+                            </ul>
+
+
+                        </div>
+
+                    )
+
+                }
+
+
+
+
+
+
+
+
+
+                {/* BENEFITS */}
+
+
+                {
+                    benefits.length > 0 && (
+
+                        <div className="opportunity-card__benefits">
+
+
+                            {
+                                benefits.slice(0, 3).map(
+                                    (benefit, index) => (
+
+                                        <span key={index}>
+
+                                            ✓ {benefit}
+
+                                        </span>
+
+                                    )
+                                )
+                            }
+
+
+                        </div>
+
+                    )
+
+                }
+
+
+
+
+
+
+
 
 
                 <Link
 
-                    to={
-                        `/opportunities/${countrySlug}/${opportunity.slug}`
-                    }
+                    to={`/opportunities/${countrySlug}/${opportunitySlug}`}
 
                     className="opportunity-card__button"
 
                 >
 
-                    View Pathway
+                    View Full Pathway
 
                     <HiArrowRight />
 
@@ -198,7 +387,9 @@ const OpportunityCard = ({
             </div>
 
 
+
         </article>
+
 
     );
 

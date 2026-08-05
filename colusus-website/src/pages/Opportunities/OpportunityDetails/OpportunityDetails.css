@@ -1,159 +1,96 @@
-/* ==========================================
-   PAGE
-========================================== */
-
-.opportunity-details-page{
-
-    max-width:1200px;
-
-    margin:0 auto;
-
-    padding:120px 24px 100px;
-
-    background:#f8fafc;
-
-}
+/* ==========================================================
+   OPPORTUNITY DETAILS PAGE
+   PAGE LEVEL ONLY
+========================================================== */
 
 
+.opportunity-details-page {
 
-/* ==========================================
-   PREMIUM HERO
-========================================== */
+    background: #f8fafc;
 
+    min-height: 100vh;
 
-.details-hero{
+    padding-top: 120px;
 
-    position:relative;
-
-    min-height:620px;
-
-    border-radius:40px;
-
-    overflow:hidden;
-
-    background-size:cover;
-
-    background-position:center;
-
-    display:flex;
-
-    align-items:center;
-
-    margin-bottom:80px;
+    padding-bottom: 120px;
 
 }
 
 
 
-.details-hero__overlay{
-
-    position:absolute;
-
-    inset:0;
+/* ==========================================================
+   NOT FOUND
+========================================================== */
 
 
-    background:
+.opportunity-not-found {
 
-    linear-gradient(
-        90deg,
-        rgba(2,8,23,.92),
-        rgba(2,8,23,.55)
-    );
+    min-height: 70vh;
 
-}
+    display: flex;
 
+    align-items: center;
 
+    justify-content: center;
 
-.details-hero__content{
-
-    position:relative;
-
-    z-index:2;
-
-    max-width:750px;
-
-    padding:70px;
-
-    color:white;
+    background: #f8fafc;
 
 }
 
 
 
-.details-hero__badge{
+.opportunity-not-found__inner {
 
-    display:inline-flex;
+    max-width: 520px;
 
-    align-items:center;
+    text-align: center;
 
-    gap:12px;
-
-    padding:10px 20px;
-
-    border-radius:999px;
-
-
-    background:
-
-    rgba(255,255,255,.14);
-
-
-    backdrop-filter:blur(20px);
-
-
-    border:
-
-    1px solid rgba(255,255,255,.2);
-
-
-    margin-bottom:25px;
-
-    font-weight:600;
+    padding: 40px;
 
 }
 
 
 
-.details-hero h1{
+.opportunity-not-found__inner span {
 
-    font-size:
+    display: inline-block;
 
-    clamp(42px,5vw,70px);
+    color: #2563eb;
 
+    font-size: .85rem;
 
-    line-height:1.05;
+    font-weight: 800;
 
-    letter-spacing:-2px;
+    text-transform: uppercase;
 
-    margin-bottom:18px;
-
-    color:white;
-
-}
-
-
-
-.details-hero p{
-
-    max-width:650px;
-
-    font-size:18px;
-
-    line-height:1.7;
-
-    color:
-
-    rgba(255,255,255,.82);
+    letter-spacing: .08em;
 
 }
 
 
 
-.details-location{
+.opportunity-not-found__inner h1 {
 
-    margin-bottom:10px;
 
-    font-weight:600;
+    margin-top: 18px;
+
+    font-size: clamp(2rem, 4vw, 3rem);
+
+    color: #0f172a;
+
+    letter-spacing: -1.5px;
+
+}
+
+
+
+.opportunity-not-found__inner p {
+
+    margin-top: 15px;
+
+    color: #64748b;
+
+    line-height: 1.7;
 
 }
 
@@ -161,633 +98,78 @@
 
 
 
-/* ==========================================
-   HERO ACTIONS
-========================================== */
+/* ==========================================================
+   SECTION WIDTH CONTROL
+========================================================== */
 
 
-.details-actions{
-
-    display:flex;
-
-    gap:16px;
-
-    margin-top:35px;
-
-}
+.opportunity-details-page>section:not(.details-hero) {
 
 
+    width: min(1250px, 92%);
 
-.details-actions button{
+    margin-left: auto;
 
-    height:55px;
-
-    padding:0 32px;
-
-    border-radius:50px;
-
-    border:none;
-
-    cursor:pointer;
-
-    font-weight:600;
-
-    transition:.3s ease;
+    margin-right: auto;
 
 }
 
 
 
-.details-actions button:first-child{
-
-    background:white;
-
-    color:#0f172a;
-
-}
 
 
-
-.details-actions button:first-child:hover{
-
-    transform:translateY(-4px);
-
-}
+/* ==========================================================
+   SECTION HEADINGS
+========================================================== */
 
 
-
-.details-actions .glass-btn{
-
-
-    background:
-
-    rgba(255,255,255,.12);
+.opportunity-details-page h2 {
 
 
-    border:
+    color: #0f172a;
 
-    1px solid rgba(255,255,255,.25);
+    font-weight: 800;
 
-
-    color:white;
-
-
-    backdrop-filter:blur(20px);
+    letter-spacing: -1px;
 
 }
 
 
 
-/* ==========================================
-   HERO MINI STATS
-========================================== */
+.opportunity-details-page p {
 
 
-.hero-mini-stats{
+    color: #475569;
 
-    display:flex;
-
-    gap:18px;
-
-    margin-top:50px;
+    line-height: 1.8;
 
 }
 
 
 
-.hero-mini-stats div{
 
 
-    min-width:160px;
-
-
-    padding:20px;
-
-
-    border-radius:24px;
-
-
-    background:
-
-    rgba(255,255,255,.12);
-
-
-    backdrop-filter:blur(20px);
-
-
-    border:
-
-    1px solid rgba(255,255,255,.18);
-
-
-}
-
-
-
-.hero-mini-stats span{
-
-
-    display:block;
-
-    font-size:13px;
-
-    opacity:.7;
-
-    margin-bottom:8px;
-
-}
-
-
-
-.hero-mini-stats strong{
-
-    font-size:18px;
-
-}
-
-
-
-/* ==========================================
-   FACTS
-========================================== */
-
-
-.details-facts{
-
-    display:grid;
-
-    grid-template-columns:repeat(3,1fr);
-
-    gap:24px;
-
-    margin-bottom:80px;
-
-}
-
-
-
-.fact-card{
-
-    padding:30px;
-
-    border-radius:30px;
-
-    background:white;
-
-    border:
-
-    1px solid rgba(15,23,42,.08);
-
-
-    box-shadow:
-
-    0 20px 50px rgba(15,23,42,.06);
-
-
-    transition:.35s ease;
-
-}
-
-
-
-.fact-card:hover{
-
-    transform:translateY(-10px);
-
-}
-
-
-
-.fact-card svg{
-
-    font-size:30px;
-
-    color:#0284c7;
-
-    margin-bottom:18px;
-
-}
-
-
-
-.fact-card span{
-
-    display:block;
-
-    color:#64748b;
-
-    font-size:.9rem;
-
-    margin-bottom:8px;
-
-}
-
-
-
-.fact-card strong{
-
-    font-size:1.2rem;
-
-    color:#0f172a;
-
-}
-
-
-
-/* ==========================================
-   CONTENT SECTIONS
-========================================== */
-
-
-.details-section{
-
-    margin-bottom:80px;
-
-}
-
-
-
-.details-section h2{
-
-    font-size:2rem;
-
-    margin-bottom:30px;
-
-    color:#0f172a;
-
-    letter-spacing:-1px;
-
-}
-
-
-
-.details-list{
-
-    display:grid;
-
-    grid-template-columns:
-
-    repeat(auto-fit,minmax(280px,1fr));
-
-
-    gap:18px;
-
-}
-
-
-
-.details-item{
-
-
-    display:flex;
-
-    gap:14px;
-
-    align-items:flex-start;
-
-
-    padding:22px;
-
-
-    border-radius:22px;
-
-
-    background:white;
-
-
-    border:
-
-    1px solid rgba(15,23,42,.08);
-
-
-    box-shadow:
-
-    0 10px 30px rgba(15,23,42,.04);
-
-
-}
-
-
-
-.details-item svg{
-
-    color:#16a34a;
-
-    font-size:22px;
-
-    flex-shrink:0;
-
-}
-
-
-
-/* ==========================================
-   RELATED OPPORTUNITIES
-========================================== */
-
-
-.related-grid{
-
-    display:grid;
-
-    grid-template-columns:
-
-    repeat(auto-fit,minmax(250px,1fr));
-
-
-    gap:22px;
-
-}
-
-
-
-.related-card{
-
-    padding:28px;
-
-    border-radius:28px;
-
-
-    background:white;
-
-
-    border:
-
-    1px solid rgba(15,23,42,.08);
-
-
-    transition:.35s ease;
-
-
-}
-
-
-
-.related-card:hover{
-
-    transform:translateY(-8px);
-
-    box-shadow:
-
-    0 20px 50px rgba(15,23,42,.08);
-
-}
-
-
-
-.related-card span{
-
-    font-size:2.5rem;
-
-    display:block;
-
-    margin-bottom:15px;
-
-}
-
-
-
-.related-card h4{
-
-    color:#0f172a;
-
-}
-
-
-
-/* ==========================================
-   CTA
-========================================== */
-
-
-.details-cta{
-
-    margin-top:100px;
-
-    text-align:center;
-
-    padding:70px 30px;
-
-
-    border-radius:45px;
-
-
-    background:
-
-    linear-gradient(
-        135deg,
-        #020617,
-        #1e293b
-    );
-
-
-    color:white;
-
-}
-
-
-
-.details-cta h2{
-
-    font-size:2.6rem;
-
-    margin-bottom:15px;
-
-}
-
-
-
-.details-cta p{
-
-    max-width:600px;
-
-    margin:0 auto 35px;
-
-    color:
-
-    rgba(255,255,255,.7);
-
-}
-
-
-
-.details-cta__buttons{
-
-    display:flex;
-
-    justify-content:center;
-
-    gap:16px;
-
-}
-
-
-
-.details-cta__buttons button{
-
-
-    height:55px;
-
-    padding:0 32px;
-
-
-    border-radius:50px;
-
-
-    border:none;
-
-
-    cursor:pointer;
-
-
-    font-weight:600;
-
-}
-
-
-
-.details-cta__buttons button:first-child{
-
-
-    background:white;
-
-    color:#0f172a;
-
-}
-
-
-
-.details-cta__buttons .outline{
-
-
-    background:transparent;
-
-    border:
-
-    1px solid rgba(255,255,255,.3);
-
-
-    color:white;
-
-}
-
-
-
-/* ==========================================
+/* ==========================================================
    MOBILE
-========================================== */
+========================================================== */
 
 
-@media(max-width:900px){
+@media(max-width:768px) {
 
 
-    .details-facts{
+    .opportunity-details-page {
 
-        grid-template-columns:1fr;
-
-    }
-
-
-    .hero-mini-stats{
-
-        flex-direction:column;
-
-    }
-
-
-}
-
-
-
-@media(max-width:768px){
-
-
-    .opportunity-details-page{
-
-        padding:100px 18px 70px;
+        padding-bottom: 70px;
 
     }
 
 
 
-    .details-hero{
+    .opportunity-details-page>section:not(.details-hero) {
 
-        min-height:700px;
-
-        border-radius:30px;
+        width: 92%;
 
     }
 
-
-
-    .details-hero__content{
-
-        padding:35px 25px;
-
-    }
-
-
-
-    .details-hero h1{
-
-        font-size:38px;
-
-    }
-
-
-
-    .details-actions{
-
-        flex-direction:column;
-
-    }
-
-
-
-    .details-actions button{
-
-        width:100%;
-
-    }
-
-
-
-    .details-section h2{
-
-        font-size:1.6rem;
-
-    }
-
-
-
-    .details-cta{
-
-        padding:45px 20px;
-
-    }
-
-
-
-    .details-cta h2{
-
-        font-size:2rem;
-
-    }
-
-
-
-    .details-cta__buttons{
-
-        flex-direction:column;
-
-    }
-
-
-
-    .details-cta__buttons button{
-
-        width:100%;
-
-    }
 
 }

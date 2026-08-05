@@ -64,7 +64,7 @@ const documentSchema = new mongoose.Schema(
 
         "REJECTED",
 
-        "CLIENT_REUPLOAD",
+        "REUPLOAD_REQUIRED",
       ],
 
       default: "UPLOADED",
@@ -74,6 +74,20 @@ const documentSchema = new mongoose.Schema(
       type: String,
 
       default: "",
+    },
+
+    reviewedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+
+      ref: "User",
+
+      default: null,
+    },
+
+    reviewedAt: {
+      type: Date,
+
+      default: null,
     },
   },
 

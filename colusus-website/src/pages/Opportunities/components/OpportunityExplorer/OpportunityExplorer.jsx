@@ -1,10 +1,15 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import {
     HiOutlineBriefcase,
     HiOutlineAcademicCap,
     HiOutlineHome,
-    HiOutlineOfficeBuilding
+    HiOutlineOfficeBuilding,
+    HiOutlineHeart,
+    HiOutlineCurrencyEuro,
+    HiOutlineClock,
+    HiOutlineCollection,
+    HiOutlineCheckCircle
 } from "react-icons/hi";
 
 import OpportunityCard from "./OpportunityCard";
@@ -12,28 +17,41 @@ import OpportunityCard from "./OpportunityCard";
 import "./OpportunityExplorer.css";
 
 
+
 const categories = [
+
     {
-        name:"All",
-        icon:null
+        name: "All",
+        icon: <HiOutlineCollection />
     },
+
     {
-        name:"Jobs",
-        icon:<HiOutlineBriefcase />
+        name: "Jobs",
+        icon: <HiOutlineBriefcase />
     },
+
     {
-        name:"Study",
-        icon:<HiOutlineAcademicCap />
+        name: "Study",
+        icon: <HiOutlineAcademicCap />
     },
+
     {
-        name:"Residency",
-        icon:<HiOutlineHome />
+        name: "Residency",
+        icon: <HiOutlineHome />
     },
+
     {
-        name:"Business",
-        icon:<HiOutlineOfficeBuilding />
+        name: "Business",
+        icon: <HiOutlineOfficeBuilding />
+    },
+
+    {
+        name: "Healthcare",
+        icon: <HiOutlineHeart />
     }
+
 ];
+
 
 
 
@@ -42,12 +60,12 @@ const OpportunityExplorer = ({
 }) => {
 
 
-    const [activeCategory,setActiveCategory] =
+    const [activeCategory, setActiveCategory] =
         useState("All");
 
 
 
-    if(!country) return null;
+    if (!country) return null;
 
 
 
@@ -58,31 +76,127 @@ const OpportunityExplorer = ({
 
 
     const filteredOpportunities =
+        useMemo(() => {
 
-        activeCategory === "All"
 
-        ?
+            if (activeCategory === "All") {
+                return opportunities;
+            }
 
-        opportunities
 
-        :
 
-        opportunities.filter(
-            item =>
-            item.category === activeCategory
-        );
+            return opportunities.filter(item => {
+
+
+                const category =
+                    item.category?.toLowerCase();
+
+
+                const type =
+                    item.type?.toLowerCase();
+
+
+                const badge =
+                    item.badge?.toLowerCase();
+
+
+
+                const selected =
+                    activeCategory.toLowerCase();
+
+
+
+                return (
+
+                    category === selected ||
+
+                    type?.includes(selected) ||
+
+                    badge?.includes(selected)
+
+                );
+
+
+            });
+
+
+
+        }, [
+            activeCategory,
+            opportunities
+        ]);
+
+
+
+
+
+
+
+    const totalPositions =
+        useMemo(() => {
+
+
+            return filteredOpportunities.reduce(
+                (total, item) => {
+
+
+                    if (!item.positions) {
+                        return total;
+                    }
+
+
+
+                    return (
+
+                        total +
+
+                        item.positions.reduce(
+                            (count, position) => {
+
+
+                                return (
+
+                                    count +
+
+                                    (
+                                        position.roles
+                                            ?
+                                            position.roles.length
+                                            :
+                                            1
+                                    )
+
+                                );
+
+
+                            },
+                            0
+                        )
+
+                    );
+
+
+                },
+                0
+            );
+
+
+        }, [
+            filteredOpportunities
+        ]);
+
+
+
 
 
 
 
     return (
 
-
         <section
-            id="opportunity-explorer"
             className="opportunity-explorer"
+            id="opportunity-explorer"
         >
-
 
 
             <div className="explorer-container">
@@ -93,9 +207,7 @@ const OpportunityExplorer = ({
 
                 {/* HEADER */}
 
-
-                <div className="explorer-header">
-
+                <header className="explorer-header">
 
 
                     <div className="explorer-header-left">
@@ -112,7 +224,7 @@ const OpportunityExplorer = ({
                             </span>
 
 
-                            Explore {country.name} Pathways
+                            Explore {country.name} Opportunities
 
 
                         </div>
@@ -122,14 +234,13 @@ const OpportunityExplorer = ({
 
 
 
-
                         <h2>
 
-                            Find The Right Opportunity
-                            
+                            Choose The Right Pathway
+
                             <span>
 
-                                For Your Future
+                                Build Your Future In {country.name}
 
                             </span>
 
@@ -144,15 +255,90 @@ const OpportunityExplorer = ({
 
                         <p>
 
-                            Discover available work,
-                            study, residency and business
-                            pathways designed for people
-                            looking to build a future in
-                            {` ${country.name}`}.
-
+                            Discover verified work, study, residency,
+                            healthcare and business migration routes.
+                            Compare opportunities and find the pathway
+                            that matches your goals.
 
                         </p>
 
+
+
+
+                        <div className="explorer-trust">
+
+
+                            <div>
+
+                                <HiOutlineCheckCircle />
+
+                                Verified Programs
+
+                            </div>
+
+
+
+                            <div>
+
+                                <HiOutlineCheckCircle />
+
+                                Expert Guidance
+
+                            </div>
+
+
+
+                            <div>
+
+                                <HiOutlineCheckCircle />
+
+                                Full Support
+
+                            </div>
+
+
+                        </div>
+
+
+
+                    </div>
+
+
+                </header>
+
+
+
+
+
+
+
+
+
+                {/* STATS */}
+
+
+                <div className="explorer-overview">
+
+
+
+                    <div className="overview-card">
+
+
+                        <HiOutlineCollection />
+
+
+                        <div>
+
+                            <strong>
+                                {filteredOpportunities.length}
+                            </strong>
+
+                            <span>
+                                Programs
+                            </span>
+
+
+                        </div>
 
 
                     </div>
@@ -163,25 +349,80 @@ const OpportunityExplorer = ({
 
 
 
-
-                    {/* RESULTS */}
-
-
-                    <div className="explorer-results">
+                    <div className="overview-card">
 
 
-                        <strong>
-
-                            {filteredOpportunities.length}
-
-                        </strong>
+                        <HiOutlineBriefcase />
 
 
-                        <span>
+                        <div>
 
-                            Available Pathways
+                            <strong>
+                                {totalPositions}+
+                            </strong>
 
-                        </span>
+                            <span>
+                                Positions
+                            </span>
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+
+
+
+
+                    <div className="overview-card">
+
+
+                        <HiOutlineCurrencyEuro />
+
+
+                        <div>
+
+                            <strong>
+                                High
+                            </strong>
+
+                            <span>
+                                Salary Potential
+                            </span>
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+
+
+
+
+                    <div className="overview-card">
+
+
+                        <HiOutlineClock />
+
+
+                        <div>
+
+                            <strong>
+                                {country.processingTime || "Fast"}
+                            </strong>
+
+                            <span>
+                                Processing
+                            </span>
+
+
+                        </div>
 
 
                     </div>
@@ -198,7 +439,39 @@ const OpportunityExplorer = ({
 
 
 
-                {/* FILTER NAV */}
+                {/* FILTER HEADER */}
+
+
+
+                <div className="explorer-filter-header">
+
+
+                    <h3>
+                        Available Pathways
+                    </h3>
+
+
+                    <span>
+
+                        {filteredOpportunities.length}
+                        Results
+
+                    </span>
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+                {/* FILTERS */}
+
 
 
                 <div className="explorer-tabs">
@@ -213,42 +486,27 @@ const OpportunityExplorer = ({
                                 key={category.name}
 
                                 className={
-
                                     activeCategory === category.name
-
-                                    ?
-
-                                    "active"
-
-                                    :
-
-                                    ""
-
+                                        ?
+                                        "active"
+                                        :
+                                        ""
                                 }
 
 
-                                onClick={()=>{
-
-                                    setActiveCategory(
-                                        category.name
-                                    );
-
-                                }}
+                                onClick={() => setActiveCategory(category.name)}
 
                             >
 
 
+                                <span>
 
-                                {
-                                    category.icon &&
-                                    <span>
-                                        {category.icon}
-                                    </span>
-                                }
+                                    {category.icon}
+
+                                </span>
 
 
                                 {category.name}
-
 
 
                             </button>
@@ -258,6 +516,7 @@ const OpportunityExplorer = ({
                     }
 
 
+
                 </div>
 
 
@@ -268,74 +527,56 @@ const OpportunityExplorer = ({
 
 
 
-                {/* OPPORTUNITY GRID */}
+                {/* CARDS */}
 
 
                 <div className="explorer-grid">
 
 
                     {
-
                         filteredOpportunities.length > 0
 
 
-                        ?
+                            ?
 
 
-                        filteredOpportunities.map(
-                            opportunity => (
+                            filteredOpportunities.map(opportunity => (
 
 
                                 <OpportunityCard
 
-                                    key={
-                                        opportunity.id
-                                    }
+                                    key={opportunity.id}
 
-                                    opportunity={
-                                        opportunity
-                                    }
+                                    opportunity={opportunity}
 
-                                    countrySlug={
-                                        country.slug
-                                    }
-
+                                    countrySlug={country.slug}
 
                                 />
 
 
-                            )
-                        )
+                            ))
 
 
-                        :
+                            :
 
-
-                        (
 
                             <div className="no-opportunities">
 
 
                                 <h3>
-
-                                    No Pathways Available
-
+                                    No Opportunities Available
                                 </h3>
 
 
                                 <p>
 
-                                    Contact our advisors
-                                    and we will help you
-                                    find the best route.
+                                    Try another pathway or speak with
+                                    our migration advisors.
 
                                 </p>
 
 
                             </div>
-
-
-                        )
 
 
                     }
@@ -346,8 +587,8 @@ const OpportunityExplorer = ({
 
 
 
-            </div>
 
+            </div>
 
 
         </section>

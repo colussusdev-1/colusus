@@ -1,7 +1,7 @@
 import "./WhyGlobalWork.css";
 
 import {
-    HiOutlineGlobe,
+    HiOutlineGlobeAlt,
     HiOutlineBadgeCheck,
     HiOutlineLightningBolt,
     HiOutlineOfficeBuilding,
@@ -11,151 +11,177 @@ import {
 const items = [
 
     {
-        icon: HiOutlineGlobe,
-        title: "Global Opportunities",
+        number: "01",
+        icon: HiOutlineGlobeAlt,
+        title: "Worldwide Career Pathways",
         text:
-            "Access immigration and work pathways across multiple countries worldwide.",
+            "Discover verified international employment and relocation routes across leading global destinations.",
         theme: "blue",
     },
 
+
     {
+        number: "02",
         icon: HiOutlineBadgeCheck,
-        title: "Verified Pathways",
+        title: "Trusted Migration Support",
         text:
-            "We only use approved, legal and recognized immigration programs.",
+            "Every opportunity is carefully reviewed to help you avoid unreliable offers and migration risks.",
         theme: "green",
     },
 
+
     {
+        number: "03",
         icon: HiOutlineLightningBolt,
-        title: "Faster Processing",
+        title: "End-To-End Guidance",
         text:
-            "We guide you to avoid delays and improve application success speed.",
+            "From eligibility assessment and documentation to application support, we simplify the entire journey.",
         theme: "orange",
     },
 
+
     {
+        number: "04",
         icon: HiOutlineOfficeBuilding,
-        title: "Expert Guidance",
+        title: "Relocation Assistance",
         text:
-            "Get support from experienced migration and relocation consultants.",
+            "Receive professional support preparing for your transition and building your future abroad.",
         theme: "purple",
     },
 
 ];
 
 
+
 const WhyGlobalWork = () => {
+
 
     return (
 
         <section className="why-global">
 
+
+            <div className="why-background"></div>
+
+
+
             <div className="container">
 
 
-                {/* ==========================
-                    HEADER
-                =========================== */}
+                <header className="why-global-header">
 
-                <div className="why-global-header">
 
                     <span className="why-global-tag">
 
-                        WHY GLOBAL WORK
+                        GLOBAL WORK ADVANTAGE
 
                     </span>
 
 
+
                     <h2>
 
-                        Your Gateway To
+                        Building Your Pathway
 
                         <span>
-                            International Opportunities
+                            To Global Success
                         </span>
 
                     </h2>
 
 
+
                     <p>
 
-                        From finding the right migration pathway
-                        to preparing your application, we help you
-                        move confidently across borders.
+                        International relocation requires the right strategy,
+                        preparation and trusted guidance. We help professionals
+                        move confidently toward better opportunities worldwide.
 
                     </p>
 
-                </div>
+
+                </header>
 
 
 
-                {/* ==========================
-                    FEATURE GRID
-                =========================== */}
+
 
                 <div className="why-grid">
 
 
-                    {items.map((item) => {
+                    {
+                        items.map((item) => {
 
 
-                        const Icon = item.icon;
+                            const Icon = item.icon;
 
 
-                        return (
+                            return (
 
-                            <article
+                                <article
 
-                                className={`why-card ${item.theme}`}
+                                    key={item.number}
 
-                                key={item.title}
+                                    className={`why-card ${item.theme}`}
 
-                            >
-                                <div className="why-card-files">
-
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-
-                                </div>
-
-                                <div className="why-icon">
-
-                                    <Icon />
-
-                                </div>
+                                >
 
 
+                                    <div className="card-top">
 
-                                <div className="why-content">
 
+                                        <span className="why-number">
 
-                                    <h3>
+                                            {item.number}
 
-                                        {item.title}
-
-                                    </h3>
+                                        </span>
 
 
 
-                                    <p>
+                                        <div className="why-icon">
 
-                                        {item.text}
+                                            <Icon />
 
-                                    </p>
-
-
-                                </div>
+                                        </div>
 
 
-
-                            </article>
-
-                        );
+                                    </div>
 
 
-                    })}
+
+                                    <div className="why-content">
+
+
+                                        <h3>
+
+                                            {item.title}
+
+                                        </h3>
+
+
+
+                                        <p>
+
+                                            {item.text}
+
+                                        </p>
+
+
+                                    </div>
+
+
+
+                                    <div className="card-line"></div>
+
+
+
+                                </article>
+
+                            )
+
+
+                        })
+                    }
 
 
                 </div>

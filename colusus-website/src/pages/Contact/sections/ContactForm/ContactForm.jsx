@@ -4,176 +4,298 @@ import {
     FiMail,
     FiPhone,
     FiClock,
-    FiSend
+    FiSend,
+    FiShield,
+    FiGlobe
 } from "react-icons/fi";
 
+
 const ContactForm = () => {
+
 
     return (
 
         <section className="contact-section">
 
+
             <div className="contact-container">
+
+
 
                 {/* FORM */}
 
                 <div className="contact-form-card">
 
-                    <h2>
 
-                        Send Us A Message
+                    <div className="contact-header">
 
-                    </h2>
+                        <span>
+                            CONTACT OUR TEAM
+                        </span>
 
-                    <p>
 
-                        Tell us about your goals and we'll
-                        get back to you shortly.
+                        <h2>
+                            Start Your Global Journey
+                        </h2>
 
-                    </p>
+
+                        <p>
+                            Tell us about your plans and our specialists
+                            will guide you towards the right pathway.
+                        </p>
+
+
+                    </div>
+
+
+
 
                     <form>
 
-                        <input
-                            type="text"
-                            placeholder="Full Name"
-                        />
 
-                        <input
-                            type="email"
-                            placeholder="Email Address"
-                        />
+                        <div className="contact-grid">
 
-                        <input
-                            type="text"
-                            placeholder="Phone Number"
-                        />
 
-                        <select>
+                            <input
+                                type="text"
+                                placeholder="Full Name"
+                            />
 
-                            <option>
 
-                                Immigration
+                            <input
+                                type="email"
+                                placeholder="Email Address"
+                            />
 
-                            </option>
 
-                            <option>
+                        </div>
 
-                                Overseas Jobs
 
-                            </option>
 
-                            <option>
 
-                                Offshore Company
 
-                            </option>
+                        <div className="contact-grid">
 
-                            <option>
 
-                                Study Abroad
+                            <input
+                                type="text"
+                                placeholder="Phone Number"
+                            />
 
-                            </option>
 
-                            <option>
+                            <select>
 
-                                Travel Services
 
-                            </option>
+                                <option>
+                                    Select Service
+                                </option>
 
-                        </select>
+
+                                <option>
+                                    Immigration
+                                </option>
+
+
+                                <option>
+                                    Overseas Jobs
+                                </option>
+
+
+                                <option>
+                                    Study Abroad
+                                </option>
+
+
+                                <option>
+                                    Offshore Company
+                                </option>
+
+
+                                <option>
+                                    Travel Services
+                                </option>
+
+
+                            </select>
+
+
+                        </div>
+
+
+
 
                         <textarea
+
                             rows="5"
-                            placeholder="Tell us how we can help..."
+
+                            placeholder="Tell us about your goals..."
+
                         />
 
-                        <button type="submit">
+
+
+
+                        <button>
+
 
                             Send Message
 
+
                             <FiSend />
+
 
                         </button>
 
+
+
                     </form>
+
 
                 </div>
 
-                {/* INFO */}
 
-                <div className="contact-info-card">
+
+
+
+
+
+                {/* INFORMATION */}
+
+
+
+                <aside className="contact-info-card">
+
+
+                    <div className="info-brand">
+
+
+                        <FiGlobe />
+
+
+                        <span>
+                            Colossus Migration
+                        </span>
+
+
+                    </div>
+
+
+
 
                     <h3>
 
-                        Colossus Migration & Tours
+                        Professional Support
+                        Beyond Borders
 
                     </h3>
 
+
+
+
                     <p>
 
-                        Helping individuals, families
-                        and businesses achieve their
-                        international goals.
+                        We help individuals, families and businesses
+                        navigate international opportunities with
+                        confidence.
 
                     </p>
 
-                    <div className="info-item">
 
-                        <FiMail />
 
-                        <span>
+
+
+                    <div className="info-benefits">
+
+
+                        <div>
+
+                            <FiShield />
+
+                            <span>
+                                Verified pathways
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <FiGlobe />
+
+                            <span>
+                                Global opportunities
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+
+
+
+                    <div className="info-contact">
+
+
+                        <div>
+
+                            <FiMail />
 
                             admin@colossusmigration.com
 
-                        </span>
+                        </div>
 
-                    </div>
 
-                    <div className="info-item">
 
-                        <FiPhone />
+                        <div>
 
-                        <span>
+                            <FiPhone />
 
-                            +234-703-520-9306
+                            +234 703 520 9306
 
-                        </span>
+                        </div>
 
-                    </div>
 
-                    <div className="info-item">
 
-                        <FiPhone />
+                        <div>
 
-                        <span>
+                            <FiPhone />
 
-                            +234-902-695-3513
+                            +234 902 695 3513
 
-                        </span>
+                        </div>
 
-                    </div>
 
-                    <div className="info-item">
 
-                        <FiClock />
 
-                        <span>
+                        <div>
+
+                            <FiClock />
 
                             Mon - Sat · 9AM - 6PM
 
-                        </span>
+                        </div>
+
+
 
                     </div>
 
-                </div>
+
+
+                </aside>
+
+
 
             </div>
+
+
 
         </section>
 
     );
 
 };
+
 
 export default ContactForm;

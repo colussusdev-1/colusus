@@ -3,9 +3,7 @@ import {
     HiCheckCircle
 } from "react-icons/hi";
 
-
 import "./Documents.css";
-
 
 
 const Documents = ({
@@ -18,6 +16,10 @@ const Documents = ({
 
 
 
+    if (!documents.length) return null;
+
+
+
     return (
 
         <section className="documents-section">
@@ -27,23 +29,14 @@ const Documents = ({
 
 
 
-
-
-                {/* HEADER */}
-
                 <div className="documents-header">
 
 
-                    <div className="documents-badge">
-
+                    <div className="documents-label">
 
                         <HiOutlineDocumentText />
 
-
-                        <span>
-                            Application Checklist
-                        </span>
-
+                        Application Preparation
 
                     </div>
 
@@ -51,18 +44,21 @@ const Documents = ({
 
 
                     <h2>
-                        Required Documents
+
+                        Documents You Need To Prepare
+
                     </h2>
+
 
 
 
                     <p>
 
-                        Prepare these documents before
-                        submitting your application.
+                        Having these documents ready helps
+                        make your application process faster
+                        and smoother.
 
                     </p>
-
 
 
                 </div>
@@ -72,24 +68,20 @@ const Documents = ({
 
 
 
-
-
-                {/* DOCUMENT LIST */}
-
-
                 <div className="documents-list">
 
 
                     {
                         documents.map(
-                            (document,index)=>(
+
+                            (document, index) => (
 
 
-                                <article
-
-                                    key={index}
+                                <div
 
                                     className="document-item"
+
+                                    key={index}
 
                                 >
 
@@ -97,10 +89,9 @@ const Documents = ({
 
                                     <div className="document-number">
 
-                                        {index + 1}
+                                        {String(index + 1).padStart(2, "0")}
 
                                     </div>
-
 
 
 
@@ -113,21 +104,15 @@ const Documents = ({
 
 
 
-
-
-                                    <HiCheckCircle
-
-                                        className="document-check"
-
-                                    />
+                                    <HiCheckCircle />
 
 
 
-
-                                </article>
+                                </div>
 
 
                             )
+
                         )
                     }
 
@@ -138,8 +123,24 @@ const Documents = ({
 
 
 
-            </div>
+                <div className="documents-note">
 
+
+                    <HiCheckCircle />
+
+                    <span>
+
+                        Additional documents may be requested
+                        during your official assessment.
+
+                    </span>
+
+
+                </div>
+
+
+
+            </div>
 
 
         </section>

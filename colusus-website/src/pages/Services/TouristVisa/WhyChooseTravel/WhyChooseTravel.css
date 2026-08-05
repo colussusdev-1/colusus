@@ -1,0 +1,379 @@
+.why-travel {
+
+    padding: 7rem 0;
+
+    background:
+        linear-gradient(180deg,
+            #f8fafc,
+            #ffffff);
+
+}
+
+
+
+
+.why-travel-header {
+
+    max-width: 760px;
+
+    margin: 0 auto 4rem;
+
+    text-align: center;
+
+}
+
+
+
+.why-travel-header span {
+
+    display: inline-flex;
+
+    padding: .45rem 1rem;
+
+    border-radius: 999px;
+
+    background: rgba(37, 99, 235, .08);
+
+    color: var(--primary-color);
+
+    font-size: .8rem;
+
+    font-weight: 700;
+
+    letter-spacing: .12em;
+
+}
+
+
+
+
+.why-travel-header h2 {
+
+
+    margin: 1.2rem 0;
+
+    font-size: clamp(2.3rem, 4vw, 3.5rem);
+
+    line-height: 1.15;
+
+    color: #111827;
+
+    font-weight: 800;
+
+}
+
+
+
+.why-travel-header h2 strong {
+
+    display: block;
+
+    color: var(--primary-color);
+
+}
+
+
+
+.why-travel-header p {
+
+    color: #6b7280;
+
+    line-height: 1.8;
+
+    font-size: 1.05rem;
+
+}
+
+
+
+
+
+.why-travel-grid {
+
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 1.5rem;
+
+}
+
+
+
+
+.why-travel-card {
+
+
+    padding: 2rem;
+
+
+    border-radius: 26px;
+
+
+    background:
+
+        rgba(255, 255, 255, .75);
+
+
+
+    backdrop-filter: blur(20px);
+
+
+    border:
+
+        1px solid rgba(15, 23, 42, .08);
+
+
+
+    transition: .35s ease;
+
+
+}
+
+
+
+
+.why-travel-card:hover {
+
+
+    transform:
+        translateY(-8px);
+
+
+
+    box-shadow:
+
+        0 20px 50px rgba(15, 23, 42, .1);
+
+
+
+}
+
+
+
+
+
+.why-travel-icon {
+
+
+    width: 64px;
+
+    height: 64px;
+
+
+    border-radius: 20px;
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+    background:
+
+        linear-gradient(135deg,
+            var(--primary-color),
+            #3b82f6);
+
+
+    color: white;
+
+
+    font-size: 1.8rem;
+
+
+    margin-bottom: 1.5rem;
+
+
+}
+
+
+
+
+.why-travel-card h3 {
+
+
+    font-size: 1.2rem;
+
+    color: #111827;
+
+    margin-bottom: .8rem;
+
+
+}
+
+
+
+
+.why-travel-card p {
+
+
+    color: #6b7280;
+
+    line-height: 1.7;
+
+    font-size: .95rem;
+
+
+}
+
+
+
+
+
+.why-travel-highlight {
+
+
+    margin-top: 3rem;
+
+
+    display: flex;
+
+
+    gap: 1.5rem;
+
+
+    align-items: center;
+
+
+    padding: 2rem 2.5rem;
+
+
+    border-radius: 28px;
+
+
+    background:
+
+
+        rgba(37, 99, 235, .06);
+
+
+
+    border:
+
+        1px solid rgba(37, 99, 235, .12);
+
+
+
+}
+
+
+
+
+
+.highlight-icon {
+
+
+    width: 60px;
+
+    height: 60px;
+
+
+    flex-shrink: 0;
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+    border-radius: 18px;
+
+
+    background: white;
+
+
+    color: var(--primary-color);
+
+
+    font-size: 1.8rem;
+
+
+}
+
+
+
+
+.why-travel-highlight h3 {
+
+
+    margin: 0 0 .5rem;
+
+
+    color: #111827;
+
+
+}
+
+
+
+.why-travel-highlight p {
+
+
+    margin: 0;
+
+
+    color: #6b7280;
+
+
+    line-height: 1.7;
+
+
+}
+
+
+
+
+@media(max-width:992px) {
+
+
+    .why-travel-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+
+}
+
+
+
+
+@media(max-width:600px) {
+
+
+    .why-travel {
+
+        padding: 4rem 0;
+
+    }
+
+
+    .why-travel-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+
+    .why-travel-highlight {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        padding: 1.5rem;
+
+    }
+
+
+
+}

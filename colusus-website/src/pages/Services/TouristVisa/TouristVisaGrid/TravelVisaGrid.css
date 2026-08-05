@@ -1,0 +1,393 @@
+.travel-visa-grid {
+
+    padding: 7rem 0;
+
+    background:
+        linear-gradient(180deg,
+            #f8fafc,
+            #ffffff);
+
+}
+
+
+.travel-visa-header {
+
+    max-width: 760px;
+
+    margin: 0 auto 4rem;
+
+    text-align: center;
+
+}
+
+
+.travel-visa-header span {
+
+
+    display: inline-flex;
+
+    padding: .55rem 1.2rem;
+
+    border-radius: 999px;
+
+    background: rgba(0, 86, 179, .08);
+
+    color: var(--primary);
+
+    font-size: .75rem;
+
+    font-weight: 700;
+
+    letter-spacing: .12em;
+
+}
+
+
+.travel-visa-header h2 {
+
+
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+
+    line-height: 1.15;
+
+    margin: 1.4rem 0;
+
+    font-weight: 800;
+
+    color: #111827;
+
+
+}
+
+
+.travel-visa-header h2 strong {
+
+    display: block;
+
+    color: var(--primary);
+
+}
+
+
+
+.travel-visa-header p {
+
+    color: #64748b;
+
+    font-size: 1.05rem;
+
+    line-height: 1.8;
+
+}
+
+
+
+
+.travel-visa-cards {
+
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 1.4rem;
+
+
+}
+
+
+
+
+.travel-visa-card {
+
+
+    position: relative;
+
+    padding: 2rem 1.6rem;
+
+
+    background:
+
+        rgba(255, 255, 255, .75);
+
+
+    backdrop-filter: blur(20px);
+
+
+    -webkit-backdrop-filter: blur(20px);
+
+
+
+    border:
+
+        1px solid rgba(255, 255, 255, .8);
+
+
+
+    border-radius: 28px;
+
+
+    box-shadow:
+
+        0 20px 50px rgba(15, 23, 42, .06);
+
+
+
+    overflow: hidden;
+
+
+    transition: .35s ease;
+
+
+}
+
+
+
+.travel-visa-card::before {
+
+
+    content: "";
+
+
+    position: absolute;
+
+
+    width: 180px;
+
+    height: 180px;
+
+
+    right: -80px;
+
+    top: -80px;
+
+
+    background:
+
+        radial-gradient(circle,
+            rgba(0, 86, 179, .12),
+            transparent 70%);
+
+
+}
+
+
+
+
+.travel-visa-card:hover {
+
+
+    transform: translateY(-8px);
+
+
+    box-shadow:
+
+        0 30px 70px rgba(15, 23, 42, .12);
+
+
+}
+
+
+
+
+
+.travel-visa-icon {
+
+
+    width: 62px;
+
+    height: 62px;
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+    border-radius: 20px;
+
+
+    background:
+
+        rgba(0, 86, 179, .1);
+
+
+    color: var(--primary);
+
+
+    font-size: 1.8rem;
+
+
+    margin-bottom: 1.5rem;
+
+
+    transition: .35s ease;
+
+
+}
+
+
+
+.travel-visa-card:hover .travel-visa-icon {
+
+
+    background: var(--primary);
+
+
+    color: white;
+
+
+}
+
+
+
+
+.travel-visa-card h3 {
+
+
+    font-size: 1.35rem;
+
+    color: #111827;
+
+    margin-bottom: .8rem;
+
+
+}
+
+
+
+.travel-visa-card p {
+
+
+    color: #64748b;
+
+    line-height: 1.7;
+
+    font-size: .95rem;
+
+
+}
+
+
+
+
+
+.travel-visa-tags {
+
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: .5rem;
+
+    margin-top: 1.5rem;
+
+
+}
+
+
+
+.travel-visa-tags span {
+
+
+    padding: .35rem .75rem;
+
+
+    border-radius: 999px;
+
+
+    background: #f1f5f9;
+
+
+    font-size: .75rem;
+
+
+    color: #475569;
+
+
+    font-weight: 600;
+
+
+}
+
+
+
+.travel-visa-arrow {
+
+
+    position: absolute;
+
+
+    right: 1.5rem;
+
+    bottom: 1.5rem;
+
+
+    color: var(--primary);
+
+
+    font-size: 1.3rem;
+
+
+    transition: .35s ease;
+
+
+}
+
+
+
+.travel-visa-card:hover .travel-visa-arrow {
+
+
+    transform: translateX(6px);
+
+
+}
+
+
+
+
+@media(max-width:1100px) {
+
+
+    .travel-visa-cards {
+
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+
+
+}
+
+
+
+@media(max-width:650px) {
+
+
+    .travel-visa-grid {
+
+        padding: 5rem 0;
+
+    }
+
+
+
+    .travel-visa-cards {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+
+    .travel-visa-card {
+
+        padding: 1.6rem;
+
+    }
+
+
+}

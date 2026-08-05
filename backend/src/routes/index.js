@@ -7,15 +7,23 @@ import userRoutes from "../modules/users/user.routes.js";
 
 import applicationRoutes from "../modules/applications/application.routes.js";
 import documentRoutes from "../modules/documents/document.routes.js";
+
 import clientProfileRoutes from "../modules/client-profile/clinet-profile.routes.js";
-import adminRoutes from "../modules/admin/admin.routes.js";
 import clientRoutes from "../modules/client/client.routes.js";
+
+import notificationRoutes from "../modules/notifications/notification.routes.js";
+
+import bookingRoutes from "../modules/bookings/booking.routes.js";
+import couponRoutes from "../modules/coupons/coupon.routes.js";
+
+import adminRoutes from "../modules/admin/admin.routes.js";
+import paymentRoutes from "../modules/payments/payment.routes.js";
 
 const router = express.Router();
 
 /*
 |--------------------------------------------------------------------------
-| Health Routes
+| Health
 |--------------------------------------------------------------------------
 */
 
@@ -23,7 +31,7 @@ router.use("/health", healthRoutes);
 
 /*
 |--------------------------------------------------------------------------
-| Authentication Routes
+| Authentication
 |--------------------------------------------------------------------------
 */
 
@@ -31,7 +39,7 @@ router.use("/auth", authRoutes);
 
 /*
 |--------------------------------------------------------------------------
-| User Routes
+| Users
 |--------------------------------------------------------------------------
 */
 
@@ -39,15 +47,17 @@ router.use("/users", userRoutes);
 
 /*
 |--------------------------------------------------------------------------
-| Client Routes
+| Client Portal
 |--------------------------------------------------------------------------
 */
 
 router.use("/client", clientRoutes);
 
+router.use("/client-profile", clientProfileRoutes);
+
 /*
 |--------------------------------------------------------------------------
-| Application Routes
+| Applications
 |--------------------------------------------------------------------------
 */
 
@@ -55,23 +65,36 @@ router.use("/applications", applicationRoutes);
 
 /*
 |--------------------------------------------------------------------------
-| Document Routes
+| Documents
 |--------------------------------------------------------------------------
 */
 
 router.use("/documents", documentRoutes);
 
 /*
-|--------------------------------
-|Client Profile
-|-------------------------------
-|
+|--------------------------------------------------------------------------
+| Notifications
+|--------------------------------------------------------------------------
 */
 
-router.use("/client-profile", clientProfileRoutes);
+router.use("/notifications", notificationRoutes);
 
 /*
-Admin 
+|--------------------------------------------------------------------------
+| Consultation Booking
+|--------------------------------------------------------------------------
+*/
+
+router.use("/bookings", bookingRoutes);
+
+router.use("/coupons", couponRoutes);
+
+router.use("/payments", paymentRoutes);
+
+/*
+|--------------------------------------------------------------------------
+| Admin Portal
+|--------------------------------------------------------------------------
 */
 
 router.use("/admin", adminRoutes);

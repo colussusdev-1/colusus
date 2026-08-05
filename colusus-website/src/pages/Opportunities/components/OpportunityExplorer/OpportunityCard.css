@@ -3,41 +3,41 @@
 ===================================== */
 
 
-.opportunity-card{
+.opportunity-card {
 
-    width:360px;
+    width: 380px;
 
-    max-width:100%;
+    max-width: 100%;
 
-    background:#ffffff;
+    background: #ffffff;
 
-    border-radius:26px;
+    border-radius: 30px;
 
-    overflow:hidden;
+    overflow: hidden;
 
-    border:1px solid rgba(15,23,42,.08);
+    border: 1px solid rgba(15, 23, 42, .08);
 
     box-shadow:
 
-    0 15px 40px rgba(15,23,42,.08);
+        0 20px 50px rgba(15, 23, 42, .08);
 
-    display:flex;
+    display: flex;
 
-    flex-direction:column;
+    flex-direction: column;
 
-    transition:.35s ease;
+    transition: .35s ease;
 
 }
 
 
 
-.opportunity-card:hover{
+.opportunity-card:hover {
 
-    transform:translateY(-8px);
+    transform: translateY(-10px);
 
     box-shadow:
 
-    0 25px 65px rgba(15,23,42,.14);
+        0 35px 80px rgba(15, 23, 42, .16);
 
 }
 
@@ -48,69 +48,51 @@
 
 
 /* =====================================
-   IMAGE
+   VISUAL SECTION
 ===================================== */
 
 
-.opportunity-card__visual{
-
-    height:190px;
-
-    position:relative;
-
-    overflow:hidden;
-
-    background:
-
-    linear-gradient(
-        135deg,
-        #0f172a,
-        #2563eb
-    );
-
-}
+.opportunity-card__visual {
 
 
+    height: 210px;
 
-.opportunity-card__visual img{
+    position: relative;
 
-    width:100%;
-
-    height:100%;
-
-    object-fit:cover;
-
-    transition:.6s ease;
-
-}
-
-
-
-.opportunity-card:hover 
-.opportunity-card__visual img{
-
-    transform:scale(1.08);
-
-}
-
-
-
-
-
-
-.opportunity-card__overlay{
-
-    position:absolute;
-
-    inset:0;
+    overflow: hidden;
 
     background:
 
-    linear-gradient(
-        to top,
-        rgba(2,6,23,.65),
-        transparent
-    );
+        linear-gradient(135deg,
+            #0f172a,
+            #2563eb);
+
+
+}
+
+
+
+.opportunity-card__visual img {
+
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    transition: .7s ease;
+
+
+}
+
+
+
+.opportunity-card:hover .opportunity-card__visual img {
+
+
+    transform: scale(1.1);
+
 
 }
 
@@ -120,56 +102,142 @@
 
 
 
-/* CATEGORY BADGE */
+.opportunity-card__overlay {
 
 
-.opportunity-card__category{
+    position: absolute;
 
-
-    position:absolute;
-
-
-    left:18px;
-
-
-    bottom:16px;
-
-
-    display:flex;
-
-
-    align-items:center;
-
-
-    gap:7px;
-
-
-    padding:7px 14px;
-
-
-    border-radius:999px;
+    inset: 0;
 
 
     background:
 
-    rgba(255,255,255,.18);
+
+        linear-gradient(to top,
+
+            rgba(2, 6, 23, .85),
+
+            rgba(2, 6, 23, .15));
 
 
-    backdrop-filter:blur(15px);
+}
+
+
+
+
+
+
+
+
+/* =====================================
+   CATEGORY BADGE
+===================================== */
+
+
+.opportunity-card__category {
+
+
+    position: absolute;
+
+    left: 18px;
+
+    bottom: 18px;
+
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+
+    padding: 8px 15px;
+
+
+    border-radius: 999px;
+
+
+    background:
+
+        rgba(255, 255, 255, .15);
 
 
     border:
 
-    1px solid rgba(255,255,255,.25);
+        1px solid rgba(255, 255, 255, .25);
 
 
-    color:white;
+    backdrop-filter: blur(15px);
 
 
-    font-size:.78rem;
+    color: white;
 
 
-    font-weight:700;
+    font-size: .78rem;
+
+    font-weight: 700;
+
+
+}
+
+
+
+
+
+
+
+/* =====================================
+   DEMAND BADGE
+===================================== */
+
+
+.opportunity-card__demand {
+
+
+    position: absolute;
+
+
+    top: 18px;
+
+
+    right: 18px;
+
+
+    display: flex;
+
+
+    align-items: center;
+
+
+    gap: 6px;
+
+
+    padding: 8px 14px;
+
+
+    border-radius: 999px;
+
+
+    background:
+
+        rgba(255, 255, 255, .15);
+
+
+    border:
+
+        1px solid rgba(255, 255, 255, .25);
+
+
+    backdrop-filter: blur(15px);
+
+
+    color: white;
+
+
+    font-size: .75rem;
+
+
+    font-weight: 700;
 
 
 }
@@ -186,15 +254,20 @@
 ===================================== */
 
 
-.opportunity-card__content{
+.opportunity-card__content {
 
-    padding:22px;
 
-    display:flex;
+    padding: 24px;
 
-    flex-direction:column;
 
-    flex:1;
+    display: flex;
+
+
+    flex-direction: column;
+
+
+    flex: 1;
+
 
 }
 
@@ -204,17 +277,23 @@
 
 
 
-.opportunity-card h3{
+.opportunity-card h3 {
 
-    font-size:1.25rem;
 
-    line-height:1.3;
+    font-size: 1.35rem;
 
-    letter-spacing:-.3px;
 
-    color:#0f172a;
+    line-height: 1.3;
 
-    margin-bottom:10px;
+
+    letter-spacing: -.5px;
+
+
+    color: #0f172a;
+
+
+    margin-bottom: 12px;
+
 
 }
 
@@ -224,15 +303,20 @@
 
 
 
-.opportunity-card__description{
+.opportunity-card__description {
 
-    color:#64748b;
 
-    font-size:.88rem;
+    color: #64748b;
 
-    line-height:1.65;
 
-    margin-bottom:20px;
+    font-size: .9rem;
+
+
+    line-height: 1.7;
+
+
+    margin-bottom: 20px;
+
 
 }
 
@@ -248,51 +332,294 @@
 ===================================== */
 
 
-.opportunity-card__facts{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:11px;
-
-    margin-bottom:22px;
-
-}
+.opportunity-card__facts {
 
 
+    display: flex;
 
 
-.opportunity-card__facts div{
+    flex-direction: column;
 
 
-    display:flex;
+    gap: 12px;
 
 
-    align-items:center;
+    padding-bottom: 20px;
 
 
-    gap:9px;
+    border-bottom:
 
-
-    color:#475569;
-
-
-    font-size:.85rem;
+        1px solid rgba(15, 23, 42, .08);
 
 
 }
 
 
 
-
-.opportunity-card__facts svg{
-
-
-    color:#2563eb;
+.opportunity-card__facts div {
 
 
-    font-size:1rem;
+    display: flex;
+
+
+    align-items: center;
+
+
+    gap: 10px;
+
+
+    color: #475569;
+
+
+    font-size: .86rem;
+
+
+}
+
+
+
+.opportunity-card__facts svg {
+
+
+    color: #2563eb;
+
+
+    font-size: 1.1rem;
+
+
+}
+
+
+
+
+
+
+
+
+/* =====================================
+   SALARY
+===================================== */
+
+
+.opportunity-card__salary {
+
+
+    margin-top: 18px;
+
+
+    display: flex;
+
+
+    align-items: center;
+
+
+    flex-wrap: wrap;
+
+
+    gap: 7px;
+
+
+    padding: 12px 14px;
+
+
+    border-radius: 16px;
+
+
+    background: #f8fafc;
+
+
+    color: #0f172a;
+
+
+    font-size: .85rem;
+
+
+}
+
+
+
+.opportunity-card__salary svg {
+
+
+    color: #16a34a;
+
+
+    font-size: 1.1rem;
+
+
+}
+
+
+.opportunity-card__salary span {
+
+
+    color: #2563eb;
+
+
+    font-weight: 700;
+
+
+}
+
+
+
+
+
+
+
+
+/* =====================================
+   POSITIONS
+===================================== */
+
+
+.opportunity-card__section {
+
+
+    margin-top: 20px;
+
+
+}
+
+
+
+.opportunity-card__section h4 {
+
+
+    font-size: .9rem;
+
+
+    color: #0f172a;
+
+
+    margin-bottom: 12px;
+
+
+}
+
+
+
+.opportunity-card__section ul {
+
+
+    padding: 0;
+
+    margin: 0;
+
+
+    list-style: none;
+
+
+    display: flex;
+
+
+    flex-direction: column;
+
+
+    gap: 8px;
+
+
+}
+
+
+
+.opportunity-card__section li {
+
+
+    font-size: .82rem;
+
+
+    color: #475569;
+
+
+    padding-left: 18px;
+
+
+    position: relative;
+
+
+}
+
+
+
+.opportunity-card__section li::before {
+
+
+    content: "";
+
+
+    width: 6px;
+
+    height: 6px;
+
+
+    background: #2563eb;
+
+
+    border-radius: 50%;
+
+
+    position: absolute;
+
+
+    left: 0;
+
+
+    top: 8px;
+
+
+}
+
+
+
+
+
+
+
+
+/* =====================================
+   BENEFITS
+===================================== */
+
+
+.opportunity-card__benefits {
+
+
+    display: flex;
+
+
+    flex-wrap: wrap;
+
+
+    gap: 8px;
+
+
+    margin-top: 18px;
+
+
+}
+
+
+
+.opportunity-card__benefits span {
+
+
+    background: #eff6ff;
+
+
+    color: #2563eb;
+
+
+    padding: 7px 12px;
+
+
+    border-radius: 999px;
+
+
+    font-size: .72rem;
+
+
+    font-weight: 700;
 
 
 }
@@ -309,89 +636,63 @@
 ===================================== */
 
 
-.opportunity-card__button{
+.opportunity-card__button {
 
 
-    margin-top:auto;
+    margin-top: 25px;
 
 
-    height:46px;
+    height: 50px;
 
 
-    border-radius:999px;
+    border-radius: 999px;
 
 
-    display:flex;
+    display: flex;
 
 
-    align-items:center;
+    align-items: center;
 
 
-    justify-content:center;
+    justify-content: center;
 
 
-    gap:8px;
+    gap: 8px;
 
 
-    text-decoration:none;
+    text-decoration: none;
 
 
-    background:#0f172a;
+    background: #0f172a;
 
 
-    color:white;
+    color: white;
 
 
-    font-size:.9rem;
+    font-size: .9rem;
 
 
-    font-weight:700;
+    font-weight: 700;
 
 
-    transition:.3s ease;
-
-
-}
-
-
-
-
-
-.opportunity-card__button:hover{
-
-
-    background:#2563eb;
-
-
-    transform:translateY(-2px);
+    transition: .35s ease;
 
 
 }
 
 
 
+.opportunity-card__button:hover {
 
 
+    background: #2563eb;
 
 
-
-/* =====================================
-   LARGE SCREENS
-===================================== */
-
-
-@media(min-width:1200px){
-
-
-    .opportunity-card{
-
-
-        width:360px;
-
-    }
+    transform: translateY(-3px);
 
 
 }
+
 
 
 
@@ -404,13 +705,13 @@
 ===================================== */
 
 
-@media(max-width:900px){
+@media(max-width:900px) {
 
 
-    .opportunity-card{
+    .opportunity-card {
 
 
-        width:340px;
+        width: 350px;
 
 
     }
@@ -430,16 +731,27 @@
 ===================================== */
 
 
-@media(max-width:600px){
+@media(max-width:600px) {
 
 
-    .opportunity-card{
+    .opportunity-card {
 
 
-        width:100%;
+        width: 100%;
 
 
-        border-radius:22px;
+        border-radius: 24px;
+
+
+    }
+
+
+
+
+    .opportunity-card__visual {
+
+
+        height: 190px;
 
 
     }
@@ -448,22 +760,10 @@
 
 
 
-    .opportunity-card__visual{
+    .opportunity-card__content {
 
 
-        height:180px;
-
-
-    }
-
-
-
-
-
-    .opportunity-card__content{
-
-
-        padding:20px;
+        padding: 20px;
 
 
     }
@@ -471,14 +771,25 @@
 
 
 
+    .opportunity-card h3 {
 
-    .opportunity-card h3{
 
-
-        font-size:1.15rem;
+        font-size: 1.2rem;
 
 
     }
+
+
+
+
+    .opportunity-card__benefits span {
+
+
+        font-size: .68rem;
+
+
+    }
+
 
 
 }

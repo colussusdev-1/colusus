@@ -1,8 +1,10 @@
 import {
     HiArrowRight,
     HiOutlineClock,
-    HiOutlineUsers,
-    HiOutlineBadgeCheck
+    HiOutlineBadgeCheck,
+    HiOutlineChartBar,
+    HiOutlineUserGroup,
+    HiOutlineGlobeAlt
 } from "react-icons/hi";
 
 import "./OpportunityHero.css";
@@ -13,64 +15,116 @@ const OpportunityHero = ({
 }) => {
 
 
+
+    const pathwayCount =
+        country.opportunities?.length || 0;
+
+
+
     const stats = [
 
-        {
-            icon:<HiOutlineUsers />,
-            label:"Applicants Guided",
-            value:`${country.applicants}+`
-        },
 
         {
-            icon:<HiOutlineBadgeCheck />,
-            label:"Primary Route",
-            value:country.visa
+            icon: <HiOutlineChartBar />,
+            label: "Opportunity Score",
+            value: country.opportunityScore || "High"
         },
 
+
         {
-            icon:<HiOutlineClock />,
-            label:"Timeline",
-            value:country.duration
+            icon: <HiOutlineBadgeCheck />,
+            label: "Visa Route",
+            value: country.visa || "Work Permit"
+        },
+
+
+        {
+            icon: <HiOutlineClock />,
+            label: "Processing",
+            value:
+                country.processingTime ||
+                country.duration ||
+                "Available"
+        },
+
+
+        {
+            icon: <HiOutlineUserGroup />,
+            label: "Applicants",
+            value:
+                country.applicants || "500+"
+        },
+
+
+        {
+            icon: <HiOutlineGlobeAlt />,
+            label: "Pathways",
+            value:
+                `${pathwayCount} Available`
         }
+
 
     ];
 
 
 
+
+
+
+
     const explorePathways = () => {
 
+
         document
-        .getElementById("opportunity-explorer")
-        ?.scrollIntoView({
-            behavior:"smooth"
-        });
+            .getElementById("opportunity-explorer")
+            ?.scrollIntoView({
+
+                behavior: "smooth"
+
+            });
+
 
     };
+
+
+
+
 
 
 
     const contactAdvisor = () => {
 
+
         document
-        .getElementById("contact")
-        ?.scrollIntoView({
-            behavior:"smooth"
-        });
+            .getElementById("contact")
+            ?.scrollIntoView({
+
+                behavior: "smooth"
+
+            });
+
 
     };
 
 
 
+
+
+
+
+
     return (
 
+
         <section className="opportunity-hero">
+
 
 
             <img
 
                 src={country.image}
 
-                alt={`${country.name} opportunities`}
+                alt={`${country.name} migration opportunities`}
 
                 className="opportunity-hero-image"
 
@@ -78,7 +132,10 @@ const OpportunityHero = ({
 
 
 
-            <div className="opportunity-overlay"></div>
+
+            <div className="opportunity-overlay" />
+
+
 
 
 
@@ -88,43 +145,53 @@ const OpportunityHero = ({
 
 
 
+
+
+                {
+                    country.featured && (
+
+                        <div className="featured-badge">
+
+                            ⭐ Featured Destination
+
+                        </div>
+
+                    )
+                }
+
+
+
+
+
+
+
                 <div className="country-badge">
 
 
                     <span className="country-flag-icon">
 
-
-                        {
-                            country.flagImage ? (
-
-                                <img
-                                    src={country.flagImage}
-                                    alt={`${country.name} flag`}
-                                />
-
-                            ) : (
-
-                                <span>
-                                    {country.flag}
-                                </span>
-
-                            )
-                        }
-
+                        {country.flag}
 
                     </span>
 
 
 
+
+
                     <div className="country-badge-copy">
+
 
                         <small>
                             Destination
                         </small>
 
+
                         <strong>
+
                             {country.name}
+
                         </strong>
+
 
                     </div>
 
@@ -137,13 +204,47 @@ const OpportunityHero = ({
 
 
 
+
+
+                <div className="country-tags">
+
+
+                    {
+                        country.category?.slice(0, 4)
+                            .map((item) => (
+
+                                <span key={item}>
+
+                                    {item}
+
+                                </span>
+
+                            ))
+                    }
+
+
+                </div>
+
+
+
+
+
+
+
+
+
                 <h1>
+
 
                     Unlock Your Future
 
+
                     <span>
+
                         In {country.name}
+
                     </span>
+
 
                 </h1>
 
@@ -152,9 +253,16 @@ const OpportunityHero = ({
 
 
 
+
+
+
                 <p>
 
-                    {country.description}
+                    {
+                        country.description ||
+                        `Explore verified migration pathways and opportunities in ${country.name}.`
+                    }
+
 
                 </p>
 
@@ -164,7 +272,10 @@ const OpportunityHero = ({
 
 
 
+
+
                 <div className="hero-actions">
+
 
 
                     <button
@@ -185,6 +296,8 @@ const OpportunityHero = ({
 
 
 
+
+
                     <button
 
                         className="hero-secondary-action"
@@ -198,7 +311,10 @@ const OpportunityHero = ({
                     </button>
 
 
+
+
                 </div>
+
 
 
 
@@ -211,7 +327,7 @@ const OpportunityHero = ({
 
 
                     {
-                        stats.map((item)=>(
+                        stats.map((item) => (
 
 
                             <div
@@ -222,6 +338,8 @@ const OpportunityHero = ({
 
                             >
 
+
+
                                 <div className="hero-stat-icon">
 
                                     {item.icon}
@@ -229,20 +347,30 @@ const OpportunityHero = ({
                                 </div>
 
 
+
+
+
+
                                 <div className="hero-stat-content">
 
 
                                     <span>
+
                                         {item.label}
+
                                     </span>
 
 
+
                                     <strong>
+
                                         {item.value}
+
                                     </strong>
 
 
                                 </div>
+
 
 
                             </div>
@@ -252,14 +380,20 @@ const OpportunityHero = ({
                     }
 
 
+
                 </div>
+
+
+
 
 
 
             </div>
 
 
+
         </section>
+
 
     );
 

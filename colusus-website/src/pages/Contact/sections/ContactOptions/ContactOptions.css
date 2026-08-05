@@ -1,196 +1,552 @@
-.contact-options{
+.contact-options {
 
-    padding:0 0 2rem;
 
-}
+    position: relative;
 
-.contact-options-grid{
+    padding: 5rem 0;
 
-    width:min(1100px,94%);
 
-    margin:auto;
+    background: #ffffff;
 
-    display:grid;
 
-    grid-template-columns:
-    repeat(4,minmax(0,1fr));
+    overflow: hidden;
 
-    gap:1rem;
 
 }
 
-.contact-option-card{
 
-    background:#fff;
 
-    border:1px solid var(--border);
 
-    border-radius:20px;
 
-    padding:1.25rem;
+.contact-options::before {
 
-    text-align:center;
 
-    transition:.3s ease;
+    content: "";
 
-    cursor:pointer;
+    position: absolute;
 
-    overflow:hidden;
 
-    position:relative;
+    width: 400px;
 
-}
+    height: 400px;
 
-.contact-option-card::before{
 
-    content:"";
+    left: -200px;
 
-    position:absolute;
+    top: 20%;
 
-    inset:0;
 
     background:
-    linear-gradient(
-        135deg,
-        rgba(0,86,179,.04),
-        transparent
-    );
 
-    opacity:0;
+        rgba(37, 99, 235, .08);
 
-    transition:.3s;
+
+    filter: blur(90px);
+
+
+    border-radius: 50%;
+
 
 }
 
-.contact-option-card:hover{
 
-    transform:translateY(-4px);
+
+
+
+.contact-options-container {
+
+
+    width: min(1200px, 92%);
+
+    margin: auto;
+
+
+    position: relative;
+
+    z-index: 2;
+
+
+}
+
+
+
+
+
+/* HEADER */
+
+.contact-options-header {
+
+
+    max-width: 700px;
+
+    margin: auto;
+
+    text-align: center;
+
+
+}
+
+
+
+.contact-options-header span {
+
+
+    display: inline-flex;
+
+
+    padding: .6rem 1rem;
+
+
+    border-radius: 999px;
+
+
+    background:
+
+        rgba(37, 99, 235, .08);
+
+
+    border:
+
+        1px solid rgba(37, 99, 235, .15);
+
+
+    font-size: .75rem;
+
+
+    font-weight: 800;
+
+
+    letter-spacing: .15em;
+
+
+    color: #2563eb;
+
+
+}
+
+
+
+
+.contact-options-header h2 {
+
+
+    margin-top: 1.5rem;
+
+
+    font-size:
+
+        clamp(2.2rem, 4vw, 3.5rem);
+
+
+    line-height: 1.1;
+
+
+    letter-spacing: -1px;
+
+
+    color: #0f172a;
+
+
+}
+
+
+
+.contact-options-header h2 strong {
+
+
+    display: block;
+
+
+    color: #2563eb;
+
+
+}
+
+
+
+.contact-options-header p {
+
+
+    margin-top: 1rem;
+
+
+    color: #64748b;
+
+
+    line-height: 1.8;
+
+
+}
+
+
+
+
+
+/* GRID */
+
+
+.contact-options-grid {
+
+
+    margin-top: 3.5rem;
+
+
+    display: grid;
+
+
+    grid-template-columns: repeat(4, 1fr);
+
+
+    gap: 1.5rem;
+
+
+}
+
+
+
+
+
+/* CARD */
+
+
+.contact-option-card {
+
+
+    position: relative;
+
+
+    padding: 2rem 1.5rem;
+
+
+    border-radius: 28px;
+
+
+    background:
+
+
+        rgba(255, 255, 255, .75);
+
+
+    border:
+
+        1px solid rgba(226, 232, 240, .8);
+
+
+    backdrop-filter: blur(25px);
+
+
 
     box-shadow:
-    0 12px 30px rgba(0,0,0,.06);
+
+        0 20px 50px rgba(15, 23, 42, .08);
+
+
+    transition:
+
+        transform .4s ease,
+        box-shadow .4s ease;
+
+
+
+    animation:
+
+        floatCard 6s ease-in-out infinite;
+
 
 }
 
-.contact-option-card:hover::before{
 
-    opacity:1;
+
+.contact-option-card:nth-child(2) {
+
+    animation-delay: .8s;
 
 }
 
-.option-icon{
 
-    width:52px;
+.contact-option-card:nth-child(3) {
 
-    height:52px;
+    animation-delay: 1.6s;
 
-    margin:auto;
+}
 
-    margin-bottom:.9rem;
 
-    display:grid;
+.contact-option-card:nth-child(4) {
 
-    place-items:center;
+    animation-delay: 2.4s;
 
-    border-radius:14px;
+}
+
+
+
+
+.contact-option-card::before {
+
+
+    content: "";
+
+
+    position: absolute;
+
+
+    inset: 0;
+
+
+    border-radius: 28px;
+
 
     background:
-    rgba(0,86,179,.08);
 
-    color:var(--primary);
+        linear-gradient(135deg,
+            rgba(37, 99, 235, .12),
+            transparent);
 
-    font-size:1.15rem;
 
-}
+    opacity: 0;
 
-.contact-option-card h3{
 
-    font-size:1rem;
+    transition: .4s ease;
 
-    font-weight:600;
-
-    color:var(--heading);
-
-    margin-bottom:.35rem;
 
 }
 
-.contact-option-card span{
 
-    display:block;
 
-    font-size:.9rem;
 
-    line-height:1.5;
+.contact-option-card:hover::before {
 
-    color:var(--text-light);
 
-    word-break:break-word;
+    opacity: 1;
+
 
 }
 
-/* ==========================
-   TABLET
-========================== */
 
-@media(max-width:992px){
 
-    .contact-options-grid{
+.contact-option-card:hover {
 
-        grid-template-columns:
-        repeat(2,1fr);
 
-    }
+    transform: translateY(-12px);
+
+
+    box-shadow:
+
+        0 35px 80px rgba(37, 99, 235, .15);
+
 
 }
 
-/* ==========================
-   MOBILE
-========================== */
 
-@media(max-width:576px){
 
-    .contact-options{
 
-        padding:0 0 1.5rem;
+
+/* ICON */
+
+
+.option-icon {
+
+
+    position: relative;
+
+
+    width: 60px;
+
+
+    height: 60px;
+
+
+    display: grid;
+
+
+    place-items: center;
+
+
+    border-radius: 20px;
+
+
+
+    background:
+
+
+        linear-gradient(135deg,
+            #eff6ff,
+            #dbeafe);
+
+
+
+    color: #2563eb;
+
+
+    font-size: 1.5rem;
+
+
+    margin-bottom: 1.5rem;
+
+
+}
+
+
+
+
+
+.option-icon::after {
+
+
+    content: "";
+
+
+    position: absolute;
+
+
+    inset: -8px;
+
+
+    border-radius: 25px;
+
+
+    background:
+
+        rgba(37, 99, 235, .12);
+
+
+    filter: blur(12px);
+
+
+    z-index: -1;
+
+
+}
+
+
+
+
+
+.contact-option-card h3 {
+
+
+    font-size: 1.15rem;
+
+
+    color: #0f172a;
+
+
+    margin-bottom: .7rem;
+
+
+}
+
+
+
+.contact-option-card strong {
+
+
+    display: block;
+
+
+    font-size: .95rem;
+
+
+    color: #2563eb;
+
+
+    word-break: break-word;
+
+
+}
+
+
+
+.contact-option-card p {
+
+
+    margin-top: .8rem;
+
+
+    font-size: .85rem;
+
+
+    line-height: 1.6;
+
+
+    color: #64748b;
+
+
+}
+
+
+
+
+
+
+@keyframes floatCard {
+
+
+    0%,
+    100% {
+
+        transform: translateY(0);
 
     }
 
-    .contact-options-grid{
 
-        gap:.75rem;
+    50% {
 
-    }
-
-    .contact-option-card{
-
-        padding:1rem;
-
-        border-radius:16px;
+        transform: translateY(-6px);
 
     }
 
-    .option-icon{
 
-        width:44px;
+}
 
-        height:44px;
 
-        font-size:1rem;
 
-        margin-bottom:.75rem;
+
+
+@media(max-width:1000px) {
+
+
+    .contact-options-grid {
+
+
+        grid-template-columns: repeat(2, 1fr);
+
+
+    }
+
+
+}
+
+
+
+@media(max-width:600px) {
+
+
+    .contact-options {
+
+
+        padding: 3rem 0;
 
     }
 
-    .contact-option-card h3{
 
-        font-size:.95rem;
+
+    .contact-options-grid {
+
+
+        grid-template-columns: 1fr;
+
+
+    }
+
+
+
+    .contact-option-card {
+
+
+        padding: 1.7rem;
+
 
     }
 
-    .contact-option-card span{
-
-        font-size:.8rem;
-
-    }
 
 }

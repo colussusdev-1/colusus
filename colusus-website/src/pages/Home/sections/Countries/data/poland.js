@@ -1,598 +1,253 @@
-import poland from "../../../../../assets/images/countries/poland.jpg";
+import polandImage from "../../../../../assets/images/countries/poland.jpg";
 
+import polandWorkImage from "../../../../../assets/images/opportunities/poland-work.jpg";
+import polandWarehouseImage from "../../../../../assets/images/opportunities/poland-warehouse.jpg";
+import polandFactoryImage from "../../../../../assets/images/opportunities/poland-factory.jpg";
+import polandAgricultureImage from "../../../../../assets/images/opportunities/poland-agriculture.jpg";
 
-const polandData = {
+const poland = {
+  id: 5,
 
+  name: "Poland",
 
-    id:5,
+  shortName: "Poland",
 
+  slug: "poland",
 
-    name:"Poland",
+  flag: "🇵🇱",
 
-    shortName:"Poland",
+  image: polandImage,
 
-    slug:"poland",
+  applicants: "2.1k",
 
+  category: ["popular", "work"],
 
+  visa: "Work Permit",
 
-    flag:"🇵🇱",
+  duration: "3–6 Weeks",
 
+  processingTime: "Fast",
 
-    image:poland,
+  opportunityScore: "90%",
 
+  successRate: "High",
 
+  featured: true,
 
-    applicants:"740",
+  description:
+    "Relocate to Poland through a verified employer-sponsored work permit program with accommodation support, multiple employment sectors and flight arrangement assistance.",
 
+  opportunities: [
+    {
+      id: 1,
 
+      title: "Poland Work Permit Migration Package",
 
-    category:[
+      slug: "poland-work-permit",
 
-        "work",
-        "affordable",
-        "europe"
+      image: polandWorkImage,
 
-    ],
+      icon: "🇵🇱",
 
+      category: "Jobs",
 
+      location: "Poland",
 
-    visa:"Work Permit",
+      type: "Standard Work Permit Package",
 
+      duration: "3–6 Weeks",
 
+      salary: "€1,100 – €1,500/month",
 
-    duration:"6–10 Weeks",
+      demand: "High",
 
+      description:
+        "Move to Poland with a verified job offer, employer-provided accommodation, work permit processing and opportunities across warehouse, factory and agricultural sectors.",
 
+      highlights: [
+        "Verified Job Offer",
 
-    processingTime:"Fast",
+        "Work Permit",
 
+        "Employer Accommodation",
 
+        "Multiple Employment Sectors",
 
-    description:
+        "Flight Arrangement Support",
+      ],
 
-    "Explore affordable European work opportunities in Poland with employment routes across logistics, manufacturing and skilled industries.",
-
-
-
-    opportunityScore:"78%",
-
-
-
-    successRate:"Good",
-
-
-
-    featured:false,
-
-
-
-
-
-    opportunities:[
-
-
-
-
-
-
+      positions: [
         {
+          sector: "Warehouses",
 
-            id:1,
+          image: polandWarehouseImage,
 
+          roles: [
+            "Product Packers",
 
-            title:"Factory & Logistics Jobs",
+            "Scanner Operators",
 
-
-
-            slug:"factory-logistics-jobs",
-
-
-
-            category:"Jobs",
-
-
-
-            location:"Poland",
-
-
-
-            type:"Work Permit",
-
-
-
-            duration:"6–10 Weeks",
-
-
-
-            icon:"🏭",
-
-
-
-
-
-            salary:
-
-            "€1,000 - €2,000/month",
-
-
-
-
-
-            demand:
-
-            "High",
-
-
-
-
-
-            description:
-
-            "Poland offers accessible employment opportunities in manufacturing, logistics and industrial sectors for international workers.",
-
-
-
-
-
-            requirements:[
-
-
-                "Valid passport",
-
-
-                "Basic education qualification",
-
-
-                "Ability to work physically demanding roles",
-
-
-                "Willingness to relocate"
-
-
-            ],
-
-
-
-
-
-            documents:[
-
-
-                "Passport",
-
-
-                "CV",
-
-
-                "Employment offer",
-
-
-                "Passport photographs",
-
-
-                "Work permit documents"
-
-
-            ],
-
-
-
-
-
-            benefits:[
-
-
-                "Affordable European entry route",
-
-
-                "Stable employment opportunities",
-
-
-                "European work experience",
-
-
-                "Accommodation support options"
-
-
-            ]
-
+            "Electric Trolley Operators",
+          ],
         },
 
-
-
-
-
-
-
-
-
         {
+          sector: "Factories",
 
-            id:2,
+          image: polandFactoryImage,
 
+          roles: [
+            "Assembly Line Workers",
 
-            title:"Warehouse Operative",
+            "Quality Control Staff",
 
-
-
-            slug:"warehouse-operative",
-
-
-
-            category:"Jobs",
-
-
-
-            location:"Warsaw, Poland",
-
-
-
-            type:"Work Permit",
-
-
-
-            duration:"6–10 Weeks",
-
-
-
-            icon:"📦",
-
-
-
-
-
-            salary:
-
-            "€1,200 - €2,300/month",
-
-
-
-
-
-            demand:
-
-            "High",
-
-
-
-
-
-            description:
-
-            "Join Poland's growing logistics sector through warehouse and distribution employment opportunities.",
-
-
-
-
-
-            requirements:[
-
-
-                "Valid passport",
-
-
-                "Basic English communication",
-
-
-                "Good physical condition",
-
-
-                "Work commitment"
-
-
-            ],
-
-
-
-
-
-            documents:[
-
-
-                "Passport",
-
-
-                "CV",
-
-
-                "Employment documents",
-
-
-                "Work permit approval"
-
-
-            ],
-
-
-
-
-
-            benefits:[
-
-
-                "Fast processing",
-
-
-                "Stable monthly income",
-
-
-                "European employment experience",
-
-
-                "Career progression opportunities"
-
-
-            ]
-
+            "Small Parts Assembly Workers",
+          ],
         },
 
-
-
-
-
-
-
-
-
         {
+          sector: "Agriculture",
 
-            id:3,
+          image: polandAgricultureImage,
 
+          roles: ["Farm Workers", "Fruit Pickers", "Vegetable Packers"],
+        },
+      ],
 
+      benefits: [
+        "Verified Work Permit",
 
-            title:"Skilled Worker Program",
+        "Accommodation Provided by Employer",
 
+        "6 Working Days Per Week",
 
+        "170–250 Working Hours Per Month",
 
-            slug:"skilled-worker-program",
+        "Transportation to and from Work (Where Applicable)",
 
+        "Multiple Employment Sectors",
 
+        "Flight Arrangement Support",
+      ],
 
-            category:"Jobs",
+      requirements: [
+        "All Nationalities Can Apply",
 
+        "Maximum Age: 45 Years",
 
+        "Communicative English Required",
 
-            location:"Poland",
+        "Physically Fit for Manual Work",
+      ],
 
+      documents: [
+        "Valid International Passport",
 
+        "Updated CV / Resume",
 
-            type:"Employment Visa",
+        "Passport Photograph",
 
+        "Educational Certificates (If Available)",
 
+        "Work Experience Documents (If Available)",
+      ],
 
-            duration:"8–14 Weeks",
+      steps: [
+        {
+          title: "Document Submission",
 
-
-
-            icon:"💼",
-
-
-
-
-
-            salary:
-
-            "€25,000 - €50,000/year",
-
-
-
-
-
-            demand:
-
-            "Growing",
-
-
-
-
-
-            description:
-
-            "Qualified professionals can access Poland's expanding technology, engineering and business sectors.",
-
-
-
-
-
-            requirements:[
-
-
-                "Relevant professional skills",
-
-
-                "Work experience",
-
-
-                "Employment offer",
-
-
-                "Required qualifications"
-
-
-            ],
-
-
-
-
-
-            documents:[
-
-
-                "Passport",
-
-
-                "Professional certificates",
-
-
-                "CV",
-
-
-                "Employment contract"
-
-
-            ],
-
-
-
-
-
-            benefits:[
-
-
-                "Career growth",
-
-
-                "European market access",
-
-
-                "Long-term residence options",
-
-
-                "Professional development"
-
-
-            ]
-
+          description:
+            "Submit all required documents for eligibility screening.",
         },
 
+        {
+          title: "Migration Service Agreement",
 
-
-
-
-
-
-
+          description:
+            "Sign the official Migration Service Agreement before processing begins.",
+        },
 
         {
+          title: "Employer Matching",
 
-            id:4,
+          description:
+            "Your profile is matched with a suitable Polish employer.",
+        },
 
+        {
+          title: "Job Offer & Work Permit",
 
+          description:
+            "Receive employment contract, accommodation details and approved work permit.",
+        },
 
-            title:"Student Pathway",
+        {
+          title: "Visa Application",
 
+          description: "Complete embassy submission and biometric processing.",
+        },
 
+        {
+          title: "Travel Preparation",
 
-            slug:"student-pathway",
+          description: "Prepare relocation after visa approval.",
+        },
+      ],
 
+      pricing: {
+        total: "₦8,000,000",
 
+        currency: "NGN",
 
-            category:"Study",
+        includes: [
+          "Job Placement",
 
+          "Employer Matching",
 
+          "Work Permit Processing",
 
-            location:"Poland",
+          "Visa Processing Support",
 
+          "Flight Arrangement Fees",
+        ],
+      },
 
+      paymentPlan: [
+        {
+          stage: "Migration Agreement Signing",
 
-            type:"Student Visa",
+          amount: "₦2,000,000",
+        },
 
+        {
+          stage:
+            "Job Offer + Employment Contract + Accommodation + Work Permit",
 
+          amount: "₦3,000,000",
+        },
 
-            duration:"8–12 Weeks",
+        {
+          stage: "Visa Approval & Travel Readiness",
 
+          amount: "₦3,000,000",
+        },
+      ],
 
+      terms: [
+        "Applicants must meet eligibility requirements and provide valid documents.",
 
-            icon:"🎓",
+        "Processing begins after Migration Service Agreement signing.",
 
+        "Placements depend on employer availability and immigration approval.",
 
+        "Accommodation is provided by employer.",
 
+        "Transportation depends on employer location.",
 
-
-            salary:
-
-            "Part-time work opportunities",
-
-
-
-
-
-            demand:
-
-            "Growing",
-
-
-
-
-
-            description:
-
-            "Study in Poland through affordable education programs while building future European career opportunities.",
-
-
-
-
-
-            requirements:[
-
-
-                "Admission letter",
-
-
-                "Academic qualification",
-
-
-                "Proof of funds",
-
-
-                "Language requirements"
-
-
-            ],
-
-
-
-
-
-            documents:[
-
-
-                "Passport",
-
-
-                "University admission letter",
-
-
-                "Academic transcripts",
-
-
-                "Financial documents"
-
-
-            ],
-
-
-
-
-
-            benefits:[
-
-
-                "Affordable education",
-
-
-                "European degree",
-
-
-                "Part-time work opportunities",
-
-
-                "Career pathways after graduation"
-
-
-            ]
-
-        }
-
-
-
-
-
-
-    ]
-
+        "Limited slots available.",
+      ],
+    },
+  ],
 };
 
-
-
-export default polandData;
+export default poland;

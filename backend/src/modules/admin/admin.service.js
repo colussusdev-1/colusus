@@ -1,8 +1,7 @@
 import User from "../users/user.model.js";
 import Application from "../applications/application.model.js";
 import Document from "../documents/document.model.js";
-
-
+import workflowService from "../workflows/workflow.service.js";
 
 /*
 |--------------------------------------------------------------------------
@@ -11,163 +10,180 @@ import Document from "../documents/document.model.js";
 */
 
 const getDashboardStats = async () => {
+  const [
+    totalClients,
+    newClients,
+    totalApplications,
+    submittedApplications,
+    underReviewApplications,
+    approvedApplications,
+    rejectedApplications,
+    totalDocuments,
+    pendingDocuments,
+    approvedDocuments,
+    rejectedDocuments,
+    recentApplications,
+  ] = await Promise.all([
+    User.countDocuments({
+      role: "CLIENT",
+    }),
 
+    User.countDocuments({
+      role: "CLIENT",
+      createdAt: {
+        $gte: new Date(new Date().setDate(new Date().getDate() - 30)),
+      },
+    }),
 
-    const [
-        totalClients,
-        totalApplications,
-        pendingDocuments,
-        approvedDocuments
-    ] = await Promise.all([
+    Application.countDocuments(),
 
+    Application.countDocuments({
+      status: "SUBMITTED",
+    }),
 
-        User.countDocuments({
-            role: "CLIENT"
-        }),
+    Application.countDocuments({
+      status: "UNDER_REVIEW",
+    }),
 
+    Application.countDocuments({
+      status: "APPROVED",
+    }),
 
-        Application.countDocuments(),
+    Application.countDocuments({
+      status: "REJECTED",
+    }),
 
+    Document.countDocuments(),
 
-        Document.countDocuments({
-            status: "UPLOADED"
-        }),
+    Document.countDocuments({
+      status: {
+        $in: ["UPLOADED", "UNDER_REVIEW"],
+      },
+    }),
 
+    Document.countDocuments({
+      status: "APPROVED",
+    }),
 
-        Document.countDocuments({
-            status: "APPROVED"
-        })
+    Document.countDocuments({
+      status: "REJECTED",
+    }),
 
+    Application.find()
+      .populate("user", "name email")
+      .sort({
+        createdAt: -1,
+      })
+      .limit(5),
+  ]);
 
-    ]);
+  return {
+    clients: {
+      total: totalClients,
+      newThisMonth: newClients,
+    },
 
+    applications: {
+      total: totalApplications,
 
+      submitted: submittedApplications,
 
-    return {
+      underReview: underReviewApplications,
 
-        totalClients,
+      approved: approvedApplications,
 
-        totalApplications,
+      rejected: rejectedApplications,
+    },
 
-        pendingDocuments,
+    documents: {
+      total: totalDocuments,
 
-        approvedDocuments
+      pendingReview: pendingDocuments,
 
-    };
+      approved: approvedDocuments,
 
+      rejected: rejectedDocuments,
+    },
+
+    recentApplications,
+  };
 };
-
-
-
-
 
 /*
 |--------------------------------------------------------------------------
-| Application Management
+| Get All Applications
 |--------------------------------------------------------------------------
 */
 
-
 const getAllApplications = async () => {
+  return await Application.find()
 
+    .populate("user", "name email")
 
-    const applications = await Application.find()
-
-        .populate(
-            "user",
-            "name email"
-        )
-
-        .sort({
-
-            createdAt: -1
-
-        });
-
-
-
-    return applications;
-
+    .sort({
+      createdAt: -1,
+    });
 };
 
+/*
+|--------------------------------------------------------------------------
+| Get Single Application
+|--------------------------------------------------------------------------
+*/
 
+const getApplicationById = async (applicationId) => {
+  return await Application.findById(applicationId)
 
-
-
-const getApplicationById = async (
-    applicationId
-) => {
-
-
-    const application = await Application.findById(
-        applicationId
-    )
-
-    .populate(
-        "user",
-        "name email"
-    )
-
-   
-
-
-
-    return application;
-
+    .populate("user", "name email");
 };
 
+/*
+|--------------------------------------------------------------------------
+| Update Application Status
+|--------------------------------------------------------------------------
+*/
 
+const updateApplicationStatus = async (applicationId, status, notes = "") => {
+  const application = await Application.findById(applicationId);
 
+  if (!application) {
+    return null;
+  }
 
+  const previousStatus = application.status;
 
-const updateApplicationStatus = async (
+  application.status = status;
 
-    applicationId,
+  application.notes = notes;
 
-    status
+  await application.save();
 
-) => {
+  /*
+  Only trigger workflow
+  when status actually changes
+  */
 
+  if (previousStatus !== status) {
+    await workflowService.handleApplicationStatusChange({
+      userId: application.user,
 
-    const application =
-    await Application.findByIdAndUpdate(
+      applicationId: application._id,
 
-        applicationId,
+      status: application.status,
+    });
+  }
 
-        {
+  return await Application.findById(application._id)
 
-            status
-
-        },
-
-        {
-
-            new:true,
-
-            runValidators:true
-
-        }
-
-    );
-
-
-
-    return application;
-
+    .populate("user", "name email");
 };
-
-
-
-
 
 export default {
+  getDashboardStats,
 
-    getDashboardStats,
+  getAllApplications,
 
-    getAllApplications,
+  getApplicationById,
 
-    getApplicationById,
-
-    updateApplicationStatus
-
+  updateApplicationStatus,
 };

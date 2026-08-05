@@ -1,43 +1,20 @@
 import {
     HiArrowRight,
-    HiOutlineClock,
     HiOutlineBadgeCheck,
-    HiOutlineTrendingUp
+    HiOutlineLocationMarker,
+    HiOutlineClock,
+    HiOutlineTrendingUp,
+    HiOutlineOfficeBuilding,
+    HiOutlineCurrencyEuro,
+    HiOutlineCheckCircle,
+    HiOutlineChevronRight,
+    HiOutlineDownload
 } from "react-icons/hi";
 
 import "./DetailsHero.css";
 
 
-const DetailsHero = ({
-    country,
-    opportunity
-}) => {
-
-
-    const stats = [
-
-        {
-            icon:<HiOutlineClock />,
-            label:"Processing",
-            value:opportunity.duration
-        },
-
-        {
-            icon:<HiOutlineBadgeCheck />,
-            label:"Pathway",
-            value:opportunity.type
-        },
-
-        {
-            icon:<HiOutlineTrendingUp />,
-            label:"Demand",
-            value:
-            opportunity.demand || country.successRate || "High"
-        }
-
-    ];
-
-
+const DetailsHero = ({ country, opportunity }) => {
 
 
     const goToConsultation = () => {
@@ -47,67 +24,58 @@ const DetailsHero = ({
     };
 
 
+    const highlights =
+        opportunity.highlights ||
+        opportunity.benefits ||
+        [];
+
+
+
+    const totalRoles =
+        opportunity.positions?.reduce(
+
+            (total, item) => {
+
+                return total +
+                    (item.roles?.length || 1);
+
+            },
+
+            0
+
+        ) || 0;
+
 
 
     return (
 
-        <section className="details-hero">
+        <section className="opportunity-hero">
 
 
-            <img
-
-                src={country.image}
-
-                alt={`${country.name} ${opportunity.title}`}
-
-                className="details-hero__image"
-
-            />
+            <div className="opportunity-hero-container">
 
 
 
-            <div className="details-hero__overlay"/>
+                {/* BREADCRUMB */}
+
+                <div className="opportunity-hero-breadcrumb">
 
 
+                    <span>Home</span>
 
+                    <HiOutlineChevronRight />
 
+                    <span>Opportunities</span>
 
-            <div className="details-hero__container">
+                    <HiOutlineChevronRight />
 
+                    <span>{country.name}</span>
 
+                    <HiOutlineChevronRight />
 
-                <div className="details-hero__country">
-
-
-                    <span className="details-hero__flag">
-
-
-                        {
-                            country.flagImage ?
-
-                            <img
-
-                                src={country.flagImage}
-
-                                alt={country.name}
-
-                            />
-
-                            :
-
-                            country.flag
-                        }
-
-
-                    </span>
-
-
-
-                    <span>
-
-                        {country.name}
-
-                    </span>
+                    <strong>
+                        {opportunity.title}
+                    </strong>
 
 
                 </div>
@@ -116,77 +84,44 @@ const DetailsHero = ({
 
 
 
+                {/* HEADER */}
 
-                <h1>
-
-
-                    {opportunity.icon}
-
-                    {" "}
-
-                    {opportunity.title}
+                <div className="opportunity-hero-header">
 
 
-                    <span>
-
-                        {" "}in {country.name}
-
-                    </span>
+                    <div className="opportunity-hero-country">
 
 
-                </h1>
+                        <span className="opportunity-hero-flag">
+
+                            {country.flag}
+
+                        </span>
 
 
+                        <span>
+
+                            {country.name}
+
+                        </span>
 
 
-
-
-
-                <div className="details-hero__location">
-
-                    📍 {opportunity.location}
-
-                </div>
+                    </div>
 
 
 
 
 
+                    <div className="opportunity-hero-verified">
 
 
-                <p className="details-hero__description">
+                        <HiOutlineBadgeCheck />
 
-                    {opportunity.description}
-
-                </p>
+                        Verified Migration Opportunity
 
 
+                    </div>
 
-
-
-
-
-
-                <div className="details-hero__actions">
-
-
-                    <button
-
-                        type="button"
-
-                        className="details-hero__primary"
-
-                        onClick={goToConsultation}
-
-                    >
-
-                        Book Consultation
-
-
-                        <HiArrowRight/>
-
-
-                    </button>
 
 
                 </div>
@@ -197,29 +132,280 @@ const DetailsHero = ({
 
 
 
+                {/* MAIN */}
+
+                <div className="opportunity-hero-main">
 
 
-                <div className="details-hero__stats">
 
 
-                    {
-                        stats.map((item)=>(
+
+                    {/* CONTENT */}
 
 
-                            <div
+                    <div className="opportunity-hero-content">
 
-                                className="details-hero__stat"
 
-                                key={item.label}
+
+                        <span className="opportunity-hero-category">
+
+
+                            {
+                                opportunity.subtitle ||
+                                opportunity.category ||
+                                "Employment Program"
+                            }
+
+
+                        </span>
+
+
+
+
+
+                        <h1>
+
+                            {opportunity.title}
+
+                        </h1>
+
+
+
+
+
+                        <p className="opportunity-hero-description">
+
+
+                            {opportunity.description}
+
+
+                        </p>
+
+
+
+
+
+
+
+                        {/* TRUST */}
+
+
+                        <div className="opportunity-hero-trust">
+
+
+                            {
+
+                                highlights.slice(0, 4)
+                                    .map(
+
+                                        (item, index) => (
+
+
+                                            <div
+
+                                                key={index}
+
+                                                className="opportunity-trust-item"
+
+                                            >
+
+
+                                                <HiOutlineCheckCircle />
+
+
+                                                <span>
+
+                                                    {item}
+
+                                                </span>
+
+
+
+                                            </div>
+
+
+                                        )
+
+                                    )
+
+                            }
+
+
+                        </div>
+
+
+
+
+
+
+
+
+
+                        {/* ACTIONS */}
+
+
+                        <div className="opportunity-hero-actions">
+
+
+
+                            <button
+
+                                className="opportunity-hero-primary"
+
+                                onClick={goToConsultation}
+
+                            >
+
+                                Apply Now
+
+                                <HiArrowRight />
+
+                            </button>
+
+
+
+
+
+                            <button
+
+                                className="opportunity-hero-secondary"
+
+                                onClick={goToConsultation}
+
+                            >
+
+                                Book Consultation
+
+
+                            </button>
+
+
+
+
+
+                            <button
+
+                                className="opportunity-hero-download"
 
                             >
 
 
-                                <div className="details-hero__icon">
+                                <HiOutlineDownload />
 
-                                    {item.icon}
+                                Download Guide
+
+
+                            </button>
+
+
+
+                        </div>
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
+                    {/* IMAGE AREA */}
+
+
+
+                    <div className="opportunity-hero-showcase">
+
+
+
+                        <div className="opportunity-hero-image">
+
+
+
+                            <img
+
+                                src={
+                                    opportunity.image ||
+                                    country.image
+                                }
+
+                                alt={opportunity.title}
+
+                            />
+
+
+
+
+                            <div className="opportunity-salary-card">
+
+
+                                <span>
+                                    Estimated Salary
+                                </span>
+
+
+
+                                <strong>
+
+                                    {
+                                        opportunity.salary ||
+                                        "Contact Us"
+                                    }
+
+                                </strong>
+
+
+
+                            </div>
+
+
+
+                        </div>
+
+
+
+
+
+
+
+                        <aside className="opportunity-summary-card">
+
+
+                            <h3>
+
+                                Opportunity Snapshot
+
+                            </h3>
+
+
+
+
+                            <div className="opportunity-summary-list">
+
+
+
+                                <div>
+
+
+                                    <HiOutlineBadgeCheck />
+
+                                    <span>
+                                        Visa
+                                    </span>
+
+
+                                    <strong>
+                                        {country.visa}
+                                    </strong>
+
 
                                 </div>
+
 
 
 
@@ -227,16 +413,19 @@ const DetailsHero = ({
                                 <div>
 
 
+                                    <HiOutlineClock />
+
                                     <span>
-
-                                        {item.label}
-
+                                        Processing
                                     </span>
 
 
                                     <strong>
 
-                                        {item.value}
+                                        {
+                                            country.processingTime ||
+                                            "6 Weeks"
+                                        }
 
                                     </strong>
 
@@ -244,11 +433,203 @@ const DetailsHero = ({
                                 </div>
 
 
+
+
+
+
+                                <div>
+
+
+                                    <HiOutlineTrendingUp />
+
+                                    <span>
+                                        Demand
+                                    </span>
+
+
+                                    <strong>
+
+                                        {
+                                            opportunity.demand ||
+                                            "High"
+                                        }
+
+                                    </strong>
+
+
+                                </div>
+
+
+
+
+
+
+
+                                <div>
+
+
+                                    <HiOutlineLocationMarker />
+
+                                    <span>
+                                        Location
+                                    </span>
+
+
+                                    <strong>
+
+                                        {
+                                            opportunity.location ||
+                                            country.name
+                                        }
+
+                                    </strong>
+
+
+                                </div>
+
+
+
                             </div>
 
 
-                        ))
-                    }
+
+                        </aside>
+
+
+
+                    </div>
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+                {/* METRICS */}
+
+
+                <div className="opportunity-hero-metrics">
+
+
+                    <div>
+
+                        <HiOutlineCurrencyEuro />
+
+                        <span>
+                            Salary
+                        </span>
+
+                        <strong>
+                            {
+                                opportunity.salary ||
+                                "Contact Us"
+                            }
+                        </strong>
+
+
+                    </div>
+
+
+
+
+                    <div>
+
+                        <HiOutlineClock />
+
+                        <span>
+                            Duration
+                        </span>
+
+                        <strong>
+
+                            {
+                                opportunity.duration ||
+                                "Varies"
+                            }
+
+                        </strong>
+
+
+                    </div>
+
+
+
+
+                    <div>
+
+                        <HiOutlineTrendingUp />
+
+                        <span>
+                            Demand
+                        </span>
+
+                        <strong>
+
+                            {
+                                opportunity.demand ||
+                                "High"
+                            }
+
+                        </strong>
+
+
+                    </div>
+
+
+
+
+                    <div>
+
+                        <HiOutlineLocationMarker />
+
+                        <span>
+                            Location
+                        </span>
+
+
+                        <strong>
+
+                            {
+                                opportunity.location ||
+                                country.name
+                            }
+
+                        </strong>
+
+
+                    </div>
+
+
+
+
+
+                    <div>
+
+                        <HiOutlineOfficeBuilding />
+
+                        <span>
+                            Open Roles
+                        </span>
+
+
+                        <strong>
+
+                            {totalRoles}
+
+                        </strong>
+
+
+                    </div>
+
 
 
                 </div>

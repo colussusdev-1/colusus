@@ -1,17 +1,37 @@
 import "./WhyChooseCanada.css";
 
-import { useState, useEffect } from "react";
-import { HiOutlineArrowRight } from "react-icons/hi";
+import {
+    useState,
+    useEffect
+} from "react";
 
-import { whyChooseCanada } from "./whyChooseData";
+import {
+    motion,
+    AnimatePresence
+} from "framer-motion";
+
+import {
+    HiOutlineArrowRight
+} from "react-icons/hi";
+
+import {
+    whyChooseCanada
+} from "./whyChooseData";
+
+
 
 const WhyChooseCanada = () => {
 
+
     const [active, setActive] = useState(0);
+
+
 
     useEffect(() => {
 
+
         const interval = setInterval(() => {
+
 
             setActive((prev) =>
 
@@ -19,13 +39,22 @@ const WhyChooseCanada = () => {
 
             );
 
-        }, 4000);
+
+        }, 5000);
+
+
 
         return () => clearInterval(interval);
 
+
+
     }, []);
 
+
+
+
     const featured = whyChooseCanada[active];
+
 
     const others = whyChooseCanada.filter(
 
@@ -33,17 +62,48 @@ const WhyChooseCanada = () => {
 
     );
 
+
+
     const FeaturedIcon = featured.icon;
+
+
+
+
+    const changeFeature = (id) => {
+
+
+        const index = whyChooseCanada.findIndex(
+
+            item => item.id === id
+
+        );
+
+
+        setActive(index);
+
+
+    };
+
+
+
+
 
     return (
 
-        <div className="why-canada">
+        <section className="why-canada">
+
 
             <div className="container">
 
-                {/* Header */}
+
+
+                {/* =========================
+                    HEADER
+                ========================== */}
+
 
                 <div className="why-canada-header">
+
 
                     <span className="why-canada-tag">
 
@@ -51,13 +111,19 @@ const WhyChooseCanada = () => {
 
                     </span>
 
+
+
                     <h2>
 
                         A Country Built For
 
-                        <span> Your Future.</span>
+                        <span>
+                            Your Future.
+                        </span>
 
                     </h2>
+
+
 
                     <p>
 
@@ -68,133 +134,324 @@ const WhyChooseCanada = () => {
 
                     </p>
 
+
+
                 </div>
 
-                {/* Content */}
+
+
+
+
+
+                {/* =========================
+                    MAIN CONTENT
+                ========================== */}
+
+
 
                 <div className="why-canada-layout">
 
-                    {/* Featured */}
 
-                    <div className="why-feature-card">
 
-                        <div className="why-feature-icon">
 
-                            <FeaturedIcon />
 
-                        </div>
+                    {/* FEATURE CARD */}
 
-                        <span className="why-feature-badge">
 
-                            {featured.badge}
 
-                        </span>
+                    <AnimatePresence mode="wait">
 
-                        <h3>
 
-                            {featured.title}
+                        <motion.div
 
-                        </h3>
+                            key={featured.id}
 
-                        <p>
+                            className="why-feature-card"
 
-                            {featured.description}
 
-                        </p>
+                            initial={{
 
-                        <ul>
+                                opacity: 0,
 
-                            {featured.highlights.map((item) => (
+                                y: 30
 
-                                <li key={item}>
+                            }}
 
-                                    {item}
 
-                                </li>
+                            animate={{
 
-                            ))}
+                                opacity: 1,
 
-                        </ul>
+                                y: 0
 
-                    </div>
+                            }}
 
-                    {/* Right Side */}
+
+                            exit={{
+
+                                opacity: 0,
+
+                                y: -30
+
+                            }}
+
+
+                            transition={{
+
+                                duration: .45
+
+                            }}
+
+                        >
+
+
+
+                            <div className="why-feature-glow"></div>
+
+
+
+
+
+                            <div className="why-feature-icon">
+
+
+                                <FeaturedIcon />
+
+
+                            </div>
+
+
+
+
+
+                            <span className="why-feature-badge">
+
+
+                                {featured.badge}
+
+
+                            </span>
+
+
+
+
+
+
+                            <h3>
+
+                                {featured.title}
+
+                            </h3>
+
+
+
+
+
+                            <p>
+
+                                {featured.description}
+
+                            </p>
+
+
+
+
+
+
+
+                            <div className="why-highlights">
+
+
+                                {
+                                    featured.highlights.map((item) => (
+
+
+                                        <div
+
+                                            key={item}
+
+                                            className="highlight-item"
+
+                                        >
+
+
+                                            <span></span>
+
+
+                                            {item}
+
+
+
+                                        </div>
+
+
+                                    ))
+                                }
+
+
+                            </div>
+
+
+
+
+
+                        </motion.div>
+
+
+
+                    </AnimatePresence>
+
+
+
+
+
+
+
+
+
+                    {/* RIGHT OPTIONS */}
+
+
+
+
 
                     <div className="why-small-grid">
 
-                        {others.map((item) => {
 
-                            const Icon = item.icon;
 
-                            return (
+                        {
+                            others.map((item) => {
 
-                                <button
 
-                                    key={item.id}
+                                const Icon = item.icon;
 
-                                    className="why-small-card"
 
-                                    onClick={() =>
 
-                                        setActive(
+                                return (
 
-                                            whyChooseCanada.findIndex(
 
-                                                (benefit) =>
+                                    <button
 
-                                                    benefit.id === item.id
 
-                                            )
+                                        key={item.id}
 
-                                        )
 
-                                    }
 
-                                >
+                                        className={
 
-                                    <div className="why-small-left">
+                                            `why-small-card ${featured.id === item.id
 
-                                        <div className="why-small-icon">
+                                                ? "active"
 
-                                            <Icon />
+                                                : ""
+
+                                            }`
+
+                                        }
+
+
+
+                                        onClick={() => changeFeature(item.id)}
+
+
+
+                                    >
+
+
+
+                                        <div className="why-small-left">
+
+
+
+                                            <div className="why-small-icon">
+
+
+                                                <Icon />
+
+
+                                            </div>
+
+
+
+
+
+                                            <div>
+
+
+                                                <h4>
+
+                                                    {item.title}
+
+                                                </h4>
+
+
+
+
+                                                <span>
+
+                                                    {item.badge}
+
+                                                </span>
+
+
+
+                                            </div>
+
+
 
                                         </div>
 
-                                        <div>
 
-                                            <h4>
 
-                                                {item.title}
 
-                                            </h4>
 
-                                            <span>
+                                        <HiOutlineArrowRight />
 
-                                                {item.badge}
 
-                                            </span>
 
-                                        </div>
 
-                                    </div>
+                                    </button>
 
-                                    <HiOutlineArrowRight />
 
-                                </button>
 
-                            );
+                                );
 
-                        })}
+
+                            })
+                        }
+
+
 
                     </div>
 
+
+
+
+
                 </div>
 
-                {/* Bottom Stats */}
+
+
+
+
+
+
+
+
+                {/* =========================
+                    TRUST STATS
+                ========================== */}
+
+
 
                 <div className="why-canada-stats">
 
+
+
+
+
                     <div className="stat-card">
+
 
                         <h3>
 
@@ -202,15 +459,24 @@ const WhyChooseCanada = () => {
 
                         </h3>
 
+
                         <span>
 
                             Top destination for newcomers
 
                         </span>
 
+
                     </div>
 
+
+
+
+
+
+
                     <div className="stat-card">
+
 
                         <h3>
 
@@ -218,15 +484,24 @@ const WhyChooseCanada = () => {
 
                         </h3>
 
+
                         <span>
 
                             Immigration pathways available
 
                         </span>
 
+
                     </div>
 
+
+
+
+
+
+
                     <div className="stat-card">
+
 
                         <h3>
 
@@ -234,22 +509,36 @@ const WhyChooseCanada = () => {
 
                         </h3>
 
+
                         <span>
 
                             Global quality of life ranking
 
                         </span>
 
+
                     </div>
+
+
+
+
 
                 </div>
 
+
+
+
+
             </div>
 
-        </div>
+
+
+        </section>
 
     );
 
 };
+
+
 
 export default WhyChooseCanada;

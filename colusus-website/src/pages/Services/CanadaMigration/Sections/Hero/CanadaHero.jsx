@@ -1,7 +1,6 @@
 import "./CanadaHero.css";
 
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
 
 import {
     HiOutlineArrowRight,
@@ -12,199 +11,320 @@ import {
 
 import heroImage from "../../../../../assets/images/countries/canada.jpg";
 
+
+
 const CanadaHero = () => {
 
-    const [isMobile, setIsMobile] = useState(
-        window.innerWidth <= 768
-    );
-
-    useEffect(() => {
-
-        const handleResize = () => {
-
-            setIsMobile(
-                window.innerWidth <= 768
-            );
-
-        };
-
-        window.addEventListener(
-            "resize",
-            handleResize
-        );
-
-        return () =>
-            window.removeEventListener(
-                "resize",
-                handleResize
-            );
-
-    }, []);
 
     return (
 
+
         <section className="canada-hero">
+
 
             <div className="container canada-hero-container">
 
-                {/* LEFT */}
+
+
+
+
+                {/* LEFT CONTENT */}
 
                 <div className="canada-hero-content">
 
+
+
                     <span className="canada-hero-tag">
 
-                        Canada Immigration
+                        Canada Immigration Pathway
 
                     </span>
 
+
+
+
+
+
                     <h1 className="canada-hero-title">
 
-                        Your Canadian Dream
+
+                        Build Your Future
+
 
                         <span>
 
-                            Starts With The Right Strategy.
+                            In Canada With Confidence.
 
                         </span>
+
 
                     </h1>
 
+
+
+
+
+
+
                     <p className="canada-hero-description">
 
-                        {
-                            isMobile
-                                ? "Work, study or immigrate to Canada with expert guidance tailored to your goals."
-                                : "Whether you're planning to work, study, reunite with family or become a permanent resident, Colossus Migration & Tours guides you through every step of your Canadian immigration journey."
-                        }
+
+                        Explore the right immigration pathway based on
+                        your goals, profile and eligibility. From Express
+                        Entry and work permits to study routes and
+                        permanent residence, we guide you through every
+                        important step.
+
 
                     </p>
 
+
+
+
+
+
+
+
+
                     <div className="canada-hero-buttons">
 
+
+
                         <Link
+
                             to="/consultation"
+
                             className="canada-hero-btn"
+
                         >
 
-                            <span>
 
-                                Book Consultation
+                            Start Your Assessment
 
-                            </span>
 
                             <HiOutlineArrowRight />
 
+
                         </Link>
 
+
+
                     </div>
+
+
+
+
+
+
+
+
 
                     <div className="canada-trust-row">
 
+
+
+
+
                         <div className="trust-pill">
+
 
                             <HiOutlineBadgeCheck />
 
+
                             <span>
 
-                                Verified Pathways
+                                Profile Assessment
 
                             </span>
 
+
                         </div>
 
+
+
+
+
+
+
                         <div className="trust-pill">
+
 
                             <HiOutlineOfficeBuilding />
 
+
                             <span>
 
-                                Professional Guidance
+                                Immigration Guidance
 
                             </span>
 
+
                         </div>
+
+
+
+
+
+
 
                         <div className="trust-pill">
 
+
                             <HiOutlineGlobeAlt />
+
 
                             <span>
 
-                                End-to-End Support
+                                Complete Support
 
                             </span>
 
+
                         </div>
+
+
+
+
 
                     </div>
 
+
+
+
+
                 </div>
 
-                {/* RIGHT */}
+
+
+
+
+
+
+
+
+                {/* RIGHT IMAGE */}
+
 
                 <div className="canada-hero-image">
 
+
+
+
+
                     <img
+
                         src={heroImage}
-                        alt="Canada Immigration"
+
+                        alt="Canada Immigration Pathway"
+
                     />
 
-                    <div className="floating-card top-right">
+
+
+
+
+
+
+
+                    <div className="canada-status-card">
+
+
+
+
+
+                        <span className="status-label">
+
+                            Canada Pathways
+
+                        </span>
+
+
+
+
+
 
                         <strong>
+
+                            Choose The Right Route
+
+                        </strong>
+
+
+
+
+
+
+
+                        <div className="status-item">
 
                             Express Entry
 
-                        </strong>
+                        </div>
 
-                        <span>
 
-                            Fast-track immigration
 
-                        </span>
 
-                    </div>
 
-                    <div className="floating-card left-middle">
-
-                        <strong>
+                        <div className="status-item">
 
                             Work Permit
 
-                        </strong>
+                        </div>
 
-                        <span>
 
-                            Employer & Open Permit
 
-                        </span>
 
-                    </div>
 
-                    <div className="floating-card bottom-right">
+                        <div className="status-item">
 
-                        <strong>
+                            Study Permit
+
+                        </div>
+
+
+
+
+
+                        <div className="status-item">
 
                             Permanent Residence
 
-                        </strong>
+                        </div>
 
-                        <span>
 
-                            Your long-term pathway
 
-                        </span>
+
+
 
                     </div>
 
+
+
+
+
+
                 </div>
+
+
+
+
+
+
+
 
             </div>
 
+
+
+
+
         </section>
+
 
     );
 
 };
+
+
 
 export default CanadaHero;

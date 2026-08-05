@@ -1,17 +1,20 @@
 import "./TouristVisa.css";
 
 import TouristHero from "./TouristHero/TouristHero";
-import TouristVisaGrid from "./sections/TouristVisaGrid";
+
+import TravelTrustBar from "./TravelTrustBar/TravelTrustBar";
+
+import TravelExperience from "./TravelExperience/TravelExperience";
+
+import TouristVisaGrid from "./TouristVisaGrid/TravelVisaGrid";
+
+import WhyChooseTravel from "./WhyChooseTravel/WhyChooseTravel";
+
 import TouristProcess from "./TouristProcess/TouristProcess";
 
-import {
-    HiOutlineArrowRight
-} from "react-icons/hi";
+import TravelFAQ from "./TravelFAQ/TravelFAQ";
 
-import {
-    Link
-} from "react-router-dom";
-
+import TouristCTA from "./TouristCTA/TouristCTA";
 
 const TouristVisa = () => {
 
@@ -21,87 +24,35 @@ const TouristVisa = () => {
         <div className="tv">
 
 
-            <div className="container">
+            <TouristHero />
 
 
-                {/* HERO */}
-
-                <TouristHero />
+            <TravelTrustBar />
 
 
+            <TravelExperience />
 
 
-                {/* VISA OPTIONS */}
-
-                <TouristVisaGrid />
+            <TouristVisaGrid />
 
 
+            <WhyChooseTravel />
 
 
-                {/* PROCESS */}
-
-                <TouristProcess />
+            <TouristProcess />
 
 
+            <TravelFAQ />
 
 
-
-                {/* CONSULTATION CTA */}
-
-                <section className="tv__cta">
-
-
-                    <h2>
-
-                        Ready To Start Your Travel Journey?
-
-                    </h2>
-
-
-
-
-                    <p>
-
-                        Speak with our visa experts and receive
-                        professional guidance before submitting
-                        your application.
-
-                    </p>
-
-
-
-
-
-                    <Link
-
-                        to="/consultation"
-
-                        className="tv__btn"
-
-                    >
-
-                        Book Consultation
-
-
-                        <HiOutlineArrowRight />
-
-                    </Link>
-
-
-
-                </section>
-
-
-
-
-            </div>
+            <TouristCTA />
 
 
         </div>
 
-    );
+    )
 
-};
+}
 
 
 export default TouristVisa;

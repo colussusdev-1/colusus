@@ -1,0 +1,833 @@
+/* ==========================================================
+   TRAVEL EXPERIENCE
+========================================================== */
+
+.travel-experience {
+
+    position: relative;
+
+    padding: 7rem 0;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(circle at top right,
+            rgba(0, 86, 179, .06),
+            transparent 35%),
+        radial-gradient(circle at bottom left,
+            rgba(59, 130, 246, .05),
+            transparent 40%),
+        linear-gradient(180deg,
+            #ffffff 0%,
+            #f8fafc 100%);
+
+}
+
+.travel-experience::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 520px;
+    height: 520px;
+
+    top: -220px;
+    right: -180px;
+
+    border-radius: 50%;
+
+    background:
+
+        rgba(0, 86, 179, .05);
+
+    filter: blur(120px);
+
+    pointer-events: none;
+
+}
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.travel-experience-header {
+
+    max-width: 760px;
+
+    margin: 0 auto 4rem;
+
+    text-align: center;
+
+}
+
+.travel-experience-header span {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: .65rem 1.25rem;
+
+    border-radius: 999px;
+
+    background: rgba(0, 86, 179, .08);
+
+    color: var(--primary);
+
+    border: 1px solid rgba(0, 86, 179, .12);
+
+    font-size: .8rem;
+
+    font-weight: 700;
+
+    letter-spacing: .12em;
+
+    text-transform: uppercase;
+
+    margin-bottom: 1.5rem;
+
+}
+
+.travel-experience-header h2 {
+
+    font-size: clamp(2.5rem, 4vw, 3.8rem);
+
+    line-height: 1.05;
+
+    color: var(--heading);
+
+    font-weight: 800;
+
+    margin-bottom: 1.4rem;
+
+}
+
+.travel-experience-header h2 span {
+
+    display: block;
+
+    color: var(--primary);
+
+    background: none;
+
+    padding: 0;
+
+    border: none;
+
+}
+
+.travel-experience-header p {
+
+    max-width: 680px;
+
+    margin: auto;
+
+    color: var(--text);
+
+    line-height: 1.9;
+
+    font-size: 1.08rem;
+
+}
+
+/* ==========================================================
+   GRID
+========================================================== */
+
+.travel-experience-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 1.75rem;
+
+}
+
+/* ==========================================================
+   CARD
+========================================================== */
+
+.travel-experience-card {
+
+    position: relative;
+
+    overflow: hidden;
+
+    border-radius: 30px;
+
+    background:
+        rgba(255, 255, 255, .72);
+
+    backdrop-filter: blur(22px);
+
+    -webkit-backdrop-filter: blur(22px);
+
+    border: 1px solid rgba(255, 255, 255, .75);
+
+    box-shadow:
+
+        0 20px 60px rgba(15, 23, 42, .08);
+
+    transition:
+        .45s ease;
+
+}
+
+.travel-experience-card:hover {
+
+    transform:
+        translateY(-10px);
+
+    box-shadow:
+
+        0 35px 80px rgba(15, 23, 42, .12);
+
+}
+
+.travel-experience-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+
+        linear-gradient(180deg,
+            transparent,
+            rgba(255, 255, 255, .04));
+
+    pointer-events: none;
+
+}
+
+/* ==========================================================
+   IMAGE
+========================================================== */
+
+.travel-card-image {
+
+    position: relative;
+
+    height: 300px;
+
+    background-size: cover;
+
+    background-position: center;
+
+    overflow: hidden;
+
+    transition: .6s ease;
+
+}
+
+.travel-experience-card:hover .travel-card-image {
+
+    transform: scale(1.05);
+
+}
+
+/* ==========================================================
+   IMAGE OVERLAY
+========================================================== */
+
+.travel-card-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+
+        linear-gradient(180deg,
+            rgba(15, 23, 42, .05) 0%,
+            rgba(15, 23, 42, .20) 35%,
+            rgba(15, 23, 42, .82) 100%);
+
+    z-index: 1;
+
+}
+
+/* ==========================================================
+   TOP GLOW
+========================================================== */
+
+.travel-card-image::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 220px;
+    height: 220px;
+
+    top: -120px;
+    right: -80px;
+
+    border-radius: 50%;
+
+    background:
+
+        radial-gradient(circle,
+            rgba(255, 255, 255, .45),
+            transparent 70%);
+
+    z-index: 1;
+
+    pointer-events: none;
+
+}
+
+/* ==========================================================
+   ICON
+========================================================== */
+
+.travel-card-icon {
+
+    position: absolute;
+
+    top: 22px;
+    left: 22px;
+
+    width: 70px;
+    height: 70px;
+
+    border-radius: 22px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+
+        rgba(255, 255, 255, .18);
+
+    backdrop-filter: blur(18px);
+
+    -webkit-backdrop-filter: blur(18px);
+
+    border: 1px solid rgba(255, 255, 255, .25);
+
+    color: #fff;
+
+    font-size: 1.8rem;
+
+    z-index: 5;
+
+    transition: .45s ease;
+
+}
+
+.travel-experience-card:hover .travel-card-icon {
+
+    transform:
+
+        scale(1.08) rotate(8deg);
+
+    background:
+
+        rgba(0, 86, 179, .92);
+
+}
+
+/* ==========================================================
+   CONTENT
+========================================================== */
+
+.travel-card-content {
+
+    position: relative;
+
+    padding: 2rem;
+
+}
+
+.travel-card-content h3 {
+
+    font-size: 1.55rem;
+
+    color: var(--heading);
+
+    margin-bottom: 1rem;
+
+    line-height: 1.3;
+
+    font-weight: 800;
+
+}
+
+.travel-card-content p {
+
+    color: var(--text);
+
+    line-height: 1.9;
+
+    margin-bottom: 2rem;
+
+}
+
+/* ==========================================================
+   CTA
+========================================================== */
+
+.travel-card-content button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: .75rem;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    color: var(--primary);
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    font-size: .98rem;
+
+    transition: .35s ease;
+
+}
+
+.travel-card-content button svg {
+
+    font-size: 1.15rem;
+
+    transition: .35s ease;
+
+}
+
+.travel-card-content button:hover {
+
+    gap: 1rem;
+
+}
+
+.travel-card-content button:hover svg {
+
+    transform: translateX(8px);
+
+}
+
+/* ==========================================================
+   SUBTLE HOVER BORDER
+========================================================== */
+
+.travel-experience-card:hover {
+
+    border-color:
+
+        rgba(0, 86, 179, .18);
+
+}
+
+/* ==========================================================
+   TRAVEL HIGHLIGHT
+========================================================== */
+
+.travel-highlight {
+
+    margin-top: 4rem;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 1.5rem;
+
+    padding: 2rem 2.2rem;
+
+    border-radius: 30px;
+
+    background:
+
+        rgba(255, 255, 255, .72);
+
+    backdrop-filter:
+
+        blur(24px);
+
+    -webkit-backdrop-filter:
+
+        blur(24px);
+
+    border:
+
+        1px solid rgba(255, 255, 255, .8);
+
+    box-shadow:
+
+        0 20px 60px rgba(15, 23, 42, .08);
+
+    position: relative;
+
+    overflow: hidden;
+
+}
+
+
+.travel-highlight::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 320px;
+
+    height: 320px;
+
+    right: -120px;
+
+    top: -160px;
+
+    border-radius: 50%;
+
+    background:
+
+        radial-gradient(circle,
+            rgba(0, 86, 179, .12),
+            transparent 70%);
+
+    pointer-events: none;
+
+}
+
+
+/* ==========================================================
+   HIGHLIGHT ICON
+========================================================== */
+
+
+.travel-highlight-icon {
+
+    flex-shrink: 0;
+
+    width: 80px;
+
+    height: 80px;
+
+    border-radius: 24px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+
+        linear-gradient(135deg,
+            var(--primary),
+            #2563eb);
+
+    color: white;
+
+    font-size: 2rem;
+
+    box-shadow:
+
+        0 15px 35px rgba(0, 86, 179, .25);
+
+}
+
+
+
+.travel-highlight h3 {
+
+    margin: 0 0 .75rem;
+
+    font-size: 1.5rem;
+
+    font-weight: 800;
+
+    color: var(--heading);
+
+}
+
+
+.travel-highlight p {
+
+    margin: 0;
+
+    color: var(--text);
+
+    line-height: 1.8;
+
+}
+
+
+
+/* ==========================================================
+   TABLET
+========================================================== */
+
+
+@media(max-width:1100px) {
+
+
+    .travel-experience-grid {
+
+        grid-template-columns:
+
+            repeat(2, 1fr);
+
+    }
+
+
+    .travel-card-image {
+
+        height: 280px;
+
+    }
+
+
+}
+
+
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+
+@media(max-width:768px) {
+
+
+    .travel-experience {
+
+        padding: 5rem 0;
+
+    }
+
+
+
+    .travel-experience-header {
+
+        margin-bottom: 3rem;
+
+    }
+
+
+
+    .travel-experience-header h2 {
+
+        font-size: 2.3rem;
+
+    }
+
+
+
+    .travel-experience-header p {
+
+        font-size: 1rem;
+
+    }
+
+
+
+    .travel-experience-grid {
+
+        grid-template-columns:
+
+            1fr;
+
+        gap: 1.25rem;
+
+    }
+
+
+
+    .travel-experience-card {
+
+        border-radius: 24px;
+
+    }
+
+
+
+    .travel-card-image {
+
+        height: 250px;
+
+    }
+
+
+
+    .travel-card-icon {
+
+        width: 60px;
+
+        height: 60px;
+
+        border-radius: 18px;
+
+        font-size: 1.5rem;
+
+        top: 18px;
+
+        left: 18px;
+
+    }
+
+
+
+    .travel-card-content {
+
+        padding: 1.5rem;
+
+    }
+
+
+
+    .travel-card-content h3 {
+
+        font-size: 1.35rem;
+
+    }
+
+
+
+    .travel-card-content p {
+
+        font-size: .95rem;
+
+    }
+
+
+
+    .travel-highlight {
+
+        margin-top: 2.5rem;
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        padding: 1.5rem;
+
+        border-radius: 24px;
+
+    }
+
+
+
+    .travel-highlight-icon {
+
+        width: 65px;
+
+        height: 65px;
+
+        border-radius: 20px;
+
+        font-size: 1.6rem;
+
+    }
+
+
+
+    .travel-highlight h3 {
+
+        font-size: 1.25rem;
+
+    }
+
+
+
+}
+
+
+
+/* ==========================================================
+   SMALL PHONES
+========================================================== */
+
+
+@media(max-width:480px) {
+
+
+    .travel-experience {
+
+        padding: 4rem 0;
+
+    }
+
+
+
+    .travel-experience-header h2 {
+
+        font-size: 2rem;
+
+    }
+
+
+
+    .travel-card-image {
+
+        height: 220px;
+
+    }
+
+
+
+    .travel-card-content {
+
+        padding: 1.25rem;
+
+    }
+
+
+
+    .travel-highlight {
+
+        padding: 1.25rem;
+
+    }
+
+
+}
+
+
+
+/* ==========================================================
+   ACCESSIBILITY
+========================================================== */
+
+
+.travel-card-content button:focus-visible {
+
+    outline:
+
+        3px solid rgba(0, 86, 179, .25);
+
+    outline-offset: 5px;
+
+}
+
+
+
+/* ==========================================================
+   SMOOTH PERFORMANCE
+========================================================== */
+
+
+.travel-experience-card,
+.travel-card-image,
+.travel-card-icon,
+.travel-card-content button {
+
+    will-change: transform;
+
+}

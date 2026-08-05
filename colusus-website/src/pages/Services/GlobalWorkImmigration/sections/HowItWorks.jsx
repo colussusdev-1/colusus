@@ -1,92 +1,208 @@
 import "./HowItWorks.css";
 
 import {
-    HiOutlineCursorClick,
+    HiOutlineSearch,
     HiOutlineClipboardCheck,
     HiOutlineDocumentText,
     HiOutlineGlobeAlt,
 } from "react-icons/hi";
 
+
 const steps = [
 
     {
-        icon: HiOutlineCursorClick,
-        title: "Choose Your Pathway",
-        text: "Select the immigration or work program that matches your goal.",
+        number: "01",
+        icon: HiOutlineSearch,
+
+        title: "Discover Your Opportunity",
+
+        text:
+            "We analyse your profile, experience and goals to identify the strongest international work and migration pathways available to you."
     },
 
+
     {
+        number: "02",
         icon: HiOutlineClipboardCheck,
-        title: "Eligibility Review",
-        text: "We assess your profile and recommend the strongest option.",
+
+        title: "Eligibility & Strategy",
+
+        text:
+            "Our specialists evaluate your eligibility and create a personalised migration strategy designed around your career ambitions."
     },
 
+
     {
+        number: "03",
         icon: HiOutlineDocumentText,
-        title: "Documentation",
-        text: "We prepare and organize all required application documents.",
+
+        title: "Application Preparation",
+
+        text:
+            "We help you prepare documentation, applications and requirements with accuracy to maximise your chances of success."
     },
 
+
     {
+        number: "04",
         icon: HiOutlineGlobeAlt,
-        title: "Application & Relocation",
-        text: "We submit your application and guide you until approval.",
-    },
+
+        title: "Approval & Global Transition",
+
+        text:
+            "From approval preparation to relocation guidance, we support you as you begin your journey into a new country."
+    }
 
 ];
 
+
+
 const HowItWorks = () => {
+
 
     return (
 
-        <div className="how-it-works">
+        <section className="how-it-works">
 
-            <div className="container">
+
+            <div className="how-container">
+
 
                 <div className="how-header">
 
-                    <span>PROCESS</span>
+
+                    <span>
+                        HOW IT WORKS
+                    </span>
+
+
 
                     <h2>
-                        Simple Steps.
-                        <span> Global Results.</span>
+
+                        Your Global Journey
+
+                        <strong>
+                            Simplified Step By Step
+                        </strong>
+
                     </h2>
 
-                </div>
 
-                <div className="steps-grid">
 
-                    {steps.map((step, index) => {
+                    <p>
 
-                        const Icon = step.icon;
+                        International relocation involves many decisions.
+                        Our structured process gives you clarity, confidence
+                        and professional guidance from start to finish.
 
-                        return (
+                    </p>
 
-                            <div className="step-card" key={step.title}>
-
-                                <div className="step-number">
-                                    {index + 1}
-                                </div>
-
-                                <Icon />
-
-                                <h3>{step.title}</h3>
-
-                                <p>{step.text}</p>
-
-                            </div>
-
-                        );
-
-                    })}
 
                 </div>
+
+
+
+
+
+                <div className="steps-wrapper">
+
+
+                    <div className="steps-line"></div>
+
+
+
+                    {
+                        steps.map((step) => {
+
+
+                            const Icon = step.icon;
+
+
+                            return (
+
+                                <article
+                                    className="step-card"
+                                    key={step.number}
+                                >
+
+
+                                    <div className="step-marker">
+
+
+                                        <div className="step-icon">
+
+                                            <Icon />
+
+                                        </div>
+
+
+
+                                        <span>
+
+                                            {step.number}
+
+                                        </span>
+
+
+                                    </div>
+
+
+
+
+
+                                    <div className="step-content">
+
+
+                                        <h3>
+
+                                            {step.title}
+
+                                        </h3>
+
+
+
+                                        <p>
+
+                                            {step.text}
+
+                                        </p>
+
+
+                                    </div>
+
+
+
+
+
+                                    <div className="step-watermark">
+
+                                        {step.number}
+
+                                    </div>
+
+
+
+                                </article>
+
+
+                            )
+
+                        })
+                    }
+
+
+
+                </div>
+
 
             </div>
 
-        </div>
+
+        </section>
 
     );
+
 };
+
 
 export default HowItWorks;

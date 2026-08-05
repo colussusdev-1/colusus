@@ -1,317 +1,210 @@
-/* ==========================================
-   GLOBAL HERO CINEMATIC STRIP
-========================================== */
+/* =====================================================
+   GLOBAL WORK HERO - PREMIUM VIDEO LANDING
+===================================================== */
 
 
 .global-hero {
 
-    position:relative;
+    position: relative;
 
-    width:100%;
+    width: 100%;
 
-    height:150px;
+    height: 100vh;
 
-    overflow:hidden;
+    min-height: 760px;
 
-    display:flex;
+    overflow: hidden;
 
-    align-items:center;
+    display: flex;
 
-    justify-content:center;
-
-    margin-bottom:3rem;
+    align-items: center;
 
 }
 
 
 
-/* ==========================================
+/* =====================================================
    VIDEO BACKGROUND
-========================================== */
+===================================================== */
 
 
 .global-hero-video {
 
-    position:absolute;
+    position: absolute;
 
-    inset:0;
+    inset: 0;
 
-    width:100%;
+    width: 100%;
 
-    height:100%;
+    height: 100%;
 
-    object-fit:cover;
+    object-fit: cover;
 
-    object-position:center;
+    object-position: center;
 
-    z-index:0;
+    z-index: 0;
 
 }
 
 
 
-/* ==========================================
-   SOFT VIDEO GLASS VEIL
-========================================== */
+/* =====================================================
+   CINEMATIC OVERLAY
+===================================================== */
 
 
-.global-hero::after {
+.global-hero-overlay {
 
 
-    content:"";
+    position: absolute;
 
-    position:absolute;
-
-    inset:0;
+    inset: 0;
 
 
     background:
 
-        linear-gradient(
-            180deg,
-            rgba(255,255,255,.15),
-            rgba(255,255,255,.32)
-        );
+
+        linear-gradient(90deg,
+            rgba(2, 6, 23, .90) 0%,
+            rgba(2, 6, 23, .65) 40%,
+            rgba(2, 6, 23, .25) 100%);
 
 
-    z-index:1;
+
+    z-index: 1;
 
 
 }
 
 
 
-/* ==========================================
-   FLOATING GLASS TEXT ATMOSPHERE
-========================================== */
+/* =====================================================
+   CONTAINER
+===================================================== */
+
+
+.global-hero-container {
+
+
+    position: relative;
+
+    z-index: 2;
+
+
+    width: min(1200px, 92%);
+
+
+    margin: auto;
+
+
+}
+
+
+
+/* =====================================================
+   CONTENT
+===================================================== */
 
 
 .global-hero-content {
 
 
-    position:relative;
-
-    z-index:2;
+    max-width: 720px;
 
 
-    text-align:center;
-
-
-    isolation:isolate;
-
-
-    padding:.75rem 2.8rem;
+    animation:
+        heroReveal .9s ease forwards;
 
 
 }
 
 
 
-/* main glass surface */
+/* =====================================================
+   GLASS TAG
+===================================================== */
 
 
-.global-hero-content::before {
+.global-tag {
 
 
-    content:"";
+    display: inline-flex;
 
 
-    position:absolute;
+    align-items: center;
 
 
-    inset:-22px -55px;
+    padding: .65rem 1.3rem;
+
+
+    border-radius: 999px;
 
 
     background:
 
+        rgba(255, 255, 255, .12);
 
-        linear-gradient(
-            135deg,
-            rgba(255,255,255,.55),
-            rgba(255,255,255,.18)
-        );
-
-
-    border-radius:70px;
 
 
     border:
 
-        1px solid rgba(255,255,255,.5);
+        1px solid rgba(255, 255, 255, .25);
+
 
 
     backdrop-filter:
 
-        blur(18px);
+        blur(15px);
 
 
-    -webkit-backdrop-filter:
 
-        blur(18px);
-
-
-    box-shadow:
+    color: #ffffff;
 
 
-        0 20px 60px rgba(15,23,42,.15);
+    font-size: .75rem;
 
 
-    z-index:-1;
+    font-weight: 800;
+
+
+    letter-spacing: .16em;
+
+
+    margin-bottom: 1.5rem;
+
 
 
 }
 
 
 
-/* soft glow around glass */
-
-
-.global-hero-content::after {
-
-
-    content:"";
-
-
-    position:absolute;
-
-
-    inset:-60px;
-
-
-    background:
-
-
-        radial-gradient(
-            circle,
-            rgba(255,255,255,.55),
-            transparent 65%
-        );
-
-
-    filter:blur(35px);
-
-
-    opacity:.7;
-
-
-    z-index:-2;
-
-
-}
-
-
-
-/* ==========================================
-   GLASS REFLECTION MOVEMENT
-========================================== */
-
-
-.global-hero-content {
-
-
-    overflow:hidden;
-
-}
-
-
-
-.global-hero-content::marker {
-
-    display:none;
-
-}
-
-
-
-/* ==========================================
-   TAG
-========================================== */
-
-
-.global-hero .tag {
-
-
-    position:relative;
-
-
-    display:inline-flex;
-
-
-    padding:.25rem .85rem;
-
-
-    border-radius:999px;
-
-
-    background:
-
-
-        rgba(255,255,255,.35);
-
-
-    border:
-
-
-        1px solid rgba(255,255,255,.5);
-
-
-    backdrop-filter:
-
-        blur(10px);
-
-
-    color:#2563eb;
-
-
-    font-size:.65rem;
-
-
-    font-weight:700;
-
-
-    letter-spacing:.12em;
-
-
-    margin-bottom:.2rem;
-
-
-}
-
-
-
-/* ==========================================
+/* =====================================================
    TITLE
-========================================== */
+===================================================== */
 
 
 .global-hero h1 {
 
 
-    position:relative;
-
-
-    margin:.35rem 0;
+    margin: 0;
 
 
     font-size:
 
-
-        clamp(1.5rem,3vw,2.2rem);
-
-
-    line-height:1;
+        clamp(3rem, 6vw, 5.5rem);
 
 
-    font-weight:800;
+
+    line-height: 1.05;
 
 
-    color:#0f172a;
+    font-weight: 900;
 
 
-    text-shadow:
+    letter-spacing: -.03em;
 
 
-        0 2px 20px rgba(255,255,255,.8);
+    color: white;
 
 
 }
@@ -321,377 +214,484 @@
 .global-hero h1 span {
 
 
-    color:#2563eb;
+    display: block;
+
+
+    background:
+
+        linear-gradient(90deg,
+            #60a5fa,
+            #2563eb);
+
+
+    -webkit-background-clip: text;
+
+    -webkit-text-fill-color: transparent;
 
 
 }
 
 
 
-/* ==========================================
+/* =====================================================
    DESCRIPTION
-========================================== */
+===================================================== */
 
 
 .global-hero p {
 
 
-    display:none;
+    margin-top: 1.5rem;
+
+
+    max-width: 620px;
+
+
+    color:
+
+        rgba(255, 255, 255, .85);
+
+
+
+    font-size: 1.15rem;
+
+
+    line-height: 1.8;
+
+
 
 }
 
 
 
-/* ==========================================
-   SUBTLE GLASS LIGHT SWEEP
-========================================== */
+/* =====================================================
+   ACTION BUTTONS
+===================================================== */
 
 
-.global-hero-content .tag::after {
+.global-hero-actions {
 
 
-    content:"";
+    display: flex;
 
 
-    position:absolute;
+    align-items: center;
 
 
-    top:0;
+    gap: 1rem;
 
 
-    left:-120%;
+    margin-top: 2.2rem;
 
 
-    width:80%;
+    flex-wrap: wrap;
 
 
-    height:100%;
+}
+
+
+
+
+
+.global-primary-btn,
+
+
+.global-secondary-btn {
+
+
+    display: flex;
+
+
+    align-items: center;
+
+
+    justify-content: center;
+
+
+    gap: .7rem;
+
+
+    padding: 1rem 2rem;
+
+
+    border-radius: 999px;
+
+
+    text-decoration: none;
+
+
+    font-weight: 800;
+
+
+    transition: .35s ease;
+
+
+}
+
+
+
+
+.global-primary-btn {
+
+
+    background: #2563eb;
+
+
+    color: white;
+
+
+    box-shadow:
+
+        0 15px 40px rgba(37, 99, 235, .35);
+
+
+}
+
+
+
+.global-primary-btn:hover {
+
+
+    transform: translateY(-5px);
+
+
+    background: #1d4ed8;
+
+
+}
+
+
+
+
+
+.global-secondary-btn {
 
 
     background:
 
-
-        linear-gradient(
-            120deg,
-            transparent,
-            rgba(255,255,255,.7),
-            transparent
-        );
+        rgba(255, 255, 255, .15);
 
 
-    transform:skewX(-25deg);
+    border:
+
+        1px solid rgba(255, 255, 255, .35);
 
 
-    animation:
+    backdrop-filter: blur(15px);
 
-        glassSweep 8s infinite;
+
+    color: white;
 
 
 }
 
 
 
-@keyframes glassSweep {
+.global-secondary-btn:hover {
 
 
-    0% {
-
-        left:-120%;
-
-    }
+    transform: translateY(-5px);
 
 
-    20% {
-
-        left:120%;
-
-    }
+    background: white;
 
 
-    100% {
+    color: #0f172a;
 
-        left:120%;
-
-    }
 
 }
 
 
 
-/* ==========================================
-   MOBILE
-========================================== */
 
 
-/* ==========================================
+/* =====================================================
+   TRUST ITEMS
+===================================================== */
+
+
+.global-trust {
+
+
+    display: flex;
+
+
+    gap: 2rem;
+
+
+    margin-top: 2.5rem;
+
+
+    flex-wrap: wrap;
+
+
+}
+
+
+
+.global-trust div {
+
+
+    display: flex;
+
+
+    align-items: center;
+
+
+    gap: .6rem;
+
+
+    color: white;
+
+
+    font-size: .9rem;
+
+
+    font-weight: 600;
+
+
+}
+
+
+
+.global-trust svg {
+
+
+    color: #22c55e;
+
+
+    font-size: 1.2rem;
+
+
+}
+
+
+
+
+
+/* =====================================================
+   FLOATING LIGHT EFFECT
+===================================================== */
+
+
+.global-hero::after {
+
+
+    content: "";
+
+
+    position: absolute;
+
+
+    width: 600px;
+
+
+    height: 600px;
+
+
+    right: -200px;
+
+
+    bottom: -200px;
+
+
+    background:
+
+        radial-gradient(circle,
+            rgba(37, 99, 235, .25),
+            transparent 70%);
+
+
+    filter: blur(80px);
+
+
+    z-index: 1;
+
+
+}
+
+
+
+
+/* =====================================================
+   ANIMATION
+===================================================== */
+
+
+@keyframes heroReveal {
+
+
+    from {
+
+        opacity: 0;
+
+        transform:
+
+            translateY(40px);
+
+    }
+
+
+    to {
+
+        opacity: 1;
+
+        transform:
+
+            translateY(0);
+
+    }
+
+
+}
+
+
+
+
+
+/* =====================================================
    TABLET
-========================================== */
+===================================================== */
 
-@media (max-width:992px){
+
+@media(max-width:900px) {
 
 
     .global-hero {
 
 
-        height:150px;
-
-    }
-
-
-
-    .global-hero-content {
-
-
-        padding:.7rem 1.8rem;
+        min-height: 700px;
 
 
     }
-
-
-
-    .global-hero-content::before {
-
-
-        inset:-20px -40px;
-
-
-        border-radius:60px;
-
-
-    }
-
 
 
     .global-hero h1 {
 
 
-        font-size:1.8rem;
+        font-size: 3.5rem;
 
 
     }
-
 
 
 }
 
 
 
-/* ==========================================
+
+
+
+
+/* =====================================================
    MOBILE
-========================================== */
+===================================================== */
 
 
-@media(max-width:768px){
+@media(max-width:600px) {
 
 
     .global-hero {
 
 
-        height:145px;
+        height: 100svh;
 
 
-        margin-bottom:2.5rem;
-
-
-    }
-
-
-
-    .global-hero-video {
-
-
-        object-position:center center;
+        min-height: 650px;
 
 
     }
 
 
 
-    .global-hero::after {
+    .global-hero-overlay {
 
 
         background:
 
 
-            linear-gradient(
+            linear-gradient(180deg,
 
-                180deg,
+                rgba(2, 6, 23, .65),
 
-                rgba(255,255,255,.2),
-
-                rgba(255,255,255,.4)
-
-            );
+                rgba(2, 6, 23, .92));
 
 
     }
 
 
 
-    .global-hero-content {
+
+    .global-hero-container {
 
 
-        width:auto;
-
-
-        max-width:90%;
-
-
-        padding:.55rem 1rem;
+        width: 90%;
 
 
     }
 
-
-
-    .global-hero-content::before {
-
-
-        inset:-16px -22px;
-
-
-        border-radius:45px;
-
-
-        backdrop-filter:blur(14px);
-
-
-        -webkit-backdrop-filter:blur(14px);
-
-
-    }
-
-
-
-    .global-hero-content::after {
-
-
-        inset:-40px;
-
-
-        filter:blur(30px);
-
-
-    }
-
-
-
-    .global-hero .tag {
-
-
-        font-size:.55rem;
-
-
-        padding:.22rem .65rem;
-
-
-        letter-spacing:.1em;
-
-
-        margin-bottom:.15rem;
-
-
-    }
 
 
 
     .global-hero h1 {
 
 
-        font-size:
-
-
-            clamp(1.25rem,6vw,1.55rem);
-
-
-        line-height:1.05;
-
-
-        margin:.2rem 0;
+        font-size: 2.5rem;
 
 
     }
 
 
 
-    .global-hero h1 span {
+    .global-hero p {
 
 
-        display:inline;
+        font-size: 1rem;
 
 
-    }
-
-
-}
-
-
-
-/* ==========================================
-   SMALL MOBILE
-========================================== */
-
-
-@media(max-width:480px){
-
-
-    .global-hero {
-
-
-        height:135px;
+        line-height: 1.6;
 
 
     }
 
 
 
-    .global-hero-content {
+    .global-hero-actions {
 
 
-        max-width:94%;
+        flex-direction: column;
 
 
-        padding:.45rem .75rem;
-
-
-    }
-
-
-
-    .global-hero-content::before {
-
-
-        inset:-12px -18px;
-
-
-        border-radius:35px;
+        width: 100%;
 
 
     }
 
 
 
-    .global-hero .tag {
+
+    .global-primary-btn,
+
+    .global-secondary-btn {
 
 
-        display:none;
-
-
-    }
-
-
-
-    .global-hero h1 {
-
-
-        font-size:1.25rem;
-
-
-        line-height:1.1;
+        width: 100%;
 
 
     }
 
+
+
+    .global-trust {
+
+
+        flex-direction: column;
+
+
+        gap: .8rem;
+
+
+    }
 
 
 }

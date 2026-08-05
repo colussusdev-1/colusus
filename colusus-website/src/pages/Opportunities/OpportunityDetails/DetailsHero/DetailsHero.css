@@ -1,97 +1,80 @@
-/* =====================================================
-   DETAILS HERO
-===================================================== */
-
-.details-hero{
-
-    position:relative;
-
-    min-height:620px;
-
-    overflow:hidden;
-
-    border-radius:0 0 42px 42px;
-
-    isolation:isolate;
-
-}
+/* ==========================================================
+   OPPORTUNITY DETAILS HERO
+   ISOLATED PREMIUM LIGHT DESIGN
+========================================================== */
 
 
+.opportunity-hero {
 
-
-/* =====================================================
-   BACKGROUND IMAGE
-===================================================== */
-
-
-.details-hero__image{
-
-    position:absolute;
-
-    inset:0;
-
-    width:100%;
-
-    height:100%;
-
-    object-fit:cover;
-
-    animation:detailsHeroZoom 18s ease-in-out infinite alternate;
-
-}
-
-
-
-@keyframes detailsHeroZoom{
-
-    from{
-
-        transform:scale(1);
-
-    }
-
-
-    to{
-
-        transform:scale(1.07);
-
-    }
-
-}
-
-
-
-
-
-
-/* =====================================================
-   OVERLAY
-===================================================== */
-
-
-.details-hero__overlay{
-
-    position:absolute;
-
-    inset:0;
-
-    z-index:1;
-
+    width: 100%;
 
     background:
+        linear-gradient(180deg,
+            #ffffff 0%,
+            #f8fafc 100%);
 
-    linear-gradient(
+    padding: 50px 0 90px;
 
-        90deg,
+    overflow: hidden;
 
-        rgba(3,10,25,.96),
+}
 
-        rgba(3,10,25,.82) 45%,
 
-        rgba(3,10,25,.45)
 
-    );
+.opportunity-hero-container {
 
+    width: min(1280px, 92%);
+
+    margin: auto;
+
+}
+
+
+
+
+
+
+/* ==========================================================
+   BREADCRUMB
+========================================================== */
+
+
+.opportunity-hero-breadcrumb {
+
+
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    margin-bottom: 35px;
+
+    font-size: .85rem;
+
+    color: #64748b;
+
+
+}
+
+
+.opportunity-hero-breadcrumb svg {
+
+    color: #94a3b8;
+
+    font-size: 14px;
+
+}
+
+
+
+.opportunity-hero-breadcrumb strong {
+
+    color: #0f172a;
+
+    font-weight: 700;
 
 }
 
@@ -101,35 +84,113 @@
 
 
 
-
-/* =====================================================
-   CONTAINER
-===================================================== */
-
-
-.details-hero__container{
-
-    position:relative;
-
-    z-index:3;
+/* ==========================================================
+   HEADER
+========================================================== */
 
 
-    width:min(1200px,92%);
-
-    min-height:620px;
+.opportunity-hero-header {
 
 
-    margin:auto;
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 40px;
 
 
-    padding:110px 0 70px;
+}
 
 
-    display:flex;
 
-    flex-direction:column;
+.opportunity-hero-country {
 
-    justify-content:center;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    color: #0f172a;
+
+    font-weight: 700;
+
+}
+
+
+
+.opportunity-hero-flag {
+
+
+    width: 44px;
+
+    height: 44px;
+
+    border-radius: 50%;
+
+    background: #f1f5f9;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 1.5rem;
+
+}
+
+
+
+.opportunity-hero-verified {
+
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 10px 18px;
+
+    border-radius: 999px;
+
+    background: #ecfdf5;
+
+    color: #15803d;
+
+    font-size: .85rem;
+
+    font-weight: 700;
+
+}
+
+
+
+
+
+
+/* ==========================================================
+   MAIN GRID
+========================================================== */
+
+
+.opportunity-hero-main {
+
+
+    display: grid;
+
+    grid-template-columns:
+
+        minmax(0, 1fr) 470px;
+
+
+    gap: 70px;
+
+    align-items: center;
 
 
 }
@@ -139,51 +200,29 @@
 
 
 
+/* ==========================================================
+   CONTENT
+========================================================== */
 
 
-/* =====================================================
-   COUNTRY BADGE
-===================================================== */
+.opportunity-hero-category {
 
 
-.details-hero__country{
+    display: inline-flex;
 
+    padding: 8px 15px;
 
-    display:flex;
+    border-radius: 999px;
 
-    align-items:center;
+    background: #eff6ff;
 
-    gap:.7rem;
+    color: #2563eb;
 
+    font-size: .8rem;
 
-    width:max-content;
+    font-weight: 700;
 
-
-    padding:.55rem 1.15rem;
-
-
-    border-radius:999px;
-
-
-    background:
-
-    rgba(255,255,255,.12);
-
-
-    border:
-
-    1px solid rgba(255,255,255,.18);
-
-
-    backdrop-filter:blur(18px);
-
-
-    color:white;
-
-
-    font-size:.85rem;
-
-    font-weight:700;
+    margin-bottom: 20px;
 
 
 }
@@ -192,99 +231,27 @@
 
 
 
-.details-hero__flag{
+.opportunity-hero-content h1 {
 
 
-    width:30px;
+    max-width: 720px;
 
-    height:30px;
-
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-
-    border-radius:50%;
-
-
-    overflow:hidden;
-
-
-    background:rgba(255,255,255,.15);
-
-
-    font-size:1.3rem;
-
-}
-
-
-
-
-.details-hero__flag img{
-
-
-    width:100%;
-
-    height:100%;
-
-
-    object-fit:cover;
-
-
-}
-
-
-
-
-
-
-
-/* =====================================================
-   TITLE
-===================================================== */
-
-
-.details-hero h1{
-
-
-    margin-top:25px;
-
-
-    max-width:850px;
-
-
-    color:white;
+    margin: 0;
 
 
     font-size:
 
-    clamp(2.5rem,5vw,4.2rem);
+        clamp(38px, 4vw, 58px);
 
 
-    line-height:1.05;
+    line-height: 1.08;
+
+    letter-spacing: -1.5px;
 
 
-    letter-spacing:-2px;
+    color: #0f172a;
 
-
-    font-weight:800;
-
-
-}
-
-
-
-
-.details-hero h1 span{
-
-
-    display:block;
-
-
-    color:rgba(255,255,255,.65);
+    font-weight: 800;
 
 
 }
@@ -293,29 +260,21 @@
 
 
 
+.opportunity-hero-description {
 
 
-/* =====================================================
-   LOCATION
-===================================================== */
+    margin-top: 22px;
+
+    max-width: 650px;
 
 
-.details-hero__location{
+    color: #475569;
 
 
-    margin-top:18px;
+    font-size: 1.05rem;
 
 
-    color:white;
-
-
-    font-size:.95rem;
-
-
-    font-weight:600;
-
-
-    opacity:.9;
+    line-height: 1.8;
 
 
 }
@@ -326,164 +285,74 @@
 
 
 
-
-/* =====================================================
-   DESCRIPTION
-===================================================== */
-
-
-.details-hero__description{
+/* ==========================================================
+   TRUST ITEMS
+========================================================== */
 
 
-    max-width:620px;
+.opportunity-hero-trust {
 
 
-    margin-top:15px;
+    display: flex;
 
+    flex-wrap: wrap;
 
-    color:rgba(255,255,255,.78);
+    gap: 12px;
 
-
-    line-height:1.8;
-
-
-    font-size:1rem;
+    margin-top: 30px;
 
 
 }
 
 
 
+.opportunity-trust-item {
 
 
+    display: flex;
+
+    align-items: center;
 
 
-
-/* =====================================================
-   ACTIONS
-===================================================== */
+    gap: 10px;
 
 
-.details-hero__actions{
+    padding: 12px 16px;
 
 
-    display:flex;
+    border-radius: 999px;
 
 
-    gap:15px;
+    background: #ffffff;
 
 
-    margin-top:32px;
+    border: 1px solid #e2e8f0;
 
 
-}
+    color: #334155;
 
 
+    font-size: .9rem;
 
 
-
-.details-hero__primary,
-.details-hero__secondary{
-
-
-    height:52px;
-
-
-    padding:0 28px;
-
-
-    border-radius:999px;
-
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-
-    gap:.6rem;
-
-
-    font-weight:700;
-
-
-    cursor:pointer;
-
-
-    transition:.35s ease;
-
-
-}
-
-
-
-
-
-.details-hero__primary{
-
-
-    background:white;
-
-
-    color:#061329;
-
-
-    border:none;
-
-
-}
-
-
-
-
-
-.details-hero__primary:hover{
-
-
-    transform:translateY(-3px);
+    font-weight: 600;
 
 
     box-shadow:
 
-    0 15px 35px rgba(255,255,255,.18);
+        0 8px 25px rgba(15, 23, 42, .04);
 
 
 }
 
 
 
+.opportunity-trust-item svg {
 
 
-.details-hero__secondary{
+    color: #16a34a;
 
-
-    background:
-
-    rgba(255,255,255,.12);
-
-
-    color:white;
-
-
-    border:
-
-    1px solid rgba(255,255,255,.25);
-
-
-}
-
-
-
-
-
-.details-hero__secondary:hover{
-
-
-    background:
-
-    rgba(255,255,255,.2);
-
+    flex-shrink: 0;
 
 }
 
@@ -494,24 +363,21 @@
 
 
 
-/* =====================================================
-   TRUST STATS
-===================================================== */
+/* ==========================================================
+   ACTIONS
+========================================================== */
 
 
-.details-hero__stats{
+.opportunity-hero-actions {
 
 
-    display:flex;
+    display: flex;
 
+    flex-wrap: wrap;
 
-    flex-wrap:wrap;
+    gap: 14px;
 
-
-    gap:14px;
-
-
-    margin-top:45px;
+    margin-top: 38px;
 
 
 }
@@ -519,42 +385,35 @@
 
 
 
-
-.details-hero__stat{
-
-
-    display:flex;
+.opportunity-hero-actions button {
 
 
-    align-items:center;
+    height: 54px;
 
 
-    gap:12px;
+    padding: 0 28px;
 
 
-    padding:.85rem 1rem;
+    border-radius: 999px;
 
 
-    min-width:190px;
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
 
 
-    border-radius:18px;
+    gap: 10px;
 
 
-    background:
-
-    rgba(255,255,255,.11);
+    font-weight: 700;
 
 
-    border:
-
-    1px solid rgba(255,255,255,.16);
+    cursor: pointer;
 
 
-    backdrop-filter:blur(18px);
-
-
-    color:white;
+    transition: .3s ease;
 
 
 }
@@ -562,33 +421,55 @@
 
 
 
+.opportunity-hero-primary {
 
 
-.details-hero__icon{
+    background: #2563eb;
+
+    color: white;
+
+    border: none;
 
 
-    width:38px;
+}
 
 
-    height:38px;
+
+.opportunity-hero-primary:hover {
 
 
-    border-radius:12px;
+    transform: translateY(-3px);
 
 
-    display:flex;
+    box-shadow:
+
+        0 18px 40px rgba(37, 99, 235, .25);
 
 
-    align-items:center;
+}
 
 
-    justify-content:center;
+
+.opportunity-hero-secondary {
 
 
-    background:white;
+    background: white;
 
 
-    color:#2563eb;
+    color: #0f172a;
+
+
+    border: 1px solid #cbd5e1;
+
+
+}
+
+
+
+.opportunity-hero-secondary:hover {
+
+
+    border-color: #2563eb;
 
 
 }
@@ -596,39 +477,14 @@
 
 
 
+.opportunity-hero-download {
 
 
+    background: #f1f5f9;
 
-.details-hero__stat span{
+    color: #334155;
 
-
-    display:block;
-
-
-    font-size:.7rem;
-
-
-    opacity:.65;
-
-
-}
-
-
-
-
-.details-hero__stat strong{
-
-
-    display:block;
-
-
-    margin-top:3px;
-
-
-    font-size:.9rem;
-
-
-    max-width:130px;
+    border: none;
 
 
 }
@@ -639,32 +495,50 @@
 
 
 
-/* =====================================================
-   TABLET
-===================================================== */
+/* ==========================================================
+   IMAGE SHOWCASE
+========================================================== */
 
 
-@media(max-width:900px){
+.opportunity-hero-showcase {
 
 
-.details-hero__container{
-
-
-    padding:100px 0 60px;
+    position: relative;
 
 
 }
 
 
 
-.details-hero h1{
+
+.opportunity-hero-image {
 
 
-    font-size:3rem;
+    height: 520px;
 
 
 }
 
+
+
+.opportunity-hero-image img {
+
+
+    width: 100%;
+
+
+    height: 100%;
+
+
+    object-fit: cover;
+
+
+    border-radius: 32px;
+
+
+    box-shadow:
+
+        0 30px 70px rgba(15, 23, 42, .18);
 
 
 }
@@ -676,159 +550,70 @@
 
 
 
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
-
-@media(max-width:700px){
+/* ==========================================================
+   SALARY CARD
+========================================================== */
 
 
-.details-hero{
+.opportunity-salary-card {
 
 
-    min-height:590px;
+    position: absolute;
 
 
-    border-radius:0 0 28px 28px;
+    bottom: 25px;
 
 
-}
+    left: -35px;
 
 
+    background: white;
 
 
-.details-hero__overlay{
+    padding: 22px 28px;
 
 
-    background:
+    border-radius: 24px;
 
 
-    linear-gradient(
+    box-shadow:
 
-        180deg,
-
-        rgba(3,10,25,.7),
-
-        rgba(3,10,25,.96)
-
-    );
+        0 20px 50px rgba(15, 23, 42, .15);
 
 
 }
 
 
 
-
-.details-hero__container{
-
-
-    width:90%;
+.opportunity-salary-card span {
 
 
-    min-height:590px;
+    color: #64748b;
 
 
-    padding:75px 0 45px;
+    font-size: .8rem;
 
 
-    justify-content:flex-start;
+    font-weight: 600;
 
 
 }
 
 
 
+.opportunity-salary-card strong {
 
 
-.details-hero__country{
+    display: block;
 
 
-    padding:.5rem .9rem;
+    margin-top: 5px;
 
 
-    font-size:.78rem;
+    color: #0f172a;
 
 
-}
-
-
-
-.details-hero__flag{
-
-
-    width:26px;
-
-    height:26px;
-
-
-}
-
-
-
-.details-hero h1{
-
-
-    margin-top:20px;
-
-
-    font-size:2.15rem;
-
-
-    letter-spacing:-1px;
-
-
-}
-
-
-
-
-.details-hero__location{
-
-
-    font-size:.85rem;
-
-
-}
-
-
-
-.details-hero__description{
-
-
-    font-size:.92rem;
-
-
-    line-height:1.65;
-
-
-}
-
-
-
-
-
-.details-hero__actions{
-
-
-    flex-direction:column;
-
-
-    margin-top:25px;
-
-
-}
-
-
-
-
-
-.details-hero__primary,
-.details-hero__secondary{
-
-
-    width:100%;
+    font-size: 1.7rem;
 
 
 }
@@ -839,32 +624,107 @@
 
 
 
-.details-hero__stats{
+
+/* ==========================================================
+   SUMMARY CARD
+========================================================== */
 
 
-    margin-top:30px;
+.opportunity-summary-card {
 
 
-    flex-wrap:nowrap;
+    margin-top: 25px;
 
 
-    overflow-x:auto;
+    background: white;
 
 
-    padding-bottom:10px;
+    padding: 28px;
 
 
-    scrollbar-width:none;
+    border-radius: 28px;
+
+
+    border: 1px solid #e2e8f0;
+
+
+    box-shadow:
+
+        0 15px 40px rgba(15, 23, 42, .05);
+
+
+}
+
+
+
+.opportunity-summary-card h3 {
+
+
+    color: #0f172a;
+
+
+    margin-bottom: 20px;
 
 
 }
 
 
 
-.details-hero__stats::-webkit-scrollbar{
 
 
-    display:none;
+.opportunity-summary-list {
+
+
+    display: flex;
+
+
+    flex-direction: column;
+
+
+    gap: 18px;
+
+
+}
+
+
+
+.opportunity-summary-list div {
+
+
+    display: grid;
+
+
+    grid-template-columns:
+
+        35px 1fr auto;
+
+
+    align-items: center;
+
+
+    gap: 12px;
+
+
+}
+
+
+
+.opportunity-summary-list svg {
+
+
+    color: #2563eb;
+
+}
+
+
+
+.opportunity-summary-list span {
+
+
+    color: #64748b;
+
+
+    font-size: .9rem;
 
 
 }
@@ -872,16 +732,270 @@
 
 
 
-.details-hero__stat{
+.opportunity-summary-list strong {
 
 
-    flex-shrink:0;
+    color: #0f172a;
 
 
-    min-width:210px;
+    font-size: .9rem;
 
 
 }
+
+
+
+
+
+
+
+
+/* ==========================================================
+   METRICS
+========================================================== */
+
+
+.opportunity-hero-metrics {
+
+
+    margin-top: 70px;
+
+
+    display: grid;
+
+
+    grid-template-columns:
+
+        repeat(5, 1fr);
+
+
+    background: white;
+
+
+    border-radius: 28px;
+
+
+    border: 1px solid #e2e8f0;
+
+
+    overflow: hidden;
+
+
+}
+
+
+
+.opportunity-hero-metrics div {
+
+
+    padding: 25px;
+
+
+    border-right: 1px solid #e2e8f0;
+
+
+}
+
+
+
+.opportunity-hero-metrics div:last-child {
+
+
+    border-right: none;
+
+
+}
+
+
+
+.opportunity-hero-metrics svg {
+
+
+    color: #2563eb;
+
+
+    font-size: 22px;
+
+
+}
+
+
+
+.opportunity-hero-metrics span {
+
+
+    display: block;
+
+
+    margin-top: 10px;
+
+
+    color: #64748b;
+
+
+    font-size: .8rem;
+
+
+}
+
+
+
+.opportunity-hero-metrics strong {
+
+
+    display: block;
+
+
+    margin-top: 6px;
+
+
+    color: #0f172a;
+
+
+}
+
+
+
+
+
+
+
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+
+@media(max-width:1100px) {
+
+
+    .opportunity-hero-main {
+
+
+        grid-template-columns: 1fr;
+
+
+    }
+
+
+
+    .opportunity-hero-showcase {
+
+
+        max-width: 600px;
+
+
+    }
+
+
+
+    .opportunity-hero-metrics {
+
+
+        grid-template-columns:
+
+            repeat(3, 1fr);
+
+
+    }
+
+
+}
+
+
+
+
+
+@media(max-width:700px) {
+
+
+    .opportunity-hero-header {
+
+
+        flex-direction: column;
+
+
+        align-items: flex-start;
+
+
+        gap: 20px;
+
+
+    }
+
+
+
+    .opportunity-hero-content h1 {
+
+
+        font-size: 2.3rem;
+
+
+    }
+
+
+
+    .opportunity-hero-actions {
+
+
+        flex-direction: column;
+
+
+    }
+
+
+
+    .opportunity-hero-actions button {
+
+
+        width: 100%;
+
+
+    }
+
+
+
+    .opportunity-hero-image {
+
+
+        height: 380px;
+
+
+    }
+
+
+
+    .opportunity-salary-card {
+
+
+        left: 15px;
+
+
+    }
+
+
+
+    .opportunity-hero-metrics {
+
+
+        grid-template-columns: 1fr;
+
+
+    }
+
+
+
+    .opportunity-hero-metrics div {
+
+
+        border-right: none;
+
+
+        border-bottom: 1px solid #e2e8f0;
+
+
+    }
 
 
 

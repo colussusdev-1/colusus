@@ -1,90 +1,206 @@
 import "./GlobalCTA.css";
 
-import { HiOutlinePhone, HiOutlineMail, HiOutlineArrowRight } from "react-icons/hi";
+import {
+    HiOutlinePhone,
+    HiOutlineMail,
+    HiOutlineArrowRight
+} from "react-icons/hi";
+
 
 const GlobalCTA = () => {
 
+
     return (
 
-        <section className="gwCTA">
 
-            <div className="gwCTA__container">
+        <section className="global-cta-section">
 
-                <div className="gwCTA__card">
 
-                    {/* LEFT */}
-                    <div className="gwCTA__left">
+            <div className="global-cta-container">
 
-                        <span className="gwCTA__badge">
+
+                <div className="global-cta-card">
+
+
+
+                    {/* CONTENT SIDE */}
+
+                    <div className="global-cta-content">
+
+
+                        <span className="global-cta-badge">
+
                             START YOUR GLOBAL JOURNEY
+
                         </span>
 
-                        <h2 className="gwCTA__title">
+
+
+
+                        <h2 className="global-cta-title">
+
                             Get Your Personalized Immigration Assessment
+
                         </h2>
 
-                        <p className="gwCTA__desc">
-                            Speak with a certified consultant and discover the best pathway for your profile, goals, and timeline.
+
+
+
+                        <p className="global-cta-description">
+
+                            Speak with a migration specialist and discover
+                            the best pathway based on your profile,
+                            goals and international ambitions.
+
                         </p>
 
-                        <div className="gwCTA__actions">
 
-                            <button className="gwCTA__btn gwCTA__btn--primary">
+
+
+                        <div className="global-cta-actions">
+
+
+                            <button className="global-cta-primary">
+
                                 Book Consultation
+
                                 <HiOutlineArrowRight />
+
                             </button>
 
-                            <button className="gwCTA__btn gwCTA__btn--secondary">
-                                Check Eligibility
-                            </button>
+
+
+
+                   
+
 
                         </div>
 
+
+
                     </div>
 
-                    {/* RIGHT */}
-                    <div className="gwCTA__right">
 
-                        <div className="gwCTA__header">
+
+
+
+                    {/* CONTACT SIDE */}
+
+                    <div className="global-cta-contact">
+
+
+
+                        <h3 className="global-cta-contact-title">
+
                             Contact Details
-                        </div>
 
-                        <div className="gwCTA__item">
+                        </h3>
 
-                            <HiOutlineMail />
 
-                            <div>
-                                <span>Email</span>
-                                <p>admin@colossusmigration.com</p>
+
+
+                        <div className="global-cta-contact-item">
+
+
+                            <div className="global-cta-icon">
+
+                                <HiOutlineMail />
+
                             </div>
 
-                        </div>
 
-                        <div className="gwCTA__item">
-
-                            <HiOutlinePhone />
 
                             <div>
-                                <span>Phone</span>
-                                <p>+234-703-520-9306</p>
-                                <p>+234-902-695-3513</p>
+
+                                <span>
+                                    Email
+                                </span>
+
+
+                                <p>
+                                    admin@colossusmigration.com
+                                </p>
+
+
                             </div>
+
 
                         </div>
 
-                        <div className="gwCTA__note">
+
+
+
+
+
+
+                        <div className="global-cta-contact-item">
+
+
+                            <div className="global-cta-icon">
+
+                                <HiOutlinePhone />
+
+                            </div>
+
+
+
+                            <div>
+
+                                <span>
+                                    Phone
+                                </span>
+
+
+                                <p>
+                                    +234-703-520-9306
+                                </p>
+
+
+                                <p>
+                                    +234-902-695-3513
+                                </p>
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+
+
+
+                        <div className="global-cta-note">
+
+
                             Response within 24 hours • Global support available
+
+
                         </div>
+
+
+
 
                     </div>
+
+
 
                 </div>
 
+
+
             </div>
+
+
 
         </section>
 
+
     );
+
+
 };
+
 
 export default GlobalCTA;

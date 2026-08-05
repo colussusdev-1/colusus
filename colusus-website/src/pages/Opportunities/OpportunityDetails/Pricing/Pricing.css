@@ -1,0 +1,458 @@
+/* =====================================================
+   MIGRATION INVESTMENT SECTION
+===================================================== */
+
+
+.migration-pricing-section {
+
+    padding: 100px 0;
+
+    background: #ffffff;
+
+}
+
+
+
+.migration-pricing-container {
+
+    width: min(1100px, 92%);
+
+    margin: auto;
+
+}
+
+
+
+
+
+/* HEADER */
+
+.migration-pricing-header {
+
+    max-width: 700px;
+
+    margin-bottom: 50px;
+
+}
+
+
+
+.migration-pricing-label {
+
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 9px 18px;
+
+    border-radius: 999px;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    font-size: .85rem;
+
+    font-weight: 700;
+
+}
+
+
+
+.migration-pricing-label svg {
+
+    font-size: 18px;
+
+}
+
+
+
+
+
+.migration-pricing-header h2 {
+
+
+    margin-top: 22px;
+
+
+    font-size:
+
+        clamp(2.2rem, 4vw, 3.2rem);
+
+
+    line-height: 1.1;
+
+
+    letter-spacing: -1.5px;
+
+
+    color: #0f172a;
+
+}
+
+
+
+
+.migration-pricing-header p {
+
+
+    margin-top: 18px;
+
+
+    color: #64748b;
+
+
+    line-height: 1.8;
+
+
+}
+
+
+
+
+
+
+
+/* PANEL */
+
+
+.migration-investment-panel {
+
+
+    padding: 45px;
+
+
+    border-radius: 32px;
+
+
+    background:
+
+
+        linear-gradient(135deg,
+
+            #0f172a,
+
+            #1e40af);
+
+
+    color: white;
+
+
+    box-shadow:
+
+        0 30px 70px rgba(15, 23, 42, .18);
+
+
+}
+
+
+
+
+
+/* MAIN */
+
+
+.investment-main {
+
+
+    display: flex;
+
+
+    align-items: center;
+
+
+    gap: 22px;
+
+
+}
+
+
+
+.investment-icon {
+
+
+    width: 70px;
+
+
+    height: 70px;
+
+
+    border-radius: 22px;
+
+
+    background: white;
+
+
+    color: #2563eb;
+
+
+    display: flex;
+
+
+    align-items: center;
+
+
+    justify-content: center;
+
+
+    font-size: 2rem;
+
+
+    font-weight: 800;
+
+
+}
+
+
+
+
+
+.investment-main span {
+
+
+    opacity: .7;
+
+
+    font-size: .9rem;
+
+
+}
+
+
+
+
+.investment-main h3 {
+
+
+    margin-top: 8px;
+
+
+    font-size: 2.8rem;
+
+
+    letter-spacing: -1px;
+
+
+}
+
+
+
+
+.investment-main small {
+
+
+    opacity: .7;
+
+
+}
+
+
+
+
+
+
+
+/* BENEFITS */
+
+
+.investment-benefits {
+
+
+    display: flex;
+
+
+    flex-wrap: wrap;
+
+
+    gap: 15px;
+
+
+    margin-top: 35px;
+
+
+}
+
+
+
+.investment-benefits div {
+
+
+    display: flex;
+
+
+    align-items: center;
+
+
+    gap: 10px;
+
+
+    padding: 12px 18px;
+
+
+    border-radius: 999px;
+
+
+    background:
+
+        rgba(255, 255, 255, .12);
+
+
+}
+
+
+
+.investment-benefits svg {
+
+
+    color: #4ade80;
+
+
+}
+
+
+
+
+
+
+
+/* BUTTON */
+
+
+.investment-action {
+
+
+    margin-top: 35px;
+
+
+    height: 52px;
+
+
+    padding: 0 28px;
+
+
+    border-radius: 999px;
+
+
+    border: none;
+
+
+    background: white;
+
+
+    color: #0f172a;
+
+
+    display: flex;
+
+
+    align-items: center;
+
+
+    gap: 10px;
+
+
+    font-weight: 700;
+
+
+    cursor: pointer;
+
+
+    transition: .3s ease;
+
+
+}
+
+
+
+.investment-action:hover {
+
+
+    transform: translateY(-3px);
+
+
+}
+
+
+
+
+
+
+
+
+/* MOBILE */
+
+
+@media(max-width:700px) {
+
+
+    .migration-pricing-section {
+
+        padding: 70px 0;
+
+    }
+
+
+
+
+    .migration-investment-panel {
+
+
+        padding: 28px;
+
+
+        border-radius: 24px;
+
+    }
+
+
+
+    .investment-main {
+
+
+        align-items: flex-start;
+
+    }
+
+
+
+
+    .investment-icon {
+
+
+        width: 52px;
+
+
+        height: 52px;
+
+
+        border-radius: 16px;
+
+
+    }
+
+
+
+
+    .investment-main h3 {
+
+
+        font-size: 2rem;
+
+    }
+
+
+
+
+    .investment-benefits {
+
+
+        flex-direction: column;
+
+    }
+
+
+
+}

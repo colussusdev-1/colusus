@@ -1,233 +1,110 @@
 import {
     HiOutlineTag,
+    HiOutlineInformationCircle,
     HiOutlineCheckCircle,
-    HiOutlineXCircle
+    HiOutlineXCircle,
 } from "react-icons/hi";
 
-
 import "./CouponSection.css";
-
-
 
 const CouponSection = ({
     formData,
     updateField,
     couponStatus,
-    onApplyCoupon
 }) => {
-
-
-
     return (
-
-
-
         <div className="couponSection">
-
-
-
-
-
-
 
             <div className="couponSection__header">
 
-
-
                 <div className="couponSection__icon">
-
-
-                    <HiOutlineTag/>
-
-
+                    <HiOutlineTag />
                 </div>
-
-
-
-
 
                 <div>
 
-
                     <h3>
-                        Coupon Code
+
+                        Discount Coupon
+
                     </h3>
 
-
                     <p>
-                        Have a discount code? Apply it here
+
+                        If you received a consultation coupon,
+                        enter it below. It will automatically be
+                        verified during booking review.
+
                     </p>
 
-
                 </div>
-
-
-
 
             </div>
 
+            <div className="couponSection__input">
 
+                <HiOutlineTag />
 
-
-
-
-
-
-
-            <div className="couponSection__action">
-
-
-
-
-
-                <div className="couponSection__input">
-
-
-                    <HiOutlineTag />
-
-
-
-                    <input
-
-
-                        type="text"
-
-
-                        placeholder="Enter coupon code"
-
-
-
-                        value={
-                            formData.couponCode || ""
-                        }
-
-
-
-
-                        onChange={(e)=>
-
-
-
-                            updateField(
-
-                                "couponCode",
-
-                                e.target.value.toUpperCase()
-
-                            )
-
-
-                        }
-
-
-
-                    />
-
-
-                </div>
-
-
-
-
-
-
-
-                <button
-
-
-                    type="button"
-
-
-                    onClick={onApplyCoupon}
-
-
-                >
-
-                    Apply Code
-
-
-                </button>
-
-
-
-
+                <input
+                    type="text"
+                    placeholder="Example: COLFREE2026"
+                    value={formData.couponCode || ""}
+                    onChange={(e) =>
+                        updateField(
+                            "couponCode",
+                            e.target.value.toUpperCase()
+                        )
+                    }
+                />
 
             </div>
 
+            <div className="couponSection__hint">
 
+                <HiOutlineInformationCircle />
 
+                <span>
 
+                    Leave this blank if you don't have a coupon.
 
+                </span>
 
+            </div>
 
+            {couponStatus?.type === "success" && (
 
+                <div className="couponMessage success">
 
-            {
-                couponStatus?.type === "success" && (
+                    <HiOutlineCheckCircle />
 
+                    <span>
 
-                    <div className="couponMessage success">
+                        {couponStatus.message}
 
+                    </span>
 
-                        <HiOutlineCheckCircle/>
+                </div>
 
+            )}
 
-                        <span>
+            {couponStatus?.type === "error" && (
 
-                            Coupon applied. Consultation fee waived.
+                <div className="couponMessage error">
 
-                        </span>
+                    <HiOutlineXCircle />
 
+                    <span>
 
-                    </div>
+                        {couponStatus.message}
 
+                    </span>
 
-                )
-            }
+                </div>
 
-
-
-
-
-
-
-
-            {
-                couponStatus?.type === "error" && (
-
-
-                    <div className="couponMessage error">
-
-
-                        <HiOutlineXCircle/>
-
-
-                        <span>
-
-                            Invalid coupon code. Try again.
-
-                        </span>
-
-
-                    </div>
-
-
-                )
-            }
-
-
-
-
-
-
+            )}
 
         </div>
-
-
     );
-
 };
-
-
 
 export default CouponSection;

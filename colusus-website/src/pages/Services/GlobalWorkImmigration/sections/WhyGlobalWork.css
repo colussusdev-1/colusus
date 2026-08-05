@@ -1,61 +1,50 @@
 /* =====================================================
-   WHY GLOBAL WORK
+   PREMIUM GLOBAL WORK SECTION
 ===================================================== */
+
 
 .why-global {
 
     position: relative;
 
-    padding: 5rem 0;
+    padding: 7rem 0;
 
     overflow: hidden;
 
     background:
-        radial-gradient(circle at 10% 20%,
-            rgba(37, 99, 235, .08),
-            transparent 40%),
-
-        radial-gradient(circle at 90% 10%,
-            rgba(0, 86, 179, .06),
-            transparent 45%),
-
         linear-gradient(180deg,
             #ffffff,
             #f8fafc);
+
 }
 
 
-/* soft background glow */
 
-.why-global::before {
-
-    content: "";
+.why-background {
 
     position: absolute;
 
-    width: 500px;
+    width: 700px;
 
-    height: 500px;
+    height: 700px;
 
-    top: -200px;
+    top: -300px;
 
-    left: -200px;
+    right: -250px;
 
     background:
+
         radial-gradient(circle,
-            rgba(37, 99, 235, .12),
-            transparent 70%);
+            rgba(37, 99, 235, .18),
+            transparent 65%);
 
     filter: blur(80px);
 
-    pointer-events: none;
 }
 
 
-/* =====================================================
-   CONTAINER
-===================================================== */
 
+/* CONTAINER */
 
 .why-global .container {
 
@@ -67,18 +56,20 @@
 
 
 
-/* =====================================================
-   HEADER
-===================================================== */
 
+
+/* HEADER */
 
 .why-global-header {
 
-    max-width: 720px;
 
-    margin: 0 auto 3.5rem;
+    max-width: 760px;
+
+    margin: auto;
 
     text-align: center;
+
+    margin-bottom: 4rem;
 
 }
 
@@ -89,62 +80,56 @@
 
     display: inline-flex;
 
-    align-items: center;
-
-
-    padding: .55rem 1.1rem;
-
+    padding: .65rem 1.2rem;
 
     border-radius: 999px;
 
 
     background:
+
         rgba(37, 99, 235, .08);
 
 
     border:
-        1px solid rgba(37, 99, 235, .12);
+
+        1px solid rgba(37, 99, 235, .15);
 
 
     color: #2563eb;
 
 
-    font-size: .75rem;
+    font-size: .7rem;
 
+    font-weight: 800;
 
-    font-weight: 700;
+    letter-spacing: .15em;
 
-
-    letter-spacing: .12em;
-
-
-    margin-bottom: 1.2rem;
 
 }
-
 
 
 
 .why-global-header h2 {
 
 
+    margin-top: 1.5rem;
+
+
     font-size:
-        clamp(2rem, 4vw, 3.2rem);
+
+        clamp(2.2rem, 4vw, 3.5rem);
 
 
-    line-height: 1.15;
+    line-height: 1.1;
+
+
+    font-weight: 850;
 
 
     color: #0f172a;
 
 
-    font-weight: 800;
-
-
-    margin-bottom: 1rem;
-
 }
-
 
 
 
@@ -153,38 +138,38 @@
 
     display: block;
 
-
     color: #2563eb;
 
-}
 
+}
 
 
 
 .why-global-header p {
 
 
-    max-width: 620px;
+    margin: 1.3rem auto 0;
 
 
-    margin: 0 auto;
+    max-width: 650px;
 
 
     color: #64748b;
 
 
-    font-size: 1rem;
+    line-height: 1.9;
 
 
-    line-height: 1.8;
+    font-size: 1.05rem;
+
 
 }
 
 
 
-/* =====================================================
-   GRID
-===================================================== */
+
+
+/* GRID */
 
 
 .why-grid {
@@ -194,10 +179,11 @@
 
 
     grid-template-columns:
+
         repeat(4, 1fr);
 
 
-    gap: 1.2rem;
+    gap: 1.4rem;
 
 
 }
@@ -205,278 +191,204 @@
 
 
 
-/* =====================================================
-   CARD
-===================================================== */
 
-
+/* CARD */
 .why-card {
-
 
     position: relative;
 
+    padding: 2rem;
 
-    padding: 1.8rem 1.4rem;
+    min-height: 300px;
 
-
-    min-height: 240px;
-
-
-    display: flex;
-
-
-    flex-direction: column;
-
-
-    justify-content: flex-start;
-
-
-    text-align: center;
-
+    border-radius: 32px;
 
     overflow: hidden;
 
-
-
-    border-radius: 24px;
-
-
-
     background:
-        rgba(255, 255, 255, .65);
+        linear-gradient(135deg,
+            rgba(255, 255, 255, .72),
+            rgba(255, 255, 255, .42));
 
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
 
-
-    border:
-        1px solid rgba(255, 255, 255, .8);
-
-
-
-    backdrop-filter:
-        blur(18px);
-
-
-
-    -webkit-backdrop-filter:
-        blur(18px);
-
-
+    border: 1px solid rgba(255, 255, 255, .55);
 
     box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .9),
+        inset 0 -1px 0 rgba(255, 255, 255, .18),
+        0 30px 70px rgba(15, 23, 42, .08);
 
+    transition: .45s ease;
 
-        0 15px 45px rgba(15, 23, 42, .06);
-
-
-
-    transition:
-        transform .35s ease,
-        box-shadow .35s ease,
-        border-color .35s ease;
-
-
+    overflow: hidden;
 }
 
-
+.why-card .glass-highlight {
+    display: none;
+}
 
 .why-card::before {
 
-
     content: "";
-
 
     position: absolute;
 
-
     inset: 0;
 
+    border-radius: inherit;
 
     background:
 
-        linear-gradient(120deg,
+        /* Gloss reflection */
+        linear-gradient(130deg,
+            rgba(255, 255, 255, .55) 0%,
+            rgba(255, 255, 255, .18) 24%,
+            transparent 46%),
 
-            rgba(255, 255, 255, .7),
+        /* Horizontal Grid */
+        linear-gradient(var(--grid) 1px,
+            transparent 1px),
 
-            transparent 45%);
+        /* Vertical Grid */
+        linear-gradient(90deg,
+            var(--grid) 1px,
+            transparent 1px);
+    background-size:
 
+        auto,
 
-    opacity: .5;
+        28px 28px,
 
+        28px 28px;
 
     pointer-events: none;
 
+    opacity: .8;
+
 }
 
+.why-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 220px;
+
+    height: 220px;
+
+    top: -90px;
+
+    right: -80px;
+
+    border-radius: 50%;
+
+    filter: blur(35px);
+
+    pointer-events: none;
+
+    z-index: 0;
+
+}
 
 
 .why-card:hover {
 
 
     transform:
-        translateY(-8px);
 
-
-
-    border-color:
-        rgba(37, 99, 235, .2);
-
+        translateY(-12px);
 
 
     box-shadow:
 
-        0 25px 60px rgba(15, 23, 42, .12);
+        0 35px 80px rgba(15, 23, 42, .14);
 
-}
-
-.why-card-files {
-
-    position: absolute;
-
-    top: 18px;
-
-    right: 20px;
-
-    width: 65px;
-
-    height: 55px;
-
-    opacity: .8;
-
-}
-
-
-
-.why-card-files span {
-
-    position: absolute;
-
-    width: 45px;
-
-    height: 34px;
-
-    border-radius: 8px;
-
-    background:
-        rgba(255, 255, 255, .5);
-
-    border:
-        1px solid rgba(255, 255, 255, .8);
-
-    backdrop-filter: blur(10px);
-
-    transition: .45s ease;
-
-}
-
-
-
-.why-card-files span:nth-child(1) {
-
-    top: 0;
-
-    right: 0;
-
-}
-
-
-
-.why-card-files span:nth-child(2) {
-
-    top: 8px;
-
-    right: 9px;
-
-}
-
-
-
-.why-card-files span:nth-child(3) {
-
-    top: 16px;
-
-    right: 18px;
 
 }
 
 
 
 
-.why-card:hover .why-card-files span:nth-child(1) {
 
-    transform:
-        translate(15px, -8px) rotate(12deg);
+
+
+/* TOP */
+
+
+.card-top {
+
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+}
+
+
+
+.why-number {
+
+
+    font-size: 3rem;
+
+
+    font-weight: 900;
+
+
+    color:
+
+        rgba(15, 23, 42, .08);
+
 
 }
 
 
 
-.why-card:hover .why-card-files span:nth-child(2) {
-
-    transform:
-        translate(8px, -3px) rotate(5deg);
-
-}
 
 
-
-.why-card:hover .why-card-files span:nth-child(3) {
-
-    transform:
-        translate(-4px, 5px);
-
-}
-
-/* =====================================================
-   ICON
-===================================================== */
+/* ICON */
 
 
 .why-icon {
 
 
-    width: 58px;
+    width: 64px;
+
+    height: 64px;
 
 
-    height: 58px;
+    border-radius: 22px;
 
 
     display: flex;
 
-
     align-items: center;
-
 
     justify-content: center;
 
 
-
-    margin: 0 auto 1.2rem;
-
-
-
-    border-radius: 18px;
+    font-size: 1.8rem;
 
 
 
     background:
 
-        rgba(37, 99, 235, .08);
-
+        rgba(37, 99, 235, .1);
 
 
     color: #2563eb;
 
 
 
-    font-size: 1.6rem;
-
-
-
-    transition: .35s ease;
+    transition: .4s ease;
 
 
 }
-
 
 
 
@@ -486,39 +398,49 @@
     background: #2563eb;
 
 
-    color: #ffffff;
+    color: white;
 
 
     transform:
-        scale(1.08);
+
+        rotate(-8deg) scale(1.1);
 
 
 }
 
 
 
-/* =====================================================
-   CONTENT
-===================================================== */
+
+
+/* CONTENT */
+
+
+.why-content {
+
+
+    margin-top: 3rem;
+
+
+}
+
 
 
 .why-content h3 {
 
 
-    font-size: 1.05rem;
+    font-size: 1.25rem;
 
 
-    font-weight: 750;
+    font-weight: 800;
 
 
     color: #0f172a;
 
 
-    margin-bottom: .6rem;
+    margin-bottom: .8rem;
 
 
 }
-
 
 
 
@@ -528,10 +450,63 @@
     color: #64748b;
 
 
-    font-size: .9rem;
+    line-height: 1.75;
 
 
-    line-height: 1.65;
+    font-size: .95rem;
+
+
+}
+
+
+
+
+
+/* BOTTOM LINE */
+
+
+.card-line {
+
+
+    position: absolute;
+
+
+    bottom: 0;
+
+
+    left: 0;
+
+
+    width: 100%;
+
+
+    height: 5px;
+
+
+    background: #2563eb;
+
+
+    transform:
+
+        scaleX(0);
+
+
+    transform-origin: left;
+
+
+    transition: .4s ease;
+
+
+}
+
+
+
+.why-card:hover .card-line {
+
+
+    transform:
+
+        scaleX(1);
 
 
 }
@@ -539,18 +514,206 @@
 
 
 /* =====================================================
-   RESPONSIVE
+   CARD THEMES
 ===================================================== */
 
+/* ---------- BLUE ---------- */
 
-@media(max-width:1000px) {
+.why-card.blue {
+
+    --grid: rgba(37, 99, 235, .06);
+
+}
+
+
+
+.why-card.blue::after {
+
+    background:
+        radial-gradient(circle at top right,
+            rgba(37, 99, 235, .22),
+            transparent 70%);
+
+}
+
+
+/* ---------- GREEN ---------- */
+
+.why-card.green {
+
+    --grid: rgba(16, 185, 129, .06);
+
+}
+
+
+
+.why-card.green::after {
+
+    background:
+        radial-gradient(circle at top right,
+            rgba(16, 185, 129, .22),
+            transparent 70%);
+
+}
+
+.why-card.green .why-icon {
+
+    color: #10b981;
+
+    background: rgba(16, 185, 129, .12);
+
+}
+
+.why-card.green .card-line {
+
+    background: #10b981;
+
+}
+
+
+/* ---------- ORANGE ---------- */
+
+.why-card.orange {
+
+    --grid: rgba(249, 115, 22, .06);
+
+}
+
+
+.why-card.orange::after {
+
+    background:
+        radial-gradient(circle at top right,
+            rgba(249, 115, 22, .22),
+            transparent 70%);
+
+}
+
+.why-card.orange .why-icon {
+
+    color: #f97316;
+
+    background: rgba(249, 115, 22, .12);
+
+}
+
+.why-card.orange .card-line {
+
+    background: #f97316;
+
+}
+
+
+/* ---------- PURPLE ---------- */
+
+.why-card.purple {
+
+    --grid: rgba(139, 92, 246, .06);
+
+}
+
+
+
+.why-card.purple::after {
+
+    background:
+        radial-gradient(circle at top right,
+            rgba(139, 92, 246, .22),
+            transparent 70%);
+
+}
+
+.why-card.purple .why-icon {
+
+    color: #8b5cf6;
+
+    background: rgba(139, 92, 246, .12);
+
+}
+
+.why-card.purple .card-line {
+
+    background: #8b5cf6;
+
+}
+
+
+
+@keyframes reveal {
+
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(40px);
+
+    }
+
+
+    to {
+
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+
+    }
+
+
+}
+
+
+
+
+
+.why-card:nth-child(1) {
+
+    animation-delay: .1s;
+
+}
+
+
+.why-card:nth-child(2) {
+
+    animation-delay: .2s;
+
+}
+
+
+.why-card:nth-child(3) {
+
+    animation-delay: .3s;
+
+}
+
+
+.why-card:nth-child(4) {
+
+    animation-delay: .4s;
+
+}
+
+
+
+
+
+
+
+/* RESPONSIVE */
+
+
+@media(max-width:1050px) {
 
 
     .why-grid {
 
 
         grid-template-columns:
+
             repeat(2, 1fr);
+
 
     }
 
@@ -565,25 +728,7 @@
     .why-global {
 
 
-        padding: 4rem 0;
-
-    }
-
-
-
-    .why-global-header {
-
-
-        margin-bottom: 2.5rem;
-
-    }
-
-
-
-    .why-global-header h2 {
-
-
-        font-size: 2rem;
+        padding: 5rem 0;
 
     }
 
@@ -604,242 +749,22 @@
 
         min-height: auto;
 
+        padding: 1.6rem;
 
-        padding: 1.6rem 1.3rem;
+        border-radius: 24px;
 
-
-        border-radius: 20px;
 
     }
 
 
 
-    .why-icon {
+    .why-content {
 
 
-        width: 52px;
-
-        height: 52px;
-
-
-        font-size: 1.4rem;
+        margin-top: 2rem;
 
     }
 
-
-}
-
-/* =====================================================
-   CARD THEMES
-===================================================== */
-
-
-.why-card.blue::after{
-
-    background:
-    radial-gradient(
-        circle,
-        rgba(37,99,235,.18),
-        transparent 65%
-    );
-
-}
-
-
-.why-card.green::after{
-
-    background:
-    radial-gradient(
-        circle,
-        rgba(16,185,129,.18),
-        transparent 65%
-    );
-
-}
-
-
-
-.why-card.orange::after{
-
-    background:
-    radial-gradient(
-        circle,
-        rgba(249,115,22,.18),
-        transparent 65%
-    );
-
-}
-
-
-
-.why-card.purple::after{
-
-    background:
-    radial-gradient(
-        circle,
-        rgba(139,92,246,.18),
-        transparent 65%
-    );
-
-}
-
-
-
-.why-card::after{
-
-    content:"";
-
-    position:absolute;
-
-    width:220px;
-
-    height:220px;
-
-    bottom:-120px;
-
-    left:50%;
-
-    transform:translateX(-50%);
-
-
-    filter:blur(40px);
-
-
-    opacity:.7;
-
-
-    pointer-events:none;
-
-}
-
-
-/* =====================================================
-   CARD ENTRANCE + FLOAT
-===================================================== */
-
-
-.why-card {
-
-    animation: whyReveal .7s ease forwards;
-
-    opacity:0;
-
-    transform:
-        translateY(35px);
-
-}
-
-
-
-.why-card:nth-child(1){
-
-    animation-delay:.1s;
-
-}
-
-
-.why-card:nth-child(2){
-
-    animation-delay:.2s;
-
-}
-
-
-.why-card:nth-child(3){
-
-    animation-delay:.3s;
-
-}
-
-
-.why-card:nth-child(4){
-
-    animation-delay:.4s;
-
-}
-
-
-
-
-@keyframes whyReveal {
-
-
-    from {
-
-        opacity:0;
-
-        transform:
-            translateY(35px);
-
-    }
-
-
-    to {
-
-        opacity:1;
-
-        transform:
-            translateY(0);
-
-    }
-
-}
-
-
-
-
-
-/* =====================================================
-   DOCUMENT FLOATING MOTION
-===================================================== */
-
-
-.why-card-files {
-
-
-    animation:
-
-        fileFloat 5s ease-in-out infinite;
-
-
-}
-
-
-
-@keyframes fileFloat {
-
-
-    0%,
-    100% {
-
-        transform:
-            translateY(0);
-
-    }
-
-
-    50% {
-
-        transform:
-            translateY(-6px);
-
-    }
-
-}
-
-.why-card:hover {
-
-    transform:
-
-        translateY(-10px);
-
-}
-
-
-.why-card:hover .why-card-files {
-
-
-    animation-play-state:paused;
 
 
 }

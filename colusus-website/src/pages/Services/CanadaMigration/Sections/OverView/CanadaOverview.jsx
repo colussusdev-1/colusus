@@ -2,131 +2,229 @@ import "./CanadaOverview.css";
 
 import { Link } from "react-router-dom";
 
-import { motion, AnimatePresence } from "framer-motion";
+import {
+    motion,
+    AnimatePresence
+} from "framer-motion";
 
-import { HiOutlineArrowRight } from "react-icons/hi";
+import {
+    HiOutlineArrowRight
+} from "react-icons/hi";
 
-import { pathways } from "../../data/pathways";
+import {
+    pathways
+} from "../../data/pathways";
 
 import useRotatePathways from "./useRotatePathways";
 
+
+
 const CanadaOverview = () => {
+
 
     const {
         featured,
         others,
     } = useRotatePathways(pathways);
 
+
+
     const FeaturedIcon = featured.icon;
+
+
 
     return (
 
-        <div className="canada-overview">
+
+        <section className="canada-overview">
+
 
             <div className="container">
 
-                {/* ===========================
-                    Header
-                =========================== */}
 
-                <div className="canada-overview-header">
+
+
+
+                {/* HEADER */}
+
+                <header className="canada-overview-header">
+
 
                     <span className="canada-overview-tag">
 
-                        CANADA IMMIGRATION PROGRAMS
+                        CANADA IMMIGRATION PATHWAYS
 
                     </span>
 
+
+
+
                     <h2>
 
-                        Find The Right
+                        Choose The Right
 
-                        <span> Immigration Pathway.</span>
+                        <span>
+                            Pathway For Your Future.
+                        </span>
 
                     </h2>
 
+
+
+
                     <p>
 
-                        Canada offers multiple immigration programs designed
-                        for different goals and qualifications. Explore each
-                        pathway and discover the option that best matches
-                        your journey.
+                        Every immigration journey is different.
+                        We help you understand your options,
+                        assess your eligibility and choose the
+                        pathway that aligns with your goals.
 
                     </p>
 
-                </div>
 
-                {/* ===========================
-                    Layout
-                =========================== */}
+
+                </header>
+
+
+
+
+
+
+
+                {/* PATHWAYS LAYOUT */}
+
 
                 <motion.div
+
                     layout
+
                     className="canada-pathways-layout"
+
                 >
 
-                    {/* ===========================
-                        Featured Card
-                    =========================== */}
+
+
+
+
+
+
+                    {/* FEATURED PATHWAY */}
+
 
                     <AnimatePresence mode="wait">
 
+
                         <motion.div
+
 
                             key={featured.id}
 
+
                             layout
+
+
 
                             initial={{
                                 opacity: 0,
                                 x: -60,
-                                scale: .95,
+                                scale: .95
                             }}
+
 
                             animate={{
                                 opacity: 1,
                                 x: 0,
-                                scale: 1,
+                                scale: 1
                             }}
+
+
 
                             exit={{
                                 opacity: 0,
                                 x: 60,
-                                scale: .95,
+                                scale: .95
                             }}
+
+
 
                             transition={{
                                 duration: .55,
-                                ease: "easeInOut",
+                                ease: "easeInOut"
                             }}
+
+
 
                         >
 
+
+
                             <Link
+
 
                                 to={featured.path}
 
+
                                 className="featured-pathway-card"
 
+
+
                                 style={{
-                                    "--featured-image": `url(${featured.image})`,
+                                    "--featured-image":
+                                        `url(${featured.image})`
                                 }}
+
+
 
                             >
 
-                               
+
+
+
+
 
                                 <div className="featured-icon">
 
+
                                     <FeaturedIcon />
+
 
                                 </div>
 
-                                <span className="featured-badge">
 
-                                    {featured.badge}
 
-                                </span>
+
+
+
+                                <div className="featured-meta">
+
+
+                                    <span className="featured-badge">
+
+
+                                        {featured.badge}
+
+
+                                    </span>
+
+
+
+                                    <span className="featured-country">
+
+
+                                        🇨🇦 Canada
+
+
+                                    </span>
+
+
+
+                                </div>
+
+
+
+
+
+
 
                                 <h3>
 
@@ -134,150 +232,308 @@ const CanadaOverview = () => {
 
                                 </h3>
 
+
+
+
+
+
+
                                 <p>
 
                                     {featured.description}
 
                                 </p>
 
+
+
+
+
+
+
                                 <ul className="featured-services">
 
-                                    {featured.services.map((service) => (
 
-                                        <li key={service}>
+                                    {
+                                        featured.services.map(
+                                            service => (
 
-                                            {service}
+                                                <li key={service}>
 
-                                        </li>
+                                                    {service}
 
-                                    ))}
+                                                </li>
+
+                                            )
+                                        )
+                                    }
+
 
                                 </ul>
 
+
+
+
+
+
+
                                 <div className="featured-link">
+
 
                                     <span>
 
-                                        Explore Program
+                                        Explore Pathway
 
                                     </span>
 
+
+
                                     <HiOutlineArrowRight />
+
 
                                 </div>
 
+
+
+
+
                             </Link>
+
+
 
                         </motion.div>
 
+
                     </AnimatePresence>
 
-                    {/* ===========================
-                        Pathway Strips
-                    =========================== */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    {/* OTHER PATHWAYS */}
+
 
                     <div className="pathway-strip-group">
 
+
+
                         <AnimatePresence>
 
-                            {others.map((item) => {
 
-                                const Icon = item.icon;
+                            {
+                                others.map((item) => {
 
-                                return (
 
-                                    <motion.div
+                                    const Icon = item.icon;
 
-                                        key={item.id}
 
-                                        layout
 
-                                        initial={{
-                                            opacity: 0,
-                                            y: 30,
-                                        }}
+                                    return (
 
-                                        animate={{
-                                            opacity: 1,
-                                            y: 0,
-                                        }}
 
-                                        exit={{
-                                            opacity: 0,
-                                            y: -30,
-                                        }}
 
-                                        transition={{
-                                            duration: .45,
-                                            ease: "easeOut",
-                                        }}
+                                        <motion.div
 
-                                    >
 
-                                        <Link
+                                            key={item.id}
 
-                                            to={item.path}
 
-                                            className="pathway-strip"
+                                            layout
+
+
+
+                                            initial={{
+                                                opacity: 0,
+                                                y: 30
+                                            }}
+
+
+
+                                            animate={{
+                                                opacity: 1,
+                                                y: 0
+                                            }}
+
+
+
+                                            exit={{
+                                                opacity: 0,
+                                                y: -30
+                                            }}
+
+
+
+                                            transition={{
+                                                duration: .45,
+                                                ease: "easeOut"
+                                            }}
+
+
 
                                         >
 
-                                            <div className="strip-left">
 
-                                                <div className="strip-icon">
 
-                                                    <Icon />
+
+
+                                            <Link
+
+
+                                                to={item.path}
+
+
+                                                className="pathway-strip"
+
+
+
+                                            >
+
+
+
+
+
+
+
+                                                <div className="strip-left">
+
+
+
+                                                    <div className="strip-icon">
+
+
+                                                        <Icon />
+
+
+                                                    </div>
+
+
+
+
+
+
+
+                                                    <div className="strip-content">
+
+
+
+                                                        <h4>
+
+                                                            {item.title}
+
+                                                        </h4>
+
+
+
+
+
+                                                        <span>
+
+                                                            {item.badge}
+
+                                                        </span>
+
+
+
+                                                    </div>
+
+
 
                                                 </div>
 
-                                                <div className="strip-content">
 
-                                                    <h4>
 
-                                                        {item.title}
 
-                                                    </h4>
 
-                                                    <span>
 
-                                                        {item.badge}
 
-                                                    </span>
+                                                <HiOutlineArrowRight />
 
-                                                </div>
 
-                                            </div>
 
-                                            <HiOutlineArrowRight />
 
-                                            {/* Floating Strip Image */}
 
-                                            <img
-                                                src={item.image}
-                                                alt=""
-                                                className="strip-floating-image"
-                                            />
 
-                                        </Link>
 
-                                    </motion.div>
 
-                                );
+                                                <img
 
-                            })}
+
+                                                    src={item.image}
+
+
+                                                    alt={`${item.title} Canada pathway`}
+
+
+                                                    className="strip-floating-image"
+
+
+                                                    loading="lazy"
+
+
+                                                />
+
+
+
+
+
+                                            </Link>
+
+
+
+
+
+
+                                        </motion.div>
+
+
+                                    );
+
+
+                                })
+                            }
+
+
 
                         </AnimatePresence>
 
+
+
                     </div>
+
+
+
+
+
+
 
                 </motion.div>
 
+
+
+
+
+
+
             </div>
 
-        </div>
+
+
+        </section>
+
 
     );
 
+
 };
+
+
 
 export default CanadaOverview;

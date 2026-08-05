@@ -1,0 +1,426 @@
+/* =====================================================
+   PREMIUM TRUST STRIP
+===================================================== */
+
+
+.trust-stats {
+
+
+    padding: 4rem 0;
+
+
+    position: relative;
+
+
+    background: #ffffff;
+
+
+    overflow: hidden;
+
+
+}
+
+
+
+
+.trust-stats::before {
+
+
+    content: "";
+
+
+    position: absolute;
+
+
+    width: 500px;
+
+    height: 500px;
+
+
+    top: -250px;
+
+    left: 50%;
+
+
+    transform: translateX(-50%);
+
+
+    background:
+
+        radial-gradient(circle,
+
+            rgba(37, 99, 235, .15),
+
+            transparent 70%);
+
+
+    filter: blur(80px);
+
+
+}
+
+
+
+/* CONTAINER */
+
+.trust-wrapper {
+
+
+    width: min(1200px, 92%);
+
+    margin: auto;
+
+
+    position: relative;
+
+    z-index: 2;
+
+
+}
+
+
+
+
+/* MAIN GLASS BAR */
+
+
+.trust-strip {
+
+
+    display: grid;
+
+
+    grid-template-columns:
+
+        repeat(4, 1fr);
+
+
+
+    background:
+
+        rgba(255, 255, 255, .75);
+
+
+
+    border:
+
+        1px solid rgba(226, 232, 240, .8);
+
+
+
+    border-radius: 35px;
+
+
+
+    padding: 1.5rem 2rem;
+
+
+
+    box-shadow:
+
+
+        0 30px 80px rgba(15, 23, 42, .08);
+
+
+
+    backdrop-filter:
+
+        blur(25px);
+
+
+
+}
+
+
+
+
+/* ITEM */
+
+
+.trust-item {
+
+
+    display: flex;
+
+
+    align-items: center;
+
+
+    justify-content: center;
+
+
+    gap: 1rem;
+
+
+    position: relative;
+
+
+
+}
+
+
+
+.trust-item:not(:last-child)::after {
+
+
+    content: "";
+
+
+    position: absolute;
+
+
+    right: 0;
+
+
+    height: 55px;
+
+
+    width: 1px;
+
+
+    background:
+
+        rgba(15, 23, 42, .1);
+
+
+}
+
+
+
+/* ICON */
+
+
+.trust-icon {
+
+
+    width: 55px;
+
+    height: 55px;
+
+
+    display: flex;
+
+
+    align-items: center;
+
+
+    justify-content: center;
+
+
+
+    border-radius: 18px;
+
+
+    background:
+
+
+        linear-gradient(135deg,
+
+            rgba(37, 99, 235, .15),
+
+            rgba(14, 165, 233, .08));
+
+
+
+    color: #2563eb;
+
+
+    font-size: 1.5rem;
+
+
+}
+
+
+
+
+/* TEXT */
+
+
+.trust-content h3 {
+
+
+    margin: 0;
+
+
+    font-size: 2rem;
+
+
+    line-height: 1;
+
+
+    font-weight: 850;
+
+
+    color: #0f172a;
+
+
+}
+
+
+
+.trust-content p {
+
+
+    margin-top: .35rem;
+
+
+    font-size: .85rem;
+
+
+    color: #64748b;
+
+
+    white-space: nowrap;
+
+
+}
+
+
+
+/* subtle animation */
+
+
+.trust-item {
+
+
+    animation:
+
+        trustFloat 6s ease-in-out infinite;
+
+
+}
+
+
+
+.trust-item:nth-child(2) {
+
+    animation-delay: .5s;
+
+}
+
+
+.trust-item:nth-child(3) {
+
+    animation-delay: 1s;
+
+}
+
+
+.trust-item:nth-child(4) {
+
+    animation-delay: 1.5s;
+
+}
+
+
+
+@keyframes trustFloat {
+
+
+    0%,
+    100% {
+
+        transform: translateY(0);
+
+    }
+
+
+    50% {
+
+        transform: translateY(-5px);
+
+    }
+
+
+}
+
+
+
+
+/* TABLET */
+
+
+@media(max-width:900px) {
+
+
+    .trust-strip {
+
+
+        grid-template-columns:
+
+            repeat(2, 1fr);
+
+
+        gap: 2rem;
+
+
+    }
+
+
+
+    .trust-item:not(:last-child)::after {
+
+
+        display: none;
+
+
+    }
+
+
+
+}
+
+
+
+
+/* MOBILE */
+
+
+@media(max-width:600px) {
+
+
+    .trust-stats {
+
+
+        padding: 3rem 0;
+
+    }
+
+
+
+    .trust-strip {
+
+
+        grid-template-columns: 1fr;
+
+
+        padding: 1.5rem;
+
+
+        border-radius: 28px;
+
+
+    }
+
+
+
+    .trust-item {
+
+
+        justify-content: flex-start;
+
+
+    }
+
+
+
+    .trust-content h3 {
+
+
+        font-size: 1.8rem;
+
+
+    }
+
+
+}

@@ -1,159 +1,129 @@
-import {
-    useState
-} from "react";
+import { useState } from "react";
 
+import paymentService from "../../services/payment.service";
 
 import ConsultationHero from "./Hero/ConsultationHero";
-
-
 import ConsultationBenefits from "./Benefits/ConsultationBenefits";
-
-
 import BookingForm from "./BookingForm/BookingForm";
-
-
 import BookingSummary from "./Summary/BookingSummary";
-
 
 import "./ConsultationBooking.css";
 
-
-
-
-
 const ConsultationBooking = () => {
 
+    /*
+    |--------------------------------------------------------------------------
+    | State
+    |--------------------------------------------------------------------------
+    */
 
+    const [bookingData, setBookingData] = useState(null);
 
-    const [
-        bookingData,
-        setBookingData
-    ] = useState(null);
+    const [processingPayment, setProcessingPayment] = useState(false);
 
+    /*
+    |--------------------------------------------------------------------------
+    | Booking Review Completed
+    |--------------------------------------------------------------------------
+    */
 
-
-
-
-
-
-
-    const handleFormComplete = (
-        data
-    )=>{
-
+    const handleFormComplete = (data) => {
 
         setBookingData(data);
 
-
-
-        setTimeout(()=>{
-
+        setTimeout(() => {
 
             document
-            .getElementById(
-                "booking-summary"
-            )
-            ?.scrollIntoView({
+                .getElementById("booking-summary")
+                ?.scrollIntoView({
 
-                behavior:"smooth",
+                    behavior: "smooth",
 
-                block:"start"
+                    block: "start",
 
-            });
+                });
 
-
-        },150);
-
-
+        }, 200);
 
     };
 
+    /*
+    |--------------------------------------------------------------------------
+    | Continue To Payment
+    |--------------------------------------------------------------------------
+    */
 
+    const handlePayment = async () => {
 
+        if (!bookingData) return;
 
+        try {
 
+            setProcessingPayment(true);
 
+            await paymentService.pay(bookingData);
 
+        }
 
+        catch (error) {
+
+            console.error(error);
+
+            alert(
+
+                error?.response?.data?.message ||
+
+                "Unable to initialize payment."
+
+            );
+
+        }
+
+        finally {
+
+            setProcessingPayment(false);
+
+        }
+
+    };
 
     return (
 
-
-
         <main className="consultation-page">
 
-
-
-
-
-
-            {/* HERO */}
+            {/* Hero */}
 
             <ConsultationHero />
 
-
-
-
-
-
-
-
-
-            {/* BENEFITS */}
+            {/* Benefits */}
 
             <ConsultationBenefits />
 
-
-
-
-
-
-
-
-
-            {/* BOOKING / SUMMARY */}
+            {/* Booking Flow */}
 
             {
-                !bookingData ?
 
-
-
-                (
+                !bookingData ? (
 
                     <BookingForm
 
-                        onFormComplete={
-                            handleFormComplete
-                        }
+                        onFormComplete={handleFormComplete}
 
                     />
 
-                )
+                ) : (
 
-
-
-                :
-
-
-
-                (
-
-                    <section
-
-                        id="booking-summary"
-
-                    >
-
+                    <section id="booking-summary">
 
                         <BookingSummary
 
-                            bookingData={
-                                bookingData
-                            }
+                            bookingData={bookingData}
 
+                            onPayment={handlePayment}
+
+                            loading={processingPayment}
 
                         />
-
 
                     </section>
 
@@ -161,21 +131,10 @@ const ConsultationBooking = () => {
 
             }
 
-
-
-
-
-
-
-
         </main>
-
 
     );
 
-
 };
-
-
 
 export default ConsultationBooking;

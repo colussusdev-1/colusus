@@ -1,8 +1,9 @@
 import {
-    HiOutlineCash,
+    HiOutlineCurrencyDollar,
     HiOutlineClock,
     HiOutlineBadgeCheck,
-    HiOutlineTrendingUp
+    HiOutlineTrendingUp,
+    HiOutlineLocationMarker
 } from "react-icons/hi";
 
 import "./DetailsFacts.css";
@@ -17,38 +18,49 @@ const DetailsFacts = ({
     const facts = [
 
         {
-            id:1,
-            label:"Salary",
-            value:opportunity.salary || "Competitive",
-            icon:<HiOutlineCash />,
-            theme:"salary"
+            icon: <HiOutlineCurrencyDollar />,
+            label: "Salary Range",
+            value:
+                opportunity.salary ||
+                "Available Upon Assessment"
         },
 
-        {
-            id:2,
-            label:"Processing Time",
-            value:opportunity.duration || "Flexible",
-            icon:<HiOutlineClock />,
-            theme:"time"
-        },
 
         {
-            id:3,
-            label:"Visa Pathway",
-            value:opportunity.type || "Migration Route",
-            icon:<HiOutlineBadgeCheck />,
-            theme:"visa"
+            icon: <HiOutlineClock />,
+            label: "Processing Time",
+            value:
+                opportunity.duration ||
+                country.duration ||
+                "Varies"
         },
 
+
         {
-            id:4,
-            label:"Market Demand",
+            icon: <HiOutlineBadgeCheck />,
+            label: "Migration Route",
+            value:
+                opportunity.type ||
+                country.visa
+        },
+
+
+        {
+            icon: <HiOutlineTrendingUp />,
+            label: "Demand Level",
             value:
                 opportunity.demand ||
                 country.successRate ||
-                "High",
-            icon:<HiOutlineTrendingUp />,
-            theme:"demand"
+                "High"
+        },
+
+
+        {
+            icon: <HiOutlineLocationMarker />,
+            label: "Destination",
+            value:
+                opportunity.location ||
+                country.name
         }
 
     ];
@@ -57,42 +69,50 @@ const DetailsFacts = ({
 
     return (
 
-        <section className="migration-facts">
+        <section className="details-facts">
 
 
-            <div className="migration-facts-container">
+            <div className="details-facts-container">
 
 
-                <div className="migration-facts-grid">
+                <div className="facts-header">
+
+                    <span>
+                        Opportunity Overview
+                    </span>
+
+                    <p>
+                        Key information to help you understand this migration pathway.
+                    </p>
+
+                </div>
+
+
+
+
+                <div className="facts-grid">
 
 
                     {
-                        facts.map((fact,index)=>(
+                        facts.map((fact) => (
 
+                            <div
 
-                            <article
+                                className="details-fact"
 
-                                key={fact.id}
-
-                                className={`migration-fact-card ${fact.theme}`}
-
-                                style={{
-                                    animationDelay:`${index * .1}s`
-                                }}
+                                key={fact.label}
 
                             >
 
+                                <div className="details-fact-icon">
+
+                                    {fact.icon}
+
+                                </div>
 
 
-                                <div className="migration-fact-top">
 
-
-                                    <div className="migration-fact-icon">
-
-                                        {fact.icon}
-
-                                    </div>
-
+                                <div className="details-fact-content">
 
 
                                     <span>
@@ -102,25 +122,20 @@ const DetailsFacts = ({
                                     </span>
 
 
+                                    <strong>
+
+                                        {fact.value}
+
+                                    </strong>
+
+
                                 </div>
 
 
-
-
-                                <strong>
-
-                                    {fact.value}
-
-                                </strong>
-
-
-
-                            </article>
-
+                            </div>
 
                         ))
                     }
-
 
 
                 </div>

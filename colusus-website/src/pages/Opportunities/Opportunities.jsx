@@ -10,20 +10,16 @@ import "./Opportunities.css";
 
 const Opportunities = () => {
 
-
-    const {
-        country
-    } = useParams();
-
+    const { country } = useParams();
 
 
     const selectedCountry = countries.find(
-        item => item.slug === country
+        (item) => item.slug === country
     );
 
 
 
-    if(!selectedCountry){
+    if (!selectedCountry) {
 
         return (
 
@@ -32,7 +28,7 @@ const Opportunities = () => {
                 <div className="opportunities-error-content">
 
                     <span>
-                        Opportunity Search
+                        Global Opportunities
                     </span>
 
 
@@ -42,8 +38,9 @@ const Opportunities = () => {
 
 
                     <p>
-                        We could not find this destination.
+                        The destination you are looking for is currently unavailable.
                     </p>
+
 
                 </div>
 
@@ -55,19 +52,141 @@ const Opportunities = () => {
 
 
 
+    /*
+        Normalize old and new country structures
+
+        Old:
+        offers: []
+
+        New:
+        opportunities: []
+    */
+
+
+    const opportunities =
+        selectedCountry.opportunities ||
+        selectedCountry.offers ||
+        [];
+
+
+
+
+    const normalizedOpportunities = opportunities.map(
+        (item) => ({
+
+            ...item,
+
+
+            // fallback fields
+
+            image:
+                item.image ||
+                selectedCountry.image,
+
+
+            location:
+                item.location ||
+                selectedCountry.name,
+
+
+            category:
+                item.category ||
+                "Jobs",
+
+
+            duration:
+                item.duration ||
+                item.timeline ||
+                selectedCountry.duration,
+
+
+            type:
+                item.type ||
+                selectedCountry.visa,
+
+
+            salary:
+                item.salary ||
+                "Available Upon Assessment",
+
+
+            benefits:
+                item.benefits ||
+                item.highlights ||
+                [],
+
+
+            requirements:
+                item.requirements ||
+                [],
+
+
+            steps:
+                item.steps ||
+                item.process ||
+                [],
+
+
+        })
+    );
+
+
+
+
+
+    const countryData = {
+
+        ...selectedCountry,
+
+
+        opportunities:
+            normalizedOpportunities,
+
+
+        // make sure these exist
+
+        applicants:
+            selectedCountry.applicants || "500+",
+
+
+        processingTime:
+            selectedCountry.processingTime ||
+            selectedCountry.duration,
+
+
+        opportunityScore:
+            selectedCountry.opportunityScore ||
+            "High",
+
+
+        successRate:
+            selectedCountry.successRate ||
+            "High",
+
+
+    };
+
+
+
+
+
     return (
 
         <main className="opportunities-page">
 
 
             <OpportunityHero
-                country={selectedCountry}
+
+                country={countryData}
+
             />
 
 
 
             <OpportunityExplorer
-                country={selectedCountry}
+
+                country={countryData}
+
             />
 
 
@@ -76,6 +195,7 @@ const Opportunities = () => {
     );
 
 };
+
 
 
 export default Opportunities;

@@ -3,70 +3,171 @@ import "./TouristProcess.css";
 import TouristProcessCard from "./TouristProcessCard";
 import { touristProcess } from "../data/touristProcessData";
 
+import {
+    HiOutlineClipboardCheck,
+    HiOutlineDocumentSearch,
+    HiOutlinePaperAirplane
+} from "react-icons/hi";
+
+
+const processIcons = [
+    HiOutlineClipboardCheck,
+    HiOutlineDocumentSearch,
+    HiOutlinePaperAirplane
+];
+
+
 const TouristProcess = () => {
+
+
+    const enhancedProcess = touristProcess.map(
+        (item, index) => ({
+
+            ...item,
+
+            icon:
+                processIcons[index]
+
+        })
+    );
+
 
     return (
 
-        <section className="touristProcess">
+        <section className="tourist-process">
 
-            <div className="touristProcess__heading">
 
-                <span className="touristProcess__badge">
+            <div className="container">
 
-                    SIMPLE PROCESS
 
-                </span>
 
-                <h2>
+                {/* HEADER */}
 
-                    Your Journey In
+                <div className="tourist-process-header">
 
-                    <span>
 
-                        Three Simple Steps
+                    <span className="tourist-process-tag">
+
+                        HOW IT WORKS
 
                     </span>
 
-                </h2>
 
-                <p>
 
-                    We simplify international travel by guiding you
-                    through every stage—from understanding your options
-                    to submitting your application with confidence.
+                    <h2>
 
-                </p>
+                        A Simple Path To Your
+
+                        <span>
+
+                            International Journey
+
+                        </span>
+
+                    </h2>
+
+
+
+                    <p>
+
+                        From your first consultation to travel preparation,
+                        our experts guide you through every important stage
+                        with clarity and confidence.
+
+                    </p>
+
+
+                </div>
+
+
+
+
+
+                {/* PROCESS GRID */}
+
+                <div className="tourist-process-grid">
+
+
+                    {
+                        enhancedProcess.map((item, index) => (
+
+
+                            <TouristProcessCard
+
+                                key={item.id}
+
+                                process={item}
+
+                                step={index + 1}
+
+                                last={
+                                    index === enhancedProcess.length - 1
+                                }
+
+
+                            />
+
+
+                        ))
+                    }
+
+
+                </div>
+
+
+
+
+
+                {/* TRUST MESSAGE */}
+
+                <div className="tourist-process-note">
+
+
+                    <div className="tourist-process-note-icon">
+
+
+                        <HiOutlinePaperAirplane />
+
+
+                    </div>
+
+
+
+                    <div>
+
+
+                        <h3>
+
+                            Your Destination Is Closer Than You Think
+
+                        </h3>
+
+
+
+                        <p>
+
+                            Proper preparation increases your chances of a smooth
+                            travel experience. Our team helps you understand
+                            requirements, prepare documents and avoid common mistakes.
+
+                        </p>
+
+
+                    </div>
+
+
+                </div>
+
+
 
             </div>
 
-            <div className="touristProcess__grid">
-
-                {
-
-                    touristProcess.map((item,index)=>(
-
-                        <TouristProcessCard
-
-                            key={item.id}
-
-                            process={item}
-
-                            last={
-                                index===touristProcess.length-1
-                            }
-
-                        />
-
-                    ))
-
-                }
-
-            </div>
 
         </section>
 
     );
 
 };
+
 
 export default TouristProcess;

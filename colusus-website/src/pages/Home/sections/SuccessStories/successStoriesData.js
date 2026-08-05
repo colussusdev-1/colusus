@@ -1,160 +1,135 @@
 const successStoriesData = [
+  {
+    id: 1,
 
-    {
-        id:1,
+    name: "Adeyemi K.",
 
-        name:"Adeyemi K.",
+    country: "Canada",
 
-        country:"Canada",
+    flag: "🇨🇦",
 
-        flag:"🇨🇦",
+    pathway: "Permanent Residency",
 
-        pathway:"Permanent Residency",
+    type: "pr",
 
-        type:"pr",
+    duration: "4 Months",
 
-        duration:"4 Months",
+    outcome: "Approved",
 
-        outcome:"Approved",
+    verified: true,
 
-        verified:true,
+    youtubeId: "65GWlbMAvs0",
 
+    image: "https://img.youtube.com/vi/65GWlbMAvs0/hqdefault.jpg",
 
-        image:"/images/stories/ade yemi.jpg",
+    video: "https://www.youtube.com/embed/65GWlbMAvs0",
 
-        video:"https://www.youtube.com/embed/VIDEO_ID_1",
+    quote:
+      "The process felt confusing at first, but with proper guidance every step became clear.",
 
+    text: "From uncertainty to full PR approval. Guided step-by-step through Express Entry and document preparation.",
 
-        quote:
-        "The process felt confusing at first, but with proper guidance every step became clear.",
+    tags: ["Express Entry", "PR Approval"],
+  },
 
+  {
+    id: 2,
 
-        text:
-        "From uncertainty to full PR approval. Guided step-by-step through Express Entry and document preparation.",
+    name: "Sarah M.",
 
+    country: "Germany",
 
-        tags:[
-            "Express Entry",
-            "PR Approval"
-        ]
+    flag: "🇩🇪",
 
-    },
+    pathway: "Work Placement",
 
+    type: "work",
 
+    duration: "3 Months",
 
+    outcome: "Relocated",
 
+    verified: true,
 
-    {
-        id:2,
+    youtubeId: "R5T-0SOzyM0",
 
+    image: "https://img.youtube.com/vi/R5T-0SOzyM0/maxresdefault.jpg",
 
-        name:"Sarah M.",
+    video: "https://www.youtube.com/embed/R5T-0SOzyM0",
 
+    quote:
+      "Finding the right opportunity became easier because I had structured support.",
 
-        country:"Germany",
+    text: "Secured a verified job offer and relocated smoothly through partner support.",
 
+    tags: ["Job Placement", "Germany Work Visa"],
+  },
 
-        flag:"🇩🇪",
+  {
+    id: 3,
 
+    name: "James O.",
 
-        pathway:"Work Placement",
+    country: "United Kingdom",
 
+    flag: "🇬🇧",
 
-        type:"work",
+    pathway: "Study Permit",
 
+    type: "study",
 
-        duration:"3 Months",
+    duration: "5 Months",
 
+    outcome: "Approved",
 
-        outcome:"Relocated",
+    verified: true,
 
+    youtubeId: "oflgBZxoWdM",
 
-        verified:true,
+    image: "https://img.youtube.com/vi/oflgBZxoWdM/maxresdefault.jpg",
 
+    video: "https://www.youtube.com/embed/oflgBZxoWdM",
 
-        image:"/images/stories/sarah.jpg",
+    quote:
+      "The application process was organised and I always knew what step came next.",
 
+    text: "Got admission and visa approval after structured document preparation and application support.",
 
-        video:"https://www.youtube.com/embed/VIDEO_ID_2",
+    tags: ["University Admission", "Study Visa"],
+  },
 
+  {
+    id: 4,
 
+    name: "Michael A.",
 
-        quote:
-        "Finding the right opportunity became easier because I had structured support.",
+    country: "Canada",
 
+    flag: "🇨🇦",
 
+    pathway: "Migration Success",
 
-        text:
-        "Secured a verified job offer and relocated smoothly through partner support.",
+    type: "pr",
 
+    duration: "6 Months",
 
+    outcome: "Relocated",
 
-        tags:[
-            "Job Placement",
-            "Germany Work Visa"
-        ]
+    verified: true,
 
-    },
+    youtubeId: "xUdK9AtjbBQ",
 
+    image: "https://img.youtube.com/vi/xUdK9AtjbBQ/maxresdefault.jpg",
 
+    video: "https://www.youtube.com/embed/xUdK9AtjbBQ",
 
+    quote:
+      "Having the right information and support made the entire journey easier.",
 
+    text: "Successfully completed the migration process with structured guidance from assessment to relocation.",
 
-
-
-    {
-        id:3,
-
-
-        name:"James O.",
-
-
-        country:"United Kingdom",
-
-
-        flag:"🇬🇧",
-
-
-        pathway:"Study Permit",
-
-
-        type:"study",
-
-
-        duration:"5 Months",
-
-
-        outcome:"Approved",
-
-
-        verified:true,
-
-
-        image:"/images/stories/james.jpg",
-
-
-        video:"https://www.youtube.com/embed/VIDEO_ID_3",
-
-
-
-        quote:
-        "The application process was organised and I always knew what step came next.",
-
-
-
-        text:
-        "Got admission and visa approval after structured document preparation and application support.",
-
-
-
-        tags:[
-            "University Admission",
-            "Study Visa"
-        ]
-
-    }
-
+    tags: ["Migration Support", "Successful Relocation"],
+  },
 ];
-
 
 export default successStoriesData;

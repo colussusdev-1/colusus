@@ -1,583 +1,378 @@
-import germany from "../../../../../assets/images/countries/germany.jpg";
+import germanyImage from "../../../../../assets/images/countries/germany.jpg";
 
+import germanyWorkImage from "../../../../../assets/images/opportunities/germany-work.jpg";
+import germanyNursingImage from "../../../../../assets/images/opportunities/germany-nursing.jpg";
 
-const germanyData = {
+const germany = {
+  id: 4,
 
+  name: "Germany",
 
-    id:4,
+  shortName: "Germany",
 
+  slug: "germany",
 
-    name:"Germany",
+  flag: "🇩🇪",
 
-    shortName:"Germany",
+  image: germanyImage,
 
-    slug:"germany",
+  applicants: "2.4k",
 
+  category: ["popular", "work", "residency", "healthcare"],
 
+  visa: "Work Permit + Work Visa",
 
-    flag:"🇩🇪",
+  duration: "8–12 Weeks",
 
+  processingTime: "Maximum 12 Weeks",
 
-    image:germany,
+  opportunityScore: "92%",
 
+  successRate: "High",
 
+  featured: true,
 
-    applicants:"980",
+  description:
+    "Move to Germany through employer-backed work opportunities including skilled employment and healthcare migration pathways with job placement support, visa processing and relocation assistance.",
 
+  opportunities: [
+    {
+      id: 1,
 
+      title: "Germany Standard Work Permit Package",
 
-    category:[
+      slug: "germany-work-permit",
 
-        "popular",
-        "work",
-        "study",
-        "europe"
+      image: germanyWorkImage,
 
-    ],
+      icon: "🇩🇪",
 
+      category: "Jobs",
 
+      location: "Germany",
 
-    visa:"Opportunity Card",
+      type: "Work Permit Package",
 
+      duration: "8–12 Weeks",
 
+      salary: "€1,800 - €2,500/month",
 
-    duration:"8–14 Weeks",
+      demand: "High",
 
+      description:
+        "Relocate to Germany through employer-backed employment opportunities with job placement, work visa support and relocation assistance.",
 
+      highlights: [
+        "Verified Job Offer",
 
-    processingTime:"Medium",
+        "Work Visa / Work Permit",
 
+        "Accommodation Support",
 
+        "Employer Matching",
 
-    description:
+        "Relocation Assistance",
+      ],
 
-    "Discover Germany work, study and skilled migration opportunities through modern European immigration pathways.",
-
-
-
-    opportunityScore:"85%",
-
-
-
-    successRate:"Growing",
-
-
-
-    featured:false,
-
-
-
-
-    opportunities:[
-
-
-
-
+      positions: [
         {
+          sector: "Warehouse & Logistics",
 
-            id:1,
-
-
-            title:"Opportunity Card",
-
-
-            slug:"opportunity-card",
-
-
-
-            category:"Jobs",
-
-
-
-            location:"Germany",
-
-
-
-            type:"Job Search Visa",
-
-
-
-            duration:"8–14 Weeks",
-
-
-
-            icon:"🇩🇪",
-
-
-
-
-            salary:
-
-            "€45,000 - €80,000/year",
-
-
-
-            demand:
-
-            "High",
-
-
-
-
-            description:
-
-            "Germany's Opportunity Card allows skilled professionals to enter Germany and search for employment opportunities.",
-
-
-
-
-
-            requirements:[
-
-
-                "Recognized qualification",
-
-
-                "Relevant professional experience",
-
-
-                "German or English language ability",
-
-
-                "Proof of financial capacity"
-
-
-            ],
-
-
-
-
-            documents:[
-
-
-                "Valid passport",
-
-
-                "Educational certificates",
-
-
-                "Professional CV",
-
-
-                "Qualification recognition documents",
-
-
-                "Language certificate"
-
-
-            ],
-
-
-
-
-            benefits:[
-
-
-                "Access to German job market",
-
-
-                "European career opportunities",
-
-
-                "Settlement pathway",
-
-
-                "Family relocation options"
-
-
-            ]
-
+          roles: ["Warehouse Workers", "Logistics Workers"],
         },
 
-
-
-
-
-
-
-
-
         {
+          sector: "Construction",
 
-            id:2,
-
-
-
-            title:"Software Engineer",
-
-
-
-            slug:"software-engineer",
-
-
-
-            category:"Jobs",
-
-
-
-            location:"Berlin, Munich, Germany",
-
-
-
-            type:"EU Blue Card",
-
-
-
-            duration:"8–16 Weeks",
-
-
-
-            icon:"💻",
-
-
-
-
-            salary:
-
-            "€55,000 - €95,000/year",
-
-
-
-
-            demand:
-
-            "Critical Shortage",
-
-
-
-
-            description:
-
-            "Germany has strong demand for software engineers and technology specialists across its growing digital economy.",
-
-
-
-
-            requirements:[
-
-
-                "Computer Science qualification or equivalent skills",
-
-
-                "Software development experience",
-
-
-                "Programming knowledge",
-
-
-                "English or German proficiency"
-
-
-            ],
-
-
-
-
-
-            documents:[
-
-
-                "Passport",
-
-
-                "CV",
-
-
-                "Portfolio/GitHub profile",
-
-
-                "Degree certificate",
-
-
-                "Employment references"
-
-
-            ],
-
-
-
-
-
-            benefits:[
-
-
-                "EU Blue Card pathway",
-
-
-                "Competitive salary",
-
-
-                "Strong employee protection",
-
-
-                "Permanent residence opportunity"
-
-
-            ]
-
+          roles: ["Construction Workers", "General Labour Workers"],
         },
 
-
-
-
-
-
-
-
-
         {
+          sector: "Hospitality",
 
-            id:3,
-
-
-
-            title:"Ausbildung Program",
-
-
-
-            slug:"ausbildung-program",
-
-
-
-            category:"Study",
-
-
-
-            location:"Germany",
-
-
-
-            type:"Vocational Training",
-
-
-
-            duration:"10–16 Weeks",
-
-
-
-            icon:"🎓",
-
-
-
-
-            salary:
-
-            "Paid training opportunity",
-
-
-
-
-            demand:
-
-            "High",
-
-
-
-
-
-            description:
-
-            "Earn while learning through Germany's famous vocational training system.",
-
-
-
-
-
-            requirements:[
-
-
-                "School qualification",
-
-
-                "German language ability",
-
-
-                "Motivation for vocational training"
-
-
-            ],
-
-
-
-
-
-            documents:[
-
-
-                "Passport",
-
-
-                "Academic certificates",
-
-
-                "Language certificate",
-
-
-                "Training contract"
-
-
-            ],
-
-
-
-
-
-            benefits:[
-
-
-                "Paid education",
-
-
-                "Career development",
-
-
-                "German work experience",
-
-
-                "Long-term residence options"
-
-
-            ]
-
+          roles: ["Hotel Workers", "Kitchen Helpers"],
         },
 
+        {
+          sector: "Factory & Skilled Trades",
 
+          roles: ["Factory Workers", "Electricians", "Welders", "Mechanics"],
+        },
+      ],
 
+      benefits: [
+        "Employer Job Matching",
 
+        "Work Permit Processing Support",
 
+        "Accommodation Assistance",
 
+        "Competitive Salary Opportunities",
 
+        "Pathway To Long-Term Residence",
+      ],
 
+      requirements: [
+        "Updated CV / Resume",
+
+        "Passport Photograph",
+
+        "International Passport Data Page",
+
+        "Educational Certificates",
+
+        "Professional Certificates",
+
+        "Relevant Work Experience Documents",
+      ],
+
+      documents: [
+        "Valid International Passport",
+
+        "Updated CV",
+
+        "Passport Photograph",
+
+        "Educational Certificates",
+
+        "Employment Records",
+      ],
+
+      steps: [
+        {
+          title: "Document Submission",
+
+          description:
+            "Applicant documents are submitted for eligibility review.",
+        },
 
         {
+          title: "Migration Agreement",
 
-            id:4,
+          description:
+            "Successful applicants sign the migration service agreement before processing begins.",
+        },
 
+        {
+          title: "Employer Matching",
 
+          description:
+            "Applicant profile is matched with suitable German employers.",
+        },
 
-            title:"Healthcare Worker",
+        {
+          title: "Job Offer & Work Permit",
 
+          description:
+            "Applicant receives employment documentation and approved work permit.",
+        },
 
+        {
+          title: "Visa Application",
 
-            slug:"healthcare-worker",
+          description:
+            "Applicant completes embassy submission and biometric processing.",
+        },
 
+        {
+          title: "Travel Preparation",
 
+          description:
+            "Final relocation arrangements are completed before departure.",
+        },
+      ],
 
-            category:"Jobs",
+      pricing: {
+        total: "₦8,000,000",
 
+        currency: "NGN",
+      },
 
+      paymentPlan: [
+        {
+          stage: "Migration Agreement Signing",
 
-            location:"Germany",
+          amount: "₦2,000,000",
+        },
 
+        {
+          stage: "Job Offer + Contract + Approved Work Permit",
 
+          amount: "₦3,000,000",
+        },
 
-            type:"Healthcare Visa",
+        {
+          stage: "Visa Approval & Travel Preparation",
 
+          amount: "₦3,000,000",
+        },
+      ],
+    },
 
+    {
+      id: 2,
 
-            duration:"10–18 Weeks",
+      title: "Germany Registered Nurse (RN) Placement Program",
 
+      slug: "germany-registered-nurse",
 
+      image: germanyNursingImage,
 
-            icon:"🏥",
+      icon: "🏥",
 
+      category: "Healthcare",
 
+      location: "Germany",
 
+      type: "Healthcare Migration Package",
 
-            salary:
+      duration: "Fast Track Processing",
 
-            "€40,000 - €75,000/year",
+      salary: "€3,800 - €4,200/month",
 
+      demand: "Very High",
 
+      description:
+        "Registered nurses from Nigeria can access German healthcare employment with qualification recognition, work visa support and relocation assistance.",
 
+      highlights: [
+        "150 Registered Nurse Positions",
 
+        "Permanent Unlimited Contract",
 
-            demand:
+        "Employer Accommodation For First 6 Months",
 
-            "Very High",
+        "Qualification Recognition Support",
 
+        "Family Reunification Support",
+      ],
 
+      positions: [
+        {
+          sector: "Healthcare",
 
+          roles: [
+            "Registered Nurses",
 
-            description:
+            "Hospital Nurses",
 
-            "Germany continues to recruit international healthcare professionals due to workforce shortages.",
+            "Clinical Nursing Staff",
+          ],
+        },
+      ],
 
+      benefits: [
+        "Permanent Employment Contract",
 
+        "German Work Visa Support",
 
+        "Paid Onboarding",
 
+        "Integration Support",
 
-            requirements:[
+        "Anerkennung Qualification Recognition",
 
+        "Family Reunification Pathway",
+      ],
 
-                "Healthcare qualification",
+      requirements: [
+        "Age 25 - 50 Years",
 
+        "Valid BSc Nursing Degree",
 
-                "Professional recognition",
+        "Minimum 6 Years Nursing Experience",
 
+        "German Language Certificate B2 Level",
 
-                "German language ability",
+        "Medical Fitness Certificate",
+      ],
 
+      documents: [
+        "Updated CV",
 
-                "Work experience"
+        "Passport Photograph",
 
+        "International Passport",
 
-            ],
+        "Nursing Degree Certificate",
 
+        "Professional Certificates",
 
+        "Medical Fitness Certificate",
 
+        "Experience Records",
+      ],
 
+      steps: [
+        {
+          title: "Document Assessment",
 
-            documents:[
+          description: "Nursing qualifications and documents are reviewed.",
+        },
 
+        {
+          title: "Employer Matching",
 
-                "Passport",
+          description:
+            "Qualified nurses are matched with German healthcare employers.",
+        },
 
+        {
+          title: "Job Offer & Contract",
 
-                "Medical certificates",
+          description:
+            "Receive employment contract and accommodation confirmation.",
+        },
 
+        {
+          title: "Qualification Recognition",
 
-                "Professional license",
+          description:
+            "Support is provided for nursing qualification recognition.",
+        },
 
+        {
+          title: "Visa Application",
 
-                "Employment records"
+          description:
+            "Complete embassy submission and long-stay work visa process.",
+        },
 
+        {
+          title: "Relocation",
 
-            ],
+          description:
+            "Travel arrangements and onboarding support are completed.",
+        },
+      ],
 
+      pricing: {
+        total: "₦7,000,000",
 
+        currency: "NGN",
+      },
 
+      paymentPlan: [
+        {
+          stage: "Migration Agreement Signing",
 
+          amount: "₦3,500,000",
+        },
 
-            benefits:[
+        {
+          stage: "Job Offer + Employment Contract + Work Permit",
 
+          amount: "₦2,500,000",
+        },
 
-                "High demand occupation",
+        {
+          stage: "Visa Approval & Travel",
 
-
-                "Stable career",
-
-
-                "Residence pathway",
-
-
-                "Family migration options"
-
-
-            ]
-
-        }
-
-
-
-
-
-
-    ]
-
+          amount: "₦1,000,000",
+        },
+      ],
+    },
+  ],
 };
 
-
-
-
-export default germanyData;
+export default germany;

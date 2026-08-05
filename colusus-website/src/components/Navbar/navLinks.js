@@ -39,28 +39,28 @@ const navLinks = [
     },
 
 
-    {
-        name: "Overseas Job Matching",
-        path: "/overseas-job-matching",
-    },
+    // {
+    //     name: "Overseas Job Matching",
+    //     path: "/overseas-job-matching",
+    // },
 
 
-    {
-        name: "Offshore Company",
-        path: "/offshore-company",
-    },
+    // {
+    //     name: "Offshore Company",
+    //     path: "/offshore-company",
+    // },
 
 
-    {
-        name: "Blog",
-        path: "/blog",
-    },
+    // {
+    //     name: "Blog",
+    //     path: "/blog",
+    // },
 
 
-    {
-        name: "Shop",
-        path: "/shop",
-    },
+    // {
+    //     name: "Shop",
+    //     path: "/shop",
+    // },
 
 
     {

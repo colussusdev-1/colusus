@@ -14,6 +14,7 @@ import {
   getAllDocuments,
   getDocumentById,
   updateDocumentStatus,
+  getDocumentsByStatus,
 } from "./admin.document.controller.js";
 
 const router = express.Router();
@@ -104,6 +105,26 @@ router.patch(
   allowRoles("ADMIN", "STAFF"),
 
   updateDocumentStatus,
+);
+
+/*
+|--------------------------------------------------------------------------
+| Filter Documents By Status
+|--------------------------------------------------------------------------
+|
+| Example:
+| /api/v1/admin/documents/status/APPROVED
+|
+*/
+
+router.get(
+  "/documents/status/:status",
+
+  authenticate,
+
+  allowRoles("ADMIN", "STAFF"),
+
+  getDocumentsByStatus,
 );
 
 export default router;

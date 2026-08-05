@@ -56,7 +56,11 @@ export const getDocumentById = async (req, res, next) => {
 
 export const updateDocumentStatus = async (req, res, next) => {
   try {
-    const { status, reviewNote } = req.body;
+    const {
+      status,
+
+      reviewNote,
+    } = req.body;
 
     if (!status) {
       return res.status(400).json({
@@ -72,6 +76,8 @@ export const updateDocumentStatus = async (req, res, next) => {
       status,
 
       reviewNote,
+
+      req.user.id,
     );
 
     if (!document) {
@@ -88,6 +94,28 @@ export const updateDocumentStatus = async (req, res, next) => {
       message: "Document status updated successfully",
 
       data: document,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/*
+|--------------------------------------------------------------------------
+| Get Documents By Status
+|--------------------------------------------------------------------------
+*/
+
+export const getDocumentsByStatus = async (req, res, next) => {
+  try {
+    const documents = await adminDocumentService.getDocumentsByStatus(
+      req.params.status,
+    );
+
+    res.status(200).json({
+      success: true,
+
+      data: documents,
     });
   } catch (error) {
     next(error);

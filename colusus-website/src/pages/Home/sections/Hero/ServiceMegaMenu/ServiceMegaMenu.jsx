@@ -28,6 +28,7 @@ const ServiceMegaMenu = ({
 }) => {
 
 
+
     const menuRef = useRef(null);
 
 
@@ -38,16 +39,22 @@ const ServiceMegaMenu = ({
 
 
 
-    useEffect(()=>{
+
+    useEffect(() => {
 
 
-        const handleOutsideClick = (event)=>{
+
+        const handleOutsideClick = (event) => {
 
 
-            if(
+
+            if (
+
                 menuRef.current &&
+
                 !menuRef.current.contains(event.target)
-            ){
+
+            ) {
 
                 onClose();
 
@@ -58,6 +65,7 @@ const ServiceMegaMenu = ({
 
 
 
+
         document.addEventListener(
             "mousedown",
             handleOutsideClick
@@ -65,7 +73,8 @@ const ServiceMegaMenu = ({
 
 
 
-        return ()=>{
+
+        return () => {
 
 
             document.removeEventListener(
@@ -77,7 +86,7 @@ const ServiceMegaMenu = ({
         };
 
 
-    },[onClose]);
+    }, [onClose]);
 
 
 
@@ -85,13 +94,17 @@ const ServiceMegaMenu = ({
 
 
 
-    useEffect(()=>{
 
 
-        const handleEscape = (event)=>{
+    useEffect(() => {
 
 
-            if(event.key === "Escape"){
+
+        const handleEscape = (event) => {
+
+
+
+            if (event.key === "Escape") {
 
                 onClose();
 
@@ -102,6 +115,7 @@ const ServiceMegaMenu = ({
 
 
 
+
         window.addEventListener(
             "keydown",
             handleEscape
@@ -109,7 +123,9 @@ const ServiceMegaMenu = ({
 
 
 
-        return ()=>{
+
+
+        return () => {
 
 
             window.removeEventListener(
@@ -121,7 +137,7 @@ const ServiceMegaMenu = ({
         };
 
 
-    },[onClose]);
+    }, [onClose]);
 
 
 
@@ -130,7 +146,8 @@ const ServiceMegaMenu = ({
 
 
 
-    const handleAssessment = ()=>{
+
+    const handleAssessment = () => {
 
 
         onClose();
@@ -148,7 +165,9 @@ const ServiceMegaMenu = ({
 
 
 
+
     return (
+
 
         <>
 
@@ -159,7 +178,10 @@ const ServiceMegaMenu = ({
 
                 onClick={onClose}
 
+                aria-hidden="true"
+
             />
+
 
 
 
@@ -173,7 +195,16 @@ const ServiceMegaMenu = ({
 
                 className="serviceMenu"
 
+                role="dialog"
+
+                aria-modal="true"
+
+                aria-label="Migration services menu"
+
             >
+
+
+
 
 
 
@@ -182,13 +213,14 @@ const ServiceMegaMenu = ({
                 <div className="serviceMenu__header">
 
 
+
                     <div>
 
 
                         <div className="serviceMenu__title">
 
 
-                            <HiSparkles/>
+                            <HiSparkles />
 
 
                             Explore Services
@@ -206,7 +238,9 @@ const ServiceMegaMenu = ({
                         </p>
 
 
+
                     </div>
+
 
 
 
@@ -215,11 +249,16 @@ const ServiceMegaMenu = ({
 
                     <button
 
+                        type="button"
+
                         onClick={onClose}
+
+                        aria-label="Close services menu"
 
                     >
 
-                        <HiOutlineX/>
+
+                        <HiOutlineX />
 
 
                     </button>
@@ -240,16 +279,20 @@ const ServiceMegaMenu = ({
 
 
                     {
-                        (services || []).map(service=>(
+                        (services || []).map(service => (
 
 
                             <ServiceItem
 
+
                                 key={service.path}
+
 
                                 service={service}
 
+
                                 onClose={onClose}
+
 
                             />
 
@@ -272,6 +315,7 @@ const ServiceMegaMenu = ({
                 <div className="serviceMenu__footer">
 
 
+
                     <span>
 
                         Not sure where you qualify?
@@ -282,15 +326,22 @@ const ServiceMegaMenu = ({
 
 
 
+
+
                     <button
+
+                        type="button"
 
                         onClick={handleAssessment}
 
                     >
 
+
                         Take Free Assessment →
 
+
                     </button>
+
 
 
                 </div>
@@ -304,11 +355,13 @@ const ServiceMegaMenu = ({
             </div>
 
 
+
         </>
 
     );
 
 };
+
 
 
 export default ServiceMegaMenu;
