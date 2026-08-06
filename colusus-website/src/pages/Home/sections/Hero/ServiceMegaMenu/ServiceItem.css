@@ -1,329 +1,226 @@
 /* =====================================================
-   SERVICE ITEM V2
+   SERVICE ITEM
+   Premium Glass Card
 ===================================================== */
 
+.serviceItem {
 
-.serviceItem{
+    width: 100%;
 
+    display: flex;
 
-    width:100%;
+    align-items: center;
 
+    justify-content: space-between;
 
-    display:flex;
+    padding: 18px 20px;
 
+    border-radius: 22px;
 
-    align-items:center;
+    text-decoration: none;
 
+    color: #10213c;
 
-    justify-content:space-between;
+    position: relative;
 
-
-
-    padding:16px 18px;
-
-
-
-    border-radius:22px;
-
-
-
-    text-decoration:none;
-
-
-
-    color:white;
-
-
+    overflow: hidden;
 
     background:
-
-    rgba(255,255,255,.08);
-
-
+        rgba(255, 255, 255, .42);
 
     border:
+        1px solid rgba(255, 255, 255, .45);
 
-    1px solid rgba(255,255,255,.12);
+    backdrop-filter:
+        blur(18px);
 
-
+    -webkit-backdrop-filter:
+        blur(18px);
 
     transition:
-
-    transform .35s ease,
-
-    background .35s ease,
-
-    border .35s ease,
-
-    box-shadow .35s ease;
-
-
-
-    position:relative;
-
-
-    overflow:hidden;
-
+        transform .35s ease,
+        background .35s ease,
+        border-color .35s ease,
+        box-shadow .35s ease;
 
 }
 
+/* ==========================================
+   Glass Shine
+========================================== */
 
+.serviceItem::before {
 
+    content: "";
 
+    position: absolute;
 
-
-
-
-/* subtle glass shine */
-
-
-.serviceItem::before{
-
-
-    content:"";
-
-
-    position:absolute;
-
-
-    inset:0;
-
-
+    inset: 0;
 
     background:
 
-    linear-gradient(
+        linear-gradient(120deg,
 
-        120deg,
+            transparent,
 
-        transparent,
+            rgba(255, 255, 255, .55),
 
-        rgba(255,255,255,.15),
+            transparent);
 
-        transparent
+    transform: translateX(-120%);
 
-    );
-
-
-
-    transform:translateX(-100%);
-
-
-
-    transition:.5s;
-
+    transition: .6s;
 
 }
 
+.serviceItem:hover::before {
 
-
-
-
-
-
-.serviceItem:hover::before{
-
-
-    transform:translateX(100%);
-
+    transform: translateX(120%);
 
 }
 
+/* ==========================================
+   Hover
+========================================== */
 
-
-
-
-
-
-
-
-
-.serviceItem:hover{
-
+.serviceItem:hover {
 
     transform:
-
-    translateX(5px);
-
-
+        translateX(6px);
 
     background:
-
-    rgba(255,255,255,.18);
-
-
+        rgba(255, 255, 255, .68);
 
     border-color:
-
-    rgba(127,203,255,.45);
-
-
+        rgba(13, 110, 253, .30);
 
     box-shadow:
 
+        0 18px 40px rgba(0, 0, 0, .12),
 
-    0 15px 40px rgba(0,0,0,.25);
-
-
-
-}
-
-
-
-
-
-
-
-
-
-/* CONTENT */
-
-
-
-
-.serviceItem__content h3{
-
-
-    margin:0;
-
-
-    font-size:.95rem;
-
-
-
-    font-weight:700;
-
-
-
-    letter-spacing:-.2px;
-
-
+        0 8px 18px rgba(13, 110, 253, .10);
 
 }
 
+/* ==========================================
+   Content
+========================================== */
 
+.serviceItem__content {
 
+    position: relative;
 
-
-
-
-.serviceItem__content p{
-
-
-    margin-top:5px;
-
-
-    margin-bottom:0;
-
-
-
-    font-size:.75rem;
-
-
-
-    color:
-
-    rgba(255,255,255,.6);
-
-
+    z-index: 2;
 
 }
 
+.serviceItem__content h3 {
 
+    margin: 0;
 
+    font-size: 1rem;
 
+    font-weight: 700;
 
+    color: #10213c;
 
+    letter-spacing: -.3px;
 
+}
 
+.serviceItem__content p {
 
-/* ARROW */
+    margin-top: 6px;
 
+    margin-bottom: 0;
 
-.serviceItem__arrow{
+    font-size: .78rem;
 
+    color: #52627a;
 
-    width:34px;
+}
 
+/* ==========================================
+   Arrow
+========================================== */
 
-    height:34px;
+.serviceItem__arrow {
 
+    position: relative;
 
+    z-index: 2;
 
-    border-radius:50%;
+    width: 42px;
 
+    height: 42px;
 
+    border-radius: 50%;
 
-    display:flex;
+    display: flex;
 
+    align-items: center;
 
-    align-items:center;
+    justify-content: center;
 
-
-    justify-content:center;
-
-
+    flex-shrink: 0;
 
     background:
 
-    rgba(127,203,255,.15);
+        rgba(13, 110, 253, .10);
 
+    border:
 
+        1px solid rgba(13, 110, 253, .15);
 
-    color:#7FCBFF;
+    color: #0d6efd;
 
-
-
-    flex-shrink:0;
-
-
-
-    transition:.35s;
-
+    transition: .35s;
 
 }
 
+.serviceItem:hover .serviceItem__arrow {
 
+    background: #0d6efd;
 
-
-
-
-
-.serviceItem:hover 
-.serviceItem__arrow{
-
-
-    background:#7FCBFF;
-
-
-    color:#020617;
-
-
+    color: white;
 
     transform:
-
-    translateX(5px);
-
+        translateX(5px);
 
 }
 
-/* =====================================================
-   MOBILE TOUCH EXPERIENCE
-===================================================== */
+/* ==========================================
+   Mobile
+========================================== */
 
-@media(max-width:768px){
-    .serviceItem{
-        padding:20px;
-        border-radius:24px;
+@media(max-width:768px) {
+
+    .serviceItem {
+
+        padding: 20px;
+
+        border-radius: 24px;
+
     }
-    .serviceItem__content h3{
-        font-size:1rem;
+
+    .serviceItem__content h3 {
+
+        font-size: 1.05rem;
+
     }
-    .serviceItem__content p{
-        font-size:.8rem;
+
+    .serviceItem__content p {
+
+        font-size: .82rem;
+
     }
-    .serviceItem__arrow{
-        width:40px;
-        height:40px;
+
+    .serviceItem__arrow {
+
+        width: 44px;
+
+        height: 44px;
+
     }
+
 }
