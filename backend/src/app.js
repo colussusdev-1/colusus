@@ -5,6 +5,8 @@ import compression from "compression";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 
+import config from "./config/environment.js";
+
 import notFound from "./middleware/notFound.js";
 import errorHandler from "./middleware/errorHandler.js";
 
@@ -21,10 +23,40 @@ const app = express();
 
 app.use(helmet());
 
+/*
+|--------------------------------------------------------------------------
+| CORS
+|--------------------------------------------------------------------------
+*/
+
+const allowedOrigins = ["http://localhost:5173", config.clientUrl];
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "*",
+    origin(origin, callback) {
+      // Allow requests with no Origin (Postman, server-to-server, etc.)
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error(`CORS blocked for origin: ${origin}`));
+    },
+
     credentials: true,
+
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+
+    allowedHeaders: [
+      "Origin",
+      "X-Requested-With",
+      "Content-Type",
+      "Accept",
+      "Authorization",
+    ],
   }),
 );
 
