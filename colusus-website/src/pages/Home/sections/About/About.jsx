@@ -1,5 +1,7 @@
 import "./Home-about.css";
 
+import { Link } from "react-router-dom";
+
 import {
     HiOutlineArrowRight,
     HiOutlineCheckCircle,
@@ -7,13 +9,7 @@ import {
 
 import aboutImage from "../../../../assets/images/about/about.jpg";
 
-
-
-const About = ({
-    openServices
-}) => {
-
-
+const About = () => {
 
     const trustPoints = [
 
@@ -23,67 +19,28 @@ const About = ({
 
         "Immigration Guidance",
 
-        "Travel Support"
+        "Travel Support",
 
     ];
 
-
-
-    const scrollToContact = () => {
-
-        document
-        .getElementById("contact")
-        ?.scrollIntoView({
-
-            behavior:"smooth",
-
-            block:"start"
-
-        });
-
-    };
-
-
-
     return (
-
 
         <section className="home-about">
 
-
             <div className="container home-about-container">
-
-
-
-
-
 
                 {/* IMAGE EXPERIENCE */}
 
-
                 <div className="home-about-image">
 
-
                     <img
-
                         src={aboutImage}
-
                         alt="Colossus Migration and Tours helping clients explore international opportunities"
-
                     />
-
-
 
                     <div className="home-about-image-overlay"></div>
 
-
-
-
-
-
-
                     <div className="home-about-trust-card">
-
 
                         <span>
 
@@ -91,15 +48,11 @@ const About = ({
 
                         </span>
 
-
-
                         <p>
 
                             Professionals • Students • Families
 
                         </p>
-
-
 
                         <small>
 
@@ -107,31 +60,13 @@ const About = ({
 
                         </small>
 
-
-
                     </div>
-
-
 
                 </div>
 
-
-
-
-
-
-
-
-
                 {/* CONTENT */}
 
-
                 <div className="home-about-content">
-
-
-
-
-
 
                     <span className="home-about-tag">
 
@@ -139,23 +74,13 @@ const About = ({
 
                     </span>
 
-
-
-
-
-
-
                     <h2>
-
 
                         Trusted Pathways
 
-
                         <br />
 
-
                         To Canada
-
 
                         <span>
 
@@ -163,50 +88,27 @@ const About = ({
 
                         </span>
 
-
                     </h2>
-
-
-
-
-
-
-
-
 
                     <p>
 
-
-                        Colossus Migration & Tours helps
-                        professionals, students, families and
-                        entrepreneurs confidently explore global
-                        opportunities through trusted immigration
-                        pathways, overseas employment and
+                        Colossus Migration & Tours helps professionals,
+                        students, families and entrepreneurs confidently
+                        explore global opportunities through trusted
+                        immigration pathways, overseas employment and
                         international education solutions.
-
 
                     </p>
 
-
-
-
-
-
-
-
-
                     <div className="home-about-trust-points">
 
-
                         {
-                            trustPoints.map((item,index)=>(
 
+                            trustPoints.map((item, index) => (
 
                                 <div key={index}>
 
-
                                     <HiOutlineCheckCircle />
-
 
                                     <span>
 
@@ -214,75 +116,40 @@ const About = ({
 
                                     </span>
 
-
                                 </div>
 
-
                             ))
+
                         }
 
-
                     </div>
-
-
-
-
-
-
-
-
 
                     <div className="home-about-buttons">
 
+                        <Link
 
-
-
-
-
-                        <button
-
-                            type="button"
+                            to="/about"
 
                             className="home-about-contact-btn"
 
-                            onClick={scrollToContact}
-
                         >
 
-                            Speak With An Advisor
+                            Learn More About Us
 
+                            <HiOutlineArrowRight />
 
-                        </button>
-
-
-
-
+                        </Link>
 
                     </div>
 
-
-
-
-
                 </div>
-
-
-
-
 
             </div>
 
-
-
-
-
         </section>
-
 
     );
 
 };
-
-
 
 export default About;

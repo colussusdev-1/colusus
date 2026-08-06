@@ -4,80 +4,105 @@
 ===================================================== */
 
 
-.serviceMenu{
+/* =====================================================
+   SERVICE MEGA MENU V3
+   Premium Frosted Glass
+===================================================== */
 
+.serviceMenu {
 
-    position:absolute;
+    position: absolute;
 
+    top: 105px;
 
-    top:105px;
+    left: 0;
 
-    left:0;
+    width: 390px;
 
+    padding: 22px;
 
+    border-radius: 28px;
 
-    width:390px;
-
-
-
-    padding:20px;
-
-
-
-    border-radius:28px;
-
-
+    overflow: hidden;
 
     background:
-
-    linear-gradient(
-        145deg,
-        rgba(255,255,255,.22),
-        rgba(255,255,255,.08)
-    );
-
-
+        linear-gradient(135deg,
+            rgba(255, 255, 255, .30),
+            rgba(255, 255, 255, .18));
 
     border:
-
-    1px solid rgba(255,255,255,.25);
-
-
+        1px solid rgba(255, 255, 255, .28);
 
     backdrop-filter:
-
-    blur(40px);
-
-
+        blur(28px) saturate(180%);
 
     -webkit-backdrop-filter:
-
-    blur(40px);
-
-
+        blur(28px) saturate(180%);
 
     box-shadow:
 
-    0 30px 90px rgba(0,0,0,.5);
+        0 30px 80px rgba(0, 0, 0, .18),
 
+        0 8px 24px rgba(0, 86, 179, .10),
 
+        inset 0 1px 0 rgba(255, 255, 255, .35),
 
-    z-index:120;
+        inset 0 -1px 0 rgba(255, 255, 255, .08);
 
-
+    z-index: 120;
 
     animation:
-
-    serviceMenuIn .35s cubic-bezier(.22,1,.36,1);
-
+        serviceMenuIn .35s cubic-bezier(.22, 1, .36, 1);
 
 }
 
+/* Premium glass highlight */
 
+.serviceMenu::before {
 
+    content: "";
 
+    position: absolute;
 
+    inset: 0;
 
+    pointer-events: none;
+
+    border-radius: inherit;
+
+    background:
+
+        radial-gradient(circle at top left,
+
+            rgba(255, 255, 255, .35),
+
+            transparent 55%);
+
+}
+
+/* Subtle blue tint */
+
+.serviceMenu::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    border-radius: inherit;
+
+    background:
+
+        linear-gradient(180deg,
+
+            rgba(0, 86, 179, .06),
+
+            transparent 45%);
+
+}
 
 
 
@@ -86,46 +111,19 @@
 ===================================================== */
 
 
-.serviceMenu__header{
+.serviceMenu__header {
 
 
-    display:flex;
+    display: flex;
 
 
-    justify-content:space-between;
+    justify-content: space-between;
 
 
-    align-items:center;
+    align-items: center;
 
 
-    margin-bottom:18px;
-
-
-}
-
-
-
-
-.serviceMenu__title{
-
-
-    display:flex;
-
-
-    align-items:center;
-
-
-    gap:8px;
-
-
-
-    color:white;
-
-
-    font-size:1rem;
-
-
-    font-weight:700;
+    margin-bottom: 18px;
 
 
 }
@@ -133,13 +131,26 @@
 
 
 
-.serviceMenu__title svg{
+.serviceMenu__title {
 
 
-    color:#7FCBFF;
+    display: flex;
 
 
-    font-size:18px;
+    align-items: center;
+
+
+    gap: 8px;
+
+
+
+    color: #0f172a;
+
+
+    font-size: 1rem;
+
+
+    font-weight: 700;
 
 
 }
@@ -147,20 +158,13 @@
 
 
 
-
-.serviceMenu__header p{
-
-
-    margin:5px 0 0;
+.serviceMenu__title svg {
 
 
-    color:
-
-    rgba(255,255,255,.65);
+    color: #7FCBFF;
 
 
-
-    font-size:.78rem;
+    font-size: 18px;
 
 
 }
@@ -169,48 +173,67 @@
 
 
 
-.serviceMenu__header button{
+.serviceMenu__header p {
 
 
-    width:34px;
+    margin: 5px 0 0;
 
 
-    height:34px;
-
-
-
-    border-radius:50%;
-
-
-    border:none;
+    color: white;
 
 
 
-    display:flex;
+    font-size: .78rem;
 
 
-    justify-content:center;
-
-
-    align-items:center;
+}
 
 
 
-    cursor:pointer;
+
+
+.serviceMenu__header button {
+
+
+    width: 34px;
+
+
+    height: 34px;
+
+
+
+    border-radius: 50%;
+
+
+    border: none;
+
+
+
+    display: flex;
+
+
+    justify-content: center;
+
+
+    align-items: center;
+
+
+
+    cursor: pointer;
 
 
 
     background:
 
-    rgba(255,255,255,.12);
+        rgba(255, 255, 255, .12);
 
 
 
-    color:white;
+    color: white;
 
 
 
-    transition:.25s;
+    transition: .25s;
 
 
 }
@@ -218,15 +241,15 @@
 
 
 
-.serviceMenu__header button:hover{
+.serviceMenu__header button:hover {
 
 
     background:
 
-    rgba(255,255,255,.25);
+        rgba(255, 255, 255, .25);
 
 
-    transform:rotate(90deg);
+    transform: rotate(90deg);
 
 
 }
@@ -244,16 +267,16 @@
 ===================================================== */
 
 
-.serviceMenu__list{
+.serviceMenu__list {
 
 
-    display:flex;
+    display: flex;
 
 
-    flex-direction:column;
+    flex-direction: column;
 
 
-    gap:9px;
+    gap: 9px;
 
 
 }
@@ -271,29 +294,29 @@
 ===================================================== */
 
 
-.serviceMenu__footer{
+.serviceMenu__footer {
 
 
-    margin-top:18px;
+    margin-top: 18px;
 
 
-    padding-top:16px;
+    padding-top: 16px;
 
 
 
     border-top:
 
-    1px solid rgba(255,255,255,.15);
+        1px solid rgba(255, 255, 255, .15);
 
 
 
-    display:flex;
+    display: flex;
 
 
-    flex-direction:column;
+    flex-direction: column;
 
 
-    gap:12px;
+    gap: 12px;
 
 
 }
@@ -302,54 +325,16 @@
 
 
 
-.serviceMenu__footer span{
+.serviceMenu__footer span {
 
 
     color:
 
-    rgba(255,255,255,.65);
+        rgba(255, 255, 255, .65);
 
 
 
-    font-size:.78rem;
-
-
-}
-
-
-
-
-
-.serviceMenu__footer button{
-
-
-    height:44px;
-
-
-
-    border:none;
-
-
-    border-radius:999px;
-
-
-
-    background:white;
-
-
-    color:#020617;
-
-
-
-    font-weight:700;
-
-
-
-    cursor:pointer;
-
-
-
-    transition:.3s;
+    font-size: .78rem;
 
 
 }
@@ -357,10 +342,48 @@
 
 
 
-.serviceMenu__footer button:hover{
+
+.serviceMenu__footer button {
 
 
-    transform:translateY(-3px);
+    height: 44px;
+
+
+
+    border: none;
+
+
+    border-radius: 999px;
+
+
+
+    background: white;
+
+
+    color: #020617;
+
+
+
+    font-weight: 700;
+
+
+
+    cursor: pointer;
+
+
+
+    transition: .3s;
+
+
+}
+
+
+
+
+.serviceMenu__footer button:hover {
+
+
+    transform: translateY(-3px);
 
 
 }
@@ -378,10 +401,10 @@
 ===================================================== */
 
 
-.serviceMenu__overlay{
+.serviceMenu__overlay {
 
 
-    display:none;
+    display: none;
 
 
 }
@@ -399,45 +422,41 @@
 ===================================================== */
 
 
-@keyframes serviceMenuIn{
+@keyframes serviceMenuIn {
 
 
-    from{
+    from {
 
 
-        opacity:0;
+        opacity: 0;
 
 
         transform:
 
 
-        translateY(-20px)
-
-        scale(.96);
+            translateY(-20px) scale(.96);
 
 
-        filter:blur(10px);
+        filter: blur(10px);
 
 
     }
 
 
 
-    to{
+    to {
 
 
-        opacity:1;
+        opacity: 1;
 
 
         transform:
 
 
-        translateY(0)
-
-        scale(1);
+            translateY(0) scale(1);
 
 
-        filter:blur(0);
+        filter: blur(0);
 
 
     }
@@ -456,110 +475,100 @@
    MOBILE SHEET
 ===================================================== */
 
-@media(max-width:768px){
+@media(max-width:768px) {
 
 
-    .serviceMenu__overlay{
+    .serviceMenu__overlay {
 
-        display:block;
+        display: block;
 
-        position:fixed;
+        position: fixed;
 
-        inset:0;
+        inset: 0;
 
         background:
-        rgba(0,0,0,.45);
+            rgba(0, 0, 0, .45);
 
         backdrop-filter:
-        blur(10px);
+            blur(10px);
 
         -webkit-backdrop-filter:
-        blur(10px);
+            blur(10px);
 
-        z-index:110;
+        z-index: 110;
 
     }
 
 
 
 
-    .serviceMenu{
+    .serviceMenu {
 
-        position:fixed;
+        position: fixed;
 
-        left:0;
+        left: 0;
 
-        bottom:0;
+        bottom: 0;
 
-        top:auto;
-
-
-        width:100%;
+        top: auto;
 
 
-        max-height:85vh;
+        width: 100%;
 
 
-        overflow-y:auto;
+        max-height: 85vh;
 
-        overflow-x:hidden;
+
+        overflow-y: auto;
+
+        overflow-x: hidden;
 
 
         padding:
 
-        24px
-
-        20px
-
-        30px;
+            24px 20px 30px;
 
 
 
         border-radius:
 
 
-        32px
-
-        32px
-
-        0
-
-        0;
+            32px 32px 0 0;
 
 
 
-        z-index:120;
+        z-index: 120;
 
 
 
         animation:
 
-        sheetUp .45s cubic-bezier(.22,1,.36,1);
+            sheetUp .45s cubic-bezier(.22, 1, .36, 1);
 
 
 
-        -webkit-overflow-scrolling:touch;
-
-    }
-
-
-
-
-
-    .serviceMenu::-webkit-scrollbar{
-
-        width:5px;
+        -webkit-overflow-scrolling: touch;
 
     }
 
 
 
-    .serviceMenu::-webkit-scrollbar-thumb{
+
+
+    .serviceMenu::-webkit-scrollbar {
+
+        width: 5px;
+
+    }
+
+
+
+    .serviceMenu::-webkit-scrollbar-thumb {
 
         background:
-        rgba(255,255,255,.25);
+            rgba(255, 255, 255, .25);
 
-        border-radius:999px;
+        border-radius: 999px;
 
     }
 
@@ -567,26 +576,24 @@
 
 
 
-    .serviceMenu__header{
+    .serviceMenu__header {
 
-        position:sticky;
+        position: sticky;
 
-        top:0;
+        top: 0;
 
-        z-index:2;
+        z-index: 2;
 
 
-        padding-bottom:15px;
+        padding-bottom: 15px;
 
 
         background:
 
-        linear-gradient(
-            180deg,
-            rgba(15,23,42,.95),
-            rgba(15,23,42,.75),
-            transparent
-        );
+            linear-gradient(180deg,
+                rgba(15, 23, 42, .95),
+                rgba(15, 23, 42, .75),
+                transparent);
 
     }
 
@@ -594,19 +601,9 @@
 
 
 
-    .serviceMenu__list{
+    .serviceMenu__list {
 
-        gap:8px;
-
-    }
-
-
-
-
-
-    .serviceMenu__footer{
-
-        padding-bottom:20px;
+        gap: 8px;
 
     }
 
@@ -614,9 +611,19 @@
 
 
 
-    .serviceMenu__footer button{
+    .serviceMenu__footer {
 
-        height:50px;
+        padding-bottom: 20px;
+
+    }
+
+
+
+
+
+    .serviceMenu__footer button {
+
+        height: 50px;
 
     }
 
@@ -627,33 +634,33 @@
 
 
 
-@keyframes sheetUp{
+@keyframes sheetUp {
 
 
-    from{
+    from {
 
 
-        opacity:0;
+        opacity: 0;
 
 
         transform:
 
-        translateY(100%);
+            translateY(100%);
 
 
     }
 
 
 
-    to{
+    to {
 
 
-        opacity:1;
+        opacity: 1;
 
 
         transform:
 
-        translateY(0);
+            translateY(0);
 
 
     }
