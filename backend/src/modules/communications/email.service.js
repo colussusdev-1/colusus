@@ -7,6 +7,8 @@ import {
   paymentReceiptTemplate,
   adminBookingTemplate,
   consultationReminderTemplate,
+  contactNotificationTemplate,
+  contactConfirmationTemplate,
 } from "./email.templates.js";
 
 /*
@@ -31,11 +33,17 @@ const transporter = nodemailer.createTransport({
 
 /*
 |--------------------------------------------------------------------------
-| Send Email
+| Generic Email Sender
 |--------------------------------------------------------------------------
 */
 
-const sendEmail = async ({ to, subject, html }) => {
+const sendEmail = async ({
+  to,
+
+  subject,
+
+  html,
+}) => {
   const info = await transporter.sendMail({
     from: config.emailFrom,
 
@@ -98,10 +106,9 @@ const sendPaymentReceipt = async (booking) => {
     html: template.html,
   });
 };
-
 /*
 |--------------------------------------------------------------------------
-| Admin Notification
+| Admin Booking Notification
 |--------------------------------------------------------------------------
 */
 
@@ -151,6 +158,57 @@ const sendConsultationReminder = async (booking) => {
 
 /*
 |--------------------------------------------------------------------------
+| Contact Form Notification (Admin)
+|--------------------------------------------------------------------------
+*/
+
+const sendContactNotification = async (contact) => {
+  const template = contactNotificationTemplate({
+    fullName: contact.fullName,
+
+    email: contact.email,
+
+    phone: contact.phone,
+
+    service: contact.service,
+
+    message: contact.message,
+  });
+
+  return sendEmail({
+    to: config.adminEmail,
+
+    subject: template.subject,
+
+    html: template.html,
+  });
+};
+
+/*
+|--------------------------------------------------------------------------
+| Contact Form Confirmation (Customer)
+|--------------------------------------------------------------------------
+*/
+
+const sendContactConfirmation = async (contact) => {
+  const template = contactConfirmationTemplate({
+    fullName: contact.fullName,
+
+    email: contact.email,
+
+    service: contact.service,
+  });
+
+  return sendEmail({
+    to: contact.email,
+
+    subject: template.subject,
+
+    html: template.html,
+  });
+};
+/*
+|--------------------------------------------------------------------------
 | Verify SMTP Connection
 |--------------------------------------------------------------------------
 */
@@ -161,8 +219,28 @@ const verifyConnection = async () => {
   console.log("Email service connected successfully.");
 };
 
+/*
+|--------------------------------------------------------------------------
+| Export
+|--------------------------------------------------------------------------
+*/
+
 export default {
+  /*
+  |--------------------------------------------------------------------------
+  | Generic
+  |--------------------------------------------------------------------------
+  */
+
   sendEmail,
+
+  verifyConnection,
+
+  /*
+  |--------------------------------------------------------------------------
+  | Booking Emails
+  |--------------------------------------------------------------------------
+  */
 
   sendBookingConfirmation,
 
@@ -172,5 +250,13 @@ export default {
 
   sendConsultationReminder,
 
-  verifyConnection,
+  /*
+  |--------------------------------------------------------------------------
+  | Contact Emails
+  |--------------------------------------------------------------------------
+  */
+
+  sendContactNotification,
+
+  sendContactConfirmation,
 };

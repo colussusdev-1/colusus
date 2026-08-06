@@ -4,18 +4,12 @@ import emailService from "./email.service.js";
 |--------------------------------------------------------------------------
 | Booking Confirmed
 |--------------------------------------------------------------------------
-|
-| Triggered after:
-| - Successful payment
-| - Free consultation coupon
-|
 */
 
 const bookingConfirmed = async (booking) => {
   try {
     await Promise.all([
       emailService.sendBookingConfirmation(booking),
-
       emailService.sendAdminNotification(booking),
     ]);
 
@@ -61,11 +55,40 @@ const consultationReminder = async (booking) => {
 
 /*
 |--------------------------------------------------------------------------
+| Contact Form - Notify Admin
+|--------------------------------------------------------------------------
+*/
+
+const contactReceived = async (contact) => {
+  try {
+    await emailService.sendContactNotification(contact);
+
+    console.log(`New contact enquiry received from ${contact.email}`);
+  } catch (error) {
+    console.error("Contact notification failed:", error.message);
+  }
+};
+
+/*
+|--------------------------------------------------------------------------
+| Contact Form - Confirmation
+|--------------------------------------------------------------------------
+*/
+
+const contactConfirmation = async (contact) => {
+  try {
+    await emailService.sendContactConfirmation(contact);
+
+    console.log(`Contact confirmation sent to ${contact.email}`);
+  } catch (error) {
+    console.error("Contact confirmation failed:", error.message);
+  }
+};
+
+/*
+|--------------------------------------------------------------------------
 | Booking Cancelled
 |--------------------------------------------------------------------------
-|
-| Placeholder for future implementation
-|
 */
 
 const bookingCancelled = async (booking) => {
@@ -74,11 +97,9 @@ const bookingCancelled = async (booking) => {
   /*
     Future:
 
-    Send cancellation email
+    Refund Payment
 
-    Refund payment
-
-    Notify admin
+    Send Email
 
     SMS
 
@@ -91,35 +112,16 @@ const bookingCancelled = async (booking) => {
 |--------------------------------------------------------------------------
 | Application Status Changed
 |--------------------------------------------------------------------------
-|
-| Future Version 2
-|
 */
 
 const applicationStatusChanged = async (application) => {
   console.log(`Application status changed: ${application._id}`);
-
-  /*
-      Future
-
-      Email
-
-      SMS
-
-      Push Notification
-
-      WhatsApp
-
-  */
 };
 
 /*
 |--------------------------------------------------------------------------
 | Document Status Changed
 |--------------------------------------------------------------------------
-|
-| Future Version 2
-|
 */
 
 const documentStatusChanged = async (document) => {
@@ -138,6 +140,10 @@ export default {
   paymentSuccessful,
 
   consultationReminder,
+
+  contactReceived,
+
+  contactConfirmation,
 
   bookingCancelled,
 
