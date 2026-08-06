@@ -1,11 +1,5 @@
 /* =====================================================
-   SERVICE MEGA MENU V2
-   Premium Liquid Glass
-===================================================== */
-
-
-/* =====================================================
-   SERVICE MEGA MENU V3
+   SERVICE MEGA MENU
    Premium Frosted Glass
 ===================================================== */
 
@@ -25,38 +19,34 @@
 
     overflow: hidden;
 
+    isolation: isolate;
+
     background:
         linear-gradient(135deg,
-            rgba(255, 255, 255, .30),
-            rgba(255, 255, 255, .18));
+            rgba(255, 255, 255, .58),
+            rgba(255, 255, 255, .40));
 
     border:
-        1px solid rgba(255, 255, 255, .28);
+        1px solid rgba(255, 255, 255, .55);
 
     backdrop-filter:
-        blur(28px) saturate(180%);
+        blur(40px) saturate(220%);
 
     -webkit-backdrop-filter:
-        blur(28px) saturate(180%);
+        blur(40px) saturate(220%);
 
     box-shadow:
+        0 30px 90px rgba(0, 0, 0, .30),
+        0 12px 30px rgba(0, 86, 179, .15),
+        inset 0 1px 0 rgba(255, 255, 255, .45),
+        inset 0 -1px 0 rgba(255, 255, 255, .10);
 
-        0 30px 80px rgba(0, 0, 0, .18),
-
-        0 8px 24px rgba(0, 86, 179, .10),
-
-        inset 0 1px 0 rgba(255, 255, 255, .35),
-
-        inset 0 -1px 0 rgba(255, 255, 255, .08);
-
-    z-index: 120;
+    z-index: 9999;
 
     animation:
         serviceMenuIn .35s cubic-bezier(.22, 1, .36, 1);
 
 }
-
-/* Premium glass highlight */
 
 .serviceMenu::before {
 
@@ -71,16 +61,11 @@
     border-radius: inherit;
 
     background:
-
         radial-gradient(circle at top left,
-
-            rgba(255, 255, 255, .35),
-
+            rgba(255, 255, 255, .45),
             transparent 55%);
 
 }
-
-/* Subtle blue tint */
 
 .serviceMenu::after {
 
@@ -95,388 +80,223 @@
     border-radius: inherit;
 
     background:
-
         linear-gradient(180deg,
-
-            rgba(0, 86, 179, .06),
-
+            rgba(0, 86, 179, .08),
             transparent 45%);
 
 }
-
-
 
 /* =====================================================
    HEADER
 ===================================================== */
 
-
 .serviceMenu__header {
 
+    position: relative;
+
+    z-index: 2;
 
     display: flex;
-
 
     justify-content: space-between;
 
-
     align-items: center;
-
 
     margin-bottom: 18px;
 
-
 }
-
-
-
 
 .serviceMenu__title {
 
-
     display: flex;
 
-
     align-items: center;
-
 
     gap: 8px;
 
-
-
-    color: #0f172a;
-
+    color: #10213c;
 
     font-size: 1rem;
 
-
-    font-weight: 700;
-
+    font-weight: 800;
 
 }
-
-
-
 
 .serviceMenu__title svg {
 
-
-    color: #7FCBFF;
-
+    color: #0d6efd;
 
     font-size: 18px;
 
-
 }
-
-
-
-
 
 .serviceMenu__header p {
 
-
     margin: 5px 0 0;
 
+    color: #42526b;
 
-    color: white;
-
-
-
-    font-size: .78rem;
-
+    font-size: .82rem;
 
 }
-
-
-
-
 
 .serviceMenu__header button {
 
+    width: 42px;
 
-    width: 34px;
-
-
-    height: 34px;
-
-
-
-    border-radius: 50%;
-
+    height: 42px;
 
     border: none;
 
-
+    border-radius: 50%;
 
     display: flex;
-
-
-    justify-content: center;
-
 
     align-items: center;
 
-
+    justify-content: center;
 
     cursor: pointer;
 
+    background: rgba(255, 255, 255, .35);
 
+    border: 1px solid rgba(255, 255, 255, .45);
 
-    background:
+    color: #10213c;
 
-        rgba(255, 255, 255, .12);
-
-
-
-    color: white;
-
-
-
-    transition: .25s;
-
+    transition: .3s;
 
 }
-
-
-
 
 .serviceMenu__header button:hover {
 
-
-    background:
-
-        rgba(255, 255, 255, .25);
-
+    background: #fff;
 
     transform: rotate(90deg);
 
-
 }
 
-
-
-
-
-
-
-
-
 /* =====================================================
-   SERVICE LIST
+   LIST
 ===================================================== */
-
 
 .serviceMenu__list {
 
+    position: relative;
+
+    z-index: 2;
 
     display: flex;
 
-
     flex-direction: column;
 
-
-    gap: 9px;
-
+    gap: 12px;
 
 }
-
-
-
-
-
-
-
-
 
 /* =====================================================
    FOOTER
 ===================================================== */
 
-
 .serviceMenu__footer {
 
+    position: relative;
 
-    margin-top: 18px;
+    z-index: 2;
 
+    margin-top: 20px;
 
-    padding-top: 16px;
+    padding-top: 18px;
 
-
-
-    border-top:
-
-        1px solid rgba(255, 255, 255, .15);
-
-
+    border-top: 1px solid rgba(255, 255, 255, .45);
 
     display: flex;
 
-
     flex-direction: column;
-
 
     gap: 12px;
 
-
 }
-
-
-
-
 
 .serviceMenu__footer span {
 
+    color: #42526b;
 
-    color:
-
-        rgba(255, 255, 255, .65);
-
-
-
-    font-size: .78rem;
-
+    font-size: .82rem;
 
 }
-
-
-
-
 
 .serviceMenu__footer button {
 
-
-    height: 44px;
-
-
+    height: 48px;
 
     border: none;
 
-
     border-radius: 999px;
 
+    background: #0d6efd;
 
-
-    background: white;
-
-
-    color: #020617;
-
-
+    color: #fff;
 
     font-weight: 700;
 
-
-
     cursor: pointer;
-
-
 
     transition: .3s;
 
-
 }
-
-
-
 
 .serviceMenu__footer button:hover {
 
-
     transform: translateY(-3px);
 
-
 }
-
-
-
-
-
-
-
-
 
 /* =====================================================
    OVERLAY
 ===================================================== */
 
-
 .serviceMenu__overlay {
-
 
     display: none;
 
-
 }
 
-
-
-
-
-
-
-
-
 /* =====================================================
-   OPEN ANIMATION
+   ANIMATION
 ===================================================== */
-
 
 @keyframes serviceMenuIn {
 
-
     from {
-
 
         opacity: 0;
 
-
         transform:
+            translateY(-18px) scale(.96);
 
-
-            translateY(-20px) scale(.96);
-
-
-        filter: blur(10px);
-
+        filter: blur(8px);
 
     }
-
-
 
     to {
 
-
         opacity: 1;
 
-
         transform:
-
-
             translateY(0) scale(1);
-
 
         filter: blur(0);
 
-
     }
-
 
 }
 
-
-
-
-
-
-
-
 /* =====================================================
-   MOBILE SHEET
+   MOBILE
 ===================================================== */
 
 @media(max-width:768px) {
-
 
     .serviceMenu__overlay {
 
@@ -486,95 +306,39 @@
 
         inset: 0;
 
-        background:
-            rgba(0, 0, 0, .45);
+        background: rgba(10, 18, 32, .42);
 
-        backdrop-filter:
-            blur(10px);
+        backdrop-filter: blur(8px);
 
-        -webkit-backdrop-filter:
-            blur(10px);
+        -webkit-backdrop-filter: blur(8px);
 
-        z-index: 110;
+        z-index: 9998;
 
     }
-
-
-
 
     .serviceMenu {
 
         position: fixed;
 
-        left: 0;
-
-        bottom: 0;
-
-        top: auto;
-
+        inset: 0;
 
         width: 100%;
 
+        height: 100vh;
 
-        max-height: 85vh;
+        max-height: none;
 
+        border-radius: 0;
+
+        padding: 90px 22px 40px;
 
         overflow-y: auto;
 
-        overflow-x: hidden;
+        z-index: 9999;
 
-
-        padding:
-
-            24px 20px 30px;
-
-
-
-        border-radius:
-
-
-            32px 32px 0 0;
-
-
-
-        z-index: 120;
-
-
-
-        animation:
-
-            sheetUp .45s cubic-bezier(.22, 1, .36, 1);
-
-
-
-        -webkit-overflow-scrolling: touch;
+        animation: sheetUp .35s cubic-bezier(.22, 1, .36, 1);
 
     }
-
-
-
-
-
-    .serviceMenu::-webkit-scrollbar {
-
-        width: 5px;
-
-    }
-
-
-
-    .serviceMenu::-webkit-scrollbar-thumb {
-
-        background:
-            rgba(255, 255, 255, .25);
-
-        border-radius: 999px;
-
-    }
-
-
-
-
 
     .serviceMenu__header {
 
@@ -582,88 +346,48 @@
 
         top: 0;
 
-        z-index: 2;
+        padding-bottom: 16px;
 
+        background: rgba(255, 255, 255, .75);
 
-        padding-bottom: 15px;
+        backdrop-filter: blur(18px);
 
-
-        background:
-
-            linear-gradient(180deg,
-                rgba(15, 23, 42, .95),
-                rgba(15, 23, 42, .75),
-                transparent);
+        -webkit-backdrop-filter: blur(18px);
 
     }
-
-
-
-
-
-    .serviceMenu__list {
-
-        gap: 8px;
-
-    }
-
-
-
-
 
     .serviceMenu__footer {
 
-        padding-bottom: 20px;
+        position: sticky;
+
+        bottom: 0;
+
+        padding-top: 18px;
+
+        background:
+            linear-gradient(transparent,
+                rgba(255, 255, 255, .92));
 
     }
-
-
-
-
-
-    .serviceMenu__footer button {
-
-        height: 50px;
-
-    }
-
 
 }
 
-
-
-
-
 @keyframes sheetUp {
-
 
     from {
 
-
         opacity: 0;
 
-
-        transform:
-
-            translateY(100%);
-
+        transform: translateY(100%);
 
     }
-
-
 
     to {
 
-
         opacity: 1;
 
-
-        transform:
-
-            translateY(0);
-
+        transform: translateY(0);
 
     }
-
 
 }
