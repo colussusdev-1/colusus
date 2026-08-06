@@ -1,5 +1,26 @@
 import "./AboutTeam.css";
 
+import {
+    HiOutlineUsers,
+    HiOutlineGlobeAlt,
+    HiOutlineSparkles,
+    HiOutlineAcademicCap,
+} from "react-icons/hi";
+
+import {
+    Swiper,
+    SwiperSlide,
+} from "swiper/react";
+
+import {
+    Navigation,
+    Pagination,
+    Autoplay,
+} from "swiper/modules";
+
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 import tony from "../../../../assets/images/team/tony.jpg";
 import stanley from "../../../../assets/images/team/Stanley.jpg";
@@ -8,221 +29,245 @@ import rosemary from "../../../../assets/images/team/Rosemary.jpg";
 import jane from "../../../../assets/images/team/jane.jpg";
 import esther from "../../../../assets/images/team/Esther.jpg";
 import praise from "../../../../assets/images/team/Praise.jpg";
+import olaide from "../../../../assets/images/team/olaide.png"
+/* =====================================================
+   COMPANY STATS
+===================================================== */
 
+const stats = [
 
+    {
+        icon: HiOutlineUsers,
+        value: "7+",
+        label: "Professionals",
+    },
+
+    {
+        icon: HiOutlineGlobeAlt,
+        value: "25+",
+        label: "Countries Served",
+    },
+
+    {
+        icon: HiOutlineSparkles,
+        value: "100%",
+        label: "Client Commitment",
+    },
+
+    {
+        icon: HiOutlineAcademicCap,
+        value: "15+",
+        label: "Years Combined Experience",
+    },
+
+];
+
+/* =====================================================
+   FOUNDER
+===================================================== */
 
 const founder = {
 
-    name:"Tony Chiugo Josephat",
+    name: "Tony Chiugo Josephat",
 
-    role:"Chief Immigration Director",
+    role: "Chief Immigration Director",
 
-    badge:"Founder & Immigration Lead",
+    badge: "Founder & Immigration Lead",
 
     desc:
-    "Leading global immigration strategies and guiding clients through trusted international pathways, business expansion and migration opportunities.",
+        "Leading global immigration strategies and helping individuals, families and businesses confidently navigate international migration opportunities through trusted advisory, compliance and long-term planning.",
 
-    image:tony
+    image: tony,
 
 };
 
-
-
-
+/* =====================================================
+   EXECUTIVE
+===================================================== */
 
 const leadership = [
 
     {
-        name:"Esther Adeoje",
 
-        role:"Executive Strategist",
+        name: "Esther Adeoje",
 
-        tag:"Strategy & Growth",
+        role: "Executive Strategist",
+
+        tag: "Strategy & Growth",
 
         desc:
-        "Developing strategic frameworks that strengthen business direction, customer experience and global expansion initiatives.",
+            "Developing strategic initiatives that strengthen organizational growth, customer experience and international expansion.",
 
-        image:esther
-    }
+        image: esther,
+
+    },
 
 ];
 
-
-
-
-
+/* =====================================================
+   OPERATIONS
+===================================================== */
 
 const operations = [
 
     {
-        name:"Stanley Okonkwo",
 
-        role:"Finance Controller & Account Manager",
+        name: "Stanley Okonkwo",
 
-        tag:"Finance • Operations",
+        role: "Finance Controller & Account Manager",
+
+        tag: "Finance",
 
         desc:
-        "Managing financial operations while supporting client relationships and organizational efficiency.",
+            "Overseeing financial operations, budgeting and customer account management.",
 
-        image:stanley
+        image: stanley,
+
     },
 
-
     {
-        name:"Nnamdi Chinedu C.",
 
-        role:"Head of Operations & Migration",
+        name: "Nnamdi Chinedu C.",
 
-        tag:"Migration Operations",
+        role: "Head of Operations & Migration",
+
+        tag: "Migration",
 
         desc:
-        "Coordinating migration processes and ensuring smooth execution across client journeys.",
+            "Managing migration workflows while ensuring every client receives a smooth and transparent journey.",
 
-        image:nnamdi
-    }
+        image: nnamdi,
+
+    },
 
 ];
 
-
-
-
-
-
+/* =====================================================
+   TECHNOLOGY
+===================================================== */
 
 const technology = [
 
     {
-        name:"Akosile Olaide J.",
 
-        role:"Software / Website Developer",
+        name: "Akosile Olaide J.",
 
-        tag:"Digital Development",
+        role: "Web Application Engineer",
+
+        tag: "Technology",
 
         desc:
-        "Building digital experiences and technology solutions that support business growth.",
+            "Designing digital platforms, automation systems and web applications powering the Colossus ecosystem.",
 
-        image:null
+        image: olaide,
+
     },
 
-
     {
-        name:"Udeme Sam",
 
-        role:"Software / Web Developer",
+        name: "Udeme Sam",
 
-        tag:"Technology",
+        role: "Software Engineer",
+
+        tag: "Technology",
 
         desc:
-        "Supporting software development and digital infrastructure initiatives.",
+            "Supporting software engineering, frontend development and digital infrastructure.",
 
-        image:null
-    }
+        image: null,
+
+    },
 
 ];
 
-
-
-
-
-
+/* =====================================================
+   CLIENT EXPERIENCE
+===================================================== */
 
 const clientExperience = [
 
     {
-        name:"Rosemary O. Effiong",
 
-        role:"Office Admin & Content Creator",
+        name: "Rosemary O. Effiong",
 
-        tag:"Client Experience",
+        role: "Office Admin & Content Creator",
+
+        tag: "Client Experience",
 
         desc:
-        "Managing office coordination and creating engaging content that strengthens client communication.",
+            "Ensuring smooth daily operations while strengthening communication through engaging content.",
 
-        image:rosemary,
+        image: rosemary,
 
-        className:"rosemary-photo"
+        className: "rosemary-photo",
 
     },
 
-
     {
-        name:"Praise",
 
-        role:"Digital Marketing Lead",
+        name: "Praise",
 
-        tag:"Marketing & Growth",
+        role: "Digital Marketing Lead",
+
+        tag: "Marketing",
 
         desc:
-        "Driving digital visibility and marketing strategies to connect with global audiences.",
+            "Driving digital visibility and helping the brand connect with audiences worldwide.",
 
-        image:praise
+        image: praise,
+
     },
 
-
     {
-        name:"Jane Lilian Onyebuchi",
 
-        role:"Admin Manager",
+        name: "Jane Lilian Onyebuchi",
 
-        tag:"Administration",
+        role: "Administration Manager",
+
+        tag: "Administration",
 
         desc:
-        "Managing internal processes and supporting efficient daily operations.",
+            "Coordinating internal operations while supporting efficient organizational management.",
 
-        image:jane
-    }
+        image: jane,
+
+    },
 
 ];
 
+/* =====================================================
+   AVATAR
+===================================================== */
 
-
-
-
-
-
-
-/*
-====================================
- AVATAR
-====================================
-*/
-
-
-const Avatar = ({
-    member
-}) => {
-
+const Avatar = ({ member }) => {
 
     return (
 
         <div className="team-avatar">
 
-
             {
-                member.image
 
-                ?
+                member.image ?
 
-                <img
+                    <img
 
-                    src={member.image}
+                        src={member.image}
 
-                    alt={member.name}
+                        alt={member.name}
 
-                    className={member.className || ""}
+                        className={member.className || ""}
 
-                />
+                    />
 
-                :
+                    :
 
-                <div className="avatar-placeholder">
+                    <div className="avatar-placeholder">
 
-                    {member.name.charAt(0)}
+                        {member.name.charAt(0)}
 
-                </div>
+                    </div>
 
             }
-
 
         </div>
 
@@ -230,35 +275,71 @@ const Avatar = ({
 
 };
 
+/* =====================================================
+   STATS
+===================================================== */
 
-
-
-
-
-
-
-
-/*
-====================================
- FOUNDER SPOTLIGHT
-====================================
-*/
-
-
-const FounderCard = () => {
-
+const TeamStats = () => {
 
     return (
 
-        <article className="founder-card">
+        <section className="team-stats">
 
+            {
 
-            <div className="founder-background"></div>
+                stats.map((item, index) => {
 
+                    const Icon = item.icon;
 
+                    return (
 
-            <div className="founder-avatar">
+                        <article
 
+                            key={index}
+
+                            className="stat-card"
+
+                        >
+
+                            <Icon className="stat-icon" />
+
+                            <h3>
+
+                                {item.value}
+
+                            </h3>
+
+                            <p>
+
+                                {item.label}
+
+                            </p>
+
+                        </article>
+
+                    );
+
+                })
+
+            }
+
+        </section>
+
+    );
+
+};
+
+/* =====================================================
+   FOUNDER
+===================================================== */
+
+const FounderCard = () => {
+
+    return (
+
+        <section className="founder-card">
+
+            <div className="founder-image">
 
                 <img
 
@@ -268,15 +349,9 @@ const FounderCard = () => {
 
                 />
 
-
             </div>
 
-
-
-
-
             <div className="founder-content">
-
 
                 <span className="founder-badge">
 
@@ -284,15 +359,11 @@ const FounderCard = () => {
 
                 </span>
 
-
-
-                <h3>
+                <h2>
 
                     {founder.name}
 
-                </h3>
-
-
+                </h2>
 
                 <h4>
 
@@ -300,85 +371,48 @@ const FounderCard = () => {
 
                 </h4>
 
-
-
                 <p>
 
                     {founder.desc}
 
                 </p>
 
+                <div className="founder-tags">
 
+                    <span>Global Migration</span>
 
+                    <span>Business Advisory</span>
 
+                    <span>Strategic Planning</span>
 
-                <div className="founder-meta">
-
-
-                    <span>
-                        Global Immigration
-                    </span>
-
-
-                    <span>
-                        Business Advisory
-                    </span>
-
-
-                    <span>
-                        Strategic Growth
-                    </span>
-
+                    <span>International Expansion</span>
 
                 </div>
 
-
             </div>
 
-
-
-        </article>
+        </section>
 
     );
 
 };
+/* =====================================================
+   TEAM CARD
+===================================================== */
 
-
-
-
-
-
-
-
-
-
-/*
-====================================
- STANDARD TEAM CARD
-====================================
-*/
-
-
-const TeamCard = ({
-    member
-}) => {
-
+const TeamCard = ({ member }) => {
 
     return (
 
         <article className="team-card">
 
+            <div className="team-card-image">
 
-            <Avatar
+                <Avatar member={member} />
 
-                member={member}
+            </div>
 
-            />
-
-
-
-            <div className="team-info">
-
+            <div className="team-card-content">
 
                 <span className="team-role-tag">
 
@@ -386,26 +420,17 @@ const TeamCard = ({
 
                 </span>
 
-
-
-
                 <h3>
 
                     {member.name}
 
                 </h3>
 
-
-
-
                 <h4>
 
                     {member.role}
 
                 </h4>
-
-
-
 
                 <p>
 
@@ -415,6 +440,22 @@ const TeamCard = ({
 
 
 
+                <div className="team-card-footer">
+
+                    <span>
+
+                        Colossus Migration
+
+                    </span>
+
+                    <div className="team-status">
+
+                        ● Available
+
+                    </div>
+
+                </div>
+
             </div>
 
 
@@ -425,67 +466,127 @@ const TeamCard = ({
 
 };
 
-
-
-
-
-
-
-
-
-/*
-====================================
- GROUP
-====================================
-*/
-
+/* =====================================================
+   TEAM GROUP
+===================================================== */
 
 const TeamGroup = ({
-    title,
-    data,
-    type=""
-}) => {
 
+    title,
+
+    data,
+
+}) => {
 
     return (
 
-        <section className={`team-section ${type}`}>
+        <section className="team-section">
 
+            <div className="team-section-header">
 
-            <h3 className="section-title">
+                <h2>
 
-                {title}
+                    {title}
 
-            </h3>
+                </h2>
 
+                <span>
 
+                    {data.length} Team Member{data.length > 1 ? "s" : ""}
 
+                </span>
 
-            <div className="team-grid">
+            </div>
 
+            <Swiper
+
+                modules={[
+
+                    Navigation,
+
+                    Pagination,
+
+                    Autoplay,
+
+                ]}
+
+                navigation
+
+                pagination={{
+
+                    clickable: true,
+
+                }}
+
+                autoplay={{
+
+                    delay: 3500,
+
+                    disableOnInteraction: false,
+
+                }}
+
+                loop={
+
+                    data.length > 2
+
+                }
+
+                spaceBetween={30}
+
+                breakpoints={{
+
+                    0: {
+
+                        slidesPerView: 1.1,
+
+                    },
+
+                    640: {
+
+                        slidesPerView: 1.5,
+
+                    },
+
+                    900: {
+
+                        slidesPerView: 2,
+
+                    },
+
+                    1200: {
+
+                        slidesPerView: 3,
+
+                    },
+
+                }}
+
+            >
 
                 {
 
-                    data.map((member,index)=>(
+                    data.map((member, index) => (
 
-
-                        <TeamCard
+                        <SwiperSlide
 
                             key={index}
 
-                            member={member}
+                        >
 
-                        />
+                            <TeamCard
 
+                                member={member}
+
+                            />
+
+                        </SwiperSlide>
 
                     ))
 
                 }
 
-
-            </div>
-
-
+            </Swiper>
 
         </section>
 
@@ -493,37 +594,19 @@ const TeamGroup = ({
 
 };
 
-
-
-
-
-
-
-
-
-/*
-====================================
- MAIN
-====================================
-*/
-
+/* =====================================================
+   MAIN
+===================================================== */
 
 const AboutTeam = () => {
-
 
     return (
 
         <section className="about-team">
 
-
             <div className="team-container">
 
-
-
-
-
                 <header className="team-header">
-
 
                     <span>
 
@@ -531,48 +614,29 @@ const AboutTeam = () => {
 
                     </span>
 
-
-
                     <h2>
 
-                        The professionals behind your
-
+                        Meet the professionals
 
                         <strong>
 
-                            global journey
+                            behind every successful migration
 
                         </strong>
 
-
                     </h2>
-
-
 
                     <p>
 
-                        Immigration experts, strategists and technology professionals working together to create trusted international pathways.
+                        Behind every successful migration journey is a team of experienced professionals dedicated to providing strategic guidance, trusted expertise and exceptional client service from consultation to destination.
 
                     </p>
 
-
-
                 </header>
 
-
-
-
-
-
+                <TeamStats />
 
                 <FounderCard />
-
-
-
-
-
-
-
 
                 <TeamGroup
 
@@ -580,14 +644,7 @@ const AboutTeam = () => {
 
                     data={leadership}
 
-                    type="executive-section"
-
                 />
-
-
-
-
-
 
                 <TeamGroup
 
@@ -597,23 +654,13 @@ const AboutTeam = () => {
 
                 />
 
-
-
-
-
-
                 <TeamGroup
 
-                    title="Technology Team"
+                    title="Technology"
 
                     data={technology}
 
                 />
-
-
-
-
-
 
                 <TeamGroup
 
@@ -623,20 +670,12 @@ const AboutTeam = () => {
 
                 />
 
-
-
-
-
             </div>
-
 
         </section>
 
     );
 
 };
-
-
-
 
 export default AboutTeam;
