@@ -82,8 +82,7 @@ const About = () => {
 
 
 
-            <Footer />
-
+       
 
         </>
 
