@@ -16,7 +16,7 @@ import {
 
 import {
     whyChooseCanada
-} from "./whyChooseData";
+} from "./WhyChooseData";
 
 
 
