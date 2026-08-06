@@ -137,7 +137,7 @@ const MobileMenu = ({
                 <div className="mobile-contact-bar">
 
                     <a
-                        href="tel:+2340000000000"
+                        href="tel:+23409026953513"
                         aria-label="Call"
                     >
                         <HiOutlinePhone />
@@ -145,7 +145,7 @@ const MobileMenu = ({
                     </a>
 
                     <a
-                        href="https://wa.me/2340000000000"
+                        href="https://wa.me/23409026953513"
                         target="_blank"
                         rel="noreferrer"
                         aria-label="WhatsApp"
@@ -155,7 +155,7 @@ const MobileMenu = ({
                     </a>
 
                     <a
-                        href="mailto:info@colusus.com"
+                        href="mailto:admin@colossusmigration.com"
                         aria-label="Email"
                     >
                         <HiOutlineMail />
