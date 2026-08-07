@@ -98,10 +98,10 @@ const Hero = ({
                         Your Journey To
 
                         <span>
-                            Canada & Beyond
+                            Canada, UK, Germany & Australia
                         </span>
 
-                        Starts Here.
+                        Starts Here... And Beyond.
 
                     </h1>
 
