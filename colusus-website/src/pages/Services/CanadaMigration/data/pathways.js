@@ -1,107 +1,93 @@
 import {
-  HiOutlineHome,
-  HiOutlineBriefcase,
-  HiOutlineAcademicCap,
-  HiOutlineUsers,
+  HiOutlineCode,
+  HiOutlineOfficeBuilding,
+  HiOutlineTruck,
+  HiOutlineHeart,
 } from "react-icons/hi";
 
-import torontoImage from "../../../../assets/countryimage/toronto.jpg";
-import pnpImage from "../../../../assets/countryimage/pnp.jpg";
-import familyImage from "../../../../assets/countryimage/family.jpg";
-import programsImage from "../../../../assets/countryimage/programs.jpg";
+import softwareEngineerImage from "../../../../assets/images/opportunities/software-engineer.jpg";
+import constructionImage from "../../../../assets/images/opportunities/construction-worker.jpg";
+import truckDriverImage from "../../../../assets/images/opportunities/truck-driver.jpg";
+import caregiverImage from "../../../../assets/images/opportunities/caregiver.jpg";
 
 export const pathways = [
   {
-    id: "express-entry",
+    id: "software-engineer",
 
-    icon: HiOutlineHome,
+    icon: HiOutlineCode,
 
-    image: torontoImage,
+    image: softwareEngineerImage,
 
-    title: "Express Entry",
+    title: "Software Engineer",
 
-    badge: "Permanent Residence",
+    badge: "Technology Careers",
 
     description:
-      "A strategic immigration pathway for skilled professionals seeking permanent residence in Canada through competitive federal programs.",
+      "Canada's technology sector continues to recruit skilled software engineers with competitive salaries and strong permanent residency opportunities.",
 
-    services: [
-      "Eligibility Assessment",
+    services: ["Express Entry", "LMIA Jobs", "Tech Pathways"],
 
-      "CRS Score Strategy",
-
-      "Application Preparation",
-    ],
-
-    path: "/services/canada/express-entry",
+    path: "/opportunities/canada/software-engineer",
   },
 
   {
-    id: "pnp",
+    id: "construction-worker",
 
-    icon: HiOutlineBriefcase,
+    icon: HiOutlineOfficeBuilding,
 
-    image: pnpImage,
+    image: constructionImage,
 
-    title: "Provincial Nominee Program",
+    title: "Construction Worker",
 
-    badge: "Province-Based Pathway",
+    badge: "Skilled Trades",
 
     description:
-      "Discover opportunities through Canadian provinces looking for skilled workers, entrepreneurs and professionals.",
+      "Join Canada's booming construction industry through employer-sponsored jobs and skilled trade immigration programs.",
 
     services: [
-      "Province Matching",
-
-      "Nomination Support",
-
-      "Application Guidance",
+      "Building Trades",
+      "Employer Sponsorship",
+      "Provincial Programs",
     ],
 
-    path: "/services/canada/pnp",
+    path: "/opportunities/canada/construction-worker",
   },
 
   {
-    id: "family",
+    id: "truck-driver",
 
-    icon: HiOutlineUsers,
+    icon: HiOutlineTruck,
 
-    image: familyImage,
+    image: truckDriverImage,
 
-    title: "Family Sponsorship",
+    title: "Truck Driver",
 
-    badge: "Family Reunion",
+    badge: "Transportation",
 
     description:
-      "Reconnect with your loved ones through Canada's family sponsorship programs with structured application support.",
+      "Experienced truck drivers are in high demand across Canada with excellent relocation and permanent residency opportunities.",
 
-    services: [
-      "Spouse Sponsorship",
+    services: ["Long Haul Driving", "Work Permit", "PR Pathway"],
 
-      "Children Sponsorship",
-
-      "Parent Sponsorship",
-    ],
-
-    path: "/services/canada/family-sponsorship",
+    path: "/opportunities/canada/truck-driver",
   },
 
   {
-    id: "other",
+    id: "caregiver",
 
-    icon: HiOutlineAcademicCap,
+    icon: HiOutlineHeart,
 
-    image: programsImage,
+    image: caregiverImage,
 
-    title: "Alternative Programs",
+    title: "Caregiver",
 
-    badge: "More Opportunities",
+    badge: "Healthcare Support",
 
     description:
-      "Explore additional Canadian pathways designed for students, entrepreneurs and specialised applicants.",
+      "Build a rewarding career supporting families and healthcare institutions while creating a pathway toward permanent residence.",
 
-    services: ["Study Pathways", "Business Immigration", "Regional Programs"],
+    services: ["Home Care", "Healthcare Support", "Family Pathway"],
 
-    path: "/services/canada/other-programs",
+    path: "/opportunities/canada/caregiver",
   },
 ];
