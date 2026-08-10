@@ -29,19 +29,54 @@ app.use(helmet());
 |--------------------------------------------------------------------------
 */
 
-const allowedOrigins = ["http://localhost:5173", config.clientUrl];
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://www.colossusmigration.com",
+  "https://colossusmigration.com",
+  config.clientUrl,
+].filter(Boolean);
+
+console.log("=================================");
+console.log("CORS CONFIGURATION");
+console.log("=================================");
+console.log("Allowed Origins:", allowedOrigins);
+console.log("CLIENT_URL:", config.clientUrl);
+console.log("=================================");
 
 app.use(
   cors({
-    origin(origin, callback) {
-      // Allow requests with no Origin (Postman, server-to-server, etc.)
+    origin: (origin, callback) => {
+      /*
+            |--------------------------------------------------------------------------
+            | Allow requests without Origin
+            |--------------------------------------------------------------------------
+            |
+            | Useful for Postman, server-to-server requests,
+            | health checks, etc.
+            |
+            */
+
       if (!origin) {
         return callback(null, true);
       }
 
+      /*
+            |--------------------------------------------------------------------------
+            | Check Allowed Origins
+            |--------------------------------------------------------------------------
+            */
+
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
+
+      /*
+            |--------------------------------------------------------------------------
+            | Block Unknown Origin
+            |--------------------------------------------------------------------------
+            */
+
+      console.error("CORS BLOCKED:", origin);
 
       return callback(new Error(`CORS blocked for origin: ${origin}`));
     },
@@ -57,8 +92,16 @@ app.use(
       "Accept",
       "Authorization",
     ],
+
+    optionsSuccessStatus: 204,
   }),
 );
+
+/*
+|--------------------------------------------------------------------------
+| Compression
+|--------------------------------------------------------------------------
+*/
 
 app.use(compression());
 
@@ -67,7 +110,9 @@ app.use(compression());
 | Paystack Webhook
 |--------------------------------------------------------------------------
 |
-| Must receive RAW body before express.json()
+| IMPORTANT:
+| Paystack webhook must receive the raw request body.
+| This MUST remain before express.json().
 |
 */
 
@@ -92,7 +137,19 @@ app.use(
   }),
 );
 
+/*
+|--------------------------------------------------------------------------
+| Cookies
+|--------------------------------------------------------------------------
+*/
+
 app.use(cookieParser());
+
+/*
+|--------------------------------------------------------------------------
+| HTTP Logging
+|--------------------------------------------------------------------------
+*/
 
 app.use(morgan("dev"));
 
@@ -114,11 +171,17 @@ app.use("/api/contact", contactRoutes);
 
 /*
 |--------------------------------------------------------------------------
-| Error Handling
+| 404 Handler
 |--------------------------------------------------------------------------
 */
 
 app.use(notFound);
+
+/*
+|--------------------------------------------------------------------------
+| Global Error Handler
+|--------------------------------------------------------------------------
+*/
 
 app.use(errorHandler);
 
