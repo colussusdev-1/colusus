@@ -10,57 +10,55 @@ import { Link } from "react-router-dom";
 
 const GlobalWorksHero = () => {
 
-
     return (
 
         <section className="global-hero">
 
 
-            {/* VIDEO BACKGROUND */}
+            {/* =================================================
+                VIDEO BACKGROUND
+            ================================================= */}
 
             <video
-
                 className="global-hero-video"
-
                 autoPlay
-
                 muted
-
                 loop
-
                 playsInline
-
                 preload="auto"
-
             >
 
                 <source
-
-                    src="https://colossusmigration.com/wp-content/uploads/2026/06/COLOSSUS-ADS-VIDEO1.mp4"
-
+                    src="https://res.cloudinary.com/hq1esbh0/video/upload/v1786377430/colusus.mp4"
                     type="video/mp4"
-
                 />
+
+                Your browser does not support
+                the video element.
 
             </video>
 
 
-
-            {/* CINEMATIC OVERLAY */}
+            {/* =================================================
+                CINEMATIC OVERLAY
+            ================================================= */}
 
             <div className="global-hero-overlay"></div>
 
 
-
-
+            {/* =================================================
+                HERO CONTAINER
+            ================================================= */}
 
             <div className="global-hero-container">
-
 
 
                 <div className="global-hero-content">
 
 
+                    {/* =================================================
+                        TAG
+                    ================================================= */}
 
                     <span className="global-tag">
 
@@ -69,8 +67,9 @@ const GlobalWorksHero = () => {
                     </span>
 
 
-
-
+                    {/* =================================================
+                        HEADING
+                    ================================================= */}
 
                     <h1>
 
@@ -85,8 +84,9 @@ const GlobalWorksHero = () => {
                     </h1>
 
 
-
-
+                    {/* =================================================
+                        DESCRIPTION
+                    ================================================= */}
 
                     <p>
 
@@ -97,19 +97,16 @@ const GlobalWorksHero = () => {
                     </p>
 
 
-
-
-
+                    {/* =================================================
+                        ACTIONS
+                    ================================================= */}
 
                     <div className="global-hero-actions">
 
 
                         <Link
-
                             to="/free-assessment"
-
                             className="global-primary-btn"
-
                         >
 
                             Start Free Assessment
@@ -119,28 +116,15 @@ const GlobalWorksHero = () => {
                         </Link>
 
 
-
-
-                        <Link
-
-                            to="/opportunities"
-
-                            className="global-secondary-btn"
-
-                        >
-
-                            Explore Opportunities
-
-                        </Link>
-
+                     
 
 
                     </div>
 
 
-
-
-
+                    {/* =================================================
+                        TRUST
+                    ================================================= */}
 
                     <div className="global-trust">
 
@@ -154,8 +138,6 @@ const GlobalWorksHero = () => {
                         </div>
 
 
-
-
                         <div>
 
                             <HiOutlineCheckCircle />
@@ -163,8 +145,6 @@ const GlobalWorksHero = () => {
                             Global Opportunities
 
                         </div>
-
-
 
 
                         <div>
@@ -179,12 +159,10 @@ const GlobalWorksHero = () => {
                     </div>
 
 
-
                 </div>
 
 
             </div>
-
 
 
         </section>

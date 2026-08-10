@@ -63,7 +63,10 @@ const pay = async (bookingData) => {
 
   const payment = await initializePayment(result.booking._id);
 
-  window.location.href = payment.authorization_url;
+  console.log("PAYSTACK RESPONSE:", payment);
+  console.log("AUTHORIZATION URL:", payment.authorization_url);
+
+  // Temporarily stop the redirect
 };
 
 export default {

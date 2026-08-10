@@ -13,6 +13,9 @@ import errorHandler from "./middleware/errorHandler.js";
 import routes from "./routes/index.js";
 import contactRoutes from "./routes/contactRoutes.js";
 
+import testCloudinary from "./utils/testCloudinary.js";
+
+
 const app = express();
 
 /*

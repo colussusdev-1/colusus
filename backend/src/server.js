@@ -5,28 +5,38 @@ import config from "./config/environment.js";
 import connectDatabase from "./database/connection.js";
 import logger from "./config/logger.js";
 
+import testCloudinary from "./utils/testCloudinary.js";
 
 const startServer = async () => {
-    try {
+  try {
+    await connectDatabase();
 
-        await connectDatabase();
+    /*
+        ========================================================
+        CLOUDINARY CONNECTION TEST
+        ========================================================
+        */
 
-        app.listen(config.port, () => {
+    await testCloudinary();
 
-            logger.info(
-                `COLUSUS API STARTED | Environment: ${config.nodeEnv} | Port: ${config.port}`
-            );
+    /*
+        ========================================================
+        START API
+        ========================================================
+        */
 
-        });
+    app.listen(config.port, () => {
+      logger.info(
+        `COLUSUS API STARTED | Environment: ${config.nodeEnv} | Port: ${config.port}`,
+      );
+    });
+  } catch (error) {
+    logger.error("Server Startup Failed");
 
-    } catch (error) {
+    logger.error(error.message);
 
-        logger.error("Server Startup Failed");
-        logger.error(error.message);
-
-        process.exit(1);
-    }
+    process.exit(1);
+  }
 };
-
 
 startServer();

@@ -1,0 +1,410 @@
+/* ============================================================
+   COLUSUS CLIENT PORTAL
+   REGISTER
+============================================================ */
+
+.register-page {
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 120px 24px 60px;
+
+    background:
+        radial-gradient(circle at 10% 10%,
+            rgba(var(--primary-rgb),
+                0.08),
+            transparent 35%),
+        radial-gradient(circle at 90% 90%,
+            rgba(var(--accent-rgb),
+                0.08),
+            transparent 35%),
+        var(--background);
+
+    font-family: var(--font-family);
+}
+
+
+/* ============================================================
+   CARD
+============================================================ */
+
+.register-card {
+    width: min(100%,
+            480px);
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-xl);
+
+    padding: 48px;
+
+    box-shadow: var(--shadow-lg);
+}
+
+
+/* ============================================================
+   HEADER
+============================================================ */
+
+.register-header {
+    margin-bottom: 34px;
+
+    text-align: center;
+}
+
+
+.register-label {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 7px 14px;
+
+    margin-bottom: 18px;
+
+    border-radius: var(--radius-pill);
+
+    background:
+        rgba(var(--primary-rgb),
+            0.08);
+
+    color: var(--primary);
+
+    font-size: var(--fs-xs);
+
+    font-weight: var(--fw-bold);
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+}
+
+
+.register-header h1 {
+    margin: 0;
+
+    color: var(--heading);
+
+    font-size: var(--fs-h2);
+
+    line-height: var(--lh-heading);
+
+    font-weight: var(--fw-extrabold);
+
+    letter-spacing: -1px;
+}
+
+
+.register-header p {
+    max-width: 360px;
+
+    margin: 12px auto 0;
+
+    color: var(--text-light);
+
+    font-size: var(--fs-small);
+
+    line-height: var(--lh-body);
+}
+
+
+/* ============================================================
+   FORM
+============================================================ */
+
+.register-form {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 19px;
+}
+
+
+.register-form-group {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+
+.register-form-group label {
+    color: var(--heading);
+
+    font-size: var(--fs-xs);
+
+    font-weight: var(--fw-semibold);
+}
+
+
+.register-form-group input {
+    width: 100%;
+
+    height: 52px;
+
+    padding: 0 16px;
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-md);
+
+    background: var(--surface);
+
+    color: var(--heading);
+
+    font-family: var(--font-family);
+
+    font-size: var(--fs-small);
+
+    outline: none;
+
+    transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        background var(--transition-fast);
+}
+
+
+.register-form-group input::placeholder {
+    color: var(--text-muted);
+}
+
+
+.register-form-group input:hover {
+    border-color: #CBD5E1;
+}
+
+
+.register-form-group input:focus {
+    border-color: var(--primary-light);
+
+    background: var(--white);
+
+    box-shadow:
+        0 0 0 4px rgba(var(--primary-rgb),
+            0.10);
+}
+
+
+/* ============================================================
+   ERROR
+============================================================ */
+
+.register-error {
+    padding: 12px 14px;
+
+    border: 1px solid rgba(220,
+            38,
+            38,
+            0.18);
+
+    border-radius: var(--radius-md);
+
+    background:
+        rgba(220,
+            38,
+            38,
+            0.06);
+
+    color: var(--danger);
+
+    font-size: var(--fs-xs);
+
+    line-height: 1.5;
+}
+
+
+/* ============================================================
+   SUBMIT
+============================================================ */
+
+.register-submit {
+    width: 100%;
+
+    height: 54px;
+
+    margin-top: 4px;
+
+    border: none;
+
+    border-radius: var(--radius-md);
+
+    background: var(--primary);
+
+    color: var(--white);
+
+    font-family: var(--font-family);
+
+    font-size: var(--fs-small);
+
+    font-weight: var(--fw-bold);
+
+    cursor: pointer;
+
+    transition:
+        transform var(--transition-fast),
+        background var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
+
+.register-submit:hover:not(:disabled) {
+    background: var(--primary-dark);
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 24px rgba(var(--primary-rgb),
+            0.22);
+}
+
+
+.register-submit:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+
+.register-submit:disabled {
+    opacity: 0.65;
+
+    cursor: not-allowed;
+}
+
+
+/* ============================================================
+   FOOTER
+============================================================ */
+
+.register-footer {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 6px;
+
+    margin-top: 26px;
+
+    padding-top: 24px;
+
+    border-top: 1px solid var(--border-light);
+
+    color: var(--text-light);
+
+    font-size: var(--fs-xs);
+}
+
+
+.register-footer a {
+    color: var(--primary);
+
+    font-weight: var(--fw-semibold);
+
+    text-decoration: none;
+
+    transition:
+        color var(--transition-fast);
+}
+
+
+.register-footer a:hover {
+    color: var(--primary-dark);
+
+    text-decoration: underline;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media (max-width: 600px) {
+
+    .register-page {
+        padding: 100px 16px 40px;
+    }
+
+
+    .register-card {
+        padding: 32px 24px;
+
+        border-radius: var(--radius-lg);
+    }
+
+
+    .register-header {
+        margin-bottom: 30px;
+    }
+
+
+    .register-header h1 {
+        font-size: 32px;
+    }
+
+
+    .register-header p {
+        font-size: var(--fs-xs);
+    }
+
+
+    .register-label {
+        font-size: 11px;
+
+        padding: 6px 12px;
+    }
+
+
+    .register-form-group input {
+        height: 50px;
+
+        font-size: var(--fs-xs);
+    }
+
+
+    .register-submit {
+        height: 52px;
+    }
+
+}
+
+
+/* ============================================================
+   SMALL PHONES
+============================================================ */
+
+@media (max-width: 380px) {
+
+    .register-page {
+        padding-inline: 12px;
+    }
+
+
+    .register-card {
+        padding: 28px 20px;
+    }
+
+
+    .register-header h1 {
+        font-size: 28px;
+    }
+
+
+    .register-footer {
+        flex-direction: column;
+
+        gap: 4px;
+    }
+
+}

@@ -8,19 +8,18 @@ import HeroTrustBar from "./HeroTrustBar";
 import HeroVisual from "./HeroVisual";
 
 
-
 const Hero = ({
     openServices
 }) => {
-
-
 
     return (
 
         <section className="hero">
 
 
-            {/* VIDEO BACKGROUND */}
+            {/* =================================================
+                VIDEO BACKGROUND
+            ================================================= */}
 
             <div className="hero-video">
 
@@ -33,18 +32,21 @@ const Hero = ({
                 >
 
                     <source
-                        src="https://colossusmigration.com/wp-content/uploads/2026/06/COLOSSUS-ADS-VIDEO1.mp4"
+                        src="https://res.cloudinary.com/hq1esbh0/video/upload/v1786377430/colusus.mp4"
                         type="video/mp4"
                     />
 
-                </video>
+                    Your browser does not support
+                    the video element.
 
+                </video>
 
             </div>
 
 
-
-
+            {/* =================================================
+                HERO BACKGROUND
+            ================================================= */}
 
             <div className="hero-bg">
 
@@ -53,18 +55,25 @@ const Hero = ({
             </div>
 
 
-
-
+            {/* =================================================
+                HERO CONTAINER
+            ================================================= */}
 
             <div className="container hero-container">
 
 
+                {/* =================================================
+                    HERO CONTENT
+                ================================================= */}
+
                 <div className="hero-content">
 
 
+                    {/* =================================================
+                        EYEBROW
+                    ================================================= */}
 
                     <div className="hero-eyebrow">
-
 
                         <span className="hero-line"></span>
 
@@ -83,15 +92,14 @@ const Hero = ({
 
                             </p>
 
-
                         </div>
-
 
                     </div>
 
 
-
-
+                    {/* =================================================
+                        HERO TITLE
+                    ================================================= */}
 
                     <h1>
 
@@ -106,9 +114,9 @@ const Hero = ({
                     </h1>
 
 
-
-
-
+                    {/* =================================================
+                        MOBILE SUMMARY
+                    ================================================= */}
 
                     <p className="hero-mobile-summary">
 
@@ -119,8 +127,9 @@ const Hero = ({
                     </p>
 
 
-
-
+                    {/* =================================================
+                        DESCRIPTION
+                    ================================================= */}
 
                     <p className="hero-description">
 
@@ -134,19 +143,16 @@ const Hero = ({
                     </p>
 
 
-
-
-
+                    {/* =================================================
+                        ACTION BUTTONS
+                    ================================================= */}
 
                     <div className="hero-buttons">
 
 
                         <Link
-
                             to="/free-assessment"
-
                             className="btn btn-primary"
-
                         >
 
                             Free Assessment
@@ -156,58 +162,42 @@ const Hero = ({
                         </Link>
 
 
-
-
-
-
                         <button
-
                             type="button"
-
                             className="btn btn-secondary"
-
                             onClick={openServices}
-
                         >
 
                             Explore Services
 
-
                         </button>
-
 
 
                     </div>
 
 
-
-
-
+                    {/* =================================================
+                        TRUST BAR
+                    ================================================= */}
 
                     <HeroTrustBar />
 
 
-
                 </div>
 
 
-
-
-
-
+                {/* =================================================
+                    HERO VISUAL
+                ================================================= */}
 
                 <div className="hero-right">
 
-
                     <HeroVisual />
-
 
                 </div>
 
 
-
             </div>
-
 
 
         </section>
@@ -215,7 +205,6 @@ const Hero = ({
     );
 
 };
-
 
 
 export default Hero;

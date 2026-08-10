@@ -1,0 +1,460 @@
+/* =====================================================
+   COLUSUS CLIENT PORTAL
+   TOPBAR
+===================================================== */
+
+.portal-topbar {
+
+    width: 100%;
+
+    height: 90px;
+
+    padding: 0 32px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #e8edf4;
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 90;
+
+}
+
+
+/* =====================================================
+   PAGE CONTEXT
+===================================================== */
+
+.portal-topbar__context {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+
+}
+
+
+.portal-topbar__context-label {
+
+    color: #94a3b8;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    letter-spacing: .04em;
+
+}
+
+
+.portal-topbar__context h1 {
+
+    margin: 0;
+
+    color: #10213c;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+}
+
+
+/* =====================================================
+   ACTIONS
+===================================================== */
+
+.portal-topbar__actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+
+/* =====================================================
+   ICON BUTTON
+===================================================== */
+
+.portal-topbar__icon-btn {
+
+    width: 42px;
+
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    position: relative;
+
+    border: 1px solid #e5ebf2;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    color: #64748b;
+
+    font-size: 19px;
+
+    cursor: pointer;
+
+    transition:
+        background .25s ease,
+        border-color .25s ease,
+        color .25s ease,
+        transform .25s ease;
+
+}
+
+
+.portal-topbar__icon-btn:hover {
+
+    background: #f1f6fc;
+
+    border-color: #d7e4f1;
+
+    color: #0056b3;
+
+    transform: translateY(-1px);
+
+}
+
+
+/* =====================================================
+   NOTIFICATION
+===================================================== */
+
+.portal-topbar__notification {
+
+    position: relative;
+
+}
+
+
+.portal-topbar__notification-dot {
+
+    position: absolute;
+
+    top: 9px;
+
+    right: 9px;
+
+    width: 7px;
+
+    height: 7px;
+
+    border: 2px solid #ffffff;
+
+    border-radius: 50%;
+
+    background: #ef4444;
+
+}
+
+
+/* =====================================================
+   DIVIDER
+===================================================== */
+
+.portal-topbar__divider {
+
+    width: 1px;
+
+    height: 34px;
+
+    margin: 0 8px;
+
+    background: #e8edf4;
+
+}
+
+
+/* =====================================================
+   USER
+===================================================== */
+
+.portal-topbar__user {
+
+    min-height: 48px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 4px 6px 4px 4px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: transparent;
+
+    font-family: inherit;
+
+    cursor: pointer;
+
+    transition: background .25s ease;
+
+}
+
+
+.portal-topbar__user:hover {
+
+    background: #f5f8fc;
+
+}
+
+
+/* =====================================================
+   AVATAR
+===================================================== */
+
+.portal-topbar__avatar {
+
+    width: 40px;
+
+    height: 40px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #eaf3fc;
+
+    color: #0056b3;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+}
+
+
+/* =====================================================
+   USER INFORMATION
+===================================================== */
+
+.portal-topbar__user-info {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 2px;
+
+}
+
+
+.portal-topbar__user-info strong {
+
+    color: #10213c;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+}
+
+
+.portal-topbar__user-info span {
+
+    color: #94a3b8;
+
+    font-size: 10px;
+
+}
+
+
+.portal-topbar__chevron {
+
+    width: 16px;
+
+    height: 16px;
+
+    color: #94a3b8;
+
+}
+
+
+/* =====================================================
+   MOBILE MENU BUTTON
+===================================================== */
+
+.portal-topbar__menu {
+
+    display: none;
+
+    width: 42px;
+
+    height: 42px;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: 1px solid #e5ebf2;
+
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    color: #10213c;
+
+    font-size: 21px;
+
+    cursor: pointer;
+
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 992px) {
+
+    .portal-topbar {
+
+        padding: 0 24px;
+
+    }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .portal-topbar {
+
+        height: 72px;
+
+        padding: 0 16px;
+
+        gap: 12px;
+
+    }
+
+    .portal-topbar__menu {
+
+        display: flex;
+
+        flex-shrink: 0;
+
+    }
+
+    .portal-topbar__context {
+
+        min-width: 0;
+
+        flex: 1;
+
+    }
+
+    .portal-topbar__context-label {
+
+        display: none;
+
+    }
+
+    .portal-topbar__context h1 {
+
+        font-size: 16px;
+
+        white-space: nowrap;
+
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+
+    }
+
+    .portal-topbar__actions {
+
+        gap: 5px;
+
+    }
+
+    .portal-topbar__icon-btn {
+
+        width: 38px;
+
+        height: 38px;
+
+        border: none;
+
+        background: #f5f8fc;
+
+    }
+
+    .portal-topbar__divider,
+
+    .portal-topbar__user-info,
+
+    .portal-topbar__chevron {
+
+        display: none;
+
+    }
+
+    .portal-topbar__user {
+
+        padding: 0;
+
+    }
+
+    .portal-topbar__avatar {
+
+        width: 38px;
+
+        height: 38px;
+
+    }
+
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 420px) {
+
+    .portal-topbar__icon-btn:first-child {
+
+        display: none;
+
+    }
+
+}

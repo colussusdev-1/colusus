@@ -1,0 +1,340 @@
+/* =====================================================
+   COLUSUS CLIENT PORTAL
+   SIDEBAR
+===================================================== */
+
+.portal-sidebar {
+
+    width: 260px;
+
+    min-width: 260px;
+
+    height: 100vh;
+
+    position: sticky;
+
+    top: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    background: #ffffff;
+
+    border-right: 1px solid #e8edf4;
+
+    z-index: 100;
+
+}
+
+
+/* =====================================================
+   BRAND
+===================================================== */
+
+.portal-sidebar__brand {
+
+    height: 90px;
+
+    padding: 0 24px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    border-bottom: 1px solid #eef2f7;
+
+}
+
+
+.portal-sidebar__logo {
+
+    width: 40px;
+
+    height: 40px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: #0056b3;
+
+    color: #ffffff;
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+}
+
+
+.portal-sidebar__brand-text {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 2px;
+
+}
+
+
+.portal-sidebar__brand-text strong {
+
+    color: #10213c;
+
+    font-size: 15px;
+
+    letter-spacing: .08em;
+
+}
+
+
+.portal-sidebar__brand-text span {
+
+    color: #94a3b8;
+
+    font-size: 10px;
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+.portal-sidebar__nav {
+
+    flex: 1;
+
+    padding: 28px 14px;
+
+    overflow-y: auto;
+
+}
+
+
+.portal-sidebar__section-label {
+
+    padding: 0 12px;
+
+    margin-bottom: 10px;
+
+    color: #94a3b8;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: .1em;
+
+    text-transform: uppercase;
+
+}
+
+
+/* =====================================================
+   NAV LINKS
+===================================================== */
+
+.portal-sidebar__link {
+
+    position: relative;
+
+    width: 100%;
+
+    min-height: 48px;
+
+    margin-bottom: 5px;
+
+    padding: 0 13px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    border-radius: 12px;
+
+    text-decoration: none;
+
+    color: #64748b;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    transition:
+        background .25s ease,
+        color .25s ease,
+        transform .25s ease;
+
+}
+
+
+.portal-sidebar__link:hover {
+
+    background: #f1f6fc;
+
+    color: #0056b3;
+
+}
+
+
+.portal-sidebar__link.active {
+
+    background: #eaf3fc;
+
+    color: #0056b3;
+
+}
+
+
+.portal-sidebar__link.active::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    top: 10px;
+
+    bottom: 10px;
+
+    width: 3px;
+
+    border-radius: 0 4px 4px 0;
+
+    background: #0056b3;
+
+}
+
+
+.portal-sidebar__icon {
+
+    width: 20px;
+
+    height: 20px;
+
+    flex-shrink: 0;
+
+}
+
+
+/* =====================================================
+   BOTTOM
+===================================================== */
+
+.portal-sidebar__bottom {
+
+    padding: 16px 14px 20px;
+
+    border-top: 1px solid #eef2f7;
+
+}
+
+
+.portal-sidebar__logout {
+
+    width: 100%;
+
+    min-height: 48px;
+
+    padding: 0 13px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: transparent;
+
+    color: #64748b;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    text-align: left;
+
+    transition:
+        background .25s ease,
+        color .25s ease;
+
+}
+
+
+.portal-sidebar__logout:hover {
+
+    background: #fff1f2;
+
+    color: #dc2626;
+
+}
+
+
+/* =====================================================
+   SCROLLBAR
+===================================================== */
+
+.portal-sidebar__nav::-webkit-scrollbar {
+
+    width: 4px;
+
+}
+
+
+.portal-sidebar__nav::-webkit-scrollbar-thumb {
+
+    background: #dbe4ef;
+
+    border-radius: 999px;
+
+}
+
+
+/* =====================================================
+   TABLET / MOBILE
+===================================================== */
+
+@media (max-width: 992px) {
+
+    .portal-sidebar {
+
+        width: 230px;
+
+        min-width: 230px;
+
+    }
+
+}
+
+
+@media (max-width: 768px) {
+
+    .portal-sidebar {
+
+        display: none;
+
+    }
+
+}

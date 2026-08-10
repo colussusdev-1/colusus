@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import ScrollToTop from "./components/ScrollToTop";
+
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./pages/Home/sections/Footer/Footer";
 
@@ -21,40 +22,307 @@ import OpportunityDetails from "./pages/Opportunities/OpportunityDetails/Opportu
 
 import FreeAssessment from "./pages/FreeAssesment/FreeAssessment";
 import ConsultationBooking from "./components/ConsultationBooking/ConsultationBooking";
+import ApplicationWizard from "./pages/Client/ApplicationWizard";
 
-// ✅ Import your Webmailer component
 import Webmailer from "./pages/Webmailer/Webmailer";
 
+
+/* =====================================================
+   CLIENT PORTAL
+===================================================== */
+
+import PortalLayout from "./components/ClientPortal/PortalLayout/PortalLayout";
+import ProtectedRoute from "./components/ClientPortal/ProtectedRoute";
+
+import ClientDashboard from "./pages/Client/ClientDashboard";
+import Applications from "./pages/Client/Applications";
+import Documents from "./pages/Client/Documents";
+import Updates from "./pages/Client/Updates";
+import Profile from "./pages/Client/Profile";
+
+
+/* =====================================================
+   AUTHENTICATION
+===================================================== */
+
+import Login from "./pages/Auth/Login";
+import Register from "./pages/Auth/Register";
+
+
 function App() {
+
     return (
+
         <BrowserRouter>
+
             <ScrollToTop />
-            <Navbar />
 
             <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/services" element={<Services />} />
-                <Route path="/services/canada-migration" element={<CanadaMigration />} />
-                <Route path="/services/global-works" element={<GlobalWorkImmigration />} />
-                <Route path="/services/tourist-visa" element={<TouristVisa />} />
 
-                <Route path="/opportunities/:country" element={<Opportunities />} />
-                <Route path="/opportunities/:country/:slug" element={<OpportunityDetails />} />
 
-                <Route path="/blog" element={<Blog />} />
-                <Route path="/shop" element={<Shop />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/free-assessment" element={<FreeAssessment />} />
-                <Route path="/consultation" element={<ConsultationBooking />} />
+                {/* =================================================
+                    PUBLIC WEBSITE
+                ================================================= */}
 
-                {/* ✅ Updated Webmail route */}
-                <Route path="/webmail" element={<Webmailer />} />
+                <Route
+                    path="/"
+                    element={
+                        <>
+                            <Navbar />
+                            <Home />
+                            <Footer />
+                        </>
+                    }
+                />
+
+
+                <Route
+                    path="/about"
+                    element={
+                        <>
+                            <Navbar />
+                            <About />
+                            <Footer />
+                        </>
+                    }
+                />
+
+
+                <Route
+                    path="/services"
+                    element={
+                        <>
+                            <Navbar />
+                            <Services />
+                            <Footer />
+                        </>
+                    }
+                />
+
+
+                <Route
+                    path="/services/canada-migration"
+                    element={
+                        <>
+                            <Navbar />
+                            <CanadaMigration />
+                            <Footer />
+                        </>
+                    }
+                />
+
+
+                <Route
+                    path="/services/global-works"
+                    element={
+                        <>
+                            <Navbar />
+                            <GlobalWorkImmigration />
+                            <Footer />
+                        </>
+                    }
+                />
+
+
+                <Route
+                    path="/services/tourist-visa"
+                    element={
+                        <>
+                            <Navbar />
+                            <TouristVisa />
+                            <Footer />
+                        </>
+                    }
+                />
+
+
+                <Route
+                    path="/opportunities/:country"
+                    element={
+                        <>
+                            <Navbar />
+                            <Opportunities />
+                            <Footer />
+                        </>
+                    }
+                />
+
+
+                <Route
+                    path="/opportunities/:country/:slug"
+                    element={
+                        <>
+                            <Navbar />
+                            <OpportunityDetails />
+                            <Footer />
+                        </>
+                    }
+                />
+
+
+                <Route
+                    path="/blog"
+                    element={
+                        <>
+                            <Navbar />
+                            <Blog />
+                            <Footer />
+                        </>
+                    }
+                />
+
+
+                <Route
+                    path="/shop"
+                    element={
+                        <>
+                            <Navbar />
+                            <Shop />
+                            <Footer />
+                        </>
+                    }
+                />
+
+
+                <Route
+                    path="/contact"
+                    element={
+                        <>
+                            <Navbar />
+                            <Contact />
+                            <Footer />
+                        </>
+                    }
+                />
+
+
+                <Route
+                    path="/free-assessment"
+                    element={
+                        <>
+                            <Navbar />
+                            <FreeAssessment />
+                            <Footer />
+                        </>
+                    }
+                />
+
+
+                <Route
+                    path="/consultation"
+                    element={
+                        <>
+                            <Navbar />
+                            <ConsultationBooking />
+                            <Footer />
+                        </>
+                    }
+                />
+
+
+                {/* =================================================
+                    WEBMAIL
+                ================================================= */}
+
+                <Route
+                    path="/webmail"
+                    element={<Webmailer />}
+                />
+
+
+                {/* =================================================
+                    CLIENT AUTHENTICATION
+                ================================================= */}
+
+                <Route
+                    path="/login"
+                    element={<Login />}
+                />
+
+
+                <Route
+                    path="/register"
+                    element={<Register />}
+                />
+
+
+                {/* =================================================
+                    PROTECTED CLIENT PORTAL
+                ================================================= */}
+
+                <Route element={<ProtectedRoute />}>
+
+                    <Route
+                        path="/portal"
+                        element={<PortalLayout />}
+                    >
+
+                        {/* -----------------------------------------
+                            DASHBOARD
+                        ----------------------------------------- */}
+
+                        <Route
+                            index
+                            element={<ClientDashboard />}
+                        />
+
+
+                        {/* -----------------------------------------
+                            APPLICATIONS
+                        ----------------------------------------- */}
+
+                        <Route
+                            path="applications"
+                            element={<Applications />}
+                        />
+
+                        <Route
+                            path="applications/new"
+                            element={<ApplicationWizard />}
+                        />
+
+
+                        {/* -----------------------------------------
+                            DOCUMENTS
+                        ----------------------------------------- */}
+
+                        <Route
+                            path="documents"
+                            element={<Documents />}
+                        />
+
+
+                        {/* -----------------------------------------
+                            UPDATES
+                        ----------------------------------------- */}
+
+                        <Route
+                            path="updates"
+                            element={<Updates />}
+                        />
+
+
+                        {/* -----------------------------------------
+                            PROFILE
+                        ----------------------------------------- */}
+
+                        <Route
+                            path="profile"
+                            element={<Profile />}
+                        />
+
+                    </Route>
+
+                </Route>
+
+
             </Routes>
 
-            <Footer />
         </BrowserRouter>
+
     );
+
 }
+
 
 export default App;
