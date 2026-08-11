@@ -19,6 +19,14 @@ import couponRoutes from "../modules/coupons/coupon.routes.js";
 import adminRoutes from "../modules/admin/admin.routes.js";
 import paymentRoutes from "../modules/payments/payment.routes.js";
 
+/*
+|--------------------------------------------------------------------------
+| Opportunities
+|--------------------------------------------------------------------------
+*/
+
+import opportunityRoutes from "../modules/opportunities/opportunity.routes.js";
+
 const router = express.Router();
 
 /*
@@ -70,6 +78,17 @@ router.use("/applications", applicationRoutes);
 */
 
 router.use("/documents", documentRoutes);
+
+/*
+|--------------------------------------------------------------------------
+| Opportunities
+|--------------------------------------------------------------------------
+|
+| Public migration opportunities.
+|
+*/
+
+router.use("/opportunities", opportunityRoutes);
 
 /*
 |--------------------------------------------------------------------------

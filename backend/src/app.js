@@ -12,9 +12,9 @@ import errorHandler from "./middleware/errorHandler.js";
 
 import routes from "./routes/index.js";
 import contactRoutes from "./routes/contactRoutes.js";
+import consultationRoutes from "./modules/consultations/consultation.routes.js";
 
 import testCloudinary from "./utils/testCloudinary.js";
-
 
 const app = express();
 
@@ -33,10 +33,10 @@ app.use(helmet());
 */
 
 const allowedOrigins = [
-  "http://localhost:5173",
-  "https://www.colossusmigration.com",
-  "https://colossusmigration.com",
-  config.clientUrl,
+    "http://localhost:5173",
+    "https://www.colossusmigration.com",
+    "https://colossusmigration.com",
+    config.clientUrl,
 ].filter(Boolean);
 
 console.log("=================================");
@@ -47,9 +47,10 @@ console.log("CLIENT_URL:", config.clientUrl);
 console.log("=================================");
 
 app.use(
-  cors({
-    origin: (origin, callback) => {
-      /*
+    cors({
+        origin: (origin, callback) => {
+
+            /*
             |--------------------------------------------------------------------------
             | Allow requests without Origin
             |--------------------------------------------------------------------------
@@ -59,45 +60,56 @@ app.use(
             |
             */
 
-      if (!origin) {
-        return callback(null, true);
-      }
+            if (!origin) {
+                return callback(null, true);
+            }
 
-      /*
+            /*
             |--------------------------------------------------------------------------
             | Check Allowed Origins
             |--------------------------------------------------------------------------
             */
 
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
+            if (allowedOrigins.includes(origin)) {
+                return callback(null, true);
+            }
 
-      /*
+            /*
             |--------------------------------------------------------------------------
             | Block Unknown Origin
             |--------------------------------------------------------------------------
             */
 
-      console.error("CORS BLOCKED:", origin);
+            console.error("CORS BLOCKED:", origin);
 
-      return callback(new Error(`CORS blocked for origin: ${origin}`));
-    },
+            return callback(
+                new Error(
+                    `CORS blocked for origin: ${origin}`
+                )
+            );
+        },
 
-    credentials: true,
+        credentials: true,
 
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        methods: [
+            "GET",
+            "POST",
+            "PUT",
+            "PATCH",
+            "DELETE",
+            "OPTIONS",
+        ],
 
-    allowedHeaders: [
-      "Origin",
-      "X-Requested-With",
-      "Content-Type",
-      "Accept",
-      "Authorization",
-    ],
+        allowedHeaders: [
+            "Origin",
+            "X-Requested-With",
+            "Content-Type",
+            "Accept",
+            "Authorization",
+        ],
 
-    optionsSuccessStatus: 204,
-  }),
+        optionsSuccessStatus: 204,
+    })
 );
 
 /*
@@ -115,15 +127,17 @@ app.use(compression());
 |
 | IMPORTANT:
 | Paystack webhook must receive the raw request body.
+|
 | This MUST remain before express.json().
 |
+|--------------------------------------------------------------------------
 */
 
 app.use(
-  "/api/v1/payments/webhook",
-  express.raw({
-    type: "application/json",
-  }),
+    "/api/v1/payments/webhook",
+    express.raw({
+        type: "application/json",
+    })
 );
 
 /*
@@ -135,9 +149,9 @@ app.use(
 app.use(express.json());
 
 app.use(
-  express.urlencoded({
-    extended: true,
-  }),
+    express.urlencoded({
+        extended: true,
+    })
 );
 
 /*
@@ -170,7 +184,28 @@ app.use("/api/v1", routes);
 |--------------------------------------------------------------------------
 */
 
-app.use("/api/contact", contactRoutes);
+app.use(
+    "/api/contact",
+    contactRoutes
+);
+
+/*
+|--------------------------------------------------------------------------
+| Admin Consultation Module
+|--------------------------------------------------------------------------
+|
+| Protected inside consultation.routes.js
+|
+| GET /api/v1/admin/consultations
+| GET /api/v1/admin/consultations/:id
+|
+|--------------------------------------------------------------------------
+*/
+
+app.use(
+    "/api/v1/admin/consultations",
+    consultationRoutes
+);
 
 /*
 |--------------------------------------------------------------------------

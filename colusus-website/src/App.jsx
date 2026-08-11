@@ -26,10 +26,11 @@ import ApplicationWizard from "./pages/Client/ApplicationWizard";
 
 import Webmailer from "./pages/Webmailer/Webmailer";
 
-
-/* =====================================================
-   CLIENT PORTAL
-===================================================== */
+/*
+|--------------------------------------------------------------------------
+| CLIENT PORTAL
+|--------------------------------------------------------------------------
+*/
 
 import PortalLayout from "./components/ClientPortal/PortalLayout/PortalLayout";
 import ProtectedRoute from "./components/ClientPortal/ProtectedRoute";
@@ -40,14 +41,22 @@ import Documents from "./pages/Client/Documents";
 import Updates from "./pages/Client/Updates";
 import Profile from "./pages/Client/Profile";
 
+/*
+|--------------------------------------------------------------------------
+| ADMIN
+|--------------------------------------------------------------------------
+*/
 
-/* =====================================================
-   AUTHENTICATION
-===================================================== */
+import AdminConsultations from "./pages/Admin/Consultations/AdminConsultations";
+
+/*
+|--------------------------------------------------------------------------
+| AUTHENTICATION
+|--------------------------------------------------------------------------
+*/
 
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
-
 
 function App() {
 
@@ -59,10 +68,11 @@ function App() {
 
             <Routes>
 
-
-                {/* =================================================
-                    PUBLIC WEBSITE
-                ================================================= */}
+                {/*
+                =================================================
+                PUBLIC WEBSITE
+                =================================================
+                */}
 
                 <Route
                     path="/"
@@ -75,7 +85,6 @@ function App() {
                     }
                 />
 
-
                 <Route
                     path="/about"
                     element={
@@ -86,7 +95,6 @@ function App() {
                         </>
                     }
                 />
-
 
                 <Route
                     path="/services"
@@ -99,7 +107,6 @@ function App() {
                     }
                 />
 
-
                 <Route
                     path="/services/canada-migration"
                     element={
@@ -110,7 +117,6 @@ function App() {
                         </>
                     }
                 />
-
 
                 <Route
                     path="/services/global-works"
@@ -123,7 +129,6 @@ function App() {
                     }
                 />
 
-
                 <Route
                     path="/services/tourist-visa"
                     element={
@@ -134,7 +139,6 @@ function App() {
                         </>
                     }
                 />
-
 
                 <Route
                     path="/opportunities/:country"
@@ -147,7 +151,6 @@ function App() {
                     }
                 />
 
-
                 <Route
                     path="/opportunities/:country/:slug"
                     element={
@@ -158,7 +161,6 @@ function App() {
                         </>
                     }
                 />
-
 
                 <Route
                     path="/blog"
@@ -171,7 +173,6 @@ function App() {
                     }
                 />
 
-
                 <Route
                     path="/shop"
                     element={
@@ -182,7 +183,6 @@ function App() {
                         </>
                     }
                 />
-
 
                 <Route
                     path="/contact"
@@ -195,7 +195,6 @@ function App() {
                     }
                 />
 
-
                 <Route
                     path="/free-assessment"
                     element={
@@ -206,7 +205,6 @@ function App() {
                         </>
                     }
                 />
-
 
                 <Route
                     path="/consultation"
@@ -219,36 +217,49 @@ function App() {
                     }
                 />
 
-
-                {/* =================================================
-                    WEBMAIL
-                ================================================= */}
+                {/*
+                =================================================
+                WEBMAIL
+                =================================================
+                */}
 
                 <Route
                     path="/webmail"
                     element={<Webmailer />}
                 />
 
-
-                {/* =================================================
-                    CLIENT AUTHENTICATION
-                ================================================= */}
+                {/*
+                =================================================
+                CLIENT AUTHENTICATION
+                =================================================
+                */}
 
                 <Route
                     path="/login"
                     element={<Login />}
                 />
 
-
                 <Route
                     path="/register"
                     element={<Register />}
                 />
 
+                {/*
+                =================================================
+                ADMIN
+                =================================================
+                */}
 
-                {/* =================================================
-                    PROTECTED CLIENT PORTAL
-                ================================================= */}
+                <Route
+                    path="/admin/consultations"
+                    element={<AdminConsultations />}
+                />
+
+                {/*
+                =================================================
+                PROTECTED CLIENT PORTAL
+                =================================================
+                */}
 
                 <Route element={<ProtectedRoute />}>
 
@@ -257,19 +268,22 @@ function App() {
                         element={<PortalLayout />}
                     >
 
-                        {/* -----------------------------------------
-                            DASHBOARD
-                        ----------------------------------------- */}
+                        {/*
+                        -----------------------------------------
+                        DASHBOARD
+                        -----------------------------------------
+                        */}
 
                         <Route
                             index
                             element={<ClientDashboard />}
                         />
 
-
-                        {/* -----------------------------------------
-                            APPLICATIONS
-                        ----------------------------------------- */}
+                        {/*
+                        -----------------------------------------
+                        APPLICATIONS
+                        -----------------------------------------
+                        */}
 
                         <Route
                             path="applications"
@@ -281,30 +295,33 @@ function App() {
                             element={<ApplicationWizard />}
                         />
 
-
-                        {/* -----------------------------------------
-                            DOCUMENTS
-                        ----------------------------------------- */}
+                        {/*
+                        -----------------------------------------
+                        DOCUMENTS
+                        -----------------------------------------
+                        */}
 
                         <Route
                             path="documents"
                             element={<Documents />}
                         />
 
-
-                        {/* -----------------------------------------
-                            UPDATES
-                        ----------------------------------------- */}
+                        {/*
+                        -----------------------------------------
+                        UPDATES
+                        -----------------------------------------
+                        */}
 
                         <Route
                             path="updates"
                             element={<Updates />}
                         />
 
-
-                        {/* -----------------------------------------
-                            PROFILE
-                        ----------------------------------------- */}
+                        {/*
+                        -----------------------------------------
+                        PROFILE
+                        -----------------------------------------
+                        */}
 
                         <Route
                             path="profile"
@@ -315,7 +332,6 @@ function App() {
 
                 </Route>
 
-
             </Routes>
 
         </BrowserRouter>
@@ -323,6 +339,5 @@ function App() {
     );
 
 }
-
 
 export default App;

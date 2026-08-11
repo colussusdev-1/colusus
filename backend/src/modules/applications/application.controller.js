@@ -1,15 +1,31 @@
 import applicationService from "./application.service.js";
 
+/*
+============================================================
+CREATE APPLICATION
+============================================================
+*/
+
 export const createApplication = async (req, res, next) => {
   try {
     const application = await applicationService.createApplication({
       user: req.user.id,
 
-      ...req.body,
+      opportunity: req.body.opportunity,
+
+      type: req.body.type,
+
+      destinationCountry: req.body.destinationCountry,
+
+      priority: req.body.priority,
+
+      notes: req.body.notes,
     });
 
     res.status(201).json({
       success: true,
+
+      message: "Application created successfully",
 
       data: application,
     });
@@ -18,13 +34,19 @@ export const createApplication = async (req, res, next) => {
   }
 };
 
+/*
+============================================================
+GET USER APPLICATIONS
+============================================================
+*/
+
 export const getApplications = async (req, res, next) => {
   try {
     const applications = await applicationService.getUserApplications(
       req.user.id,
     );
 
-    res.json({
+    res.status(200).json({
       success: true,
 
       data: applications,
@@ -34,11 +56,16 @@ export const getApplications = async (req, res, next) => {
   }
 };
 
+/*
+============================================================
+GET SINGLE APPLICATION
+============================================================
+*/
+
 export const getApplication = async (req, res, next) => {
   try {
     const application = await applicationService.getApplicationById(
       req.params.id,
-
       req.user.id,
     );
 
@@ -50,7 +77,7 @@ export const getApplication = async (req, res, next) => {
       });
     }
 
-    res.json({
+    res.status(200).json({
       success: true,
 
       data: application,

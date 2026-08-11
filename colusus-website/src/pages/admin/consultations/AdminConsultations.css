@@ -1,0 +1,193 @@
+.adminConsultations {
+    min-height: 100vh;
+    padding: 40px 24px;
+    background: #f7f8fa;
+}
+
+.adminConsultations__container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.adminConsultations__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.adminConsultations__eyebrow {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #6b7280;
+}
+
+.adminConsultations__header h1 {
+    margin: 0;
+    font-size: 32px;
+    line-height: 1.2;
+    color: #111827;
+}
+
+.adminConsultations__header p {
+    margin: 8px 0 0;
+    color: #6b7280;
+}
+
+.adminConsultations__refresh {
+    border: 0;
+    border-radius: 8px;
+    padding: 11px 18px;
+    background: #111827;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.adminConsultations__refresh:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.adminConsultations__error {
+    margin-bottom: 24px;
+    padding: 14px 16px;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+.adminConsultations__state {
+    padding: 80px 24px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #ffffff;
+    text-align: center;
+}
+
+.adminConsultations__state h2 {
+    margin: 0 0 8px;
+    color: #111827;
+}
+
+.adminConsultations__state p {
+    margin: 0;
+    color: #6b7280;
+}
+
+.adminConsultations__tableWrapper {
+    overflow-x: auto;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #ffffff;
+}
+
+.adminConsultations__table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+}
+
+.adminConsultations__table th {
+    padding: 16px 20px;
+    border-bottom: 1px solid #e5e7eb;
+    background: #f9fafb;
+    color: #6b7280;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.adminConsultations__table td {
+    padding: 18px 20px;
+    border-bottom: 1px solid #f0f1f3;
+    color: #374151;
+    font-size: 14px;
+}
+
+.adminConsultations__table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.adminConsultations__table tbody tr:hover {
+    background: #fafafa;
+}
+
+.adminConsultations__client {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.adminConsultations__client strong {
+    color: #111827;
+}
+
+.adminConsultations__client span {
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.adminConsultations__badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 9px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.adminConsultations__badge--paid,
+.adminConsultations__badge--confirmed {
+    background: #ecfdf3;
+    color: #047857;
+}
+
+.adminConsultations__badge--unpaid,
+.adminConsultations__badge--awaiting_payment {
+    background: #fff7ed;
+    color: #c2410c;
+}
+
+.adminConsultations__badge--failed,
+.adminConsultations__badge--cancelled {
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+.adminConsultations__badge--completed {
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+@media (max-width: 700px) {
+
+    .adminConsultations {
+        padding: 24px 16px;
+    }
+
+    .adminConsultations__header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .adminConsultations__header h1 {
+        font-size: 26px;
+    }
+
+    .adminConsultations__refresh {
+        width: 100%;
+    }
+
+}
