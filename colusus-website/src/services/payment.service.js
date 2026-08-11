@@ -52,22 +52,77 @@ const verifyPayment = async (reference) => {
 
 /*
 |--------------------------------------------------------------------------
-| Redirect To Paystack
+| Start Payment
+|--------------------------------------------------------------------------
+|
+| Flow:
+|
+| 1. Create consultation booking
+| 2. Receive booking ID
+| 3. Initialize Paystack transaction
+| 4. Receive Paystack authorization URL
+| 5. Redirect client to Paystack
+|
 |--------------------------------------------------------------------------
 */
 
 const pay = async (bookingData) => {
+  /*
+    |--------------------------------------------------------------------------
+    | Create Booking
+    |--------------------------------------------------------------------------
+    */
+
   const result = await createBooking(bookingData);
 
-  console.log(result);
+  console.log("BOOKING CREATED:", result);
+
+  /*
+    |--------------------------------------------------------------------------
+    | Validate Booking Response
+    |--------------------------------------------------------------------------
+    */
+
+  if (!result?.booking?._id) {
+    throw new Error("Booking was created, but no booking ID was returned.");
+  }
+
+  /*
+    |--------------------------------------------------------------------------
+    | Initialize Paystack
+    |--------------------------------------------------------------------------
+    */
 
   const payment = await initializePayment(result.booking._id);
 
   console.log("PAYSTACK RESPONSE:", payment);
-  console.log("AUTHORIZATION URL:", payment.authorization_url);
 
-  // Temporarily stop the redirect
+  console.log("AUTHORIZATION URL:", payment?.authorization_url);
+
+  /*
+    |--------------------------------------------------------------------------
+    | Validate Paystack Response
+    |--------------------------------------------------------------------------
+    */
+
+  if (!payment?.authorization_url) {
+    throw new Error("Paystack did not return an authorization URL.");
+  }
+
+  /*
+    |--------------------------------------------------------------------------
+    | Redirect Client To Paystack
+    |--------------------------------------------------------------------------
+    */
+
+  window.location.href = payment.authorization_url;
 };
+
+/*
+|--------------------------------------------------------------------------
+| Export
+|--------------------------------------------------------------------------
+*/
 
 export default {
   reviewBooking,

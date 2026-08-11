@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 
 import paymentService from "../../../services/payment.service";
@@ -9,9 +10,13 @@ import CouponSection from "./CouponSection";
 
 import "./BookingForm.css";
 
+
 const STORAGE_KEY = "consultation-booking";
 
-const BookingForm = ({ onFormComplete }) => {
+
+const BookingForm = ({
+    onFormComplete,
+}) => {
 
     /*
     |--------------------------------------------------------------------------
@@ -51,13 +56,22 @@ const BookingForm = ({ onFormComplete }) => {
 
     });
 
-    const [couponStatus, setCouponStatus] = useState(null);
 
-    const [formError, setFormError] = useState("");
+    const [couponStatus, setCouponStatus] =
+        useState(null);
 
-    const [loading, setLoading] = useState(false);
 
-    const [loadingStep, setLoadingStep] = useState("");
+    const [formError, setFormError] =
+        useState("");
+
+
+    const [loading, setLoading] =
+        useState(false);
+
+
+    const [loadingStep, setLoadingStep] =
+        useState("");
+
 
     /*
     |--------------------------------------------------------------------------
@@ -68,9 +82,15 @@ const BookingForm = ({ onFormComplete }) => {
     useEffect(() => {
 
         const saved =
-            localStorage.getItem(STORAGE_KEY);
+            localStorage.getItem(
+                STORAGE_KEY
+            );
 
-        if (!saved) return;
+
+        if (!saved) {
+            return;
+        }
+
 
         try {
 
@@ -78,9 +98,7 @@ const BookingForm = ({ onFormComplete }) => {
                 JSON.parse(saved)
             );
 
-        }
-
-        catch {
+        } catch {
 
             localStorage.removeItem(
                 STORAGE_KEY
@@ -89,6 +107,7 @@ const BookingForm = ({ onFormComplete }) => {
         }
 
     }, []);
+
 
     /*
     |--------------------------------------------------------------------------
@@ -110,9 +129,12 @@ const BookingForm = ({ onFormComplete }) => {
 
         }, 700);
 
-        return () => clearTimeout(timer);
+
+        return () =>
+            clearTimeout(timer);
 
     }, [formData]);
+
 
     /*
     |--------------------------------------------------------------------------
@@ -120,17 +142,23 @@ const BookingForm = ({ onFormComplete }) => {
     |--------------------------------------------------------------------------
     */
 
-    const updateField = (field, value) => {
+    const updateField = (
+        field,
+        value
+    ) => {
 
-        setFormData(prev => ({
+        setFormData(
+            previous => ({
 
-            ...prev,
+                ...previous,
 
-            [field]: value,
+                [field]: value,
 
-        }));
+            })
+        );
 
     };
+
 
     /*
     |--------------------------------------------------------------------------
@@ -140,7 +168,9 @@ const BookingForm = ({ onFormComplete }) => {
 
     const applyCoupon = () => {
 
-        if (!formData.couponCode.trim()) {
+        if (
+            !formData.couponCode.trim()
+        ) {
 
             setCouponStatus({
 
@@ -155,6 +185,7 @@ const BookingForm = ({ onFormComplete }) => {
 
         }
 
+
         setCouponStatus({
 
             type: "success",
@@ -165,6 +196,7 @@ const BookingForm = ({ onFormComplete }) => {
         });
 
     };
+
 
     /*
     |--------------------------------------------------------------------------
@@ -177,45 +209,67 @@ const BookingForm = ({ onFormComplete }) => {
         const emailRegex =
             /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        if (!formData.fullName.trim()) {
+
+        if (
+            !formData.fullName.trim()
+        ) {
 
             return "Full name is required.";
 
         }
 
-        if (!emailRegex.test(formData.email.trim())) {
+
+        if (
+            !emailRegex.test(
+                formData.email.trim()
+            )
+        ) {
 
             return "Please enter a valid email address.";
 
         }
 
-        if (!formData.phone.trim()) {
+
+        if (
+            !formData.phone.trim()
+        ) {
 
             return "Phone number is required.";
 
         }
 
-        if (!formData.travelPackage) {
+
+        if (
+            !formData.travelPackage
+        ) {
 
             return "Please select a travel package.";
 
         }
 
-        if (!formData.consultationDate) {
+
+        if (
+            !formData.consultationDate
+        ) {
 
             return "Please select a consultation date.";
 
         }
 
-        if (!formData.consultationType) {
+
+        if (
+            !formData.consultationType
+        ) {
 
             return "Please select a consultation type.";
 
         }
 
+
         return null;
 
     };
+
 
     /*
     |--------------------------------------------------------------------------
@@ -223,24 +277,38 @@ const BookingForm = ({ onFormComplete }) => {
     |--------------------------------------------------------------------------
     */
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (
+        event
+    ) => {
 
-        e.preventDefault();
+        event.preventDefault();
 
-        if (loading) return;
+
+        if (loading) {
+            return;
+        }
+
 
         setFormError("");
 
-        const validationError = validateForm();
+
+        const validationError =
+            validateForm();
+
 
         if (validationError) {
 
-            setFormError(validationError);
+            setFormError(
+                validationError
+            );
+
 
             setTimeout(() => {
 
                 document
-                    .querySelector(".consultationBookingForm__error")
+                    .querySelector(
+                        ".consultationBookingForm__error"
+                    )
                     ?.scrollIntoView({
 
                         behavior: "smooth",
@@ -251,88 +319,113 @@ const BookingForm = ({ onFormComplete }) => {
 
             }, 100);
 
+
             return;
 
         }
+
 
         try {
 
             setLoading(true);
 
-            /*
-            |--------------------------------------------------------------------------
-            | Consultation Type Mapping
-            |--------------------------------------------------------------------------
-            */
-
-
 
             /*
             |--------------------------------------------------------------------------
-            | Build Payload
+            | Build Booking Payload
             |--------------------------------------------------------------------------
             */
 
             const payload = {
 
                 fullName:
-                    formData.fullName.trim(),
+                    formData.fullName
+                        .trim(),
+
 
                 email:
                     formData.email
                         .trim()
                         .toLowerCase(),
 
+
                 phone:
                     formData.phone
                         .replace(/\s/g, "")
                         .trim(),
 
+
                 age:
                     formData.age
-                        ? Number(formData.age)
+                        ? Number(
+                            formData.age
+                        )
                         : null,
 
+
                 education:
-                    formData.education.trim(),
+                    formData.education
+                        .trim(),
+
 
                 maritalStatus:
                     formData.maritalStatus,
 
+
                 travelPackage:
                     formData.travelPackage,
+
 
                 countries:
                     formData.countries
                         .split(",")
-                        .map(country => country.trim())
+                        .map(
+                            country =>
+                                country.trim()
+                        )
                         .filter(Boolean),
+
 
                 visaClass:
                     formData.visaClass,
 
+
                 intendedTravelDate:
-                    formData.travelDate || null,
+                    formData.travelDate ||
+                    null,
+
 
                 consultationDate:
                     formData.consultationDate,
 
+
                 consultationType:
                     formData.consultationType,
 
+
                 message:
-                    formData.message.trim(),
+                    formData.message
+                        .trim(),
+
 
                 couponCode:
                     formData.couponCode
                         .trim()
-                        .toUpperCase() || null,
+                        .toUpperCase() ||
+                    null,
 
             };
 
+
+            console.log(
+                "CONSULTATION BOOKING PAYLOAD:",
+                payload
+            );
+
+
             /*
             |--------------------------------------------------------------------------
-            | Loading Experience
+            | Loading: Validate Information
             |--------------------------------------------------------------------------
             */
 
@@ -340,44 +433,109 @@ const BookingForm = ({ onFormComplete }) => {
                 "Checking your information..."
             );
 
-            await new Promise(resolve =>
-                setTimeout(resolve, 300)
+
+            await new Promise(
+                resolve =>
+                    setTimeout(
+                        resolve,
+                        300
+                    )
             );
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Loading: Coupon
+            |--------------------------------------------------------------------------
+            */
 
             setLoadingStep(
                 "Validating coupon..."
             );
 
-            await new Promise(resolve =>
-                setTimeout(resolve, 300)
+
+            await new Promise(
+                resolve =>
+                    setTimeout(
+                        resolve,
+                        300
+                    )
             );
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Loading: Pricing
+            |--------------------------------------------------------------------------
+            */
 
             setLoadingStep(
                 "Calculating consultation fee..."
             );
 
+
+            /*
+            |--------------------------------------------------------------------------
+            | Ask Backend For Pricing
+            |--------------------------------------------------------------------------
+            |
+            | IMPORTANT:
+            |
+            | The backend determines the actual consultation fee.
+            |
+            | This means if the backend .env contains:
+            |
+            | CONSULTATION_FEE=50
+            |
+            | the returned amountPayable will be ₦50.
+            |
+            |--------------------------------------------------------------------------
+            */
+
             const pricing =
                 await paymentService.reviewBooking(
                     payload
                 );
-            console.log("Payload:", payload);
-            console.log("Consultation Type:", payload.consultationType);
 
-            await new Promise(resolve =>
-                setTimeout(resolve, 300)
+
+            console.log(
+                "BOOKING PRICING:",
+                pricing
             );
+
+
+            await new Promise(
+                resolve =>
+                    setTimeout(
+                        resolve,
+                        300
+                    )
+            );
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Loading: Prepare Summary
+            |--------------------------------------------------------------------------
+            */
 
             setLoadingStep(
                 "Preparing booking summary..."
             );
 
-            await new Promise(resolve =>
-                setTimeout(resolve, 300)
+
+            await new Promise(
+                resolve =>
+                    setTimeout(
+                        resolve,
+                        300
+                    )
             );
+
 
             /*
             |--------------------------------------------------------------------------
-            | Clear Saved Draft
+            | Clear Draft
             |--------------------------------------------------------------------------
             */
 
@@ -385,9 +543,10 @@ const BookingForm = ({ onFormComplete }) => {
                 STORAGE_KEY
             );
 
+
             /*
             |--------------------------------------------------------------------------
-            | Continue To Booking Summary
+            | Send To Booking Summary
             |--------------------------------------------------------------------------
             */
 
@@ -403,20 +562,29 @@ const BookingForm = ({ onFormComplete }) => {
 
         catch (error) {
 
-            console.error(error);
+            console.error(
+                "BOOKING REVIEW ERROR:",
+                error
+            );
+
 
             setFormError(
 
                 error?.response?.data?.message ||
 
+                error?.message ||
+
                 "Unable to review your booking. Please try again."
 
             );
 
+
             setTimeout(() => {
 
                 document
-                    .querySelector(".consultationBookingForm__error")
+                    .querySelector(
+                        ".consultationBookingForm__error"
+                    )
                     ?.scrollIntoView({
 
                         behavior: "smooth",
@@ -439,12 +607,26 @@ const BookingForm = ({ onFormComplete }) => {
 
     };
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Render
+    |--------------------------------------------------------------------------
+    */
+
     return (
+
         <section
             id="consultation-form"
             className="consultationBookingForm"
         >
+
             <div className="container">
+
+
+                {/* =====================================================
+                    HEADER
+                ====================================================== */}
 
                 <div className="consultationBookingForm__header">
 
@@ -452,111 +634,134 @@ const BookingForm = ({ onFormComplete }) => {
                         Request Consultation
                     </span>
 
+
                     <h2>
                         Start Your Global Journey Today
                     </h2>
 
+
                     <p>
-                        Complete the form below to receive a personalised
-                        migration consultation with our experts.
+
+                        Complete the form below to receive a
+                        personalised migration consultation
+                        with our experts.
+
                     </p>
 
                 </div>
 
-                {formError && (
 
-                    <div className="consultationBookingForm__error">
+                {/* =====================================================
+                    ERROR
+                ====================================================== */}
 
-                        {formError}
+                {
+                    formError && (
 
-                    </div>
+                        <div className="consultationBookingForm__error">
 
-                )}
+                            {formError}
+
+                        </div>
+
+                    )
+                }
+
+
+                {/* =====================================================
+                    FORM
+                ====================================================== */}
 
                 <form
-
                     className="consultationBookingForm__wrapper"
-
                     onSubmit={handleSubmit}
-
                 >
 
                     <fieldset
-
                         disabled={loading}
-
                         className="consultationBookingForm__fieldset"
-
                     >
 
+
+                        {/* =================================================
+                            PERSONAL INFORMATION
+                        ================================================== */}
+
                         <PersonalInfo
-
                             formData={formData}
-
                             updateField={updateField}
-
                         />
+
+
+                        {/* =================================================
+                            TRAVEL INFORMATION
+                        ================================================== */}
 
                         <TravelInfo
-
                             formData={formData}
-
                             updateField={updateField}
-
                         />
+
+
+                        {/* =================================================
+                            CONSULTATION INFORMATION
+                        ================================================== */}
 
                         <ConsultationInfo
-
                             formData={formData}
-
                             updateField={updateField}
-
                         />
+
+
+                        {/* =================================================
+                            COUPON
+                        ================================================== */}
 
                         <CouponSection
-
                             formData={formData}
-
                             updateField={updateField}
-
                             couponStatus={couponStatus}
-
                             onApplyCoupon={applyCoupon}
-
                         />
+
+
+                        {/* =================================================
+                            REVIEW
+                        ================================================== */}
 
                         <div className="consultationBookingForm__review">
 
                             <div>
 
                                 <span>
-
                                     Consultation Fee
-
                                 </span>
 
+
                                 <strong>
-
-                                    ₦50,000
-
+                                    Calculated at review
                                 </strong>
 
                             </div>
 
+
                             <button
-
                                 type="submit"
-
                                 className="consultationBookingForm__submit"
-
                                 disabled={loading}
-
                             >
 
                                 {
                                     loading
 
-                                        ? loadingStep || "Reviewing..."
+                                        ? (
+                                            <>
+                                                {
+                                                    loadingStep ||
+                                                    "Reviewing..."
+                                                }
+                                            </>
+                                        )
 
                                         : (
                                             <>
@@ -580,8 +785,11 @@ const BookingForm = ({ onFormComplete }) => {
             </div>
 
         </section>
+
     );
 
 };
 
+
 export default BookingForm;
+

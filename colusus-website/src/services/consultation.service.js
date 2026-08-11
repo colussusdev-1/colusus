@@ -1,6 +1,36 @@
 import axios from "axios";
 
+/*
+|--------------------------------------------------------------------------
+| API Configuration
+|--------------------------------------------------------------------------
+*/
+
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api/v1";
+
+/*
+|--------------------------------------------------------------------------
+| Authentication Token
+|--------------------------------------------------------------------------
+*/
+
+const getToken = () => {
+  return localStorage.getItem("colusus_token");
+};
+
+/*
+|--------------------------------------------------------------------------
+| Authentication Headers
+|--------------------------------------------------------------------------
+*/
+
+const getAuthHeaders = () => {
+  const token = getToken();
+
+  return {
+    Authorization: `Bearer ${token}`,
+  };
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -9,12 +39,8 @@ const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api/v1";
 */
 
 const getAllConsultations = async () => {
-  const token = localStorage.getItem("token");
-
   const response = await axios.get(`${API_URL}/admin/consultations`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getAuthHeaders(),
   });
 
   return response.data;
@@ -27,21 +53,24 @@ const getAllConsultations = async () => {
 */
 
 const getConsultationById = async (consultationId) => {
-  const token = localStorage.getItem("token");
-
   const response = await axios.get(
     `${API_URL}/admin/consultations/${consultationId}`,
     {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: getAuthHeaders(),
     },
   );
 
   return response.data;
 };
 
+/*
+|--------------------------------------------------------------------------
+| Export
+|--------------------------------------------------------------------------
+*/
+
 export default {
   getAllConsultations,
+
   getConsultationById,
 };

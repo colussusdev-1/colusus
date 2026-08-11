@@ -1,180 +1,929 @@
+
 .adminConsultations {
     min-height: 100vh;
-    padding: 40px 24px;
+    padding: 40px 24px 80px;
+
     background: #f7f8fa;
 }
 
 .adminConsultations__container {
     width: 100%;
-    max-width: 1400px;
+    max-width: 1280px;
+
     margin: 0 auto;
 }
+
+/*
+|--------------------------------------------------------------------------
+| Header
+|--------------------------------------------------------------------------
+*/
 
 .adminConsultations__header {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
+
     gap: 24px;
-    margin-bottom: 32px;
+
+    margin-bottom: 28px;
 }
 
 .adminConsultations__eyebrow {
     display: block;
-    margin-bottom: 8px;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+
+    margin-bottom: 7px;
+
     color: #6b7280;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
 }
 
 .adminConsultations__header h1 {
     margin: 0;
-    font-size: 32px;
-    line-height: 1.2;
+
     color: #111827;
+
+    font-size: 30px;
+    font-weight: 700;
+
+    line-height: 1.2;
 }
 
 .adminConsultations__header p {
     margin: 8px 0 0;
+
     color: #6b7280;
+
+    font-size: 14px;
 }
 
+/*
+|--------------------------------------------------------------------------
+| Refresh
+|--------------------------------------------------------------------------
+*/
+
 .adminConsultations__refresh {
-    border: 0;
+    padding: 10px 16px;
+
+    border: 1px solid #d1d5db;
     border-radius: 8px;
-    padding: 11px 18px;
-    background: #111827;
-    color: #ffffff;
-    font-size: 14px;
+
+    background: #ffffff;
+
+    color: #374151;
+
+    font-size: 13px;
     font-weight: 600;
+
     cursor: pointer;
 }
 
+.adminConsultations__refresh:hover:not(:disabled) {
+    background: #f9fafb;
+}
+
 .adminConsultations__refresh:disabled {
-    opacity: 0.6;
+    opacity: 0.55;
+
     cursor: not-allowed;
 }
 
+/*
+|--------------------------------------------------------------------------
+| Error
+|--------------------------------------------------------------------------
+*/
+
 .adminConsultations__error {
-    margin-bottom: 24px;
-    padding: 14px 16px;
+    margin-bottom: 20px;
+
+    padding: 13px 15px;
+
     border: 1px solid #fecaca;
     border-radius: 8px;
+
     background: #fef2f2;
+
     color: #b91c1c;
-}
 
-.adminConsultations__state {
-    padding: 80px 24px;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    background: #ffffff;
-    text-align: center;
-}
-
-.adminConsultations__state h2 {
-    margin: 0 0 8px;
-    color: #111827;
-}
-
-.adminConsultations__state p {
-    margin: 0;
-    color: #6b7280;
-}
-
-.adminConsultations__tableWrapper {
-    overflow-x: auto;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    background: #ffffff;
-}
-
-.adminConsultations__table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 800px;
-}
-
-.adminConsultations__table th {
-    padding: 16px 20px;
-    border-bottom: 1px solid #e5e7eb;
-    background: #f9fafb;
-    color: #6b7280;
-    font-size: 12px;
-    font-weight: 700;
-    text-align: left;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-}
-
-.adminConsultations__table td {
-    padding: 18px 20px;
-    border-bottom: 1px solid #f0f1f3;
-    color: #374151;
-    font-size: 14px;
-}
-
-.adminConsultations__table tbody tr:last-child td {
-    border-bottom: 0;
-}
-
-.adminConsultations__table tbody tr:hover {
-    background: #fafafa;
-}
-
-.adminConsultations__client {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.adminConsultations__client strong {
-    color: #111827;
-}
-
-.adminConsultations__client span {
-    color: #6b7280;
     font-size: 13px;
 }
 
-.adminConsultations__badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 5px 9px;
-    border-radius: 999px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.02em;
+/*
+|--------------------------------------------------------------------------
+| Summary
+|--------------------------------------------------------------------------
+*/
+
+.adminConsultations__summary {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    margin-bottom: 22px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    background: #ffffff;
 }
 
-.adminConsultations__badge--paid,
-.adminConsultations__badge--confirmed {
+.adminConsultations__summaryItem {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+
+    padding: 18px 20px;
+
+    border-right: 1px solid #e5e7eb;
+}
+
+.adminConsultations__summaryItem:last-child {
+    border-right: 0;
+}
+
+.adminConsultations__summaryItem span {
+    color: #6b7280;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.adminConsultations__summaryItem strong {
+    color: #111827;
+
+    font-size: 25px;
+    font-weight: 700;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Toolbar
+|--------------------------------------------------------------------------
+*/
+
+.adminConsultations__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 12px;
+}
+
+.adminConsultations__search {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    max-width: 480px;
+
+    padding: 0 13px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+
+    background: #ffffff;
+}
+
+.adminConsultations__searchIcon {
+    margin-right: 8px;
+
+    color: #9ca3af;
+
+    font-size: 20px;
+}
+
+.adminConsultations__search input {
+    width: 100%;
+
+    padding: 12px 0;
+
+    border: 0;
+    outline: 0;
+
+    background: transparent;
+
+    color: #111827;
+
+    font-size: 13px;
+}
+
+.adminConsultations__search input::placeholder {
+    color: #9ca3af;
+}
+
+.adminConsultations__count {
+    color: #6b7280;
+
+    font-size: 12px;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Loading / Empty
+|--------------------------------------------------------------------------
+*/
+
+.adminConsultations__message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 280px;
+
+    padding: 40px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    text-align: center;
+}
+
+.adminConsultations__message h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 18px;
+}
+
+.adminConsultations__message p {
+    max-width: 420px;
+
+    margin: 8px 0 0;
+
+    color: #6b7280;
+
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.adminConsultations__spinner {
+    width: 26px;
+    height: 26px;
+
+    margin-bottom: 14px;
+
+    border: 3px solid #e5e7eb;
+    border-top-color: #374151;
+
+    border-radius: 50%;
+
+    animation: consultationSpin 0.8s linear infinite;
+}
+
+@keyframes consultationSpin {
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+/*
+|--------------------------------------------------------------------------
+| Consultation List
+|--------------------------------------------------------------------------
+*/
+
+.adminConsultations__list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+.adminConsultations__item {
+    display: grid;
+
+    grid-template-columns:
+        minmax(240px, 1.5fr)
+        minmax(130px, 0.8fr)
+        minmax(140px, 0.9fr)
+        minmax(130px, 0.8fr)
+        30px;
+
+    align-items: center;
+
+    width: 100%;
+
+    padding: 17px 18px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: inherit;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.15s ease,
+        background 0.15s ease;
+}
+
+.adminConsultations__item:hover {
+    border-color: #d1d5db;
+
+    background: #fafafa;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Client
+|--------------------------------------------------------------------------
+*/
+
+.adminConsultations__client {
+    display: flex;
+    align-items: center;
+
+    min-width: 0;
+
+    gap: 12px;
+}
+
+.adminConsultations__avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 38px;
+
+    width: 38px;
+    height: 38px;
+
+    border-radius: 50%;
+
+    background: #f3f4f6;
+
+    color: #374151;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.adminConsultations__client h3 {
+    margin: 0;
+
+    overflow: hidden;
+
+    color: #111827;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.adminConsultations__client p {
+    margin: 4px 0 0;
+
+    overflow: hidden;
+
+    color: #6b7280;
+
+    font-size: 12px;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Item Information
+|--------------------------------------------------------------------------
+*/
+
+.adminConsultations__itemInfo,
+.adminConsultations__payment {
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+
+    min-width: 0;
+}
+
+.adminConsultations__itemInfo > span,
+.adminConsultations__payment > span:first-child {
+    color: #9ca3af;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.adminConsultations__itemInfo strong,
+.adminConsultations__payment strong {
+    overflow: hidden;
+
+    color: #374151;
+
+    font-size: 12px;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.adminConsultations__itemInfo small {
+    color: #9ca3af;
+
+    font-size: 11px;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Payment
+|--------------------------------------------------------------------------
+*/
+
+.adminConsultations__paymentBadge {
+    display: inline-flex;
+
+    width: fit-content;
+
+    margin-top: 2px;
+
+    padding: 4px 8px;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.adminConsultations__paymentBadge--paid {
     background: #ecfdf3;
+
     color: #047857;
 }
 
-.adminConsultations__badge--unpaid,
-.adminConsultations__badge--awaiting_payment {
+.adminConsultations__paymentBadge--pending {
     background: #fff7ed;
+
     color: #c2410c;
 }
 
-.adminConsultations__badge--failed,
-.adminConsultations__badge--cancelled {
-    background: #fef2f2;
-    color: #b91c1c;
+/*
+|--------------------------------------------------------------------------
+| Arrow
+|--------------------------------------------------------------------------
+*/
+
+.adminConsultations__arrow {
+    color: #9ca3af;
+
+    font-size: 18px;
+
+    transition:
+        transform 0.15s ease,
+        color 0.15s ease;
 }
 
-.adminConsultations__badge--completed {
-    background: #eff6ff;
-    color: #1d4ed8;
+.adminConsultations__item:hover .adminConsultations__arrow {
+    color: #374151;
+
+    transform: translateX(2px);
 }
 
-@media (max-width: 700px) {
+/*
+|--------------------------------------------------------------------------
+| Details Overlay
+|--------------------------------------------------------------------------
+*/
+
+.adminConsultations__overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000;
+
+    display: flex;
+    justify-content: flex-end;
+
+    background: rgba(15, 23, 42, 0.38);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Details Panel
+|--------------------------------------------------------------------------
+*/
+
+.adminConsultations__details {
+    width: 100%;
+    max-width: 620px;
+
+    height: 100%;
+
+    overflow-y: auto;
+
+    background: #ffffff;
+
+    box-shadow:
+        -10px 0 40px rgba(15, 23, 42, 0.12);
+
+    animation: consultationPanelIn 0.2s ease-out;
+}
+
+@keyframes consultationPanelIn {
+
+    from {
+        transform: translateX(30px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+}
+
+/*
+|--------------------------------------------------------------------------
+| Details Header
+|--------------------------------------------------------------------------
+*/
+
+.adminConsultations__detailsHeader {
+    position: sticky;
+
+    top: 0;
+
+    z-index: 2;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 24px;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    background: #ffffff;
+}
+
+.adminConsultations__detailsHeader h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.adminConsultations__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #374151;
+
+    font-size: 20px;
+
+    cursor: pointer;
+}
+
+.adminConsultations__close:hover {
+    background: #f9fafb;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Details Body
+|--------------------------------------------------------------------------
+*/
+
+.adminConsultations__detailsBody {
+    padding: 24px;
+}
+
+.adminConsultations__detailsBody section {
+    padding: 22px 0;
+
+    border-bottom: 1px solid #eef0f2;
+}
+
+.adminConsultations__detailsBody section:first-of-type {
+    padding-top: 0;
+}
+
+.adminConsultations__detailsBody section:last-child {
+    border-bottom: 0;
+}
+
+.adminConsultations__detailsBody h3 {
+    margin: 0 0 16px;
+
+    color: #111827;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Status Box
+|--------------------------------------------------------------------------
+*/
+
+.adminConsultations__statusBox {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 1px;
+
+    margin-bottom: 4px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 9px;
+
+    overflow: hidden;
+
+    background: #e5e7eb;
+}
+
+.adminConsultations__statusBox > div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+
+    padding: 15px;
+
+    background: #fafafa;
+}
+
+.adminConsultations__statusBox span {
+    color: #6b7280;
+
+    font-size: 11px;
+}
+
+.adminConsultations__statusBox strong {
+    color: #111827;
+
+    font-size: 14px;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Detail Grid
+|--------------------------------------------------------------------------
+*/
+
+.adminConsultations__detailGrid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 18px 20px;
+}
+
+.adminConsultations__detailGrid > div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+
+    min-width: 0;
+}
+
+.adminConsultations__detailGrid span:first-child {
+    color: #9ca3af;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.adminConsultations__detailGrid strong {
+    color: #374151;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    line-height: 1.55;
+
+    word-break: break-word;
+}
+
+.adminConsultations__fullWidth {
+    grid-column: 1 / -1;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Improved Details Header
+|--------------------------------------------------------------------------
+*/
+
+.adminConsultations__detailsHeader p {
+    margin: 6px 0 0;
+
+    color: #9ca3af;
+
+    font-size: 11px;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Status Card
+|--------------------------------------------------------------------------
+*/
+
+.adminConsultations__statusCard {
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1fr
+        1fr;
+
+    gap: 1px;
+
+    margin-bottom: 4px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    background: #e5e7eb;
+}
+
+.adminConsultations__statusCard > div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+
+    padding: 16px;
+
+    background: #fafafa;
+}
+
+.adminConsultations__statusCard span {
+    color: #9ca3af;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.adminConsultations__statusCard strong {
+    color: #111827;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.adminConsultations__statusCard strong.confirmed {
+    color: #047857;
+}
+
+.adminConsultations__statusCard strong.awaiting {
+    color: #c2410c;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Detail Values
+|--------------------------------------------------------------------------
+*/
+
+.adminConsultations__messageValue {
+    padding: 11px 12px;
+
+    border: 1px solid #eef0f2;
+    border-radius: 7px;
+
+    background: #fafafa;
+
+    font-weight: 500 !important;
+
+    line-height: 1.6 !important;
+}
+
+.adminConsultations__reference {
+    font-family: monospace;
+
+    font-size: 11px !important;
+
+    word-break: break-all;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Empty State
+|--------------------------------------------------------------------------
+*/
+
+.adminConsultations__emptyIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 38px;
+    height: 38px;
+
+    margin-bottom: 12px;
+
+    border-radius: 50%;
+
+    background: #f3f4f6;
+
+    color: #6b7280;
+
+    font-weight: 700;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Responsive Status Card
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 520px) {
+
+    .adminConsultations__statusCard {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Responsive
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 1000px) {
+
+    .adminConsultations__item {
+        grid-template-columns:
+            minmax(220px, 1.4fr)
+            minmax(130px, 0.8fr)
+            minmax(130px, 0.8fr)
+            30px;
+    }
+
+    .adminConsultations__payment {
+        display: none;
+    }
+
+}
+
+@media (max-width: 760px) {
 
     .adminConsultations {
-        padding: 24px 16px;
+        padding: 28px 16px 60px;
     }
 
     .adminConsultations__header {
@@ -182,12 +931,68 @@
         flex-direction: column;
     }
 
+    .adminConsultations__refresh {
+        width: 100%;
+    }
+
+    .adminConsultations__summary {
+        grid-template-columns: 1fr;
+    }
+
+    .adminConsultations__summaryItem {
+        border-right: 0;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .adminConsultations__summaryItem:last-child {
+        border-bottom: 0;
+    }
+
+    .adminConsultations__toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .adminConsultations__search {
+        max-width: none;
+    }
+
+    .adminConsultations__item {
+        grid-template-columns: 1fr 30px;
+
+        gap: 15px;
+    }
+
+    .adminConsultations__itemInfo {
+        display: none;
+    }
+
+    .adminConsultations__details {
+        max-width: 100%;
+    }
+
+}
+
+@media (max-width: 520px) {
+
     .adminConsultations__header h1 {
         font-size: 26px;
     }
 
-    .adminConsultations__refresh {
-        width: 100%;
+    .adminConsultations__detailsHeader {
+        padding: 20px;
+    }
+
+    .adminConsultations__detailsBody {
+        padding: 20px;
+    }
+
+    .adminConsultations__detailGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .adminConsultations__fullWidth {
+        grid-column: auto;
     }
 
 }

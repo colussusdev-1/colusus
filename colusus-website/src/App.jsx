@@ -47,6 +47,7 @@ import Profile from "./pages/Client/Profile";
 |--------------------------------------------------------------------------
 */
 
+import AdminLogin from "./pages/Admin/Auth/AdminLogin";
 import AdminConsultations from "./pages/Admin/Consultations/AdminConsultations";
 
 /*
@@ -242,6 +243,17 @@ function App() {
                 <Route
                     path="/register"
                     element={<Register />}
+                />
+
+                {/*
+                =================================================
+                ADMIN AUTHENTICATION
+                =================================================
+                */}
+
+                <Route
+                    path="/admin/login"
+                    element={<AdminLogin />}
                 />
 
                 {/*

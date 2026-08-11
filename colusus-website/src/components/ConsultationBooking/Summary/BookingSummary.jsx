@@ -1,3 +1,4 @@
+
 import {
     HiOutlineCheckCircle,
     HiOutlineGlobeAlt,
@@ -12,6 +13,7 @@ import {
 
 import "./BookingSummary.css";
 
+
 const BookingSummary = ({
     bookingData,
     onPayment,
@@ -22,9 +24,10 @@ const BookingSummary = ({
         return null;
     }
 
+
     /*
     |--------------------------------------------------------------------------
-    | Extract Backend Data
+    | Extract Booking Data
     |--------------------------------------------------------------------------
     */
 
@@ -50,19 +53,25 @@ const BookingSummary = ({
         pricing = {},
     } = bookingData;
 
+
     /*
     |--------------------------------------------------------------------------
     | Pricing
     |--------------------------------------------------------------------------
+    |
+    | The backend is the source of truth for pricing.
+    |
+    | Do NOT hard-code the consultation fee here.
+    |
+    |--------------------------------------------------------------------------
     */
 
     const {
-
-        consultationFee = 50000,
+        consultationFee = 0,
 
         discount = 0,
 
-        amountPayable = 50000,
+        amountPayable = 0,
 
         paymentRequired = true,
 
@@ -71,6 +80,7 @@ const BookingSummary = ({
         coupon = null,
 
     } = pricing;
+
 
     /*
     |--------------------------------------------------------------------------
@@ -81,36 +91,99 @@ const BookingSummary = ({
     const formatDate = (date) => {
 
         if (!date) {
-
             return "-";
-
         }
 
         return new Date(date).toLocaleDateString(
             "en-NG",
             {
-
                 day: "numeric",
-
                 month: "long",
-
                 year: "numeric",
-
             }
         );
 
     };
 
+
     const formatCurrency = (value) => {
 
-        return `₦${Number(value).toLocaleString()}`;
+        const amount = Number(value);
+
+        if (
+            Number.isNaN(amount)
+        ) {
+            return "₦0";
+        }
+
+        return `₦${amount.toLocaleString(
+            "en-NG"
+        )}`;
 
     };
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Consultation Type
+    |--------------------------------------------------------------------------
+    */
+
+    const formatConsultationType = (type) => {
+
+        if (!type) {
+            return "-";
+        }
+
+        return type
+            .replace(/_/g, " ")
+            .toLowerCase()
+            .replace(
+                /\b\w/g,
+                (character) =>
+                    character.toUpperCase()
+            );
+
+    };
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Payment Button
+    |--------------------------------------------------------------------------
+    */
+
+    const handlePayment = () => {
+
+        if (loading) {
+            return;
+        }
+
+        if (typeof onPayment !== "function") {
+            console.error(
+                "BookingSummary: onPayment is not available."
+            );
+
+            return;
+        }
+
+        onPayment();
+
+    };
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Render
+    |--------------------------------------------------------------------------
+    */
+
     return (
 
         <section className="bookingSummary">
 
             <div className="container">
+
 
                 {/* =====================================================
                     SUCCESS HEADER
@@ -124,17 +197,16 @@ const BookingSummary = ({
 
                     </div>
 
+
                     <span>
-
                         BOOKING REVIEW COMPLETE
-
                     </span>
 
+
                     <h2>
-
                         Everything Looks Great!
-
                     </h2>
+
 
                     <p>
 
@@ -146,19 +218,24 @@ const BookingSummary = ({
 
                 </div>
 
+
                 {/* =====================================================
-                    LAYOUT
+                    MAIN LAYOUT
                 ====================================================== */}
 
                 <div className="bookingSummary__layout">
 
-                    {/* =====================================================
-                        LEFT SIDE
-                    ====================================================== */}
+
+                    {/* =================================================
+                        LEFT CONTENT
+                    ================================================= */}
 
                     <div className="bookingSummary__content">
 
-                        {/* PERSONAL */}
+
+                        {/* =================================================
+                            PERSONAL INFORMATION
+                        ================================================= */}
 
                         <section className="summaryCard">
 
@@ -170,118 +247,97 @@ const BookingSummary = ({
 
                                 </div>
 
+
                                 <div>
 
                                     <span>
-
                                         STEP 01
-
                                     </span>
 
                                     <h3>
-
                                         Personal Information
-
                                     </h3>
 
                                 </div>
 
                             </div>
 
+
                             <div className="summaryGrid">
 
                                 <div>
 
                                     <label>
-
                                         Full Name
-
                                     </label>
 
                                     <strong>
-
-                                        {fullName}
-
+                                        {fullName || "-"}
                                     </strong>
 
                                 </div>
 
+
                                 <div>
 
                                     <label>
-
                                         Email Address
-
                                     </label>
 
                                     <strong>
-
-                                        {email}
-
+                                        {email || "-"}
                                     </strong>
 
                                 </div>
 
+
                                 <div>
 
                                     <label>
-
                                         Phone Number
-
                                     </label>
 
                                     <strong>
-
-                                        {phone}
-
+                                        {phone || "-"}
                                     </strong>
 
                                 </div>
 
+
                                 <div>
 
                                     <label>
-
                                         Age
-
                                     </label>
 
                                     <strong>
-
-                                        {age || "-"}
-
+                                        {age ?? "-"}
                                     </strong>
 
                                 </div>
 
+
                                 <div>
 
                                     <label>
-
                                         Education
-
                                     </label>
 
                                     <strong>
-
                                         {education || "-"}
-
                                     </strong>
 
                                 </div>
 
+
                                 <div>
 
                                     <label>
-
                                         Marital Status
-
                                     </label>
 
                                     <strong>
-
                                         {maritalStatus || "-"}
-
                                     </strong>
 
                                 </div>
@@ -290,7 +346,10 @@ const BookingSummary = ({
 
                         </section>
 
-                        {/* TRAVEL */}
+
+                        {/* =================================================
+                            TRAVEL INFORMATION
+                        ================================================= */}
 
                         <section className="summaryCard">
 
@@ -302,89 +361,82 @@ const BookingSummary = ({
 
                                 </div>
 
+
                                 <div>
 
                                     <span>
-
                                         STEP 02
-
                                     </span>
 
                                     <h3>
-
                                         Travel Information
-
                                     </h3>
 
                                 </div>
 
                             </div>
 
+
                             <div className="summaryGrid">
 
                                 <div>
 
                                     <label>
-
                                         Travel Package
-
                                     </label>
 
                                     <strong>
-
-                                        {travelPackage}
-
+                                        {travelPackage || "-"}
                                     </strong>
 
                                 </div>
 
+
                                 <div>
 
                                     <label>
-
                                         Visa Category
-
                                     </label>
 
                                     <strong>
-
-                                        {visaClass}
-
+                                        {visaClass || "-"}
                                     </strong>
 
                                 </div>
 
+
                                 <div>
 
                                     <label>
-
                                         Destination(s)
-
                                     </label>
 
                                     <strong>
 
-                                        {countries.length
-                                            ? countries.join(", ")
-                                            : "-"}
+                                        {
+                                            countries.length
+                                                ? countries.join(", ")
+                                                : "-"
+                                        }
 
                                     </strong>
 
                                 </div>
 
+
                                 <div>
 
                                     <label>
-
                                         Intended Travel Date
-
                                     </label>
 
                                     <strong>
 
-                                        {formatDate(
-                                            intendedTravelDate
-                                        )}
+                                        {
+                                            formatDate(
+                                                intendedTravelDate
+                                            )
+                                        }
 
                                     </strong>
 
@@ -394,7 +446,10 @@ const BookingSummary = ({
 
                         </section>
 
-                        {/* CONSULTATION */}
+
+                        {/* =================================================
+                            CONSULTATION INFORMATION
+                        ================================================= */}
 
                         <section className="summaryCard">
 
@@ -406,59 +461,61 @@ const BookingSummary = ({
 
                                 </div>
 
+
                                 <div>
 
                                     <span>
-
                                         STEP 03
-
                                     </span>
 
                                     <h3>
-
                                         Consultation
-
                                     </h3>
 
                                 </div>
 
                             </div>
 
+
                             <div className="summaryGrid">
 
                                 <div>
 
                                     <label>
-
                                         Consultation Date
-
                                     </label>
 
                                     <strong>
 
-                                        {formatDate(
-                                            consultationDate
-                                        )}
+                                        {
+                                            formatDate(
+                                                consultationDate
+                                            )
+                                        }
 
                                     </strong>
 
                                 </div>
+
 
                                 <div>
 
                                     <label>
-
                                         Consultation Type
-
                                     </label>
 
                                     <strong>
 
-                                        {consultationType}
+                                        {
+                                            formatConsultationType(
+                                                consultationType
+                                            )
+                                        }
 
                                     </strong>
 
                                 </div>
+
 
                                 <div
                                     style={{
@@ -468,14 +525,15 @@ const BookingSummary = ({
                                 >
 
                                     <label>
-
                                         Additional Notes
-
                                     </label>
 
                                     <strong>
 
-                                        {message || "-"}
+                                        {
+                                            message ||
+                                            "No additional notes provided."
+                                        }
 
                                     </strong>
 
@@ -484,7 +542,9 @@ const BookingSummary = ({
                             </div>
 
                         </section>
+
                     </div>
+
 
                     {/* =====================================================
                         CHECKOUT SIDEBAR
@@ -494,6 +554,11 @@ const BookingSummary = ({
 
                         <div className="checkoutCard">
 
+
+                            {/* =================================================
+                                CHECKOUT HEADER
+                            ================================================= */}
+
                             <div className="checkoutCard__top">
 
                                 <div className="checkoutCard__icon">
@@ -502,43 +567,51 @@ const BookingSummary = ({
 
                                 </div>
 
+
                                 <div>
 
                                     <span>
-
                                         SECURE CHECKOUT
-
                                     </span>
 
                                     <h3>
-
                                         Consultation Summary
-
                                     </h3>
 
                                 </div>
 
                             </div>
 
+
+                            {/* =================================================
+                                PRICE BREAKDOWN
+                            ================================================= */}
+
                             <div className="checkoutBreakdown">
+
+
+                                {/* Consultation Fee */}
 
                                 <div className="checkoutRow">
 
                                     <span>
-
                                         Consultation Fee
-
                                     </span>
 
                                     <strong>
 
-                                        {formatCurrency(
-                                            consultationFee
-                                        )}
+                                        {
+                                            formatCurrency(
+                                                consultationFee
+                                            )
+                                        }
 
                                     </strong>
 
                                 </div>
+
+
+                                {/* Coupon */}
 
                                 {
                                     couponApplied && (
@@ -555,7 +628,10 @@ const BookingSummary = ({
 
                                             <strong>
 
-                                                {coupon}
+                                                {
+                                                    coupon ||
+                                                    "Applied"
+                                                }
 
                                             </strong>
 
@@ -563,6 +639,9 @@ const BookingSummary = ({
 
                                     )
                                 }
+
+
+                                {/* Discount */}
 
                                 {
                                     discount > 0 && (
@@ -570,14 +649,17 @@ const BookingSummary = ({
                                         <div className="checkoutRow discount">
 
                                             <span>
-
                                                 Discount
-
                                             </span>
 
                                             <strong>
 
-                                                -{formatCurrency(discount)}
+                                                -
+                                                {
+                                                    formatCurrency(
+                                                        discount
+                                                    )
+                                                }
 
                                             </strong>
 
@@ -586,31 +668,26 @@ const BookingSummary = ({
                                     )
                                 }
 
-                                <div className="checkoutDivider"></div>
+
+                                <div className="checkoutDivider" />
+
+
+                                {/* Total */}
 
                                 <div className="checkoutRow total">
 
                                     <span>
-
                                         Total Payable
-
                                     </span>
 
                                     <strong>
 
                                         {
                                             paymentRequired
-
-                                                ?
-
-                                                formatCurrency(
+                                                ? formatCurrency(
                                                     amountPayable
                                                 )
-
-                                                :
-
-                                                "FREE"
-
+                                                : "FREE"
                                         }
 
                                     </strong>
@@ -619,6 +696,11 @@ const BookingSummary = ({
 
                             </div>
 
+
+                            {/* =================================================
+                                PAYMENT FEATURES
+                            ================================================= */}
+
                             <div className="checkoutFeatures">
 
                                 <div>
@@ -626,85 +708,81 @@ const BookingSummary = ({
                                     <HiOutlineShieldCheck />
 
                                     <span>
-
                                         Secure Paystack Payment
-
                                     </span>
 
                                 </div>
+
 
                                 <div>
 
                                     <HiOutlineSparkles />
 
                                     <span>
-
                                         Instant Booking Confirmation
-
                                     </span>
 
                                 </div>
+
 
                                 <div>
 
                                     <HiOutlineReceiptTax />
 
                                     <span>
-
                                         Receipt Sent By Email
-
                                     </span>
 
                                 </div>
 
                             </div>
 
+
+                            {/* =================================================
+                                PAYMENT BUTTON
+                            ================================================= */}
+
                             <button
+                                type="button"
                                 className="checkoutButton"
-                                onClick={onPayment}
+                                onClick={handlePayment}
                                 disabled={loading}
                             >
-                                {
 
+                                {
                                     loading
 
                                         ? (
-
                                             <>
                                                 Redirecting to Paystack...
                                             </>
-
                                         )
 
                                         : paymentRequired
 
                                             ? (
-
                                                 <>
-
                                                     Continue To Secure Payment
 
                                                     <HiOutlineArrowRight />
-
                                                 </>
-
                                             )
 
                                             : (
-
                                                 <>
-
                                                     Complete Free Booking
 
                                                     <HiOutlineArrowRight />
-
                                                 </>
-
                                             )
-
                                 }
 
                             </button>
+
+
+                            {/* =================================================
+                                SECURITY NOTE
+                            ================================================= */}
 
                             <small>
 
@@ -728,4 +806,6 @@ const BookingSummary = ({
 
 };
 
+
 export default BookingSummary;
+
