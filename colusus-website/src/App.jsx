@@ -47,8 +47,8 @@ import Profile from "./pages/Client/Profile";
 |--------------------------------------------------------------------------
 */
 
-import AdminLogin from "./pages/Admin/Auth/AdminLogin";
-import AdminConsultations from "./pages/Admin/Consultations/AdminConsultations";
+import AdminLogin from "./pages/admin/Auth/AdminLogin";
+import AdminConsultations from "./pages/admin/consultations/AdminConsultations";
 
 /*
 |--------------------------------------------------------------------------
