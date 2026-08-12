@@ -11,30 +11,96 @@ import generatePaymentReference from "../../utils/generatePaymentReference.js";
 |--------------------------------------------------------------------------
 | Initialize Payment
 |--------------------------------------------------------------------------
+|
+| Creates a Paystack transaction for a booking that actually requires
+| payment.
+|
+| Rules:
+|
+| PAID     → reject
+| WAIVED   → reject
+| ₦0       → reject
+| > ₦0     → initialize Paystack
+|
+|--------------------------------------------------------------------------
 */
 
 const initializePayment = async (bookingId) => {
+  /*
+    |--------------------------------------------------------------------------
+    | Find Booking
+    |--------------------------------------------------------------------------
+    */
+
   const booking = await Booking.findById(bookingId);
 
   if (!booking) {
     throw new Error("Booking not found.");
   }
 
+  /*
+    |--------------------------------------------------------------------------
+    | Already Paid
+    |--------------------------------------------------------------------------
+    */
+
   if (booking.paymentStatus === "PAID") {
     throw new Error("This booking has already been paid.");
   }
 
-  if (booking.amountPayable <= 0) {
+  /*
+    |--------------------------------------------------------------------------
+    | Waived Booking
+    |--------------------------------------------------------------------------
+    |
+    | A fully discounted consultation does not need Paystack.
+    |
+    |--------------------------------------------------------------------------
+    */
+
+  if (booking.paymentStatus === "WAIVED") {
     throw new Error("This booking does not require payment.");
   }
 
+  /*
+    |--------------------------------------------------------------------------
+    | Validate Payable Amount
+    |--------------------------------------------------------------------------
+    */
+
+  const amountPayable = Number(booking.amountPayable);
+
+  if (!Number.isFinite(amountPayable) || amountPayable <= 0) {
+    throw new Error("This booking does not require payment.");
+  }
+
+  /*
+    |--------------------------------------------------------------------------
+    | Generate Payment Reference
+    |--------------------------------------------------------------------------
+    */
+
   const reference = generatePaymentReference();
+
+  /*
+    |--------------------------------------------------------------------------
+    | Initialize Paystack
+    |--------------------------------------------------------------------------
+    */
 
   try {
     const response = await paystack.post("/transaction/initialize", {
       email: booking.email,
 
-      amount: booking.amountPayable * 100,
+      /*
+                    |--------------------------------------------------------------------------
+                    | Paystack expects amount in the smallest currency unit.
+                    |
+                    | ₦50,000 → 5,000,000 kobo
+                    |--------------------------------------------------------------------------
+                    */
+
+      amount: Math.round(amountPayable * 100),
 
       currency: booking.currency,
 
@@ -48,29 +114,47 @@ const initializePayment = async (bookingId) => {
         consultationType: booking.consultationType,
 
         travelPackage: booking.travelPackage,
+
+        consultationDate: booking.consultationDate,
       },
     });
+
+    /*
+        |--------------------------------------------------------------------------
+        | Save Payment Reference
+        |--------------------------------------------------------------------------
+        */
 
     booking.paymentReference = reference;
 
     await booking.save();
 
+    /*
+        |--------------------------------------------------------------------------
+        | Return Paystack Data
+        |--------------------------------------------------------------------------
+        */
+
     return response.data.data;
   } catch (error) {
+    console.log("");
     console.log("=================================");
-    console.log("PAYSTACK ERROR");
+    console.log("PAYSTACK INITIALIZATION ERROR");
     console.log("=================================");
+
+    console.log("Booking ID:", booking._id.toString());
+
+    console.log("Amount:", amountPayable);
+
+    console.log("Currency:", booking.currency);
+
+    console.log("Reference:", reference);
 
     console.log("Status:", error.response?.status);
 
     console.log("Response:", error.response?.data);
 
-    console.log(
-      "Secret Key:",
-      process.env.PAYSTACK_SECRET_KEY
-        ? process.env.PAYSTACK_SECRET_KEY.substring(0, 12) + "..."
-        : "UNDEFINED",
-    );
+    console.log("=================================");
 
     throw error;
   }
@@ -80,9 +164,19 @@ const initializePayment = async (bookingId) => {
 |--------------------------------------------------------------------------
 | Verify Payment
 |--------------------------------------------------------------------------
+|
+| Verifies a Paystack transaction and confirms the booking.
+|
+|--------------------------------------------------------------------------
 */
 
 const verifyPayment = async (reference) => {
+  /*
+    |--------------------------------------------------------------------------
+    | Find Booking
+    |--------------------------------------------------------------------------
+    */
+
   const booking = await Booking.findOne({
     paymentReference: reference,
   });
@@ -92,10 +186,10 @@ const verifyPayment = async (reference) => {
   }
 
   /*
-  |--------------------------------------------------------------------------
-  | Prevent Duplicate Verification
-  |--------------------------------------------------------------------------
-  */
+    |--------------------------------------------------------------------------
+    | Prevent Duplicate Verification
+    |--------------------------------------------------------------------------
+    */
 
   if (booking.paymentStatus === "PAID") {
     return {
@@ -111,49 +205,127 @@ const verifyPayment = async (reference) => {
     };
   }
 
-  const response = await paystack.get(`/transaction/verify/${reference}`);
+  /*
+    |--------------------------------------------------------------------------
+    | Verify Transaction With Paystack
+    |--------------------------------------------------------------------------
+    */
+
+  let response;
+
+  try {
+    response = await paystack.get(`/transaction/verify/${reference}`);
+  } catch (error) {
+    console.error(
+      "PAYSTACK VERIFICATION ERROR:",
+      error.response?.data || error.message,
+    );
+
+    throw error;
+  }
 
   const payment = response.data.data;
+
+  /*
+    |--------------------------------------------------------------------------
+    | Check Paystack Payment Status
+    |--------------------------------------------------------------------------
+    */
 
   if (payment.status !== "success") {
     throw new Error("Payment verification failed.");
   }
 
   /*
-  |--------------------------------------------------------------------------
-  | Confirm Booking
-  |--------------------------------------------------------------------------
-  */
+    |--------------------------------------------------------------------------
+    | Verify Payment Amount
+    |--------------------------------------------------------------------------
+    |
+    | Paystack returns the amount in kobo.
+    | Our booking stores the amount in naira.
+    |
+    |--------------------------------------------------------------------------
+    */
+
+  const expectedAmount = Math.round(Number(booking.amountPayable) * 100);
+
+  const paidAmount = Number(payment.amount);
+
+  if (paidAmount !== expectedAmount) {
+    console.error("PAYMENT AMOUNT MISMATCH", {
+      bookingId: booking._id.toString(),
+
+      expectedAmount,
+
+      paidAmount,
+
+      reference,
+    });
+
+    throw new Error("Payment amount does not match the booking amount.");
+  }
+
+  /*
+    |--------------------------------------------------------------------------
+    | Confirm Booking
+    |--------------------------------------------------------------------------
+    */
 
   const confirmedBooking = await bookingService.confirmBooking(
     booking._id,
+
     reference,
+
     "PAID",
   );
 
-  /*
-  |--------------------------------------------------------------------------
-  | Mark Coupon As Used (Future Proof)
-  |--------------------------------------------------------------------------
-  */
+  if (!confirmedBooking) {
+    throw new Error("Unable to confirm booking.");
+  }
 
-  if (confirmedBooking.couponApplied) {
+  /*
+    |--------------------------------------------------------------------------
+    | Mark Coupon As Used
+    |--------------------------------------------------------------------------
+    */
+
+  if (confirmedBooking.couponApplied && confirmedBooking.couponCode) {
     try {
       await couponService.markCouponAsUsed(confirmedBooking.couponCode);
     } catch (error) {
+      /*
+            |--------------------------------------------------------------------------
+            | Coupon bookkeeping should not undo a successful payment.
+            |--------------------------------------------------------------------------
+            */
+
       console.warn("Coupon usage update failed:", error.message);
     }
   }
 
   /*
-  |--------------------------------------------------------------------------
-  | Communications
-  |--------------------------------------------------------------------------
-  */
+    |--------------------------------------------------------------------------
+    | Communications
+    |--------------------------------------------------------------------------
+    */
 
-  await communicationService.bookingConfirmed(confirmedBooking);
+  try {
+    await communicationService.bookingConfirmed(confirmedBooking);
+  } catch (error) {
+    console.error("Booking confirmation communication failed:", error.message);
+  }
 
-  await communicationService.paymentSuccessful(confirmedBooking);
+  try {
+    await communicationService.paymentSuccessful(confirmedBooking);
+  } catch (error) {
+    console.error("Payment receipt communication failed:", error.message);
+  }
+
+  /*
+    |--------------------------------------------------------------------------
+    | Return
+    |--------------------------------------------------------------------------
+    */
 
   return {
     booking: confirmedBooking,
@@ -166,46 +338,122 @@ const verifyPayment = async (reference) => {
 |--------------------------------------------------------------------------
 | Handle Paystack Webhook
 |--------------------------------------------------------------------------
+|
+| Paystack sends charge.success when a payment succeeds.
+|
+|--------------------------------------------------------------------------
 */
 
 const handleWebhook = async (payload) => {
+  /*
+    |--------------------------------------------------------------------------
+    | Ignore Events We Don't Handle
+    |--------------------------------------------------------------------------
+    */
+
   if (payload.event !== "charge.success") {
     return;
   }
 
-  const reference = payload.data.reference;
+  /*
+    |--------------------------------------------------------------------------
+    | Get Reference
+    |--------------------------------------------------------------------------
+    */
+
+  const reference = payload.data?.reference;
+
+  if (!reference) {
+    console.warn("Paystack webhook received without reference.");
+
+    return;
+  }
+
+  /*
+    |--------------------------------------------------------------------------
+    | Find Booking
+    |--------------------------------------------------------------------------
+    */
 
   const booking = await Booking.findOne({
     paymentReference: reference,
   });
 
   if (!booking) {
+    console.warn("Webhook booking not found:", reference);
+
     return;
   }
 
   /*
-  |--------------------------------------------------------------------------
-  | Ignore Duplicate Webhooks
-  |--------------------------------------------------------------------------
-  */
+    |--------------------------------------------------------------------------
+    | Ignore Duplicate Webhooks
+    |--------------------------------------------------------------------------
+    */
 
   if (booking.paymentStatus === "PAID") {
     return;
   }
 
+  /*
+    |--------------------------------------------------------------------------
+    | Verify Webhook Payment Status
+    |--------------------------------------------------------------------------
+    */
+
+  if (payload.data?.status !== "success") {
+    return;
+  }
+
+  /*
+    |--------------------------------------------------------------------------
+    | Verify Payment Amount
+    |--------------------------------------------------------------------------
+    */
+
+  const expectedAmount = Math.round(Number(booking.amountPayable) * 100);
+
+  const paidAmount = Number(payload.data?.amount);
+
+  if (paidAmount !== expectedAmount) {
+    console.error("WEBHOOK PAYMENT AMOUNT MISMATCH", {
+      bookingId: booking._id.toString(),
+
+      reference,
+
+      expectedAmount,
+
+      paidAmount,
+    });
+
+    return;
+  }
+
+  /*
+    |--------------------------------------------------------------------------
+    | Confirm Booking
+    |--------------------------------------------------------------------------
+    */
+
   const confirmedBooking = await bookingService.confirmBooking(
     booking._id,
+
     reference,
+
     "PAID",
   );
 
-  /*
-  |--------------------------------------------------------------------------
-  | Mark Coupon As Used
-  |--------------------------------------------------------------------------
-  */
+  if (!confirmedBooking) {
+    return;
+  }
 
-  if (confirmedBooking.couponApplied) {
+  /*
+    |--------------------------------------------------------------------------
+    | Mark Coupon As Used
+    |--------------------------------------------------------------------------
+    */
+
+  if (confirmedBooking.couponApplied && confirmedBooking.couponCode) {
     try {
       await couponService.markCouponAsUsed(confirmedBooking.couponCode);
     } catch (error) {
@@ -214,15 +462,29 @@ const handleWebhook = async (payload) => {
   }
 
   /*
-  |--------------------------------------------------------------------------
-  | Communications
-  |--------------------------------------------------------------------------
-  */
+    |--------------------------------------------------------------------------
+    | Communications
+    |--------------------------------------------------------------------------
+    */
 
-  await communicationService.bookingConfirmed(confirmedBooking);
+  try {
+    await communicationService.bookingConfirmed(confirmedBooking);
+  } catch (error) {
+    console.error("Webhook booking communication failed:", error.message);
+  }
 
-  await communicationService.paymentSuccessful(confirmedBooking);
+  try {
+    await communicationService.paymentSuccessful(confirmedBooking);
+  } catch (error) {
+    console.error("Webhook payment communication failed:", error.message);
+  }
 };
+
+/*
+|--------------------------------------------------------------------------
+| Export
+|--------------------------------------------------------------------------
+*/
 
 export default {
   initializePayment,

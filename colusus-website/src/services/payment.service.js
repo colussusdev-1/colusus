@@ -52,16 +52,25 @@ const verifyPayment = async (reference) => {
 
 /*
 |--------------------------------------------------------------------------
-| Start Payment
+| Start Consultation Payment Flow
 |--------------------------------------------------------------------------
 |
 | Flow:
 |
 | 1. Create consultation booking
-| 2. Receive booking ID
-| 3. Initialize Paystack transaction
-| 4. Receive Paystack authorization URL
-| 5. Redirect client to Paystack
+| 2. Receive booking
+| 3. Check whether payment is required
+|
+|    FREE / FULL COUPON:
+|       → WAIVED
+|       → CONFIRMED
+|       → DO NOT CALL PAYSTACK
+|
+|    NORMAL BOOKING:
+|       → UNPAID
+|       → AWAITING_PAYMENT
+|       → Initialize Paystack
+|       → Redirect client
 |
 |--------------------------------------------------------------------------
 */
@@ -87,13 +96,85 @@ const pay = async (bookingData) => {
     throw new Error("Booking was created, but no booking ID was returned.");
   }
 
+  const booking = result.booking;
+
+  /*
+    |--------------------------------------------------------------------------
+    | Read Final Booking State
+    |--------------------------------------------------------------------------
+    |
+    | The backend is the source of truth.
+    |
+    |--------------------------------------------------------------------------
+    */
+
+  const amountPayable = Number(booking.amountPayable);
+
+  const paymentStatus = booking.paymentStatus;
+
+  const bookingStatus = booking.bookingStatus;
+
+  console.log("CONSULTATION PAYMENT STATE:", {
+    amountPayable,
+
+    paymentStatus,
+
+    bookingStatus,
+  });
+
+  /*
+    |--------------------------------------------------------------------------
+    | FREE / FULL COUPON BOOKING
+    |--------------------------------------------------------------------------
+    |
+    | A fully discounted consultation:
+    |
+    | amountPayable = 0
+    | paymentStatus = WAIVED
+    | bookingStatus = CONFIRMED
+    |
+    | There is NO Paystack transaction.
+    |
+    |--------------------------------------------------------------------------
+    */
+
+  if (
+    amountPayable <= 0 ||
+    paymentStatus === "WAIVED" ||
+    bookingStatus === "CONFIRMED"
+  ) {
+    console.log("NO PAYMENT REQUIRED.");
+
+    return {
+      booking,
+
+      paymentRequired: false,
+
+      payment: null,
+    };
+  }
+
+  /*
+    |--------------------------------------------------------------------------
+    | Safety Check
+    |--------------------------------------------------------------------------
+    |
+    | If the backend says payment is required, the amount must be > 0.
+    |
+    |--------------------------------------------------------------------------
+    */
+
+  if (!Number.isFinite(amountPayable) || amountPayable <= 0) {
+    throw new Error("Invalid consultation payment amount.");
+  }
+
   /*
     |--------------------------------------------------------------------------
     | Initialize Paystack
     |--------------------------------------------------------------------------
     */
 
-  const payment = await initializePayment(result.booking._id);
+  const payment = await initializePayment(booking._id);
 
   console.log("PAYSTACK RESPONSE:", payment);
 
@@ -116,6 +197,25 @@ const pay = async (bookingData) => {
     */
 
   window.location.href = payment.authorization_url;
+
+  /*
+    |--------------------------------------------------------------------------
+    | Return
+    |--------------------------------------------------------------------------
+    |
+    | Normally the browser leaves this page immediately because of the
+    | redirect. Returning this also makes the service easier to test.
+    |
+    |--------------------------------------------------------------------------
+    */
+
+  return {
+    booking,
+
+    payment,
+
+    paymentRequired: true,
+  };
 };
 
 /*
