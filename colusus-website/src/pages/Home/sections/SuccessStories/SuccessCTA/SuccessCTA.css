@@ -301,7 +301,7 @@
     grid-template-columns:
         90px minmax(300px, 1fr) 360px;
 
-    align-items: center;
+    align-items: flex-end;
 
     gap: 28px;
 
@@ -557,7 +557,7 @@
         #0754d7;
 
     font-size:
-        .88rem;
+        .7rem;
 
     font-weight:
         800;
@@ -656,8 +656,8 @@
     bottom: -38px;
 
     width:
-        min(440px,
-            34vw);
+        min(180px,
+            22vw);
 
     pointer-events:
         none;
