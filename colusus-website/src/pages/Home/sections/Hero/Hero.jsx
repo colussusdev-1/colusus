@@ -1,5 +1,4 @@
 import { HiArrowRight } from "react-icons/hi";
-
 import { Link } from "react-router-dom";
 
 import "./Hero.css";
@@ -15,7 +14,6 @@ const Hero = ({
     return (
 
         <section className="hero">
-
 
             {/* =================================================
                 VIDEO BACKGROUND
@@ -73,7 +71,7 @@ const Hero = ({
                         EYEBROW
                     ================================================= */}
 
-                    <div className="hero-eyebrow">
+                    <div className="hero-eyebrow hero-animate hero-animate-1">
 
                         <span className="hero-line"></span>
 
@@ -101,7 +99,7 @@ const Hero = ({
                         HERO TITLE
                     ================================================= */}
 
-                    <h1>
+                    <h1 className="hero-animate hero-animate-2">
 
                         Your Journey To
 
@@ -118,7 +116,7 @@ const Hero = ({
                         MOBILE SUMMARY
                     ================================================= */}
 
-                    <p className="hero-mobile-summary">
+                    <p className="hero-mobile-summary hero-animate hero-animate-3">
 
                         Work visas, study opportunities,
                         immigration pathways and relocation
@@ -131,7 +129,7 @@ const Hero = ({
                         DESCRIPTION
                     ================================================= */}
 
-                    <p className="hero-description">
+                    <p className="hero-description hero-animate hero-animate-4">
 
                         We help professionals,
                         students, families, and
@@ -147,7 +145,7 @@ const Hero = ({
                         ACTION BUTTONS
                     ================================================= */}
 
-                    <div className="hero-buttons">
+                    <div className="hero-buttons hero-animate hero-animate-5">
 
 
                         <Link
@@ -180,7 +178,11 @@ const Hero = ({
                         TRUST BAR
                     ================================================= */}
 
-                    <HeroTrustBar />
+                    <div className="hero-animate hero-animate-6">
+
+                        <HeroTrustBar />
+
+                    </div>
 
 
                 </div>
@@ -190,7 +192,7 @@ const Hero = ({
                     HERO VISUAL
                 ================================================= */}
 
-                <div className="hero-right">
+                <div className="hero-right hero-visual-animate">
 
                     <HeroVisual />
 

@@ -1,5 +1,10 @@
-import { forwardRef } from "react";
-import { useNavigate } from "react-router-dom";
+import {
+    forwardRef
+} from "react";
+
+import {
+    useNavigate
+} from "react-router-dom";
 
 import {
     HiArrowRight
@@ -11,70 +16,93 @@ import "./ServiceCard.css";
 const ServiceCard = forwardRef(
     ({ service, index }, ref) => {
 
-
         const Icon = service.icon;
 
         const navigate = useNavigate();
 
 
-
         const openService = () => {
 
-            navigate(`/services/${service.slug}`);
+            navigate(
+                `/services/${service.slug}`
+            );
 
         };
 
 
+        const handleKeyDown = (event) => {
 
+            if (
+                event.key === "Enter" ||
+                event.key === " "
+            ) {
+
+                event.preventDefault();
+
+                openService();
+
+            }
+
+        };
 
 
         return (
 
             <article
-
                 ref={ref}
-
                 className="timeline-item"
-
             >
 
 
+                {/* =================================================
+                    TIMELINE NODE
+                ================================================= */}
 
-                {/* Timeline Node */}
+                <div
+                    className="timeline-node"
+                    aria-hidden="true"
+                >
 
-                <div className="timeline-node">
-
-                    <span className="node-dot"></span>
+                    <span className="node-dot" />
 
                 </div>
 
 
-
-
+                {/* =================================================
+                    SERVICE CARD
+                ================================================= */}
 
                 <div
-
                     className="service-card"
 
                     onClick={openService}
 
+                    onKeyDown={handleKeyDown}
+
                     role="button"
 
-                    tabIndex="0"
+                    tabIndex={0}
 
                 >
 
 
+                    {/* CARD LIGHT */}
 
-                    <div className="card-glow"></div>
+                    <div
+                        className="card-glow"
+                        aria-hidden="true"
+                    />
 
 
+                    <div
+                        className="card-shine"
+                        aria-hidden="true"
+                    />
 
 
-
-
-                    {/* HEADER */}
-
+                    {/* =================================================
+                        HEADER
+                    ================================================= */}
 
                     <div className="service-card-top">
 
@@ -86,13 +114,9 @@ const ServiceCard = forwardRef(
                         </div>
 
 
-
-
                         <span className="service-number">
 
-                            {(index + 1)
-                                .toString()
-                                .padStart(2, "0")}
+                            {String(index + 1).padStart(2, "0")}
 
                         </span>
 
@@ -100,100 +124,92 @@ const ServiceCard = forwardRef(
                     </div>
 
 
-
-
-
-
-
-                    {/* CONTENT */}
-
+                    {/* =================================================
+                        CONTENT
+                    ================================================= */}
 
                     <div className="service-content">
 
 
                         <h3>
-
                             {service.title}
-
                         </h3>
 
 
-
                         <p>
-
                             {service.description}
-
                         </p>
 
 
+                        {/* FEATURES */}
 
+                        {
+                            service.features?.length > 0 && (
 
+                                <div className="service-mini-features">
 
-                        <div className="service-mini-features">
+                                    {
+                                        service.features
+                                            .slice(0, 3)
+                                            .map(
+                                                (feature) => (
 
+                                                    <span
+                                                        key={feature}
+                                                    >
 
-                            {
-                                service.features
-                                    ?.slice(0, 3)
-                                    .map(feature => (
+                                                        {feature}
 
+                                                    </span>
 
-                                        <span key={feature}>
+                                                )
+                                            )
+                                    }
 
-                                            {feature}
+                                </div>
 
-                                        </span>
-
-
-                                    ))
-                            }
-
-
-                        </div>
-
+                            )
+                        }
 
 
                     </div>
 
 
-
-
-
-
-
+                    {/* =================================================
+                        CTA
+                    ================================================= */}
 
                     <button
-
+                        type="button"
                         className="service-btn"
 
-                        onClick={(e) => {
+                        onClick={(event) => {
 
-                            e.stopPropagation();
+                            event.stopPropagation();
 
                             openService();
 
                         }}
-
                     >
 
-                        Explore Pathway
+                        <span>
+                            Explore Pathway
+                        </span>
 
                         <HiArrowRight />
 
                     </button>
 
 
-
-
                 </div>
-
 
 
             </article>
 
         );
 
-    });
+    }
+);
 
 
 ServiceCard.displayName = "ServiceCard";

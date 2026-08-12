@@ -1,734 +1,1003 @@
-/* =====================================================
-   TIMELINE ITEM
-===================================================== */
+/* ============================================================
+   COLOSSUS SERVICE CARD
+   PREMIUM CINEMATIC MIGRATION CARD
+============================================================ */
 
+
+/* ============================================================
+   TIMELINE ITEM
+============================================================ */
 
 .timeline-item {
 
-
     position: relative;
-
 
     display: grid;
 
-
-    grid-template-columns: 1fr 180px 1fr;
-
+    grid-template-columns:
+        1fr 180px 1fr;
 
     align-items: center;
 
-
     width: 100%;
-
 
 }
 
 
-
-
-
-
-/* LEFT RIGHT POSITIONING */
-
+/* ============================================================
+   CARD POSITIONING
+============================================================ */
 
 .timeline-item:nth-child(odd) .service-card {
 
-
     grid-column: 1;
-
 
     justify-self: end;
 
-
 }
-
 
 
 .timeline-item:nth-child(even) .service-card {
 
-
     grid-column: 3;
-
 
     justify-self: start;
 
-
 }
 
 
-
-
-
-
-/* =====================================================
-   NODE
-===================================================== */
-
+/* ============================================================
+   TIMELINE NODE
+============================================================ */
 
 .timeline-node {
 
-
     grid-column: 2;
 
+    width: 20px;
 
-    width: 18px;
-
-
-    height: 18px;
-
+    height: 20px;
 
     justify-self: center;
 
-
     position: relative;
 
-
-    z-index: 10;
-
+    z-index: 20;
 
 }
 
 
+/* ============================================================
+   NODE OUTER RING
+============================================================ */
 
-.node-dot {
-
-
-    display: block;
-
-
-    width: 10px;
-
-
-    height: 10px;
-
-
-    border-radius: 50%;
-
-
-    background: #7FCBFF;
-
-
-    box-shadow:
-
-
-        0 0 0 5px rgba(127, 203, 255, .12),
-
-
-        0 0 25px rgba(127, 203, 255, .8);
-
-
-    animation: pulseNode 2.5s infinite;
-
-
-}
-
-
-
-
-
-@keyframes pulseNode {
-
-
-    0%,
-    100% {
-
-        transform: scale(.9);
-
-    }
-
-
-    50% {
-
-        transform: scale(1.4);
-
-    }
-
-
-}
-
-
-
-
-
-
-
-/* =====================================================
-   CONNECTOR
-===================================================== */
-
-
-.timeline-item::before {
-
+.timeline-node::before {
 
     content: "";
 
+    position: absolute;
+
+    inset: -5px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid rgba(104, 200, 255, 0.25);
+
+    animation:
+        serviceNodeRing 3s ease-in-out infinite;
+
+}
+
+
+/* ============================================================
+   NODE DOT
+============================================================ */
+
+.node-dot {
+
+    display: block;
+
+    width: 10px;
+
+    height: 10px;
 
     position: absolute;
 
+    top: 50%;
+    left: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background:
+        #8bd8ff;
+
+    box-shadow:
+
+        0 0 0 5px rgba(127, 203, 255, 0.10),
+
+        0 0 16px rgba(127, 203, 255, 0.75),
+
+        0 0 32px rgba(70, 170, 255, 0.35);
+
+    animation:
+        pulseNode 2.8s ease-in-out infinite;
+
+}
+
+
+/* ============================================================
+   CONNECTOR
+============================================================ */
+
+.timeline-item::before {
+
+    content: "";
+
+    position: absolute;
 
     left: 50%;
 
+    top: 50%;
 
-    transform: translateX(-50%);
-
+    transform:
+        translate(-50%, -50%);
 
     width: 180px;
 
-
     height: 1px;
 
-
     background:
-
 
         linear-gradient(90deg,
 
             transparent,
 
-            rgba(127, 203, 255, .6),
+            rgba(103, 197, 255, 0.42),
+
+            rgba(139, 216, 255, 0.7),
+
+            rgba(103, 197, 255, 0.42),
 
             transparent);
 
+    box-shadow:
+
+        0 0 10px rgba(90, 190, 255, 0.18);
+
+    z-index: 2;
 
 }
 
 
-
-
-
-
-
-
-/* =====================================================
+/* ============================================================
    SERVICE CARD
-===================================================== */
-
+============================================================ */
 
 .service-card {
 
+    width:
+        min(390px, 34vw);
 
-    width: min(380px, 34vw);
+    min-height:
+        285px;
 
+    position:
+        relative;
 
-    position: relative;
+    overflow:
+        hidden;
 
+    isolation:
+        isolate;
 
-    overflow: hidden;
+    cursor:
+        pointer;
 
+    padding:
+        30px;
 
-    cursor: pointer;
+    border-radius:
+        28px;
 
-
-    padding: 30px;
-
-
-    border-radius: 30px;
-
-
+    /*
+        IMPORTANT:
+        Darker, more opaque glass.
+        This allows the cinematic background
+        to remain visible without making
+        the card look washed out.
+    */
 
     background:
 
+        linear-gradient(145deg,
 
-        rgba(255, 255, 255, .07);
+            rgba(8, 28, 52, 0.94),
 
-
+            rgba(5, 19, 38, 0.91));
 
     border:
 
-
-        1px solid rgba(255, 255, 255, .14);
-
-
-
-    backdrop-filter: blur(25px);
-
-
-    -webkit-backdrop-filter: blur(25px);
-
-
+        1px solid rgba(125, 205, 255, 0.20);
 
     box-shadow:
 
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
 
-        0 25px 70px rgba(0, 0, 0, .35);
+        inset 0 -1px 0 rgba(0, 0, 0, 0.35),
 
+        0 25px 65px rgba(0, 0, 0, 0.34),
 
+        0 8px 30px rgba(0, 70, 140, 0.08);
+
+    backdrop-filter:
+        blur(18px) saturate(135%);
+
+    -webkit-backdrop-filter:
+        blur(18px) saturate(135%);
 
     transition:
 
+        transform 0.45s cubic-bezier(.2, .8, .2, 1),
 
-        transform .35s ease,
+        border-color 0.35s ease,
 
+        box-shadow 0.45s ease,
 
-        border .35s ease,
-
-
-        box-shadow .35s ease;
-
-
+        background 0.35s ease;
 
 }
 
 
+/* ============================================================
+   CARD TOP EDGE
+============================================================ */
 
+.service-card::before {
 
-
-
-.service-card:hover {
-
-
-    transform: translateY(-10px);
-
-
-    border-color:
-
-
-        rgba(127, 203, 255, .5);
-
-
-
-    box-shadow:
-
-
-        0 35px 90px rgba(0, 0, 0, .45),
-
-
-        0 0 40px rgba(127, 203, 255, .15);
-
-
-
-}
-
-
-
-
-
-
-
-/* =====================================================
-   GLOW
-===================================================== */
-
-
-.card-glow {
-
+    content: "";
 
     position: absolute;
 
+    top: 0;
+    left: 8%;
 
-    inset: 0;
+    width: 84%;
 
+    height: 1px;
 
     background:
 
+        linear-gradient(90deg,
 
-        radial-gradient(circle at top right,
+            transparent,
 
-            rgba(127, 203, 255, .22),
+            rgba(132, 215, 255, 0.65),
 
-            transparent 55%);
+            transparent);
 
-
-
-    opacity: .8;
-
-
-    pointer-events: none;
-
+    opacity:
+        0.75;
 
 }
 
 
+/* ============================================================
+   CARD HOVER
+============================================================ */
+
+.service-card:hover {
+
+    transform:
+        translateY(-9px) scale(1.015);
+
+    border-color:
+        rgba(127, 203, 255, 0.48);
+
+    background:
+
+        linear-gradient(145deg,
+
+            rgba(10, 35, 64, 0.97),
+
+            rgba(5, 21, 42, 0.95));
+
+    box-shadow:
+
+        inset 0 1px 0 rgba(255, 255, 255, 0.10),
+
+        0 35px 85px rgba(0, 0, 0, 0.46),
+
+        0 0 45px rgba(65, 165, 255, 0.13);
+
+}
 
 
+/* ============================================================
+   KEYBOARD FOCUS
+============================================================ */
+
+.service-card:focus-visible {
+
+    outline:
+        2px solid rgba(127, 203, 255, 0.85);
+
+    outline-offset:
+        4px;
+
+}
 
 
+/* ============================================================
+   CARD GLOW
+============================================================ */
+
+.card-glow {
+
+    position:
+        absolute;
+
+    inset:
+        0;
+
+    pointer-events:
+        none;
+
+    background:
+
+        radial-gradient(circle at 90% 0%,
+
+            rgba(92, 191, 255, 0.17),
+
+            transparent 42%),
+
+        radial-gradient(circle at 0% 100%,
+
+            rgba(24, 111, 210, 0.08),
+
+            transparent 45%);
+
+    opacity:
+        0.95;
+
+    z-index:
+        -1;
+
+}
 
 
-/* =====================================================
-   TOP
-===================================================== */
+/* ============================================================
+   MOVING LIGHT
+============================================================ */
 
+.card-shine {
+
+    position:
+        absolute;
+
+    top:
+        -120%;
+
+    left:
+        -80%;
+
+    width:
+        55%;
+
+    height:
+        320%;
+
+    pointer-events:
+        none;
+
+    background:
+
+        linear-gradient(90deg,
+
+            transparent,
+
+            rgba(255, 255, 255, 0.055),
+
+            transparent);
+
+    transform:
+        rotate(18deg);
+
+    opacity:
+        0;
+
+    transition:
+        opacity .35s ease;
+
+}
+
+
+.service-card:hover .card-shine {
+
+    opacity:
+        1;
+
+    animation:
+        cardLightSweep 1.1s ease forwards;
+
+}
+
+
+/* ============================================================
+   CARD HEADER
+============================================================ */
 
 .service-card-top {
 
+    position:
+        relative;
 
-    position: relative;
+    z-index:
+        2;
 
+    display:
+        flex;
 
-    z-index: 2;
+    justify-content:
+        space-between;
 
+    align-items:
+        center;
 
-    display: flex;
-
-
-    justify-content: space-between;
-
-
-    align-items: center;
-
-
-    margin-bottom: 25px;
-
+    margin-bottom:
+        25px;
 
 }
 
 
-
+/* ============================================================
+   SERVICE ICON
+============================================================ */
 
 .service-icon {
 
+    width:
+        58px;
 
-    width: 58px;
+    height:
+        58px;
 
+    display:
+        flex;
 
-    height: 58px;
+    align-items:
+        center;
 
+    justify-content:
+        center;
 
-    display: flex;
-
-
-    align-items: center;
-
-
-    justify-content: center;
-
-
-
-    border-radius: 18px;
-
+    border-radius:
+        18px;
 
     background:
 
+        linear-gradient(145deg,
 
-        linear-gradient(135deg,
+            rgba(72, 173, 255, 0.20),
 
-            rgba(127, 203, 255, .35),
+            rgba(255, 255, 255, 0.045));
 
-            rgba(255, 255, 255, .08));
+    border:
+        1px solid rgba(120, 205, 255, 0.18);
 
+    color:
+        #7fd2ff;
 
-    color: #7FCBFF;
+    font-size:
+        25px;
 
+    box-shadow:
 
-    font-size: 25px;
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
 
+        0 8px 22px rgba(0, 80, 150, 0.12);
+
+    transition:
+        transform .35s ease,
+
+        background .35s ease,
+
+        box-shadow .35s ease;
 
 }
 
 
+.service-card:hover .service-icon {
+
+    transform:
+        translateY(-2px) rotate(-3deg);
+
+    background:
+
+        linear-gradient(145deg,
+
+            rgba(72, 173, 255, 0.30),
+
+            rgba(255, 255, 255, 0.07));
+
+    box-shadow:
+
+        0 10px 30px rgba(55, 165, 255, 0.20);
+
+}
 
 
-
+/* ============================================================
+   SERVICE NUMBER
+============================================================ */
 
 .service-number {
 
-
     color:
+        rgba(176, 220, 247, 0.28);
 
+    font-size:
+        1.1rem;
 
-        rgba(255, 255, 255, .25);
+    font-weight:
+        800;
 
-
-    font-size: 1.2rem;
-
-
-    font-weight: 800;
-
+    letter-spacing:
+        0.08em;
 
 }
 
 
-
-
-
-
-
-/* =====================================================
+/* ============================================================
    CONTENT
-===================================================== */
-
+============================================================ */
 
 .service-content {
 
+    position:
+        relative;
 
-    position: relative;
-
-
-    z-index: 2;
-
+    z-index:
+        2;
 
 }
-
 
 
 .service-content h3 {
 
+    margin:
+        0 0 12px;
 
-    color: white;
+    color:
+        #ffffff;
 
+    font-size:
+        1.45rem;
 
-    font-size: 1.45rem;
+    font-weight:
+        800;
 
+    line-height:
+        1.2;
 
-    letter-spacing: -.5px;
-
-
-    margin-bottom: 12px;
-
+    letter-spacing:
+        -0.035em;
 
 }
-
-
 
 
 .service-content p {
 
+    margin:
+        0 0 20px;
 
     color:
+        rgba(222, 238, 252, 0.70);
 
+    font-size:
+        0.92rem;
 
-        rgba(255, 255, 255, .72);
-
-
-    line-height: 1.7;
-
-
-    font-size: .95rem;
-
-
-    margin-bottom: 20px;
-
+    line-height:
+        1.7;
 
 }
 
 
-
-
-
-
-
-/* FEATURES */
-
+/* ============================================================
+   MINI FEATURES
+============================================================ */
 
 .service-mini-features {
 
+    display:
+        flex;
 
-    display: flex;
+    flex-wrap:
+        wrap;
 
+    gap:
+        8px;
 
-    flex-wrap: wrap;
-
-
-    gap: 8px;
-
-
-    margin-bottom: 25px;
-
+    margin-bottom:
+        25px;
 
 }
-
-
-
 
 
 .service-mini-features span {
 
+    display:
+        inline-flex;
 
-    padding: 8px 13px;
+    align-items:
+        center;
 
+    min-height:
+        30px;
 
-    border-radius: 999px;
+    padding:
+        6px 11px;
 
+    border-radius:
+        999px;
 
     background:
-
-
-        rgba(127, 203, 255, .12);
-
-
+        rgba(89, 181, 255, 0.075);
 
     border:
+        1px solid rgba(112, 200, 255, 0.15);
 
+    color:
+        rgba(230, 244, 255, 0.78);
 
-        1px solid rgba(127, 203, 255, .18);
+    font-size:
+        0.7rem;
 
+    font-weight:
+        600;
 
+    transition:
+        background .3s ease,
 
-    color: white;
+        border-color .3s ease,
 
-
-    font-size: .75rem;
-
+        color .3s ease;
 
 }
 
 
+.service-card:hover .service-mini-features span {
+
+    background:
+        rgba(89, 181, 255, 0.11);
+
+    border-color:
+        rgba(112, 200, 255, 0.24);
+
+    color:
+        #ffffff;
+
+}
 
 
-
-
-
-
-
-/* =====================================================
+/* ============================================================
    BUTTON
-===================================================== */
-
+============================================================ */
 
 .service-btn {
 
+    position:
+        relative;
 
-    position: relative;
+    z-index:
+        2;
 
+    display:
+        inline-flex;
 
-    z-index: 2;
+    align-items:
+        center;
 
+    justify-content:
+        center;
 
-    display: inline-flex;
+    gap:
+        10px;
 
+    min-height:
+        44px;
 
-    align-items: center;
+    padding:
+        0 19px;
 
+    border:
+        1px solid rgba(150, 220, 255, 0.18);
 
-    gap: 10px;
+    border-radius:
+        999px;
 
+    background:
 
+        linear-gradient(135deg,
 
-    padding: 12px 22px;
+            #8bd7ff,
 
+            #4eaff5);
 
-    border: none;
+    color:
+        #041426;
 
+    font-size:
+        0.78rem;
 
-    border-radius: 999px;
+    font-weight:
+        800;
 
+    cursor:
+        pointer;
 
+    box-shadow:
 
-    background: #7FCBFF;
+        0 8px 25px rgba(66, 172, 255, 0.20);
 
+    transition:
+        transform .3s ease,
 
-    color: #06111F;
+        box-shadow .3s ease,
 
-
-
-    font-weight: 700;
-
-
-    cursor: pointer;
-
-
-    transition: .3s ease;
-
+        filter .3s ease;
 
 }
 
 
+.service-btn svg {
+
+    font-size:
+        16px;
+
+    transition:
+        transform .3s ease;
+
+}
 
 
 .service-btn:hover {
 
+    transform:
+        translateX(5px);
 
-    transform: translateX(5px);
-
+    filter:
+        brightness(1.06);
 
     box-shadow:
 
-
-        0 12px 30px rgba(127, 203, 255, .35);
-
+        0 12px 32px rgba(79, 181, 255, 0.34);
 
 }
 
 
+.service-btn:hover svg {
+
+    transform:
+        translateX(3px);
+
+}
 
 
+/* ============================================================
+   NODE ANIMATIONS
+============================================================ */
 
+@keyframes pulseNode {
 
+    0%,
+    100% {
 
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
-
-@media(max-width:992px) {
-
-
-
-    .timeline-item {
-
-
-        display: block;
-
+        transform:
+            translate(-50%, -50%) scale(.9);
 
     }
 
+    50% {
 
+        transform:
+            translate(-50%, -50%) scale(1.35);
+
+    }
+
+}
+
+
+@keyframes serviceNodeRing {
+
+    0%,
+    100% {
+
+        transform:
+            scale(.85);
+
+        opacity:
+            .45;
+
+    }
+
+    50% {
+
+        transform:
+            scale(1.35);
+
+        opacity:
+            .1;
+
+    }
+
+}
+
+
+@keyframes cardLightSweep {
+
+    0% {
+
+        left:
+            -80%;
+
+    }
+
+    100% {
+
+        left:
+            150%;
+
+    }
+
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .timeline-node::before,
+
+    .node-dot,
+
+    .service-card:hover .card-shine {
+
+        animation:
+            none !important;
+
+    }
+
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 992px) {
+
+    .timeline-item {
+
+        display:
+            block;
+
+    }
 
 
     .timeline-node,
 
-
     .timeline-item::before {
 
-
-        display: none;
-
+        display:
+            none;
 
     }
-
-
 
 
     .timeline-item:nth-child(odd) .service-card,
 
     .timeline-item:nth-child(even) .service-card {
 
+        grid-column:
+            auto;
 
-        grid-column: auto;
+        justify-self:
+            center;
 
-
-        justify-self: center;
-
-
-        width: 100%;
-
+        width:
+            100%;
 
     }
-
-
-
-}
-
-
-
-
-
-
-@media(max-width:600px) {
 
 
     .service-card {
 
+        width:
+            100%;
 
-        padding: 25px;
-
-
-        border-radius: 24px;
-
+        max-width:
+            600px;
 
     }
 
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 600px) {
+
+    .service-card {
+
+        min-height:
+            auto;
+
+        padding:
+            25px;
+
+        border-radius:
+            24px;
+
+    }
+
+
+    .service-card:hover {
+
+        transform:
+            translateY(-5px) scale(1.005);
+
+    }
+
+
+    .service-icon {
+
+        width:
+            52px;
+
+        height:
+            52px;
+
+        border-radius:
+            16px;
+
+        font-size:
+            22px;
+
+    }
 
 
     .service-content h3 {
 
-
-        font-size: 1.25rem;
-
+        font-size:
+            1.25rem;
 
     }
 
+
+    .service-content p {
+
+        font-size:
+            0.88rem;
+
+    }
+
+
+    .service-btn {
+
+        width:
+            100%;
+
+        min-height:
+            46px;
+
+    }
 
 }

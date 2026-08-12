@@ -1,155 +1,397 @@
-import "./Home-about.css";
-
 import { Link } from "react-router-dom";
 
 import {
     HiOutlineArrowRight,
     HiOutlineCheckCircle,
+    HiOutlineGlobeAlt,
+    HiOutlineAcademicCap,
+    HiOutlineBriefcase,
+    HiOutlineDocumentText,
 } from "react-icons/hi";
 
+import ScrollReveal from "../../../../components/ScrollReveal/ScrollReveal";
+
+import "./Home-about.css";
+
 import aboutImage from "../../../../assets/images/about/about.jpg";
+import aboutBackground
+    from "../../../../assets/images/about/about-background.png";
+
 
 const About = () => {
 
     const trustPoints = [
 
-        "Work Visa Pathways",
+        {
+            title: "Work Visa",
+            subtitle: "Pathways",
+            icon: HiOutlineBriefcase,
+        },
 
-        "Study Opportunities",
+        {
+            title: "Study",
+            subtitle: "Opportunities",
+            icon: HiOutlineAcademicCap,
+        },
 
-        "Immigration Guidance",
+        {
+            title: "Immigration",
+            subtitle: "Guidance",
+            icon: HiOutlineDocumentText,
+        },
 
-        "Travel Support",
+        {
+            title: "Travel",
+            subtitle: "Support",
+            icon: HiOutlineGlobeAlt,
+        },
 
     ];
+
 
     return (
 
         <section className="home-about">
 
+
+            {/* =====================================================
+                PREMIUM BACKGROUND
+            ===================================================== */}
+
+            <div
+                className="home-about-background"
+                aria-hidden="true"
+            >
+
+                <img
+                    src={aboutBackground}
+                    alt=""
+                />
+
+            </div>
+
+
+            {/* =====================================================
+                BACKGROUND READABILITY
+            ===================================================== */}
+
+            <div
+                className="home-about-background-overlay"
+                aria-hidden="true"
+            />
+
+
+            {/* =====================================================
+                CONTENT
+            ===================================================== */}
+
             <div className="container home-about-container">
 
-                {/* IMAGE EXPERIENCE */}
 
-                <div className="home-about-image">
+                {/* =================================================
+                    LEFT IMAGE EXPERIENCE
+                ================================================= */}
 
-                    <img
-                        src={aboutImage}
-                        alt="Colossus Migration and Tours helping clients explore international opportunities"
-                    />
+                <ScrollReveal
+                    direction="left"
+                    duration={1.15}
+                    distance={70}
+                    delay={0.05}
+                    className="home-about-image-reveal"
+                >
 
-                    <div className="home-about-image-overlay"></div>
+                    <div className="home-about-image">
 
-                    <div className="home-about-trust-card">
+                        <img
+                            src={aboutImage}
+                            alt="Colossus Migration and Tours helping clients explore international opportunities"
+                        />
 
-                        <span>
 
-                            Trusted Support For
+                        {/* IMAGE OVERLAY */}
 
-                        </span>
+                        <div className="home-about-image-overlay" />
 
-                        <p>
 
-                            Professionals • Students • Families
+                        {/* IMAGE TOP BADGE */}
 
-                        </p>
+                        <div className="home-about-image-badge">
 
-                        <small>
+                            <HiOutlineCheckCircle />
 
-                            Seeking opportunities abroad
+                            <span>
+                                Trusted Migration Support
+                            </span>
 
-                        </small>
+                        </div>
+
+
+                        {/* TRUST CARD */}
+
+                        <div className="home-about-trust-card">
+
+
+                            <div className="home-about-trust-icon">
+
+                                <HiOutlineCheckCircle />
+
+                            </div>
+
+
+                            <div className="home-about-trust-content">
+
+                                <span>
+                                    TRUSTED SUPPORT FOR
+                                </span>
+
+                                <p>
+                                    Professionals • Students • Families
+                                </p>
+
+                                <small>
+                                    Seeking opportunities abroad
+                                </small>
+
+                            </div>
+
+
+                        </div>
+
 
                     </div>
 
-                </div>
+                </ScrollReveal>
 
-                {/* CONTENT */}
+
+                {/* =================================================
+                    RIGHT CONTENT
+                ================================================= */}
 
                 <div className="home-about-content">
 
-                    <span className="home-about-tag">
 
-                        ABOUT COLOSSUS
+                    {/* =================================================
+                        TAG
+                    ================================================= */}
 
-                    </span>
+                    <ScrollReveal
+                        direction="up"
+                        duration={1}
+                        distance={35}
+                    >
 
-                    <h2>
+                        <span className="home-about-tag">
 
-                        Trusted Pathways
+                            <HiOutlineGlobeAlt />
 
-                        <br />
-
-                        To Canada
-
-                        <span>
-
-                            & Beyond
+                            ABOUT COLOSSUS
 
                         </span>
 
-                    </h2>
+                    </ScrollReveal>
 
-                    <p>
 
-                        Colossus Migration & Tours helps professionals,
-                        students, families and entrepreneurs confidently
-                        explore global opportunities through trusted
-                        immigration pathways, overseas employment and
-                        international education solutions.
+                    {/* =================================================
+                        TITLE
+                    ================================================= */}
 
-                    </p>
+                    <ScrollReveal
+                        direction="up"
+                        duration={1.15}
+                        distance={45}
+                        delay={0.08}
+                    >
+
+                        <h2>
+
+                            Trusted Pathways
+
+                            <br />
+
+                            To Canada
+
+                            <span>
+                                & Beyond
+                            </span>
+
+                        </h2>
+
+                    </ScrollReveal>
+
+
+                    {/* =================================================
+                        DECORATIVE LINE
+                    ================================================= */}
+
+                    <ScrollReveal
+                        direction="up"
+                        duration={0.9}
+                        distance={20}
+                        delay={0.12}
+                    >
+
+                        <div className="home-about-heading-line">
+
+                            <span />
+
+                            <i />
+
+                        </div>
+
+                    </ScrollReveal>
+
+
+                    {/* =================================================
+                        DESCRIPTION
+                    ================================================= */}
+
+                    <ScrollReveal
+                        direction="up"
+                        duration={1.15}
+                        distance={40}
+                        delay={0.16}
+                    >
+
+                        <p className="home-about-description">
+
+                            Colossus Migration & Tours helps professionals,
+                            students, families and entrepreneurs confidently
+                            explore global opportunities through trusted
+                            immigration pathways, overseas employment and
+                            international education solutions.
+
+                        </p>
+
+                    </ScrollReveal>
+
+
+                    {/* =================================================
+                        TRUST POINTS
+                    ================================================= */}
 
                     <div className="home-about-trust-points">
 
+
                         {
+                            trustPoints.map(
+                                (
+                                    item,
+                                    index
+                                ) => {
 
-                            trustPoints.map((item, index) => (
+                                    const Icon = item.icon;
 
-                                <div key={index}>
 
-                                    <HiOutlineCheckCircle />
+                                    return (
 
-                                    <span>
+                                        <ScrollReveal
+                                            key={item.title}
+                                            direction="up"
+                                            duration={0.9}
+                                            distance={35}
+                                            delay={
+                                                0.2 +
+                                                index * 0.09
+                                            }
+                                        >
 
-                                        {item}
+                                            <div className="home-about-trust-point">
 
-                                    </span>
 
-                                </div>
+                                                <span className="home-about-point-icon">
 
-                            ))
+                                                    <Icon />
 
+                                                </span>
+
+
+                                                <span className="home-about-point-content">
+
+                                                    <strong>
+                                                        {item.title}
+                                                    </strong>
+
+                                                    <small>
+                                                        {item.subtitle}
+                                                    </small>
+
+                                                </span>
+
+
+                                            </div>
+
+                                        </ScrollReveal>
+
+                                    );
+
+                                }
+                            )
                         }
 
-                    </div>
-
-                    <div className="home-about-buttons">
-
-                        <Link
-
-                            to="/about"
-
-                            className="home-about-contact-btn"
-
-                        >
-
-                            Learn More About Us
-
-                            <HiOutlineArrowRight />
-
-                        </Link>
 
                     </div>
+
+
+                    {/* =================================================
+                        CTA
+                    ================================================= */}
+
+                    <ScrollReveal
+                        direction="up"
+                        duration={1}
+                        distance={30}
+                        delay={0.52}
+                    >
+
+                        <div className="home-about-buttons">
+
+                            <Link
+                                to="/about"
+                                className="home-about-contact-btn"
+                            >
+
+                                <span>
+                                    Learn More About Us
+                                </span>
+
+                                <HiOutlineArrowRight />
+
+                            </Link>
+
+                        </div>
+
+                    </ScrollReveal>
+
 
                 </div>
 
+
             </div>
+
+
+            {/* =====================================================
+                DECORATIVE FLOATING ELEMENT
+            ===================================================== */}
+
+            <div
+                className="home-about-floating-badge"
+                aria-hidden="true"
+            >
+
+                <span className="home-about-floating-dot" />
+
+                <span>
+                    Global Opportunities
+                </span>
+
+            </div>
+
 
         </section>
 
     );
 
 };
+
 
 export default About;

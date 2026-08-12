@@ -1,448 +1,1309 @@
-.story-hero{
+/* =========================================================
+   SUCCESS STORIES — HERO
+   Scoped exclusively to StoryHero
+========================================================= */
 
-    position:relative;
+.success-stories-hero {
+    position: relative;
+    width: 100%;
+    min-height: 720px;
 
-    min-height:650px;
+    overflow: hidden;
 
-    display:flex;
-
-    align-items:center;
-
-    overflow:hidden;
-
-    border-radius:0 0 45px 45px;
-
-    background:
-
-    linear-gradient(
-        135deg,
-        #071426,
-        #0f3b75
-    );
-
-}
-
-
-
-
-.story-hero::before{
-
-    content:"";
-
-    position:absolute;
-
-    width:500px;
-
-    height:500px;
-
-    right:-150px;
-
-    top:-120px;
-
-    border-radius:50%;
+    padding: 110px 0 90px;
 
     background:
+        radial-gradient(circle at 82% 20%,
+            rgba(37, 99, 235, .14),
+            transparent 30%),
+        radial-gradient(circle at 12% 80%,
+            rgba(56, 189, 248, .08),
+            transparent 28%),
+        linear-gradient(135deg,
+            #f7fbff 0%,
+            #ffffff 52%,
+            #f4f8ff 100%);
 
-    rgba(56,189,248,.25);
+    border-radius: 0 0 42px 42px;
 
-    filter:blur(90px);
-
+    isolation: isolate;
 }
 
 
+/* =========================================================
+   ATMOSPHERE
+========================================================= */
+
+.success-stories-hero-atmosphere {
+    position: absolute;
+    inset: 0;
+
+    overflow: hidden;
+
+    pointer-events: none;
+
+    z-index: 0;
+}
 
 
-.story-hero-overlay{
+/* =========================================================
+   GLOW
+========================================================= */
 
-    position:absolute;
+.success-stories-hero-glow {
+    position: absolute;
 
-    inset:0;
+    border-radius: 50%;
+
+    filter: blur(80px);
+
+    pointer-events: none;
+
+    opacity: .55;
+
+    animation:
+        successStoriesHeroFloat 12s ease-in-out infinite;
+}
+
+
+.success-stories-hero-glow-one {
+    width: 430px;
+    height: 430px;
+
+    top: -170px;
+    right: -100px;
 
     background:
-
-    linear-gradient(
-        90deg,
-        rgba(7,20,38,.95),
-        rgba(7,20,38,.65),
-        rgba(7,20,38,.4)
-    );
-
+        rgba(37, 99, 235, .15);
 }
 
 
+.success-stories-hero-glow-two {
+    width: 320px;
+    height: 320px;
 
-
-.story-hero-container{
-
-    position:relative;
-
-    z-index:2;
-
-    width:min(1200px,92%);
-
-    margin:auto;
-
-    padding:100px 0;
-
-}
-
-
-
-
-
-
-
-/* BADGE */
-
-.story-hero-badge{
-
-    display:inline-flex;
-
-    align-items:center;
-
-    gap:10px;
-
-    padding:10px 18px;
-
-    border-radius:999px;
-
-    color:white;
+    bottom: -140px;
+    left: -80px;
 
     background:
+        rgba(56, 189, 248, .12);
 
-    rgba(255,255,255,.12);
-
-    border:
-
-    1px solid rgba(255,255,255,.2);
-
-    backdrop-filter:blur(18px);
-
-    font-size:.9rem;
-
-    font-weight:600;
-
+    animation-delay: -5s;
 }
 
 
+/* =========================================================
+   ORBITS
+========================================================= */
 
+.success-stories-hero-orbit {
+    position: absolute;
 
-.story-hero-badge svg{
+    border-radius: 50%;
 
-    color:#38bdf8;
+    border: 1px solid rgba(37, 99, 235, .08);
 
-    font-size:20px;
+    pointer-events: none;
 
+    animation:
+        successStoriesHeroOrbit 18s linear infinite;
 }
 
 
+.success-stories-hero-orbit-one {
+    width: 560px;
+    height: 560px;
 
+    right: -230px;
+    top: 70px;
 
-
-
-
-
-/* TITLE */
-
-.story-hero h1{
-
-    max-width:850px;
-
-    margin-top:30px;
-
-    color:white;
-
-    font-size:
-
-    clamp(3rem,6vw,5rem);
-
-    line-height:1.05;
-
-    letter-spacing:-3px;
-
+    transform: rotate(-18deg);
 }
 
 
+.success-stories-hero-orbit-two {
+    width: 390px;
+    height: 390px;
 
-.story-hero h1 span{
+    right: -145px;
+    top: 155px;
 
-    display:block;
+    border-color:
+        rgba(56, 189, 248, .09);
 
-    color:#7dd3fc;
+    animation-duration: 14s;
 
+    animation-direction: reverse;
 }
 
 
+/* =========================================================
+   PLANE
+========================================================= */
 
+.success-stories-hero-plane {
+    position: absolute;
 
+    top: 18%;
+    right: 13%;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-
-.story-hero p{
-
-    margin-top:25px;
-
-    max-width:620px;
+    width: 46px;
+    height: 46px;
 
     color:
+        rgba(37, 99, 235, .16);
 
-    rgba(255,255,255,.78);
+    font-size: 25px;
 
-    font-size:1.1rem;
+    transform: rotate(-18deg);
 
-    line-height:1.8;
-
+    animation:
+        successStoriesHeroPlane 7s ease-in-out infinite;
 }
 
 
+/* =========================================================
+   INNER
+========================================================= */
 
+.success-stories-hero-inner {
+    position: relative;
 
+    z-index: 3;
 
+    width: min(1240px, calc(100% - 48px));
 
+    margin: 0 auto;
 
+    display: grid;
 
-/* BUTTONS */
+    grid-template-columns:
+        minmax(0, .95fr) minmax(480px, 1.05fr);
 
-.story-hero-actions{
+    align-items: center;
 
-    display:flex;
-
-    gap:15px;
-
-    margin-top:40px;
-
+    gap: 70px;
 }
 
 
+/* =========================================================
+   LEFT CONTENT
+========================================================= */
 
-.story-primary-btn,
-.story-secondary-btn{
+.success-stories-hero-content {
+    position: relative;
 
+    z-index: 5;
 
-    height:54px;
-
-    padding:0 28px;
-
-    border-radius:999px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    gap:10px;
-
-    cursor:pointer;
-
-    font-weight:700;
-
-    transition:.35s ease;
-
+    max-width: 610px;
 }
 
 
+/* =========================================================
+   EYEBROW
+========================================================= */
 
+.success-stories-hero-eyebrow {
+    display: inline-flex;
 
-.story-primary-btn{
+    align-items: center;
 
-    border:none;
+    gap: 9px;
 
-    background:white;
+    padding: 8px 14px 8px 9px;
 
-    color:#071426;
-
-}
-
-
-
-
-.story-primary-btn:hover{
-
-    transform:translateY(-4px);
-
-}
-
-
-
-
-
-
-.story-secondary-btn{
+    border-radius: 999px;
 
     background:
-
-    rgba(255,255,255,.12);
+        rgba(255, 255, 255, .78);
 
     border:
+        1px solid rgba(37, 99, 235, .12);
 
-    1px solid rgba(255,255,255,.25);
+    box-shadow:
+        0 10px 30px rgba(15, 23, 42, .06),
+        inset 0 1px 0 rgba(255, 255, 255, .95);
 
-    color:white;
+    color: #31527b;
 
+    font-size: .78rem;
+
+    font-weight: 700;
+
+    letter-spacing: .03em;
 }
 
 
+.success-stories-hero-eyebrow-icon {
+    width: 29px;
+    height: 29px;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-
-
-
-
-/* TRUST */
-
-.story-trust-strip{
-
-    display:flex;
-
-    gap:18px;
-
-    margin-top:60px;
-
-}
-
-
-
-
-.story-trust-item{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:14px;
-
-    padding:18px 22px;
-
-    border-radius:22px;
-
+    border-radius: 50%;
 
     background:
+        linear-gradient(135deg,
+            #2563eb,
+            #38bdf8);
 
-    rgba(255,255,255,.1);
+    color: #fff;
 
+    font-size: 16px;
+
+    box-shadow:
+        0 5px 15px rgba(37, 99, 235, .2);
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.success-stories-hero-title {
+    margin: 25px 0 0;
+
+    max-width: 650px;
+
+    display: flex;
+    flex-direction: column;
+
+    font-size:
+        clamp(3.1rem, 5.5vw, 5.2rem);
+
+    line-height: .99;
+
+    letter-spacing: -4px;
+
+    font-weight: 850;
+
+    color: #081a32;
+}
+
+
+.success-stories-hero-title>span {
+    display: block;
+}
+
+
+.success-stories-hero-title-blue {
+    color: #2563eb;
+
+    background:
+        linear-gradient(100deg,
+            #2563eb,
+            #0ea5e9);
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.success-stories-hero-description {
+    max-width: 570px;
+
+    margin: 25px 0 0;
+
+    color: #64748b;
+
+    font-size: 1.02rem;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.success-stories-hero-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    margin-top: 31px;
+}
+
+
+/* =========================================================
+   PRIMARY
+========================================================= */
+
+.success-stories-hero-primary {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 11px;
+
+    min-height: 54px;
+
+    padding: 0 21px 0 9px;
+
+    border: none;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(135deg,
+            #2563eb,
+            #1d4ed8);
+
+    color: #fff;
+
+    font-size: .9rem;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 15px 35px rgba(37, 99, 235, .22);
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+}
+
+
+.success-stories-hero-primary:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 20px 42px rgba(37, 99, 235, .3);
+}
+
+
+.success-stories-hero-primary-icon {
+    width: 37px;
+    height: 37px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, .16);
+
+    font-size: 17px;
+}
+
+
+/* =========================================================
+   SECONDARY
+========================================================= */
+
+.success-stories-hero-secondary {
+    min-height: 54px;
+
+    padding: 0 19px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255, 255, 255, .8);
 
     border:
+        1px solid #dbe5f1;
 
-    1px solid rgba(255,255,255,.15);
+    color: #183452;
+
+    font-size: .9rem;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+    box-shadow:
+        0 10px 25px rgba(15, 23, 42, .05);
+
+    transition:
+        transform .3s ease,
+        border-color .3s ease,
+        box-shadow .3s ease;
+}
 
 
-    backdrop-filter:blur(18px);
+.success-stories-hero-secondary:hover {
+    transform: translateY(-3px);
 
-    color:white;
+    border-color: #93c5fd;
+
+    box-shadow:
+        0 15px 30px rgba(37, 99, 235, .1);
+}
+
+
+.success-stories-hero-secondary svg {
+    transition:
+        transform .3s ease;
+}
+
+
+.success-stories-hero-secondary:hover svg {
+    transform: translateX(4px);
+}
+
+
+/* =========================================================
+   TRUST METRICS
+========================================================= */
+
+.success-stories-hero-trust {
+    display: flex;
+
+    align-items: stretch;
+
+    gap: 10px;
+
+    margin-top: 34px;
+}
+
+
+.success-stories-hero-trust-card {
+    min-width: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 12px 14px;
+
+    border-radius: 16px;
+
+    background:
+        rgba(255, 255, 255, .68);
+
+    border:
+        1px solid rgba(203, 213, 225, .72);
+
+    box-shadow:
+        0 10px 28px rgba(15, 23, 42, .045);
+
+    backdrop-filter: blur(12px);
+
+    -webkit-backdrop-filter: blur(12px);
+}
+
+
+.success-stories-hero-trust-icon {
+    width: 28px;
+    height: 28px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color: #2563eb;
+
+    font-size: 18px;
+}
+
+
+.success-stories-hero-trust-divider {
+    width: 1px;
+    height: 25px;
+
+    background:
+        #dbe4ef;
+}
+
+
+.success-stories-hero-trust-copy {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 1px;
+}
+
+
+.success-stories-hero-trust-copy strong {
+    color: #0f2743;
+
+    font-size: .82rem;
+
+    line-height: 1.1;
+}
+
+
+.success-stories-hero-trust-copy small {
+    color: #7b8a9d;
+
+    font-size: .66rem;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   FEATURED AREA
+========================================================= */
+
+.success-stories-hero-featured {
+    position: relative;
+
+    z-index: 5;
+
+    width: 100%;
+}
+
+
+/* =========================================================
+   VIDEO CARD
+========================================================= */
+
+.success-stories-hero-video {
+    position: relative;
+
+    overflow: hidden;
+
+    width: 100%;
+
+    border-radius: 28px;
+
+    background: #fff;
+
+    border:
+        1px solid rgba(203, 213, 225, .85);
+
+    box-shadow:
+        0 30px 80px rgba(15, 23, 42, .13),
+        0 10px 25px rgba(15, 23, 42, .05);
+}
+
+
+/* =========================================================
+   VIDEO MEDIA
+========================================================= */
+
+.success-stories-hero-video-media {
+    position: relative;
+
+    width: 100%;
+
+    aspect-ratio: 16 / 10;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(135deg,
+            #dbeafe,
+            #eff6ff);
+}
+
+
+.success-stories-hero-video-image {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    object-position: center;
+
+    transition:
+        transform .8s cubic-bezier(.22, .61, .36, 1);
+}
+
+
+.success-stories-hero-video:hover .success-stories-hero-video-image {
+    transform: scale(1.035);
+}
+
+
+/* =========================================================
+   VIDEO OVERLAY
+========================================================= */
+
+.success-stories-hero-video-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(180deg,
+            rgba(7, 20, 38, .02) 20%,
+            rgba(7, 20, 38, .15) 65%,
+            rgba(7, 20, 38, .62) 100%);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   FEATURED LABEL
+========================================================= */
+
+.success-stories-hero-featured-label {
+    position: absolute;
+
+    top: 17px;
+    left: 17px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 8px 12px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255, 255, 255, .92);
+
+    color: #183452;
+
+    font-size: .7rem;
+
+    font-weight: 750;
+
+    box-shadow:
+        0 8px 20px rgba(15, 23, 42, .12);
+
+    backdrop-filter: blur(12px);
+}
+
+
+.success-stories-hero-featured-label svg {
+    color: #2563eb;
+
+    font-size: 16px;
+}
+
+
+/* =========================================================
+   DURATION
+========================================================= */
+
+.success-stories-hero-duration {
+    position: absolute;
+
+    right: 17px;
+    top: 17px;
+
+    padding: 7px 10px;
+
+    border-radius: 9px;
+
+    background:
+        rgba(7, 20, 38, .7);
+
+    color: #fff;
+
+    font-size: .68rem;
+
+    font-weight: 700;
+
+    backdrop-filter: blur(10px);
+}
+
+
+/* =========================================================
+   PLAY BUTTON
+========================================================= */
+
+.success-stories-hero-play {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    width: 72px;
+    height: 72px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, .94);
+
+    color: #2563eb;
+
+    font-size: 25px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 15px 45px rgba(7, 20, 38, .25);
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+}
+
+
+.success-stories-hero-play:hover {
+    transform:
+        translate(-50%, -50%) scale(1.08);
+
+    box-shadow:
+        0 20px 55px rgba(7, 20, 38, .32);
+}
+
+
+.success-stories-hero-play svg {
+    margin-left: 3px;
+}
+
+
+/* =========================================================
+   APPROVED
+========================================================= */
+
+.success-stories-hero-approved {
+    position: absolute;
+
+    bottom: 17px;
+    left: 17px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 7px 11px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(7, 20, 38, .72);
+
+    color: #fff;
+
+    font-size: .68rem;
+
+    font-weight: 700;
+
+    backdrop-filter: blur(10px);
+}
+
+
+.success-stories-hero-approved span {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #22c55e;
+
+    box-shadow:
+        0 0 10px rgba(34, 197, 94, .8);
+
+    animation:
+        successStoriesHeroStatus 2s ease-in-out infinite;
+}
+
+
+/* =========================================================
+   STORY DETAILS
+========================================================= */
+
+.success-stories-hero-story-details {
+    display: grid;
+
+    grid-template-columns:
+        minmax(180px, .75fr) minmax(0, 1.25fr);
+
+    gap: 25px;
+
+    padding: 22px 25px 24px;
+
+    background: #fff;
+}
+
+
+.success-stories-hero-story-main {
+    min-width: 0;
+}
+
+
+.success-stories-hero-story-main h2 {
+    margin: 0 0 7px;
+
+    color: #0b2038;
+
+    font-size: 1.25rem;
+
+    line-height: 1.2;
+
+    font-weight: 800;
+}
+
+
+.success-stories-hero-story-meta {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color: #64748b;
+
+    font-size: .8rem;
+
+    font-weight: 600;
+}
+
+
+.success-stories-hero-country {
+    font-size: 17px;
+}
+
+
+.success-stories-hero-story-main p {
+    margin: 9px 0 0;
+
+    color: #2563eb;
+
+    font-size: .76rem;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   RESULT
+========================================================= */
+
+.success-stories-hero-story-result {
+    position: relative;
+
+    display: flex;
+
+    gap: 10px;
+
+    padding-left: 20px;
+
+    border-left:
+        1px solid #e2e8f0;
+}
+
+
+.success-stories-hero-quote {
+    flex-shrink: 0;
+
+    color: #2563eb;
+
+    font-family: Georgia, serif;
+
+    font-size: 2rem;
+
+    line-height: .8;
+}
+
+
+.success-stories-hero-story-result p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: .78rem;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes successStoriesHeroFloat {
+
+    0%,
+    100% {
+        transform:
+            translate3d(0, 0, 0) scale(1);
+    }
+
+    50% {
+        transform:
+            translate3d(25px, -18px, 0) scale(1.06);
+    }
 
 }
 
 
+@keyframes successStoriesHeroOrbit {
 
+    from {
+        transform:
+            rotate(0deg);
+    }
 
-.story-trust-item svg{
-
-    font-size:28px;
-
-    color:#38bdf8;
+    to {
+        transform:
+            rotate(360deg);
+    }
 
 }
 
 
+@keyframes successStoriesHeroPlane {
 
+    0%,
+    100% {
+        transform:
+            translate3d(0, 0, 0) rotate(-18deg);
+    }
 
-.story-trust-item strong{
-
-    display:block;
-
-    font-size:1.2rem;
+    50% {
+        transform:
+            translate3d(-22px, 16px, 0) rotate(-12deg);
+    }
 
 }
 
 
+@keyframes successStoriesHeroStatus {
 
-.story-trust-item span{
+    0%,
+    100% {
+        opacity: .65;
+        transform: scale(.85);
+    }
 
-    font-size:.8rem;
-
-    opacity:.75;
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
 
 }
 
 
+/* =========================================================
+   LARGE TABLET
+========================================================= */
 
+@media (max-width: 1100px) {
 
+    .success-stories-hero-inner {
+        grid-template-columns:
+            minmax(0, .9fr) minmax(420px, 1.1fr);
 
-
-
-
-@media(max-width:768px){
-
-
-    .story-hero{
-
-        min-height:auto;
-
-        border-radius:0 0 30px 30px;
-
+        gap: 40px;
     }
 
 
-
-    .story-hero-container{
-
-        padding:70px 0 55px;
-
+    .success-stories-hero-title {
+        font-size:
+            clamp(2.8rem, 5vw, 4.4rem);
     }
 
 
+    .success-stories-hero-trust {
+        flex-wrap: wrap;
+    }
 
-    .story-hero h1{
+}
 
-        font-size:2.6rem;
 
-        letter-spacing:-1px;
+/* =========================================================
+   TABLET
+========================================================= */
 
+@media (max-width: 900px) {
+
+    .success-stories-hero {
+        min-height: auto;
+
+        padding:
+            80px 0 70px;
     }
 
 
+    .success-stories-hero-inner {
+        grid-template-columns: 1fr;
 
-    .story-hero p{
-
-        font-size:.95rem;
-
+        gap: 50px;
     }
 
 
-
-
-    .story-hero-actions{
-
-        flex-direction:column;
-
+    .success-stories-hero-content {
+        max-width: 720px;
     }
 
 
+    .success-stories-hero-featured {
+        max-width: 760px;
 
-    .story-primary-btn,
-    .story-secondary-btn{
-
-        width:100%;
-
+        margin: 0 auto;
     }
 
 
-
-    .story-trust-strip{
-
-        flex-direction:column;
-
-        margin-top:35px;
-
+    .success-stories-hero-orbit-one {
+        right: -300px;
     }
 
 
+    .success-stories-hero-orbit-two {
+        right: -230px;
+    }
 
-    .story-trust-item{
+}
 
-        width:100%;
 
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .success-stories-hero {
+        padding:
+            65px 0 55px;
+
+        border-radius:
+            0 0 28px 28px;
+    }
+
+
+    .success-stories-hero-inner {
+        width:
+            min(100% - 30px, 1240px);
+
+        gap: 35px;
+    }
+
+
+    .success-stories-hero-title {
+        margin-top: 20px;
+
+        font-size:
+            clamp(2.55rem, 12vw, 3.5rem);
+
+        line-height: 1;
+
+        letter-spacing: -2.5px;
+    }
+
+
+    .success-stories-hero-description {
+        margin-top: 20px;
+
+        font-size: .92rem;
+
+        line-height: 1.75;
+    }
+
+
+    .success-stories-hero-actions {
+        flex-direction: column;
+
+        align-items: stretch;
+
+        margin-top: 26px;
+    }
+
+
+    .success-stories-hero-primary,
+    .success-stories-hero-secondary {
+        width: 100%;
+    }
+
+
+    .success-stories-hero-trust {
+        display: grid;
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        gap: 7px;
+
+        margin-top: 25px;
+    }
+
+
+    .success-stories-hero-trust-card {
+        padding: 10px 7px;
+
+        gap: 5px;
+
+        border-radius: 13px;
+
+        justify-content: center;
+    }
+
+
+    .success-stories-hero-trust-icon {
+        width: 23px;
+        height: 23px;
+
+        font-size: 15px;
+    }
+
+
+    .success-stories-hero-trust-divider {
+        display: none;
+    }
+
+
+    .success-stories-hero-trust-copy {
+        align-items: flex-start;
+    }
+
+
+    .success-stories-hero-trust-copy strong {
+        font-size: .68rem;
+    }
+
+
+    .success-stories-hero-trust-copy small {
+        font-size: .55rem;
+    }
+
+
+    .success-stories-hero-video {
+        border-radius: 21px;
+    }
+
+
+    .success-stories-hero-video-media {
+        aspect-ratio: 4 / 3;
+    }
+
+
+    .success-stories-hero-play {
+        width: 60px;
+        height: 60px;
+
+        font-size: 21px;
+    }
+
+
+    .success-stories-hero-featured-label {
+        top: 12px;
+        left: 12px;
+
+        padding: 6px 9px;
+
+        font-size: .61rem;
+    }
+
+
+    .success-stories-hero-duration {
+        top: 12px;
+        right: 12px;
+
+        padding: 6px 8px;
+
+        font-size: .61rem;
+    }
+
+
+    .success-stories-hero-approved {
+        bottom: 12px;
+        left: 12px;
+
+        padding: 6px 9px;
+
+        font-size: .6rem;
+    }
+
+
+    .success-stories-hero-story-details {
+        grid-template-columns: 1fr;
+
+        gap: 16px;
+
+        padding:
+            18px 18px 20px;
+    }
+
+
+    .success-stories-hero-story-result {
+        padding-left: 0;
+
+        padding-top: 14px;
+
+        border-left: none;
+
+        border-top:
+            1px solid #e2e8f0;
+    }
+
+
+    .success-stories-hero-orbit-one {
+        right: -400px;
+    }
+
+
+    .success-stories-hero-orbit-two {
+        right: -330px;
+    }
+
+
+    .success-stories-hero-plane {
+        right: 8%;
+
+        top: 11%;
+
+        font-size: 20px;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .success-stories-hero-glow,
+    .success-stories-hero-orbit,
+    .success-stories-hero-plane,
+    .success-stories-hero-approved span {
+        animation: none;
+    }
+
+
+    .success-stories-hero-video-image,
+    .success-stories-hero-primary,
+    .success-stories-hero-secondary,
+    .success-stories-hero-play {
+        transition: none;
     }
 
 }

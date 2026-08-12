@@ -1,0 +1,1188 @@
+/* =========================================================
+   SUCCESS CTA
+========================================================= */
+
+.success-cta {
+
+    position: relative;
+
+    width: 100%;
+
+    margin-top: 70px;
+
+    min-height: 270px;
+
+    overflow: hidden;
+
+    border-radius: 30px;
+
+    background:
+        linear-gradient(105deg,
+            #052f9e 0%,
+            #0648d8 43%,
+            #0753dc 70%,
+            #0437a5 100%);
+
+    border: 1px solid rgba(91, 180, 255, .35);
+
+    box-shadow:
+        0 28px 70px rgba(15, 23, 42, .18),
+        0 0 60px rgba(0, 111, 255, .12);
+
+    isolation: isolate;
+}
+
+
+/* =========================================================
+   PREMIUM LIGHT SHEEN
+========================================================= */
+
+.success-cta::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(115deg,
+            transparent 15%,
+            rgba(255, 255, 255, .05) 40%,
+            rgba(255, 255, 255, .13) 50%,
+            rgba(255, 255, 255, .04) 60%,
+            transparent 80%);
+
+    transform:
+        translateX(-100%);
+
+    animation:
+        successCtaSheen 7s ease-in-out infinite;
+}
+
+
+@keyframes successCtaSheen {
+
+    0% {
+
+        transform:
+            translateX(-100%);
+
+    }
+
+    45%,
+    100% {
+
+        transform:
+            translateX(100%);
+
+    }
+
+}
+
+
+/* =========================================================
+   ATMOSPHERE
+========================================================= */
+
+.success-cta-atmosphere {
+
+    position: absolute;
+
+    inset: 0;
+
+    overflow: hidden;
+
+    pointer-events: none;
+
+    z-index: 0;
+}
+
+
+/* =========================================================
+   GLOWS
+========================================================= */
+
+.success-cta-glow {
+
+    position: absolute;
+
+    border-radius: 50%;
+
+    filter: blur(70px);
+
+    pointer-events: none;
+}
+
+
+.success-cta-glow-one {
+
+    width: 360px;
+
+    height: 360px;
+
+    left: 10%;
+
+    top: -220px;
+
+    background:
+        rgba(79, 190, 255, .28);
+
+    animation:
+        successCtaGlowOne 6s ease-in-out infinite;
+}
+
+
+.success-cta-glow-two {
+
+    width: 420px;
+
+    height: 420px;
+
+    right: 0;
+
+    bottom: -300px;
+
+    background:
+        rgba(0, 194, 255, .34);
+
+    animation:
+        successCtaGlowTwo 7s ease-in-out infinite;
+}
+
+
+@keyframes successCtaGlowOne {
+
+    0%,
+    100% {
+
+        transform:
+            translate3d(0, 0, 0) scale(1);
+
+    }
+
+    50% {
+
+        transform:
+            translate3d(40px, 20px, 0) scale(1.12);
+
+    }
+
+}
+
+
+@keyframes successCtaGlowTwo {
+
+    0%,
+    100% {
+
+        transform:
+            translate3d(0, 0, 0) scale(1);
+
+    }
+
+    50% {
+
+        transform:
+            translate3d(-35px, -15px, 0) scale(1.1);
+
+    }
+
+}
+
+
+/* =========================================================
+   FLIGHT ORBITS
+========================================================= */
+
+.success-cta-orbit {
+
+    position: absolute;
+
+    width: 700px;
+
+    height: 280px;
+
+    border:
+        1px dashed rgba(255, 255, 255, .17);
+
+    border-radius: 50%;
+
+    transform:
+        rotate(-12deg);
+
+    pointer-events: none;
+}
+
+
+.success-cta-orbit-one {
+
+    right: -110px;
+
+    top: -150px;
+
+    animation:
+        successCtaOrbitOne 12s linear infinite;
+}
+
+
+.success-cta-orbit-two {
+
+    right: -180px;
+
+    top: -90px;
+
+    transform:
+        rotate(-8deg);
+
+    opacity: .55;
+
+    animation:
+        successCtaOrbitTwo 15s linear infinite;
+}
+
+
+@keyframes successCtaOrbitOne {
+
+    from {
+
+        transform:
+            rotate(-12deg) translateX(0);
+
+    }
+
+    to {
+
+        transform:
+            rotate(-12deg) translateX(-20px);
+
+    }
+
+}
+
+
+@keyframes successCtaOrbitTwo {
+
+    from {
+
+        transform:
+            rotate(-8deg) translateX(0);
+
+    }
+
+    to {
+
+        transform:
+            rotate(-8deg) translateX(20px);
+
+    }
+
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.success-cta-container {
+
+    position: relative;
+
+    z-index: 5;
+
+    min-height: 270px;
+
+    display: grid;
+
+    grid-template-columns:
+        90px minmax(300px, 1fr) 360px;
+
+    align-items: center;
+
+    gap: 28px;
+
+    padding: 42px 45px;
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.success-cta-icon {
+
+    position: relative;
+
+    width: 72px;
+
+    height: 72px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    color: white;
+
+    background:
+        radial-gradient(circle at 35% 30%,
+            rgba(255, 255, 255, .25),
+            rgba(255, 255, 255, .06));
+
+    border:
+        1px solid rgba(255, 255, 255, .24);
+
+    box-shadow:
+        0 0 0 10px rgba(255, 255, 255, .04),
+
+        0 0 45px rgba(70, 190, 255, .32),
+
+        inset 0 1px 0 rgba(255, 255, 255, .18);
+
+    animation:
+        successCtaIconFloat 4s ease-in-out infinite;
+}
+
+
+.success-cta-icon::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: -8px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid rgba(117, 210, 255, .14);
+
+    animation:
+        successCtaIconRing 3s ease-out infinite;
+}
+
+
+.success-cta-icon svg {
+
+    width: 31px;
+
+    height: 31px;
+
+    transform:
+        rotate(-12deg);
+}
+
+
+@keyframes successCtaIconFloat {
+
+    0%,
+    100% {
+
+        transform:
+            translateY(0);
+
+    }
+
+    50% {
+
+        transform:
+            translateY(-7px);
+
+    }
+
+}
+
+
+@keyframes successCtaIconRing {
+
+    0% {
+
+        opacity: .7;
+
+        transform:
+            scale(.9);
+
+    }
+
+    100% {
+
+        opacity: 0;
+
+        transform:
+            scale(1.35);
+
+    }
+
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.success-cta-content {
+
+    position: relative;
+
+    z-index: 8;
+
+    max-width: 540px;
+}
+
+
+.success-cta-eyebrow {
+
+    display: block;
+
+    margin-bottom: 9px;
+
+    color:
+        rgba(255, 255, 255, .68);
+
+    font-size:
+        .68rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .15em;
+
+    text-transform:
+        uppercase;
+}
+
+
+.success-cta-content h2 {
+
+    margin: 0;
+
+    color:
+        #ffffff;
+
+    font-size:
+        clamp(1.7rem,
+            3vw,
+            2.55rem);
+
+    line-height:
+        1.08;
+
+    letter-spacing:
+        -.045em;
+
+    font-weight:
+        800;
+}
+
+
+.success-cta-content h2 span {
+
+    display:
+        inline;
+
+    margin-left:
+        7px;
+
+    color:
+        #43d7ff;
+
+    text-shadow:
+        0 0 25px rgba(67, 215, 255, .25);
+}
+
+
+.success-cta-content p {
+
+    max-width:
+        500px;
+
+    margin:
+        13px 0 0;
+
+    color:
+        rgba(255, 255, 255, .78);
+
+    font-size:
+        .9rem;
+
+    line-height:
+        1.7;
+}
+
+
+/* =========================================================
+   CTA BUTTON
+========================================================= */
+
+.success-cta-button {
+
+    position: absolute;
+
+    z-index: 20;
+
+    right: 185px;
+
+    bottom: 43px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 13px;
+
+    min-width: 235px;
+
+    padding:
+        16px 25px;
+
+    border-radius:
+        999px;
+
+    background:
+        linear-gradient(180deg,
+            #ffffff,
+            #f4f8ff);
+
+    color:
+        #0754d7;
+
+    font-size:
+        .88rem;
+
+    font-weight:
+        800;
+
+    text-decoration:
+        none;
+
+    border:
+        1px solid rgba(255, 255, 255, .9);
+
+    box-shadow:
+
+        0 15px 35px rgba(0, 0, 0, .20),
+
+        0 0 35px rgba(92, 211, 255, .22);
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease,
+        background .3s ease;
+}
+
+
+.success-cta-button::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: -3px;
+
+    border-radius: inherit;
+
+    border:
+        1px solid rgba(255, 255, 255, .35);
+
+    opacity: 0;
+
+    transition:
+        opacity .3s ease;
+}
+
+
+.success-cta-button svg {
+
+    width: 19px;
+
+    height: 19px;
+
+    transition:
+        transform .3s ease;
+}
+
+
+.success-cta-button:hover {
+
+    transform:
+        translateY(-5px);
+
+    box-shadow:
+
+        0 20px 45px rgba(0, 0, 0, .25),
+
+        0 0 45px rgba(92, 211, 255, .35);
+
+    background:
+        #ffffff;
+}
+
+
+.success-cta-button:hover::before {
+
+    opacity: 1;
+}
+
+
+.success-cta-button:hover svg {
+
+    transform:
+        translateX(6px);
+}
+
+
+/* =========================================================
+   AIRCRAFT
+========================================================= */
+
+.success-cta-plane {
+
+    position: absolute;
+
+    z-index: 10;
+
+    right: -15px;
+
+    bottom: -38px;
+
+    width:
+        min(440px,
+            34vw);
+
+    pointer-events:
+        none;
+
+    filter:
+        drop-shadow(0 20px 30px rgba(0, 0, 0, .24));
+}
+
+
+.success-cta-plane::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 260px;
+
+    height: 160px;
+
+    right: 30px;
+
+    bottom: 70px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(73, 198, 255, .32);
+
+    filter:
+        blur(60px);
+
+    z-index: -1;
+}
+
+
+.success-cta-plane::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 420px;
+
+    height: 1px;
+
+    right: 130px;
+
+    top: 45%;
+
+    background:
+        linear-gradient(90deg,
+            transparent,
+            rgba(120, 220, 255, .65),
+            transparent);
+
+    transform:
+        rotate(-10deg);
+
+    filter:
+        blur(.5px);
+
+    opacity:
+        .8;
+}
+
+
+.success-cta-plane img {
+
+    display:
+        block;
+
+    width:
+        100%;
+
+    height:
+        auto;
+
+    object-fit:
+        contain;
+
+    animation:
+        successCtaPlaneFloat 5s ease-in-out infinite;
+
+    transform-origin:
+        center;
+}
+
+
+@keyframes successCtaPlaneFloat {
+
+    0%,
+    100% {
+
+        transform:
+            translate3d(0,
+                0,
+                0) rotate(0deg);
+
+    }
+
+    50% {
+
+        transform:
+            translate3d(-10px,
+                -9px,
+                0) rotate(-1.2deg);
+
+    }
+
+}
+
+
+/* =========================================================
+   SMALL LIGHT PARTICLES
+========================================================= */
+
+.success-cta::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 5px;
+
+    height: 5px;
+
+    right: 37%;
+
+    top: 30%;
+
+    border-radius: 50%;
+
+    background:
+        #8ee7ff;
+
+    box-shadow:
+
+        0 0 8px #8ee7ff,
+
+        80px 35px 0 rgba(255, 255, 255, .7),
+
+        145px -25px 0 rgba(115, 220, 255, .8),
+
+        230px 55px 0 rgba(255, 255, 255, .5);
+
+    animation:
+        successCtaParticles 4s ease-in-out infinite;
+
+    pointer-events:
+        none;
+
+    z-index: 4;
+}
+
+
+@keyframes successCtaParticles {
+
+    0%,
+    100% {
+
+        opacity:
+            .45;
+
+    }
+
+    50% {
+
+        opacity:
+            1;
+
+        transform:
+            translateY(-5px);
+
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .success-cta-container {
+
+        grid-template-columns:
+            75px minmax(280px, 1fr) 300px;
+
+        padding:
+            38px;
+    }
+
+
+    .success-cta-plane {
+
+        width:
+            350px;
+
+        right:
+            -35px;
+
+        bottom:
+            -30px;
+    }
+
+
+    .success-cta-button {
+
+        right:
+            150px;
+
+        bottom:
+            35px;
+
+        min-width:
+            210px;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET / SMALL DESKTOP
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .success-cta {
+
+        min-height:
+            300px;
+    }
+
+
+    .success-cta-container {
+
+        grid-template-columns:
+            70px 1fr;
+
+        padding:
+            35px 32px 190px;
+    }
+
+
+    .success-cta-button {
+
+        position:
+            absolute;
+
+        left:
+            32px;
+
+        bottom:
+            35px;
+
+        right:
+            auto;
+    }
+
+
+    .success-cta-plane {
+
+        width:
+            330px;
+
+        right:
+            -40px;
+
+        bottom:
+            -35px;
+
+        opacity:
+            .9;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .success-cta {
+
+        margin-top:
+            50px;
+
+        min-height:
+            0;
+
+        border-radius:
+            24px;
+    }
+
+
+    .success-cta-container {
+
+        min-height:
+            0;
+
+        display:
+            flex;
+
+        flex-direction:
+            column;
+
+        align-items:
+            flex-start;
+
+        gap:
+            18px;
+
+        padding:
+            32px 25px 190px;
+    }
+
+
+    .success-cta-icon {
+
+        width:
+            58px;
+
+        height:
+            58px;
+    }
+
+
+    .success-cta-icon svg {
+
+        width:
+            25px;
+
+        height:
+            25px;
+    }
+
+
+    .success-cta-content {
+
+        max-width:
+            100%;
+    }
+
+
+    .success-cta-content h2 {
+
+        font-size:
+            1.7rem;
+    }
+
+
+    .success-cta-content h2 span {
+
+        display:
+            block;
+
+        margin-left:
+            0;
+
+        margin-top:
+            3px;
+    }
+
+
+    .success-cta-content p {
+
+        font-size:
+            .84rem;
+
+        max-width:
+            95%;
+    }
+
+
+    /*
+       On mobile the CTA goes back into
+       normal visual flow so the plane
+       cannot cover it.
+    */
+
+    .success-cta-button {
+
+        position:
+            relative;
+
+        left:
+            auto;
+
+        right:
+            auto;
+
+        bottom:
+            auto;
+
+        width:
+            100%;
+
+        min-width:
+            0;
+
+        margin-top:
+            3px;
+    }
+
+
+    .success-cta-plane {
+
+        width:
+            310px;
+
+        max-width:
+            78vw;
+
+        right:
+            -45px;
+
+        bottom:
+            -25px;
+
+        opacity:
+            .88;
+    }
+
+
+    .success-cta-plane::after {
+
+        width:
+            280px;
+
+        right:
+            80px;
+    }
+
+
+    .success-cta-orbit-one {
+
+        right:
+            -320px;
+    }
+
+
+    .success-cta-orbit-two {
+
+        right:
+            -370px;
+    }
+
+
+    .success-cta::after {
+
+        right:
+            30%;
+
+        top:
+            45%;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .success-cta-container {
+
+        padding:
+            28px 20px 170px;
+    }
+
+
+    .success-cta-content h2 {
+
+        font-size:
+            1.5rem;
+    }
+
+
+    .success-cta-plane {
+
+        width:
+            260px;
+
+        right:
+            -40px;
+
+        bottom:
+            -25px;
+    }
+
+
+    .success-cta-button {
+
+        padding:
+            14px 20px;
+
+        font-size:
+            .82rem;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .success-cta::before,
+    .success-cta-glow-one,
+    .success-cta-glow-two,
+    .success-cta-orbit-one,
+    .success-cta-orbit-two,
+    .success-cta-icon,
+    .success-cta-plane img,
+    .success-cta::after {
+
+        animation:
+            none;
+    }
+
+}

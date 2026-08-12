@@ -1,0 +1,124 @@
+/* ============================================================
+   BASE
+============================================================ */
+
+.scroll-reveal {
+
+    opacity: 0;
+
+    transition:
+        opacity var(--scroll-reveal-duration) cubic-bezier(0.16, 1, 0.3, 1),
+
+        transform var(--scroll-reveal-duration) cubic-bezier(0.16, 1, 0.3, 1);
+
+    transition-delay: var(--scroll-reveal-delay);
+
+    will-change:
+        opacity,
+        transform;
+
+}
+
+
+/* ============================================================
+   UP
+============================================================ */
+
+.scroll-reveal-up {
+
+    transform:
+        translate3d(0,
+            var(--scroll-reveal-distance),
+            0);
+
+}
+
+
+/* ============================================================
+   LEFT
+============================================================ */
+
+.scroll-reveal-left {
+
+    transform:
+        translate3d(calc(var(--scroll-reveal-distance) * -1),
+            0,
+            0);
+
+}
+
+
+/* ============================================================
+   RIGHT
+============================================================ */
+
+.scroll-reveal-right {
+
+    transform:
+        translate3d(var(--scroll-reveal-distance),
+            0,
+            0);
+
+}
+
+
+/* ============================================================
+   ZOOM
+============================================================ */
+
+.scroll-reveal-zoom {
+
+    transform:
+        scale(var(--scroll-reveal-scale));
+
+}
+
+
+/* ============================================================
+   POP
+============================================================ */
+
+/*
+   Starts slightly smaller and slightly lower,
+   quickly reaches full size, then eases into place.
+*/
+
+.scroll-reveal-pop {
+
+    transform:
+        translate3d(0, 10px, 0) scale(0.78);
+
+}
+
+
+/* ============================================================
+   VISIBLE
+============================================================ */
+
+.scroll-reveal-visible {
+
+    opacity: 1;
+
+    transform:
+        translate3d(0, 0, 0) scale(1);
+
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .scroll-reveal {
+
+        opacity: 1;
+
+        transform: none;
+
+        transition: none;
+
+    }
+
+}

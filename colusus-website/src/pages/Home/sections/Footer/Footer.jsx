@@ -5,447 +5,460 @@ import { Link } from "react-router-dom";
 import {
     HiOutlineMail,
     HiOutlinePhone,
-    HiOutlineGlobeAlt,
     HiOutlineLocationMarker,
-    HiOutlineArrowRight
+    HiOutlineArrowRight,
+    HiOutlineGlobeAlt
 } from "react-icons/hi";
+
+import footerBackground
+    from "../../../../assets/footer/footer-background.png";
 
 
 const Footer = () => {
 
+    /* =========================================================
+       COMPANY LINKS
+    ========================================================= */
+
+    const companyLinks = [
+        {
+            label: "Home",
+            to: "/"
+        },
+        {
+            label: "About Us",
+            to: "/about"
+        },
+        {
+            label: "Contact",
+            to: "/contact"
+        },
+        {
+            label: "Book Consultation",
+            to: "/consultation"
+        }
+    ];
+
+
+    /* =========================================================
+       SERVICE LINKS
+    ========================================================= */
+
+    const serviceLinks = [
+        {
+            label: "Canada Immigration",
+            to: "/services/canada-migration"
+        },
+        {
+            label: "Global Work Pathways",
+            to: "/services/global-works"
+        },
+        {
+            label: "Tourist Visa",
+            to: "/services/tourist-visa"
+        },
+        {
+            label: "Work Opportunities",
+            to: "/opportunities/work"
+        },
+        {
+            label: "Free Assessment",
+            to: "/free-assessment"
+        }
+    ];
+
+
+    /* =========================================================
+       EXPLORE LINKS
+    ========================================================= */
+
+    const exploreLinks = [
+        {
+            label: "Canada Opportunities",
+            to: "/opportunities/canada"
+        },
+        {
+            label: "Germany Opportunities",
+            to: "/opportunities/germany"
+        },
+        {
+            label: "Bulgaria Opportunities",
+            to: "/opportunities/bulgaria"
+        }
+    ];
+
 
     return (
 
-        <footer className="footer">
+        <footer className="colossus-footer">
 
 
-            {/* MAIN FOOTER */}
+            {/* =================================================
+                BACKGROUND
+            ================================================= */}
 
-            <div className="footer-main">
+            <div
+                className="colossus-footer-background"
+                aria-hidden="true"
+            >
+
+                <div
+                    className="colossus-footer-background-image"
+                    style={{
+                        backgroundImage:
+                            `url(${footerBackground})`
+                    }}
+                />
+
+                <div
+                    className="colossus-footer-background-overlay"
+                />
+
+                <div
+                    className="
+                        colossus-footer-glow
+                        colossus-footer-glow-one
+                    "
+                />
+
+                <div
+                    className="
+                        colossus-footer-glow
+                        colossus-footer-glow-two
+                    "
+                />
+
+            </div>
 
 
-                <div className="container footer-grid">
+            {/* =================================================
+                MAIN FOOTER
+            ================================================= */}
 
+            <div className="colossus-footer-main">
+
+
+                {/* =================================================
+                    BRAND / CONTACT PANEL
+                ================================================= */}
+
+                <section
+                    className="
+                        colossus-footer-panel
+                        colossus-footer-brand-panel
+                    "
+                >
 
 
                     {/* BRAND */}
 
-                    <div className="footer-col footer-brand">
+                    <div className="colossus-footer-brand">
 
 
-                        <h3>
-                            Colossus Migration
-                        </h3>
+                        <div className="colossus-footer-brand-mark">
 
-
-                        <p>
-
-                            Helping professionals, students,
-                            families and entrepreneurs achieve
-                            their global goals through trusted
-                            immigration, relocation and travel
-                            solutions.
-
-                        </p>
-
-
-
-                        <div className="contact">
-
-
-                            <div className="contact-item">
-
-                                <HiOutlineMail />
-
-                                <span>
-                                    admin@colossusmigration.com
-                                </span>
-
-                            </div>
-
-
-
-
-                            <div className="contact-item">
-
-                                <HiOutlinePhone />
-
-                                <span>
-                                    +234-703-520-9306
-                                </span>
-
-                            </div>
-
-
-
-
-                            <div className="contact-item">
-
-                                <HiOutlineLocationMarker />
-
-                                <span>
-                                    Lagos, Nigeria
-                                </span>
-
-                            </div>
-
+                            <HiOutlineGlobeAlt />
 
                         </div>
 
+
+                        <div className="colossus-footer-brand-name">
+
+                            <strong>
+                                Colossus
+                            </strong>
+
+                            <span>
+                                Migration & Tours
+                            </span>
+
+                        </div>
 
 
                     </div>
 
 
+                    {/* DESCRIPTION */}
+
+                    <p className="colossus-footer-description">
+
+                        Helping professionals, students, families
+                        and entrepreneurs achieve their global
+                        goals through trusted immigration,
+                        relocation and travel solutions.
+
+                    </p>
 
 
+                    {/* CONTACT INFORMATION */}
+
+                    <div className="colossus-footer-contact-list">
 
 
+                        {/* EMAIL */}
+
+                        <a
+                            href="mailto:admin@colossusmigration.com"
+                            className="colossus-footer-contact-item"
+                        >
+
+                            <span className="colossus-footer-contact-icon">
+
+                                <HiOutlineMail />
+
+                            </span>
+
+                            <span>
+
+                                admin@colossusmigration.com
+
+                            </span>
+
+                        </a>
 
 
+                        {/* PHONE */}
 
-                    {/* COMPANY */}
+                        <a
+                            href="tel:+2347035209306"
+                            className="colossus-footer-contact-item"
+                        >
+
+                            <span className="colossus-footer-contact-icon">
+
+                                <HiOutlinePhone />
+
+                            </span>
+
+                            <span>
+
+                                +234-703-520-9306
+
+                            </span>
+
+                        </a>
 
 
-                    <div className="footer-col">
+                        {/* LOCATION */}
 
+                        <div className="colossus-footer-contact-item">
+
+                            <span className="colossus-footer-contact-icon">
+
+                                <HiOutlineLocationMarker />
+
+                            </span>
+
+                            <span>
+
+                                Lagos, Nigeria
+
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                </section>
+
+
+                {/* =================================================
+                    COMPANY
+                ================================================= */}
+
+                <section
+                    className="
+                        colossus-footer-panel
+                        colossus-footer-links-panel
+                    "
+                >
+
+
+                    <div className="colossus-footer-panel-heading">
 
                         <h3>
                             Company
                         </h3>
 
-
-
-                        <ul>
-
-
-                            <li>
-                                <Link to="/">
-                                    Home
-                                </Link>
-                            </li>
-
-
-
-                            <li>
-                                <Link to="/about">
-                                    About Us
-                                </Link>
-                            </li>
-
-
-                            <li>
-                                <Link to="/contact">
-                                    Contact
-                                </Link>
-                            </li>
-
-
-
-                            <li>
-                                <Link to="/consultation">
-                                    Book Consultation
-                                </Link>
-                            </li>
-
-
-
-                        </ul>
-
-
                     </div>
 
 
+                    <nav className="colossus-footer-links">
+
+                        {
+                            companyLinks.map((link) => (
+
+                                <Link
+                                    key={link.label}
+                                    to={link.to}
+                                    className="colossus-footer-link"
+                                >
+
+                                    <span className="colossus-footer-link-text">
+
+                                        {link.label}
+
+                                    </span>
 
 
+                                    <HiOutlineArrowRight />
+
+                                </Link>
+
+                            ))
+                        }
+
+                    </nav>
 
 
+                </section>
 
 
+                {/* =================================================
+                    SERVICES
+                ================================================= */}
 
-                    {/* SERVICES */}
+                <section
+                    className="
+                        colossus-footer-panel
+                        colossus-footer-links-panel
+                    "
+                >
 
 
-
-                    <div className="footer-col">
-
+                    <div className="colossus-footer-panel-heading">
 
                         <h3>
                             Services
                         </h3>
 
-
-
-                        <ul>
-
-
-
-                            <li>
-
-                                <Link to="/services/canada-migration">
-
-                                    Canada Immigration
-
-                                </Link>
-
-                            </li>
-
-
-
-
-                            <li>
-
-                                <Link to="/services/global-works">
-
-                                    Global Work Pathways
-
-                                </Link>
-
-                            </li>
-
-
-
-
-                            <li>
-
-                                <Link to="/services/tourist-visa">
-
-                                    Tourist Visa
-
-                                </Link>
-
-                            </li>
-
-
-
-
-                            <li>
-
-                                <Link to="/opportunities/bulgaria">
-
-                                    Work Opportunities
-
-                                </Link>
-
-                            </li>
-
-
-
-
-                            <li>
-
-                                <Link to="/free-assessment">
-
-                                    Free Assessment
-
-                                </Link>
-
-                            </li>
-
-
-                        </ul>
-
-
-
                     </div>
 
 
+                    <nav className="colossus-footer-links">
+
+                        {
+                            serviceLinks.map((link) => (
+
+                                <Link
+                                    key={link.label}
+                                    to={link.to}
+                                    className="colossus-footer-link"
+                                >
+
+                                    <span className="colossus-footer-link-text">
+
+                                        {link.label}
+
+                                    </span>
 
 
+                                    <HiOutlineArrowRight />
+
+                                </Link>
+
+                            ))
+                        }
+
+                    </nav>
 
 
+                </section>
 
 
+                {/* =================================================
+                    EXPLORE
+                ================================================= */}
 
-                    {/* EXPLORE */}
+                <section
+                    className="
+                        colossus-footer-panel
+                        colossus-footer-links-panel
+                    "
+                >
 
 
-
-                    <div className="footer-col">
-
+                    <div className="colossus-footer-panel-heading">
 
                         <h3>
                             Explore
                         </h3>
 
-
-
-                        <ul>
-
-
-                            <li>
-
-                                <Link to="/opportunities/canada">
-
-                                    Canada Opportunities
-
-                                </Link>
-
-                            </li>
-
-
-
-
-                            <li>
-
-                                <Link to="/opportunities/germany">
-
-                                    Germany Opportunities
-
-                                </Link>
-
-                            </li>
-
-
-
-
-                            <li>
-
-                                <Link to="/opportunities/bulgaria">
-
-                                    Bulgaria Opportunities
-
-                                </Link>
-
-                            </li>
-
-                        </ul>
-
-
-
                     </div>
 
 
+                    <nav className="colossus-footer-links">
+
+                        {
+                            exploreLinks.map((link) => (
+
+                                <Link
+                                    key={link.label}
+                                    to={link.to}
+                                    className="colossus-footer-link"
+                                >
+
+                                    <span className="colossus-footer-link-text">
+
+                                        {link.label}
+
+                                    </span>
 
 
+                                    <HiOutlineArrowRight />
+
+                                </Link>
+
+                            ))
+                        }
+
+                    </nav>
 
 
-
-
-
-                    {/* NEWSLETTER */}
-
-
-
-                    {/* <div className="footer-col newsletter-card">
-
-
-                        <h3>
-                            Stay Updated
-                        </h3>
-
-
-
-                        <p>
-
-                            Get migration updates,
-                            visa opportunities and
-                            international travel news.
-
-                        </p>
-
-
-
-
-                        <div className="newsletter">
-
-
-                            <input
-
-                                type="email"
-
-                                placeholder="Your email address"
-
-                            />
-
-
-                            <button>
-
-                                <HiOutlineArrowRight />
-
-                            </button>
-
-
-                        </div>
-
-
-
-
-
-
-                        <div className="newsletter-note">
-
-
-                            <HiOutlineGlobeAlt />
-
-
-                            <span>
-
-                                Connecting opportunities worldwide
-
-                            </span>
-
-
-                        </div>
-
-
-
-                    </div>
- */}
-
-
-
-                </div>
+                </section>
 
 
             </div>
 
 
+            {/* =================================================
+                BOTTOM FOOTER
+            ================================================= */}
+
+            <div className="colossus-footer-bottom">
 
 
-
-
-
-
-
-            {/* BOTTOM */}
-
-
-
-            <div className="footer-bottom">
-
-
-                <div className="container footer-bottom-inner">
+                <div className="colossus-footer-bottom-inner">
 
 
                     <p>
 
-                        © 2026 Colossus Migration & Tours.
+                        © {new Date().getFullYear()}
+                        {" "}
+                        Colossus Migration & Tours.
+                        {" "}
                         All rights reserved.
 
                     </p>
 
 
+                    <div className="colossus-footer-bottom-links">
 
-                    {/* <div className="footer-legal">
-
-
-                        <Link to="/privacy">
-
-                            Privacy Policy
-
+                        <Link to="/contact">
+                            Contact Us
                         </Link>
 
+                        <span>
+                            |
+                        </span>
 
-
-                        <Link to="/terms">
-
-                            Terms & Conditions
-
+                        <Link to="/about">
+                            About
                         </Link>
 
-
-                    </div> */}
+                    </div>
 
 
                 </div>
@@ -454,15 +467,11 @@ const Footer = () => {
             </div>
 
 
-
-
         </footer>
-
 
     );
 
 };
-
 
 
 export default Footer;

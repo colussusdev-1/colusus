@@ -1,83 +1,137 @@
-import { useState } from "react";
+import {
+    useEffect,
+    useState
+} from "react";
 
-import StoryHero from "./StoryHero/StoryHero";
-import FeaturedStory from "./FeaturedStory/FeaturedStory";
-import StoryGrid from "./StoryGrid/StoryGrid";
-import VideoModal from "./VideoModal/VideoModal";
+import StoryHero
+    from "./StoryHero/StoryHero";
 
-import successStoriesData from "./successStoriesData";
+import StoryGrid
+    from "./StoryGrid/StoryGrid";
+
+import ImpactStats
+    from "./ImpactStats/ImpactStats";
+
+import SuccessCTA
+    from "./SuccessCTA/SuccessCTA";
+
+import VideoModal
+    from "./VideoModal/VideoModal";
+
+import successStoriesData
+    from "./successStoriesData";
 
 import "./SuccessStories.css";
 
 
+/* =========================================================
+   STORY FILTERS
+========================================================= */
+
 const filters = [
 
     {
-        key:"all",
-        label:"All Stories"
+        key: "all",
+        label: "All Stories"
     },
 
     {
-        key:"pr",
-        label:"Canada PR"
+        key: "pr",
+        label: "Canada PR"
     },
 
     {
-        key:"work",
-        label:"Work Visa"
+        key: "work",
+        label: "Work Visa"
     },
 
     {
-        key:"study",
-        label:"Study Abroad"
+        key: "study",
+        label: "Study Abroad"
     }
 
 ];
 
 
-
 const SuccessStories = () => {
 
 
-    const [activeFilter,setActiveFilter] = useState("all");
+    /* =====================================================
+       FILTER
+    ===================================================== */
 
-    const [selectedStory,setSelectedStory] = useState(null);
-
-    const [isOpen,setIsOpen] = useState(false);
-
-
-
-    const featuredStory = successStoriesData?.[0];
+    const [
+        activeFilter,
+        setActiveFilter
+    ] = useState("all");
 
 
+
+    /* =====================================================
+       VIDEO MODAL
+    ===================================================== */
+
+    const [
+        selectedStory,
+        setSelectedStory
+    ] = useState(null);
+
+
+    const [
+        isOpen,
+        setIsOpen
+    ] = useState(false);
+
+
+
+    /* =====================================================
+       FEATURED STORY
+    ===================================================== */
+
+    const featuredStory =
+        successStoriesData?.[0];
+
+
+
+    /* =====================================================
+       REMAINING STORIES
+    ===================================================== */
 
     const remainingStories =
         successStoriesData.filter(
-            story => story.id !== featuredStory?.id
+            (story) =>
+                story.id !== featuredStory?.id
         );
 
 
+
+    /* =====================================================
+       FILTERED STORIES
+    ===================================================== */
 
     const filteredStories =
 
         activeFilter === "all"
 
-        ?
+            ? remainingStories
 
-        remainingStories
-
-        :
-
-        remainingStories.filter(
-            story =>
-            story.type === activeFilter
-        );
+            : remainingStories.filter(
+                (story) =>
+                    story.type === activeFilter
+            );
 
 
 
+    /* =====================================================
+       OPEN VIDEO
+    ===================================================== */
 
+    const handleWatch = (story) => {
 
-    const handleWatch = (story)=>{
+        if (!story) {
+            return;
+        }
+
 
         setSelectedStory(story);
 
@@ -87,9 +141,11 @@ const SuccessStories = () => {
 
 
 
+    /* =====================================================
+       CLOSE VIDEO
+    ===================================================== */
 
-
-    const closeVideo = ()=>{
+    const closeVideo = () => {
 
         setIsOpen(false);
 
@@ -99,31 +155,104 @@ const SuccessStories = () => {
 
 
 
+    /* =====================================================
+       LOCK PAGE SCROLL WHEN MODAL IS OPEN
+    ===================================================== */
 
+    useEffect(() => {
+
+        if (!isOpen) {
+
+            document.body.style.overflow = "";
+
+            return;
+
+        }
+
+
+        const previousOverflow =
+            document.body.style.overflow;
+
+
+        document.body.style.overflow = "hidden";
+
+
+        return () => {
+
+            document.body.style.overflow =
+                previousOverflow;
+
+        };
+
+    }, [isOpen]);
+
+
+
+    /* =====================================================
+       ESCAPE KEY
+    ===================================================== */
+
+    useEffect(() => {
+
+        if (!isOpen) {
+            return;
+        }
+
+
+        const handleKeyDown = (event) => {
+
+            if (event.key === "Escape") {
+
+                closeVideo();
+
+            }
+
+        };
+
+
+        document.addEventListener(
+            "keydown",
+            handleKeyDown
+        );
+
+
+        return () => {
+
+            document.removeEventListener(
+                "keydown",
+                handleKeyDown
+            );
+
+        };
+
+    }, [isOpen]);
+
+
+
+    /* =====================================================
+       RENDER
+    ===================================================== */
 
     return (
 
         <section className="success">
 
 
+            {/* =================================================
+                PAGE CONTAINER
+            ================================================= */}
+
             <div className="container">
 
 
-
-                {/* HERO */}
-
-                <StoryHero />
-
-
-
-
-
-                {/* FEATURED STORY */}
+                {/* =================================================
+                    HERO
+                ================================================= */}
 
                 {
                     featuredStory && (
 
-                        <FeaturedStory
+                        <StoryHero
 
                             story={featuredStory}
 
@@ -136,45 +265,48 @@ const SuccessStories = () => {
 
 
 
-
-
-
-
-                {/* FILTERS */}
+                {/* =================================================
+                    FILTER BAR
+                ================================================= */}
 
                 <div className="filter-bar">
 
 
                     {
-                        filters.map(filter=>(
+                        filters.map(
+                            (filter) => (
 
+                                <button
 
-                            <button
+                                    key={filter.key}
 
-                                key={filter.key}
+                                    type="button"
 
-                                className={
-                                    activeFilter === filter.key
-                                    ?
-                                    "filter-btn active"
-                                    :
-                                    "filter-btn"
-                                }
+                                    className={
 
+                                        activeFilter ===
+                                            filter.key
 
-                                onClick={() =>
-                                    setActiveFilter(filter.key)
-                                }
+                                            ? "filter-btn active"
 
-                            >
+                                            : "filter-btn"
 
-                                {filter.label}
+                                    }
 
+                                    onClick={() =>
+                                        setActiveFilter(
+                                            filter.key
+                                        )
+                                    }
 
-                            </button>
+                                >
 
+                                    {filter.label}
 
-                        ))
+                                </button>
+
+                            )
+                        )
                     }
 
 
@@ -182,12 +314,9 @@ const SuccessStories = () => {
 
 
 
-
-
-
-
-
-                {/* STORY COLLECTION */}
+                {/* =================================================
+                    STORY COLLECTION
+                ================================================= */}
 
                 <StoryGrid
 
@@ -199,66 +328,53 @@ const SuccessStories = () => {
 
 
 
+                {/* =================================================
+                    IMPACT STATISTICS
+                ================================================= */}
+
+                <ImpactStats />
 
 
 
+                {/* =================================================
+                    SUCCESS CTA
+                ================================================= */}
 
-
-                {/* VIDEO MODAL */}
-
-                <VideoModal
-
-
-                    isOpen={isOpen}
-
-
-                    onClose={closeVideo}
-
-
-                    videoUrl={selectedStory?.video}
-
-
-                    title={selectedStory?.name}
-
-
-                    story={selectedStory}
-
-
-                />
-
-
-
-
-
-
-
-
-
-                {/* FINAL CTA */}
-
-                <div className="video-strip">
-
-
-                    <p>
-
-                        Want results like these?
-
-                    </p>
-
-
-
-                    <button className="video-btn">
-
-                        Start Your Application
-
-                    </button>
-
-
-                </div>
+                <SuccessCTA />
 
 
 
             </div>
+
+
+
+            {/* =====================================================
+                VIDEO MODAL
+
+                IMPORTANT:
+                Kept outside the page container so the fixed
+                modal is positioned relative to the viewport.
+            ===================================================== */}
+
+            <VideoModal
+
+                isOpen={isOpen}
+
+                onClose={closeVideo}
+
+                videoUrl={
+                    selectedStory?.video
+                }
+
+                title={
+                    selectedStory?.name
+                }
+
+                story={
+                    selectedStory
+                }
+
+            />
 
 
         </section>

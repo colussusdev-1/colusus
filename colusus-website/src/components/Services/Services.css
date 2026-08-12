@@ -1,729 +1,1434 @@
-/* =====================================================
-   SERVICES
-===================================================== */
+/* ============================================================
+   COLOSSUS SERVICES
+   CINEMATIC MIGRATION JOURNEY
+============================================================ */
 
 .services {
-
     position: relative;
+    isolation: isolate;
+
+    width: 100%;
+    min-height: 900px;
 
     overflow: hidden;
 
-    padding: 120px 0;
+    padding: 130px 0 120px;
 
-    background:
-        linear-gradient(180deg,
-            #050C18 0%,
-            #081426 45%,
-            #050C18 100%);
+    color: #ffffff;
 
-    color: #fff;
-
+    background: #030914;
 }
 
 
+/* ============================================================
+   CINEMATIC BACKGROUND IMAGE
+============================================================ */
+
+.services .services-background {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    pointer-events: none;
+
+    z-index: -5;
+}
 
 
-/* =====================================================
-   BACKGROUND
-===================================================== */
+.services .services-background img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    object-position: center center;
+
+    user-select: none;
+    pointer-events: none;
+
+    transform: scale(1.015);
+
+    filter:
+        saturate(0.95) contrast(1.03);
+
+    animation:
+        servicesBackgroundBreath 18s ease-in-out infinite;
+}
 
 
-.services-bg {
+/* ============================================================
+   BACKGROUND READABILITY OVERLAY
+============================================================ */
+
+.services .services-background-overlay {
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    z-index: -4;
+
+    background:
+        linear-gradient(180deg,
+            rgba(2, 9, 20, 0.34) 0%,
+            rgba(3, 12, 27, 0.18) 35%,
+            rgba(3, 10, 22, 0.28) 70%,
+            rgba(2, 8, 18, 0.58) 100%);
+
+    backdrop-filter:
+        saturate(105%);
+
+    -webkit-backdrop-filter:
+        saturate(105%);
+}
+
+
+/* ============================================================
+   CINEMATIC EDGE VIGNETTE
+============================================================ */
+
+.services .services-background-overlay::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        radial-gradient(ellipse at center,
+            transparent 35%,
+            rgba(1, 6, 15, 0.14) 65%,
+            rgba(1, 5, 12, 0.58) 100%);
+
+    pointer-events: none;
+}
+
+
+/* ============================================================
+   TOP FADE
+============================================================ */
+
+.services .services-background-overlay::after {
+    content: "";
 
     position: absolute;
 
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 180px;
+
+    background:
+        linear-gradient(180deg,
+            rgba(1, 7, 17, 0.48),
+            transparent);
+
+    pointer-events: none;
+}
+
+
+/* ============================================================
+   ATMOSPHERE SYSTEM
+============================================================ */
+
+.services .services-atmosphere {
+    position: absolute;
     inset: 0;
 
     overflow: hidden;
 
     pointer-events: none;
 
-    z-index: 0;
-
+    z-index: -2;
 }
 
 
+/* ============================================================
+   BLUE GLOW
+============================================================ */
 
-
-
-/* =====================================================
-   STARS
-===================================================== */
-
-
-.star {
-
-    position: absolute;
-
-    width: 3px;
-
-    height: 3px;
-
-    border-radius: 50%;
-
-    background: #fff;
-
-    box-shadow:
-        0 0 12px rgba(255, 255, 255, .9);
-
-    animation: twinkle 5s ease-in-out infinite;
-
-}
-
-
-
-.star-1 {
-
-    top: 12%;
-
-    left: 14%;
-
-}
-
-
-.star-2 {
-
-    top: 34%;
-
-    right: 18%;
-
-    animation-delay: 1.8s;
-
-}
-
-
-.star-3 {
-
-    bottom: 18%;
-
-    left: 72%;
-
-    animation-delay: 3s;
-
-}
-
-
-
-
-
-/* =====================================================
-   AURORA
-===================================================== */
-
-
-.aurora {
-
+.services .services-atmosphere-glow {
     position: absolute;
 
     border-radius: 50%;
 
-    filter: blur(120px);
+    filter: blur(110px);
 
-    opacity: .4;
+    opacity: 0.22;
 
-    animation: auroraMove 18s ease-in-out infinite;
+    mix-blend-mode: screen;
 
+    animation:
+        servicesAtmosphereFloat 18s ease-in-out infinite;
 }
 
 
-
-.aurora-1 {
-
-    width: 620px;
-
-    height: 620px;
-
-    background: #0E6CFF;
-
-    top: -220px;
-
-    left: -180px;
-
-}
-
-
-
-.aurora-2 {
-
+.services .services-atmosphere-glow-one {
     width: 520px;
-
     height: 520px;
 
-    background: #00D6A3;
+    top: -220px;
+    left: -180px;
 
-    right: -180px;
-
-    bottom: -180px;
-
-    animation-delay: 9s;
-
+    background:
+        radial-gradient(circle,
+            rgba(37, 139, 255, 0.75),
+            transparent 68%);
 }
 
 
+.services .services-atmosphere-glow-two {
+    width: 600px;
+    height: 600px;
+
+    right: -260px;
+    bottom: -260px;
+
+    background:
+        radial-gradient(circle,
+            rgba(0, 214, 163, 0.5),
+            transparent 68%);
+
+    animation-delay:
+        -8s;
+}
 
 
+/* ============================================================
+   SMALL LIGHT PARTICLES
+============================================================ */
 
-/* =====================================================
-   CONTAINER
-===================================================== */
+.services .services-atmosphere-light {
+    position: absolute;
 
+    width: 4px;
+    height: 4px;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 8px rgba(128, 214, 255, 0.95),
+        0 0 22px rgba(71, 181, 255, 0.65);
+
+    opacity: 0.75;
+
+    animation:
+        servicesParticlePulse 4.5s ease-in-out infinite;
+}
+
+
+.services .services-atmosphere-light-one {
+    top: 23%;
+    left: 11%;
+}
+
+
+.services .services-atmosphere-light-two {
+    top: 66%;
+    right: 13%;
+
+    width: 3px;
+    height: 3px;
+
+    animation-delay:
+        -2s;
+}
+
+
+/* ============================================================
+   CONTENT LAYER
+============================================================ */
 
 .services .container {
-
     position: relative;
 
     z-index: 5;
-
 }
 
 
-
-
-
-/* =====================================================
+/* ============================================================
    HEADER
-===================================================== */
+============================================================ */
 
-
-.services-header {
+.services .services-header {
+    position: relative;
 
     max-width: 780px;
 
-    margin: 0 auto 80px;
+    margin:
+        0 auto 95px;
 
     text-align: center;
-
 }
 
 
+/* ============================================================
+   HEADER DECORATIVE LINE
+============================================================ */
+
+.services .services-header::after {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    bottom: -48px;
+
+    width: 100px;
+    height: 1px;
+
+    transform:
+        translateX(-50%);
+
+    background:
+        linear-gradient(90deg,
+            transparent,
+            rgba(113, 205, 255, 0.9),
+            transparent);
+
+    box-shadow:
+        0 0 18px rgba(70, 180, 255, 0.5);
+}
 
 
-.section-tag.dark {
+/* ============================================================
+   HEADER TAG
+============================================================ */
 
+.services .section-tag.dark {
     display: inline-flex;
 
     align-items: center;
+    justify-content: center;
 
-    padding: 10px 20px;
+    padding:
+        9px 18px;
 
-    border-radius: 999px;
+    margin-bottom:
+        24px;
 
-    background: rgba(255, 255, 255, .08);
-
-    border: 1px solid rgba(255, 255, 255, .12);
-
-    backdrop-filter: blur(20px);
-
-    color: #7FCBFF;
-
-    font-size: .8rem;
-
-    font-weight: 700;
-
-    letter-spacing: .12em;
-
-    text-transform: uppercase;
-
-    margin-bottom: 25px;
-
-}
-
-
-
-
-.services-header h2 {
-
-
-    font-size:
-
-        clamp(2.6rem, 5vw, 4.5rem);
-
-
-    line-height: 1.08;
-
-    margin-bottom: 24px;
-
-    font-weight: 800;
-
-    letter-spacing: -2px;
-
-    color: white;
-
-}
-
-
-
-.services-header h2 span {
-
-
-    display: block;
-
-    color: #7FCBFF;
-
-}
-
-
-
-
-.services-header p {
-
-
-    max-width: 650px;
-
-    margin: auto;
-
-    color: rgba(255, 255, 255, .72);
-
-    font-size: 1.05rem;
-
-    line-height: 1.8;
-
-}
-
-
-
-
-
-/* =====================================================
-   TIMELINE
-===================================================== */
-
-
-.services-timeline {
-
-    position: relative;
-
-    width: 100%;
-
-    max-width: 1200px;
-
-    margin: auto;
-
-}
-
-
-
-
-
-/* FLIGHT PATH GUIDE */
-
-
-.services-timeline::before {
-
-
-    content: "";
-
-
-    position: absolute;
-
-
-    left: 50%;
-
-
-    transform: translateX(-50%);
-
-
-    top: 20px;
-
-
-    bottom: 20px;
-
-
-    width: 2px;
-
+    border-radius:
+        999px;
 
     background:
+        rgba(255, 255, 255, 0.085);
 
-        linear-gradient(to bottom,
+    border:
+        1px solid rgba(137, 211, 255, 0.28);
 
-            transparent,
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.14),
 
-            rgba(127, 203, 255, .35),
+        0 12px 35px rgba(0, 0, 0, 0.22);
 
-            rgba(127, 203, 255, .7),
+    backdrop-filter:
+        blur(18px) saturate(150%);
 
-            rgba(127, 203, 255, .35),
+    -webkit-backdrop-filter:
+        blur(18px) saturate(150%);
 
-            transparent);
+    color:
+        #8bd6ff;
 
+    font-size:
+        0.72rem;
 
-    z-index: 1;
+    font-weight:
+        800;
 
+    letter-spacing:
+        0.14em;
+
+    text-transform:
+        uppercase;
 }
 
 
+/* ============================================================
+   HEADER TITLE
+============================================================ */
+
+.services .services-header h2 {
+    margin:
+        0 0 22px;
+
+    color:
+        #ffffff;
+
+    font-size:
+        clamp(2.7rem,
+            5.2vw,
+            4.7rem);
+
+    font-weight:
+        850;
+
+    line-height:
+        1.02;
+
+    letter-spacing:
+        -0.055em;
+
+    text-shadow:
+        0 8px 35px rgba(0, 0, 0, 0.28);
+}
 
 
+.services .services-header h2 span {
+    display: block;
 
-/* =====================================================
-   SERVICE COLUMN
-===================================================== */
+    margin-top:
+        5px;
+
+    background:
+        linear-gradient(90deg,
+            #70c9ff,
+            #d3f0ff,
+            #70c9ff);
+
+    background-size:
+        200% auto;
+
+    -webkit-background-clip:
+        text;
+
+    background-clip:
+        text;
+
+    color:
+        transparent;
+
+    animation:
+        servicesGradientFlow 7s linear infinite;
+}
 
 
-.timeline-column {
+/* ============================================================
+   HEADER DESCRIPTION
+============================================================ */
+
+.services .services-header p {
+    max-width:
+        650px;
+
+    margin:
+        0 auto;
+
+    color:
+        rgba(235, 245, 255, 0.78);
+
+    font-size:
+        1rem;
+
+    line-height:
+        1.85;
+
+    text-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.35);
+}
 
 
+/* ============================================================
+   TIMELINE
+============================================================ */
+
+.services .services-timeline {
     position: relative;
-
-
-    display: flex;
-
-
-    flex-direction: column;
-
-
-    gap: 80px;
-
 
     width: 100%;
 
+    max-width:
+        1180px;
 
-    z-index: 5;
-
+    margin:
+        0 auto;
 }
 
 
+/* ============================================================
+   CENTRAL JOURNEY LINE
+============================================================ */
 
-
-
-
-/* =====================================================
-   FLOATING LIGHT
-===================================================== */
-
-
-.services::before {
-
-
+.services .services-timeline::before {
     content: "";
-
 
     position: absolute;
 
+    top:
+        25px;
+
+    bottom:
+        25px;
+
+    left:
+        50%;
+
+    width:
+        1px;
+
+    transform:
+        translateX(-50%);
+
+    background:
+        linear-gradient(to bottom,
+            transparent 0%,
+            rgba(87, 181, 255, 0.12) 8%,
+            rgba(87, 181, 255, 0.38) 30%,
+            rgba(87, 181, 255, 0.72) 50%,
+            rgba(87, 181, 255, 0.38) 70%,
+            rgba(87, 181, 255, 0.12) 92%,
+            transparent 100%);
+
+    box-shadow:
+        0 0 20px rgba(60, 170, 255, 0.2);
+
+    z-index:
+        1;
+}
+
+
+/* ============================================================
+   TRAVELING ENERGY
+============================================================ */
+
+.services .services-timeline::after {
+    content: "";
+
+    position: absolute;
+
+    top:
+        -100px;
+
+    left:
+        50%;
+
+    width:
+        5px;
+
+    height:
+        105px;
+
+    transform:
+        translateX(-50%);
+
+    border-radius:
+        999px;
+
+    background:
+        linear-gradient(to bottom,
+            transparent,
+            #9be0ff,
+            transparent);
+
+    filter:
+        blur(2px);
+
+    opacity:
+        0.85;
+
+    animation:
+        servicesEnergyTravel 5s cubic-bezier(.4, 0, .2, 1) infinite;
+
+    z-index:
+        2;
+}
+
+
+/* ============================================================
+   TIMELINE COLUMN
+============================================================ */
+
+.services .timeline-column {
+    position: relative;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        85px;
+
+    width:
+        100%;
+
+    z-index:
+        5;
+}
+
+
+/* ============================================================
+   SCROLL REVEAL WRAPPERS
+============================================================ */
+
+.services .timeline-column>.scroll-reveal {
+    position: relative;
+
+    width:
+        calc(50% - 75px);
+
+    min-width:
+        0;
+}
+
+
+/* ============================================================
+   LEFT CARDS
+============================================================ */
+
+.services .timeline-column>.service-reveal-left {
+    align-self:
+        flex-start;
+}
+
+
+/* ============================================================
+   RIGHT CARDS
+============================================================ */
+
+.services .timeline-column>.service-reveal-right {
+    align-self:
+        flex-end;
+}
+
+
+/* ============================================================
+   CONNECTION NODES
+============================================================ */
+
+.services .timeline-column>.service-reveal-left::after,
+
+.services .timeline-column>.service-reveal-right::after {
+    content: "";
+
+    position: absolute;
+
+    top:
+        50%;
+
+    width:
+        11px;
+
+    height:
+        11px;
+
+    transform:
+        translateY(-50%);
+
+    border-radius:
+        50%;
+
+    background:
+        #8bd8ff;
+
+    border:
+        2px solid #071526;
+
+    box-shadow:
+        0 0 0 5px rgba(91, 190, 255, 0.08),
+
+        0 0 18px rgba(91, 190, 255, 0.8);
+
+    z-index:
+        10;
+
+    animation:
+        servicesNodePulse 3s ease-in-out infinite;
+}
+
+
+.services .timeline-column>.service-reveal-left::after {
+    right:
+        -81px;
+}
+
+
+.services .timeline-column>.service-reveal-right::after {
+    left:
+        -81px;
+}
+
+
+/* ============================================================
+   CONNECTOR LINES
+============================================================ */
+
+.services .timeline-column>.service-reveal-left::before,
+
+.services .timeline-column>.service-reveal-right::before {
+    content: "";
+
+    position: absolute;
+
+    top:
+        50%;
+
+    width:
+        75px;
+
+    height:
+        1px;
+
+    transform:
+        translateY(-50%);
+
+    background:
+        linear-gradient(90deg,
+            transparent,
+            rgba(92, 190, 255, 0.55));
+
+    z-index:
+        1;
+}
+
+
+.services .timeline-column>.service-reveal-left::before {
+    right:
+        -75px;
+}
+
+
+.services .timeline-column>.service-reveal-right::before {
+    left:
+        -75px;
+
+    transform:
+        translateY(-50%) rotate(180deg);
+}
+
+
+/* ============================================================
+   SERVICE CARD
+============================================================ */
+
+.services .timeline-column>.scroll-reveal>.service-card {
+    position:
+        relative;
+
+    width:
+        100%;
+
+    isolation:
+        isolate;
+
+    transition:
+        transform 0.45s ease,
+        filter 0.45s ease;
+}
+
+
+/* ============================================================
+   CARD HOVER
+============================================================ */
+
+.services .timeline-column>.scroll-reveal:hover>.service-card {
+    transform:
+        translateY(-7px);
+
+    filter:
+        drop-shadow(0 20px 45px rgba(0, 130, 255, 0.2));
+}
+
+
+/* ============================================================
+   CARD FLOAT
+============================================================ */
+
+.services .timeline-column>.scroll-reveal.scroll-reveal-visible>.service-card {
+    animation:
+        servicesCardFloat 7s ease-in-out infinite;
+}
+
+
+.services .timeline-column>.scroll-reveal:nth-child(2)>.service-card {
+    animation-delay:
+        -1.7s;
+}
+
+
+.services .timeline-column>.scroll-reveal:nth-child(3)>.service-card {
+    animation-delay:
+        -3.4s;
+}
+
+
+.services .timeline-column>.scroll-reveal:nth-child(4)>.service-card {
+    animation-delay:
+        -5.1s;
+}
+
+
+/* ============================================================
+   ATMOSPHERIC SECTION GLOW
+============================================================ */
+
+.services::before {
+    content: "";
+
+    position: absolute;
 
     inset: 0;
 
+    pointer-events:
+        none;
+
+    z-index:
+        -1;
 
     background:
+        radial-gradient(circle at 15% 35%,
+            rgba(68, 160, 255, 0.07),
+            transparent 24%),
 
+        radial-gradient(circle at 85% 58%,
+            rgba(65, 190, 255, 0.07),
+            transparent 25%),
 
-        radial-gradient(circle at 20% 30%,
-
-            rgba(255, 255, 255, .05),
-
-            transparent 30%),
-
-
-        radial-gradient(circle at 80% 70%,
-
-            rgba(127, 203, 255, .08),
-
+        radial-gradient(circle at 50% 80%,
+            rgba(0, 214, 163, 0.045),
             transparent 25%);
 
-
-    animation: particles 20s linear infinite;
-
+    animation:
+        servicesAtmosphereShift 16s ease-in-out infinite;
 }
 
 
+/* ============================================================
+   CTA
+============================================================ */
 
+.services .opportunities-cta {
+    position:
+        relative;
 
+    display:
+        flex;
 
+    justify-content:
+        center;
 
+    margin-top:
+        95px;
 
-/* =====================================================
-   DESTINATION CTA
-===================================================== */
-
-
-.destinations-cta {
-
-
-    display: flex;
-
-
-    justify-content: center;
-
-
-    margin-top: 80px;
-
-
-    position: relative;
-
-
-    z-index: 10;
-
-
+    z-index:
+        10;
 }
 
 
+/* ============================================================
+   CTA BUTTON
+============================================================ */
 
+.services .opportunities-btn {
+    position:
+        relative;
 
+    display:
+        inline-flex;
 
-.destinations-btn {
+    align-items:
+        center;
 
+    justify-content:
+        center;
 
-    display: inline-flex;
+    gap:
+        12px;
 
+    min-height:
+        56px;
 
-    align-items: center;
+    padding:
+        0 26px;
 
+    border:
+        1px solid rgba(117, 204, 255, 0.4);
 
-    gap: 12px;
+    border-radius:
+        999px;
 
+    background:
+        rgba(5, 24, 48, 0.5);
 
-    padding: 14px 24px;
+    color:
+        #ffffff;
 
+    font-size:
+        0.92rem;
 
-    border-radius: 999px;
+    font-weight:
+        700;
 
+    cursor:
+        pointer;
 
-    background: rgba(255, 255, 255, .08);
+    backdrop-filter:
+        blur(22px) saturate(150%);
 
+    -webkit-backdrop-filter:
+        blur(22px) saturate(150%);
 
-    border: 1px solid rgba(127, 203, 255, .3);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
 
+        0 15px 40px rgba(0, 0, 0, 0.25);
 
-    color: white;
-
-
-    font-size: .95rem;
-
-
-    font-weight: 600;
-
-
-    cursor: pointer;
-
-
-    backdrop-filter: blur(20px);
-
-
-    transition: .35s ease;
-
-
+    transition:
+        transform 0.35s ease,
+        border-color 0.35s ease,
+        background 0.35s ease,
+        box-shadow 0.35s ease;
 }
 
 
+.services .opportunities-btn::before {
+    content: "";
 
+    position:
+        absolute;
 
-.destinations-btn:hover {
+    inset:
+        -1px;
 
+    border-radius:
+        inherit;
 
-    transform: translateY(-4px);
+    background:
+        linear-gradient(90deg,
+            transparent,
+            rgba(91, 195, 255, 0.4),
+            transparent);
 
+    opacity:
+        0;
 
-    background: rgba(127, 203, 255, .15);
+    transition:
+        opacity 0.35s ease;
 
-
-    border-color: #7FCBFF;
-
-
+    z-index:
+        -1;
 }
 
 
+.services .opportunities-btn:hover {
+    transform:
+        translateY(-5px);
 
+    border-color:
+        rgba(127, 203, 255, 0.8);
 
+    background:
+        rgba(52, 145, 255, 0.16);
 
-
-.destinations-btn svg:first-child {
-
-
-    color: #7FCBFF;
-
+    box-shadow:
+        0 20px 50px rgba(0, 115, 255, 0.25);
 }
 
 
-
-
-.destinations-btn svg:last-child {
-
-
-    transition: .3s ease;
-
+.services .opportunities-btn:hover::before {
+    opacity:
+        1;
 }
 
 
+.services .opportunities-btn svg:first-child {
+    color:
+        #73caff;
 
-.destinations-btn:hover svg:last-child {
-
-
-    transform: translateX(5px);
-
+    font-size:
+        20px;
 }
 
 
+.services .opportunities-btn svg:last-child {
+    color:
+        #ffffff;
+
+    transition:
+        transform 0.3s ease;
+}
 
 
+.services .opportunities-btn:hover svg:last-child {
+    transform:
+        translateX(5px);
+}
 
-/* =====================================================
+
+/* ============================================================
    ANIMATIONS
-===================================================== */
+============================================================ */
 
-
-@keyframes auroraMove {
-
+@keyframes servicesBackgroundBreath {
 
     0%,
     100% {
-
-        transform: translate(0, 0) scale(1);
-
+        transform:
+            scale(1.015);
     }
-
 
     50% {
-
-        transform: translate(100px, -50px) scale(1.2);
-
+        transform:
+            scale(1.035);
     }
-
-
 }
 
 
-
-
-@keyframes twinkle {
-
+@keyframes servicesAtmosphereFloat {
 
     0%,
     100% {
-
-        opacity: .3;
-
-        transform: scale(.8);
-
+        transform:
+            translate3d(0, 0, 0) scale(1);
     }
-
 
     50% {
+        transform:
+            translate3d(80px, -45px, 0) scale(1.12);
+    }
+}
 
-        opacity: 1;
 
-        transform: scale(1.8);
+@keyframes servicesParticlePulse {
 
+    0%,
+    100% {
+        opacity:
+            0.25;
+
+        transform:
+            scale(0.7);
     }
 
+    50% {
+        opacity:
+            1;
+
+        transform:
+            scale(1.7);
+    }
+}
+
+
+@keyframes servicesGradientFlow {
+
+    0% {
+        background-position:
+            0% center;
+    }
+
+    100% {
+        background-position:
+            200% center;
+    }
+}
+
+
+@keyframes servicesEnergyTravel {
+
+    0% {
+        top:
+            -110px;
+
+        opacity:
+            0;
+    }
+
+    12% {
+        opacity:
+            1;
+    }
+
+    78% {
+        opacity:
+            0.85;
+    }
+
+    100% {
+        top:
+            100%;
+
+        opacity:
+            0;
+    }
+}
+
+
+@keyframes servicesNodePulse {
+
+    0%,
+    100% {
+        box-shadow:
+            0 0 0 4px rgba(91, 190, 255, 0.07),
+
+            0 0 12px rgba(91, 190, 255, 0.45);
+    }
+
+    50% {
+        box-shadow:
+            0 0 0 8px rgba(91, 190, 255, 0.04),
+
+            0 0 24px rgba(91, 190, 255, 0.95);
+    }
+}
+
+
+@keyframes servicesCardFloat {
+
+    0%,
+    100% {
+        transform:
+            translateY(0);
+    }
+
+    50% {
+        transform:
+            translateY(-4px);
+    }
+}
+
+
+@keyframes servicesAtmosphereShift {
+
+    0%,
+    100% {
+        opacity:
+            0.75;
+
+        transform:
+            scale(1);
+    }
+
+    50% {
+        opacity:
+            1;
+
+        transform:
+            scale(1.04);
+    }
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .services .services-background img,
+
+    .services .services-atmosphere-glow,
+
+    .services .services-atmosphere-light,
+
+    .services::before,
+
+    .services .services-timeline::after,
+
+    .services .services-header h2 span,
+
+    .services .timeline-column>.scroll-reveal>.service-card,
+
+    .services .timeline-column>.service-reveal-left::after,
+
+    .services .timeline-column>.service-reveal-right::after {
+
+        animation:
+            none !important;
+    }
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 992px) {
+
+    .services {
+        min-height:
+            850px;
+
+        padding:
+            100px 0 95px;
+    }
+
+
+    .services .services-header {
+        margin-bottom:
+            75px;
+    }
+
+
+    .services .timeline-column {
+        gap:
+            55px;
+    }
+
+
+    .services .timeline-column>.scroll-reveal {
+
+        width:
+            calc(50% - 50px);
+    }
+
+
+    .services .timeline-column>.service-reveal-left::before {
+
+        width:
+            50px;
+
+        right:
+            -50px;
+    }
+
+
+    .services .timeline-column>.service-reveal-right::before {
+
+        width:
+            50px;
+
+        left:
+            -50px;
+    }
+
+
+    .services .timeline-column>.service-reveal-left::after {
+
+        right:
+            -56px;
+    }
+
+
+    .services .timeline-column>.service-reveal-right::after {
+
+        left:
+            -56px;
+    }
+
+
+    .services .services-background img {
+        object-position:
+            center center;
+    }
 
 }
 
 
+/* ============================================================
+   MOBILE
+============================================================ */
 
+@media (max-width: 768px) {
 
-@keyframes particles {
+    .services {
+        min-height:
+            auto;
 
-
-    from {
-
-        transform: translateY(0);
-
+        padding:
+            75px 0 80px;
     }
 
 
-    to {
+    /* Keep background visually strong */
 
-        transform: translateY(-80px);
+    .services .services-background img {
 
+        object-position:
+            center center;
+
+        transform:
+            scale(1.03);
     }
 
+
+    .services .services-background-overlay {
+
+        background:
+            linear-gradient(180deg,
+                rgba(2, 9, 20, 0.5),
+                rgba(3, 12, 27, 0.32),
+                rgba(2, 8, 18, 0.68));
+    }
+
+
+    .services .services-header {
+        margin-bottom:
+            60px;
+    }
+
+
+    .services .services-header h2 {
+
+        font-size:
+            2.35rem;
+
+        letter-spacing:
+            -0.035em;
+    }
+
+
+    .services .services-header p {
+
+        max-width:
+            500px;
+
+        font-size:
+            0.94rem;
+
+        line-height:
+            1.75;
+    }
+
+
+    /* Hide desktop timeline */
+
+    .services .services-timeline::before,
+
+    .services .services-timeline::after {
+
+        display:
+            none;
+    }
+
+
+    /* Stack cards */
+
+    .services .timeline-column {
+
+        gap:
+            28px;
+    }
+
+
+    .services .timeline-column>.scroll-reveal {
+
+        width:
+            100%;
+    }
+
+
+    .services .timeline-column>.service-reveal-left,
+
+    .services .timeline-column>.service-reveal-right {
+
+        align-self:
+            stretch;
+    }
+
+
+    /* Remove desktop connectors */
+
+    .services .timeline-column>.service-reveal-left::before,
+
+    .services .timeline-column>.service-reveal-right::before,
+
+    .services .timeline-column>.service-reveal-left::after,
+
+    .services .timeline-column>.service-reveal-right::after {
+
+        display:
+            none;
+    }
+
+
+    /* No floating cards on small screens */
+
+    .services .timeline-column>.scroll-reveal>.service-card {
+
+        animation:
+            none;
+    }
+
+
+    .services .opportunities-cta {
+
+        margin-top:
+            55px;
+    }
+
+
+    .services .opportunities-btn {
+
+        width:
+            min(100%, 420px);
+
+        min-height:
+            54px;
+
+        padding:
+            0 18px;
+
+        font-size:
+            0.86rem;
+    }
 
 }
 
 
+/* ============================================================
+   SMALL MOBILE
+============================================================ */
 
-
-
-
-
-/* =====================================================
-   RESPONSIVE
-===================================================== */
-
-
-@media(max-width:992px) {
-
+@media (max-width: 480px) {
 
     .services {
 
-        padding: 90px 0;
-
+        padding:
+            65px 0 70px;
     }
 
 
+    .services .services-header h2 {
 
-    .services-timeline::before {
-
-        left: 25px;
-
+        font-size:
+            2rem;
     }
 
 
+    .services .services-header p {
 
-    .timeline-column {
-
-        gap: 45px;
-
+        font-size:
+            0.88rem;
     }
 
 
-}
+    .services .section-tag.dark {
 
+        padding:
+            8px 14px;
 
-
-
-
-@media(max-width:768px) {
-
-
-    .services {
-
-        padding: 70px 0;
-
+        font-size:
+            0.65rem;
     }
 
 
+    .services .opportunities-btn {
 
-    .services-header {
+        width:
+            100%;
 
-        margin-bottom: 50px;
+        min-height:
+            52px;
 
+        font-size:
+            0.82rem;
     }
 
 
+    .services .services-background img {
 
-    .services-header h2 {
-
-        font-size: 2.3rem;
-
-        letter-spacing: -1px;
-
+        object-position:
+            52% center;
     }
-
-
-
-    .services-header p {
-
-        font-size: .95rem;
-
-    }
-
-
-
-    .services-timeline::before {
-
-        display: none;
-
-    }
-
-
-
-    .timeline-column {
-
-        gap: 30px;
-
-    }
-
-
 
 }

@@ -1,0 +1,114 @@
+/* ============================================================
+   HOME PAGE
+============================================================ */
+
+.home-page {
+
+    position: relative;
+
+    width: 100%;
+
+    max-width: 100%;
+
+    min-width: 0;
+
+    overflow-x: clip;
+
+}
+
+
+/* ============================================================
+   PREVENT CHILDREN FROM EXPANDING THE PAGE
+============================================================ */
+
+.home-page>* {
+
+    max-width: 100%;
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   SCROLL REVEAL WRAPPERS
+============================================================ */
+
+/*
+   ScrollReveal uses transforms during animation.
+   These wrappers should never create a horizontal page width.
+*/
+
+.home-page>.scroll-reveal {
+
+    width: 100%;
+
+    max-width: 100%;
+
+    min-width: 0;
+
+    overflow-x: clip;
+
+}
+
+
+/* ============================================================
+   MEDIA SAFETY
+============================================================ */
+
+.home-page img,
+.home-page video,
+.home-page svg {
+
+    max-width: 100%;
+
+}
+
+
+/* ============================================================
+   LARGE DECORATIVE ELEMENT SAFETY
+============================================================ */
+
+/*
+   Sections can contain large absolutely-positioned
+   backgrounds, glows, planes, maps, etc.
+
+   They are allowed to exist visually inside the section,
+   but must not expand the document horizontally.
+*/
+
+.home-page section {
+
+    position: relative;
+
+    max-width: 100%;
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   GRID / FLEX SAFETY
+============================================================ */
+
+.home-page .container {
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 768px) {
+
+    .home-page {
+
+        overflow-x: clip;
+
+    }
+
+}

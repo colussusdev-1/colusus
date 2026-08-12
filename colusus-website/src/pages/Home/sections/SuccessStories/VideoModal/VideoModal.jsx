@@ -6,9 +6,7 @@ import {
     HiOutlinePlay
 } from "react-icons/hi";
 
-
 import "./VideoModal.css";
-
 
 const VideoModal = ({
     isOpen,
@@ -18,74 +16,75 @@ const VideoModal = ({
     story
 }) => {
 
-
-    if(!isOpen) return null;
-
+    if (!isOpen) {
+        return null;
+    }
 
 
     return (
 
-        <div className="video-modal">
+        <div
+            className="video-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-label={title || "Success story video"}
+        >
 
+
+            {/* =================================================
+                BACKDROP
+            ================================================= */}
 
             <div
                 className="video-modal__overlay"
                 onClick={onClose}
+                aria-hidden="true"
             />
 
 
 
+            {/* =================================================
+                MODAL
+            ================================================= */}
+
             <div className="video-modal__container">
 
 
+                {/* CLOSE */}
 
                 <button
-
+                    type="button"
                     className="video-modal__close"
-
                     onClick={onClose}
-
                     aria-label="Close video"
-
                 >
 
-                    <HiX/>
+                    <HiX />
 
                 </button>
 
 
 
-
-
-
-                {/* VIDEO */}
-
+                {/* =================================================
+                    VIDEO
+                ================================================= */}
 
                 <div className="video-modal__video">
 
-
                     <iframe
-
                         src={videoUrl}
-
-                        title={title}
-
+                        title={title || "Success story"}
                         allow="autoplay; fullscreen"
-
                         allowFullScreen
-
                     />
-
 
                 </div>
 
 
 
-
-
-
-                {/* STORY INFO */}
-
+                {/* =================================================
+                    STORY INFORMATION
+                ================================================= */}
 
                 {
                     story && (
@@ -93,10 +92,9 @@ const VideoModal = ({
                         <div className="video-modal__info">
 
 
-
                             <span className="video-modal__badge">
 
-                                <HiOutlinePlay/>
+                                <HiOutlinePlay />
 
                                 Success Journey
 
@@ -104,28 +102,15 @@ const VideoModal = ({
 
 
 
-
-
-
-
                             <h2>
-
 
                                 {story.name}
 
-
                                 <span>
-
-                                    {" "}successfully moved to {story.country}
-
+                                    successfully moved to {story.country}
                                 </span>
 
-
                             </h2>
-
-
-
-
 
 
 
@@ -137,18 +122,16 @@ const VideoModal = ({
 
 
 
-
-
-
-
+                            {/* =================================================
+                                META
+                            ================================================= */}
 
                             <div className="video-modal__meta">
 
 
-
                                 <div>
 
-                                    <HiOutlineLocationMarker/>
+                                    <HiOutlineLocationMarker />
 
                                     <span>
 
@@ -160,18 +143,13 @@ const VideoModal = ({
 
                                     </span>
 
-
                                 </div>
-
-
-
-
 
 
 
                                 <div>
 
-                                    <HiOutlineClock/>
+                                    <HiOutlineClock />
 
                                     <span>
 
@@ -183,18 +161,13 @@ const VideoModal = ({
 
                                     </span>
 
-
                                 </div>
-
-
-
-
 
 
 
                                 <div>
 
-                                    <HiOutlineBadgeCheck/>
+                                    <HiOutlineBadgeCheck />
 
                                     <span>
 
@@ -206,13 +179,10 @@ const VideoModal = ({
 
                                     </span>
 
-
                                 </div>
 
 
-
                             </div>
-
 
 
                         </div>
@@ -221,15 +191,12 @@ const VideoModal = ({
                 }
 
 
-
             </div>
 
 
         </div>
 
     );
-
 };
-
 
 export default VideoModal;

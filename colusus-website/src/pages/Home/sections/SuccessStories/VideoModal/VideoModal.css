@@ -1,528 +1,602 @@
-/* =====================================
-   MODAL BACKDROP
-===================================== */
+/* ============================================================
+   SUCCESS STORY VIDEO MODAL
+   ============================================================ */
 
-.video-modal{
+.video-modal {
+    position: fixed;
 
-    position:fixed;
+    inset: 0;
 
-    inset:0;
+    width: 100vw;
+    height: 100vh;
 
-    z-index:9999;
+    z-index: 99999;
 
-    display:flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    align-items:center;
+    padding: 24px;
 
-    justify-content:center;
+    overflow: hidden;
 
-    padding:30px;
-
+    isolation: isolate;
 }
 
 
-.video-modal__overlay{
+/* ============================================================
+   BACKDROP
+   ============================================================ */
 
-    position:absolute;
+.video-modal__overlay {
+    position: fixed;
 
-    inset:0;
+    inset: 0;
 
-
-    background:
-
-    rgba(2,8,23,.88);
-
-
-    backdrop-filter:
-
-    blur(18px);
-
-}
-
-
-
-/* =====================================
-   CONTAINER
-===================================== */
-
-
-.video-modal__container{
-
-    position:relative;
-
-    z-index:2;
-
-
-    width:min(1000px,100%);
-
-
-    max-height:90vh;
-
-
-    overflow:auto;
-
+    width: 100%;
+    height: 100%;
 
     background:
+        radial-gradient(circle at 50% 25%,
+            rgba(37, 99, 235, .12),
+            transparent 38%),
+        rgba(2, 8, 23, .88);
 
-    rgba(255,255,255,.96);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
 
-
-    border-radius:32px;
-
-
-    box-shadow:
-
-    0 50px 120px rgba(0,0,0,.45);
-
-
-    overflow:hidden;
-
+    cursor: pointer;
 
     animation:
-
-    modalReveal .45s cubic-bezier(.16,1,.3,1);
-
+        videoModalOverlayIn .35s ease both;
 }
 
 
+/* ============================================================
+   MODAL CONTAINER
+   ============================================================ */
 
+.video-modal__container {
+    position: relative;
 
+    z-index: 2;
 
-@keyframes modalReveal{
+    width: min(1000px, 100%);
 
+    max-height: calc(100vh - 48px);
 
-    from{
-
-        opacity:0;
-
-        transform:
-
-        translateY(40px)
-
-        scale(.94);
-
-    }
-
-
-    to{
-
-        opacity:1;
-
-        transform:none;
-
-    }
-
-}
-
-
-
-
-
-/* =====================================
-   CLOSE BUTTON
-===================================== */
-
-
-.video-modal__close{
-
-    position:absolute;
-
-
-    top:20px;
-
-    right:20px;
-
-
-    z-index:10;
-
-
-    width:46px;
-
-    height:46px;
-
-
-    border-radius:50%;
-
-
-    border:none;
-
+    display: flex;
+    flex-direction: column;
 
     background:
-
-    rgba(255,255,255,.95);
-
-
-    color:#0f172a;
-
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-
-    cursor:pointer;
-
-
-    font-size:1.4rem;
-
-
-    box-shadow:
-
-    0 15px 40px rgba(0,0,0,.25);
-
-
-    transition:.3s ease;
-
-}
-
-
-
-.video-modal__close:hover{
-
-    transform:rotate(90deg) scale(1.05);
-
-}
-
-
-
-/* =====================================
-   VIDEO
-===================================== */
-
-
-.video-modal__video{
-
-    width:100%;
-
-
-    aspect-ratio:16/9;
-
-
-    background:#000;
-
-}
-
-
-
-.video-modal__video iframe{
-
-    width:100%;
-
-    height:100%;
-
-
-    border:none;
-
-}
-
-
-
-/* =====================================
-   INFO PANEL
-===================================== */
-
-
-.video-modal__info{
-
-    padding:35px 40px;
-
-
-    background:
-
-    linear-gradient(
-
-        135deg,
-
-        #ffffff,
-
-        #f8fafc
-
-    );
-
-}
-
-
-
-
-
-/* badge */
-
-
-.video-modal__badge{
-
-    display:inline-flex;
-
-
-    align-items:center;
-
-
-    gap:8px;
-
-
-    padding:8px 16px;
-
-
-    border-radius:999px;
-
-
-    background:#eff6ff;
-
-
-    color:#2563eb;
-
-
-    font-size:.8rem;
-
-
-    font-weight:700;
-
-}
-
-
-
-
-.video-modal__badge svg{
-
-    font-size:1rem;
-
-}
-
-
-
-
-
-/* heading */
-
-
-.video-modal__info h2{
-
-    margin-top:20px;
-
-
-    font-size:
-
-    clamp(1.8rem,3vw,2.5rem);
-
-
-    line-height:1.15;
-
-
-    letter-spacing:-1px;
-
-
-    color:#0f172a;
-
-}
-
-
-
-.video-modal__info h2 span{
-
-    display:block;
-
-
-    color:#2563eb;
-
-}
-
-
-
-
-
-.video-modal__info p{
-
-    margin-top:16px;
-
-
-    max-width:700px;
-
-
-    color:#64748b;
-
-
-    line-height:1.8;
-
-
-    font-size:1rem;
-
-}
-
-
-
-
-/* =====================================
-   META CARDS
-===================================== */
-
-
-.video-modal__meta{
-
-    display:grid;
-
-
-    grid-template-columns:
-
-    repeat(3,1fr);
-
-
-    gap:15px;
-
-
-    margin-top:30px;
-
-}
-
-
-
-.video-modal__meta div{
-
-
-    display:flex;
-
-
-    align-items:center;
-
-
-    gap:12px;
-
-
-    padding:16px;
-
-
-    border-radius:20px;
-
-
-    background:white;
-
+        linear-gradient(145deg,
+            #ffffff 0%,
+            #f8fbff 100%);
 
     border:
+        1px solid rgba(255, 255, 255, .8);
 
-    1px solid #e2e8f0;
+    border-radius: 30px;
 
+    overflow: hidden;
 
     box-shadow:
+        0 50px 140px rgba(0, 0, 0, .5),
+        0 0 0 1px rgba(255, 255, 255, .08);
 
-    0 10px 30px rgba(15,23,42,.05);
+    animation:
+        videoModalReveal .45s cubic-bezier(.16, 1, .3, 1) both;
+}
+
+
+/* ============================================================
+   VIDEO
+   ============================================================ */
+
+.video-modal__video {
+    position: relative;
+
+    width: 100%;
+
+    aspect-ratio: 16 / 9;
+
+    flex-shrink: 0;
+
+    background: #020617;
+
+    overflow: hidden;
+}
+
+
+.video-modal__video::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(180deg,
+            rgba(0, 0, 0, .08),
+            transparent 30%,
+            rgba(0, 0, 0, .12));
+}
+
+
+.video-modal__video iframe {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    border: none;
+}
+
+
+/* ============================================================
+   CLOSE BUTTON
+   ============================================================ */
+
+.video-modal__close {
+    position: absolute;
+
+    top: 16px;
+    right: 16px;
+
+    z-index: 20;
+
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(255, 255, 255, .65);
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, .92);
+
+    color: #0f172a;
+
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, .22);
+
+    font-size: 1.35rem;
+
+    cursor: pointer;
+
+    transition:
+        transform .3s ease,
+        background .3s ease,
+        box-shadow .3s ease;
+}
+
+
+.video-modal__close:hover {
+    transform:
+        rotate(90deg) scale(1.06);
+
+    background: #ffffff;
+
+    box-shadow:
+        0 16px 35px rgba(0, 0, 0, .3);
+}
+
+
+.video-modal__close:active {
+    transform:
+        rotate(90deg) scale(.96);
+}
+
+
+/* ============================================================
+   INFORMATION PANEL
+   ============================================================ */
+
+.video-modal__info {
+    padding:
+        30px 34px 34px;
+
+    overflow-y: auto;
+
+    overscroll-behavior: contain;
+
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        rgba(37, 99, 235, .25) transparent;
+}
+
+
+/* ============================================================
+   BADGE
+   ============================================================ */
+
+.video-modal__badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding:
+        7px 13px;
+
+    border:
+        1px solid #dbeafe;
+
+    border-radius: 999px;
+
+    background:
+        #eff6ff;
+
+    color:
+        #2563eb;
+
+    font-size: .76rem;
+
+    font-weight: 700;
+
+    letter-spacing: .01em;
+}
+
+
+.video-modal__badge svg {
+    font-size: 1rem;
+}
+
+
+/* ============================================================
+   HEADING
+   ============================================================ */
+
+.video-modal__info h2 {
+    margin:
+        17px 0 0;
+
+    color:
+        #0f172a;
+
+    font-size:
+        clamp(1.65rem,
+            3vw,
+            2.35rem);
+
+    line-height: 1.15;
+
+    letter-spacing: -1.2px;
+
+    font-weight: 800;
+}
+
+
+.video-modal__info h2 span {
+    display: block;
+
+    margin-top: 4px;
+
+    color:
+        #2563eb;
+}
+
+
+/* ============================================================
+   DESCRIPTION
+   ============================================================ */
+
+.video-modal__info p {
+    max-width: 760px;
+
+    margin:
+        15px 0 0;
+
+    color:
+        #64748b;
+
+    font-size: .95rem;
+
+    line-height: 1.75;
+}
+
+
+/* ============================================================
+   META
+   ============================================================ */
+
+.video-modal__meta {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 12px;
+
+    margin-top: 24px;
+}
+
+
+.video-modal__meta>div {
+    min-width: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    padding:
+        14px 15px;
+
+    border:
+        1px solid #e2e8f0;
+
+    border-radius: 17px;
+
+    background:
+        rgba(255, 255, 255, .85);
+
+    box-shadow:
+        0 8px 25px rgba(15, 23, 42, .04);
+
+    transition:
+        transform .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease;
+}
+
+
+.video-modal__meta>div:hover {
+    transform:
+        translateY(-2px);
+
+    border-color:
+        #bfdbfe;
+
+    box-shadow:
+        0 12px 30px rgba(37, 99, 235, .07);
+}
+
+
+.video-modal__meta svg {
+    flex-shrink: 0;
+
+    font-size:
+        1.25rem;
+
+    color:
+        #2563eb;
+}
+
+
+.video-modal__meta span {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 2px;
+
+    color:
+        #64748b;
+
+    font-size:
+        .68rem;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        .04em;
+}
+
+
+.video-modal__meta strong {
+    display: block;
+
+    overflow: hidden;
+
+    color:
+        #0f172a;
+
+    font-size:
+        .82rem;
+
+    font-weight:
+        700;
+
+    text-transform:
+        none;
+
+    letter-spacing:
+        0;
+
+    text-overflow:
+        ellipsis;
+
+    white-space:
+        nowrap;
+}
+
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
+@keyframes videoModalOverlayIn {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 
 }
 
 
+@keyframes videoModalReveal {
 
-.video-modal__meta svg{
+    from {
+        opacity: 0;
 
-    flex-shrink:0;
+        transform:
+            translateY(30px) scale(.95);
+    }
 
+    to {
+        opacity: 1;
 
-    font-size:1.4rem;
-
-
-    color:#2563eb;
-
-}
-
-
-
-
-.video-modal__meta span{
-
-    display:flex;
-
-    flex-direction:column;
-
-
-    color:#64748b;
-
-
-    font-size:.75rem;
+        transform:
+            translateY(0) scale(1);
+    }
 
 }
 
 
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media (max-width: 850px) {
+
+    .video-modal {
+        padding:
+            18px;
+    }
 
 
-.video-modal__meta strong{
+    .video-modal__container {
+        max-height:
+            calc(100vh - 36px);
+
+        border-radius:
+            26px;
+    }
 
 
-    margin-top:3px;
+    .video-modal__info {
+        padding:
+            26px;
+    }
 
 
-    color:#0f172a;
-
-
-    font-size:.9rem;
+    .video-modal__meta {
+        grid-template-columns:
+            1fr;
+    }
 
 }
 
 
-
-
-
-/* =====================================
+/* ============================================================
    MOBILE
-===================================== */
+   ============================================================ */
 
+@media (max-width: 600px) {
 
-@media(max-width:700px){
-
-
-    .video-modal{
-
-        padding:12px;
-
+    .video-modal {
+        padding:
+            10px;
     }
 
 
+    .video-modal__container {
+        width: 100%;
 
-    .video-modal__container{
+        max-height:
+            calc(100vh - 20px);
 
-        max-height:95vh;
-
-
-        border-radius:24px;
-
+        border-radius:
+            22px;
     }
 
 
+    .video-modal__close {
+        top: 10px;
+        right: 10px;
 
-    .video-modal__close{
+        width: 40px;
+        height: 40px;
 
-        width:40px;
-
-        height:40px;
-
-        top:12px;
-
-        right:12px;
-
+        font-size:
+            1.15rem;
     }
 
 
-
-    .video-modal__info{
-
-        padding:24px;
-
+    .video-modal__video {
+        aspect-ratio:
+            16 / 10;
     }
 
 
-
-    .video-modal__meta{
-
-        grid-template-columns:1fr;
-
-        gap:12px;
-
+    .video-modal__info {
+        padding:
+            21px;
     }
 
 
+    .video-modal__info h2 {
+        font-size:
+            1.45rem;
 
-    .video-modal__info h2{
-
-        font-size:1.6rem;
-
+        letter-spacing:
+            -.7px;
     }
 
+
+    .video-modal__info p {
+        font-size:
+            .88rem;
+
+        line-height:
+            1.65;
+    }
+
+
+    .video-modal__meta {
+        gap:
+            9px;
+
+        margin-top:
+            20px;
+    }
+
+
+    .video-modal__meta>div {
+        padding:
+            12px;
+
+        border-radius:
+            15px;
+    }
+
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .video-modal__overlay,
+    .video-modal__container {
+        animation: none;
+    }
+
+    .video-modal__close,
+    .video-modal__meta>div {
+        transition: none;
+    }
 
 }
