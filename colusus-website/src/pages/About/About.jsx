@@ -9,86 +9,49 @@ import AboutTeam from "./sections/Team/AboutTeam";
 
 import Footer from "../Home/sections/Footer/Footer";
 
-import ServicesMegaMenu 
-from "../Home/sections/Hero/ServiceMegaMenu/ServiceMegaMenu";
+import ServicesMegaMenu
+    from "../Home/sections/Hero/ServiceMegaMenu/ServiceMegaMenu";
 
 import {
     servicesLinks
-} from "../../components/Navbar/serviceData"
-
-
+} from "../../components/Navbar/serviceData";
 
 const About = () => {
 
-
-    const [servicesOpen,setServicesOpen] = useState(false);
-
-
+    const [servicesOpen, setServicesOpen] = useState(false);
 
     const closeServices = () => {
-
         setServicesOpen(false);
-
     };
 
-
-
     return (
-
         <>
 
-
-            {
-                servicesOpen && (
-
-                    <ServicesMegaMenu
-
-                        services={servicesLinks}
-
-                        onClose={closeServices}
-
-                    />
-
-                )
-            }
-
-
-
-
+            {servicesOpen && (
+                <ServicesMegaMenu
+                    services={servicesLinks}
+                    onClose={closeServices}
+                />
+            )}
 
             <AboutHero
-
                 onOpenServices={() =>
                     setServicesOpen(true)
                 }
-
             />
-
-
 
             <AboutStory />
 
-
             <AboutWhyChooseUs />
-
 
             <AboutProcess />
 
-
             <AboutValues />
-
 
             <AboutTeam />
 
-
-
-       
-
         </>
-
     );
-
 };
-
 
 export default About;

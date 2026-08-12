@@ -1,4 +1,3 @@
-
 /* =====================================================
    ABOUT PROCESS (BASE)
 ===================================================== */
@@ -10,8 +9,8 @@
     padding: 7rem 0;
 
     background:
-        radial-gradient(circle at 10% 20%, rgba(0,86,179,.06), transparent 45%),
-        radial-gradient(circle at 90% 10%, rgba(0,86,179,.08), transparent 50%),
+        radial-gradient(circle at 10% 20%, rgba(0, 86, 179, .06), transparent 45%),
+        radial-gradient(circle at 90% 10%, rgba(0, 86, 179, .08), transparent 50%),
         #ffffff;
 
     overflow: hidden;
@@ -35,7 +34,7 @@
 
     right: -260px;
 
-    background: radial-gradient(circle, rgba(0,86,179,.10), transparent 70%);
+    background: radial-gradient(circle, rgba(0, 86, 179, .10), transparent 70%);
 
     filter: blur(90px);
 
@@ -56,7 +55,7 @@
 
     left: -200px;
 
-    background: radial-gradient(circle, rgba(0,86,179,.07), transparent 70%);
+    background: radial-gradient(circle, rgba(0, 86, 179, .07), transparent 70%);
 
     filter: blur(80px);
 
@@ -99,7 +98,7 @@
 
     border-radius: 999px;
 
-    background: rgba(0,86,179,.08);
+    background: rgba(0, 86, 179, .08);
 
     color: var(--primary);
 
@@ -240,11 +239,9 @@
     border-radius: 22px;
 
     background:
-        radial-gradient(
-            circle,
-            rgba(0,86,179,.15),
-            transparent 75%
-        );
+        radial-gradient(circle,
+            rgba(0, 86, 179, .15),
+            transparent 75%);
 
     opacity: 0;
 
@@ -268,11 +265,9 @@
     margin-top: .75rem;
 
     background:
-        linear-gradient(
-            to bottom,
-            rgba(0,86,179,.35),
-            rgba(0,86,179,.08)
-        );
+        linear-gradient(to bottom,
+            rgba(0, 86, 179, .35),
+            rgba(0, 86, 179, .08));
 }
 
 /* =====================================================
@@ -287,9 +282,9 @@
 
     border-radius: 20px;
 
-    background: rgba(255,255,255,.78);
+    background: rgba(255, 255, 255, .78);
 
-    border: 1px solid rgba(0,86,179,.10);
+    border: 1px solid rgba(0, 86, 179, .10);
 
     backdrop-filter: blur(18px);
 
@@ -311,11 +306,9 @@
     inset: 0;
 
     background:
-        radial-gradient(
-            circle at left,
-            rgba(0,86,179,.08),
-            transparent 65%
-        );
+        radial-gradient(circle at left,
+            rgba(0, 86, 179, .08),
+            transparent 65%);
 
     pointer-events: none;
 }
@@ -334,7 +327,7 @@
 
     border-radius: 999px;
 
-    background: rgba(0,86,179,.08);
+    background: rgba(0, 86, 179, .08);
 
     color: var(--primary);
 
@@ -377,10 +370,10 @@
 
     transform: translateY(-4px);
 
-    border-color: rgba(0,86,179,.22);
+    border-color: rgba(0, 86, 179, .22);
 
     box-shadow:
-        0 20px 50px rgba(0,0,0,.08);
+        0 20px 50px rgba(0, 0, 0, .08);
 }
 
 .timeline-step:hover .timeline-dot {
@@ -391,6 +384,1133 @@
 .timeline-step:hover .timeline-dot::before {
 
     opacity: 1;
+}
+
+/* =========================================================
+   ABOUT PROCESS
+   PREMIUM TRAVEL JOURNEY MOTION
+========================================================= */
+
+.about-process {
+
+    --process-ease:
+        cubic-bezier(.16, 1, .3, 1);
+
+    --process-bounce:
+        cubic-bezier(.22, 1.35, .36, 1);
+
+}
+
+
+/* =========================================================
+   BACKGROUND ATMOSPHERE
+========================================================= */
+
+.about-process .process-orbit {
+
+    animation:
+        processOrbitFloat 16s ease-in-out infinite alternate;
+
+}
+
+
+.about-process .process-orbit-two {
+
+    animation-delay:
+        -6s;
+
+}
+
+
+@keyframes processOrbitFloat {
+
+    0% {
+
+        transform:
+            translate3d(0, 0, 0) rotate(0deg);
+
+    }
+
+    100% {
+
+        transform:
+            translate3d(18px, -14px, 0) rotate(4deg);
+
+    }
+
+}
+
+
+/* =========================================================
+   GLOWS
+========================================================= */
+
+.about-process .process-glow {
+
+    animation:
+        processGlowBreath 8s ease-in-out infinite alternate;
+
+}
+
+
+.about-process .process-glow-two {
+
+    animation-delay:
+        -4s;
+
+}
+
+
+@keyframes processGlowBreath {
+
+    0% {
+
+        opacity:
+            .45;
+
+        transform:
+            scale(.95);
+
+    }
+
+    100% {
+
+        opacity:
+            .85;
+
+        transform:
+            scale(1.05);
+
+    }
+
+}
+
+
+/* =========================================================
+   PARTICLES
+========================================================= */
+
+.about-process .process-particle {
+
+    animation:
+        processParticleFloat 5s ease-in-out infinite alternate;
+
+}
+
+
+.about-process .process-particle-two {
+
+    animation-delay:
+        -1.7s;
+
+}
+
+
+.about-process .process-particle-three {
+
+    animation-delay:
+        -3.2s;
+
+}
+
+
+@keyframes processParticleFloat {
+
+    0% {
+
+        opacity:
+            .25;
+
+        transform:
+            translateY(0);
+
+    }
+
+    100% {
+
+        opacity:
+            .8;
+
+        transform:
+            translateY(-12px);
+
+    }
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.about-process .process-header-reveal {
+
+    opacity:
+        0;
+
+    transform:
+        translate3d(0, -55px, 0);
+
+    transition:
+        opacity .8s var(--process-ease),
+        transform 1s var(--process-bounce);
+
+}
+
+
+.about-process.about-process-is-visible .process-header-reveal {
+
+    opacity:
+        1;
+
+    transform:
+        translate3d(0, 0, 0);
+
+}
+
+
+/* =========================================================
+   TAG
+========================================================= */
+
+.about-process .about-process-tag {
+
+    transition:
+        transform .7s var(--process-bounce);
+
+}
+
+
+.about-process.about-process-is-visible .about-process-tag {
+
+    transition-delay:
+        .15s;
+
+}
+
+
+/* =========================================================
+   TAG DOT
+========================================================= */
+
+.about-process .process-tag-dot {
+
+    animation:
+        processDotPulse 2.5s ease-in-out infinite;
+
+}
+
+
+@keyframes processDotPulse {
+
+    0%,
+    100% {
+
+        transform:
+            scale(1);
+
+        opacity:
+            .7;
+
+    }
+
+    50% {
+
+        transform:
+            scale(1.35);
+
+        opacity:
+            1;
+
+    }
+
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.about-process .about-process-header h2 span {
+
+    display:
+        block;
+
+}
+
+
+.about-process .process-title-dark {
+
+    opacity:
+        0;
+
+    transform:
+        translate3d(-65px, 0, 0);
+
+    transition:
+        opacity .75s var(--process-ease),
+        transform .85s var(--process-bounce);
+
+}
+
+
+.about-process .about-process-header h2>span:last-child {
+
+    opacity:
+        0;
+
+    transform:
+        translate3d(65px, 0, 0);
+
+    transition:
+        opacity .75s var(--process-ease),
+        transform .85s var(--process-bounce);
+
+}
+
+
+.about-process.about-process-is-visible .process-title-dark {
+
+    opacity:
+        1;
+
+    transform:
+        translate3d(0, 0, 0);
+
+    transition-delay:
+        .2s;
+
+}
+
+
+.about-process.about-process-is-visible .about-process-header h2>span:last-child {
+
+    opacity:
+        1;
+
+    transform:
+        translate3d(0, 0, 0);
+
+    transition-delay:
+        .32s;
+
+}
+
+
+/* =========================================================
+   TITLE LINE
+========================================================= */
+
+.about-process .process-title-line {
+
+    transform:
+        scaleX(0);
+
+    transform-origin:
+        left center;
+
+    transition:
+        transform .9s var(--process-bounce);
+
+}
+
+
+.about-process.about-process-is-visible .process-title-line {
+
+    transform:
+        scaleX(1);
+
+    transition-delay:
+        .48s;
+
+}
+
+
+/* =========================================================
+   HEADER DESCRIPTION
+========================================================= */
+
+.about-process .about-process-header p {
+
+    opacity:
+        0;
+
+    transform:
+        translate3d(0, 25px, 0);
+
+    transition:
+        opacity .7s var(--process-ease),
+        transform .8s var(--process-bounce);
+
+}
+
+
+.about-process.about-process-is-visible .about-process-header p {
+
+    opacity:
+        1;
+
+    transform:
+        translate3d(0, 0, 0);
+
+    transition-delay:
+        .58s;
+
+}
+
+
+/* =========================================================
+   TIMELINE INITIAL STATE
+========================================================= */
+
+.about-process .process-step-reveal {
+
+    opacity:
+        0;
+
+    transition:
+        opacity .75s var(--process-ease),
+        transform .95s var(--process-bounce);
+
+}
+
+
+/* =========================================================
+   LEFT STEPS
+========================================================= */
+
+.about-process .process-step-left {
+
+    transform:
+        translate3d(-80px, 30px, 0) scale(.94);
+
+}
+
+
+/* =========================================================
+   RIGHT STEPS
+========================================================= */
+
+.about-process .process-step-right {
+
+    transform:
+        translate3d(80px, 30px, 0) scale(.94);
+
+}
+
+
+/* =========================================================
+   VISIBLE STEPS
+========================================================= */
+
+.about-process.about-process-is-visible .process-step-reveal {
+
+    opacity:
+        1;
+
+    transform:
+        translate3d(0, 0, 0) scale(1);
+
+    transition-delay:
+        calc(.75s + var(--process-delay));
+
+}
+
+
+/* =========================================================
+   TIMELINE PROGRESS LINE
+========================================================= */
+
+.about-process .timeline-progress-line {
+
+    transform:
+        scaleY(0);
+
+    transform-origin:
+        top center;
+
+    transition:
+        transform 2.8s cubic-bezier(.16, 1, .3, 1);
+
+}
+
+
+.about-process.about-process-is-visible .timeline-progress-line {
+
+    transform:
+        scaleY(1);
+
+    transition-delay:
+        .85s;
+
+}
+
+
+/* =========================================================
+   INDIVIDUAL TIMELINE LINES
+========================================================= */
+
+.about-process .timeline-line {
+
+    transform:
+        scaleY(0);
+
+    transform-origin:
+        top center;
+
+    transition:
+        transform .75s var(--process-ease);
+
+}
+
+
+.about-process.about-process-is-visible .timeline-step:not(:last-child) .timeline-line {
+
+    transform:
+        scaleY(1);
+
+}
+
+
+/* =========================================================
+   TIMELINE DOT
+========================================================= */
+
+.about-process .timeline-dot {
+
+    transform:
+        scale(.5);
+
+    transition:
+        transform .75s var(--process-bounce),
+        box-shadow .45s ease;
+
+}
+
+
+.about-process.about-process-is-visible .timeline-dot {
+
+    transform:
+        scale(1);
+
+    transition-delay:
+        calc(.75s + var(--process-delay));
+
+}
+
+
+/* =========================================================
+   DOT INNER ICON
+========================================================= */
+
+.about-process .timeline-dot-inner {
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    transition:
+        transform .65s var(--process-bounce);
+
+}
+
+
+.about-process.about-process-is-visible .timeline-dot-inner {
+
+    transform:
+        scale(1) rotate(0deg);
+
+}
+
+
+.about-process.about-process-is-visible .timeline-step:nth-child(2) .timeline-dot-inner {
+
+    animation:
+        processIconPop .7s var(--process-bounce) .9s both;
+
+}
+
+
+.about-process.about-process-is-visible .timeline-step:nth-child(3) .timeline-dot-inner {
+
+    animation:
+        processIconPop .7s var(--process-bounce) 1.05s both;
+
+}
+
+
+.about-process.about-process-is-visible .timeline-step:nth-child(4) .timeline-dot-inner {
+
+    animation:
+        processIconPop .7s var(--process-bounce) 1.2s both;
+
+}
+
+
+.about-process.about-process-is-visible .timeline-step:nth-child(5) .timeline-dot-inner {
+
+    animation:
+        processIconPop .7s var(--process-bounce) 1.35s both;
+
+}
+
+
+.about-process.about-process-is-visible .timeline-step:nth-child(6) .timeline-dot-inner {
+
+    animation:
+        processIconPop .7s var(--process-bounce) 1.5s both;
+
+}
+
+
+@keyframes processIconPop {
+
+    0% {
+
+        transform:
+            scale(.4) rotate(-15deg);
+
+    }
+
+    70% {
+
+        transform:
+            scale(1.12) rotate(4deg);
+
+    }
+
+    100% {
+
+        transform:
+            scale(1) rotate(0deg);
+
+    }
+
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.about-process .timeline-card {
+
+    position:
+        relative;
+
+    overflow:
+        hidden;
+
+    transition:
+        transform .4s var(--process-bounce),
+        box-shadow .4s ease,
+        border-color .4s ease;
+
+}
+
+
+.about-process .timeline-card::after {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    top:
+        0;
+
+    left:
+        -120%;
+
+    width:
+        80%;
+
+    height:
+        100%;
+
+    background:
+        linear-gradient(100deg,
+            transparent,
+            rgba(255, 255, 255, .45),
+            transparent);
+
+    transform:
+        skewX(-18deg);
+
+    transition:
+        left .8s ease;
+
+}
+
+
+.about-process .timeline-card:hover::after {
+
+    left:
+        140%;
+
+}
+
+
+.about-process .timeline-card:hover {
+
+    transform:
+        translateY(-8px);
+
+}
+
+
+/* =========================================================
+   CARD TOP
+========================================================= */
+
+.about-process .timeline-card-top {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+}
+
+
+/* =========================================================
+   NUMBER
+========================================================= */
+
+.about-process .timeline-number {
+
+    opacity:
+        0;
+
+    transform:
+        translate3d(0, 15px, 0);
+
+    transition:
+        opacity .5s ease,
+        transform .65s var(--process-bounce);
+
+}
+
+
+.about-process.about-process-is-visible .timeline-number {
+
+    opacity:
+        1;
+
+    transform:
+        translate3d(0, 0, 0);
+
+    transition-delay:
+        calc(1s + var(--process-delay));
+
+}
+
+
+/* =========================================================
+   LARGE BACKGROUND INDEX
+========================================================= */
+
+.about-process .timeline-card-index {
+
+    opacity:
+        0;
+
+    transform:
+        translate3d(20px, -10px, 0) scale(.8);
+
+    transition:
+        opacity .6s ease,
+        transform .75s var(--process-bounce);
+
+}
+
+
+.about-process.about-process-is-visible .timeline-card-index {
+
+    opacity:
+        1;
+
+    transform:
+        translate3d(0, 0, 0) scale(1);
+
+    transition-delay:
+        calc(1.05s + var(--process-delay));
+
+}
+
+
+/* =========================================================
+   CARD HEADING
+========================================================= */
+
+.about-process .timeline-card h3 {
+
+    opacity:
+        0;
+
+    transform:
+        translate3d(0, 20px, 0);
+
+    transition:
+        opacity .65s var(--process-ease),
+        transform .75s var(--process-bounce);
+
+}
+
+
+.about-process.about-process-is-visible .timeline-card h3 {
+
+    opacity:
+        1;
+
+    transform:
+        translate3d(0, 0, 0);
+
+    transition-delay:
+        calc(1.08s + var(--process-delay));
+
+}
+
+
+/* =========================================================
+   CARD DESCRIPTION
+========================================================= */
+
+.about-process .timeline-card p {
+
+    opacity:
+        0;
+
+    transform:
+        translate3d(0, 15px, 0);
+
+    transition:
+        opacity .65s var(--process-ease),
+        transform .75s var(--process-bounce);
+
+}
+
+
+.about-process.about-process-is-visible .timeline-card p {
+
+    opacity:
+        1;
+
+    transform:
+        translate3d(0, 0, 0);
+
+    transition-delay:
+        calc(1.16s + var(--process-delay));
+
+}
+
+
+/* =========================================================
+   CARD ACCENT
+========================================================= */
+
+.about-process .timeline-card-accent {
+
+    transform:
+        scaleX(0);
+
+    transform-origin:
+        left center;
+
+    transition:
+        transform .7s var(--process-bounce);
+
+}
+
+
+.about-process.about-process-is-visible .timeline-card-accent {
+
+    transform:
+        scaleX(1);
+
+    transition-delay:
+        calc(1.3s + var(--process-delay));
+
+}
+
+
+/* =========================================================
+   TRAVEL ICON
+========================================================= */
+
+.about-process .timeline-travel-icon {
+
+    opacity:
+        0;
+
+    transform:
+        translate3d(15px, 10px, 0) rotate(-15deg);
+
+    transition:
+        opacity .5s ease,
+        transform .7s var(--process-bounce);
+
+}
+
+
+.about-process.about-process-is-visible .timeline-travel-icon {
+
+    opacity:
+        1;
+
+    transform:
+        translate3d(0, 0, 0) rotate(0deg);
+
+    transition-delay:
+        calc(1.35s + var(--process-delay));
+
+}
+
+
+/* =========================================================
+   PLANE — CONTINUOUS TRAVEL
+========================================================= */
+
+.about-process.about-process-is-visible .timeline-travel-icon svg {
+
+    animation:
+        processPlaneFloat 4.5s ease-in-out 2s infinite alternate;
+
+}
+
+
+@keyframes processPlaneFloat {
+
+    0% {
+
+        transform:
+            translate3d(0, 0, 0) rotate(0deg);
+
+    }
+
+    100% {
+
+        transform:
+            translate3d(7px, -5px, 0) rotate(-4deg);
+
+    }
+
+}
+
+
+/* =========================================================
+   CARD HOVER ICON
+========================================================= */
+
+.about-process .timeline-card:hover .timeline-travel-icon {
+
+    transform:
+        translate3d(5px, -4px, 0);
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.about-process .process-footer-reveal {
+
+    opacity:
+        0;
+
+    transform:
+        translate3d(0, 45px, 0) scale(.96);
+
+    transition:
+        opacity .9s var(--process-ease),
+        transform 1s var(--process-bounce);
+
+}
+
+
+.about-process.about-process-is-visible .process-footer-reveal {
+
+    opacity:
+        1;
+
+    transform:
+        translate3d(0, 0, 0) scale(1);
+
+    transition-delay:
+        1.9s;
+
+}
+
+
+/* =========================================================
+   FOOTER ICON
+========================================================= */
+
+.about-process .process-footer-icon {
+
+    transition:
+        transform .5s var(--process-bounce);
+
+}
+
+
+.about-process .process-footer-reveal:hover .process-footer-icon {
+
+    transform:
+        rotate(-8deg) translateY(-3px);
+
+}
+
+
+/* =========================================================
+   FOOTER ROUTE
+========================================================= */
+
+.about-process .process-footer-route {
+
+    overflow:
+        hidden;
+
+}
+
+
+.about-process .process-footer-route span {
+
+    transform:
+        scaleX(0);
+
+    transform-origin:
+        left center;
+
+    transition:
+        transform 1s var(--process-ease) 2.2s;
+
+}
+
+
+.about-process.about-process-is-visible .process-footer-route span {
+
+    transform:
+        scaleX(1);
+
+}
+
+
+.about-process .process-footer-route svg {
+
+    transition:
+        transform .5s var(--process-bounce);
+
+}
+
+
+.about-process.about-process-is-visible .process-footer-route svg {
+
+    animation:
+        processFooterPlane 5s ease-in-out 2.4s infinite alternate;
+
+}
+
+
+@keyframes processFooterPlane {
+
+    0% {
+
+        transform:
+            translate3d(0, 0, 0);
+
+    }
+
+    100% {
+
+        transform:
+            translate3d(12px, -5px, 0) rotate(-4deg);
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .about-process .process-step-left,
+    .about-process .process-step-right {
+
+        transform:
+            translate3d(0, 45px, 0) scale(.95);
+
+    }
+
+
+    .about-process.about-process-is-visible .process-step-reveal {
+
+        transform:
+            translate3d(0, 0, 0) scale(1);
+
+    }
+
+
+    .about-process .timeline-progress-line {
+
+        transform-origin:
+            top center;
+
+    }
+
+
+    .about-process .timeline-card:hover {
+
+        transform:
+            translateY(-5px);
+
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .about-process *,
+    .about-process *::before,
+    .about-process *::after {
+
+        animation:
+            none !important;
+
+        transition:
+            none !important;
+
+    }
+
+
+    .about-process .process-header-reveal,
+    .about-process .process-step-reveal,
+    .about-process .process-footer-reveal {
+
+        opacity:
+            1 !important;
+
+        transform:
+            none !important;
+
+    }
+
 }
 
 /* =====================================================

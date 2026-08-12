@@ -1,3 +1,5 @@
+import { useEffect, useRef } from "react";
+
 import "./AboutWhyChooseUs.css";
 
 import {
@@ -73,9 +75,50 @@ const stats = [
 
 const AboutWhyChooseUs = () => {
 
+    const sectionRef = useRef(null);
+
+
+    useEffect(() => {
+
+        const section = sectionRef.current;
+
+        if (!section) return;
+
+
+        const observer = new IntersectionObserver(
+
+            ([entry]) => {
+
+                if (entry.isIntersecting) {
+
+                    section.classList.add("about-why-is-visible");
+
+                    observer.unobserve(section);
+
+                }
+
+            },
+
+            {
+                threshold: 0.14,
+                rootMargin: "0px 0px -70px 0px",
+            }
+
+        );
+
+
+        observer.observe(section);
+
+
+        return () => observer.disconnect();
+
+    }, []);
+
+
     return (
 
         <section
+            ref={sectionRef}
             className="about-why"
             style={{
                 "--why-background": `url(${whyBackground})`,
@@ -87,13 +130,17 @@ const AboutWhyChooseUs = () => {
                 BACKGROUND SYSTEM
             ================================================= */}
 
-            <div className="about-why-background">
+            <div
+                className="about-why-background"
+                aria-hidden="true"
+            >
 
                 <div className="about-why-background-image"></div>
 
                 <div className="about-why-background-overlay"></div>
 
                 <div className="about-why-blue-glow"></div>
+
 
                 <span className="why-star star-one"></span>
 
@@ -124,7 +171,7 @@ const AboutWhyChooseUs = () => {
                     HEADER
                 ================================================= */}
 
-                <div className="about-why-header">
+                <div className="about-why-header why-reveal why-reveal-top">
 
 
                     <span className="about-why-tag">
@@ -140,19 +187,19 @@ const AboutWhyChooseUs = () => {
 
                     <h2>
 
-                        Why Thousands
+                        <span className="why-title-line why-title-line-one">
+                            Why Thousands
+                        </span>
 
-                        <br />
+                        <span className="why-title-line why-title-line-two">
+                            Trust
+                        </span>
 
-                        Trust
-
-                        <span>
+                        <span className="why-title-brand">
                             Colossus
                         </span>
 
-                        <br />
-
-                        <em>
+                        <em className="why-title-line why-title-line-four">
                             Migration & Tours.
                         </em>
 
@@ -181,13 +228,22 @@ const AboutWhyChooseUs = () => {
 
                 <div className="about-why-pills">
 
+
                     {pills.map((item, index) => (
 
                         <div
                             key={item.text}
-                            className="about-why-pill"
+                            className={`
+                                about-why-pill
+                                why-pill-reveal
+                                ${index % 2 === 0
+                                    ? "why-pill-left"
+                                    : "why-pill-right"
+                                }
+                            `}
                             style={{
-                                "--pill-delay": `${index * 80}ms`,
+                                "--pill-delay":
+                                    `${index * 80}ms`,
                             }}
                         >
 
@@ -197,15 +253,18 @@ const AboutWhyChooseUs = () => {
 
                             </span>
 
+
                             <span className="about-why-pill-text">
 
                                 {item.text}
 
                             </span>
 
+
                         </div>
 
                     ))}
+
 
                 </div>
 
@@ -216,13 +275,15 @@ const AboutWhyChooseUs = () => {
 
                 <div className="about-why-stats">
 
+
                     {stats.map((item, index) => (
 
                         <div
                             key={item.label}
-                            className="about-why-stat"
+                            className="about-why-stat why-stat-reveal"
                             style={{
-                                "--stat-delay": `${index * 120}ms`,
+                                "--stat-delay":
+                                    `${index * 120}ms`,
                             }}
                         >
 
@@ -249,9 +310,11 @@ const AboutWhyChooseUs = () => {
 
                             </div>
 
+
                         </div>
 
                     ))}
+
 
                 </div>
 
@@ -263,16 +326,19 @@ const AboutWhyChooseUs = () => {
                 <div className="about-why-quote">
 
 
-                    <span className="about-why-quote-mark quote-left">
+                    <span className="about-why-quote-mark quote-left why-quote-left">
 
                         “
 
                     </span>
 
 
-                    <p>
+                    <p className="why-quote-text">
 
-                        We don't simply process applications.
+                        <span>
+                            We don't simply process applications.
+                        </span>
+
                         <strong>
                             We build pathways that change lives.
                         </strong>
@@ -280,7 +346,7 @@ const AboutWhyChooseUs = () => {
                     </p>
 
 
-                    <span className="about-why-quote-mark quote-right">
+                    <span className="about-why-quote-mark quote-right why-quote-right">
 
                         ”
 
@@ -297,7 +363,10 @@ const AboutWhyChooseUs = () => {
                 BOTTOM LIGHT
             ================================================= */}
 
-            <div className="about-why-bottom-glow"></div>
+            <div
+                className="about-why-bottom-glow"
+                aria-hidden="true"
+            ></div>
 
 
         </section>

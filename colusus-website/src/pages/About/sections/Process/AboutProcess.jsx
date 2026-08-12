@@ -1,3 +1,5 @@
+import { useEffect, useRef } from "react";
+
 import "./AboutProcess.css";
 
 import {
@@ -8,6 +10,7 @@ import {
     HiOutlineBadgeCheck,
     HiOutlineGlobeAlt,
 } from "react-icons/hi";
+
 
 const process = [
 
@@ -61,62 +64,184 @@ const process = [
 
 ];
 
+
 const AboutProcess = () => {
+
+    const sectionRef = useRef(null);
+
+
+    useEffect(() => {
+
+        const section = sectionRef.current;
+
+        if (!section) return;
+
+
+        const observer = new IntersectionObserver(
+
+            ([entry]) => {
+
+                if (entry.isIntersecting) {
+
+                    section.classList.add(
+                        "about-process-is-visible"
+                    );
+
+                    observer.unobserve(section);
+
+                }
+
+            },
+
+            {
+                threshold: 0.12,
+                rootMargin: "0px 0px -80px 0px",
+            }
+
+        );
+
+
+        observer.observe(section);
+
+
+        return () => observer.disconnect();
+
+    }, []);
+
 
     return (
 
-        <section className="about-process">
+        <section
+            ref={sectionRef}
+            className="about-process"
+        >
 
-            <div className="container">
 
-                {/* Header */}
+            {/* =================================================
+                BACKGROUND ATMOSPHERE
+            ================================================= */}
 
-                <div className="about-process-header">
+            <div
+                className="about-process-background"
+                aria-hidden="true"
+            >
+
+                <span className="process-orbit process-orbit-one"></span>
+
+                <span className="process-orbit process-orbit-two"></span>
+
+                <span className="process-glow process-glow-one"></span>
+
+                <span className="process-glow process-glow-two"></span>
+
+                <span className="process-particle process-particle-one"></span>
+
+                <span className="process-particle process-particle-two"></span>
+
+                <span className="process-particle process-particle-three"></span>
+
+            </div>
+
+
+            <div className="container about-process-container">
+
+
+                {/* =================================================
+                    HEADER
+                ================================================= */}
+
+                <div className="about-process-header process-header-reveal">
+
 
                     <span className="about-process-tag">
+
+                        <span className="process-tag-dot"></span>
 
                         SIMPLE PROCESS
 
                     </span>
 
+
                     <h2>
 
-                        Your Journey
+                        <span className="process-title-dark">
+                            Your Journey
+                        </span>
 
-                        <span> Starts Here</span>
+                        <span>
+                            Starts Here
+                        </span>
 
                     </h2>
 
+
+                    <div className="process-title-line"></div>
+
+
                     <p>
 
-                        Every successful relocation follows a structured path.
-                        Our experienced team guides you through each stage with
-                        transparency, expertise and continuous support.
+                        Every successful relocation follows a structured
+                        path. Our experienced team guides you through each
+                        stage with transparency, expertise and continuous
+                        support.
 
                     </p>
 
+
                 </div>
 
-                {/* Timeline */}
+
+                {/* =================================================
+                    TIMELINE
+                ================================================= */}
 
                 <div className="about-process-timeline">
+
+
+                    {/* Progress line */}
+
+                    <span
+                        className="timeline-progress-line"
+                        aria-hidden="true"
+                    ></span>
+
 
                     {process.map((step, index) => (
 
                         <article
                             key={step.number}
-                            className="timeline-step"
+                            className={`
+                                timeline-step
+                                process-step-reveal
+                                ${index % 2 === 0
+                                    ? "process-step-left"
+                                    : "process-step-right"
+                                }
+                            `}
+                            style={{
+                                "--process-delay":
+                                    `${index * 140}ms`,
+                            }}
                         >
 
-                            {/* Timeline Left */}
+
+                            {/* =================================================
+                                MARKER
+                            ================================================= */}
 
                             <div className="timeline-marker">
 
+
                                 <div className="timeline-dot">
 
-                                    {step.icon}
+                                    <span className="timeline-dot-inner">
+
+                                        {step.icon}
+
+                                    </span>
 
                                 </div>
+
 
                                 {index !== process.length - 1 && (
 
@@ -124,17 +249,36 @@ const AboutProcess = () => {
 
                                 )}
 
+
                             </div>
 
-                            {/* Timeline Card */}
+
+                            {/* =================================================
+                                CARD
+                            ================================================= */}
 
                             <div className="timeline-card">
 
-                                <span className="timeline-number">
 
-                                    STEP {step.number}
+                                <div className="timeline-card-top">
 
-                                </span>
+
+                                    <span className="timeline-number">
+
+                                        STEP {step.number}
+
+                                    </span>
+
+
+                                    <span className="timeline-card-index">
+
+                                        {step.number}
+
+                                    </span>
+
+
+                                </div>
+
 
                                 <h3>
 
@@ -142,19 +286,75 @@ const AboutProcess = () => {
 
                                 </h3>
 
+
                                 <p>
 
                                     {step.description}
 
                                 </p>
 
+
+                                <span className="timeline-card-accent"></span>
+
+
+                                {/* Travel indicator */}
+
+                                <span className="timeline-travel-icon">
+
+                                    <HiOutlinePaperAirplane />
+
+                                </span>
+
+
                             </div>
+
 
                         </article>
 
                     ))}
 
+
                 </div>
+
+
+                {/* =================================================
+    BOTTOM JOURNEY STATEMENT
+================================================= */}
+
+                <div className="about-process-footer process-footer-reveal">
+
+                    <div className="process-footer-icon">
+
+                        <HiOutlineGlobeAlt />
+
+                    </div>
+
+
+                    <div className="process-footer-content">
+
+                        <strong>
+                            One journey. Six guided steps.
+                        </strong>
+
+                        <span>
+                            From your first conversation to your next destination.
+                        </span>
+
+                    </div>
+
+
+                    <div className="process-footer-route">
+
+                        <span className="process-footer-route-line"></span>
+
+                        <span className="process-footer-route-dot"></span>
+
+                        <HiOutlinePaperAirplane />
+
+                    </div>
+
+                </div>
+
 
             </div>
 
@@ -163,5 +363,6 @@ const AboutProcess = () => {
     );
 
 };
+
 
 export default AboutProcess;

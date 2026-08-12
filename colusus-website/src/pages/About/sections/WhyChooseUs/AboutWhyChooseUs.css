@@ -1135,6 +1135,862 @@
 
 }
 
+/* =========================================================
+   WHY CHOOSE US
+   FAST / DIRECTIONAL / BOUNCY MOTION
+========================================================= */
+
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+.about-why {
+
+    --why-motion-ease:
+        cubic-bezier(.16, 1, .3, 1);
+
+    --why-bounce:
+        cubic-bezier(.22, 1.35, .36, 1);
+
+}
+
+
+/* =========================================================
+   INITIAL REVEAL
+========================================================= */
+
+.about-why .why-reveal {
+
+    opacity: 0;
+
+    transform:
+        translate3d(0, -55px, 0);
+
+    transition:
+        opacity .75s var(--why-motion-ease),
+        transform .85s var(--why-bounce);
+
+}
+
+
+.about-why.about-why-is-visible .why-reveal {
+
+    opacity: 1;
+
+    transform:
+        translate3d(0, 0, 0);
+
+}
+
+
+/* =========================================================
+   HEADER TAG
+========================================================= */
+
+.about-why .about-why-tag {
+
+    opacity: 0;
+
+    transform:
+        translate3d(0, -35px, 0) scale(.92);
+
+    transition:
+        opacity .55s var(--why-motion-ease),
+        transform .7s var(--why-bounce);
+
+}
+
+
+.about-why.about-why-is-visible .about-why-tag {
+
+    opacity: 1;
+
+    transform:
+        translate3d(0, 0, 0) scale(1);
+
+    transition-delay:
+        .05s;
+
+}
+
+
+/* =========================================================
+   SPARKLE ICON
+========================================================= */
+
+.about-why .about-why-tag svg {
+
+    transform:
+        rotate(-35deg) scale(.5);
+
+    transition:
+        transform .7s var(--why-bounce);
+
+}
+
+
+.about-why.about-why-is-visible .about-why-tag svg {
+
+    transform:
+        rotate(0deg) scale(1);
+
+    transition-delay:
+        .25s;
+
+}
+
+
+/* =========================================================
+   TITLE — EACH LINE ENTERS DIFFERENTLY
+========================================================= */
+
+.about-why .why-title-line,
+.about-why .why-title-brand {
+
+    display:
+        block;
+
+    opacity: 0;
+
+}
+
+
+.about-why .why-title-line-one {
+
+    transform:
+        translate3d(-70px, 0, 0);
+
+}
+
+
+.about-why .why-title-line-two {
+
+    transform:
+        translate3d(70px, 0, 0);
+
+}
+
+
+.about-why .why-title-brand {
+
+    transform:
+        translate3d(0, 55px, 0) scale(.94);
+
+}
+
+
+.about-why .why-title-line-four {
+
+    display:
+        block;
+
+    opacity: 0;
+
+    transform:
+        translate3d(70px, 0, 0);
+
+}
+
+
+.about-why.about-why-is-visible .why-title-line {
+
+    opacity: 1;
+
+    transform:
+        translate3d(0, 0, 0);
+
+    transition:
+        opacity .7s var(--why-motion-ease),
+        transform .85s var(--why-bounce);
+
+}
+
+
+.about-why.about-why-is-visible .why-title-line-one {
+
+    transition-delay:
+        .15s;
+
+}
+
+
+.about-why.about-why-is-visible .why-title-line-two {
+
+    transition-delay:
+        .24s;
+
+}
+
+
+.about-why.about-why-is-visible .why-title-line-four {
+
+    transition-delay:
+        .43s;
+
+}
+
+
+.about-why.about-why-is-visible .why-title-brand {
+
+    opacity: 1;
+
+    transform:
+        translate3d(0, 0, 0) scale(1);
+
+    transition:
+        opacity .7s var(--why-motion-ease),
+        transform .9s var(--why-bounce);
+
+    transition-delay:
+        .33s;
+
+}
+
+
+/* =========================================================
+   TITLE LINE
+========================================================= */
+
+.about-why .about-why-title-line {
+
+    transform:
+        scaleX(0);
+
+    transform-origin:
+        center;
+
+    opacity:
+        0;
+
+    transition:
+        transform .75s var(--why-bounce),
+        opacity .4s ease;
+
+}
+
+
+.about-why.about-why-is-visible .about-why-title-line {
+
+    transform:
+        scaleX(1);
+
+    opacity:
+        1;
+
+    transition-delay:
+        .55s;
+
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.about-why .about-why-header p {
+
+    opacity:
+        0;
+
+    transform:
+        translate3d(0, 25px, 0);
+
+    transition:
+        opacity .75s var(--why-motion-ease),
+        transform .85s var(--why-bounce);
+
+}
+
+
+.about-why.about-why-is-visible .about-why-header p {
+
+    opacity:
+        1;
+
+    transform:
+        translate3d(0, 0, 0);
+
+    transition-delay:
+        .65s;
+
+}
+
+
+/* =========================================================
+   PILLS
+========================================================= */
+
+.about-why .why-pill-reveal {
+
+    opacity:
+        0;
+
+    transition:
+        opacity .6s var(--why-motion-ease),
+        transform .75s var(--why-bounce);
+
+}
+
+
+/* LEFT PILLS */
+
+.about-why .why-pill-left {
+
+    transform:
+        translate3d(-75px, 0, 0) scale(.92);
+
+}
+
+
+/* RIGHT PILLS */
+
+.about-why .why-pill-right {
+
+    transform:
+        translate3d(75px, 0, 0) scale(.92);
+
+}
+
+
+/* VISIBLE */
+
+.about-why.about-why-is-visible .why-pill-reveal {
+
+    opacity:
+        1;
+
+    transform:
+        translate3d(0, 0, 0) scale(1);
+
+    transition-delay:
+        calc(.75s + var(--pill-delay));
+
+}
+
+
+/* =========================================================
+   PILL HOVER
+========================================================= */
+
+.about-why .about-why-pill {
+
+    transition:
+        transform .35s var(--why-bounce),
+        box-shadow .35s ease,
+        border-color .35s ease;
+
+}
+
+
+.about-why .about-why-pill:hover {
+
+    transform:
+        translateY(-6px) scale(1.025);
+
+}
+
+
+.about-why .about-why-pill-icon {
+
+    transition:
+        transform .4s var(--why-bounce);
+
+}
+
+
+.about-why .about-why-pill:hover .about-why-pill-icon {
+
+    transform:
+        rotate(-7deg) scale(1.08);
+
+}
+
+
+/* =========================================================
+   STATS — COME UP WITH A SMALL BOUNCE
+========================================================= */
+
+.about-why .why-stat-reveal {
+
+    opacity:
+        0;
+
+    transform:
+        translate3d(0, 65px, 0) scale(.88);
+
+    transition:
+        opacity .65s var(--why-motion-ease),
+        transform .9s var(--why-bounce);
+
+}
+
+
+.about-why.about-why-is-visible .why-stat-reveal {
+
+    opacity:
+        1;
+
+    transform:
+        translate3d(0, 0, 0) scale(1);
+
+    transition-delay:
+        calc(1.35s + var(--stat-delay));
+
+}
+
+
+/* =========================================================
+   STAT ICON
+========================================================= */
+
+.about-why .about-why-stat-icon {
+
+    transform:
+        scale(.65) rotate(-15deg);
+
+    transition:
+        transform .65s var(--why-bounce);
+
+}
+
+
+.about-why.about-why-is-visible .about-why-stat-icon {
+
+    transform:
+        scale(1) rotate(0deg);
+
+    transition-delay:
+        1.65s;
+
+}
+
+
+/* =========================================================
+   STAT HOVER
+========================================================= */
+
+.about-why .about-why-stat {
+
+    transition:
+        transform .35s var(--why-bounce),
+        box-shadow .35s ease;
+
+}
+
+
+.about-why .about-why-stat:hover {
+
+    transform:
+        translateY(-7px) scale(1.02);
+
+}
+
+
+.about-why .about-why-stat:hover .about-why-stat-icon {
+
+    transform:
+        translateY(-3px) rotate(-5deg);
+
+}
+
+
+/* =========================================================
+   QUOTE — BOTH SIDES COLLIDE INTO CENTER
+========================================================= */
+
+.about-why .about-why-quote {
+
+    position:
+        relative;
+
+}
+
+
+/* LEFT QUOTE */
+
+.about-why .why-quote-left {
+
+    opacity:
+        0;
+
+    transform:
+        translate3d(-90px, 0, 0) rotate(-20deg);
+
+    transition:
+        opacity .7s var(--why-motion-ease),
+        transform .9s var(--why-bounce);
+
+}
+
+
+/* RIGHT QUOTE */
+
+.about-why .why-quote-right {
+
+    opacity:
+        0;
+
+    transform:
+        translate3d(90px, 0, 0) rotate(20deg);
+
+    transition:
+        opacity .7s var(--why-motion-ease),
+        transform .9s var(--why-bounce);
+
+}
+
+
+/* QUOTE TEXT */
+
+.about-why .why-quote-text {
+
+    opacity:
+        0;
+
+    transform:
+        translate3d(0, 35px, 0) scale(.95);
+
+    transition:
+        opacity .8s var(--why-motion-ease),
+        transform .95s var(--why-bounce);
+
+}
+
+
+/* VISIBLE */
+
+.about-why.about-why-is-visible .why-quote-left,
+.about-why.about-why-is-visible .why-quote-right {
+
+    opacity:
+        1;
+
+    transform:
+        translate3d(0, 0, 0) rotate(0deg);
+
+    transition-delay:
+        1.75s;
+
+}
+
+
+.about-why.about-why-is-visible .why-quote-text {
+
+    opacity:
+        1;
+
+    transform:
+        translate3d(0, 0, 0) scale(1);
+
+    transition-delay:
+        1.85s;
+
+}
+
+
+/* =========================================================
+   QUOTE STRONG TEXT
+========================================================= */
+
+.about-why .why-quote-text strong {
+
+    display:
+        inline-block;
+
+    opacity:
+        0;
+
+    transform:
+        translate3d(0, 15px, 0);
+
+    transition:
+        opacity .6s ease,
+        transform .7s var(--why-bounce);
+
+}
+
+
+.about-why.about-why-is-visible .why-quote-text strong {
+
+    opacity:
+        1;
+
+    transform:
+        translate3d(0, 0, 0);
+
+    transition-delay:
+        2.05s;
+
+}
+
+
+/* =========================================================
+   ORBITS — CONTINUOUS MOTION
+========================================================= */
+
+.about-why .why-orbit {
+
+    animation:
+        whyOrbitDrift 14s ease-in-out infinite alternate;
+
+}
+
+
+.about-why .orbit-right {
+
+    animation-delay:
+        -5s;
+
+}
+
+
+@keyframes whyOrbitDrift {
+
+    0% {
+
+        transform:
+            translate3d(0, 0, 0) rotate(0deg);
+
+    }
+
+    100% {
+
+        transform:
+            translate3d(16px, -12px, 0) rotate(3deg);
+
+    }
+
+}
+
+
+/* =========================================================
+   STARS
+========================================================= */
+
+.about-why .why-star {
+
+    animation:
+        whyStarPulse 4s ease-in-out infinite alternate;
+
+}
+
+
+.about-why .star-one {
+
+    animation-delay:
+        -.5s;
+
+}
+
+
+.about-why .star-two {
+
+    animation-delay:
+        -1.5s;
+
+}
+
+
+.about-why .star-three {
+
+    animation-delay:
+        -2.5s;
+
+}
+
+
+.about-why .star-four {
+
+    animation-delay:
+        -3.5s;
+
+}
+
+
+@keyframes whyStarPulse {
+
+    0% {
+
+        opacity:
+            .25;
+
+        transform:
+            scale(.85) translateY(0);
+
+    }
+
+    100% {
+
+        opacity:
+            .9;
+
+        transform:
+            scale(1.15) translateY(-7px);
+
+    }
+
+}
+
+
+/* =========================================================
+   BLUE GLOW
+========================================================= */
+
+.about-why .about-why-blue-glow {
+
+    animation:
+        whyGlowBreath 8s ease-in-out infinite alternate;
+
+}
+
+
+@keyframes whyGlowBreath {
+
+    0% {
+
+        transform:
+            scale(.96);
+
+        opacity:
+            .65;
+
+    }
+
+    100% {
+
+        transform:
+            scale(1.05);
+
+        opacity:
+            1;
+
+    }
+
+}
+
+
+/* =========================================================
+   BOTTOM LIGHT
+========================================================= */
+
+.about-why .about-why-bottom-glow {
+
+    animation:
+        whyBottomGlow 7s ease-in-out infinite alternate;
+
+}
+
+
+@keyframes whyBottomGlow {
+
+    0% {
+
+        opacity:
+            .45;
+
+        transform:
+            translateX(-15px);
+
+    }
+
+    100% {
+
+        opacity:
+            .8;
+
+        transform:
+            translateX(15px);
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE — REDUCE DISTANCE, KEEP DIRECTION
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .about-why .why-pill-left {
+
+        transform:
+            translate3d(-40px, 0, 0) scale(.95);
+
+    }
+
+
+    .about-why .why-pill-right {
+
+        transform:
+            translate3d(40px, 0, 0) scale(.95);
+
+    }
+
+
+    .about-why .why-stat-reveal {
+
+        transform:
+            translate3d(0, 45px, 0) scale(.92);
+
+    }
+
+
+    .about-why .why-quote-left {
+
+        transform:
+            translate3d(-45px, 0, 0) rotate(-12deg);
+
+    }
+
+
+    .about-why .why-quote-right {
+
+        transform:
+            translate3d(45px, 0, 0) rotate(12deg);
+
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .about-why *,
+    .about-why *::before,
+    .about-why *::after {
+
+        animation:
+            none !important;
+
+        transition:
+            none !important;
+
+    }
+
+
+    .about-why .why-reveal,
+    .about-why .why-pill-reveal,
+    .about-why .why-stat-reveal,
+    .about-why .why-quote-left,
+    .about-why .why-quote-right,
+    .about-why .why-quote-text {
+
+        opacity:
+            1 !important;
+
+        transform:
+            none !important;
+
+    }
+
+}
+
 
 /* =========================================================
    LARGE TABLET

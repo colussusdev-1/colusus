@@ -1331,6 +1331,771 @@
 
 
 /* =========================================================
+   ABOUT HERO — PREMIUM MOTION SYSTEM
+========================================================= */
+
+
+/* =========================================================
+   HERO REVEAL BASE
+========================================================= */
+
+.about-hero-reveal {
+
+    opacity: 0;
+
+    transform:
+        translate3d(0, 34px, 0);
+
+    animation:
+        aboutHeroReveal 1.05s cubic-bezier(.16, 1, .3, 1) forwards;
+
+}
+
+
+/* =========================================================
+   STAGGER
+========================================================= */
+
+.about-hero-reveal.reveal-1 {
+
+    animation-delay:
+        .08s;
+
+}
+
+
+.about-hero-reveal.reveal-2 {
+
+    animation-delay:
+        .18s;
+
+}
+
+
+.about-hero-reveal.reveal-3 {
+
+    animation-delay:
+        .27s;
+
+}
+
+
+.about-hero-reveal.reveal-4 {
+
+    animation-delay:
+        .36s;
+
+}
+
+
+.about-hero-reveal.reveal-5 {
+
+    animation-delay:
+        .46s;
+
+}
+
+
+.about-hero-reveal.reveal-6 {
+
+    animation-delay:
+        .56s;
+
+}
+
+
+.about-hero-reveal.reveal-7 {
+
+    animation-delay:
+        .68s;
+
+}
+
+
+.about-hero-reveal.reveal-8 {
+
+    animation-delay:
+        .82s;
+
+}
+
+
+/* =========================================================
+   HERO REVEAL
+========================================================= */
+
+@keyframes aboutHeroReveal {
+
+    0% {
+
+        opacity:
+            0;
+
+        transform:
+            translate3d(0, 34px, 0);
+
+    }
+
+    100% {
+
+        opacity:
+            1;
+
+        transform:
+            translate3d(0, 0, 0);
+
+    }
+
+}
+
+
+/* =========================================================
+   TITLE — SLIGHTLY MORE CINEMATIC
+========================================================= */
+
+.about-hero-title .hero-title-line {
+
+    display:
+        block;
+
+}
+
+
+.about-hero-title .about-hero-title-accent {
+
+    display:
+        block;
+
+}
+
+
+/* =========================================================
+   RIGHT ATMOSPHERIC VISUAL
+========================================================= */
+
+.about-hero-visual.reveal-visual {
+
+    opacity:
+        0;
+
+    transform:
+        translate3d(55px, 20px, 0) scale(.97);
+
+    animation:
+        aboutHeroVisualReveal 1.5s cubic-bezier(.16, 1, .3, 1) .3s forwards;
+
+}
+
+
+@keyframes aboutHeroVisualReveal {
+
+    0% {
+
+        opacity:
+            0;
+
+        transform:
+            translate3d(55px, 20px, 0) scale(.97);
+
+    }
+
+    100% {
+
+        opacity:
+            1;
+
+        transform:
+            translate3d(0, 0, 0) scale(1);
+
+    }
+
+}
+
+
+/* =========================================================
+   BACKGROUND IMAGE — VERY SUBTLE MOVEMENT
+========================================================= */
+
+.about-hero-background-image {
+
+    animation:
+        aboutHeroBackgroundDrift 18s ease-in-out infinite alternate;
+
+    transform-origin:
+        center center;
+
+}
+
+
+@keyframes aboutHeroBackgroundDrift {
+
+    0% {
+
+        transform:
+            scale(1.015) translate3d(0, 0, 0);
+
+    }
+
+    100% {
+
+        transform:
+            scale(1.045) translate3d(-8px, 5px, 0);
+
+    }
+
+}
+
+
+/* =========================================================
+   ORBITS — SLOW ATMOSPHERIC MOTION
+========================================================= */
+
+.about-hero .hero-orbit {
+
+    animation:
+        aboutHeroOrbitFloat 12s ease-in-out infinite alternate;
+
+}
+
+
+.about-hero .orbit-one {
+
+    animation-delay:
+        -.5s;
+
+}
+
+
+.about-hero .orbit-two {
+
+    animation-delay:
+        -3s;
+
+}
+
+
+.about-hero .orbit-three {
+
+    animation-delay:
+        -6s;
+
+}
+
+
+@keyframes aboutHeroOrbitFloat {
+
+    0% {
+
+        transform:
+            translate3d(0, 0, 0) rotate(0deg);
+
+    }
+
+    100% {
+
+        transform:
+            translate3d(8px, -12px, 0) rotate(2deg);
+
+    }
+
+}
+
+
+/* =========================================================
+   PARTICLES
+========================================================= */
+
+.about-hero .hero-particle {
+
+    animation:
+        aboutHeroParticleFloat 5s ease-in-out infinite alternate;
+
+}
+
+
+.about-hero .particle-one {
+
+    animation-delay:
+        -1s;
+
+}
+
+
+.about-hero .particle-two {
+
+    animation-delay:
+        -2.5s;
+
+}
+
+
+.about-hero .particle-three {
+
+    animation-delay:
+        -4s;
+
+}
+
+
+.about-hero .particle-four {
+
+    animation-delay:
+        -3s;
+
+}
+
+
+@keyframes aboutHeroParticleFloat {
+
+    0% {
+
+        opacity:
+            .35;
+
+        transform:
+            translate3d(0, 0, 0);
+
+    }
+
+    100% {
+
+        opacity:
+            .8;
+
+        transform:
+            translate3d(0, -10px, 0);
+
+    }
+
+}
+
+
+/* =========================================================
+   CTA MICRO INTERACTION
+========================================================= */
+
+.about-btn {
+
+    transition:
+        transform .35s cubic-bezier(.16, 1, .3, 1),
+        box-shadow .35s ease,
+        border-color .35s ease,
+        background .35s ease;
+
+}
+
+
+.about-btn-primary:hover {
+
+    transform:
+        translateY(-4px);
+
+}
+
+
+.about-btn-secondary:hover {
+
+    transform:
+        translateY(-4px);
+
+}
+
+
+.about-btn-icon {
+
+    transition:
+        transform .35s cubic-bezier(.16, 1, .3, 1);
+
+}
+
+
+.about-btn-primary:hover .about-btn-icon {
+
+    transform:
+        translateX(5px);
+
+}
+
+
+.about-secondary-arrow {
+
+    transition:
+        transform .35s cubic-bezier(.16, 1, .3, 1);
+
+}
+
+
+.about-btn-secondary:hover .about-secondary-arrow {
+
+    transform:
+        translateX(4px);
+
+}
+
+
+/* =========================================================
+   TRUST AVATARS
+========================================================= */
+
+.trust-avatar {
+
+    transition:
+        transform .3s cubic-bezier(.16, 1, .3, 1),
+        box-shadow .3s ease;
+
+}
+
+
+.trust-avatar:hover {
+
+    transform:
+        translateY(-4px);
+
+    z-index:
+        5;
+
+}
+
+
+/* =========================================================
+   STATS — CASCADING ENTRANCE
+========================================================= */
+
+.stat-reveal {
+
+    opacity:
+        0;
+
+    transform:
+        translate3d(0, 25px, 0);
+
+    animation:
+        aboutHeroStatReveal .9s cubic-bezier(.16, 1, .3, 1) forwards;
+
+}
+
+
+.stat-1 {
+
+    animation-delay:
+        1.05s;
+
+}
+
+
+.stat-2 {
+
+    animation-delay:
+        1.18s;
+
+}
+
+
+.stat-3 {
+
+    animation-delay:
+        1.31s;
+
+}
+
+
+.stat-4 {
+
+    animation-delay:
+        1.44s;
+
+}
+
+
+@keyframes aboutHeroStatReveal {
+
+    0% {
+
+        opacity:
+            0;
+
+        transform:
+            translate3d(0, 25px, 0);
+
+    }
+
+    100% {
+
+        opacity:
+            1;
+
+        transform:
+            translate3d(0, 0, 0);
+
+    }
+
+}
+
+
+/* =========================================================
+   STAT DIVIDERS
+========================================================= */
+
+.stat-divider {
+
+    transform:
+        scaleY(0);
+
+    transform-origin:
+        center;
+
+    animation:
+        aboutHeroDividerReveal .7s cubic-bezier(.16, 1, .3, 1) forwards;
+
+}
+
+
+.stat-divider-1 {
+
+    animation-delay:
+        1.14s;
+
+}
+
+
+.stat-divider-2 {
+
+    animation-delay:
+        1.27s;
+
+}
+
+
+.stat-divider-3 {
+
+    animation-delay:
+        1.40s;
+
+}
+
+
+@keyframes aboutHeroDividerReveal {
+
+    from {
+
+        opacity:
+            0;
+
+        transform:
+            scaleY(0);
+
+    }
+
+    to {
+
+        opacity:
+            1;
+
+        transform:
+            scaleY(1);
+
+    }
+
+}
+
+
+/* =========================================================
+   STAT ICON MICRO MOTION
+========================================================= */
+
+.about-stat:hover .stat-icon {
+
+    transform:
+        translateY(-3px) rotate(-3deg);
+
+}
+
+
+.stat-icon {
+
+    transition:
+        transform .35s cubic-bezier(.16, 1, .3, 1);
+
+}
+
+
+/* =========================================================
+   VALUES BAR
+========================================================= */
+
+.about-values-reveal {
+
+    opacity:
+        0;
+
+    transform:
+        translate3d(0, 30px, 0);
+
+    animation:
+        aboutHeroValuesReveal 1s cubic-bezier(.16, 1, .3, 1) 1.55s forwards;
+
+}
+
+
+@keyframes aboutHeroValuesReveal {
+
+    0% {
+
+        opacity:
+            0;
+
+        transform:
+            translate3d(0, 30px, 0);
+
+    }
+
+    100% {
+
+        opacity:
+            1;
+
+        transform:
+            translate3d(0, 0, 0);
+
+    }
+
+}
+
+
+/* =========================================================
+   VALUE ITEMS — STAGGERED
+========================================================= */
+
+.about-values .value-item {
+
+    opacity:
+        0;
+
+    transform:
+        translate3d(0, 18px, 0);
+
+    animation:
+        aboutHeroValueItemReveal .75s cubic-bezier(.16, 1, .3, 1) forwards;
+
+}
+
+
+.about-values .value-item-1 {
+
+    animation-delay:
+        1.70s;
+
+}
+
+
+.about-values .value-item-2 {
+
+    animation-delay:
+        1.79s;
+
+}
+
+
+.about-values .value-item-3 {
+
+    animation-delay:
+        1.88s;
+
+}
+
+
+.about-values .value-item-4 {
+
+    animation-delay:
+        1.97s;
+
+}
+
+
+@keyframes aboutHeroValueItemReveal {
+
+    from {
+
+        opacity:
+            0;
+
+        transform:
+            translate3d(0, 18px, 0);
+
+    }
+
+    to {
+
+        opacity:
+            1;
+
+        transform:
+            translate3d(0, 0, 0);
+
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .about-hero *,
+    .about-hero *::before,
+    .about-hero *::after {
+
+        animation-duration:
+            .01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+        transition-duration:
+            .01ms !important;
+
+        scroll-behavior:
+            auto !important;
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE MOTION ADJUSTMENTS
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .about-hero-reveal {
+
+        transform:
+            translate3d(0, 24px, 0);
+
+    }
+
+
+    .about-hero-visual.reveal-visual {
+
+        transform:
+            translate3d(25px, 15px, 0) scale(.985);
+
+    }
+
+
+    .about-hero-background-image {
+
+        animation-duration:
+            22s;
+
+    }
+
+}
+
+/* =========================================================
    TABLET — 1100px
 ========================================================= */
 

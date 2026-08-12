@@ -12,11 +12,13 @@ import {
 
 import aboutBackground from "../../../../assets/about/about-background.jpg";
 
+
 const AboutHero = ({
     onOpenServices = () => { }
 }) => {
 
     return (
+
         <section
             className="about-hero"
             style={{
@@ -28,7 +30,10 @@ const AboutHero = ({
                 ATMOSPHERIC BACKGROUND
             ================================================= */}
 
-            <div className="about-hero-background">
+            <div
+                className="about-hero-background"
+                aria-hidden="true"
+            >
 
                 <div className="about-hero-background-image"></div>
 
@@ -64,7 +69,8 @@ const AboutHero = ({
 
                 <div className="about-hero-content">
 
-                    <span className="about-hero-tag">
+
+                    <span className="about-hero-tag about-hero-reveal reveal-1">
 
                         <span className="tag-dot"></span>
 
@@ -75,23 +81,25 @@ const AboutHero = ({
 
                     <h1 className="about-hero-title">
 
-                        Helping You
+                        <span className="hero-title-line about-hero-reveal reveal-2">
+                            Helping You
+                        </span>
 
-                        <br />
+                        <span className="hero-title-line about-hero-reveal reveal-3">
+                            Cross Borders
+                        </span>
 
-                        Cross Borders
-
-                        <span>
+                        <span className="about-hero-title-accent about-hero-reveal reveal-4">
                             With Confidence.
                         </span>
 
                     </h1>
 
 
-                    <div className="about-title-line"></div>
+                    <div className="about-title-line about-hero-reveal reveal-5"></div>
 
 
-                    <p className="about-hero-description">
+                    <p className="about-hero-description about-hero-reveal reveal-6">
 
                         Colossus Migration & Tours helps students,
                         professionals, entrepreneurs and families
@@ -106,7 +114,8 @@ const AboutHero = ({
                         BUTTONS
                     ================================================= */}
 
-                    <div className="about-hero-buttons">
+                    <div className="about-hero-buttons about-hero-reveal reveal-7">
+
 
                         <button
                             type="button"
@@ -140,6 +149,7 @@ const AboutHero = ({
 
                         </Link>
 
+
                     </div>
 
 
@@ -147,7 +157,8 @@ const AboutHero = ({
                         TRUST ROW
                     ================================================= */}
 
-                    <div className="about-trust-row">
+                    <div className="about-trust-row about-hero-reveal reveal-8">
+
 
                         <div className="trust-avatars">
 
@@ -195,7 +206,9 @@ const AboutHero = ({
 
                         </div>
 
+
                     </div>
+
 
                 </div>
 
@@ -204,11 +217,15 @@ const AboutHero = ({
                     RIGHT SIDE — BACKGROUND VISUAL ONLY
                 ================================================= */}
 
-                <div className="about-hero-visual">
+                <div
+                    className="about-hero-visual about-hero-reveal reveal-visual"
+                    aria-hidden="true"
+                >
 
                     <div className="about-hero-visual-glow"></div>
 
                 </div>
+
 
             </div>
 
@@ -222,7 +239,7 @@ const AboutHero = ({
                 <div className="about-stats">
 
 
-                    <div className="about-stat">
+                    <div className="about-stat stat-reveal stat-1">
 
                         <div className="stat-icon">
                             <HiOutlineGlobeAlt />
@@ -247,10 +264,10 @@ const AboutHero = ({
                     </div>
 
 
-                    <div className="stat-divider"></div>
+                    <div className="stat-divider stat-divider-1"></div>
 
 
-                    <div className="about-stat">
+                    <div className="about-stat stat-reveal stat-2">
 
                         <div className="stat-icon">
                             <HiOutlineUserGroup />
@@ -275,10 +292,10 @@ const AboutHero = ({
                     </div>
 
 
-                    <div className="stat-divider"></div>
+                    <div className="stat-divider stat-divider-2"></div>
 
 
-                    <div className="about-stat">
+                    <div className="about-stat stat-reveal stat-3">
 
                         <div className="stat-icon">
                             <HiOutlineShieldCheck />
@@ -303,10 +320,10 @@ const AboutHero = ({
                     </div>
 
 
-                    <div className="stat-divider"></div>
+                    <div className="stat-divider stat-divider-3"></div>
 
 
-                    <div className="about-stat">
+                    <div className="about-stat stat-reveal stat-4">
 
                         <div className="stat-icon">
                             <HiOutlineBadgeCheck />
@@ -342,7 +359,7 @@ const AboutHero = ({
 
             <div className="container about-values-container">
 
-                <div className="about-values">
+                <div className="about-values about-values-reveal">
 
 
                     <div className="values-heading">
@@ -358,7 +375,7 @@ const AboutHero = ({
                     </div>
 
 
-                    <div className="value-item">
+                    <div className="value-item value-item-1">
 
                         <div className="value-icon">
                             <HiOutlineUserGroup />
@@ -379,7 +396,7 @@ const AboutHero = ({
                     </div>
 
 
-                    <div className="value-item">
+                    <div className="value-item value-item-2">
 
                         <div className="value-icon">
                             <HiOutlineShieldCheck />
@@ -400,7 +417,7 @@ const AboutHero = ({
                     </div>
 
 
-                    <div className="value-item">
+                    <div className="value-item value-item-3">
 
                         <div className="value-icon">
                             <HiOutlineGlobeAlt />
@@ -421,7 +438,7 @@ const AboutHero = ({
                     </div>
 
 
-                    <div className="value-item">
+                    <div className="value-item value-item-4">
 
                         <div className="value-icon">
                             <HiOutlineBadgeCheck />
@@ -445,6 +462,7 @@ const AboutHero = ({
                 </div>
 
             </div>
+
 
         </section>
     );

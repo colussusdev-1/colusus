@@ -1,3 +1,5 @@
+import { useEffect, useRef } from "react";
+
 import "./AboutStory.css";
 
 import {
@@ -12,41 +14,94 @@ import {
 
 import storyImage from "../../../../assets/images/about/about.jpg";
 
+
 const features = [
+
     {
         icon: HiOutlineShieldCheck,
         title: "Established Since 2019",
         description: "Years of experience you can trust and rely on.",
     },
+
     {
         icon: HiOutlineUserGroup,
         title: "Trusted Immigration Guidance",
         description: "Clear, ethical and reliable advice at every step.",
     },
+
     {
         icon: HiOutlineGlobeAlt,
         title: "Global Opportunities",
         description: "Your future, supported across 15+ countries worldwide.",
     },
+
     {
         icon: HiOutlineHeart,
         title: "Personalized Client Support",
         description: "Real people, real support tailored to your journey.",
     },
+
 ];
+
 
 const AboutStory = () => {
 
+    const sectionRef = useRef(null);
+
+
+    useEffect(() => {
+
+        const section = sectionRef.current;
+
+        if (!section) return;
+
+
+        const observer = new IntersectionObserver(
+
+            ([entry]) => {
+
+                if (entry.isIntersecting) {
+
+                    section.classList.add("about-story-is-visible");
+
+                    observer.unobserve(section);
+
+                }
+
+            },
+
+            {
+                threshold: 0.12,
+                rootMargin: "0px 0px -80px 0px",
+            }
+
+        );
+
+
+        observer.observe(section);
+
+
+        return () => observer.disconnect();
+
+    }, []);
+
+
     return (
 
-        <section className="about-story">
+        <section
+            ref={sectionRef}
+            className="about-story"
+        >
 
 
             {/* =================================================
                 ATMOSPHERIC BACKGROUND
             ================================================= */}
 
-            <div className="about-story-background">
+            <div
+                className="about-story-background"
+                aria-hidden="true"
+            >
 
                 <span className="story-bg-orbit story-orbit-one"></span>
 
@@ -66,10 +121,11 @@ const AboutStory = () => {
                     LEFT — IMAGE SIDE
                 ================================================= */}
 
-                <div className="about-story-visual">
+                <div className="about-story-visual story-reveal story-reveal-left">
 
 
                     <div className="about-story-image-wrapper">
+
 
                         <span className="about-story-glow glow-one"></span>
 
@@ -78,7 +134,7 @@ const AboutStory = () => {
 
                         {/* Decorative flight path */}
 
-                        <div className="story-flight-path">
+                        <div className="story-flight-path story-reveal story-reveal-top">
 
                             <span className="story-flight-line"></span>
 
@@ -89,7 +145,7 @@ const AboutStory = () => {
 
                         {/* Image frame */}
 
-                        <div className="about-story-frame">
+                        <div className="about-story-frame story-image-reveal">
 
                             <div className="about-story-image">
 
@@ -109,7 +165,7 @@ const AboutStory = () => {
                             SINCE 2019 CARD
                         ================================================= */}
 
-                        <div className="about-story-floating-card story-since-card">
+                        <div className="about-story-floating-card story-since-card story-reveal story-reveal-right">
 
                             <div className="about-story-card-icon">
 
@@ -136,7 +192,7 @@ const AboutStory = () => {
                             CLIENTS CARD
                         ================================================= */}
 
-                        <div className="about-story-floating-card story-clients-card">
+                        <div className="about-story-floating-card story-clients-card story-reveal story-reveal-bottom">
 
                             <div className="about-story-card-icon">
 
@@ -166,10 +222,10 @@ const AboutStory = () => {
                         STATISTICS PANEL
                     ================================================= */}
 
-                    <div className="about-story-stat-panel">
+                    <div className="about-story-stat-panel story-reveal story-reveal-bottom">
 
 
-                        <div className="about-story-stat">
+                        <div className="about-story-stat story-stat-item">
 
                             <div className="story-stat-icon">
 
@@ -191,7 +247,7 @@ const AboutStory = () => {
                         <div className="story-stat-divider"></div>
 
 
-                        <div className="about-story-stat">
+                        <div className="about-story-stat story-stat-item">
 
                             <div className="story-stat-icon">
 
@@ -213,7 +269,7 @@ const AboutStory = () => {
                         <div className="story-stat-divider"></div>
 
 
-                        <div className="about-story-stat">
+                        <div className="about-story-stat story-stat-item">
 
                             <div className="story-stat-icon">
 
@@ -245,7 +301,7 @@ const AboutStory = () => {
                 <div className="about-story-content">
 
 
-                    <span className="about-story-tag">
+                    <span className="about-story-tag story-reveal story-reveal-top">
 
                         <span className="story-tag-dot"></span>
 
@@ -256,27 +312,34 @@ const AboutStory = () => {
 
                     <h2 className="about-story-title">
 
-                        Founded on a
 
-                        <br />
+                        <span className="story-title-line story-reveal story-reveal-right">
+                            Founded on a
+                        </span>
 
-                        Vision.
 
-                        <span>
+                        <span className="story-title-line story-reveal story-reveal-right">
+                            Vision.
+                        </span>
+
+
+                        <span className="story-title-accent story-reveal story-reveal-left">
                             Built Around
                         </span>
 
-                        <span>
+
+                        <span className="story-title-accent story-reveal story-reveal-left">
                             People.
                         </span>
+
 
                     </h2>
 
 
-                    <div className="about-story-title-line"></div>
+                    <div className="about-story-title-line story-reveal story-reveal-left"></div>
 
 
-                    <p className="about-story-description">
+                    <p className="about-story-description story-reveal story-reveal-right">
 
                         Colossus Migration & Tours was founded in 2019
                         with a simple belief that international
@@ -285,7 +348,7 @@ const AboutStory = () => {
                     </p>
 
 
-                    <p className="about-story-description">
+                    <p className="about-story-description story-reveal story-reveal-left">
 
                         Whether your dream is to study abroad, build a
                         global career, relocate with your family, expand
@@ -296,7 +359,7 @@ const AboutStory = () => {
                     </p>
 
 
-                    <p className="about-story-description">
+                    <p className="about-story-description story-reveal story-reveal-right">
 
                         We simplify complex immigration and travel
                         processes through transparent advice, structured
@@ -314,14 +377,26 @@ const AboutStory = () => {
 
                     <div className="about-story-features">
 
-                        {features.map((feature) => {
+
+                        {features.map((feature, index) => {
 
                             const Icon = feature.icon;
+
 
                             return (
 
                                 <div
-                                    className="about-story-feature"
+                                    className={`
+                                        about-story-feature
+                                        story-feature-reveal
+                                        ${index % 2 === 0
+                                            ? "story-reveal-right"
+                                            : "story-reveal-left"
+                                        }
+                                    `}
+                                    style={{
+                                        "--feature-delay": `${index * 120}ms`,
+                                    }}
                                     key={feature.title}
                                 >
 
@@ -352,6 +427,7 @@ const AboutStory = () => {
 
                         })}
 
+
                     </div>
 
 
@@ -366,39 +442,50 @@ const AboutStory = () => {
 
             <div className="container about-story-statement-container">
 
-                <div className="about-story-statement">
+
+                <div className="about-story-statement story-statement-reveal">
 
 
-                    <div className="story-quote-mark">
+                    <div className="story-quote-mark story-reveal story-reveal-left">
                         “
                     </div>
 
 
                     <div className="story-statement-content">
 
+
                         <h3>
 
-                            <span>
+                            <span className="story-reveal story-reveal-left">
+
                                 Your journey is personal.
+
                             </span>
 
-                            <strong>
+                            <strong className="story-reveal story-reveal-right">
+
                                 Our responsibility is to make it clearer.
+
                             </strong>
 
                         </h3>
 
-                        <p>
+
+                        <p className="story-reveal story-reveal-bottom">
+
                             At Colossus Migration & Tours, your dreams
                             drive our commitment.
+
                         </p>
+
 
                     </div>
 
 
                     {/* Decorative global visual */}
 
-                    <div className="story-statement-world">
+                    <div className="story-statement-world story-reveal story-reveal-right">
+
 
                         <span className="statement-route route-one"></span>
 
@@ -406,11 +493,13 @@ const AboutStory = () => {
 
                         <span className="statement-route route-three"></span>
 
+
                         <span className="statement-pin pin-one"></span>
 
                         <span className="statement-pin pin-two"></span>
 
                         <span className="statement-pin pin-three"></span>
+
 
                         <span className="statement-plane">
 
@@ -418,9 +507,12 @@ const AboutStory = () => {
 
                         </span>
 
+
                     </div>
 
+
                 </div>
+
 
             </div>
 
@@ -430,5 +522,6 @@ const AboutStory = () => {
     );
 
 };
+
 
 export default AboutStory;

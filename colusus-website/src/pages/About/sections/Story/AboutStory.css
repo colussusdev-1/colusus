@@ -1471,6 +1471,941 @@
 
 }
 
+/* =========================================================
+   ABOUT STORY
+   PREMIUM DIRECTIONAL MOTION SYSTEM
+========================================================= */
+
+
+/* =========================================================
+   INITIAL REVEAL STATE
+========================================================= */
+
+.about-story .story-reveal {
+
+    opacity: 0;
+
+    will-change:
+        transform,
+        opacity;
+
+    transition:
+        opacity .95s cubic-bezier(.16, 1, .3, 1),
+        transform 1.05s cubic-bezier(.16, 1, .3, 1);
+
+}
+
+
+/* =========================================================
+   DIRECTION — LEFT
+========================================================= */
+
+.about-story .story-reveal-left {
+
+    transform:
+        translate3d(-70px, 0, 0);
+
+}
+
+
+/* =========================================================
+   DIRECTION — RIGHT
+========================================================= */
+
+.about-story .story-reveal-right {
+
+    transform:
+        translate3d(70px, 0, 0);
+
+}
+
+
+/* =========================================================
+   DIRECTION — TOP
+========================================================= */
+
+.about-story .story-reveal-top {
+
+    transform:
+        translate3d(0, -55px, 0);
+
+}
+
+
+/* =========================================================
+   DIRECTION — BOTTOM
+========================================================= */
+
+.about-story .story-reveal-bottom {
+
+    transform:
+        translate3d(0, 55px, 0);
+
+}
+
+
+/* =========================================================
+   VISIBLE STATE
+========================================================= */
+
+.about-story.about-story-is-visible .story-reveal {
+
+    opacity: 1;
+
+    transform:
+        translate3d(0, 0, 0);
+
+}
+
+
+/* =========================================================
+   MAIN IMAGE — CINEMATIC REVEAL
+========================================================= */
+
+.about-story .story-image-reveal {
+
+    opacity: 0;
+
+    transform:
+        translate3d(-80px, 20px, 0) scale(.94);
+
+    transition:
+        opacity 1.25s cubic-bezier(.16, 1, .3, 1),
+        transform 1.35s cubic-bezier(.16, 1, .3, 1);
+
+}
+
+
+.about-story.about-story-is-visible .story-image-reveal {
+
+    opacity: 1;
+
+    transform:
+        translate3d(0, 0, 0) scale(1);
+
+}
+
+
+/* =========================================================
+   IMAGE — SUBTLE LIVING EFFECT
+========================================================= */
+
+.about-story.about-story-is-visible .about-story-image img {
+
+    animation:
+        storyImageBreath 12s ease-in-out 1.25s infinite alternate;
+
+}
+
+
+@keyframes storyImageBreath {
+
+    0% {
+
+        transform:
+            scale(1);
+
+    }
+
+    100% {
+
+        transform:
+            scale(1.025);
+
+    }
+
+}
+
+
+/* =========================================================
+   BACKGROUND ORBITS
+========================================================= */
+
+.about-story .story-bg-orbit {
+
+    animation:
+        storyOrbitFloat 16s ease-in-out infinite alternate;
+
+}
+
+
+.about-story .story-orbit-two {
+
+    animation-delay:
+        -5s;
+
+}
+
+
+@keyframes storyOrbitFloat {
+
+    0% {
+
+        transform:
+            translate3d(0, 0, 0) rotate(0deg);
+
+    }
+
+    100% {
+
+        transform:
+            translate3d(18px, -12px, 0) rotate(3deg);
+
+    }
+
+}
+
+
+/* =========================================================
+   BACKGROUND DOTS
+========================================================= */
+
+.about-story .story-bg-dot {
+
+    animation:
+        storyDotFloat 5s ease-in-out infinite alternate;
+
+}
+
+
+.about-story .story-dot-two {
+
+    animation-delay:
+        -2.5s;
+
+}
+
+
+@keyframes storyDotFloat {
+
+    0% {
+
+        opacity:
+            .25;
+
+        transform:
+            translate3d(0, 0, 0);
+
+    }
+
+    100% {
+
+        opacity:
+            .8;
+
+        transform:
+            translate3d(0, -12px, 0);
+
+    }
+
+}
+
+
+/* =========================================================
+   FLIGHT PATH
+========================================================= */
+
+.about-story .story-flight-path {
+
+    opacity: 0;
+
+    transform:
+        translate3d(0, -45px, 0);
+
+    transition:
+        opacity .9s ease .35s,
+        transform 1s cubic-bezier(.16, 1, .3, 1) .35s;
+
+}
+
+
+.about-story.about-story-is-visible .story-flight-path {
+
+    opacity: 1;
+
+    transform:
+        translate3d(0, 0, 0);
+
+}
+
+
+/* =========================================================
+   FLIGHT PATH LINE
+========================================================= */
+
+.about-story .story-flight-line {
+
+    transform:
+        scaleX(0);
+
+    transform-origin:
+        left center;
+
+    transition:
+        transform 1.2s cubic-bezier(.16, 1, .3, 1) .65s;
+
+}
+
+
+.about-story.about-story-is-visible .story-flight-line {
+
+    transform:
+        scaleX(1);
+
+}
+
+
+/* =========================================================
+   AIRPLANE
+========================================================= */
+
+.about-story.about-story-is-visible .story-flight-path svg {
+
+    animation:
+        storyPlaneFloat 4s ease-in-out 2s infinite alternate;
+
+}
+
+
+@keyframes storyPlaneFloat {
+
+    0% {
+
+        transform:
+            translate3d(0, 0, 0) rotate(0deg);
+
+    }
+
+    100% {
+
+        transform:
+            translate3d(8px, -6px, 0) rotate(-4deg);
+
+    }
+
+}
+
+
+/* =========================================================
+   SINCE / CLIENT FLOATING CARDS
+========================================================= */
+
+.about-story.about-story-is-visible .story-since-card {
+
+    transition-delay:
+        .65s;
+
+}
+
+
+.about-story.about-story-is-visible .story-clients-card {
+
+    transition-delay:
+        .95s;
+
+}
+
+
+/* =========================================================
+   FLOATING CARDS — LIVING AFTER REVEAL
+========================================================= */
+
+.about-story.about-story-is-visible .story-since-card {
+
+    animation:
+        storySinceFloat 6s ease-in-out 1.8s infinite alternate;
+
+}
+
+
+.about-story.about-story-is-visible .story-clients-card {
+
+    animation:
+        storyClientFloat 7s ease-in-out 2s infinite alternate;
+
+}
+
+
+@keyframes storySinceFloat {
+
+    0% {
+
+        transform:
+            translate3d(0, 0, 0);
+
+    }
+
+    100% {
+
+        transform:
+            translate3d(0, -8px, 0);
+
+    }
+
+}
+
+
+@keyframes storyClientFloat {
+
+    0% {
+
+        transform:
+            translate3d(0, 0, 0);
+
+    }
+
+    100% {
+
+        transform:
+            translate3d(0, -10px, 0);
+
+    }
+
+}
+
+
+/* =========================================================
+   STAT PANEL
+========================================================= */
+
+.about-story .about-story-stat-panel {
+
+    transition-delay:
+        .45s;
+
+}
+
+
+/* =========================================================
+   STAT ITEMS
+========================================================= */
+
+.about-story.about-story-is-visible .story-stat-item {
+
+    animation:
+        storyStatPulse 5s ease-in-out 2s infinite alternate;
+
+}
+
+
+.about-story.about-story-is-visible .story-stat-item:nth-child(1) {
+
+    animation-delay:
+        2s;
+
+}
+
+
+.about-story.about-story-is-visible .story-stat-item:nth-child(3) {
+
+    animation-delay:
+        2.3s;
+
+}
+
+
+.about-story.about-story-is-visible .story-stat-item:nth-child(5) {
+
+    animation-delay:
+        2.6s;
+
+}
+
+
+@keyframes storyStatPulse {
+
+    0% {
+
+        transform:
+            translateY(0);
+
+    }
+
+    100% {
+
+        transform:
+            translateY(-4px);
+
+    }
+
+}
+
+
+/* =========================================================
+   STAT ICON MICRO MOTION
+========================================================= */
+
+.about-story .story-stat-icon {
+
+    transition:
+        transform .35s cubic-bezier(.16, 1, .3, 1);
+
+}
+
+
+.about-story .about-story-stat:hover .story-stat-icon {
+
+    transform:
+        translateY(-4px) rotate(-4deg);
+
+}
+
+
+/* =========================================================
+   TITLE STAGGER
+========================================================= */
+
+.about-story .story-title-line:nth-child(1) {
+
+    transition-delay:
+        .15s;
+
+}
+
+
+.about-story .story-title-line:nth-child(2) {
+
+    transition-delay:
+        .25s;
+
+}
+
+
+.about-story .story-title-accent:nth-child(3) {
+
+    transition-delay:
+        .35s;
+
+}
+
+
+.about-story .story-title-accent:nth-child(4) {
+
+    transition-delay:
+        .45s;
+
+}
+
+
+.about-story .about-story-title-line {
+
+    transition-delay:
+        .55s;
+
+}
+
+
+/* =========================================================
+   DESCRIPTION STAGGER
+========================================================= */
+
+.about-story .about-story-description:nth-of-type(1) {
+
+    transition-delay:
+        .62s;
+
+}
+
+
+.about-story .about-story-description:nth-of-type(2) {
+
+    transition-delay:
+        .74s;
+
+}
+
+
+.about-story .about-story-description:nth-of-type(3) {
+
+    transition-delay:
+        .86s;
+
+}
+
+
+/* =========================================================
+   FEATURE CARDS
+========================================================= */
+
+.about-story .story-feature-reveal {
+
+    opacity: 0;
+
+    transition:
+        opacity .9s cubic-bezier(.16, 1, .3, 1),
+        transform 1s cubic-bezier(.16, 1, .3, 1);
+
+    transition-delay:
+        var(--feature-delay);
+
+}
+
+
+/* =========================================================
+   FEATURE HOVER
+========================================================= */
+
+.about-story .about-story-feature {
+
+    transition:
+        transform .4s cubic-bezier(.16, 1, .3, 1),
+        box-shadow .4s ease,
+        border-color .4s ease;
+
+}
+
+
+.about-story .about-story-feature:hover {
+
+    transform:
+        translateY(-7px);
+
+}
+
+
+.about-story .story-feature-icon {
+
+    transition:
+        transform .4s cubic-bezier(.16, 1, .3, 1),
+        background .35s ease;
+
+}
+
+
+.about-story .about-story-feature:hover .story-feature-icon {
+
+    transform:
+        translateY(-3px) rotate(-4deg);
+
+}
+
+
+/* =========================================================
+   FEATURE ACCENT LINE
+========================================================= */
+
+.about-story .story-feature-content i {
+
+    transform:
+        scaleX(0);
+
+    transform-origin:
+        left center;
+
+    transition:
+        transform .5s cubic-bezier(.16, 1, .3, 1);
+
+}
+
+
+.about-story .about-story-feature:hover .story-feature-content i {
+
+    transform:
+        scaleX(1);
+
+}
+
+
+/* =========================================================
+   BOTTOM STATEMENT
+========================================================= */
+
+.about-story .story-statement-reveal {
+
+    opacity: 0;
+
+    transform:
+        translate3d(0, 60px, 0) scale(.98);
+
+    transition:
+        opacity 1.1s cubic-bezier(.16, 1, .3, 1),
+        transform 1.15s cubic-bezier(.16, 1, .3, 1);
+
+    transition-delay:
+        .1s;
+
+}
+
+
+.about-story.about-story-is-visible .story-statement-reveal {
+
+    opacity: 1;
+
+    transform:
+        translate3d(0, 0, 0) scale(1);
+
+}
+
+
+/* =========================================================
+   QUOTE MARK
+========================================================= */
+
+.about-story .story-quote-mark {
+
+    transition-delay:
+        .35s;
+
+}
+
+
+.about-story.about-story-is-visible .story-quote-mark {
+
+    animation:
+        storyQuoteFloat 5s ease-in-out 1.5s infinite alternate;
+
+}
+
+
+@keyframes storyQuoteFloat {
+
+    0% {
+
+        transform:
+            translateY(0) rotate(0deg);
+
+    }
+
+    100% {
+
+        transform:
+            translateY(-6px) rotate(-3deg);
+
+    }
+
+}
+
+
+/* =========================================================
+   STATEMENT WORLD
+========================================================= */
+
+.about-story .story-statement-world {
+
+    transition-delay:
+        .55s;
+
+}
+
+
+/* =========================================================
+   STATEMENT ROUTES
+========================================================= */
+
+.about-story .statement-route {
+
+    stroke-dasharray:
+        1000;
+
+    stroke-dashoffset:
+        1000;
+
+    transition:
+        stroke-dashoffset 1.6s cubic-bezier(.16, 1, .3, 1);
+
+}
+
+
+.about-story.about-story-is-visible .statement-route {
+
+    stroke-dashoffset:
+        0;
+
+}
+
+
+.about-story .statement-route.route-two {
+
+    transition-delay:
+        .2s;
+
+}
+
+
+.about-story .statement-route.route-three {
+
+    transition-delay:
+        .4s;
+
+}
+
+
+/* =========================================================
+   STATEMENT PINS
+========================================================= */
+
+.about-story .statement-pin {
+
+    opacity:
+        0;
+
+    transform:
+        scale(.5);
+
+    transition:
+        opacity .5s ease,
+        transform .6s cubic-bezier(.16, 1, .3, 1);
+
+}
+
+
+.about-story.about-story-is-visible .statement-pin {
+
+    opacity:
+        1;
+
+    transform:
+        scale(1);
+
+}
+
+
+.about-story .pin-one {
+
+    transition-delay:
+        1s;
+
+}
+
+
+.about-story .pin-two {
+
+    transition-delay:
+        1.15s;
+
+}
+
+
+.about-story .pin-three {
+
+    transition-delay:
+        1.3s;
+
+}
+
+
+/* =========================================================
+   STATEMENT AIRPLANE
+========================================================= */
+
+.about-story.about-story-is-visible .statement-plane {
+
+    animation:
+        statementPlaneTravel 7s ease-in-out 1.5s infinite alternate;
+
+}
+
+
+@keyframes statementPlaneTravel {
+
+    0% {
+
+        transform:
+            translate3d(0, 0, 0) rotate(-5deg);
+
+    }
+
+    100% {
+
+        transform:
+            translate3d(18px, -10px, 0) rotate(2deg);
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .about-story .story-reveal-left {
+
+        transform:
+            translate3d(-35px, 0, 0);
+
+    }
+
+
+    .about-story .story-reveal-right {
+
+        transform:
+            translate3d(35px, 0, 0);
+
+    }
+
+
+    .about-story .story-reveal-top {
+
+        transform:
+            translate3d(0, -30px, 0);
+
+    }
+
+
+    .about-story .story-reveal-bottom {
+
+        transform:
+            translate3d(0, 30px, 0);
+
+    }
+
+
+    .about-story .story-image-reveal {
+
+        transform:
+            translate3d(-40px, 20px, 0) scale(.97);
+
+    }
+
+
+    .about-story .about-story-feature {
+
+        transition-delay:
+            var(--feature-delay);
+
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .about-story *,
+    .about-story *::before,
+    .about-story *::after {
+
+        animation:
+            none !important;
+
+        transition:
+            none !important;
+
+        scroll-behavior:
+            auto !important;
+
+    }
+
+
+    .about-story .story-reveal,
+    .about-story .story-image-reveal,
+    .about-story .story-statement-reveal {
+
+        opacity:
+            1 !important;
+
+        transform:
+            none !important;
+
+    }
+
+}
 
 @keyframes statementPlaneMove {
 
