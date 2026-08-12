@@ -1,1039 +1,1602 @@
-/*=====================================================
-  ABOUT WHY CHOOSE US
-=====================================================*/
+/* =========================================================
+   COLOSSUS
+   ABOUT — WHY CHOOSE US
+   PREMIUM GLOBAL EXPERIENCE SECTION
+========================================================= */
 
-.about-why{
+.about-why {
 
-    position:relative;
+    position: relative;
 
-    overflow:hidden;
+    overflow: hidden;
 
-    padding:7rem 0;
+    min-height: 850px;
 
-    isolation:isolate;
-
-    background:
-
-        radial-gradient(circle at 15% 15%,
-            rgba(28,140,255,.10),
-            transparent 30%),
-
-        radial-gradient(circle at 90% 25%,
-            rgba(0,185,255,.08),
-            transparent 35%),
-
-        radial-gradient(circle at 50% 100%,
-            rgba(0,86,179,.16),
-            transparent 55%),
-
-        linear-gradient(
-            180deg,
-            #041327 0%,
-            #071C36 45%,
-            #061A31 100%
-        );
-
-    color:white;
-}
-
-/*=====================================================
-  MOVING AURORA
-=====================================================*/
-
-.about-why::before{
-
-    content:"";
-
-    position:absolute;
-
-    width:900px;
-    height:900px;
-
-    left:-260px;
-    top:-280px;
-
-    border-radius:50%;
+    padding: 5rem 0 4rem;
 
     background:
+        #020f26;
 
-        radial-gradient(circle,
-            rgba(0,132,255,.18),
-            transparent 70%);
+    isolation: isolate;
 
-    filter:blur(120px);
-
-    animation:auroraOne 18s ease-in-out infinite alternate;
-
-    pointer-events:none;
 }
 
-.about-why::after{
 
-    content:"";
+/* =========================================================
+   BACKGROUND SYSTEM
+========================================================= */
 
-    position:absolute;
+.about-why-background {
 
-    width:700px;
-    height:700px;
+    position: absolute;
 
-    right:-180px;
-    bottom:-220px;
+    inset: 0;
 
-    border-radius:50%;
+    z-index: -5;
 
-    background:
+    overflow: hidden;
 
-        radial-gradient(circle,
-            rgba(0,185,255,.12),
-            transparent 72%);
+    pointer-events: none;
 
-    filter:blur(110px);
-
-    animation:auroraTwo 16s ease-in-out infinite alternate;
-
-    pointer-events:none;
 }
 
-/*=====================================================
-  CINEMATIC OVERLAY
-=====================================================*/
 
-.about-why .container{
+.about-why-background-image {
 
-    position:relative;
+    position: absolute;
 
-    z-index:5;
-}
-
-/* subtle film grain */
-
-.about-why .container::before{
-
-    content:"";
-
-    position:absolute;
-
-    inset:-80px;
-
-    opacity:.05;
+    inset: -3%;
 
     background-image:
+        var(--why-background);
 
-        radial-gradient(circle,
-            rgba(255,255,255,.35) 1px,
-            transparent 1px);
+    background-size: cover;
 
-    background-size:22px 22px;
+    background-position: center bottom;
 
-    pointer-events:none;
-}
+    background-repeat: no-repeat;
 
-/*=====================================================
-  HEADER
-=====================================================*/
-
-.about-why-header{
-
-    position:relative;
-
-    max-width:760px;
-
-    margin:0 auto;
-
-    text-align:center;
-
-    z-index:4;
-}
-
-/*=====================================================
-  TAG
-=====================================================*/
-
-.about-why-tag{
-
-    display:inline-flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    padding:.7rem 1.35rem;
-
-    margin-bottom:1.8rem;
-
-    border-radius:999px;
-
-    color:#A9D5FF;
-
-    font-size:.8rem;
-
-    font-weight:700;
-
-    letter-spacing:.16em;
-
-    text-transform:uppercase;
-
-    background:
-
-        linear-gradient(
-            180deg,
-            rgba(255,255,255,.10),
-            rgba(255,255,255,.04)
-        );
-
-    backdrop-filter:blur(24px);
-
-    border:1px solid rgba(255,255,255,.08);
-
-    box-shadow:
-
-        inset 0 1px 0 rgba(255,255,255,.10),
-
-        0 10px 35px rgba(0,0,0,.20);
-}
-
-/*=====================================================
-  TITLE
-=====================================================*/
-
-.about-why-header h2{
-
-    font-size:clamp(2.8rem,5vw,5rem);
-
-    line-height:1.05;
-
-    font-weight:800;
-
-    margin-bottom:1.7rem;
-
-    color:white;
-
-    letter-spacing:-.03em;
-}
-
-.about-why-header h2 span{
-
-    display:block;
-
-    background:
-
-        linear-gradient(
-            90deg,
-            #7EC9FF,
-            #FFFFFF,
-            #8FD6FF
-        );
-
-    -webkit-background-clip:text;
-
-    -webkit-text-fill-color:transparent;
-}
-
-/*=====================================================
-  DESCRIPTION
-=====================================================*/
-
-.about-why-header p{
-
-    max-width:640px;
-
-    margin:auto;
-
-    color:rgba(255,255,255,.78);
-
-    line-height:2;
-
-    font-size:1.04rem;
-}
-
-/*=====================================================
-  DIVIDER
-=====================================================*/
-
-.about-why-header::after{
-
-    content:"";
-
-    display:block;
-
-    width:180px;
-
-    height:1px;
-
-    margin:3rem auto;
-
-    background:
-
-        linear-gradient(
-            90deg,
-            transparent,
-            rgba(255,255,255,.35),
-            transparent
-        );
-
-    box-shadow:
-
-        0 0 18px rgba(110,185,255,.45);
-}
-
-/*=====================================================
-  PILL SECTION WRAPPER
-=====================================================*/
-
-.about-why-pills{
-
-    position:relative;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    flex-wrap:wrap;
-
-    gap:1rem;
-
-    margin-bottom:4rem;
-
-    z-index:5;
-}
-
-/*=====================================================
-  FLOATING LIGHT PARTICLES
-=====================================================*/
-
-.about-why-particles{
-
-    position:absolute;
-
-    inset:0;
-
-    overflow:hidden;
-
-    pointer-events:none;
-}
-
-.about-why-particles span{
-
-    position:absolute;
-
-    width:5px;
-    height:5px;
-
-    border-radius:50%;
-
-    background:white;
-
-    opacity:.15;
-
-    animation:particleFloat linear infinite;
-}
-
-/*=====================================================
-  KEYFRAMES
-=====================================================*/
-
-@keyframes auroraOne{
-
-    from{
-
-        transform:
-            translate(0,0)
-            scale(1);
-    }
-
-    to{
-
-        transform:
-            translate(120px,80px)
-            scale(1.25);
-    }
-}
-
-@keyframes auroraTwo{
-
-    from{
-
-        transform:
-            translate(0,0)
-            scale(1);
-    }
-
-    to{
-
-        transform:
-            translate(-100px,-60px)
-            scale(1.18);
-    }
-}
-
-@keyframes particleFloat{
-
-    from{
-
-        transform:
-            translateY(100px);
-
-        opacity:0;
-    }
-
-    20%{
-
-        opacity:.18;
-    }
-
-    80%{
-
-        opacity:.18;
-    }
-
-    to{
-
-        transform:
-            translateY(-850px);
-
-        opacity:0;
-    }
-}
-
-/* =====================================================
-   WHY CHOOSE US - PILLS
-===================================================== */
-
-.about-whychoose-grid{
-
-    display:grid;
-
-    grid-template-columns:repeat(2, minmax(260px,1fr));
-
-    gap:1rem;
-}
-
-/* =====================================================
-   PREMIUM GLASS PILL
-===================================================== */
-
-.about-why-card{
-
-    position:relative;
-
-    display:flex;
-
-    align-items:center;
-
-    gap:1rem;
-
-    padding:1rem 1.2rem;
-
-    border-radius:22px;
-
-    overflow:hidden;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(255,255,255,.08),
-            rgba(255,255,255,.04)
-        );
-
-    backdrop-filter:blur(24px);
-    -webkit-backdrop-filter:blur(24px);
-
-    border:1px solid rgba(255,255,255,.08);
-
-    box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.08),
-        0 18px 40px rgba(0,0,0,.28);
-
-    transition:.45s ease;
-}
-
-.about-why-card::before{
-
-    content:"";
-
-    position:absolute;
-
-    inset:1px;
-
-    border-radius:inherit;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255,255,255,.10),
-            transparent 35%,
-            rgba(255,255,255,.02)
-        );
-
-    pointer-events:none;
-}
-
-.about-why-card:hover{
+    opacity: .92;
 
     transform:
-        translateY(-6px)
         scale(1.02);
 
+    animation:
+        whyBackgroundDrift 24s ease-in-out infinite alternate;
+
+}
+
+
+@keyframes whyBackgroundDrift {
+
+    0% {
+
+        transform:
+            scale(1.02) translate3d(0, 0, 0);
+
+    }
+
+    50% {
+
+        transform:
+            scale(1.045) translate3d(-7px, -4px, 0);
+
+    }
+
+    100% {
+
+        transform:
+            scale(1.02) translate3d(7px, 3px, 0);
+
+    }
+
+}
+
+
+/* =========================================================
+   BACKGROUND OVERLAY
+========================================================= */
+
+.about-why-background-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+
+        linear-gradient(180deg,
+            rgba(1, 13, 34, .20) 0%,
+            rgba(1, 13, 34, .04) 28%,
+            rgba(1, 13, 34, .12) 55%,
+            rgba(1, 13, 34, .46) 100%),
+
+        linear-gradient(90deg,
+            rgba(1, 13, 34, .16) 0%,
+            transparent 35%,
+            transparent 70%,
+            rgba(1, 13, 34, .18) 100%);
+
+}
+
+
+/* =========================================================
+   BLUE ATMOSPHERIC GLOW
+========================================================= */
+
+.about-why-blue-glow {
+
+    position: absolute;
+
+    width: 850px;
+
+    height: 450px;
+
+    left: 50%;
+
+    bottom: 5%;
+
+    transform:
+        translateX(-50%);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(ellipse,
+            rgba(0, 111, 255, .22),
+            rgba(0, 86, 179, .07) 42%,
+            transparent 72%);
+
+    filter:
+        blur(40px);
+
+    mix-blend-mode:
+        screen;
+
+    animation:
+        whyGlowPulse 7s ease-in-out infinite;
+
+}
+
+
+@keyframes whyGlowPulse {
+
+    0%,
+    100% {
+
+        opacity:
+            .65;
+
+        transform:
+            translateX(-50%) scale(1);
+
+    }
+
+    50% {
+
+        opacity:
+            1;
+
+        transform:
+            translateX(-50%) scale(1.08);
+
+    }
+
+}
+
+
+/* =========================================================
+   STARS / PARTICLES
+========================================================= */
+
+.why-star {
+
+    position: absolute;
+
+    width: 3px;
+
+    height: 3px;
+
+    border-radius: 50%;
+
+    background:
+        #8fc7ff;
+
+    box-shadow:
+        0 0 10px rgba(74, 158, 255, .9);
+
+    opacity:
+        .55;
+
+    animation:
+        whyStarFloat 5s ease-in-out infinite;
+
+}
+
+
+.star-one {
+
+    top:
+        22%;
+
+    left:
+        9%;
+
+}
+
+
+.star-two {
+
+    top:
+        17%;
+
+    right:
+        22%;
+
+    animation-delay:
+        1s;
+
+}
+
+
+.star-three {
+
+    top:
+        37%;
+
+    left:
+        27%;
+
+    animation-delay:
+        2s;
+
+}
+
+
+.star-four {
+
+    top:
+        28%;
+
+    right:
+        9%;
+
+    animation-delay:
+        3s;
+
+}
+
+
+.star-five {
+
+    top:
+        47%;
+
+    right:
+        34%;
+
+    animation-delay:
+        4s;
+
+}
+
+
+@keyframes whyStarFloat {
+
+    0%,
+    100% {
+
+        transform:
+            translateY(0);
+
+        opacity:
+            .35;
+
+    }
+
+    50% {
+
+        transform:
+            translateY(-8px);
+
+        opacity:
+            .9;
+
+    }
+
+}
+
+
+/* =========================================================
+   DECORATIVE ORBITS
+========================================================= */
+
+.why-orbit {
+
+    position: absolute;
+
+    border:
+        1px solid rgba(58, 143, 255, .15);
+
+    border-radius:
+        50%;
+
+    pointer-events:
+        none;
+
+    z-index:
+        -2;
+
+}
+
+
+.orbit-left {
+
+    width:
+        600px;
+
+    height:
+        300px;
+
+    left:
+        -180px;
+
+    top:
+        35%;
+
+    transform:
+        rotate(-12deg);
+
+}
+
+
+.orbit-right {
+
+    width:
+        800px;
+
+    height:
+        350px;
+
+    right:
+        -270px;
+
+    top:
+        40%;
+
+    transform:
+        rotate(9deg);
+
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.about-why-container {
+
+    position:
+        relative;
+
+    z-index:
+        5;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.about-why-header {
+
+    width:
+        100%;
+
+    max-width:
+        850px;
+
+    margin:
+        0 auto;
+
+    text-align:
+        center;
+
+}
+
+
+/* =========================================================
+   TAG
+========================================================= */
+
+.about-why-tag {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        9px;
+
+    padding:
+        .62rem 1rem;
+
+    border:
+        1px solid rgba(112, 181, 255, .20);
+
+    border-radius:
+        999px;
+
+    background:
+        rgba(255, 255, 255, .055);
+
+    color:
+        #b9dcff;
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .08),
+        0 10px 30px rgba(0, 0, 0, .12);
+
+    font-size:
+        .68rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .13em;
+
+}
+
+
+.about-why-tag svg {
+
+    color:
+        #3291ff;
+
+    font-size:
+        .95rem;
+
+}
+
+
+/* =========================================================
+   MAIN TITLE
+========================================================= */
+
+.about-why-header h2 {
+
+    margin:
+        1.8rem 0 0;
+
+    color:
+        #ffffff;
+
+    font-size:
+        clamp(3.3rem, 6vw, 5.7rem);
+
+    line-height:
+        .98;
+
+    letter-spacing:
+        -3px;
+
+    font-weight:
+        850;
+
+}
+
+
+.about-why-header h2 span {
+
+    color:
+        #328cff;
+
+}
+
+
+.about-why-header h2 em {
+
+    display:
+        inline-block;
+
+    color:
+        #b6dcff;
+
+    font-style:
+        normal;
+
+}
+
+
+/* =========================================================
+   TITLE ACCENT
+========================================================= */
+
+.about-why-title-line {
+
+    width:
+        78px;
+
+    height:
+        4px;
+
+    margin:
+        1.7rem auto 0;
+
+    border-radius:
+        999px;
+
+    background:
+        linear-gradient(90deg,
+            transparent,
+            #2d8dff,
+            transparent);
+
+    box-shadow:
+        0 0 18px rgba(45, 141, 255, .65);
+
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.about-why-header p {
+
+    max-width:
+        720px;
+
+    margin:
+        1.4rem auto 0;
+
+    color:
+        rgba(224, 239, 255, .78);
+
+    font-size:
+        .94rem;
+
+    line-height:
+        1.8;
+
+}
+
+
+/* =========================================================
+   SERVICE PILLS
+========================================================= */
+
+.about-why-pills {
+
+    display:
+        flex;
+
+    flex-wrap:
+        wrap;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        11px;
+
+    width:
+        100%;
+
+    margin-top:
+        3.2rem;
+
+}
+
+
+.about-why-pill {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        9px;
+
+    min-height:
+        44px;
+
+    padding:
+        0 15px;
+
+    border:
+        1px solid rgba(89, 165, 255, .20);
+
+    border-radius:
+        999px;
+
+    background:
+        rgba(8, 42, 83, .55);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .06),
+        0 8px 25px rgba(0, 0, 0, .12);
+
+    color:
+        #e4f1ff;
+
+    font-size:
+        .72rem;
+
+    font-weight:
+        650;
+
+    transition:
+        transform .35s ease,
+        background .35s ease,
+        border-color .35s ease,
+        box-shadow .35s ease;
+
+    animation:
+        pillReveal .7s ease both;
+
+    animation-delay:
+        var(--pill-delay);
+
+}
+
+
+.about-why-pill:hover {
+
+    transform:
+        translateY(-4px);
+
+    background:
+        rgba(19, 86, 158, .68);
+
     border-color:
-        rgba(255,255,255,.18);
+        rgba(75, 161, 255, .5);
 
     box-shadow:
-        0 26px 60px rgba(0,0,0,.42);
+        0 15px 35px rgba(0, 90, 210, .18);
+
 }
 
-/* =====================================================
-   ICON
-===================================================== */
 
-.about-why-icon{
+@keyframes pillReveal {
 
-    width:58px;
-    height:58px;
+    from {
 
-    border-radius:18px;
+        opacity:
+            0;
 
-    flex-shrink:0;
+        transform:
+            translateY(12px);
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    }
 
-    color:#fff;
+    to {
+
+        opacity:
+            1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+/* =========================================================
+   PILL ICON
+========================================================= */
+
+.about-why-pill-icon {
+
+    width:
+        25px;
+
+    height:
+        25px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border-radius:
+        50%;
 
     background:
-        linear-gradient(
-            180deg,
-            rgba(255,255,255,.16),
-            rgba(255,255,255,.08)
-        );
+        rgba(37, 135, 255, .12);
 
-    box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.16),
-        0 10px 24px rgba(0,0,0,.25);
-}
+    color:
+        #4da3ff;
 
-.about-why-icon svg{
+    font-size:
+        .9rem;
 
-    font-size:1.45rem;
-}
-
-/* =====================================================
-   TEXT
-===================================================== */
-
-.about-why-card h3{
-
-    color:#fff;
-
-    font-size:1rem;
-
-    margin-bottom:.3rem;
-
-    font-weight:700;
-}
-
-.about-why-card p{
-
-    color:rgba(255,255,255,.72);
-
-    font-size:.87rem;
-
-    line-height:1.65;
-}
-
-/* =====================================================
-   BOTTOM TRUST STRIP
-===================================================== */
-
-.about-why-footer{
-
-    margin-top:2.4rem;
-
-    display:flex;
-
-    justify-content:center;
-}
-
-.about-why-strip{
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    flex-wrap:wrap;
-
-    gap:.8rem;
-
-    padding:1rem 1.3rem;
-
-    border-radius:999px;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(255,255,255,.08),
-            rgba(255,255,255,.04)
-        );
-
-    backdrop-filter:blur(26px);
-
-    border:1px solid rgba(255,255,255,.08);
-
-    box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.08),
-        0 18px 45px rgba(0,0,0,.28);
-}
-
-.about-why-pill{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:.45rem;
-
-    padding:.55rem .9rem;
-
-    border-radius:999px;
-
-    background:
-        rgba(255,255,255,.06);
-
-    color:rgba(255,255,255,.92);
-
-    font-size:.82rem;
-
-    font-weight:600;
-}
-
-.about-why-pill svg{
-
-    color:#78B7FF;
-
-    font-size:.95rem;
-}
-
-/* =====================================================
-   RESPONSIVE
-===================================================== */
-
-@media(max-width:992px){
-
-    .about-whychoose{
-
-        padding:5rem 0;
-    }
-
-    .about-whychoose-grid{
-
-        grid-template-columns:1fr;
-    }
-
-    .about-why-title{
-
-        font-size:2.6rem;
-    }
-
-    .about-why-strip{
-
-        border-radius:26px;
-
-        justify-content:flex-start;
-    }
-}
-
-@media(max-width:768px){
-
-    .about-why-card{
-
-        padding:1rem;
-    }
-
-    .about-why-icon{
-
-        width:52px;
-        height:52px;
-    }
-
-    .about-why-title{
-
-        font-size:2.1rem;
-    }
-
-    .about-why-description{
-
-        font-size:1rem;
-    }
-
-    .about-why-strip{
-
-        flex-direction:column;
-
-        align-items:stretch;
-    }
-
-    .about-why-pill{
-
-        justify-content:center;
-    }
 }
 
 
+.about-why-pill-text {
 
+    white-space:
+        nowrap;
 
-
-
-/* =====================================================
-   FEATURE PILLS
-===================================================== */
-
-.about-why-pill-strip{
-
-    display:flex;
-
-    justify-content:center;
-
-    flex-wrap:wrap;
-
-    gap:.8rem;
-
-    margin-top:4rem;
-}
-
-.about-why-pill{
-
-    display:inline-flex;
-
-    align-items:center;
-
-    gap:.55rem;
-
-    padding:.7rem 1.15rem;
-
-    border-radius:999px;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(255,255,255,.09),
-            rgba(255,255,255,.04)
-        );
-
-    border:1px solid rgba(255,255,255,.08);
-
-    backdrop-filter:blur(24px);
-
-    -webkit-backdrop-filter:blur(24px);
-
-    color:rgba(255,255,255,.9);
-
-    font-size:.82rem;
-
-    font-weight:600;
-
-    transition:.35s ease;
-}
-
-.about-why-pill svg{
-
-    color:#7DC2FF;
-
-    font-size:1rem;
-}
-
-.about-why-pill:hover{
-
-    transform:translateY(-4px);
-
-    border-color:rgba(125,194,255,.45);
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(255,255,255,.12),
-            rgba(255,255,255,.06)
-        );
-
-    box-shadow:
-        0 14px 34px rgba(0,0,0,.28);
-}
-
-/* =====================================================
-   FLOATING EFFECTS
-===================================================== */
-
-
-
-.about-why-card:nth-child(1){
-
-    animation:floatOne 6s ease-in-out infinite;
-}
-
-.about-why-card:nth-child(2){
-
-    animation:floatTwo 7s ease-in-out infinite;
-}
-
-.about-why-card:nth-child(3){
-
-    animation:floatThree 6.5s ease-in-out infinite;
-}
-
-.about-why-card:nth-child(4){
-
-    animation:floatFour 7.5s ease-in-out infinite;
-}
-
-@keyframes floatOne{
-
-    50%{
-
-        transform:translateY(-8px);
-    }
-}
-
-@keyframes floatTwo{
-
-    50%{
-
-        transform:translateY(-10px);
-    }
-}
-
-@keyframes floatThree{
-
-    50%{
-
-        transform:translateY(-7px);
-    }
-}
-
-@keyframes floatFour{
-
-    50%{
-
-        transform:translateY(-9px);
-    }
 }
 
 
-
-/* =====================================================
+/* =========================================================
    STATS
-===================================================== */
+========================================================= */
 
-.about-why-stats{
+.about-why-stats {
 
-    display:flex;
+    display:
+        grid;
 
-    justify-content:center;
+    grid-template-columns:
+        repeat(3, 1fr);
 
-    align-items:center;
+    width:
+        100%;
 
-    gap:3.5rem;
+    max-width:
+        900px;
 
-    margin:3rem 0 2.2rem;
+    margin:
+        3.2rem auto 0;
 
-    flex-wrap:wrap;
+    gap:
+        20px;
 
-    color: #FFFFFF;
 }
 
-.about-why-stats > h3 {
-    color:lightblue;
-}
 
-.about-why-stat{
+.about-why-stat {
 
-    text-align:center;
-}
+    position:
+        relative;
 
-.about-why-stat strong{
+    display:
+        flex;
 
-    display:block;
+    align-items:
+        center;
 
-    font-size:2.3rem;
+    gap:
+        17px;
 
-    line-height:1;
+    min-height:
+        112px;
 
-    font-weight:800;
+    padding:
+        18px 25px;
 
-    color:#ffffff;
-}
+    border:
+        1px solid rgba(68, 151, 255, .27);
 
-.about-why-stat span{
-
-    display:block;
-
-    margin-top:.45rem;
-
-    font-size:.88rem;
-
-    color:rgba(255,255,255,.72);
-
-    letter-spacing:.04em;
-}
-
-/* =====================================================
-   QUOTE
-===================================================== */
-
-.about-why-quote{
-
-    max-width:760px;
-
-    margin:0 auto;
-
-    padding:1.1rem 1.8rem;
-
-    border-radius:999px;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    text-align:center;
-
-    color:rgba(255,255,255,.9);
-
-    font-size:1rem;
-
-    font-style:italic;
+    border-radius:
+        22px;
 
     background:
-        linear-gradient(
-            180deg,
-            rgba(255,255,255,.08),
-            rgba(255,255,255,.03)
-        );
+        rgba(2, 24, 57, .68);
 
-    border:1px solid rgba(255,255,255,.08);
+    backdrop-filter:
+        blur(22px);
 
-    backdrop-filter:blur(24px);
-
-    -webkit-backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:
+        blur(22px);
 
     box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.08),
-        0 18px 45px rgba(0,0,0,.28);
-}
+        inset 0 1px 0 rgba(255, 255, 255, .05),
+        0 18px 50px rgba(0, 0, 0, .20);
 
-.about-why-quote::before{
+    transition:
+        transform .4s ease,
+        border-color .4s ease,
+        box-shadow .4s ease;
 
-    content:"“";
+    animation:
+        statReveal .8s ease both;
 
-    color:#7DC2FF;
+    animation-delay:
+        var(--stat-delay);
 
-    font-size:2rem;
-
-    margin-right:.45rem;
-
-    line-height:1;
-}
-
-.about-why-quote::after{
-
-    content:"”";
-
-    color:#7DC2FF;
-
-    font-size:2rem;
-
-    margin-left:.45rem;
-
-    line-height:1;
 }
 
 
+.about-why-stat:hover {
 
+    transform:
+        translateY(-6px);
 
+    border-color:
+        rgba(64, 157, 255, .55);
 
+    box-shadow:
+        0 25px 60px rgba(0, 84, 190, .22);
 
-
-/* =====================================================
-   RESPONSIVE
-===================================================== */
-
-@media (max-width:992px){
-
-    .about-why{
-
-        padding:5rem 0;
-    }
-
-    .about-why-grid{
-
-        grid-template-columns:repeat(2,1fr);
-
-        gap:1rem;
-    }
-
-    .about-why-heading{
-
-        font-size:2.4rem;
-    }
-}
-
-@media (max-width:768px){
-
-    .about-why{
-
-        padding:4.5rem 0;
-    }
-
-    .about-why-grid{
-
-        grid-template-columns:1fr;
-    }
-
-    .about-why-heading{
-
-        font-size:2rem;
-    }
-
-    .about-why-description{
-
-        font-size:.98rem;
-    }
-
-    .about-why-card{
-
-        min-height:auto;
-
-        padding:1.2rem;
-    }
-
-    .about-why-pill-strip{
-
-        justify-content:flex-start;
-    }
 }
 
 
-@media(max-width:768px){
+@keyframes statReveal {
 
-    .about-why-stats{
+    from {
 
-        gap:1.8rem;
+        opacity:
+            0;
+
+        transform:
+            translateY(20px);
+
     }
 
-    .about-why-stat strong{
+    to {
 
-        font-size:1.8rem;
+        opacity:
+            1;
+
+        transform:
+            translateY(0);
+
     }
 
-    .about-why-quote{
+}
 
-        border-radius:24px;
 
-        padding:1.1rem 1.3rem;
+/* =========================================================
+   STAT ICON
+========================================================= */
 
-        font-size:.92rem;
+.about-why-stat-icon {
+
+    width:
+        58px;
+
+    height:
+        58px;
+
+    flex:
+        0 0 auto;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border-radius:
+        50%;
+
+    background:
+        radial-gradient(circle,
+            rgba(25, 130, 255, .32),
+            rgba(25, 100, 220, .08));
+
+    border:
+        1px solid rgba(64, 157, 255, .25);
+
+    color:
+        #3294ff;
+
+    font-size:
+        1.55rem;
+
+    box-shadow:
+        0 0 30px rgba(0, 119, 255, .15);
+
+}
+
+
+/* =========================================================
+   STAT CONTENT
+========================================================= */
+
+.about-why-stat-content h3 {
+
+    margin:
+        0;
+
+    color:
+        #ffffff;
+
+    font-size:
+        2rem;
+
+    line-height:
+        1;
+
+    font-weight:
+        800;
+
+}
+
+
+.about-why-stat-content span {
+
+    display:
+        block;
+
+    margin-top:
+        7px;
+
+    color:
+        #a8c7e8;
+
+    font-size:
+        .72rem;
+
+    font-weight:
+        600;
+
+}
+
+
+/* =========================================================
+   QUOTE
+========================================================= */
+
+.about-why-quote {
+
+    position:
+        relative;
+
+    width:
+        min(100%, 760px);
+
+    min-height:
+        72px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    margin:
+        2rem auto 0;
+
+    padding:
+        1rem 4.5rem;
+
+    border:
+        1px solid rgba(72, 155, 255, .22);
+
+    border-radius:
+        999px;
+
+    background:
+        rgba(6, 39, 78, .65);
+
+    backdrop-filter:
+        blur(20px);
+
+    -webkit-backdrop-filter:
+        blur(20px);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .06),
+        0 15px 40px rgba(0, 0, 0, .15);
+
+}
+
+
+.about-why-quote p {
+
+    margin:
+        0;
+
+    color:
+        #e6f3ff;
+
+    font-family:
+        Georgia,
+        serif;
+
+    font-size:
+        1rem;
+
+    font-style:
+        italic;
+
+    line-height:
+        1.5;
+
+    text-align:
+        center;
+
+}
+
+
+.about-why-quote strong {
+
+    color:
+        #72b8ff;
+
+    font-weight:
+        600;
+
+}
+
+
+/* =========================================================
+   QUOTE MARKS
+========================================================= */
+
+.about-why-quote-mark {
+
+    position:
+        absolute;
+
+    color:
+        #2c8fff;
+
+    font-family:
+        Georgia,
+        serif;
+
+    font-size:
+        2.5rem;
+
+    line-height:
+        1;
+
+}
+
+
+.quote-left {
+
+    left:
+        30px;
+
+    top:
+        22px;
+
+}
+
+
+.quote-right {
+
+    right:
+        30px;
+
+    bottom:
+        14px;
+
+}
+
+
+/* =========================================================
+   BOTTOM GLOW
+========================================================= */
+
+.about-why-bottom-glow {
+
+    position:
+        absolute;
+
+    width:
+        100%;
+
+    height:
+        160px;
+
+    left:
+        0;
+
+    bottom:
+        -110px;
+
+    background:
+        radial-gradient(ellipse,
+            rgba(56, 151, 255, .38),
+            transparent 70%);
+
+    filter:
+        blur(35px);
+
+    pointer-events:
+        none;
+
+}
+
+
+/* =========================================================
+   LARGE TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .about-why {
+
+        min-height:
+            auto;
+
+        padding:
+            5rem 0 3.5rem;
+
     }
+
+
+    .about-why-header h2 {
+
+        font-size:
+            clamp(3rem, 6vw, 4.8rem);
+
+    }
+
+
+    .about-why-stats {
+
+        max-width:
+            820px;
+
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 992px) {
+
+    .about-why-background-image {
+
+        background-position:
+            center bottom;
+
+    }
+
+
+    .about-why-pills {
+
+        max-width:
+            800px;
+
+    }
+
+
+    .about-why-stats {
+
+        max-width:
+            700px;
+
+        gap:
+            14px;
+
+    }
+
+
+    .about-why-stat {
+
+        padding:
+            16px;
+
+    }
+
+
+    .about-why-stat-icon {
+
+        width:
+            50px;
+
+        height:
+            50px;
+
+        font-size:
+            1.3rem;
+
+    }
+
+
+    .about-why-stat-content h3 {
+
+        font-size:
+            1.7rem;
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .about-why {
+
+        padding:
+            4.5rem 0 3rem;
+
+    }
+
+
+    .about-why-background-image {
+
+        inset:
+            -5%;
+
+        background-position:
+            center bottom;
+
+        opacity:
+            .88;
+
+    }
+
+
+    .about-why-background-overlay {
+
+        background:
+
+            linear-gradient(180deg,
+                rgba(1, 13, 34, .30) 0%,
+                rgba(1, 13, 34, .12) 30%,
+                rgba(1, 13, 34, .38) 70%,
+                rgba(1, 13, 34, .75) 100%);
+
+    }
+
+
+    .about-why-header {
+
+        max-width:
+            620px;
+
+    }
+
+
+    .about-why-header h2 {
+
+        font-size:
+            2.75rem;
+
+        line-height:
+            1;
+
+        letter-spacing:
+            -1.8px;
+
+    }
+
+
+    .about-why-header p {
+
+        font-size:
+            .88rem;
+
+        line-height:
+            1.7;
+
+    }
+
+
+    .about-why-pills {
+
+        gap:
+            8px;
+
+        margin-top:
+            2.3rem;
+
+    }
+
+
+    .about-why-pill {
+
+        min-height:
+            40px;
+
+        padding:
+            0 12px;
+
+        font-size:
+            .66rem;
+
+    }
+
+
+    .about-why-pill-icon {
+
+        width:
+            22px;
+
+        height:
+            22px;
+
+        font-size:
+            .78rem;
+
+    }
+
+
+    .about-why-stats {
+
+        grid-template-columns:
+            1fr;
+
+        width:
+            100%;
+
+        max-width:
+            430px;
+
+        gap:
+            11px;
+
+        margin-top:
+            2.3rem;
+
+    }
+
+
+    .about-why-stat {
+
+        min-height:
+            86px;
+
+        border-radius:
+            18px;
+
+    }
+
+
+    .about-why-stat-icon {
+
+        width:
+            46px;
+
+        height:
+            46px;
+
+        font-size:
+            1.2rem;
+
+    }
+
+
+    .about-why-stat-content h3 {
+
+        font-size:
+            1.55rem;
+
+    }
+
+
+    .about-why-quote {
+
+        min-height:
+            auto;
+
+        padding:
+            1.1rem 2.8rem;
+
+        border-radius:
+            22px;
+
+    }
+
+
+    .about-why-quote p {
+
+        font-size:
+            .85rem;
+
+    }
+
+
+    .quote-left {
+
+        left:
+            15px;
+
+        top:
+            16px;
+
+    }
+
+
+    .quote-right {
+
+        right:
+            15px;
+
+        bottom:
+            8px;
+
+    }
+
+
+    .why-orbit {
+
+        opacity:
+            .4;
+
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .about-why {
+
+        padding:
+            4rem 0 2.5rem;
+
+    }
+
+
+    .about-why-tag {
+
+        font-size:
+            .6rem;
+
+        padding:
+            .55rem .8rem;
+
+    }
+
+
+    .about-why-header h2 {
+
+        font-size:
+            2.25rem;
+
+    }
+
+
+    .about-why-header p {
+
+        font-size:
+            .82rem;
+
+    }
+
+
+    .about-why-pills {
+
+        justify-content:
+            flex-start;
+
+    }
+
+
+    .about-why-pill {
+
+        flex:
+            0 0 auto;
+
+    }
+
+
+    .about-why-stats {
+
+        max-width:
+            100%;
+
+    }
+
+
+    .about-why-stat {
+
+        padding:
+            14px;
+
+    }
+
+
+    .about-why-stat-icon {
+
+        width:
+            42px;
+
+        height:
+            42px;
+
+    }
+
+
+    .about-why-stat-content h3 {
+
+        font-size:
+            1.4rem;
+
+    }
+
+
+    .about-why-stat-content span {
+
+        font-size:
+            .65rem;
+
+    }
+
+
+    .about-why-quote {
+
+        padding:
+            1rem 2.2rem;
+
+    }
+
+
+    .about-why-quote p {
+
+        font-size:
+            .78rem;
+
+    }
+
+
+    .about-why-quote-mark {
+
+        font-size:
+            1.8rem;
+
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .about-why-background-image,
+    .about-why-blue-glow,
+    .why-star,
+    .about-why-pill,
+    .about-why-stat {
+
+        animation:
+            none;
+
+    }
+
 }
