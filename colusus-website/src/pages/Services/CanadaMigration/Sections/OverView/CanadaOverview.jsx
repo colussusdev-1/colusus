@@ -4,23 +4,25 @@ import { Link } from "react-router-dom";
 
 import {
     motion,
-    AnimatePresence
+    AnimatePresence,
 } from "framer-motion";
 
 import {
-    HiOutlineArrowRight
+    HiOutlineArrowRight,
+    HiOutlineSparkles,
 } from "react-icons/hi";
 
 import {
-    pathways
+    pathways,
 } from "../../data/pathways";
 
 import useRotatePathways from "./useRotatePathways";
 
+import overviewBackground
+    from "../../../../../assets/images/countries/canada-overview-background.png";
 
 
 const CanadaOverview = () => {
-
 
     const {
         featured,
@@ -28,38 +30,104 @@ const CanadaOverview = () => {
     } = useRotatePathways(pathways);
 
 
-
     const FeaturedIcon = featured.icon;
-
 
 
     return (
 
+        <section
+            className="canada-overview"
+            style={{
+                "--canada-overview-background":
+                    `url(${overviewBackground})`,
+            }}
+        >
 
-        <section className="canada-overview">
+
+            {/* =====================================================
+                BACKGROUND
+            ===================================================== */}
+
+            <div
+                className="canada-overview-background"
+                aria-hidden="true"
+            >
+
+                <div className="canada-overview-background-image"></div>
+
+                <div className="canada-overview-background-glow"></div>
+
+                <span className="canada-overview-orbit orbit-one"></span>
+
+                <span className="canada-overview-orbit orbit-two"></span>
+
+                <span className="canada-overview-orbit orbit-three"></span>
+
+            </div>
 
 
-            <div className="container">
 
 
+            <div className="canada-overview-container">
 
 
-
-                {/* HEADER */}
+                {/* =====================================================
+                    HEADER
+                ===================================================== */}
 
                 <header className="canada-overview-header">
 
 
-                    <span className="canada-overview-tag">
+                    <motion.span
+                        className="canada-overview-tag"
+                        initial={{
+                            opacity: 0,
+                            y: -25,
+                            scale: .92,
+                        }}
+                        whileInView={{
+                            opacity: 1,
+                            y: 0,
+                            scale: 1,
+                        }}
+                        viewport={{
+                            once: true,
+                            amount: .3,
+                        }}
+                        transition={{
+                            duration: .6,
+                            ease: [0.22, 1, 0.36, 1],
+                        }}
+                    >
+
+                        <HiOutlineSparkles />
 
                         CANADA IMMIGRATION PATHWAYS
 
-                    </span>
+                    </motion.span>
 
 
 
 
-                    <h2>
+                    <motion.h2
+                        initial={{
+                            opacity: 0,
+                            y: 35,
+                        }}
+                        whileInView={{
+                            opacity: 1,
+                            y: 0,
+                        }}
+                        viewport={{
+                            once: true,
+                            amount: .3,
+                        }}
+                        transition={{
+                            duration: .75,
+                            delay: .08,
+                            ease: [0.22, 1, 0.36, 1],
+                        }}
+                    >
 
                         Choose The Right
 
@@ -67,227 +135,205 @@ const CanadaOverview = () => {
                             Pathway For Your Future.
                         </span>
 
-                    </h2>
+                    </motion.h2>
 
 
 
 
-                    <p>
+                    <motion.p
+                        initial={{
+                            opacity: 0,
+                            y: 25,
+                        }}
+                        whileInView={{
+                            opacity: 1,
+                            y: 0,
+                        }}
+                        viewport={{
+                            once: true,
+                            amount: .3,
+                        }}
+                        transition={{
+                            duration: .65,
+                            delay: .16,
+                            ease: "easeOut",
+                        }}
+                    >
 
                         Every immigration journey is different.
                         We help you understand your options,
                         assess your eligibility and choose the
                         pathway that aligns with your goals.
 
-                    </p>
+                    </motion.p>
 
 
+                    <motion.div
+                        className="canada-overview-header-line"
+                        initial={{
+                            opacity: 0,
+                            scaleX: 0,
+                        }}
+                        whileInView={{
+                            opacity: 1,
+                            scaleX: 1,
+                        }}
+                        viewport={{
+                            once: true,
+                        }}
+                        transition={{
+                            duration: .7,
+                            delay: .25,
+                            ease: [0.22, 1, 0.36, 1],
+                        }}
+                    />
 
                 </header>
 
 
 
 
-
-
-
-                {/* PATHWAYS LAYOUT */}
-
+                {/* =====================================================
+                    PATHWAYS
+                ===================================================== */}
 
                 <motion.div
-
                     layout
-
                     className="canada-pathways-layout"
-
                 >
 
 
-
-
-
-
-
-                    {/* FEATURED PATHWAY */}
-
+                    {/* =================================================
+                        FEATURED PATHWAY
+                    ================================================= */}
 
                     <AnimatePresence mode="wait">
 
 
                         <motion.div
-
-
                             key={featured.id}
-
-
-                            layout
-
-
+                            className="canada-featured-wrapper"
 
                             initial={{
                                 opacity: 0,
-                                x: -60,
-                                scale: .95
+                                x: -80,
+                                scale: .94,
                             }}
-
 
                             animate={{
                                 opacity: 1,
                                 x: 0,
-                                scale: 1
+                                scale: 1,
                             }}
-
-
 
                             exit={{
                                 opacity: 0,
-                                x: 60,
-                                scale: .95
+                                x: 80,
+                                scale: .94,
                             }}
-
-
 
                             transition={{
-                                duration: .55,
-                                ease: "easeInOut"
+                                duration: .65,
+                                ease: [0.22, 1, 0.36, 1],
                             }}
-
-
-
                         >
 
 
-
                             <Link
-
-
                                 to={featured.path}
-
-
                                 className="featured-pathway-card"
-
-
 
                                 style={{
                                     "--featured-image":
-                                        `url(${featured.image})`
+                                        `url(${featured.image})`,
                                 }}
-
-
-
                             >
 
 
+                                {/* Image atmosphere */}
+
+                                <div className="featured-image-layer"></div>
+
+                                <div className="featured-image-wash"></div>
 
 
 
 
-                                <div className="featured-icon">
+                                {/* Top */}
+
+                                <div className="featured-card-top">
 
 
-                                    <FeaturedIcon />
+                                    <div className="featured-icon">
 
+                                        <FeaturedIcon />
+
+                                    </div>
+
+
+                                    <span className="featured-card-index">
+                                        01
+                                    </span>
 
                                 </div>
 
 
 
 
+                                {/* Content */}
+
+                                <div className="featured-card-content">
 
 
-                                <div className="featured-meta">
+                                    <div className="featured-meta">
 
 
-                                    <span className="featured-badge">
+                                        <span className="featured-badge">
+                                            {featured.badge}
+                                        </span>
 
 
-                                        {featured.badge}
+                                        <span className="featured-country">
+                                            🇨🇦 Canada
+                                        </span>
 
 
-                                    </span>
-
-
-
-                                    <span className="featured-country">
-
-
-                                        🇨🇦 Canada
-
-
-                                    </span>
-
-
-
-                                </div>
+                                    </div>
 
 
 
 
-
-
-
-                                <h3>
-
-                                    {featured.title}
-
-                                </h3>
+                                    <h3>
+                                        {featured.title}
+                                    </h3>
 
 
 
 
-
-
-
-                                <p>
-
-                                    {featured.description}
-
-                                </p>
+                                    <p>
+                                        {featured.description}
+                                    </p>
 
 
 
 
+                                    <ul className="featured-services">
 
-
-
-                                <ul className="featured-services">
-
-
-                                    {
-                                        featured.services.map(
-                                            service => (
+                                        {featured.services.map(
+                                            (service) => (
 
                                                 <li key={service}>
+
+                                                    <span className="service-dot"></span>
 
                                                     {service}
 
                                                 </li>
 
                                             )
-                                        )
-                                    }
+                                        )}
 
-
-                                </ul>
-
-
-
-
-
-
-
-                                <div className="featured-link">
-
-
-                                    <span>
-
-                                        Explore Pathway
-
-                                    </span>
-
-
-
-                                    <HiOutlineArrowRight />
+                                    </ul>
 
 
                                 </div>
@@ -295,9 +341,27 @@ const CanadaOverview = () => {
 
 
 
+                                {/* Bottom CTA */}
+
+                                <div className="featured-card-bottom">
+
+
+                                    <span>
+                                        Explore Pathway
+                                    </span>
+
+
+                                    <span className="featured-arrow">
+
+                                        <HiOutlineArrowRight />
+
+                                    </span>
+
+
+                                </div>
+
 
                             </Link>
-
 
 
                         </motion.div>
@@ -308,96 +372,90 @@ const CanadaOverview = () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-                    {/* OTHER PATHWAYS */}
-
+                    {/* =================================================
+                        OTHER PATHWAYS
+                    ================================================= */}
 
                     <div className="pathway-strip-group">
 
 
+                        <div className="pathway-group-heading">
 
-                        <AnimatePresence>
+                            <span>
+                                OTHER PATHWAYS
+                            </span>
+
+                            <span className="pathway-heading-line"></span>
+
+                            <span>
+                                02 — 04
+                            </span>
+
+                        </div>
 
 
-                            {
-                                others.map((item) => {
 
+
+                        <AnimatePresence mode="popLayout">
+
+
+                            {others.map(
+                                (item, index) => {
 
                                     const Icon = item.icon;
 
 
-
                                     return (
 
-
-
                                         <motion.div
-
-
                                             key={item.id}
-
+                                            className="pathway-strip-wrapper"
 
                                             layout
 
-
-
                                             initial={{
                                                 opacity: 0,
-                                                y: 30
+                                                x: 70,
                                             }}
-
-
 
                                             animate={{
                                                 opacity: 1,
-                                                y: 0
+                                                x: 0,
                                             }}
-
-
 
                                             exit={{
                                                 opacity: 0,
-                                                y: -30
+                                                x: -70,
                                             }}
-
-
 
                                             transition={{
-                                                duration: .45,
-                                                ease: "easeOut"
+                                                duration: .5,
+                                                delay: index * .08,
+                                                ease: [0.22, 1, 0.36, 1],
                                             }}
-
-
-
                                         >
 
 
-
-
-
                                             <Link
-
-
                                                 to={item.path}
-
-
                                                 className="pathway-strip"
-
-
-
                                             >
 
 
+                                                {/* Small image atmosphere */}
 
+                                                <div
+                                                    className="strip-image"
+                                                    style={{
+                                                        backgroundImage:
+                                                            `url(${item.image})`,
+                                                    }}
+                                                />
+
+
+
+
+                                                <div className="strip-overlay"></div>
 
 
 
@@ -405,45 +463,34 @@ const CanadaOverview = () => {
                                                 <div className="strip-left">
 
 
-
                                                     <div className="strip-icon">
-
 
                                                         <Icon />
 
-
                                                     </div>
-
-
-
-
-
 
 
                                                     <div className="strip-content">
 
 
+                                                        <span className="strip-number">
 
-                                                        <h4>
-
-                                                            {item.title}
-
-                                                        </h4>
-
-
-
-
-
-                                                        <span>
-
-                                                            {item.badge}
+                                                            0{index + 2}
 
                                                         </span>
 
 
+                                                        <h4>
+                                                            {item.title}
+                                                        </h4>
+
+
+                                                        <span className="strip-badge">
+                                                            {item.badge}
+                                                        </span>
+
 
                                                     </div>
-
 
 
                                                 </div>
@@ -451,89 +498,41 @@ const CanadaOverview = () => {
 
 
 
+                                                <div className="strip-arrow">
 
+                                                    <HiOutlineArrowRight />
 
-
-                                                <HiOutlineArrowRight />
-
-
-
-
-
-
-
-
-                                                <img
-
-
-                                                    src={item.image}
-
-
-                                                    alt={`${item.title} Canada pathway`}
-
-
-                                                    className="strip-floating-image"
-
-
-                                                    loading="lazy"
-
-
-                                                />
-
-
-
+                                                </div>
 
 
                                             </Link>
 
 
-
-
-
-
                                         </motion.div>
-
 
                                     );
 
-
-                                })
-                            }
-
+                                }
+                            )}
 
 
                         </AnimatePresence>
 
 
-
                     </div>
-
-
-
-
-
 
 
                 </motion.div>
 
 
-
-
-
-
-
             </div>
-
 
 
         </section>
 
-
     );
 
-
 };
-
 
 
 export default CanadaOverview;

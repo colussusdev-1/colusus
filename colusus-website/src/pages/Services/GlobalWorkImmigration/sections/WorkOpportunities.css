@@ -1,447 +1,1797 @@
+/* =========================================================
+   COLOSSUS
+   WORK OPPORTUNITIES
+   PREMIUM IMAGE-DRIVEN UI
+========================================================= */
+
 .work-opportunities {
 
-    padding: 6rem 0;
+    --work-blue: #2563eb;
+    --work-blue-dark: #1747b5;
 
-    background:
-        radial-gradient(circle at top left,
-            rgba(37, 99, 235, .10),
-            transparent 35%),
-        linear-gradient(180deg,
-            #ffffff,
-            #f8fafc);
+    --work-heading: #0b1730;
+    --work-text: #64748b;
+
+    position: relative;
 
     overflow: hidden;
 
+    isolation: isolate;
+
+    padding:
+        7rem 0 5.5rem;
+
+    background:
+        #f8fbff;
+
 }
 
 
+/* =========================================================
+   SECTION BACKGROUND
+========================================================= */
+
+.work-opportunities-background {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: -3;
+
+    overflow: hidden;
+
+    pointer-events: none;
+
+}
+
+
+.work-background-image {
+
+    position: absolute;
+
+    inset: 0;
+
+    background-image:
+        var(--work-background);
+
+    background-repeat:
+        no-repeat;
+
+    background-size:
+        contain;
+
+    background-position:
+        center center;
+
+    opacity:
+        .72;
+
+    transform:
+        scale(1.025);
+
+}
+
+
+.work-background-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+
+        linear-gradient(180deg,
+            rgba(248, 251, 255, .82) 0%,
+            rgba(255, 255, 255, .76) 35%,
+            rgba(248, 251, 255, .90) 100%);
+
+}
+
+
+/* =========================================================
+   ATMOSPHERE
+========================================================= */
+
+.work-background-glow {
+
+    position: absolute;
+
+    border-radius: 50%;
+
+    filter:
+        blur(90px);
+
+}
+
+
+.work-glow-one {
+
+    width:
+        520px;
+
+    height:
+        520px;
+
+    top:
+        -300px;
+
+    right:
+        -180px;
+
+    background:
+        rgba(37, 99, 235, .09);
+
+}
+
+
+.work-glow-two {
+
+    width:
+        460px;
+
+    height:
+        460px;
+
+    bottom:
+        -300px;
+
+    left:
+        -230px;
+
+    background:
+        rgba(59, 130, 246, .06);
+
+}
+
+
+/* =========================================================
+   ORBITS
+========================================================= */
+
+.work-background-orbit {
+
+    position: absolute;
+
+    border:
+        1px solid rgba(37, 99, 235, .06);
+
+    border-radius: 50%;
+
+}
+
+
+.work-orbit-one {
+
+    width:
+        680px;
+
+    height:
+        680px;
+
+    top:
+        -390px;
+
+    right:
+        -280px;
+
+}
+
+
+.work-orbit-two {
+
+    width:
+        430px;
+
+    height:
+        430px;
+
+    left:
+        -300px;
+
+    bottom:
+        -270px;
+
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
 
 .work-container {
 
-    width: min(1200px, 92%);
+    position: relative;
 
-    margin: auto;
+    z-index: 2;
+
+    width:
+        min(1180px,
+            calc(100% - 48px));
+
+    margin:
+        0 auto;
 
 }
 
 
-
-/* HEADER */
+/* =========================================================
+   HEADER
+========================================================= */
 
 .work-header {
 
-    max-width: 750px;
+    max-width:
+        760px;
 
-    margin: 0 auto 4rem;
+    margin:
+        0 auto 3.8rem;
 
-    text-align: center;
+    text-align:
+        center;
 
 }
 
 
 .work-tag {
 
-    display: inline-flex;
+    display:
+        inline-flex;
 
-    padding: .5rem 1rem;
+    align-items:
+        center;
 
-    border-radius: 999px;
+    gap:
+        .5rem;
 
-    background: rgba(37, 99, 235, .08);
+    padding:
+        .58rem 1rem;
 
-    color: #2563eb;
+    border:
+        1px solid rgba(37, 99, 235, .10);
 
-    font-size: .75rem;
+    border-radius:
+        999px;
 
-    font-weight: 700;
+    background:
+        rgba(255, 255, 255, .78);
 
-    letter-spacing: .12em;
+    color:
+        var(--work-blue);
 
-    margin-bottom: 1.2rem;
+    font-size:
+        .68rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .14em;
+
+    box-shadow:
+        0 8px 24px rgba(37, 99, 235, .05);
+
+    backdrop-filter:
+        blur(14px);
 
 }
 
 
+.work-tag-icon {
+
+    width:
+        20px;
+
+    height:
+        20px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border-radius:
+        50%;
+
+    background:
+        #edf4ff;
+
+    font-size:
+        .75rem;
+
+}
+
+
+/* =========================================================
+   HEADER TITLE
+========================================================= */
 
 .work-header h2 {
 
+    margin:
+        1.35rem 0 0;
+
+    color:
+        var(--work-heading);
+
     font-size:
-        clamp(2.2rem, 4vw, 3.5rem);
+        clamp(2.8rem,
+            5vw,
+            4.25rem);
 
-    line-height: 1.1;
+    line-height:
+        1.04;
 
-    color: #0f172a;
+    letter-spacing:
+        -2.5px;
 
-    font-weight: 800;
+    font-weight:
+        850;
 
 }
-
 
 
 .work-header h2 span {
 
-    display: block;
+    display:
+        block;
 
-    color: #2563eb;
+    color:
+        var(--work-blue);
 
 }
 
 
+/* =========================================================
+   TITLE ACCENT
+========================================================= */
+
+.work-title-line {
+
+    display:
+        block;
+
+    width:
+        58px;
+
+    height:
+        3px;
+
+    margin:
+        1.35rem auto 0;
+
+    border-radius:
+        999px;
+
+    background:
+        linear-gradient(90deg,
+            #2563eb,
+            #60a5fa);
+
+    box-shadow:
+        0 4px 14px rgba(37, 99, 235, .22);
+
+}
+
+
+/* =========================================================
+   HEADER TEXT
+========================================================= */
 
 .work-header p {
 
-    margin-top: 1rem;
+    max-width:
+        690px;
 
-    color: #64748b;
+    margin:
+        1.25rem auto 0;
 
-    line-height: 1.8;
+    color:
+        #6b7a90;
+
+    font-size:
+        .91rem;
+
+    line-height:
+        1.85;
 
 }
 
 
-
-
-
-/* GRID */
-
+/* =========================================================
+   CARD GRID
+========================================================= */
 
 .work-grid {
 
-    display: grid;
+    display:
+        grid;
 
     grid-template-columns:
         repeat(4, 1fr);
 
-    gap: 1.3rem;
+    gap:
+        1rem;
 
 }
 
 
-
-
-/* CARD */
-
+/* =========================================================
+   CARD
+========================================================= */
 
 .work-card {
 
-    position: relative;
+    position:
+        relative;
 
-    padding: 2rem 1.5rem;
+    overflow:
+        hidden;
 
-    border-radius: 30px;
+    min-width:
+        0;
 
-    background:
+    display:
+        flex;
 
-        rgba(255, 255, 255, .7);
-
+    flex-direction:
+        column;
 
     border:
+        1px solid rgba(218, 227, 239, .95);
 
-        1px solid rgba(226, 232, 240, .8);
+    border-radius:
+        25px;
 
-
-    backdrop-filter: blur(20px);
-
+    background:
+        rgba(255, 255, 255, .95);
 
     box-shadow:
+        0 18px 45px rgba(15, 23, 42, .055);
 
-        0 20px 50px rgba(15, 23, 42, .06);
+    transition:
+        transform .45s cubic-bezier(.2, .7, .2, 1),
+        box-shadow .45s ease,
+        border-color .45s ease;
 
+    animation:
+        workCardReveal .75s cubic-bezier(.2, .7, .2, 1) both;
 
-    transition: .4s ease;
-
-    overflow: hidden;
+    animation-delay:
+        var(--card-delay);
 
 }
 
+
+@keyframes workCardReveal {
+
+    from {
+
+        opacity:
+            0;
+
+        transform:
+            translateY(25px);
+
+    }
+
+    to {
+
+        opacity:
+            1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
 
 
 .work-card:hover {
 
     transform:
-        translateY(-12px);
+        translateY(-9px);
 
+    border-color:
+        rgba(37, 99, 235, .17);
 
     box-shadow:
-
-        0 35px 80px rgba(37, 99, 235, .15);
-
-}
-
-
-
-
-
-.work-number {
-
-    position: absolute;
-
-    right: 20px;
-
-    top: 15px;
-
-    font-size: 3rem;
-
-    font-weight: 900;
-
-    color:
-
-        rgba(37, 99, 235, .08);
+        0 30px 65px rgba(15, 23, 42, .10);
 
 }
 
 
+/* =========================================================
+   CARD IMAGE
+========================================================= */
+
+.work-card-image {
+
+    position:
+        relative;
+
+    height:
+        150px;
+
+    overflow:
+        hidden;
+
+    background:
+        #edf4ff;
+
+}
 
 
+.work-card-image img {
+
+    width:
+        100%;
+
+    height:
+        100%;
+
+    display:
+        block;
+
+    object-fit:
+        cover;
+
+    object-position:
+        center;
+
+    transition:
+        transform .8s cubic-bezier(.2, .7, .2, 1);
+
+}
+
+
+.work-card:hover .work-card-image img {
+
+    transform:
+        scale(1.065);
+
+}
+
+
+/* =========================================================
+   IMAGE OVERLAY
+========================================================= */
+
+.work-card-image-overlay {
+
+    position:
+        absolute;
+
+    inset:
+        0;
+
+    background:
+
+        linear-gradient(180deg,
+            rgba(4, 20, 48, .03) 0%,
+            rgba(4, 20, 48, .08) 50%,
+            rgba(4, 20, 48, .20) 100%);
+
+}
+
+
+/* =========================================================
+   CARD TOP
+========================================================= */
+
+.work-card-top {
+
+    position:
+        absolute;
+
+    inset:
+        1rem 1rem auto;
+
+    display:
+        flex;
+
+    align-items:
+        flex-start;
+
+    justify-content:
+        space-between;
+
+    z-index:
+        2;
+
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
 
 .work-icon {
 
-    width: 60px;
+    width:
+        45px;
 
-    height: 60px;
+    height:
+        45px;
 
-    display: flex;
+    display:
+        grid;
 
-    align-items: center;
+    place-items:
+        center;
 
-    justify-content: center;
+    border:
+        1px solid rgba(255, 255, 255, .65);
 
-    border-radius: 20px;
+    border-radius:
+        15px;
 
     background:
-        rgba(37, 99, 235, .1);
+        rgba(255, 255, 255, .90);
 
-    color: #2563eb;
+    color:
+        var(--work-blue);
 
-    font-size: 1.8rem;
+    font-size:
+        1.25rem;
 
-    margin-bottom: 1.5rem;
+    box-shadow:
+        0 10px 25px rgba(15, 23, 42, .10);
 
-    transition: .35s;
+    backdrop-filter:
+        blur(15px);
+
+    transition:
+        transform .35s ease;
 
 }
-
 
 
 .work-card:hover .work-icon {
 
-    background: #2563eb;
-
-    color: white;
-
-    transform: scale(1.1);
+    transform:
+        translateY(-2px) scale(1.05);
 
 }
 
 
+/* =========================================================
+   NUMBER
+========================================================= */
+
+.work-number {
+
+    color:
+        rgba(255, 255, 255, .86);
+
+    font-size:
+        2.2rem;
+
+    line-height:
+        1;
+
+    font-weight:
+        850;
+
+    letter-spacing:
+        -1px;
+
+    text-shadow:
+        0 2px 12px rgba(0, 0, 0, .08);
+
+}
 
 
+/* =========================================================
+   CARD BODY
+========================================================= */
+
+.work-card-body {
+
+    position:
+        relative;
+
+    z-index:
+        3;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    flex:
+        1;
+
+    padding:
+        1.35rem 1.2rem 1.15rem;
+
+}
+
+
+/* =========================================================
+   CARD TITLE
+========================================================= */
 
 .work-card h3 {
 
-    font-size: 1.2rem;
+    margin:
+        0 0 .65rem;
 
-    color: #0f172a;
+    color:
+        var(--work-heading);
 
-    margin-bottom: .8rem;
+    font-size:
+        1rem;
 
-}
+    line-height:
+        1.3;
 
+    font-weight:
+        800;
 
-
-.work-card p {
-
-    font-size: .92rem;
-
-    line-height: 1.7;
-
-    color: #64748b;
-
-}
-
-
-
-
-.work-card ul {
-
-    list-style: none;
-
-    padding: 0;
-
-    margin: 1.3rem 0;
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: .6rem;
+    letter-spacing:
+        -.2px;
 
 }
 
 
+/* =========================================================
+   DESCRIPTION
+========================================================= */
 
-.work-card li {
+.work-card-description {
 
-    display: flex;
+    margin:
+        0;
 
-    align-items: center;
+    color:
+        #66758b;
 
-    gap: .5rem;
+    font-size:
+        .71rem;
 
-    font-size: .85rem;
-
-    color: #475569;
-
-}
-
-
-
-.work-card li svg {
-
-    color: #2563eb;
+    line-height:
+        1.75;
 
 }
 
 
+/* =========================================================
+   BENEFITS
+========================================================= */
 
+.work-benefits {
 
+    display:
+        flex;
 
-.work-card a {
+    flex-direction:
+        column;
 
-    display: flex;
+    gap:
+        .52rem;
 
-    align-items: center;
+    list-style:
+        none;
 
-    gap: .5rem;
+    padding:
+        0;
 
-    color: #2563eb;
-
-    font-weight: 700;
-
-    font-size: .9rem;
+    margin:
+        1.15rem 0 0;
 
 }
 
 
+.work-benefits li {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        .45rem;
+
+    color:
+        #53647a;
+
+    font-size:
+        .67rem;
+
+    line-height:
+        1.4;
+
+}
 
 
+.work-benefits li svg {
 
-/* CTA */
+    flex:
+        0 0 auto;
 
+    width:
+        12px;
+
+    height:
+        12px;
+
+    stroke-width:
+        2.3;
+
+}
+
+
+/* =========================================================
+   THEME COLORS
+========================================================= */
+
+.work-card-blue .work-benefits li svg,
+.work-card-blue .work-card-link {
+
+    color:
+        #2563eb;
+
+}
+
+
+.work-card-green .work-benefits li svg,
+.work-card-green .work-card-link {
+
+    color:
+        #16a085;
+
+}
+
+
+.work-card-orange .work-benefits li svg,
+.work-card-orange .work-card-link {
+
+    color:
+        #e58a28;
+
+}
+
+
+.work-card-purple .work-benefits li svg,
+.work-card-purple .work-card-link {
+
+    color:
+        #8b5cf6;
+
+}
+
+
+/* =========================================================
+   CARD LINK
+========================================================= */
+
+.work-card-link {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        .45rem;
+
+    width:
+        fit-content;
+
+    margin-top:
+        auto;
+
+    padding-top:
+        1.15rem;
+
+    font-size:
+        .68rem;
+
+    font-weight:
+        800;
+
+    text-decoration:
+        none;
+
+}
+
+
+.work-card-link svg {
+
+    font-size:
+        .9rem;
+
+    transition:
+        transform .3s ease;
+
+}
+
+
+.work-card-link:hover svg {
+
+    transform:
+        translateX(5px);
+
+}
+
+
+/* =========================================================
+   CARD ACCENT
+========================================================= */
+
+.work-card-accent {
+
+    position:
+        absolute;
+
+    left:
+        15%;
+
+    right:
+        15%;
+
+    bottom:
+        0;
+
+    height:
+        3px;
+
+    border-radius:
+        999px 999px 0 0;
+
+    background:
+        #2563eb;
+
+    box-shadow:
+        0 -2px 15px rgba(37, 99, 235, .25);
+
+}
+
+
+.work-card-green .work-card-accent {
+
+    background:
+        #18a986;
+
+    box-shadow:
+        0 -2px 15px rgba(24, 169, 134, .22);
+
+}
+
+
+.work-card-orange .work-card-accent {
+
+    background:
+        #ee9133;
+
+    box-shadow:
+        0 -2px 15px rgba(238, 145, 51, .22);
+
+}
+
+
+.work-card-purple .work-card-accent {
+
+    background:
+        #8b5cf6;
+
+    box-shadow:
+        0 -2px 15px rgba(139, 92, 246, .22);
+
+}
+
+
+/* =========================================================
+   CTA
+========================================================= */
 
 .work-cta {
 
-    margin-top: 4rem;
+    position:
+        relative;
 
-    padding: 2.5rem;
+    display:
+        flex;
 
-    border-radius: 32px;
+    align-items:
+        center;
 
+    justify-content:
+        space-between;
+
+    gap:
+        2rem;
+
+    min-height:
+        165px;
+
+    margin-top:
+        3rem;
+
+    padding:
+        2rem 2.4rem;
+
+    overflow:
+        hidden;
+
+    border-radius:
+        25px;
 
     background:
+        #10255a;
 
-        linear-gradient(135deg,
-            #0f172a,
-            #1e3a8a);
-
-
-    color: white;
-
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 2rem;
+    box-shadow:
+        0 30px 70px rgba(15, 35, 86, .18);
 
 }
 
+
+/* =========================================================
+   CTA IMAGE
+========================================================= */
+
+.work-cta-background {
+
+    position:
+        absolute;
+
+    inset:
+        0;
+
+    background-image:
+        var(--work-cta-background);
+
+    background-size:
+        cover;
+
+    background-position:
+        center;
+
+    background-repeat:
+        no-repeat;
+
+    opacity:
+        .82;
+
+    transform:
+        scale(1.025);
+
+    transition:
+        transform 1.2s ease;
+
+}
+
+
+.work-cta:hover .work-cta-background {
+
+    transform:
+        scale(1.055);
+
+}
+
+
+/* =========================================================
+   CTA OVERLAY
+========================================================= */
+
+.work-cta-overlay {
+
+    position:
+        absolute;
+
+    inset:
+        0;
+
+    background:
+
+        linear-gradient(90deg,
+            rgba(7, 26, 67, .96) 0%,
+            rgba(14, 43, 101, .88) 45%,
+            rgba(24, 62, 135, .66) 100%);
+
+}
+
+
+/* =========================================================
+   CTA DECORATION
+========================================================= */
+
+.work-cta-decoration {
+
+    position:
+        absolute;
+
+    inset:
+        0;
+
+    overflow:
+        hidden;
+
+    pointer-events:
+        none;
+
+}
+
+
+.work-cta-orbit {
+
+    position:
+        absolute;
+
+    width:
+        430px;
+
+    height:
+        210px;
+
+    right:
+        -100px;
+
+    top:
+        -50px;
+
+    border:
+        1px solid rgba(255, 255, 255, .10);
+
+    border-radius:
+        50%;
+
+    transform:
+        rotate(-12deg);
+
+}
+
+
+.work-cta-dot {
+
+    position:
+        absolute;
+
+    width:
+        5px;
+
+    height:
+        5px;
+
+    border-radius:
+        50%;
+
+    background:
+        #72b3ff;
+
+    box-shadow:
+        0 0 14px rgba(114, 179, 255, .8);
+
+}
+
+
+.work-cta-dot-one {
+
+    top:
+        22%;
+
+    right:
+        31%;
+
+}
+
+
+.work-cta-dot-two {
+
+    bottom:
+        18%;
+
+    right:
+        16%;
+
+}
+
+
+/* =========================================================
+   CTA CONTENT
+========================================================= */
+
+.work-cta-content {
+
+    position:
+        relative;
+
+    z-index:
+        3;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        1rem;
+
+    min-width:
+        0;
+
+}
+
+
+.work-cta-icon {
+
+    width:
+        53px;
+
+    height:
+        53px;
+
+    flex:
+        0 0 auto;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border:
+        1px solid rgba(255, 255, 255, .17);
+
+    border-radius:
+        17px;
+
+    background:
+        rgba(255, 255, 255, .10);
+
+    color:
+        #9dceff;
+
+    font-size:
+        1.4rem;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .12);
+
+    backdrop-filter:
+        blur(15px);
+
+}
+
+
+.work-cta-kicker {
+
+    display:
+        block;
+
+    margin-bottom:
+        .4rem;
+
+    color:
+        #8ebcf4;
+
+    font-size:
+        .58rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .15em;
+
+}
 
 
 .work-cta h3 {
 
-    font-size: 1.8rem;
+    margin:
+        0;
 
-    margin-bottom: .5rem;
+    color:
+        #ffffff;
+
+    font-size:
+        clamp(1.2rem,
+            2vw,
+            1.55rem);
+
+    line-height:
+        1.25;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        -.35px;
 
 }
 
 
 .work-cta p {
 
-    color: rgba(255, 255, 255, .7);
+    margin:
+        .45rem 0 0;
+
+    color:
+        rgba(226, 232, 240, .68);
+
+    font-size:
+        .71rem;
+
+    line-height:
+        1.6;
 
 }
 
 
+/* =========================================================
+   CTA ACTION
+========================================================= */
 
-.work-cta a {
+.work-cta-action {
 
+    position:
+        relative;
 
-    background: white;
+    z-index:
+        3;
 
-    color: #2563eb;
+    display:
+        flex;
 
-    padding: 1rem 1.6rem;
+    flex-direction:
+        column;
 
-    border-radius: 999px;
+    align-items:
+        flex-end;
 
-    display: flex;
+    gap:
+        .65rem;
 
-    align-items: center;
-
-    gap: .5rem;
-
-    font-weight: 700;
-
-    transition: .3s;
-
-}
-
-
-
-.work-cta a:hover {
-
-    transform: translateY(-3px);
+    flex:
+        0 0 auto;
 
 }
 
 
+.work-cta-button {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        .65rem;
+
+    min-height:
+        48px;
+
+    padding:
+        0 .7rem 0 1.25rem;
+
+    border-radius:
+        999px;
+
+    background:
+        #ffffff;
+
+    color:
+        #2563eb;
+
+    font-size:
+        .7rem;
+
+    font-weight:
+        800;
+
+    text-decoration:
+        none;
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, .15);
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+
+}
 
 
+.work-cta-button svg {
 
-@media(max-width:1000px) {
+    width:
+        31px;
+
+    height:
+        31px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    padding:
+        .45rem;
+
+    border-radius:
+        50%;
+
+    background:
+        #edf4ff;
+
+    transition:
+        transform .3s ease;
+
+}
+
+
+.work-cta-button:hover {
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 20px 42px rgba(0, 0, 0, .20);
+
+}
+
+
+.work-cta-button:hover svg {
+
+    transform:
+        translateX(4px);
+
+}
+
+
+/* =========================================================
+   CTA TRUST
+========================================================= */
+
+.work-cta-trust {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        .35rem;
+
+    color:
+        rgba(219, 234, 254, .62);
+
+    font-size:
+        .58rem;
+
+    font-weight:
+        650;
+
+}
+
+
+.work-cta-trust svg {
+
+    width:
+        12px;
+
+    height:
+        12px;
+
+    color:
+        #8ec5ff;
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1050px) {
 
     .work-grid {
 
         grid-template-columns:
             repeat(2, 1fr);
 
+        gap:
+            1.25rem;
+
+    }
+
+
+    .work-card-image {
+
+        height:
+            175px;
+
     }
 
 }
 
 
+/* =========================================================
+   MOBILE
+========================================================= */
 
-@media(max-width:600px) {
+@media (max-width: 720px) {
+
+    .work-opportunities {
+
+        padding:
+            5rem 0 3.8rem;
+
+    }
+
+
+    .work-container {
+
+        width:
+            calc(100% - 32px);
+
+    }
+
+
+    .work-header {
+
+        margin-bottom:
+            2.8rem;
+
+    }
+
+
+    .work-header h2 {
+
+        font-size:
+            2.45rem;
+
+        letter-spacing:
+            -1.6px;
+
+    }
+
+
+    .work-header p {
+
+        font-size:
+            .82rem;
+
+        line-height:
+            1.8;
+
+    }
 
 
     .work-grid {
 
-        grid-template-columns: 1fr;
+        grid-template-columns:
+            1fr;
+
+        gap:
+            1rem;
+
+    }
+
+
+    .work-card-image {
+
+        height:
+            185px;
+
+    }
+
+
+    .work-card-body {
+
+        padding:
+            1.4rem;
+
+    }
+
+
+    .work-card-description {
+
+        font-size:
+            .74rem;
+
+    }
+
+
+    .work-benefits li {
+
+        font-size:
+            .69rem;
 
     }
 
 
     .work-cta {
 
-        flex-direction: column;
+        flex-direction:
+            column;
 
-        align-items: flex-start;
+        align-items:
+            flex-start;
+
+        min-height:
+            0;
+
+        margin-top:
+            2rem;
+
+        padding:
+            1.7rem;
 
     }
 
+
+    .work-cta-content {
+
+        align-items:
+            flex-start;
+
+    }
+
+
+    .work-cta-action {
+
+        width:
+            100%;
+
+        align-items:
+            stretch;
+
+    }
+
+
+    .work-cta-button {
+
+        width:
+            100%;
+
+    }
+
+
+    .work-cta-trust {
+
+        justify-content:
+            center;
+
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 430px) {
+
+    .work-opportunities {
+
+        padding:
+            4.3rem 0 3rem;
+
+    }
+
+
+    .work-container {
+
+        width:
+            calc(100% - 24px);
+
+    }
+
+
+    .work-tag {
+
+        font-size:
+            .59rem;
+
+    }
+
+
+    .work-header h2 {
+
+        font-size:
+            2rem;
+
+    }
+
+
+    .work-card-image {
+
+        height:
+            165px;
+
+    }
+
+
+    .work-card {
+
+        border-radius:
+            21px;
+
+    }
+
+
+    .work-cta {
+
+        border-radius:
+            21px;
+
+        padding:
+            1.4rem;
+
+    }
+
+
+    .work-cta-icon {
+
+        width:
+            45px;
+
+        height:
+            45px;
+
+        border-radius:
+            14px;
+
+    }
+
+
+    .work-cta h3 {
+
+        font-size:
+            1.08rem;
+
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .work-card {
+
+        animation:
+            none;
+
+        transition:
+            none;
+
+    }
+
+
+    .work-card-image img,
+    .work-cta-background {
+
+        transition:
+            none;
+
+    }
+
+
+    .work-card:hover {
+
+        transform:
+            none;
+
+    }
 
 }

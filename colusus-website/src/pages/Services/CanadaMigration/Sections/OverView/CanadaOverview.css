@@ -1,277 +1,454 @@
 /* ==========================================================
-   CANADA OVERVIEW SECTION
+   CANADA OVERVIEW
+   PREMIUM PATHWAY EXPERIENCE
 ========================================================== */
 
 .canada-overview {
 
     position: relative;
 
-    padding: 8rem 0;
-
-    background:
-        radial-gradient(circle at 10% 0%,
-            rgba(0, 86, 179, .08),
-            transparent 35%),
-
-        radial-gradient(circle at 90% 20%,
-            rgba(0, 150, 255, .06),
-            transparent 30%),
-
-        linear-gradient(180deg,
-            #ffffff,
-            #f8fafc);
+    isolation: isolate;
 
     overflow: hidden;
+
+    padding: 9rem 0 8rem;
+
+    background:
+        linear-gradient(180deg,
+            #ffffff 0%,
+            #f8fbff 48%,
+            #eef6ff 100%);
+
 }
 
 
+/* ==========================================================
+   GLOBAL BACKGROUND
+========================================================== */
 
-/* ambient glow */
+.canada-overview-background {
 
-.canada-overview::before {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: -2;
+
+    pointer-events: none;
+
+    overflow: hidden;
+
+}
+
+
+.canada-overview-background-image {
+
+    position: absolute;
+
+    inset: 0;
+
+    background-image:
+        var(--canada-overview-background);
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-repeat: no-repeat;
+
+    opacity: .78;
+
+}
+
+
+/*
+    Very light readability treatment.
+
+    IMPORTANT:
+    This is NOT placed directly over the image with
+    a strong color. The extracted background remains
+    clearly visible.
+*/
+
+.canada-overview-background-image::after {
 
     content: "";
 
     position: absolute;
 
-    width: 500px;
+    inset: 0;
 
-    height: 500px;
+    background:
+        linear-gradient(180deg,
+            rgba(255, 255, 255, .08),
+            rgba(255, 255, 255, .02) 45%,
+            rgba(238, 246, 255, .16));
+
+}
+
+
+.canada-overview-background-glow {
+
+    position: absolute;
+
+    width: 650px;
+
+    height: 650px;
+
+    right: -280px;
 
     top: -250px;
-
-    right: -200px;
 
     border-radius: 50%;
 
     background:
-        rgba(0, 86, 179, .08);
+        radial-gradient(circle,
+            rgba(37, 99, 235, .14),
+            transparent 68%);
 
-    filter: blur(100px);
+    filter: blur(70px);
+
+}
+
+
+.canada-overview::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    right: 0;
+
+    bottom: 0;
+
+    height: 260px;
+
+    z-index: -1;
+
+    background:
+        linear-gradient(180deg,
+            transparent,
+            rgba(255, 255, 255, .5));
 
     pointer-events: none;
 
 }
 
 
+/* ==========================================================
+   ORBITAL ATMOSPHERE
+========================================================== */
 
+.canada-overview-orbit {
+
+    position: absolute;
+
+    border: 1px solid rgba(37, 99, 235, .08);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+}
+
+
+.orbit-one {
+
+    width: 850px;
+
+    height: 850px;
+
+    right: -450px;
+
+    top: -250px;
+
+}
+
+
+.orbit-two {
+
+    width: 620px;
+
+    height: 620px;
+
+    right: -310px;
+
+    top: -120px;
+
+}
+
+
+.orbit-three {
+
+    width: 420px;
+
+    height: 420px;
+
+    left: -250px;
+
+    bottom: -250px;
+
+}
+
+
+/* ==========================================================
+   CONTAINER
+========================================================== */
+
+.canada-overview-container {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: min(1220px, calc(100% - 48px));
+
+    margin: 0 auto;
+
+}
 
 
 /* ==========================================================
    HEADER
 ========================================================== */
 
-
 .canada-overview-header {
 
-    max-width: 780px;
+    width: min(760px, 100%);
 
-    margin: 0 auto 5rem;
+    margin: 0 auto 5.5rem;
 
     text-align: center;
 
 }
 
 
-
 .canada-overview-tag {
-
 
     display: inline-flex;
 
     align-items: center;
 
-    padding: .65rem 1.3rem;
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: .65rem 1.2rem;
 
     border-radius: 999px;
 
-
     background:
-        rgba(0, 86, 179, .08);
-
+        rgba(255, 255, 255, .74);
 
     border:
-        1px solid rgba(0, 86, 179, .15);
+        1px solid rgba(37, 99, 235, .18);
 
+    box-shadow:
+        0 10px 30px rgba(37, 99, 235, .08);
 
-    color: var(--primary);
+    color: #145dcc;
 
-
-    font-size: .78rem;
-
-
-    font-weight: 800;
-
-
-    letter-spacing: .12em;
-
-
-    margin-bottom: 1.5rem;
-
-
-}
-
-
-
-.canada-overview-header h2 {
-
-
-    font-size:
-        clamp(2.5rem, 5vw, 3.8rem);
-
-
-    line-height: 1.08;
-
+    font-size: .72rem;
 
     font-weight: 850;
 
+    letter-spacing: .14em;
 
-    color: var(--heading);
-
-
-    margin-bottom: 1.5rem;
-
+    text-transform: uppercase;
 
 }
 
+
+.canada-overview-tag svg {
+
+    font-size: 15px;
+
+}
+
+
+/* ==========================================================
+   TITLE
+========================================================== */
+
+.canada-overview-header h2 {
+
+    margin: 1.6rem 0 1.3rem;
+
+    color: #0b1730;
+
+    font-size:
+        clamp(2.7rem, 5vw, 4.3rem);
+
+    line-height: 1.04;
+
+    letter-spacing: -2.8px;
+
+    font-weight: 850;
+
+}
 
 
 .canada-overview-header h2 span {
 
-
     display: block;
 
-
-    color: var(--primary);
-
+    color: #1768d8;
 
 }
-
 
 
 .canada-overview-header p {
 
+    width: min(650px, 100%);
 
-    max-width: 700px;
+    margin: 0 auto;
 
+    color: #5b6f89;
 
-    margin: auto;
+    font-size: 1.02rem;
 
-
-    font-size: 1.1rem;
-
-
-    line-height: 1.9;
-
-
-    color: var(--text);
-
+    line-height: 1.85;
 
 }
 
 
+.canada-overview-header-line {
 
+    width: 58px;
 
+    height: 4px;
 
+    margin: 1.7rem auto 0;
+
+    border-radius: 999px;
+
+    transform-origin: center;
+
+    background:
+        linear-gradient(90deg,
+            #1768d8,
+            #61a5ff);
+
+}
 
 
 /* ==========================================================
-   MAIN GRID
+   MAIN LAYOUT
 ========================================================== */
-
 
 .canada-pathways-layout {
 
-
     display: grid;
 
-
     grid-template-columns:
-        .9fr 1.1fr;
-
+        minmax(0, .92fr) minmax(0, 1.08fr);
 
     gap: 2rem;
 
-
-    align-items: start;
-
+    align-items: stretch;
 
 }
 
 
+/* ==========================================================
+   FEATURED WRAPPER
+========================================================== */
 
+.canada-featured-wrapper {
 
+    min-width: 0;
 
-
+}
 
 
 /* ==========================================================
    FEATURED CARD
 ========================================================== */
 
-
 .featured-pathway-card {
-
 
     position: relative;
 
+    min-height: 570px;
 
     display: flex;
 
-
     flex-direction: column;
-
-
-    text-decoration: none;
-
-
-    color: inherit;
-
 
     padding: 2.4rem;
 
-
-    min-height: 560px;
-
-
-    border-radius: 34px;
-
-
-
-    background:
-
-        linear-gradient(180deg,
-            rgba(255, 255, 255, .85),
-            rgba(255, 255, 255, .65));
-
-
-    backdrop-filter: blur(25px);
-
-
-    border:
-
-        1px solid rgba(255, 255, 255, .8);
-
-
-
-    box-shadow:
-
-
-        0 30px 80px rgba(15, 23, 42, .10);
-
-
-
     overflow: hidden;
-
 
     isolation: isolate;
 
+    border-radius: 34px;
 
-    transition: .35s ease;
+    text-decoration: none;
+
+    color: inherit;
+
+    background:
+        #f5f9ff;
+
+    border:
+        1px solid rgba(255, 255, 255, .9);
+
+    box-shadow:
+        0 30px 80px rgba(15, 23, 42, .10),
+        0 8px 25px rgba(37, 99, 235, .05);
+
+    transition:
+        transform .5s cubic-bezier(.22, 1, .36, 1),
+        box-shadow .5s ease;
 
 }
 
 
+/* ==========================================================
+   FEATURED IMAGE
+========================================================== */
+
+.featured-image-layer {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: -3;
+
+    background-image:
+        var(--featured-image);
+
+    background-size: cover;
+
+    background-position: center;
+
+    transform: scale(1.02);
+
+    transition:
+        transform .9s cubic-bezier(.22, 1, .36, 1);
+
+}
+
+
+.featured-image-wash {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: -2;
+
+    background:
+        linear-gradient(180deg,
+            rgba(255, 255, 255, .72) 0%,
+            rgba(255, 255, 255, .54) 34%,
+            rgba(255, 255, 255, .74) 70%,
+            rgba(245, 249, 255, .92) 100%);
+
+}
 
 
 .featured-pathway-card::before {
@@ -280,825 +457,1118 @@
 
     position: absolute;
 
-    inset: 0;
-
-    background-image: var(--featured-image);
-
-    background-size: cover;
-
-    background-position: center;
-
-    opacity: .28;
-
-    transform: scale(1.08);
-
-    filter:
-        saturate(.9) contrast(1.05) brightness(.92);
-
-    z-index: -3;
-
-}
-
-
-
-
-
-.featured-pathway-card::after {
-
-
-    content: "";
-
-
-    position: absolute;
-
-
     width: 300px;
-
 
     height: 300px;
 
-
-    right: -150px;
-
+    right: -160px;
 
     top: -150px;
 
-
     border-radius: 50%;
 
+    border:
+        1px solid rgba(37, 99, 235, .14);
 
-    background:
-        rgba(0, 86, 179, .12);
+    box-shadow:
+        0 0 0 35px rgba(37, 99, 235, .025),
+        0 0 0 70px rgba(37, 99, 235, .018);
 
-
-
-    filter: blur(30px);
-
-
+    z-index: -1;
 
 }
-
-
-
 
 
 .featured-pathway-card:hover {
 
-
     transform:
         translateY(-10px);
 
-
     box-shadow:
-
-
-        0 40px 90px rgba(15, 23, 42, .16);
-
-
+        0 45px 100px rgba(15, 23, 42, .15),
+        0 15px 40px rgba(37, 99, 235, .08);
 
 }
 
 
-
-
-
-
-.featured-pathway-card>* {
-
-
-    position: relative;
-
-
-    z-index: 2;
-
-
-}
-
-
-
-
-
-
-
-/* ==========================================================
-   ICON
-========================================================== */
-
-
-.featured-icon {
-
-
-    width: 68px;
-
-
-    height: 68px;
-
-
-    border-radius: 22px;
-
-
-
-    display: flex;
-
-
-    align-items: center;
-
-
-    justify-content: center;
-
-
-
-    background:
-
-        linear-gradient(135deg,
-            rgba(0, 86, 179, .15),
-            rgba(255, 255, 255, .8));
-
-
-
-    color: var(--primary);
-
-
-
-    font-size: 1.8rem;
-
-
-    margin-bottom: 1.8rem;
-
-
-    transition: .35s ease;
-
-
-}
-
-
-
-.featured-pathway-card:hover .featured-icon {
-
-
-    background:
-        var(--primary);
-
-
-
-    color: white;
-
+.featured-pathway-card:hover .featured-image-layer {
 
     transform:
         scale(1.08);
 
+}
+
+
+/* ==========================================================
+   FEATURED TOP
+========================================================== */
+
+.featured-card-top {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
 
 }
 
 
+.featured-icon {
+
+    width: 62px;
+
+    height: 62px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 20px;
+
+    background:
+        rgba(255, 255, 255, .88);
+
+    border:
+        1px solid rgba(255, 255, 255, .9);
+
+    color: #1768d8;
+
+    font-size: 1.6rem;
+
+    box-shadow:
+        0 15px 35px rgba(15, 23, 42, .09);
+
+    transition:
+        transform .45s cubic-bezier(.22, 1, .36, 1),
+        background .35s ease,
+        color .35s ease;
+
+}
 
 
+.featured-pathway-card:hover .featured-icon {
+
+    transform:
+        rotate(-5deg) scale(1.08);
+
+    background:
+        #1768d8;
+
+    color: white;
+
+}
+
+
+.featured-card-index {
+
+    font-size: 4rem;
+
+    line-height: 1;
+
+    font-weight: 900;
+
+    letter-spacing: -3px;
+
+    color:
+        rgba(23, 104, 216, .13);
+
+}
 
 
 /* ==========================================================
-   META
+   FEATURED CONTENT
 ========================================================== */
+
+.featured-card-content {
+
+    margin-top: auto;
+
+    padding-top: 4rem;
+
+}
 
 
 .featured-meta {
 
-
     display: flex;
-
 
     align-items: center;
 
+    flex-wrap: wrap;
 
-    gap: .7rem;
+    gap: .65rem;
 
-
-    margin-bottom: 1.3rem;
-
+    margin-bottom: 1.15rem;
 
 }
 
+
+.featured-badge,
+.featured-country {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: .45rem .85rem;
+
+    border-radius: 999px;
+
+    font-size: .7rem;
+
+    font-weight: 800;
+
+}
 
 
 .featured-badge {
 
+    background:
+        rgba(37, 99, 235, .09);
 
-    padding: .45rem .9rem;
-
-
-    border-radius: 999px;
-
-
-    background: #eaf3ff;
-
-
-    color: var(--primary);
-
-
-    font-size: .75rem;
-
-
-    font-weight: 800;
-
+    color:
+        #1768d8;
 
     text-transform: uppercase;
 
+    letter-spacing: .05em;
 
 }
-
 
 
 .featured-country {
 
+    background:
+        rgba(255, 255, 255, .82);
 
-    padding: .45rem .85rem;
+    color:
+        #53657d;
 
-
-    border-radius: 999px;
-
-
-    background: #f1f5f9;
-
-
-    color: #475569;
-
-
-    font-size: .75rem;
-
-
-    font-weight: 700;
-
+    border:
+        1px solid rgba(15, 23, 42, .05);
 
 }
-
-
-
-
-
-
-
-/* ==========================================================
-   CONTENT
-========================================================== */
 
 
 .featured-pathway-card h3 {
 
+    max-width: 460px;
 
-    font-size: 1.8rem;
+    margin: 0 0 1rem;
 
+    color:
+        #0b1730;
 
-    line-height: 1.2;
+    font-size:
+        clamp(2rem, 3vw, 2.65rem);
 
+    line-height: 1.08;
 
-    color: var(--heading);
+    letter-spacing: -1.3px;
 
-
-    margin-bottom: 1rem;
-
+    font-weight: 850;
 
 }
-
 
 
 .featured-pathway-card p {
 
+    max-width: 490px;
 
-    color: var(--text);
+    margin: 0 0 1.4rem;
 
+    color:
+        #53667f;
 
-    line-height: 1.85;
+    font-size:
+        .98rem;
 
-
-    margin-bottom: 2rem;
-
+    line-height:
+        1.75;
 
 }
-
-
-
-
 
 
 /* ==========================================================
    SERVICES
 ========================================================== */
 
-
 .featured-services {
-
 
     list-style: none;
 
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: .65rem 1.1rem;
+
+    margin: 0;
 
     padding: 0;
 
-
-    margin: 0 0 2rem;
-
-
-    display: flex;
-
-
-    flex-direction: column;
-
-
-    gap: .7rem;
-
-
 }
-
 
 
 .featured-services li {
 
-
-    display: flex;
-
+    display: inline-flex;
 
     align-items: center;
 
+    gap: .5rem;
 
-    gap: .8rem;
+    color:
+        #334b69;
 
+    font-size:
+        .82rem;
 
-    color: #475569;
-
-
-    font-weight: 500;
-
+    font-weight:
+        650;
 
 }
 
 
+.service-dot {
 
-.featured-services li::before {
+    width: 7px;
 
+    height: 7px;
 
-    content: "";
-
-
-    width: 8px;
-
-
-    height: 8px;
-
+    flex-shrink: 0;
 
     border-radius: 50%;
 
+    background:
+        #1768d8;
 
-    background: var(--primary);
-
-
-}
-
-
-
-
-
-
-/* CTA */
-
-
-.featured-link {
-
-
-    margin-top: auto;
-
-
-    display: flex;
-
-
-    align-items: center;
-
-
-    gap: .8rem;
-
-
-    color: var(--primary);
-
-
-    font-weight: 800;
-
+    box-shadow:
+        0 0 0 4px rgba(23, 104, 216, .08);
 
 }
-
-
-
-.featured-link svg {
-
-
-    transition: .3s ease;
-
-
-}
-
-
-
-.featured-pathway-card:hover .featured-link svg {
-
-
-    transform:
-        translateX(8px);
-
-
-}
-
-
-
-
-
-
-
 
 
 /* ==========================================================
-   OTHER PATHWAYS
+   FEATURED CTA
 ========================================================== */
 
-
-.pathway-strip-group {
-
+.featured-card-bottom {
 
     display: flex;
-
-
-    flex-direction: column;
-
-
-    gap: 1.2rem;
-
-
-}
-
-
-
-
-.pathway-strip {
-
-
-    position: relative;
-
-
-    min-height: 120px;
-
-
-    padding: 1.5rem;
-
-
-    border-radius: 24px;
-
-
-    background: white;
-
-
-    border: 1px solid #edf2f7;
-
-
-    display: flex;
-
 
     align-items: center;
 
-
     justify-content: space-between;
 
+    margin-top: 2rem;
 
-    text-decoration: none;
+    padding-top: 1.35rem;
 
+    border-top:
+        1px solid rgba(37, 99, 235, .12);
 
-    color: inherit;
+    color:
+        #1768d8;
 
+    font-size:
+        .88rem;
 
-
-    box-shadow:
-
-
-        0 15px 35px rgba(15, 23, 42, .06);
-
-
-
-    overflow: hidden;
-
-
-    transition: .35s ease;
-
+    font-weight:
+        850;
 
 }
 
+
+.featured-arrow {
+
+    width: 42px;
+
+    height: 42px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 50%;
+
+    background:
+        #1768d8;
+
+    color: white;
+
+    transition:
+        transform .4s cubic-bezier(.22, 1, .36, 1);
+
+}
+
+
+.featured-pathway-card:hover .featured-arrow {
+
+    transform:
+        translateX(6px);
+
+}
+
+
+.featured-arrow svg {
+
+    font-size: 18px;
+
+}
+
+
+/* ==========================================================
+   RIGHT COLUMN
+========================================================== */
+
+.pathway-strip-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 1rem;
+
+}
+
+
+.pathway-group-heading {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: .8rem;
+
+    margin-bottom: .2rem;
+
+    color:
+        #7590ad;
+
+    font-size:
+        .67rem;
+
+    font-weight:
+        850;
+
+    letter-spacing:
+        .13em;
+
+}
+
+
+.pathway-heading-line {
+
+    flex: 1;
+
+    height: 1px;
+
+    background:
+        rgba(37, 99, 235, .13);
+
+}
+
+
+/* ==========================================================
+   STRIP WRAPPER
+========================================================== */
+
+.pathway-strip-wrapper {
+
+    min-width: 0;
+
+}
+
+
+/* ==========================================================
+   STRIP
+========================================================== */
+
+.pathway-strip {
+
+    position: relative;
+
+    min-height: 137px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 1.2rem;
+
+    padding: 1.35rem 1.4rem;
+
+    overflow: hidden;
+
+    isolation: isolate;
+
+    border-radius: 25px;
+
+    background:
+        rgba(255, 255, 255, .83);
+
+    border:
+        1px solid rgba(255, 255, 255, .95);
+
+    box-shadow:
+        0 15px 40px rgba(15, 23, 42, .055);
+
+    text-decoration: none;
+
+    color: inherit;
+
+    transition:
+        transform .45s cubic-bezier(.22, 1, .36, 1),
+        box-shadow .45s ease,
+        border-color .35s ease;
+
+}
 
 
 .pathway-strip:hover {
 
-
     transform:
-        translateY(-6px);
-
-
+        translateX(8px);
 
     border-color:
-        rgba(0, 86, 179, .2);
-
-
+        rgba(37, 99, 235, .18);
 
     box-shadow:
-
-
-        0 25px 50px rgba(15, 23, 42, .12);
-
-
+        0 25px 55px rgba(15, 23, 42, .10);
 
 }
 
 
+/* ==========================================================
+   STRIP IMAGE
+========================================================== */
 
-
-.strip-floating-image {
-
+.strip-image {
 
     position: absolute;
 
+    width: 190px;
 
-    right: -20px;
+    height: 190px;
 
+    right: -35px;
 
-    bottom: -20px;
+    bottom: -75px;
 
+    z-index: -3;
 
-    width: 120px;
+    background-size: cover;
 
+    background-position: center;
 
-    opacity: .08;
+    opacity: .13;
 
+    filter:
+        saturate(.8);
 
-    transition: .35s ease;
+    transform:
+        rotate(-5deg) scale(1);
 
-
-}
-
-
-
-.pathway-strip:hover .strip-floating-image {
-
-
-    transform: scale(1.1);
-
-
-    opacity: .15;
-
+    transition:
+        transform .6s cubic-bezier(.22, 1, .36, 1),
+        opacity .4s ease;
 
 }
 
 
+.pathway-strip:hover .strip-image {
+
+    opacity: .2;
+
+    transform:
+        rotate(0) scale(1.08);
+
+}
 
 
+.strip-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: -2;
+
+    background:
+        linear-gradient(90deg,
+            rgba(255, 255, 255, .96) 0%,
+            rgba(255, 255, 255, .88) 55%,
+            rgba(255, 255, 255, .48) 100%);
+
+}
+
+
+/* ==========================================================
+   STRIP LEFT
+========================================================== */
 
 .strip-left {
 
-
     display: flex;
-
 
     align-items: center;
 
-
     gap: 1rem;
 
+    min-width: 0;
 
 }
-
-
-
 
 
 .strip-icon {
 
+    width: 58px;
 
-    width: 60px;
+    height: 58px;
 
+    flex-shrink: 0;
 
-    height: 60px;
+    display: grid;
 
+    place-items: center;
 
-    border-radius: 20px;
+    border-radius: 18px;
 
+    background:
+        #eef5ff;
 
+    color:
+        #1768d8;
 
-    display: flex;
+    font-size:
+        1.45rem;
 
-
-    align-items: center;
-
-
-    justify-content: center;
-
-
-
-    background: #f1f6ff;
-
-
-    color: var(--primary);
-
-
-    font-size: 1.5rem;
-
-
-    transition: .35s ease;
-
+    transition:
+        transform .4s cubic-bezier(.22, 1, .36, 1),
+        background .35s ease,
+        color .35s ease;
 
 }
-
 
 
 .pathway-strip:hover .strip-icon {
 
+    transform:
+        scale(1.08) rotate(-4deg);
 
-    background: var(--primary);
+    background:
+        #1768d8;
 
-
-    color: white;
-
+    color:
+        white;
 
 }
 
 
+/* ==========================================================
+   STRIP CONTENT
+========================================================== */
+
+.strip-content {
+
+    min-width: 0;
+
+}
 
 
+.strip-number {
+
+    display: block;
+
+    margin-bottom: .15rem;
+
+    color:
+        #8ca4bd;
+
+    font-size:
+        .6rem;
+
+    font-weight:
+        850;
+
+    letter-spacing:
+        .1em;
+
+}
 
 
 .strip-content h4 {
 
+    margin: 0 0 .28rem;
 
-    font-size: 1.1rem;
+    color:
+        #0b1730;
 
+    font-size:
+        1.08rem;
 
-    color: var(--heading);
+    line-height:
+        1.2;
 
-
-    margin-bottom: .35rem;
-
-
-}
-
-
-
-.strip-content span {
-
-
-    font-size: .75rem;
-
-
-    color: #64748b;
-
-
-    text-transform: uppercase;
-
-
-    letter-spacing: .08em;
-
+    font-weight:
+        800;
 
 }
 
 
+.strip-badge {
 
+    display: block;
 
+    overflow: hidden;
 
+    color:
+        #70839a;
 
-.pathway-strip>svg {
+    font-size:
+        .66rem;
 
+    font-weight:
+        700;
 
-    color: var(--primary);
+    letter-spacing:
+        .08em;
 
+    text-transform:
+        uppercase;
 
-    font-size: 1.3rem;
+    text-overflow:
+        ellipsis;
 
-
-    transition: .3s ease;
-
+    white-space:
+        nowrap;
 
 }
-
-
-
-.pathway-strip:hover>svg {
-
-
-    transform:
-        translateX(8px);
-
-
-}
-
-
-
-
-
-
 
 
 /* ==========================================================
-   RESPONSIVE
+   STRIP ARROW
 ========================================================== */
 
+.strip-arrow {
 
-@media(max-width:1100px) {
+    width: 42px;
 
+    height: 42px;
 
-    .canada-pathways-layout {
+    flex-shrink: 0;
 
+    display: grid;
 
-        grid-template-columns: 1fr;
+    place-items: center;
 
+    border-radius: 50%;
 
-    }
+    background:
+        rgba(238, 245, 255, .9);
 
+    color:
+        #1768d8;
+
+    transition:
+        transform .4s cubic-bezier(.22, 1, .36, 1),
+        background .35s ease,
+        color .35s ease;
 
 }
 
 
+.pathway-strip:hover .strip-arrow {
+
+    transform:
+        translateX(5px);
+
+    background:
+        #1768d8;
+
+    color:
+        white;
+
+}
 
 
-@media(max-width:768px) {
+.strip-arrow svg {
+
+    font-size:
+        17px;
+
+}
 
 
-    .canada-overview {
+/* ==========================================================
+   TABLET
+========================================================== */
 
+@media(max-width:1100px) {
 
-        padding: 5rem 0;
+    .canada-pathways-layout {
 
-
-    }
-
-
-    .canada-overview-header {
-
-
-        margin-bottom: 3rem;
-
+        grid-template-columns:
+            1fr;
 
     }
 
 
     .featured-pathway-card {
 
+        min-height:
+            520px;
 
-        min-height: auto;
+    }
 
 
-        padding: 1.8rem;
+    .pathway-strip-group {
+
+        display:
+            grid;
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
 
 
-        border-radius: 26px;
+    .pathway-group-heading {
 
+        grid-column:
+            1 / -1;
+
+    }
+
+}
+
+
+/* ==========================================================
+   TABLET / LARGE MOBILE
+========================================================== */
+
+@media(max-width:768px) {
+
+    .canada-overview {
+
+        padding:
+            6rem 0 5rem;
+
+    }
+
+
+    .canada-overview-container {
+
+        width:
+            min(100% - 32px, 620px);
+
+    }
+
+
+    .canada-overview-header {
+
+        margin-bottom:
+            3.5rem;
+
+    }
+
+
+    .canada-overview-header h2 {
+
+        font-size:
+            2.65rem;
+
+        letter-spacing:
+            -1.7px;
+
+    }
+
+
+    .canada-overview-header p {
+
+        font-size:
+            .95rem;
+
+    }
+
+
+    .canada-pathways-layout {
+
+        gap:
+            1.2rem;
+
+    }
+
+
+    .featured-pathway-card {
+
+        min-height:
+            520px;
+
+        padding:
+            1.6rem;
+
+        border-radius:
+            26px;
+
+    }
+
+
+    .featured-card-content {
+
+        padding-top:
+            2.5rem;
+
+    }
+
+
+    .featured-pathway-card h3 {
+
+        font-size:
+            2rem;
+
+    }
+
+
+    .pathway-strip-group {
+
+        display:
+            flex;
 
     }
 
 
     .pathway-strip {
 
+        min-height:
+            110px;
 
-        min-height: 100px;
-
+        border-radius:
+            21px;
 
     }
 
 
+    .pathway-strip:hover {
+
+        transform:
+            translateY(-4px);
+
+    }
+
 }
 
 
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media(max-width:520px) {
+
+    .canada-overview {
+
+        padding:
+            5rem 0 4.5rem;
+
+    }
 
 
+    .canada-overview-container {
 
-@media(max-width:480px) {
+        width:
+            calc(100% - 28px);
+
+    }
 
 
-    .featured-meta {
+    .canada-overview-tag {
+
+        font-size:
+            .62rem;
+
+        letter-spacing:
+            .1em;
+
+    }
 
 
-        flex-wrap: wrap;
+    .canada-overview-header h2 {
 
+        font-size:
+            2.25rem;
+
+        line-height:
+            1.08;
+
+    }
+
+
+    .canada-overview-header p {
+
+        font-size:
+            .9rem;
+
+        line-height:
+            1.7;
+
+    }
+
+
+    .featured-pathway-card {
+
+        min-height:
+            500px;
+
+        padding:
+            1.35rem;
+
+    }
+
+
+    .featured-card-index {
+
+        font-size:
+            3rem;
+
+    }
+
+
+    .featured-icon {
+
+        width:
+            54px;
+
+        height:
+            54px;
+
+        border-radius:
+            17px;
+
+    }
+
+
+    .featured-pathway-card h3 {
+
+        font-size:
+            1.8rem;
+
+    }
+
+
+    .featured-pathway-card p {
+
+        font-size:
+            .9rem;
+
+    }
+
+
+    .featured-services {
+
+        gap:
+            .55rem;
+
+    }
+
+
+    .featured-services li {
+
+        font-size:
+            .76rem;
+
+    }
+
+
+    .pathway-strip {
+
+        min-height:
+            100px;
+
+        padding:
+            1rem;
 
     }
 
 
     .strip-icon {
 
+        width:
+            48px;
 
-        width: 50px;
+        height:
+            48px;
 
+        border-radius:
+            15px;
 
-        height: 50px;
-
+        font-size:
+            1.2rem;
 
     }
 
 
     .strip-content h4 {
 
-
-        font-size: .95rem;
-
+        font-size:
+            .95rem;
 
     }
 
+
+    .strip-badge {
+
+        font-size:
+            .58rem;
+
+    }
+
+
+    .strip-arrow {
+
+        width:
+            36px;
+
+        height:
+            36px;
+
+    }
+
+
+    .strip-image {
+
+        width:
+            150px;
+
+        height:
+            150px;
+
+    }
+
+}
+
+
+/* ==========================================================
+   REDUCED MOTION
+========================================================== */
+
+@media(prefers-reduced-motion: reduce) {
+
+    .featured-pathway-card,
+    .featured-image-layer,
+    .featured-icon,
+    .featured-arrow,
+    .pathway-strip,
+    .strip-image,
+    .strip-icon,
+    .strip-arrow {
+
+        transition:
+            none !important;
+
+    }
 
 }

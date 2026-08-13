@@ -1,212 +1,27 @@
 /* ==========================================================
-   WHY CANADA SECTION
+   WHY CANADA
+   PREMIUM CANADA DESTINATION EXPERIENCE
 ========================================================== */
 
 .why-canada {
 
+    --canada-blue: #1769e0;
+    --canada-deep-blue: #0d2a55;
+    --canada-soft-blue: #eaf3ff;
+    --canada-text: #10213f;
+    --canada-muted: #60728e;
+
     position: relative;
 
-    padding: 8rem 0;
+    overflow: hidden;
+
+    padding: 9rem 0 8rem;
 
     background:
-        radial-gradient(circle at top left,
-            rgba(0, 86, 179, .08),
-            transparent 35%),
         linear-gradient(180deg,
-            #ffffff,
-            #f7f9fc);
-
-    overflow: hidden;
-
-}
-
-
-
-.why-canada::before {
-
-    content: "";
-
-    position: absolute;
-
-    width: 420px;
-
-    height: 420px;
-
-    right: -180px;
-
-    bottom: -180px;
-
-    border-radius: 50%;
-
-    background: rgba(0, 86, 179, .06);
-
-    filter: blur(100px);
-
-}
-
-
-
-
-
-
-
-/* ==========================================================
-   HEADER
-========================================================== */
-
-
-.why-canada-header {
-
-    max-width: 760px;
-
-    margin: 0 auto 4.5rem;
-
-    text-align: center;
-
-}
-
-
-.why-canada-tag {
-
-
-    display: inline-flex;
-
-    align-items: center;
-
-    padding: .55rem 1.2rem;
-
-    border-radius: 999px;
-
-    background: rgba(0, 86, 179, .08);
-
-    border: 1px solid rgba(0, 86, 179, .15);
-
-    color: var(--primary-color);
-
-    font-size: .78rem;
-
-    font-weight: 800;
-
-    letter-spacing: .14em;
-
-    text-transform: uppercase;
-
-    margin-bottom: 1.5rem;
-
-}
-
-
-
-.why-canada-header h2 {
-
-
-    font-size: clamp(2.4rem, 4vw, 3.8rem);
-
-    line-height: 1.1;
-
-    font-weight: 850;
-
-    color: #111827;
-
-    margin-bottom: 1.2rem;
-
-}
-
-
-
-.why-canada-header h2 span {
-
-
-    display: block;
-
-    color: var(--primary-color);
-
-}
-
-
-
-.why-canada-header p {
-
-
-    max-width: 700px;
-
-    margin: auto;
-
-    color: #64748b;
-
-    font-size: 1.08rem;
-
-    line-height: 1.9;
-
-}
-
-
-
-
-
-
-/* ==========================================================
-   MAIN GRID
-========================================================== */
-
-
-.why-canada-layout {
-
-
-    display: grid;
-
-    grid-template-columns: .95fr 1.05fr;
-
-    gap: 2rem;
-
-    align-items: start;
-
-}
-
-
-
-
-
-
-
-/* ==========================================================
-   FEATURE CARD
-========================================================== */
-
-
-.why-feature-card {
-
-
-    position: sticky;
-
-    top: 120px;
-
-    padding: 2.5rem;
-
-
-    border-radius: 32px;
-
-
-    background:
-
-        rgba(255, 255, 255, .75);
-
-
-    backdrop-filter: blur(30px);
-
-    -webkit-backdrop-filter: blur(30px);
-
-
-    border: 1px solid rgba(255, 255, 255, .8);
-
-
-    box-shadow:
-
-        0 30px 80px rgba(15, 23, 42, .10);
-
-
-    overflow: hidden;
-
+            #ffffff 0%,
+            #f7fbff 48%,
+            #edf6ff 100%);
 
     isolation: isolate;
 
@@ -214,71 +29,601 @@
 
 
 
+/* ==========================================================
+   BACKGROUND
+========================================================== */
 
-
-.why-feature-glow {
-
-
-    position: absolute;
-
-    width: 280px;
-
-    height: 280px;
-
-    top: -120px;
-
-    right: -100px;
-
-    border-radius: 50%;
-
-
-    background:
-
-        radial-gradient(circle,
-
-            rgba(0, 86, 179, .18),
-
-            transparent 70%);
-
-
-    z-index: -1;
-
-}
-
-
-
-
-
-
-.why-feature-card::after {
-
-
-    content: "";
-
+.why-canada-background {
 
     position: absolute;
 
     inset: 0;
 
-
-    background:
-
-        linear-gradient(135deg,
-
-            rgba(0, 86, 179, .05),
-
-            transparent 50%);
-
+    z-index: -3;
 
     pointer-events: none;
 
+    overflow: hidden;
 
 }
 
 
 
+.why-canada-background-image {
+
+    position: absolute;
+
+    inset: 0;
+
+    background-image:
+        var(--why-canada-background);
+
+    background-size: contain;
+
+    background-position:
+        center top;
+
+    background-repeat: no-repeat;
+
+    opacity: 1;
+
+}
 
 
+
+/*
+    IMPORTANT:
+
+    The generated background is already
+    bright and carefully composed.
+
+    We do NOT place a heavy white overlay
+    on top of it.
+*/
+
+.why-canada-background-fade {
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(180deg,
+            rgba(255, 255, 255, .02) 0%,
+            rgba(255, 255, 255, .02) 45%,
+            rgba(238, 247, 255, .35) 100%);
+
+    pointer-events: none;
+
+}
+
+
+
+/* ==========================================================
+   AMBIENT ORBITS
+========================================================== */
+
+.canada-orbit {
+
+    position: absolute;
+
+    border: 1px solid rgba(37, 99, 235, .10);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+}
+
+
+
+.orbit-one {
+
+    width: 720px;
+
+    height: 720px;
+
+    right: -350px;
+
+    top: -250px;
+
+    animation:
+        canadaOrbitFloat 18s ease-in-out infinite;
+
+}
+
+
+
+.orbit-two {
+
+    width: 480px;
+
+    height: 480px;
+
+    left: -300px;
+
+    bottom: -260px;
+
+    border-color:
+        rgba(37, 99, 235, .07);
+
+    animation:
+        canadaOrbitFloatReverse 22s ease-in-out infinite;
+
+}
+
+
+
+/* ==========================================================
+   CANADA LEAVES
+========================================================== */
+
+.canada-leaf {
+
+    position: absolute;
+
+    width: 90px;
+
+    height: 105px;
+
+    opacity: .20;
+
+    background:
+        radial-gradient(ellipse at center,
+            rgba(37, 99, 235, .25),
+            transparent 70%);
+
+    clip-path:
+        polygon(50% 0%,
+            58% 25%,
+            75% 15%,
+            68% 35%,
+            100% 32%,
+            76% 52%,
+            88% 67%,
+            64% 61%,
+            62% 100%,
+            50% 72%,
+            38% 100%,
+            36% 61%,
+            12% 67%,
+            24% 52%,
+            0% 32%,
+            32% 35%,
+            25% 15%,
+            42% 25%);
+
+    animation:
+        canadaLeafFloat 8s ease-in-out infinite;
+
+}
+
+
+
+.leaf-one {
+
+    left: 5%;
+
+    top: 22%;
+
+    transform:
+        rotate(-20deg);
+
+}
+
+
+
+.leaf-two {
+
+    right: 8%;
+
+    bottom: 15%;
+
+    width: 120px;
+
+    height: 140px;
+
+    opacity: .12;
+
+    transform:
+        rotate(18deg);
+
+    animation-delay: -3s;
+
+}
+
+
+
+/* ==========================================================
+   PARTICLES
+========================================================== */
+
+.canada-particle {
+
+    position: absolute;
+
+    width: 6px;
+
+    height: 6px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(37, 99, 235, .35);
+
+    box-shadow:
+        0 0 0 7px rgba(37, 99, 235, .05);
+
+    animation:
+        canadaParticle 5s ease-in-out infinite;
+
+}
+
+
+
+.particle-one {
+
+    left: 13%;
+
+    top: 14%;
+
+}
+
+
+
+.particle-two {
+
+    left: 20%;
+
+    top: 63%;
+
+    animation-delay: -2s;
+
+}
+
+
+
+.particle-three {
+
+    right: 17%;
+
+    top: 31%;
+
+    animation-delay: -3s;
+
+}
+
+
+
+/* ==========================================================
+   MAIN CONTAINER
+========================================================== */
+
+.why-canada-container {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: min(1220px,
+            calc(100% - 48px));
+
+    margin: 0 auto;
+
+}
+
+
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.why-canada-header {
+
+    max-width: 820px;
+
+    margin: 0 auto 5rem;
+
+    text-align: center;
+
+}
+
+
+
+.why-canada-tag {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding:
+        .62rem 1.2rem;
+
+    border-radius: 999px;
+
+    background:
+        rgba(239, 246, 255, .88);
+
+    border:
+        1px solid rgba(37, 99, 235, .16);
+
+    color:
+        var(--canada-blue);
+
+    font-size: .76rem;
+
+    font-weight: 850;
+
+    letter-spacing: .13em;
+
+    text-transform: uppercase;
+
+    box-shadow:
+        0 10px 30px rgba(37, 99, 235, .07);
+
+}
+
+
+
+.why-canada-tag-maple {
+
+    display: grid;
+
+    place-items: center;
+
+    width: 19px;
+
+    height: 19px;
+
+    color: #e63946;
+
+    font-size: .85rem;
+
+}
+
+
+
+.why-canada-header h2 {
+
+    margin:
+        1.5rem 0 1.15rem;
+
+    font-size:
+        clamp(2.8rem,
+            5vw,
+            4.5rem);
+
+    line-height: 1.02;
+
+    letter-spacing: -2.8px;
+
+    font-weight: 900;
+
+}
+
+
+
+.why-title-dark {
+
+    display: block;
+
+    color:
+        var(--canada-deep-blue);
+
+}
+
+
+
+.why-title-blue {
+
+    display: block;
+
+    background:
+        linear-gradient(90deg,
+            #1769e0,
+            #4f8ff0);
+
+    -webkit-background-clip: text;
+
+    background-clip: text;
+
+    -webkit-text-fill-color:
+        transparent;
+
+}
+
+
+
+.why-canada-title-accent {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    margin: 0 auto 1.3rem;
+
+    width: 110px;
+
+}
+
+
+
+.why-canada-title-accent span {
+
+    height: 2px;
+
+    flex: 1;
+
+    background:
+        linear-gradient(90deg,
+            transparent,
+            #4b8df0);
+
+}
+
+
+
+.why-canada-title-accent span:last-child {
+
+    background:
+        linear-gradient(90deg,
+            #4b8df0,
+            transparent);
+
+}
+
+
+
+.why-canada-title-accent b {
+
+    color: #e63946;
+
+    font-size: .75rem;
+
+}
+
+
+
+.why-canada-header p {
+
+    max-width: 720px;
+
+    margin: 0 auto;
+
+    color:
+        var(--canada-muted);
+
+    font-size:
+        1.03rem;
+
+    line-height: 1.85;
+
+}
+
+
+
+/* ==========================================================
+   MAIN LAYOUT
+========================================================== */
+
+.why-canada-layout {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, .95fr) minmax(0, 1.05fr);
+
+    gap: 2rem;
+
+    align-items: stretch;
+
+}
+
+
+
+/* ==========================================================
+   FEATURE COLUMN
+========================================================== */
+
+.why-feature-column {
+
+    min-width: 0;
+
+}
+
+
+
+/* ==========================================================
+   FEATURE CARD
+========================================================== */
+
+.why-feature-card {
+
+    position: relative;
+
+    height: 100%;
+
+    min-height: 535px;
+
+    overflow: hidden;
+
+    border-radius: 34px;
+
+    background:
+        rgba(255, 255, 255, .92);
+
+    border:
+        1px solid rgba(255, 255, 255, .95);
+
+    box-shadow:
+        0 35px 90px rgba(23, 76, 140, .14);
+
+    isolation: isolate;
+
+}
+
+
+
+/* ==========================================================
+   FEATURE IMAGE
+========================================================== */
+
+.why-feature-image {
+
+    position: relative;
+
+    height: 215px;
+
+    overflow: hidden;
+
+    background-image:
+        var(--featured-image);
+
+    background-size: cover;
+
+    background-position: center;
+
+}
+
+
+
+.why-feature-image::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(180deg,
+            rgba(15, 55, 110, .03),
+            rgba(255, 255, 255, .10));
+
+    pointer-events: none;
+
+}
+
+
+
+.why-feature-image-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(180deg,
+            transparent 35%,
+            rgba(255, 255, 255, .86) 100%);
+
+}
 
 
 
@@ -286,105 +631,147 @@
    FEATURE ICON
 ========================================================== */
 
-
 .why-feature-icon {
 
+    position: absolute;
 
-    width: 76px;
+    left: 32px;
 
-    height: 76px;
+    bottom: -26px;
 
+    z-index: 3;
 
-    display: flex;
+    width: 68px;
 
-    align-items: center;
+    height: 68px;
 
-    justify-content: center;
+    display: grid;
 
+    place-items: center;
 
-    border-radius: 24px;
-
+    border-radius: 20px;
 
     background:
-
         linear-gradient(135deg,
-
-            #0056b3,
-
-            #1d4ed8);
-
+            #1769e0,
+            #0d55c5);
 
     color: white;
 
-
-    font-size: 2.1rem;
-
-
-    margin-bottom: 1.5rem;
-
+    font-size: 1.9rem;
 
     box-shadow:
-
-        0 15px 35px rgba(0, 86, 179, .35);
-
+        0 18px 40px rgba(23, 105, 224, .35);
 
 }
 
 
+
+.why-feature-floating-label {
+
+    position: absolute;
+
+    right: 22px;
+
+    top: 20px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding:
+        .5rem .75rem;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255, 255, 255, .82);
+
+    backdrop-filter:
+        blur(14px);
+
+    color:
+        var(--canada-blue);
+
+    font-size: .7rem;
+
+    font-weight: 800;
+
+    box-shadow:
+        0 10px 25px rgba(15, 23, 42, .08);
+
+}
+
+
+
+.why-feature-floating-label svg {
+
+    font-size: .9rem;
+
+}
+
+
+
+/* ==========================================================
+   FEATURE CONTENT
+========================================================== */
+
+.why-feature-content {
+
+    position: relative;
+
+    padding:
+        3.2rem 2.3rem 2rem;
+
+}
 
 
 
 .why-feature-badge {
 
-
     display: inline-flex;
 
-
-    padding: .45rem 1rem;
-
+    padding:
+        .45rem .85rem;
 
     border-radius: 999px;
 
+    background:
+        #eaf3ff;
 
-    background: rgba(0, 86, 179, .08);
+    color:
+        var(--canada-blue);
 
+    font-size: .7rem;
 
-    color: var(--primary-color);
-
-
-    font-size: .75rem;
-
-
-    font-weight: 800;
-
+    font-weight: 850;
 
     letter-spacing: .08em;
 
-
     text-transform: uppercase;
-
-
-    margin-bottom: 1rem;
 
 }
 
 
 
-
 .why-feature-card h3 {
 
+    margin:
+        1rem 0 .8rem;
 
-    font-size: 2rem;
+    color:
+        var(--canada-deep-blue);
 
+    font-size:
+        clamp(1.65rem,
+            2.5vw,
+            2.15rem);
 
-    line-height: 1.25;
+    line-height: 1.15;
 
-
-    color: #111827;
-
-
-    margin-bottom: 1rem;
-
+    font-weight: 850;
 
 }
 
@@ -392,119 +779,135 @@
 
 .why-feature-card p {
 
+    margin: 0 0 1.6rem;
 
-    color: #64748b;
+    color:
+        var(--canada-muted);
 
+    line-height: 1.75;
 
-    line-height: 1.85;
-
-
-    margin-bottom: 2rem;
+    font-size: .95rem;
 
 }
 
 
 
-
-
-
-/* ==========================================================
-   HIGHLIGHTS
-========================================================== */
-
-
 .why-highlights {
-
 
     display: flex;
 
     flex-direction: column;
 
-    gap: 1rem;
+    gap: .75rem;
 
 }
-
-
 
 
 
 .highlight-item {
 
+    display: flex;
+
+    align-items: center;
+
+    gap: .65rem;
+
+    color:
+        var(--canada-text);
+
+    font-size: .9rem;
+
+    font-weight: 650;
+
+}
+
+
+
+.highlight-item svg {
+
+    flex-shrink: 0;
+
+    color:
+        var(--canada-blue);
+
+    font-size: 1.1rem;
+
+}
+
+
+
+.why-feature-footer {
 
     display: flex;
 
     align-items: center;
 
-    gap: .9rem;
+    gap: .8rem;
 
+    margin-top: 1.7rem;
 
-    color: #374151;
+    padding-top: 1rem;
 
+    border-top:
+        1px solid #e5edf7;
 
-    font-size: .98rem;
+    color:
+        var(--canada-blue);
 
+    font-size: .78rem;
 
-    font-weight: 600;
-
-
-}
-
-
-
-
-
-.highlight-item span {
-
-
-    width: 10px;
-
-    height: 10px;
-
-    border-radius: 50%;
-
-
-    background: var(--primary-color);
-
-
-    box-shadow:
-
-        0 0 0 6px rgba(0, 86, 179, .12);
-
+    font-weight: 800;
 
 }
 
 
 
+.footer-line {
+
+    flex: 1;
+
+    height: 1px;
+
+    background:
+        #dce8f7;
+
+}
 
 
+
+.why-feature-footer svg {
+
+    font-size: 1.1rem;
+
+}
 
 
 
 /* ==========================================================
-   SMALL CARDS
+   RIGHT BENEFIT LIST
 ========================================================== */
 
-
 .why-small-grid {
-
 
     display: flex;
 
     flex-direction: column;
 
-    gap: 1rem;
+    justify-content: center;
+
+    gap: .85rem;
 
 }
 
 
 
-
-
 .why-small-card {
 
+    position: relative;
 
     width: 100%;
 
+    min-height: 91px;
 
     display: flex;
 
@@ -512,31 +915,36 @@
 
     justify-content: space-between;
 
+    gap: 1rem;
 
-    padding: 1.3rem 1.5rem;
+    padding:
+        1rem 1.2rem;
 
+    border:
+        1px solid rgba(190, 211, 236, .65);
 
-    border-radius: 24px;
-
-
-    border: 1px solid rgba(15, 23, 42, .08);
-
+    border-radius: 22px;
 
     background:
+        rgba(255, 255, 255, .82);
 
-        rgba(255, 255, 255, .8);
+    backdrop-filter:
+        blur(18px);
 
-
-    backdrop-filter: blur(20px);
-
+    -webkit-backdrop-filter:
+        blur(18px);
 
     cursor: pointer;
 
-
-    transition: .35s ease;
-
-
     text-align: left;
+
+    overflow: hidden;
+
+    transition:
+        transform .35s cubic-bezier(.22, 1, .36, 1),
+        box-shadow .35s ease,
+        border-color .35s ease,
+        background .35s ease;
 
 }
 
@@ -544,90 +952,122 @@
 
 .why-small-card:hover {
 
+    transform:
+        translateX(8px);
 
-    transform: translateY(-5px);
+    border-color:
+        rgba(37, 99, 235, .25);
 
+    background:
+        rgba(255, 255, 255, .96);
 
     box-shadow:
-
-        0 20px 45px rgba(15, 23, 42, .08);
-
+        0 18px 45px rgba(23, 76, 140, .10);
 
 }
-
-
 
 
 
 .why-small-card.active {
 
-
-    border-color: rgba(0, 86, 179, .35);
-
+    border-color:
+        rgba(37, 99, 235, .38);
 
     background:
+        rgba(241, 247, 255, .96);
 
-        rgba(0, 86, 179, .05);
-
+    box-shadow:
+        0 18px 45px rgba(37, 99, 235, .10);
 
 }
 
 
 
+/* ==========================================================
+   ACTIVE PROGRESS
+========================================================== */
 
+.small-card-progress {
+
+    position: absolute;
+
+    left: 0;
+
+    top: 0;
+
+    bottom: 0;
+
+    width: 3px;
+
+    background:
+        transparent;
+
+    transition:
+        background .3s ease;
+
+}
+
+
+
+.why-small-card.active .small-card-progress {
+
+    background:
+        var(--canada-blue);
+
+}
+
+
+
+/* ==========================================================
+   SMALL CARD LEFT
+========================================================== */
 
 .why-small-left {
 
+    position: relative;
+
+    z-index: 2;
 
     display: flex;
 
     align-items: center;
 
-    gap: 1rem;
+    gap: .95rem;
+
+    min-width: 0;
 
 }
-
-
-
-
 
 
 
 .why-small-icon {
 
+    width: 52px;
 
-    width: 58px;
+    height: 52px;
 
-    height: 58px;
+    flex-shrink: 0;
 
+    display: grid;
 
-    display: flex;
+    place-items: center;
 
-    align-items: center;
-
-    justify-content: center;
-
-
-    border-radius: 18px;
-
+    border-radius: 16px;
 
     background:
+        #edf4ff;
 
-        rgba(0, 86, 179, .08);
+    color:
+        var(--canada-blue);
 
+    font-size: 1.35rem;
 
-    color: var(--primary-color);
-
-
-    font-size: 1.5rem;
-
-
-    transition: .35s ease;
-
+    transition:
+        transform .35s ease,
+        background .35s ease,
+        color .35s ease;
 
 }
-
-
 
 
 
@@ -635,73 +1075,150 @@
 
 .why-small-card.active .why-small-icon {
 
-
-    background: var(--primary-color);
+    background:
+        var(--canada-blue);
 
     color: white;
+
+    transform:
+        scale(1.05);
 
 }
 
 
+
+.why-small-content {
+
+    min-width: 0;
+
+}
 
 
 
 .why-small-card h4 {
 
-
     margin: 0;
 
-    font-size: 1.05rem;
+    color:
+        var(--canada-text);
 
-    color: #111827;
+    font-size:
+        .98rem;
+
+    font-weight: 800;
 
 }
-
-
 
 
 
 .why-small-card span {
 
-
     display: block;
 
-    margin-top: .35rem;
+    margin-top: .3rem;
 
+    color:
+        #71839e;
 
-    color: #64748b;
+    font-size:
+        .73rem;
 
-    font-size: .82rem;
-
-}
-
-
-
-
-
-.why-small-card svg {
-
-
-    color: var(--primary-color);
-
-
-    transition: .35s ease;
+    font-weight: 600;
 
 }
 
 
 
-.why-small-card:hover svg {
+/* ==========================================================
+   SMALL CARD IMAGE
+========================================================== */
 
+.why-small-image {
 
-    transform: translateX(7px);
+    position: absolute;
+
+    right: 0;
+
+    top: 0;
+
+    bottom: 0;
+
+    width: 100px;
+
+    overflow: hidden;
+
+    opacity: .16;
+
+    pointer-events: none;
+
+    mask-image:
+        linear-gradient(90deg,
+            transparent,
+            black);
+
+    -webkit-mask-image:
+        linear-gradient(90deg,
+            transparent,
+            black);
 
 }
 
 
 
+.why-small-image img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+}
 
 
+
+/* ==========================================================
+   ARROW
+========================================================== */
+
+.why-small-arrow {
+
+    position: relative;
+
+    z-index: 3;
+
+    flex-shrink: 0;
+
+    width: 34px;
+
+    height: 34px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 50%;
+
+    color:
+        var(--canada-blue);
+
+    transition:
+        transform .35s ease,
+        background .35s ease;
+
+}
+
+
+
+.why-small-card:hover .why-small-arrow {
+
+    transform:
+        translateX(5px);
+
+    background:
+        #eaf3ff;
+
+}
 
 
 
@@ -709,205 +1226,286 @@
    STATS
 ========================================================== */
 
-
 .why-canada-stats {
-
-
-    margin-top: 5rem;
-
 
     display: grid;
 
+    grid-template-columns:
+        repeat(3, 1fr);
 
-    grid-template-columns: repeat(3, 1fr);
+    margin-top: 3.5rem;
 
+    padding:
+        1.2rem;
 
-    gap: 1.5rem;
+    border:
+        1px solid rgba(190, 211, 236, .7);
 
+    border-radius: 30px;
+
+    background:
+        rgba(255, 255, 255, .78);
+
+    backdrop-filter:
+        blur(22px);
+
+    -webkit-backdrop-filter:
+        blur(22px);
+
+    box-shadow:
+        0 25px 70px rgba(23, 76, 140, .08);
 
 }
-
-
 
 
 
 .stat-card {
 
-
     position: relative;
 
+    display: flex;
 
-    padding: 2.2rem;
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 1rem;
+
+    min-height: 105px;
+
+    padding:
+        1.2rem 1.8rem;
+
+    text-align: left;
+
+}
 
 
-    text-align: center;
+
+.stat-card+.stat-card {
+
+    border-left:
+        1px solid #e0eaf5;
+
+}
 
 
-    border-radius: 28px;
 
+.stat-icon {
+
+    width: 48px;
+
+    height: 48px;
+
+    display: grid;
+
+    place-items: center;
+
+    flex-shrink: 0;
+
+    border-radius: 15px;
 
     background:
+        #edf4ff;
 
-        rgba(255, 255, 255, .8);
+    color:
+        var(--canada-blue);
 
-
-    backdrop-filter: blur(20px);
-
-
-    border: 1px solid rgba(15, 23, 42, .08);
-
-
-    transition: .35s ease;
-
+    font-size: 1.25rem;
 
 }
-
-
-
-
-
-.stat-card:hover {
-
-
-    transform: translateY(-8px);
-
-
-    box-shadow:
-
-        0 25px 55px rgba(15, 23, 42, .1);
-
-
-}
-
-
 
 
 
 .stat-card h3 {
 
+    margin: 0 0 .25rem;
 
-    font-size: 3rem;
+    color:
+        var(--canada-deep-blue);
 
+    font-size:
+        2rem;
+
+    line-height: 1;
 
     font-weight: 900;
 
-
-    color: var(--primary-color);
-
-
-    margin-bottom: .6rem;
-
-
 }
-
-
 
 
 
 .stat-card span {
 
+    color:
+        #70829d;
 
-    color: #64748b;
+    font-size:
+        .76rem;
 
-
-    line-height: 1.7;
-
+    line-height: 1.45;
 
 }
-
-
-
-
-
 
 
 
 /* ==========================================================
-   RESPONSIVE
+   BOTTOM LIGHT
 ========================================================== */
 
+.why-canada-bottom-glow {
 
-@media(max-width:992px) {
+    position: absolute;
+
+    width: 700px;
+
+    height: 300px;
+
+    left: 50%;
+
+    bottom: -250px;
+
+    transform:
+        translateX(-50%);
+
+    border-radius: 50%;
+
+    background:
+        rgba(37, 99, 235, .13);
+
+    filter:
+        blur(100px);
+
+    pointer-events: none;
+
+}
+
+
+
+/* ==========================================================
+   ANIMATIONS
+========================================================== */
+
+@keyframes canadaOrbitFloat {
+
+    0%,
+    100% {
+        transform:
+            rotate(0deg) translateY(0);
+    }
+
+    50% {
+        transform:
+            rotate(8deg) translateY(-18px);
+    }
+
+}
+
+
+
+@keyframes canadaOrbitFloatReverse {
+
+    0%,
+    100% {
+        transform:
+            rotate(0deg) translateY(0);
+    }
+
+    50% {
+        transform:
+            rotate(-7deg) translateY(18px);
+    }
+
+}
+
+
+
+@keyframes canadaLeafFloat {
+
+    0%,
+    100% {
+        translate:
+            0 0;
+    }
+
+    50% {
+        translate:
+            0 -12px;
+    }
+
+}
+
+
+
+@keyframes canadaParticle {
+
+    0%,
+    100% {
+        opacity: .25;
+        transform: scale(.8);
+    }
+
+    50% {
+        opacity: .8;
+        transform: scale(1.25);
+    }
+
+}
+
+
+
+/* ==========================================================
+   TABLET
+========================================================== */
+
+@media (max-width: 1000px) {
+
+    .why-canada {
+
+        padding:
+            7rem 0 6rem;
+
+    }
 
 
     .why-canada-layout {
 
-
-        grid-template-columns: 1fr;
-
-    }
-
-
-
-    .why-feature-card {
-
-
-        position: relative;
-
-        top: 0;
-
-    }
-
-
-
-    .why-canada-stats {
-
-
-        grid-template-columns: repeat(2, 1fr);
-
-    }
-
-}
-
-
-
-
-
-@media(max-width:768px) {
-
-
-    .why-canada {
-
-
-        padding: 5rem 0;
+        grid-template-columns:
+            1fr;
 
     }
 
 
     .why-feature-card {
 
-
-        padding: 1.7rem;
-
-        border-radius: 24px;
+        min-height:
+            auto;
 
     }
 
 
-    .why-feature-card h3 {
+    .why-small-grid {
 
+        display: grid;
 
-        font-size: 1.6rem;
+        grid-template-columns:
+            repeat(2, 1fr);
 
     }
-
 
 
     .why-small-card {
 
-
-        padding: 1rem;
-
-        border-radius: 18px;
+        min-height:
+            100px;
 
     }
 
 
-
     .why-canada-stats {
 
-
-        grid-template-columns: 1fr;
+        margin-top:
+            2rem;
 
     }
 
@@ -915,27 +1513,253 @@
 
 
 
-@media(max-width:480px) {
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media (max-width: 700px) {
+
+    .why-canada {
+
+        padding:
+            5.5rem 0 4.5rem;
+
+    }
+
+
+    .why-canada-container {
+
+        width:
+            min(100% - 28px,
+                560px);
+
+    }
+
+
+    .why-canada-header {
+
+        margin-bottom:
+            3rem;
+
+    }
 
 
     .why-canada-header h2 {
 
+        font-size:
+            2.55rem;
 
-        font-size: 2rem;
+        letter-spacing:
+            -1.6px;
+
+    }
+
+
+    .why-canada-header p {
+
+        font-size:
+            .94rem;
+
+        line-height:
+            1.75;
+
+    }
+
+
+    .why-feature-image {
+
+        height:
+            190px;
+
+    }
+
+
+    .why-feature-content {
+
+        padding:
+            3rem 1.35rem 1.5rem;
+
+    }
+
+
+    .why-feature-card {
+
+        border-radius:
+            26px;
 
     }
 
 
     .why-feature-icon {
 
+        left:
+            20px;
 
-        width: 62px;
+        width:
+            60px;
 
-        height: 62px;
+        height:
+            60px;
 
-        font-size: 1.6rem;
+        border-radius:
+            17px;
+
+        font-size:
+            1.55rem;
 
     }
 
+
+    .why-feature-floating-label {
+
+        right:
+            15px;
+
+        top:
+            15px;
+
+        font-size:
+            .63rem;
+
+    }
+
+
+    .why-small-grid {
+
+        display:
+            flex;
+
+        gap:
+            .7rem;
+
+    }
+
+
+    .why-small-card {
+
+        min-height:
+            82px;
+
+        padding:
+            .85rem;
+
+        border-radius:
+            18px;
+
+    }
+
+
+    .why-small-icon {
+
+        width:
+            45px;
+
+        height:
+            45px;
+
+        border-radius:
+            14px;
+
+        font-size:
+            1.1rem;
+
+    }
+
+
+    .why-small-card h4 {
+
+        font-size:
+            .88rem;
+
+    }
+
+
+    .why-small-card span {
+
+        font-size:
+            .66rem;
+
+    }
+
+
+    .why-small-image {
+
+        width:
+            75px;
+
+    }
+
+
+    .why-canada-stats {
+
+        grid-template-columns:
+            1fr;
+
+        padding:
+            .7rem;
+
+        border-radius:
+            22px;
+
+    }
+
+
+    .stat-card {
+
+        justify-content:
+            flex-start;
+
+        min-height:
+            82px;
+
+        padding:
+            .9rem 1rem;
+
+    }
+
+
+    .stat-card+.stat-card {
+
+        border-left:
+            none;
+
+        border-top:
+            1px solid #e0eaf5;
+
+    }
+
+
+    .stat-card h3 {
+
+        font-size:
+            1.7rem;
+
+    }
+
+}
+
+
+
+/* ==========================================================
+   REDUCED MOTION
+========================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .canada-orbit,
+    .canada-leaf,
+    .canada-particle {
+
+        animation:
+            none;
+
+    }
+
+    .why-small-card {
+
+        transition:
+            none;
+
+    }
 
 }

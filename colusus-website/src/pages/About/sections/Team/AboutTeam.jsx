@@ -38,7 +38,7 @@ import jane from "../../../../assets/images/team/jane.jpg";
 import esther from "../../../../assets/images/team/Esther.jpg";
 import praise from "../../../../assets/images/team/Praise.jpg";
 import olaide from "../../../../assets/images/team/olaide.png";
-
+import sam from "../../../../assets/images/team/sam.jpg";
 
 /* =========================================================
    BACKGROUNDS
@@ -190,7 +190,7 @@ const technology = [
         desc:
             "Supporting software engineering, frontend development and digital infrastructure.",
 
-        image: null,
+        image: sam,
     },
 
 ];
