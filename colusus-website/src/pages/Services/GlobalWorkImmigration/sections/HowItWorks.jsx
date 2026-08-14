@@ -5,74 +5,132 @@ import {
     HiOutlineClipboardCheck,
     HiOutlineDocumentText,
     HiOutlineGlobeAlt,
+    HiOutlineArrowRight,
 } from "react-icons/hi";
+
+import howItWorksBackground from "../../../../assets/images/how-it-works/how-it-works-background.png";
+
+import card01Image from "../../../../assets/images/how-it-works/how-it-works-card-01.png";
+import card02Image from "../../../../assets/images/how-it-works/how-it-works-card-02.png";
+import card03Image from "../../../../assets/images/how-it-works/how-it-works-card-03.png";
+import card04Image from "../../../../assets/images/how-it-works/how-it-works-card-04.png";
 
 
 const steps = [
 
     {
         number: "01",
+
         icon: HiOutlineSearch,
+
+        label: "DISCOVERY",
 
         title: "Discover Your Opportunity",
 
         text:
-            "We analyse your profile, experience and goals to identify the strongest international work and migration pathways available to you."
-    },
+            "We analyse your profile, experience and goals to identify the strongest international work and migration pathways available to you.",
 
+        image: card01Image,
+    },
 
     {
         number: "02",
+
         icon: HiOutlineClipboardCheck,
+
+        label: "STRATEGY",
 
         title: "Eligibility & Strategy",
 
         text:
-            "Our specialists evaluate your eligibility and create a personalised migration strategy designed around your career ambitions."
-    },
+            "Our specialists evaluate your eligibility and create a personalised migration strategy designed around your career ambitions.",
 
+        image: card02Image,
+    },
 
     {
         number: "03",
+
         icon: HiOutlineDocumentText,
+
+        label: "PREPARATION",
 
         title: "Application Preparation",
 
         text:
-            "We help you prepare documentation, applications and requirements with accuracy to maximise your chances of success."
-    },
+            "We help you prepare documentation, applications and requirements with accuracy to maximise your chances of success.",
 
+        image: card03Image,
+    },
 
     {
         number: "04",
+
         icon: HiOutlineGlobeAlt,
+
+        label: "TRANSITION",
 
         title: "Approval & Global Transition",
 
         text:
-            "From approval preparation to relocation guidance, we support you as you begin your journey into a new country."
-    }
+            "From approval preparation to relocation guidance, we support you as you begin your journey into a new country.",
+
+        image: card04Image,
+    },
 
 ];
 
 
-
 const HowItWorks = () => {
-
 
     return (
 
         <section className="how-it-works">
 
 
+            {/* =====================================================
+                FULL SECTION BACKGROUND
+            ===================================================== */}
+
+            <div
+                className="how-background"
+                aria-hidden="true"
+            >
+
+                <img
+                    src={howItWorksBackground}
+                    alt=""
+                    className="how-background-image"
+                />
+
+                <div className="how-background-overlay"></div>
+
+                <div className="how-background-glow"></div>
+
+            </div>
+
+
+
+            {/* =====================================================
+                MAIN CONTENT
+            ===================================================== */}
+
             <div className="how-container">
 
 
-                <div className="how-header">
+                {/* =================================================
+                    HEADER
+                ================================================= */}
+
+                <header className="how-header">
 
 
-                    <span>
+                    <span className="how-tag">
+
+                        <span className="how-tag-dot"></span>
+
                         HOW IT WORKS
+
                     </span>
 
 
@@ -81,9 +139,9 @@ const HowItWorks = () => {
 
                         Your Global Journey
 
-                        <strong>
+                        <span>
                             Simplified Step By Step
-                        </strong>
+                        </span>
 
                     </h2>
 
@@ -98,59 +156,137 @@ const HowItWorks = () => {
                     </p>
 
 
-                </div>
+                </header>
 
 
 
+                {/* =================================================
+                    JOURNEY TIMELINE
+                ================================================= */}
+
+                <div className="how-journey">
 
 
-                <div className="steps-wrapper">
+                    {/* CENTRAL TIMELINE */}
 
+                    <div
+                        className="how-journey-line"
+                        aria-hidden="true"
+                    >
 
-                    <div className="steps-line"></div>
+                        <span></span>
 
-
-
-                    {
-                        steps.map((step) => {
-
-
-                            const Icon = step.icon;
-
-
-                            return (
-
-                                <article
-                                    className="step-card"
-                                    key={step.number}
-                                >
-
-
-                                    <div className="step-marker">
-
-
-                                        <div className="step-icon">
-
-                                            <Icon />
-
-                                        </div>
+                    </div>
 
 
 
-                                        <span>
+                    {/* =================================================
+                        STEPS
+                    ================================================= */}
+
+                    {steps.map((step, index) => {
+
+                        const Icon = step.icon;
+
+                        const isReverse = index % 2 === 1;
+
+
+                        return (
+
+                            <article
+                                key={step.number}
+                                className={`
+                                    how-step
+                                    ${isReverse
+                                        ? "how-step-reverse"
+                                        : ""
+                                    }
+                                `}
+                            >
+
+
+                                {/* =========================================
+                                    TIMELINE MARKER
+                                ========================================= */}
+
+                                <div className="how-step-marker">
+
+
+                                    <div className="how-step-marker-icon">
+
+                                        <Icon />
+
+                                    </div>
+
+
+                                    <span>
+
+                                        {step.number}
+
+                                    </span>
+
+
+                                </div>
+
+
+
+                                {/* =========================================
+                                    STEP CARD
+                                ========================================= */}
+
+                                <div className="how-step-card">
+
+
+                                    {/* =====================================
+                                        CARD IMAGE
+                                    ===================================== */}
+
+                                    <div className="how-step-image">
+
+
+                                        <img
+                                            src={step.image}
+                                            alt={step.title}
+                                            loading={
+                                                index === 0
+                                                    ? "eager"
+                                                    : "lazy"
+                                            }
+                                        />
+
+
+                                        <div
+                                            className="how-step-image-overlay"
+                                            aria-hidden="true"
+                                        ></div>
+
+
+                                        <div className="how-step-image-number">
 
                                             {step.number}
 
-                                        </span>
+                                        </div>
 
 
                                     </div>
 
 
 
+                                    {/* =====================================
+                                        CARD CONTENT
+                                    ===================================== */}
+
+                                    <div className="how-step-content">
 
 
-                                    <div className="step-content">
+                                        <div className="how-step-label">
+
+                                            <span></span>
+
+                                            {step.label}
+
+                                        </div>
+
 
 
                                         <h3>
@@ -168,34 +304,137 @@ const HowItWorks = () => {
                                         </p>
 
 
+
+                                        <div className="how-step-footer">
+
+
+                                            <span>
+
+                                                STEP {step.number}
+
+                                            </span>
+
+
+                                            <HiOutlineArrowRight />
+
+
+                                        </div>
+
+
                                     </div>
 
 
 
+                                    {/* =====================================
+                                        CARD GLOW
+                                    ===================================== */}
+
+                                    <div
+                                        className="how-step-glow"
+                                        aria-hidden="true"
+                                    ></div>
 
 
-                                    <div className="step-watermark">
-
-                                        {step.number}
-
-                                    </div>
+                                </div>
 
 
+                            </article>
 
-                                </article>
+                        );
+
+                    })}
 
 
-                            )
+                </div>
 
-                        })
-                    }
 
+
+                {/* =================================================
+                    JOURNEY FOOTER
+                ================================================= */}
+
+                <div className="how-bottom">
+
+
+                    <div
+                        className="how-bottom-line"
+                        aria-hidden="true"
+                    ></div>
+
+
+
+                    <div className="how-bottom-content">
+
+
+                        <div className="how-bottom-icon">
+
+                            <HiOutlineGlobeAlt />
+
+                        </div>
+
+
+
+                        <div>
+
+                            <strong>
+
+                                Your journey starts with clarity.
+
+                            </strong>
+
+
+                            <span>
+
+                                Let us help you take the next step
+                                with confidence.
+
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div className="how-bottom-progress">
+
+
+                        <span>
+                            01
+                        </span>
+
+
+                        <div>
+
+                            <i></i>
+
+                        </div>
+
+
+                        <span>
+                            04
+                        </span>
+
+
+                    </div>
 
 
                 </div>
 
 
             </div>
+
+
+
+            {/* =====================================================
+                SECTION BOTTOM ATMOSPHERE
+            ===================================================== */}
+
+            <div
+                className="how-bottom-fade"
+                aria-hidden="true"
+            ></div>
 
 
         </section>

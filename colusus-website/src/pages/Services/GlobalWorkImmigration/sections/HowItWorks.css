@@ -1,128 +1,298 @@
+/* =========================================================
+   HOW IT WORKS
+========================================================= */
+
 .how-it-works {
 
-    padding: 7rem 0;
-
-    background:
-
-        radial-gradient(circle at 10% 10%,
-            rgba(37, 99, 235, .12),
-            transparent 40%),
-
-        linear-gradient(180deg,
-            #ffffff,
-            #f8fafc);
+    position: relative;
 
     overflow: hidden;
 
+    padding: 9rem 0 8rem;
+
+    background: #f7faff;
+
+    isolation: isolate;
+
 }
 
 
+
+/* =========================================================
+   FULL SECTION BACKGROUND
+========================================================= */
+
+.how-background {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+    z-index: 0;
+
+    overflow: hidden;
+
+    pointer-events: none;
+
+}
+
+
+.how-background-image {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    object-position: center center;
+
+    opacity: 1;
+
+    transform: scale(1.01);
+
+}
+
+
+
+/* =========================================================
+   BACKGROUND READABILITY
+========================================================= */
+
+.how-background-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 1;
+
+    background:
+        linear-gradient(180deg,
+
+            rgba(248, 251, 255, .16) 0%,
+
+            rgba(255, 255, 255, .34) 24%,
+
+            rgba(255, 255, 255, .52) 48%,
+
+            rgba(255, 255, 255, .72) 68%,
+
+            rgba(247, 250, 255, .92) 86%,
+
+            #f7faff 100%);
+
+}
+
+
+
+/* =========================================================
+   ATMOSPHERIC GLOW
+========================================================= */
+
+.how-background-glow {
+
+    position: absolute;
+
+    z-index: 2;
+
+    width: 720px;
+
+    height: 720px;
+
+    top: -300px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(circle,
+            rgba(37, 99, 235, .11),
+            transparent 68%);
+
+    filter: blur(25px);
+
+}
+
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
 
 .how-container {
 
-    width: min(1150px, 92%);
+    position: relative;
 
-    margin: auto;
+    z-index: 5;
+
+    width: min(1180px, 92%);
+
+    margin: 0 auto;
 
 }
 
 
 
-/* HEADER */
-
+/* =========================================================
+   HEADER
+========================================================= */
 
 .how-header {
 
-    max-width: 760px;
+    max-width: 800px;
 
-    margin: auto;
+    margin: 0 auto 6rem;
 
     text-align: center;
-
-    margin-bottom: 5rem;
 
 }
 
 
-
-.how-header span {
-
+.how-tag {
 
     display: inline-flex;
 
-    padding: .55rem 1.2rem;
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 9px 18px;
 
     border-radius: 999px;
 
     background:
+        rgba(255, 255, 255, .76);
 
-        rgba(37, 99, 235, .08);
+    border:
+        1px solid rgba(37, 99, 235, .18);
 
+    box-shadow:
+        0 12px 35px rgba(37, 99, 235, .08);
 
     color: #2563eb;
 
-    font-size: .7rem;
+    font-size: .72rem;
 
-    font-weight: 800;
+    font-weight: 850;
 
-    letter-spacing: .15em;
+    letter-spacing: .16em;
+
+    text-transform: uppercase;
 
 }
 
+
+.how-tag-dot {
+
+    width: 7px;
+
+    height: 7px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #2563eb;
+
+    box-shadow:
+        0 0 0 5px rgba(37, 99, 235, .10);
+
+    animation:
+        howTagPulse 2.5s ease-in-out infinite;
+
+}
+
+
+@keyframes howTagPulse {
+
+    0%,
+    100% {
+        box-shadow:
+            0 0 0 4px rgba(37, 99, 235, .08);
+    }
+
+    50% {
+        box-shadow:
+            0 0 0 8px rgba(37, 99, 235, .03);
+    }
+
+}
 
 
 .how-header h2 {
 
+    margin: 1.5rem 0 1.25rem;
 
-    margin-top: 1.2rem;
+    color: #0b1428;
 
     font-size:
+        clamp(2.7rem, 5vw, 4.6rem);
 
-        clamp(2.3rem, 5vw, 3.8rem);
+    line-height: 1.02;
 
-
-    line-height: 1.05;
-
-    color: #0f172a;
+    letter-spacing: -2.8px;
 
     font-weight: 900;
 
-
 }
 
 
-
-.how-header h2 strong {
-
+.how-header h2 span {
 
     display: block;
 
-    color: #2563eb;
+    margin-top: 6px;
 
+    background:
+        linear-gradient(90deg,
+            #2563eb,
+            #0b63ce,
+            #3187ff);
+
+    -webkit-background-clip: text;
+
+    background-clip: text;
+
+    -webkit-text-fill-color: transparent;
 
 }
-
 
 
 .how-header p {
 
+    max-width: 700px;
 
-    margin-top: 1.2rem;
+    margin: 0 auto;
 
     color: #64748b;
 
-    line-height: 1.9;
-
     font-size: 1.05rem;
+
+    line-height: 1.85;
 
 }
 
 
 
-/* TIMELINE */
+/* =========================================================
+   JOURNEY
+========================================================= */
 
-
-.steps-wrapper {
+.how-journey {
 
     position: relative;
 
@@ -130,335 +300,1086 @@
 
     flex-direction: column;
 
-    gap: 2rem;
+    gap: 4.5rem;
 
 }
 
 
 
-.steps-line {
+/* =========================================================
+   CENTRAL TIMELINE
+========================================================= */
 
+.how-journey-line {
 
     position: absolute;
 
-    left: 40px;
+    top: 45px;
 
-    top: 60px;
+    bottom: 45px;
 
-    bottom: 60px;
+    left: 50%;
 
-    width: 3px;
+    width: 2px;
 
+    transform: translateX(-50%);
+
+    border-radius: 999px;
 
     background:
-
         linear-gradient(180deg,
+            rgba(37, 99, 235, .04),
+            rgba(37, 99, 235, .55),
+            rgba(37, 99, 235, .08));
 
-            #2563eb,
-
-            rgba(37, 99, 235, .1));
-
-
-}
-
-
-
-/* CARD */
-
-
-.step-card {
-
-
-    position: relative;
-
-
-    margin-left: 90px;
-
-
-    display: flex;
-
-
-    align-items: center;
-
-
-    padding: 2.4rem;
-
-
-    border-radius: 32px;
-
-
-    background:
-
-        rgba(255, 255, 255, .75);
-
-
-    border:
-
-        1px solid rgba(226, 232, 240, .8);
-
-
-    backdrop-filter: blur(20px);
-
-
-    box-shadow:
-
-        0 25px 70px rgba(15, 23, 42, .07);
-
-
-    overflow: hidden;
-
-
-    transition: .45s ease;
-
+    z-index: 1;
 
 }
 
 
+.how-journey-line::before {
 
-.step-card:hover {
-
-
-    transform: translateX(12px);
-
-
-    box-shadow:
-
-        0 35px 90px rgba(37, 99, 235, .15);
-
-
-}
-
-
-
-/* ICON */
-
-
-.step-marker {
-
+    content: "";
 
     position: absolute;
 
+    inset: 0;
 
-    left: -90px;
-
-
-}
-
-
-
-.step-icon {
-
-
-    width: 80px;
-
-    height: 80px;
-
-
-    border-radius: 28px;
-
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
+    border-radius: inherit;
 
     background:
+        linear-gradient(180deg,
+            transparent,
+            rgba(37, 99, 235, .9),
+            transparent);
 
-        linear-gradient(135deg,
+    animation:
+        journeyLine 4s ease-in-out infinite;
 
-            #2563eb,
-
-            #1d4ed8);
-
-
-    color: white;
-
-
-    font-size: 2rem;
+}
 
 
-    box-shadow:
+@keyframes journeyLine {
 
-        0 20px 50px rgba(37, 99, 235, .35);
+    0%,
+    100% {
+        opacity: .2;
+        transform: translateY(-15%);
+    }
 
+    50% {
+        opacity: 1;
+        transform: translateY(15%);
+    }
 
 }
 
 
 
-.step-marker span {
+/* =========================================================
+   STEP
+========================================================= */
 
+.how-step {
 
-    position: absolute;
+    position: relative;
 
-
-    top: -12px;
-
-    right: -12px;
-
-
-    width: 34px;
-
-    height: 34px;
-
-
-    border-radius: 50%;
-
-
-    background: white;
-
-
-    color: #2563eb;
-
+    min-height: 330px;
 
     display: flex;
 
-    align-items: center;
+    justify-content: flex-start;
 
-    justify-content: center;
-
-
-    font-size: .75rem;
-
-    font-weight: 900;
-
-
-    box-shadow:
-
-        0 10px 30px rgba(0, 0, 0, .1);
-
-
-}
-
-
-
-/* CONTENT */
-
-
-.step-content {
-
-
-    position: relative;
+    padding-right: calc(50% + 45px);
 
     z-index: 2;
 
+}
+
+
+.how-step-reverse {
+
+    justify-content: flex-end;
+
+    padding-right: 0;
+
+    padding-left: calc(50% + 45px);
 
 }
 
 
 
-.step-content h3 {
+/* =========================================================
+   STEP MARKER
+========================================================= */
 
-
-    font-size: 1.5rem;
-
-    font-weight: 850;
-
-    color: #0f172a;
-
-    margin-bottom: .8rem;
-
-
-}
-
-
-
-.step-content p {
-
-
-    max-width: 650px;
-
-    color: #64748b;
-
-    line-height: 1.8;
-
-}
-
-
-
-/* WATERMARK */
-
-
-.step-watermark {
-
+.how-step-marker {
 
     position: absolute;
 
+    left: 50%;
 
-    right: 30px;
+    top: 45px;
+
+    width: 72px;
+
+    height: 72px;
+
+    transform: translateX(-50%);
+
+    z-index: 10;
+
+}
 
 
-    bottom: -25px;
+.how-step-marker-icon {
+
+    width: 72px;
+
+    height: 72px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 24px;
+
+    background:
+        linear-gradient(145deg,
+            #2563eb,
+            #0757bd);
+
+    border:
+        5px solid rgba(255, 255, 255, .96);
+
+    color: #fff;
+
+    font-size: 1.65rem;
+
+    box-shadow:
+        0 18px 45px rgba(37, 99, 235, .28);
+
+    transition:
+        transform .45s cubic-bezier(.22, 1, .36, 1),
+        box-shadow .45s ease;
+
+}
 
 
-    font-size: 7rem;
+.how-step:hover .how-step-marker-icon {
 
+    transform:
+        scale(1.08) rotate(-3deg);
+
+    box-shadow:
+        0 22px 55px rgba(37, 99, 235, .38);
+
+}
+
+
+.how-step-marker>span {
+
+    position: absolute;
+
+    top: -10px;
+
+    right: -13px;
+
+    min-width: 30px;
+
+    height: 30px;
+
+    padding: 0 7px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 999px;
+
+    background: #ffffff;
+
+    border:
+        1px solid #dbe7f7;
+
+    color: #2563eb;
+
+    font-size: .65rem;
 
     font-weight: 900;
 
-
-    color:
-
-        rgba(37, 99, 235, .05);
-
+    box-shadow:
+        0 8px 20px rgba(15, 23, 42, .12);
 
 }
 
 
 
+/* =========================================================
+   STEP CARD
+========================================================= */
+
+.how-step-card {
+
+    position: relative;
+
+    width: 100%;
+
+    min-height: 330px;
+
+    display: grid;
+
+    grid-template-columns: .95fr 1.05fr;
+
+    overflow: hidden;
+
+    border-radius: 32px;
+
+    background:
+        rgba(255, 255, 255, .82);
+
+    border:
+        1px solid rgba(255, 255, 255, .94);
+
+    box-shadow:
+        0 28px 80px rgba(15, 23, 42, .10);
+
+    backdrop-filter:
+        blur(24px);
+
+    -webkit-backdrop-filter:
+        blur(24px);
+
+    transition:
+        transform .5s cubic-bezier(.22, 1, .36, 1),
+        box-shadow .5s ease,
+        border-color .5s ease;
+
+}
 
 
-@media(max-width:700px) {
+.how-step-reverse .how-step-card {
+
+    grid-template-columns: 1.05fr .95fr;
+
+}
 
 
-    .steps-line {
+.how-step-card:hover {
 
-        left: 30px;
+    transform:
+        translateY(-8px);
+
+    border-color:
+        rgba(37, 99, 235, .18);
+
+    box-shadow:
+        0 40px 100px rgba(15, 23, 42, .15);
+
+}
+
+
+
+/* =========================================================
+   CARD IMAGE
+========================================================= */
+
+.how-step-image {
+
+    position: relative;
+
+    min-height: 330px;
+
+    overflow: hidden;
+
+    background: #eaf1fb;
+
+}
+
+
+.how-step-image img {
+
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    object-position: center;
+
+    transition:
+        transform .8s cubic-bezier(.22, 1, .36, 1);
+
+}
+
+
+.how-step-card:hover .how-step-image img {
+
+    transform: scale(1.08);
+
+}
+
+
+.how-step-image-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(135deg,
+            rgba(9, 55, 115, .06),
+            transparent 50%,
+            rgba(15, 23, 42, .24));
+
+    pointer-events: none;
+
+}
+
+
+.how-step-image-number {
+
+    position: absolute;
+
+    left: 22px;
+
+    bottom: 18px;
+
+    font-size: 5.5rem;
+
+    line-height: .8;
+
+    font-weight: 950;
+
+    color:
+        rgba(255, 255, 255, .58);
+
+    letter-spacing: -5px;
+
+    text-shadow:
+        0 8px 25px rgba(0, 0, 0, .12);
+
+    pointer-events: none;
+
+}
+
+
+
+/* =========================================================
+   REVERSE CARD IMAGE
+========================================================= */
+
+.how-step-reverse .how-step-image {
+
+    order: 2;
+
+}
+
+
+.how-step-reverse .how-step-content {
+
+    order: 1;
+
+}
+
+
+
+/* =========================================================
+   CARD CONTENT
+========================================================= */
+
+.how-step-content {
+
+    position: relative;
+
+    z-index: 3;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    padding: 3rem 2.8rem;
+
+}
+
+
+.how-step-label {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    width: fit-content;
+
+    margin-bottom: 1rem;
+
+    color: #2563eb;
+
+    font-size: .68rem;
+
+    font-weight: 900;
+
+    letter-spacing: .14em;
+
+}
+
+
+.how-step-label span {
+
+    width: 24px;
+
+    height: 2px;
+
+    border-radius: 999px;
+
+    background: #2563eb;
+
+}
+
+
+.how-step-content h3 {
+
+    margin: 0 0 1rem;
+
+    color: #0b1428;
+
+    font-size:
+        clamp(1.45rem, 2.2vw, 2rem);
+
+    line-height: 1.15;
+
+    letter-spacing: -.8px;
+
+    font-weight: 850;
+
+}
+
+
+.how-step-content p {
+
+    max-width: 450px;
+
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: .96rem;
+
+    line-height: 1.85;
+
+}
+
+
+.how-step-footer {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 2rem;
+
+    color: #2563eb;
+
+    font-size: .68rem;
+
+    font-weight: 850;
+
+    letter-spacing: .12em;
+
+}
+
+
+.how-step-footer svg {
+
+    font-size: 18px;
+
+    transition:
+        transform .3s ease;
+
+}
+
+
+.how-step-card:hover .how-step-footer svg {
+
+    transform:
+        translateX(6px);
+
+}
+
+
+
+/* =========================================================
+   CARD GLOW
+========================================================= */
+
+.how-step-glow {
+
+    position: absolute;
+
+    width: 250px;
+
+    height: 250px;
+
+    right: -120px;
+
+    bottom: -150px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(circle,
+            rgba(37, 99, 235, .12),
+            transparent 70%);
+
+    pointer-events: none;
+
+}
+
+
+
+/* =========================================================
+   BOTTOM JOURNEY BAR
+========================================================= */
+
+.how-bottom {
+
+    position: relative;
+
+    margin-top: 6rem;
+
+    padding: 1.4rem 1.6rem;
+
+    border-radius: 24px;
+
+    background:
+        rgba(255, 255, 255, .72);
+
+    border:
+        1px solid rgba(37, 99, 235, .10);
+
+    box-shadow:
+        0 20px 55px rgba(15, 23, 42, .06);
+
+    backdrop-filter:
+        blur(20px);
+
+    -webkit-backdrop-filter:
+        blur(20px);
+
+}
+
+
+.how-bottom-line {
+
+    position: absolute;
+
+    left: 0;
+
+    top: 0;
+
+    width: 28%;
+
+    height: 2px;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(90deg,
+            #2563eb,
+            transparent);
+
+}
+
+
+.how-bottom-content {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+}
+
+
+.how-bottom-icon {
+
+    width: 46px;
+
+    height: 46px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 15px;
+
+    background:
+        rgba(37, 99, 235, .09);
+
+    color: #2563eb;
+
+    font-size: 1.3rem;
+
+}
+
+
+.how-bottom-content strong {
+
+    display: block;
+
+    color: #0f172a;
+
+    font-size: .92rem;
+
+}
+
+
+.how-bottom-content span {
+
+    display: block;
+
+    margin-top: 3px;
+
+    color: #64748b;
+
+    font-size: .78rem;
+
+}
+
+
+.how-bottom-progress {
+
+    position: absolute;
+
+    right: 25px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    color: #94a3b8;
+
+    font-size: .65rem;
+
+    font-weight: 800;
+
+}
+
+
+.how-bottom-progress>div {
+
+    width: 80px;
+
+    height: 4px;
+
+    border-radius: 999px;
+
+    background: #e6edf7;
+
+    overflow: hidden;
+
+}
+
+
+.how-bottom-progress i {
+
+    display: block;
+
+    width: 25%;
+
+    height: 100%;
+
+    border-radius: inherit;
+
+    background: #2563eb;
+
+}
+
+
+
+/* =========================================================
+   BOTTOM FADE
+========================================================= */
+
+.how-bottom-fade {
+
+    position: absolute;
+
+    left: 0;
+
+    right: 0;
+
+    bottom: 0;
+
+    height: 180px;
+
+    z-index: 3;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(180deg,
+            transparent,
+            rgba(247, 250, 255, .88));
+
+}
+
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .how-step {
+
+        padding-right: 0;
+
+        padding-left: 95px;
 
     }
 
 
+    .how-step-reverse {
 
-    .step-card {
+        padding-right: 0;
+
+        padding-left: 95px;
+
+    }
 
 
-        margin-left: 60px;
+    .how-journey-line {
+
+        left: 35px;
+
+    }
+
+
+    .how-step-marker {
+
+        left: 35px;
+
+    }
+
+
+    .how-step-card,
+    .how-step-reverse .how-step-card {
+
+        grid-template-columns: 1fr 1fr;
+
+    }
+
+}
+
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .how-it-works {
+
+        padding: 6rem 0;
+
+    }
+
+
+    .how-background-image {
+
+        object-position: center top;
+
+    }
+
+
+    .how-background-overlay {
+
+        background:
+            linear-gradient(180deg,
+                rgba(248, 251, 255, .24),
+                rgba(255, 255, 255, .72) 35%,
+                rgba(247, 250, 255, .96) 100%);
+
+    }
+
+
+    .how-container {
+
+        width: min(92%, 560px);
+
+    }
+
+
+    .how-header {
+
+        margin-bottom: 4rem;
+
+    }
+
+
+    .how-header h2 {
+
+        font-size: 2.5rem;
+
+        letter-spacing: -1.5px;
+
+    }
+
+
+    .how-header p {
+
+        font-size: .94rem;
+
+    }
+
+
+    .how-journey {
+
+        gap: 2.5rem;
+
+    }
+
+
+    .how-journey-line {
+
+        left: 27px;
+
+        top: 30px;
+
+        bottom: 30px;
+
+    }
+
+
+    .how-step,
+    .how-step-reverse {
+
+        padding:
+            0 0 0 65px;
+
+        min-height: auto;
+
+    }
+
+
+    .how-step-marker {
+
+        left: 27px;
+
+        top: 24px;
+
+        width: 54px;
+
+        height: 54px;
+
+    }
+
+
+    .how-step-marker-icon {
+
+        width: 54px;
+
+        height: 54px;
+
+        border-radius: 17px;
+
+        font-size: 1.25rem;
+
+        border-width: 4px;
+
+    }
+
+
+    .how-step-marker>span {
+
+        min-width: 25px;
+
+        height: 25px;
+
+        font-size: .56rem;
+
+        top: -7px;
+
+        right: -9px;
+
+    }
+
+
+    .how-step-card,
+    .how-step-reverse .how-step-card {
+
+        display: flex;
+
+        flex-direction: column;
+
+        min-height: auto;
+
+        border-radius: 25px;
+
+    }
+
+
+    .how-step-image,
+    .how-step-reverse .how-step-image {
+
+        order: 1;
+
+        width: 100%;
+
+        min-height: 210px;
+
+        height: 210px;
+
+    }
+
+
+    .how-step-content,
+    .how-step-reverse .how-step-content {
+
+        order: 2;
 
         padding: 1.8rem;
 
     }
 
 
+    .how-step-image-number {
 
-    .step-marker {
-
-        left: -60px;
-
-    }
-
-
-
-    .step-icon {
-
-        width: 55px;
-
-        height: 55px;
-
-        font-size: 1.4rem;
-
-        border-radius: 18px;
+        font-size: 4rem;
 
     }
 
 
+    .how-step-content h3 {
 
-    .step-content h3 {
-
-        font-size: 1.15rem;
+        font-size: 1.45rem;
 
     }
 
+
+    .how-step-content p {
+
+        font-size: .9rem;
+
+    }
+
+
+    .how-bottom {
+
+        margin-top: 4rem;
+
+    }
+
+
+    .how-bottom-progress {
+
+        display: none;
+
+    }
+
+}
+
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 450px) {
+
+    .how-header h2 {
+
+        font-size: 2.15rem;
+
+    }
+
+
+    .how-step,
+    .how-step-reverse {
+
+        padding-left: 58px;
+
+    }
+
+
+    .how-journey-line {
+
+        left: 23px;
+
+    }
+
+
+    .how-step-marker {
+
+        left: 23px;
+
+        width: 46px;
+
+        height: 46px;
+
+    }
+
+
+    .how-step-marker-icon {
+
+        width: 46px;
+
+        height: 46px;
+
+        border-radius: 14px;
+
+        font-size: 1.05rem;
+
+    }
+
+
+    .how-step-content {
+
+        padding: 1.5rem;
+
+    }
+
+
+    .how-step-image,
+    .how-step-reverse .how-step-image {
+
+        height: 180px;
+
+        min-height: 180px;
+
+    }
+
+
+    .how-bottom-content {
+
+        align-items: flex-start;
+
+    }
 
 }
