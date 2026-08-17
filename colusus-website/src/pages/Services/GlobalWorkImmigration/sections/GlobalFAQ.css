@@ -1,47 +1,430 @@
+/* =========================================================
+   GLOBAL FAQ — PREMIUM SECTION
+========================================================= */
+
 .gf {
-
-    padding: 5rem 1rem;
-
-    background: #f8fafc;
+    position: relative;
+    padding: 8rem 0 6rem;
+    overflow: hidden;
+    background:
+        linear-gradient(180deg,
+            #ffffff 0%,
+            #f8fbff 45%,
+            #f3f7fd 100%);
+    isolation: isolate;
 }
 
-/* HEADER */
 
-.gf__header {
+/* =========================================================
+   MAIN BACKGROUND LAYER
+========================================================= */
 
-    text-align: center;
-
-    margin-bottom: 3rem;
+.gf__background {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
 }
+
+
+/* =========================================================
+   BACKGROUND GLOW
+========================================================= */
+
+.gf__background-glow {
+    position: absolute;
+
+    width: 900px;
+    height: 900px;
+
+    top: 20px;
+    right: -250px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(circle,
+            rgba(37, 99, 235, .13) 0%,
+            rgba(59, 130, 246, .075) 32%,
+            rgba(147, 197, 253, .035) 55%,
+            transparent 75%);
+
+    filter: blur(12px);
+}
+
+
+/* =========================================================
+   BACKGROUND GRID
+========================================================= */
+
+.gf__background-grid {
+    position: absolute;
+    inset: 0;
+
+    opacity: .18;
+
+    background-image:
+        linear-gradient(rgba(37, 99, 235, .035) 1px,
+            transparent 1px),
+        linear-gradient(90deg,
+            rgba(37, 99, 235, .035) 1px,
+            transparent 1px);
+
+    background-size: 60px 60px;
+
+    mask-image:
+        linear-gradient(90deg,
+            transparent 0%,
+            transparent 25%,
+            black 55%,
+            black 100%);
+
+    -webkit-mask-image:
+        linear-gradient(90deg,
+            transparent 0%,
+            transparent 25%,
+            black 55%,
+            black 100%);
+}
+
+
+/* =========================================================
+   EXTRACTED FAQ ARTWORK
+   THIS IS THE MAIN IMAGE IN THE SECTION
+========================================================= */
+
+.gf__background-art {
+    position: absolute;
+
+    z-index: 2;
+
+    top: 15px;
+    right: -25px;
+
+    width: min(64vw, 950px);
+    height: 620px;
+
+    display: block;
+
+    object-fit: contain;
+    object-position: right center;
+
+    opacity: .94;
+
+    pointer-events: none;
+    user-select: none;
+
+    filter:
+        saturate(.96) brightness(1.02) contrast(.98);
+}
+
+
+/* =========================================================
+   LEFT BLEND OVER ARTWORK
+========================================================= */
+
+.gf__background::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    z-index: 3;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(90deg,
+            #ffffff 0%,
+            rgba(255, 255, 255, .99) 19%,
+            rgba(255, 255, 255, .90) 31%,
+            rgba(255, 255, 255, .48) 46%,
+            rgba(255, 255, 255, .10) 65%,
+            transparent 82%);
+}
+
+
+/* =========================================================
+   AIRPLANE
+========================================================= */
+
+.gf__plane {
+    position: absolute;
+
+    z-index: 5;
+
+    top: 175px;
+    right: clamp(120px, 15vw, 260px);
+
+    width: clamp(155px, 16vw, 245px);
+    height: auto;
+
+    display: block;
+
+    opacity: 1;
+    visibility: visible;
+
+    object-fit: contain;
+
+    pointer-events: none;
+    user-select: none;
+
+    filter:
+        drop-shadow(0 18px 25px rgba(15, 23, 42, .14));
+
+    animation:
+        gfPlaneFloat 6s ease-in-out infinite;
+}
+
+
+@keyframes gfPlaneFloat {
+
+    0%,
+    100% {
+        transform:
+            translate3d(0, 0, 0) rotate(-2deg);
+    }
+
+    50% {
+        transform:
+            translate3d(12px, -9px, 0) rotate(1deg);
+    }
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.gf__container {
+    position: relative;
+    z-index: 10;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.gf__hero {
+    position: relative;
+
+    min-height: 455px;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, .9fr) minmax(420px, 1.1fr);
+
+    align-items: center;
+}
+
+
+.gf__hero-content {
+    position: relative;
+    z-index: 15;
+
+    padding-top: 0;
+}
+
+
+.gf__hero-visual {
+    position: relative;
+
+    min-height: 430px;
+
+    z-index: 6;
+}
+
+
+/* =========================================================
+   FAQ TAG
+========================================================= */
 
 .gf__tag {
+    display: inline-flex;
 
-    font-size: 0.75rem;
+    align-items: center;
 
-    letter-spacing: 0.15em;
+    gap: .65rem;
 
     color: #2563eb;
 
-    font-weight: 600;
+    font-size: .68rem;
+
+    font-weight: 900;
+
+    letter-spacing: .16em;
 }
 
-.gf__header h2 {
 
-    font-size: 2rem;
+.gf__tag-line {
+    width: 36px;
+    height: 2px;
+
+    border-radius: 999px;
+
+    background: #2563eb;
+}
+
+
+/* =========================================================
+   HERO HEADING
+========================================================= */
+
+.gf__hero h2 {
+    max-width: 650px;
+
+    margin: 1.15rem 0 1rem;
+
+    color: #0b1733;
+
+    font-size:
+        clamp(2.8rem, 5vw, 4.5rem);
+
+    line-height: .99;
+
+    letter-spacing: -2.8px;
+
+    font-weight: 900;
+}
+
+
+.gf__hero h2 span {
+    display: block;
+
+    color: #2563eb;
+}
+
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+.gf__intro {
+    max-width: 530px;
+
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: .98rem;
+
+    line-height: 1.78;
+}
+
+
+/* =========================================================
+   TRUST STRIP
+========================================================= */
+
+.gf__trust {
+    width: max-content;
+    max-width: 100%;
+
+    margin-top: 1.8rem;
+
+    padding: .65rem .75rem;
+
+    display: flex;
+    align-items: center;
+
+    border:
+        1px solid rgba(37, 99, 235, .10);
+
+    border-radius: 18px;
+
+    background:
+        rgba(255, 255, 255, .82);
+
+    box-shadow:
+        0 15px 45px rgba(15, 23, 42, .055);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+
+.gf__trust-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: .55rem;
+
+    padding:
+        .15rem .65rem;
+}
+
+
+.gf__trust-icon {
+    width: 31px;
+    height: 31px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background:
+        rgba(37, 99, 235, .08);
+
+    color: #2563eb;
+}
+
+
+.gf__trust-icon svg {
+    font-size: 15px;
+}
+
+
+.gf__trust-item strong {
+    display: block;
 
     color: #0f172a;
+
+    font-size: .67rem;
+
+    font-weight: 850;
 }
 
-.gf__header h2 span {
 
-    color: #2563eb;
+.gf__trust-item span {
+    display: block;
+
+    margin-top: 2px;
+
+    color: #94a3b8;
+
+    font-size: .57rem;
 }
 
-/* LIST */
+
+.gf__trust-divider {
+    width: 1px;
+    height: 32px;
+
+    background: #e3eaf3;
+}
+
+
+/* =========================================================
+   FAQ LIST
+========================================================= */
 
 .gf__list {
+    position: relative;
 
-    max-width: 800px;
+    z-index: 30;
+
+    width: min(100%, 1110px);
 
     margin: 0 auto;
 
@@ -49,56 +432,945 @@
 
     flex-direction: column;
 
-    gap: 1rem;
+    gap: .8rem;
 }
 
-/* ITEM */
+
+/* =========================================================
+   FAQ ITEM
+========================================================= */
 
 .gf__item {
+    position: relative;
 
-    background: white;
+    overflow: hidden;
 
-    border-radius: 14px;
+    border:
+        1px solid rgba(226, 232, 240, .92);
 
-    border: 1px solid rgba(0,0,0,0.06);
+    border-left:
+        2px solid transparent;
 
-    padding: 1rem 1.2rem;
+    border-radius: 18px;
 
-    transition: 0.25s ease;
+    background:
+        rgba(255, 255, 255, .94);
+
+    box-shadow:
+        0 12px 38px rgba(15, 23, 42, .055);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    transition:
+        transform .35s ease,
+        box-shadow .35s ease,
+        border-color .35s ease;
 }
+
 
 .gf__item:hover {
+    transform:
+        translateY(-2px);
 
-    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    border-color:
+        rgba(37, 99, 235, .18);
+
+    box-shadow:
+        0 20px 55px rgba(15, 23, 42, .08);
 }
 
-/* SUMMARY */
+
+.gf__item[open] {
+    border-left-color: #2563eb;
+
+    border-color:
+        rgba(37, 99, 235, .20);
+
+    box-shadow:
+        0 20px 55px rgba(37, 99, 235, .09);
+}
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
 
 .gf__item summary {
+    position: relative;
 
-    cursor: pointer;
+    display: grid;
 
-    font-weight: 600;
+    grid-template-columns:
+        54px minmax(0, 1fr) 42px;
 
-    color: #0f172a;
+    align-items: center;
+
+    gap: 1rem;
+
+    min-height: 84px;
+
+    padding:
+        .8rem 1.15rem;
 
     list-style: none;
+
+    cursor: pointer;
 }
 
-.gf__item summary::-webkit-details-marker {
 
+.gf__item summary::-webkit-details-marker {
     display: none;
 }
 
-/* ANSWER */
 
-.gf__item p {
+.gf__item summary::marker {
+    display: none;
+}
 
-    margin-top: 0.8rem;
+
+/* =========================================================
+   QUESTION ICON
+========================================================= */
+
+.gf__question-icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 15px;
+
+    background:
+        linear-gradient(145deg,
+            #eef5ff,
+            #e5efff);
+
+    border:
+        1px solid rgba(37, 99, 235, .08);
+
+    color: #2563eb;
+
+    transition:
+        background .3s ease,
+        transform .3s ease;
+}
+
+
+.gf__question-icon svg {
+    font-size: 20px;
+}
+
+
+.gf__item:hover .gf__question-icon {
+    transform:
+        scale(1.04);
+}
+
+
+.gf__item[open] .gf__question-icon {
+    background:
+        linear-gradient(145deg,
+            #2563eb,
+            #1d4ed8);
+
+    color: white;
+}
+
+
+/* =========================================================
+   QUESTION
+========================================================= */
+
+.gf__question-content {
+    min-width: 0;
+}
+
+
+.gf__question-content h3 {
+    margin: 0;
+
+    color: #0f172a;
+
+    font-size: .98rem;
+
+    font-weight: 850;
+
+    line-height: 1.35;
+}
+
+
+.gf__question-content p {
+    margin:
+        .28rem 0 0;
 
     color: #64748b;
 
-    font-size: 0.9rem;
+    font-size: .72rem;
 
-    line-height: 1.6;
+    line-height: 1.5;
+
+    max-width: 760px;
+}
+
+
+/* =========================================================
+   ARROW
+========================================================= */
+
+.gf__arrow {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background: #f5f8fc;
+
+    color: #64748b;
+
+    transition:
+        transform .35s ease,
+        background .35s ease,
+        color .35s ease;
+}
+
+
+.gf__arrow svg {
+    font-size: 17px;
+
+    transition:
+        transform .35s ease;
+}
+
+
+.gf__item[open] .gf__arrow {
+    background:
+        rgba(37, 99, 235, .08);
+
+    color: #2563eb;
+}
+
+
+.gf__item[open] .gf__arrow svg {
+    transform:
+        rotate(90deg);
+}
+
+
+/* =========================================================
+   ANSWER
+========================================================= */
+
+.gf__answer {
+    display: flex;
+
+    gap: 1rem;
+
+    padding:
+        0 1.15rem 1.15rem calc(54px + 1rem);
+
+    animation:
+        gfAnswer .35s ease both;
+}
+
+
+@keyframes gfAnswer {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+.gf__answer-line {
+    width: 2px;
+
+    flex-shrink: 0;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(180deg,
+            #2563eb,
+            rgba(37, 99, 235, .04));
+}
+
+
+.gf__answer p {
+    max-width: 800px;
+
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: .82rem;
+
+    line-height: 1.75;
+}
+
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.gf__cta {
+    position: relative;
+
+    z-index: 30;
+
+    min-height: 105px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 1.3rem;
+
+    margin-top: 2.2rem;
+
+    padding:
+        1rem 1.15rem;
+
+    overflow: hidden;
+
+    border:
+        1px solid rgba(37, 99, 235, .13);
+
+    border-radius: 22px;
+
+    background:
+        linear-gradient(100deg,
+            #f4f8ff,
+            #edf5ff 60%,
+            #f7fbff);
+
+    box-shadow:
+        0 16px 45px rgba(37, 99, 235, .07);
+}
+
+
+/* =========================================================
+   CTA IMAGE
+========================================================= */
+
+.gf__cta-image {
+    position: relative;
+
+    width: 92px;
+    height: 82px;
+
+    flex-shrink: 0;
+
+    overflow: hidden;
+
+    border-radius: 17px;
+
+    border:
+        3px solid rgba(255, 255, 255, .95);
+
+    box-shadow:
+        0 10px 25px rgba(15, 23, 42, .10);
+}
+
+
+.gf__cta-image img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+}
+
+
+/* =========================================================
+   CTA CONTENT
+========================================================= */
+
+.gf__cta-content {
+    position: relative;
+
+    z-index: 5;
+
+    min-width: 250px;
+}
+
+
+.gf__cta-label {
+    display: block;
+
+    margin-bottom: .25rem;
+
+    color: #2563eb;
+
+    font-size: .58rem;
+
+    font-weight: 900;
+
+    letter-spacing: .13em;
+}
+
+
+.gf__cta-content h3 {
+    margin: 0;
+
+    color: #0f172a;
+
+    font-size: 1.15rem;
+
+    font-weight: 900;
+}
+
+
+.gf__cta-content h3 span {
+    color: #2563eb;
+}
+
+
+.gf__cta-content p {
+    margin: .28rem 0 0;
+
+    color: #64748b;
+
+    font-size: .68rem;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   CTA BUTTON
+========================================================= */
+
+.gf__cta-button {
+    position: relative;
+
+    z-index: 6;
+
+    margin-left: auto;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: .6rem;
+
+    flex-shrink: 0;
+
+    padding:
+        .82rem 1.15rem;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(135deg,
+            #2563eb,
+            #1557c5);
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: .72rem;
+
+    font-weight: 850;
+
+    box-shadow:
+        0 12px 30px rgba(37, 99, 235, .25);
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+}
+
+
+.gf__cta-button:hover {
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 18px 40px rgba(37, 99, 235, .32);
+}
+
+
+.gf__cta-button svg:last-child {
+    transition:
+        transform .3s ease;
+}
+
+
+.gf__cta-button:hover svg:last-child {
+    transform:
+        translateX(4px);
+}
+
+
+/* =========================================================
+   CTA ROUTE
+========================================================= */
+
+.gf__cta-route {
+    position: absolute;
+
+    right: 20px;
+    top: 12px;
+
+    width: 220px;
+    height: 80px;
+
+    opacity: .35;
+
+    pointer-events: none;
+}
+
+
+.gf__cta-route::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 42px;
+
+    width: 100%;
+    height: 38px;
+
+    border-top:
+        1.5px dashed #4f8df7;
+
+    border-radius: 50%;
+
+    transform:
+        rotate(-7deg);
+}
+
+
+.gf__cta-route span {
+    position: absolute;
+
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: #2563eb;
+}
+
+
+.gf__cta-route span:nth-child(1) {
+    left: 25px;
+    top: 39px;
+}
+
+
+.gf__cta-route span:nth-child(2) {
+    left: 108px;
+    top: 25px;
+}
+
+
+.gf__cta-route span:nth-child(3) {
+    right: 10px;
+    top: 39px;
+}
+
+
+/* =========================================================
+   BOTTOM TRUST
+========================================================= */
+
+.gf__bottom {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 2rem;
+
+    margin-top: 1.4rem;
+}
+
+
+.gf__bottom-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: .4rem;
+
+    color: #94a3b8;
+
+    font-size: .62rem;
+
+    font-weight: 700;
+}
+
+
+.gf__bottom-item svg {
+    color: #2563eb;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   BOTTOM FADE
+========================================================= */
+
+.gf__bottom-fade {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 100px;
+
+    z-index: 2;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(180deg,
+            transparent,
+            rgba(243, 247, 253, .9));
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .gf__background-art {
+        width: 760px;
+        height: 560px;
+
+        right: -140px;
+    }
+
+    .gf__plane {
+        right: 90px;
+        top: 170px;
+
+        width: 180px;
+    }
+
+    .gf__hero {
+        grid-template-columns:
+            minmax(0, .8fr) minmax(360px, 1.2fr);
+    }
+
+}
+
+
+/* =========================================================
+   TABLET / SMALL DESKTOP
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .gf {
+        padding:
+            7rem 0 5.5rem;
+    }
+
+    .gf__hero {
+        display: block;
+
+        min-height: 590px;
+    }
+
+    .gf__hero-content {
+        max-width: 650px;
+    }
+
+    .gf__hero-visual {
+        display: block;
+
+        min-height: 0;
+    }
+
+    .gf__background-art {
+        top: 160px;
+
+        right: -120px;
+
+        width: 720px;
+        height: 520px;
+
+        opacity: .42;
+    }
+
+    .gf__plane {
+        top: 210px;
+
+        right: 100px;
+
+        width: 170px;
+    }
+
+    .gf__background::after {
+        background:
+            linear-gradient(180deg,
+                rgba(255, 255, 255, .98) 0%,
+                rgba(255, 255, 255, .92) 35%,
+                rgba(255, 255, 255, .68) 65%,
+                rgba(255, 255, 255, .28) 100%);
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .gf {
+        padding:
+            5.5rem 0 4.5rem;
+    }
+
+    .gf__hero {
+        min-height: 520px;
+    }
+
+    .gf__hero h2 {
+        font-size: 2.65rem;
+
+        letter-spacing: -1.7px;
+    }
+
+    .gf__intro {
+        font-size: .88rem;
+    }
+
+    .gf__background-art {
+        top: 190px;
+
+        right: -250px;
+
+        width: 690px;
+        height: 500px;
+
+        opacity: .25;
+    }
+
+    .gf__plane {
+        top: 215px;
+
+        right: 50px;
+
+        width: 125px;
+    }
+
+    .gf__trust {
+        width: 100%;
+
+        display: grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        border-radius: 18px;
+    }
+
+    .gf__trust-divider {
+        display: none;
+    }
+
+    .gf__trust-item {
+        padding: .35rem;
+    }
+
+    .gf__trust-item:last-child {
+        grid-column: 1 / -1;
+    }
+
+    .gf__item summary {
+        grid-template-columns:
+            44px minmax(0, 1fr) 35px;
+
+        gap: .7rem;
+
+        min-height: 74px;
+
+        padding:
+            .7rem .8rem;
+    }
+
+    .gf__question-icon {
+        width: 40px;
+        height: 40px;
+
+        border-radius: 12px;
+    }
+
+    .gf__question-icon svg {
+        font-size: 17px;
+    }
+
+    .gf__question-content h3 {
+        font-size: .83rem;
+    }
+
+    .gf__question-content p {
+        font-size: .63rem;
+
+        display: -webkit-box;
+
+        -webkit-line-clamp: 1;
+
+        -webkit-box-orient: vertical;
+
+        overflow: hidden;
+    }
+
+    .gf__arrow {
+        width: 32px;
+        height: 32px;
+    }
+
+    .gf__answer {
+        padding:
+            0 .8rem .9rem calc(44px + .7rem);
+    }
+
+    .gf__answer p {
+        font-size: .75rem;
+    }
+
+    .gf__cta {
+        flex-wrap: wrap;
+
+        padding: 1rem;
+    }
+
+    .gf__cta-image {
+        width: 72px;
+        height: 68px;
+    }
+
+    .gf__cta-content {
+        min-width: 0;
+
+        flex: 1;
+    }
+
+    .gf__cta-content h3 {
+        font-size: 1rem;
+    }
+
+    .gf__cta-button {
+        width: 100%;
+
+        margin-left: 0;
+    }
+
+    .gf__cta-route {
+        display: none;
+    }
+
+    .gf__bottom {
+        flex-wrap: wrap;
+
+        gap:
+            .7rem 1.2rem;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 430px) {
+
+    .gf__hero {
+        min-height: 490px;
+    }
+
+    .gf__hero h2 {
+        font-size: 2.3rem;
+    }
+
+    .gf__tag {
+        font-size: .6rem;
+    }
+
+    .gf__background-art {
+        right: -310px;
+
+        width: 680px;
+
+        opacity: .18;
+    }
+
+    .gf__plane {
+        right: 30px;
+
+        top: 210px;
+
+        width: 105px;
+    }
+
+    .gf__trust {
+        grid-template-columns: 1fr;
+    }
+
+    .gf__trust-item:last-child {
+        grid-column: auto;
+    }
+
+    .gf__trust-item span {
+        font-size: .52rem;
+    }
+
+    .gf__question-content p {
+        display: none;
+    }
+
+    .gf__item summary {
+        grid-template-columns:
+            40px minmax(0, 1fr) 32px;
+    }
+
+    .gf__question-icon {
+        width: 38px;
+        height: 38px;
+    }
+
+    .gf__question-content h3 {
+        font-size: .78rem;
+    }
+
+    .gf__cta {
+        border-radius: 18px;
+    }
+
 }

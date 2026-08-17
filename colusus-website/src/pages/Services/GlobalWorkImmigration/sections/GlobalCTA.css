@@ -1,691 +1,1329 @@
-/* =====================================================
-   GLOBAL CTA SECTION
-===================================================== */
+/* =========================================================
+   GLOBAL CTA — PREMIUM GLOBAL JOURNEY
+========================================================= */
 
 .global-cta-section {
+    position: relative;
 
-    padding: 6rem 0;
-
-    background:
-
-        radial-gradient(circle at top left,
-            rgba(37, 99, 235, .12),
-            transparent 40%),
-
-        linear-gradient(180deg,
-            #f8fafc,
-            #ffffff);
+    padding: 6.5rem 0;
 
     overflow: hidden;
 
+    background:
+        radial-gradient(circle at 8% 20%,
+            rgba(37, 99, 235, .10),
+            transparent 35%),
+        radial-gradient(circle at 90% 50%,
+            rgba(59, 130, 246, .12),
+            transparent 38%),
+        linear-gradient(180deg,
+            #f4f8ff 0%,
+            #ffffff 48%,
+            #f2f7ff 100%);
+
+    isolation: isolate;
 }
 
 
+/* =========================================================
+   SECTION BACKGROUND
+========================================================= */
 
-/* =====================================================
+.global-cta-background {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 0;
+
+    overflow: hidden;
+
+    pointer-events: none;
+}
+
+
+.global-cta-background-glow {
+    position: absolute;
+
+    width: 850px;
+    height: 850px;
+
+    right: -260px;
+    top: -180px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(circle,
+            rgba(37, 99, 235, .14),
+            rgba(96, 165, 250, .06) 42%,
+            transparent 72%);
+
+    filter: blur(20px);
+}
+
+
+.global-cta-background-grid {
+    position: absolute;
+
+    inset: 0;
+
+    opacity: .15;
+
+    background-image:
+        linear-gradient(rgba(37, 99, 235, .035) 1px,
+            transparent 1px),
+        linear-gradient(90deg,
+            rgba(37, 99, 235, .035) 1px,
+            transparent 1px);
+
+    background-size: 58px 58px;
+
+    mask-image:
+        linear-gradient(90deg,
+            black 0%,
+            black 35%,
+            transparent 80%);
+
+    -webkit-mask-image:
+        linear-gradient(90deg,
+            black 0%,
+            black 35%,
+            transparent 80%);
+}
+
+
+/* =========================================================
+   SUBTLE WORLD MAP ATMOSPHERE
+========================================================= */
+
+.global-cta-world-map {
+    position: absolute;
+
+    width: 700px;
+    height: 400px;
+
+    left: 27%;
+    top: 35px;
+
+    opacity: .10;
+
+    background:
+        radial-gradient(circle at 30% 45%,
+            rgba(37, 99, 235, .18),
+            transparent 1.5%);
+
+    background-size: 15px 15px;
+
+    mask-image:
+        radial-gradient(ellipse,
+            black 0%,
+            transparent 72%);
+
+    -webkit-mask-image:
+        radial-gradient(ellipse,
+            black 0%,
+            transparent 72%);
+
+    transform: rotate(-4deg);
+}
+
+
+/* =========================================================
    CONTAINER
-===================================================== */
-
+========================================================= */
 
 .global-cta-container {
+    position: relative;
 
-    width: min(1200px, 92%);
+    z-index: 5;
 
-    margin: auto;
+    width: min(1400px, 94%);
 
+    margin: 0 auto;
 }
 
 
-
-/* =====================================================
+/* =========================================================
    MAIN CARD
-===================================================== */
-
+========================================================= */
 
 .global-cta-card {
-
-
     position: relative;
-
 
     display: grid;
 
-
     grid-template-columns:
-        1.4fr .8fr;
+        minmax(0, 1.45fr) minmax(360px, .72fr);
 
-
-
-    gap: 3rem;
-
-
-
-    padding: 3.5rem;
-
-
-
-    border-radius: 40px;
-
-
-
-    background:
-
-
-        linear-gradient(135deg,
-            rgba(255, 255, 255, .85),
-            rgba(255, 255, 255, .55));
-
-
-
-    border:
-
-        1px solid rgba(255, 255, 255, .8);
-
-
-
-    backdrop-filter:
-
-        blur(25px);
-
-
-
-    -webkit-backdrop-filter:
-
-        blur(25px);
-
-
-
-    box-shadow:
-
-
-        0 40px 100px rgba(15, 23, 42, .12);
-
-
+    min-height: 650px;
 
     overflow: hidden;
 
+    border-radius: 38px;
 
+    border:
+        1px solid rgba(255, 255, 255, .95);
+
+    background:
+        linear-gradient(135deg,
+            rgba(255, 255, 255, .96),
+            rgba(248, 251, 255, .91));
+
+    box-shadow:
+        0 40px 110px rgba(15, 23, 42, .10),
+        0 10px 35px rgba(37, 99, 235, .045);
+
+    isolation: isolate;
 }
 
 
-
-/* background glow */
-
+/* =========================================================
+   CARD LIGHT
+========================================================= */
 
 .global-cta-card::before {
-
-
     content: "";
-
 
     position: absolute;
 
+    width: 620px;
+    height: 620px;
 
-    width: 350px;
+    left: -220px;
+    bottom: -300px;
 
-
-    height: 350px;
-
-
-    right: -150px;
-
-
-    top: -150px;
-
+    border-radius: 50%;
 
     background:
-
-
         radial-gradient(circle,
-            rgba(37, 99, 235, .25),
-            transparent 70%);
+            rgba(37, 99, 235, .09),
+            transparent 68%);
 
-
-    filter: blur(40px);
-
+    filter: blur(20px);
 
     pointer-events: none;
-
-
 }
 
 
-
-
-
-/* =====================================================
-   CONTENT
-===================================================== */
-
+/* =========================================================
+   CONTENT SIDE
+========================================================= */
 
 .global-cta-content {
-
     position: relative;
 
-    z-index: 2;
+    z-index: 10;
 
+    padding:
+        5rem 3.8rem 2.8rem 5rem;
+
+    min-width: 0;
 }
 
 
+/* =========================================================
+   BADGE
+========================================================= */
 
 .global-cta-badge {
-
-
     display: inline-flex;
 
+    align-items: center;
 
-    padding: .55rem 1.1rem;
+    gap: .65rem;
 
+    padding:
+        .65rem 1.15rem;
 
     border-radius: 999px;
 
+    border:
+        1px solid rgba(37, 99, 235, .17);
 
     background:
-
-        rgba(37, 99, 235, .08);
-
-
-
-    border:
-
-        1px solid rgba(37, 99, 235, .15);
-
-
+        rgba(239, 246, 255, .90);
 
     color: #2563eb;
 
-
-
     font-size: .72rem;
-
-
-    font-weight: 800;
-
-
-    letter-spacing: .14em;
-
-
-    margin-bottom: 1.3rem;
-
-
-}
-
-
-
-.global-cta-title {
-
-
-    font-size:
-
-
-        clamp(2rem, 4vw, 3.2rem);
-
-
-
-    line-height: 1.15;
-
 
     font-weight: 900;
 
+    letter-spacing: .13em;
 
-    color: #0f172a;
-
-
-    margin-bottom: 1rem;
-
-
+    box-shadow:
+        0 8px 25px rgba(37, 99, 235, .06);
 }
 
 
-
-
-.global-cta-description {
-
-
-    color: #64748b;
-
-
-    max-width: 620px;
-
-
-    line-height: 1.8;
-
-
-    font-size: 1.05rem;
-
-
-}
-
-
-
-/* =====================================================
-   ACTIONS
-===================================================== */
-
-
-.global-cta-actions {
-
+.global-cta-badge-icon {
+    width: 25px;
+    height: 25px;
 
     display: flex;
-
-
-    gap: 1rem;
-
-
-    margin-top: 2rem;
-
-
-    flex-wrap: wrap;
-
-
-}
-
-
-
-
-.global-cta-primary,
-
-.global-cta-secondary {
-
-
-    display: flex;
-
 
     align-items: center;
-
-
     justify-content: center;
 
-
-    gap: .7rem;
-
-
-
-    padding: 1rem 1.8rem;
-
-
-    border-radius: 999px;
-
-
-    font-weight: 700;
-
-
-    cursor: pointer;
-
-
-    transition: .35s ease;
-
-
-}
-
-
-
-
-
-.global-cta-primary {
-
+    border-radius: 50%;
 
     background: #2563eb;
 
-
     color: white;
-
-
-    border: none;
-
-
-    box-shadow:
-
-
-        0 15px 35px rgba(37, 99, 235, .3);
-
-
 }
 
 
-
-.global-cta-primary:hover {
-
-
-    transform: translateY(-4px);
-
-
-    background: #1d4ed8;
-
-
+.global-cta-badge-icon svg {
+    font-size: 14px;
 }
 
 
+/* =========================================================
+   TITLE
+========================================================= */
 
-
-
-.global-cta-secondary {
-
-
-    background: white;
-
-
-    color: #0f172a;
-
-
-    border:
-
-
-        1px solid #e2e8f0;
-
-
-}
-
-
-
-.global-cta-secondary:hover {
-
-
-    transform: translateY(-4px);
-
-
-    border-color: #2563eb;
-
-
-}
-
-
-
-
-
-/* =====================================================
-   CONTACT PANEL
-===================================================== */
-
-
-.global-cta-contact {
-
-
+.global-cta-title {
     position: relative;
 
+    max-width: 820px;
 
-    z-index: 2;
+    margin:
+        1.8rem 0 1rem;
 
+    color: #0b1733;
 
-    padding: 2rem;
+    font-size:
+        clamp(3.1rem, 5vw, 5.15rem);
 
+    line-height: .99;
 
+    letter-spacing: -3.7px;
 
-    border-radius: 30px;
-
-
-    background:
-
-
-        rgba(15, 23, 42, .96);
-
-
-
-    color: white;
-
-
-    box-shadow:
-
-
-        0 25px 60px rgba(15, 23, 42, .25);
-
-
-
+    font-weight: 950;
 }
 
 
+.global-cta-title span {
+    display: block;
 
-.global-cta-contact-title {
-
-
-    font-size: 1.2rem;
-
-
-    margin-bottom: 2rem;
-
-
-    font-weight: 800;
-
-
+    color: #2563eb;
 }
 
 
+/* =========================================================
+   TITLE ACCENT
+========================================================= */
 
-
-
-.global-cta-contact-item {
-
-
+.global-cta-title-accent {
     display: flex;
-
-
-    align-items: flex-start;
-
-
-    gap: 1rem;
-
-
-    margin-bottom: 1.5rem;
-
-
-}
-
-
-
-
-
-.global-cta-icon {
-
-
-    width: 45px;
-
-
-    height: 45px;
-
-
-    border-radius: 14px;
-
-
-    display: flex;
-
 
     align-items: center;
 
+    gap: 12px;
 
-    justify-content: center;
-
-
-    background:
-
-
-        rgba(255, 255, 255, .12);
-
-
-
-    color: #60a5fa;
-
-
-    font-size: 1.3rem;
-
-
+    margin:
+        1.3rem 0 1.25rem;
 }
 
 
+.global-cta-title-accent span:first-child {
+    width: 98px;
+    height: 4px;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(90deg,
+            #2563eb,
+            #3b82f6);
+}
 
 
+.global-cta-title-accent span:last-child {
+    width: 75px;
+    height: 4px;
 
-.global-cta-contact-item span {
+    border-radius: 999px;
 
+    background:
+        #dbeafe;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.global-cta-description {
+    max-width: 700px;
+
+    margin: 0;
+
+    color: #5f7290;
+
+    font-size: 1.05rem;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   JOURNEY PATH AREA
+========================================================= */
+
+.global-cta-journey {
+    position: absolute;
+
+    left: 27%;
+
+    bottom: 112px;
+
+    width: 520px;
+
+    height: 170px;
+
+    z-index: 3;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   DOTTED PATH
+========================================================= */
+
+.global-cta-journey-path {
+    position: absolute;
+
+    left: 0;
+    top: 48px;
+
+    width: 100%;
+    height: auto;
 
     display: block;
 
+    object-fit: contain;
 
-    font-size: .75rem;
+    opacity: .92;
 
+    transform-origin: left center;
 
-    color: rgba(255, 255, 255, .55);
-
-
-    text-transform: uppercase;
-
-
-    letter-spacing: .1em;
-
-
+    animation:
+        globalPathFloat 7s ease-in-out infinite;
 }
 
 
+@keyframes globalPathFloat {
 
-.global-cta-contact-item p {
+    0%,
+    100% {
+        transform:
+            translateY(0);
+    }
+
+    50% {
+        transform:
+            translateY(-4px);
+    }
+}
 
 
-    margin: .25rem 0;
+/* =========================================================
+   PLANE
+========================================================= */
 
+.global-cta-journey-plane {
+    position: absolute;
+
+    right: 10px;
+
+    top: 0;
+
+    width: 145px;
+
+    height: auto;
+
+    display: block;
+
+    object-fit: contain;
+
+    filter:
+        drop-shadow(0 15px 20px rgba(37, 99, 235, .18));
+
+    animation:
+        globalPlaneFlight 5s ease-in-out infinite;
+}
+
+
+@keyframes globalPlaneFlight {
+
+    0%,
+    100% {
+        transform:
+            translate3d(0, 0, 0) rotate(-2deg);
+    }
+
+    50% {
+        transform:
+            translate3d(10px, -9px, 0) rotate(1deg);
+    }
+}
+
+
+/* =========================================================
+   DESTINATION PIN
+========================================================= */
+
+.global-cta-journey-pin {
+    position: absolute;
+
+    left: 48%;
+
+    top: 72px;
+
+    width: 29px;
+    height: 29px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, .95);
+
+    border:
+        2px solid rgba(37, 99, 235, .15);
+
+    box-shadow:
+        0 8px 25px rgba(37, 99, 235, .14);
+}
+
+
+.global-cta-journey-pin span {
+    width: 11px;
+    height: 11px;
+
+    border-radius: 50%;
+
+    background: #2563eb;
+
+    box-shadow:
+        0 0 0 5px rgba(37, 99, 235, .12);
+}
+
+
+/* =========================================================
+   ACTION
+========================================================= */
+
+.global-cta-actions {
+    position: relative;
+
+    z-index: 12;
+
+    display: flex;
+
+    margin-top: 2rem;
+}
+
+
+.global-cta-primary {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: .8rem;
+
+    min-width: 280px;
+
+    padding:
+        1.1rem 1.7rem;
+
+    border: none;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(135deg,
+            #2563eb,
+            #1d4ed8);
 
     color: white;
 
+    font-size: .98rem;
 
-    font-size: .95rem;
+    font-weight: 850;
 
+    cursor: pointer;
 
+    box-shadow:
+        0 18px 38px rgba(37, 99, 235, .28);
+
+    transition:
+        transform .35s ease,
+        box-shadow .35s ease,
+        background .35s ease;
 }
 
 
+.global-cta-primary:hover {
+    transform:
+        translateY(-4px);
+
+    box-shadow:
+        0 25px 50px rgba(37, 99, 235, .34);
+
+    background:
+        linear-gradient(135deg,
+            #1d4ed8,
+            #1e40af);
+}
 
 
-.global-cta-note {
+.global-cta-primary svg {
+    font-size: 20px;
+
+    transition:
+        transform .3s ease;
+}
 
 
-    margin-top: 2rem;
+.global-cta-primary:hover svg {
+    transform:
+        translateX(5px);
+}
 
 
-    padding-top: 1.2rem;
+/* =========================================================
+   FEATURES
+========================================================= */
 
+.global-cta-features {
+    position: relative;
+
+    z-index: 10;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr 1fr;
+
+    align-items: center;
+
+    gap: 1.1rem;
+
+    margin-top: 3rem;
+
+    padding-top: 1.45rem;
 
     border-top:
+        1px solid #e6edf7;
+}
 
 
-        1px solid rgba(255, 255, 255, .15);
+.global-cta-feature {
+    display: flex;
+
+    align-items: center;
+
+    gap: .75rem;
+
+    min-width: 0;
+}
 
 
+.global-cta-feature-icon {
+    width: 47px;
+    height: 47px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(145deg,
+            #edf5ff,
+            #dbeafe);
+
+    color: #2563eb;
+
+    border:
+        1px solid rgba(37, 99, 235, .08);
+}
+
+
+.global-cta-feature-icon svg {
+    font-size: 20px;
+}
+
+
+.global-cta-feature strong {
+    display: block;
+
+    color: #0f172a;
+
+    font-size: .77rem;
+
+    font-weight: 850;
+
+    line-height: 1.25;
+}
+
+
+.global-cta-feature span {
+    display: block;
+
+    margin-top: .22rem;
+
+    color: #71829b;
+
+    font-size: .61rem;
+
+    line-height: 1.45;
+}
+
+
+.global-cta-feature-divider {
+    width: 1px;
+
+    height: 55px;
+
+    background:
+        #dce6f2;
+}
+
+
+/* =========================================================
+   CONTACT PANEL
+========================================================= */
+
+.global-cta-contact {
+    position: relative;
+
+    z-index: 15;
+
+    margin:
+        2.1rem 2.1rem 2.1rem 0;
+
+    padding:
+        2.9rem 2.7rem;
+
+    overflow: hidden;
+
+    border-radius: 38px;
+
+    background:
+        linear-gradient(145deg,
+            #111c32 0%,
+            #0b1930 48%,
+            #061631 100%);
+
+    color: white;
+
+    box-shadow:
+        0 35px 75px rgba(8, 24, 51, .25);
+
+    isolation: isolate;
+}
+
+
+/* =========================================================
+   CONTACT PANEL GLOW
+========================================================= */
+
+.global-cta-contact::before {
+    content: "";
+
+    position: absolute;
+
+    width: 300px;
+    height: 300px;
+
+    top: -170px;
+    right: -130px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(circle,
+            rgba(37, 99, 235, .45),
+            transparent 70%);
+
+    filter: blur(10px);
+
+    pointer-events: none;
+}
+
+
+.global-cta-contact::after {
+    content: "";
+
+    position: absolute;
+
+    width: 330px;
+    height: 180px;
+
+    right: -70px;
+    bottom: -70px;
+
+    opacity: .5;
+
+    background:
+        radial-gradient(circle,
+            rgba(37, 99, 235, .28) 1px,
+            transparent 1.5px);
+
+    background-size: 11px 11px;
+
+    mask-image:
+        radial-gradient(ellipse,
+            black,
+            transparent 72%);
+
+    -webkit-mask-image:
+        radial-gradient(ellipse,
+            black,
+            transparent 72%);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   CONTACT HEADER
+========================================================= */
+
+.global-cta-contact-header {
+    position: relative;
+
+    z-index: 5;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 1rem;
+}
+
+
+.global-cta-contact-main-icon {
+    width: 62px;
+    height: 62px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 21px;
+
+    background:
+        linear-gradient(145deg,
+            #2563eb,
+            #1d4ed8);
+
+    color: white;
+
+    box-shadow:
+        0 15px 30px rgba(37, 99, 235, .30);
+}
+
+
+.global-cta-contact-main-icon svg {
+    font-size: 27px;
+}
+
+
+.global-cta-contact-title {
+    margin: 0;
+
+    color: white;
+
+    font-size: 1.3rem;
+
+    font-weight: 900;
+}
+
+
+.global-cta-contact-header p {
+    margin:
+        .3rem 0 0;
 
     color:
+        rgba(255, 255, 255, .55);
 
-        rgba(255, 255, 255, .75);
+    font-size: .68rem;
 
-
-
-    font-size: .85rem;
-
-
-    line-height: 1.6;
-
-
+    line-height: 1.45;
 }
 
 
+/* =========================================================
+   CONTACT DIVIDER
+========================================================= */
+
+.global-cta-contact-divider {
+    position: relative;
+
+    z-index: 5;
+
+    height: 1px;
+
+    margin:
+        1.8rem 0;
+
+    background:
+        rgba(255, 255, 255, .11);
+}
 
 
+/* =========================================================
+   CONTACT ITEM
+========================================================= */
 
-/* =====================================================
+.global-cta-contact-item {
+    position: relative;
+
+    z-index: 5;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 1rem;
+
+    margin-bottom: 1.6rem;
+}
+
+
+.global-cta-icon {
+    width: 50px;
+    height: 50px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 16px;
+
+    background:
+        rgba(255, 255, 255, .08);
+
+    border:
+        1px solid rgba(255, 255, 255, .06);
+
+    color: #60a5fa;
+}
+
+
+.global-cta-icon svg {
+    font-size: 21px;
+}
+
+
+.global-cta-contact-info {
+    min-width: 0;
+}
+
+
+.global-cta-contact-info span {
+    display: block;
+
+    margin-bottom: .35rem;
+
+    color:
+        rgba(255, 255, 255, .42);
+
+    font-size: .63rem;
+
+    font-weight: 800;
+
+    letter-spacing: .12em;
+}
+
+
+.global-cta-contact-info a {
+    display: block;
+
+    width: fit-content;
+
+    margin:
+        .18rem 0;
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: .84rem;
+
+    font-weight: 650;
+
+    line-height: 1.55;
+
+    transition:
+        color .25s ease;
+}
+
+
+.global-cta-contact-info a:hover {
+    color: #60a5fa;
+}
+
+
+/* =========================================================
+   CONTACT STATUS
+========================================================= */
+
+.global-cta-status {
+    position: relative;
+
+    z-index: 5;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: .9rem;
+}
+
+
+.global-cta-status-icon {
+    width: 45px;
+    height: 45px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        rgba(34, 197, 94, .09);
+
+    border:
+        1px solid rgba(74, 222, 128, .20);
+
+    color: #4ade80;
+}
+
+
+.global-cta-status-icon svg {
+    font-size: 21px;
+}
+
+
+.global-cta-status strong {
+    display: block;
+
+    color: white;
+
+    font-size: .78rem;
+
+    font-weight: 850;
+}
+
+
+.global-cta-status span {
+    display: block;
+
+    margin-top: .25rem;
+
+    color:
+        rgba(255, 255, 255, .55);
+
+    font-size: .66rem;
+}
+
+
+/* =========================================================
    TABLET
-===================================================== */
+========================================================= */
 
+@media (max-width: 1100px) {
 
-@media(max-width:900px) {
-
-
-    .global-cta-card {
-
-
-        grid-template-columns: 1fr;
-
-
-        padding: 2.5rem;
-
-
+    .global-cta-content {
+        padding:
+            4rem 2.8rem 2.4rem 4rem;
     }
-
-
-}
-
-
-
-
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
-
-@media(max-width:600px) {
-
-
-    .global-cta-section {
-
-
-        padding: 4rem 0;
-
-
-    }
-
-
-
-    .global-cta-card {
-
-
-        padding: 1.5rem;
-
-
-        border-radius: 28px;
-
-
-    }
-
-
 
     .global-cta-title {
-
-
-        font-size: 2rem;
-
-
+        font-size:
+            clamp(2.8rem, 5vw, 4.1rem);
     }
 
+    .global-cta-contact {
+        padding:
+            2.4rem 2.1rem;
+    }
 
+    .global-cta-journey {
+        left: 25%;
+        width: 430px;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET / STACK
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .global-cta-section {
+        padding:
+            5.5rem 0;
+    }
+
+    .global-cta-card {
+        grid-template-columns: 1fr;
+
+        min-height: auto;
+
+        border-radius: 32px;
+    }
+
+    .global-cta-content {
+        padding:
+            3.5rem 3rem 2rem;
+    }
+
+    .global-cta-contact {
+        margin:
+            0 2rem 2rem;
+
+        border-radius: 28px;
+    }
+
+    .global-cta-journey {
+        left: 35%;
+        bottom: 115px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .global-cta-section {
+        padding:
+            4rem 0;
+    }
+
+    .global-cta-container {
+        width: min(94%, 520px);
+    }
+
+    .global-cta-card {
+        border-radius: 26px;
+    }
+
+    .global-cta-content {
+        padding:
+            2.5rem 1.5rem 1.5rem;
+    }
+
+    .global-cta-badge {
+        padding:
+            .55rem .85rem;
+
+        font-size: .58rem;
+    }
+
+    .global-cta-title {
+        margin-top: 1.3rem;
+
+        font-size:
+            clamp(2.45rem, 11vw, 3.4rem);
+
+        line-height: 1;
+
+        letter-spacing: -2px;
+    }
+
+    .global-cta-title-accent {
+        margin:
+            1rem 0;
+    }
+
+    .global-cta-title-accent span:first-child {
+        width: 70px;
+    }
+
+    .global-cta-title-accent span:last-child {
+        width: 45px;
+    }
+
+    .global-cta-description {
+        font-size: .88rem;
+
+        line-height: 1.7;
+    }
 
     .global-cta-actions {
-
-
-        flex-direction: column;
-
-
+        margin-top: 1.6rem;
     }
 
+    .global-cta-primary {
+        width: 100%;
 
+        min-width: 0;
 
-    .global-cta-primary,
+        padding:
+            1rem 1.3rem;
+    }
 
-    .global-cta-secondary {
+    .global-cta-journey {
+        position: relative;
 
+        left: auto;
+        bottom: auto;
 
         width: 100%;
 
+        height: 115px;
 
+        margin-top: .8rem;
+
+        opacity: .8;
     }
 
+    .global-cta-journey-path {
+        top: 35px;
 
+        width: 100%;
+    }
+
+    .global-cta-journey-plane {
+        right: 4%;
+
+        top: 0;
+
+        width: 105px;
+    }
+
+    .global-cta-journey-pin {
+        left: 47%;
+
+        top: 52px;
+    }
+
+    .global-cta-features {
+        grid-template-columns: 1fr;
+
+        gap: .9rem;
+
+        margin-top: 1.3rem;
+    }
+
+    .global-cta-feature {
+        align-items: center;
+    }
+
+    .global-cta-feature-divider {
+        display: none;
+    }
 
     .global-cta-contact {
+        margin:
+            0 1.2rem 1.2rem;
 
-
-        padding: 1.5rem;
-
+        padding:
+            2rem 1.5rem;
 
         border-radius: 24px;
-
-
     }
 
+    .global-cta-contact-main-icon {
+        width: 52px;
+        height: 52px;
+
+        border-radius: 17px;
+    }
+
+    .global-cta-contact-title {
+        font-size: 1.1rem;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 430px) {
+
+    .global-cta-content {
+        padding:
+            2rem 1.15rem 1.2rem;
+    }
+
+    .global-cta-title {
+        font-size: 2.25rem;
+
+        letter-spacing: -1.5px;
+    }
+
+    .global-cta-description {
+        font-size: .82rem;
+    }
+
+    .global-cta-feature-icon {
+        width: 42px;
+        height: 42px;
+    }
+
+    .global-cta-feature strong {
+        font-size: .72rem;
+    }
+
+    .global-cta-feature span {
+        font-size: .58rem;
+    }
+
+    .global-cta-contact {
+        margin:
+            0 .8rem .8rem;
+
+        padding:
+            1.5rem 1.15rem;
+    }
+
+    .global-cta-contact-item {
+        gap: .7rem;
+    }
+
+    .global-cta-icon {
+        width: 44px;
+        height: 44px;
+    }
+
+    .global-cta-contact-info a {
+        font-size: .74rem;
+    }
 
 }
