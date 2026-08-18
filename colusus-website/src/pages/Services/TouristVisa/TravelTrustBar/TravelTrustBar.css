@@ -1,128 +1,460 @@
+/* =========================================================
+   TRAVEL TRUST SECTION
+========================================================= */
+
 .travel-trust {
 
-    padding: 7rem 0;
+    position: relative;
 
-    background: #fff;
+    width: 100%;
+
+    min-height: 808px;
+
+    padding: 6.5rem 0 4.5rem;
+
+    overflow: hidden;
+
+    background: #edf6ff;
+
+    isolation: isolate;
 
 }
 
-.travel-trust-wrapper {
+
+/* =========================================================
+   FULL BACKGROUND
+========================================================= */
+
+.travel-trust-background {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+    z-index: 0;
+
+    overflow: hidden;
+
+    pointer-events: none;
+
+}
+
+
+/* =========================================================
+   ACTUAL TRAVEL IMAGE
+========================================================= */
+
+/*
+   IMPORTANT:
+
+   Do NOT use background-size: cover here.
+
+   The artwork contains:
+   - airplane
+   - flight path
+   - world map
+   - Earth at bottom-left
+
+   Cover would crop those elements.
+
+   Using an actual IMG lets us explicitly control
+   the entire artwork.
+*/
+
+.travel-trust-background-image {
+
+    position: absolute;
+
+    inset: 0;
+
+    display: block;
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: fill;
+
+    object-position: center;
+
+    max-width: none;
+
+    max-height: none;
+
+    opacity: 1;
+
+}
+
+
+/* =========================================================
+   VERY LIGHT READABILITY OVERLAY
+========================================================= */
+
+.travel-trust-background-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(90deg,
+            rgba(255, 255, 255, .20) 0%,
+            rgba(255, 255, 255, .10) 35%,
+            rgba(255, 255, 255, .02) 70%,
+            rgba(238, 247, 255, .08) 100%);
+
+    pointer-events: none;
+
+}
+
+
+/* =========================================================
+   BOTTOM ATMOSPHERIC FADE
+========================================================= */
+
+.travel-trust-background-overlay::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    right: 0;
+
+    bottom: 0;
+
+    height: 25%;
+
+    background:
+        linear-gradient(to bottom,
+            transparent 0%,
+            rgba(238, 247, 255, .10) 35%,
+            rgba(238, 247, 255, .72) 100%);
+
+}
+
+
+/* =========================================================
+   ATMOSPHERIC BLUE LIGHT
+========================================================= */
+
+.travel-trust-background-glow {
+
+    position: absolute;
+
+    width: 650px;
+
+    height: 650px;
+
+    right: -250px;
+
+    bottom: -260px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(circle,
+            rgba(37, 99, 235, .10) 0%,
+            rgba(96, 165, 250, .05) 35%,
+            transparent 72%);
+
+    filter: blur(30px);
+
+    pointer-events: none;
+
+}
+
+
+/* =========================================================
+   CONTENT CONTAINER
+========================================================= */
+
+.travel-trust-container {
+
+    position: relative;
+
+    z-index: 5;
+
+    width: min(1280px, 92%);
+
+    margin: 0 auto;
+
+}
+
+
+/* =========================================================
+   TOP LAYOUT
+========================================================= */
+
+.travel-trust-top {
 
     display: grid;
 
-    grid-template-columns: .9fr 1.1fr;
-
-    gap: 4rem;
+    grid-template-columns:
+        minmax(340px, .82fr) minmax(600px, 1.18fr);
 
     align-items: center;
 
-}
-
-.travel-trust-left {
-
-    max-width: 520px;
+    gap: 4.2rem;
 
 }
+
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+.travel-trust-intro {
+
+    position: relative;
+
+    max-width: 530px;
+
+}
+
+
+/* =========================================================
+   TAG
+========================================================= */
 
 .travel-trust-tag {
 
     display: inline-flex;
 
-    padding: .6rem 1rem;
+    align-items: center;
+
+    gap: .55rem;
+
+    padding: .55rem .9rem;
 
     border-radius: 999px;
 
-    background: rgba(0, 86, 179, .08);
+    background:
+        rgba(239, 246, 255, .88);
 
-    color: var(--primary);
+    border:
+        1px solid rgba(191, 219, 254, .90);
 
-    font-size: .78rem;
+    color: #075db8;
 
-    font-weight: 700;
+    font-size: .61rem;
 
-    letter-spacing: .12em;
+    font-weight: 900;
 
-    margin-bottom: 1.4rem;
+    letter-spacing: .15em;
 
-}
+    box-shadow:
+        0 8px 25px rgba(37, 99, 235, .045);
 
-.travel-trust-left h2 {
-
-    font-size: clamp(2.2rem, 4vw, 3.5rem);
-
-    line-height: 1.1;
-
-    color: var(--heading);
-
-    margin-bottom: 1.2rem;
+    backdrop-filter: blur(12px);
 
 }
 
-.travel-trust-left h2 span {
+
+.travel-trust-tag-dot {
+
+    width: 6px;
+
+    height: 6px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #2563eb;
+
+    box-shadow:
+        0 0 0 4px rgba(37, 99, 235, .09);
+
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.travel-trust-title {
+
+    margin: 1.45rem 0 0;
+
+    color: #101827;
+
+    font-size:
+        clamp(3.2rem, 5vw, 5rem);
+
+    line-height: .94;
+
+    letter-spacing: -3.8px;
+
+    font-weight: 950;
+
+}
+
+
+.travel-trust-title span {
 
     display: block;
 
-    color: var(--primary);
+}
+
+
+.travel-trust-title strong {
+
+    display: block;
+
+    color: #075db8;
+
+    font-weight: 950;
 
 }
 
-.travel-trust-left p {
 
-    color: var(--text);
+/* =========================================================
+   TITLE ACCENT
+========================================================= */
 
-    line-height: 1.9;
+.travel-trust-accent {
 
-    font-size: 1.05rem;
+    display: flex;
 
-}
+    align-items: center;
 
-.travel-trust-right {
+    gap: .45rem;
 
-    display: grid;
-
-    grid-template-columns: repeat(2, 1fr);
-
-    gap: 1.5rem;
+    margin: 1.4rem 0 1rem;
 
 }
 
-.travel-trust-card {
 
-    background: #fff;
+.travel-trust-accent span:first-child {
 
-    padding: 2rem;
+    width: 58px;
 
-    border-radius: 24px;
+    height: 3px;
 
-    border: 1px solid #edf2f7;
+    border-radius: 999px;
 
-    transition: .35s;
-
-    box-shadow: 0 15px 35px rgba(15, 23, 42, .05);
+    background: #2563eb;
 
 }
 
-.travel-trust-card:hover {
 
-    transform: translateY(-8px);
+.travel-trust-accent span:last-child {
 
-    border-color: rgba(0, 86, 179, .18);
+    width: 18px;
 
-    box-shadow: 0 25px 60px rgba(15, 23, 42, .1);
+    height: 3px;
+
+    border-radius: 999px;
+
+    background: #bfdbfe;
 
 }
 
-.travel-trust-icon {
 
-    width: 64px;
+/* =========================================================
+   DESCRIPTION
+========================================================= */
 
-    height: 64px;
+.travel-trust-description {
 
-    border-radius: 18px;
+    max-width: 500px;
 
-    background: rgba(0, 86, 179, .08);
+    margin: 0;
 
-    color: var(--primary);
+    color: #5f738f;
+
+    font-size: .91rem;
+
+    line-height: 1.78;
+
+}
+
+
+/* =========================================================
+   META
+========================================================= */
+
+.travel-trust-meta {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: .65rem;
+
+    margin-top: 1.2rem;
+
+}
+
+
+.travel-trust-meta-line {
+
+    width: 34px;
+
+    height: 1px;
+
+    background: #aebfd3;
+
+}
+
+
+.travel-trust-meta>span:last-child {
+
+    color: #8797aa;
+
+    font-size: .48rem;
+
+    font-weight: 900;
+
+    letter-spacing: .15em;
+
+}
+
+
+/* =========================================================
+   GLOBAL SUPPORT
+========================================================= */
+
+.travel-trust-mini-trust {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: .7rem;
+
+    margin-top: 1.8rem;
+
+    padding: .58rem .8rem;
+
+    border:
+        1px solid rgba(191, 219, 254, .85);
+
+    border-radius: 14px;
+
+    background:
+        rgba(255, 255, 255, .72);
+
+    backdrop-filter:
+        blur(16px);
+
+    box-shadow:
+        0 15px 35px rgba(15, 23, 42, .04);
+
+}
+
+
+.travel-trust-mini-icon {
+
+    width: 36px;
+
+    height: 36px;
 
     display: flex;
 
@@ -130,105 +462,805 @@
 
     justify-content: center;
 
-    font-size: 1.7rem;
+    border-radius: 10px;
 
-    margin-bottom: 1.3rem;
+    background: #edf5ff;
 
-}
+    color: #2563eb;
 
-.travel-trust-card h3 {
-
-    margin-bottom: .7rem;
-
-    color: var(--heading);
-
-    font-size: 1.15rem;
+    font-size: .95rem;
 
 }
 
-.travel-trust-card p {
 
-    color: var(--text);
+.travel-trust-mini-trust strong {
 
-    line-height: 1.7;
+    display: block;
+
+    color: #172033;
+
+    font-size: .58rem;
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+
+    letter-spacing: .07em;
 
 }
 
-.travel-trust-stats {
 
-    margin-top: 4rem;
+.travel-trust-mini-trust span {
+
+    display: block;
+
+    margin-top: .18rem;
+
+    color: #8795a7;
+
+    font-size: .52rem;
+
+}
+
+
+/* =========================================================
+   SERVICE GRID
+========================================================= */
+
+.travel-trust-services {
 
     display: grid;
 
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
 
-    gap: 1.5rem;
+    gap: 1.05rem;
 
 }
+
+
+/* =========================================================
+   SERVICE CARD
+========================================================= */
+
+.travel-trust-card {
+
+    position: relative;
+
+    min-height: 220px;
+
+    padding: 1.45rem;
+
+    overflow: hidden;
+
+    border:
+        1px solid rgba(202, 219, 237, .95);
+
+    border-radius: 22px;
+
+    background:
+        rgba(255, 255, 255, .86);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    box-shadow:
+        0 18px 45px rgba(15, 23, 42, .045);
+
+    transition:
+        transform .4s cubic-bezier(.2, .8, .2, 1),
+        box-shadow .4s ease,
+        border-color .4s ease;
+
+    animation:
+        travelCardIn .7s cubic-bezier(.2, .8, .2, 1) both;
+
+    animation-delay:
+        calc(var(--card-index) * 100ms);
+
+}
+
+
+@keyframes travelCardIn {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(18px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+
+.travel-trust-card:hover {
+
+    transform:
+        translateY(-6px);
+
+    border-color:
+        #bfdbfe;
+
+    box-shadow:
+        0 28px 60px rgba(37, 99, 235, .10);
+
+}
+
+
+/* =========================================================
+   CARD NUMBER
+========================================================= */
+
+.travel-trust-card-number {
+
+    position: absolute;
+
+    top: .9rem;
+
+    right: 1.15rem;
+
+    color: #e6eef7;
+
+    font-size: 2.4rem;
+
+    line-height: 1;
+
+    font-weight: 950;
+
+    letter-spacing: -2px;
+
+}
+
+
+/* =========================================================
+   CARD ICON
+========================================================= */
+
+.travel-trust-icon {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: 46px;
+
+    height: 46px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(145deg,
+            #eff6ff,
+            #e3effd);
+
+    border:
+        1px solid #dbeafe;
+
+    color: #0563bd;
+
+    font-size: 1.15rem;
+
+    box-shadow:
+        0 9px 22px rgba(37, 99, 235, .06);
+
+    transition:
+        .35s ease;
+
+}
+
+
+.travel-trust-card:hover .travel-trust-icon {
+
+    color: white;
+
+    background:
+        linear-gradient(145deg,
+            #2563eb,
+            #1d4ed8);
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 12px 28px rgba(37, 99, 235, .22);
+
+}
+
+
+/* =========================================================
+   CARD CONTENT
+========================================================= */
+
+.travel-trust-card-content {
+
+    position: relative;
+
+    z-index: 2;
+
+    margin-top: 1.1rem;
+
+}
+
+
+.travel-trust-card-label {
+
+    display: block;
+
+    margin-bottom: .4rem;
+
+    color: #2563eb;
+
+    font-size: .46rem;
+
+    font-weight: 900;
+
+    letter-spacing: .14em;
+
+}
+
+
+.travel-trust-card h3 {
+
+    margin: 0;
+
+    color: #111827;
+
+    font-size: .96rem;
+
+    line-height: 1.25;
+
+    font-weight: 900;
+
+}
+
+
+.travel-trust-card p {
+
+    max-width: 270px;
+
+    margin: .5rem 0 0;
+
+    color: #687a91;
+
+    font-size: .72rem;
+
+    line-height: 1.6;
+
+}
+
+
+/* =========================================================
+   CARD FOOTER
+========================================================= */
+
+.travel-trust-card-footer {
+
+    position: absolute;
+
+    left: 1.45rem;
+
+    right: 1.45rem;
+
+    bottom: 1rem;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding-top: .65rem;
+
+    border-top:
+        1px solid rgba(226, 232, 240, .8);
+
+}
+
+
+.travel-trust-card-footer span {
+
+    color: #99a7b8;
+
+    font-size: .43rem;
+
+    font-weight: 900;
+
+    letter-spacing: .14em;
+
+}
+
+
+.travel-trust-card-footer svg {
+
+    color: #2563eb;
+
+    font-size: 13px;
+
+    transition:
+        transform .3s ease;
+
+}
+
+
+.travel-trust-card:hover .travel-trust-card-footer svg {
+
+    transform:
+        translateX(5px);
+
+}
+
+
+/* =========================================================
+   CARD GLOW
+========================================================= */
+
+.travel-trust-card-accent {
+
+    position: absolute;
+
+    right: -70px;
+
+    bottom: -70px;
+
+    width: 160px;
+
+    height: 160px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(circle,
+            rgba(37, 99, 235, .11),
+            transparent 70%);
+
+    filter: blur(8px);
+
+    pointer-events: none;
+
+    transition:
+        transform .5s ease;
+
+}
+
+
+.travel-trust-card:hover .travel-trust-card-accent {
+
+    transform:
+        scale(1.35);
+
+}
+
+
+/* =========================================================
+   STATS BAR
+========================================================= */
+
+.travel-trust-stats {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    margin-top: 1.15rem;
+
+    overflow: hidden;
+
+    border:
+        1px solid rgba(202, 219, 237, .95);
+
+    border-radius: 23px;
+
+    background:
+        rgba(255, 255, 255, .88);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    box-shadow:
+        0 22px 55px rgba(15, 23, 42, .055);
+
+}
+
+
+/* =========================================================
+   STAT
+========================================================= */
 
 .travel-stat {
 
-    background: linear-gradient(180deg, #fff, #f8fafc);
+    position: relative;
 
-    border-radius: 24px;
+    display: flex;
 
-    padding: 2rem;
+    align-items: center;
 
-    text-align: center;
+    gap: .85rem;
 
-    border: 1px solid #edf2f7;
+    min-height: 100px;
 
-}
-
-.travel-stat h3 {
-
-    font-size: 2.5rem;
-
-    color: var(--primary);
-
-    margin-bottom: .5rem;
+    padding: 1.15rem 1.5rem;
 
 }
 
-.travel-stat span {
 
-    color: var(--text);
+.travel-stat-icon {
+
+    flex: 0 0 41px;
+
+    width: 41px;
+
+    height: 41px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #edf5ff;
+
+    color: #2563eb;
+
+    font-size: .95rem;
+
+    box-shadow:
+        inset 0 0 0 1px #dbeafe;
 
 }
 
-@media(max-width:992px) {
 
-    .travel-trust-wrapper {
+.travel-stat-content {
 
-        grid-template-columns: 1fr;
+    min-width: 0;
+
+}
+
+
+.travel-stat-value {
+
+    display: block;
+
+    color: #075db8;
+
+    font-size: 1.95rem;
+
+    line-height: 1;
+
+    letter-spacing: -1.5px;
+
+    font-weight: 950;
+
+}
+
+
+.travel-stat-label {
+
+    display: block;
+
+    margin-top: .25rem;
+
+    color: #172033;
+
+    font-size: .56rem;
+
+    font-weight: 900;
+
+}
+
+
+.travel-stat-content small {
+
+    display: block;
+
+    margin-top: .18rem;
+
+    color: #8b99aa;
+
+    font-size: .44rem;
+
+}
+
+
+/* =========================================================
+   STAT DIVIDER
+========================================================= */
+
+.travel-stat-divider {
+
+    position: absolute;
+
+    top: 24%;
+
+    right: 0;
+
+    width: 1px;
+
+    height: 52%;
+
+    background: #dce7f1;
+
+}
+
+
+/* =========================================================
+   BOTTOM STATEMENT
+========================================================= */
+
+.travel-trust-bottom {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: .45rem;
+
+    margin-top: 1.55rem;
+
+}
+
+
+.travel-trust-bottom-dot {
+
+    width: 5px;
+
+    height: 5px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #2563eb;
+
+    box-shadow:
+        0 0 0 4px #eaf2fc;
+
+}
+
+
+.travel-trust-bottom>span:not(.travel-trust-bottom-dot) {
+
+    color: #8291a5;
+
+    font-size: .48rem;
+
+}
+
+
+.travel-trust-bottom strong {
+
+    color: #1c2738;
+
+    font-size: .48rem;
+
+}
+
+
+/* =========================================================
+   LARGE TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .travel-trust-top {
+
+        grid-template-columns:
+            1fr;
+
+        gap: 3rem;
 
     }
 
-    .travel-trust-right {
+    .travel-trust-intro {
 
-        grid-template-columns: repeat(2, 1fr);
+        max-width: 720px;
 
     }
 
 }
 
-@media(max-width:768px) {
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 800px) {
 
     .travel-trust {
 
-        padding: 5rem 0;
+        min-height: auto;
+
+        padding:
+            5.5rem 0 4rem;
 
     }
 
-    .travel-trust-right {
+    /*
+       On narrower screens we preserve the entire
+       artwork rather than letting it crop.
+    */
 
-        grid-template-columns: 1fr;
+    .travel-trust-background-image {
+
+        object-fit: cover;
+
+        object-position:
+            center top;
+
+        opacity: .72;
+
+    }
+
+    .travel-trust-background-overlay {
+
+        background:
+            linear-gradient(180deg,
+                rgba(255, 255, 255, .80) 0%,
+                rgba(255, 255, 255, .90) 45%,
+                rgba(238, 247, 255, .96) 100%);
+
+    }
+
+    .travel-trust-services {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .travel-trust {
+
+        padding:
+            4.5rem 0 3.25rem;
+
+    }
+
+    .travel-trust-container {
+
+        width: 90%;
+
+    }
+
+    .travel-trust-title {
+
+        font-size:
+            clamp(2.7rem, 12vw, 3.8rem);
+
+        letter-spacing:
+            -2.5px;
+
+    }
+
+    .travel-trust-description {
+
+        font-size: .86rem;
+
+    }
+
+    .travel-trust-services {
+
+        grid-template-columns:
+            1fr;
+
+        gap: .9rem;
+
+    }
+
+    .travel-trust-card {
+
+        min-height: 215px;
 
     }
 
     .travel-trust-stats {
 
-        grid-template-columns: 1fr;
+        grid-template-columns:
+            1fr;
+
+    }
+
+    .travel-stat {
+
+        min-height: 92px;
+
+    }
+
+    .travel-stat-divider {
+
+        top: auto;
+
+        right: 8%;
+
+        bottom: 0;
+
+        width: 84%;
+
+        height: 1px;
+
+    }
+
+    .travel-stat:last-child .travel-stat-divider {
+
+        display: none;
+
+    }
+
+    .travel-trust-bottom {
+
+        flex-wrap: wrap;
+
+        text-align: center;
+
+        line-height: 1.6;
+
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 430px) {
+
+    .travel-trust-title {
+
+        font-size: 2.5rem;
+
+    }
+
+    .travel-trust-card {
+
+        padding: 1.3rem;
+
+    }
+
+    .travel-trust-card-footer {
+
+        left: 1.3rem;
+
+        right: 1.3rem;
+
+    }
+
+    .travel-trust-mini-trust {
+
+        width: 100%;
 
     }
 

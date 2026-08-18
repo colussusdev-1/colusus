@@ -1,748 +1,1549 @@
-/* ==========================================
+/* =========================================================
    TOURIST HERO
-========================================== */
-
+   FULL-BLEED TRAVEL IMAGE
+========================================================= */
 
 .tourist-hero {
 
-    padding: 6rem 0 5rem;
+    position: relative;
 
-    background:
-        radial-gradient(circle at top right,
-            rgba(0, 86, 179, .08),
-            transparent 35%),
+    min-height: 780px;
 
-        linear-gradient(180deg,
-            #ffffff,
-            #f8fafc);
+    width: 100%;
+
+    overflow: hidden;
+
+    isolation: isolate;
+
+    background: #07162d;
+
+}
+
+
+/* =========================================================
+   FULL BACKGROUND
+========================================================= */
+
+.tourist-hero-background {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: -5;
 
     overflow: hidden;
 
 }
 
 
+/* Actual image */
 
+.tourist-hero-image-layer {
 
+    position: absolute;
 
-.tourist-hero-wrapper {
+    inset: 0;
 
+    background-image:
+        var(--tourist-hero-image);
 
-    display: grid;
+    background-size: cover;
 
+    background-position:
+        center center;
 
-    grid-template-columns:
+    background-repeat: no-repeat;
 
-        1fr 1fr;
+    transform:
+        scale(1.015);
 
-
-    align-items: center;
-
-
-    gap: 4rem;
-
-}
-
-
-
-
-
-
-/* ==========================================
-   CONTENT
-========================================== */
-
-
-.tourist-hero-content {
-
-
-    max-width: 620px;
+    animation:
+        touristHeroImage 18s ease-in-out infinite alternate;
 
 }
 
 
+@keyframes touristHeroImage {
 
-.tourist-hero-tag {
+    from {
+
+        transform:
+            scale(1.015);
+
+    }
+
+    to {
+
+        transform:
+            scale(1.055);
+
+    }
+
+}
 
 
-    display: inline-flex;
+/* =========================================================
+   LEFT CONTENT GRADIENT
+========================================================= */
 
+.tourist-hero-overlay {
 
-    align-items: center;
+    position: absolute;
 
-
-    padding: .6rem 1.2rem;
-
-
-    border-radius: 999px;
-
+    inset: 0;
 
     background:
-        rgba(0, 86, 179, .08);
 
+        linear-gradient(90deg,
 
-    color: var(--primary);
+            rgba(4, 18, 39, .96) 0%,
 
+            rgba(5, 23, 48, .91) 22%,
 
-    font-size: .78rem;
+            rgba(6, 28, 57, .72) 42%,
 
+            rgba(7, 30, 60, .30) 61%,
 
-    font-weight: 800;
+            rgba(5, 21, 42, .08) 78%,
 
-
-    letter-spacing: .12em;
-
-
-    margin-bottom: 1.5rem;
+            rgba(4, 15, 30, .12) 100%);
 
 }
 
 
+/* =========================================================
+   BOTTOM DEPTH
+========================================================= */
 
+.tourist-hero-overlay::after {
 
+    content: "";
 
+    position: absolute;
 
-.tourist-hero-content h1 {
+    left: 0;
 
+    right: 0;
 
-    font-size:
+    bottom: 0;
 
-        clamp(2.8rem, 5vw, 4.5rem);
+    height: 42%;
 
+    background:
 
-    line-height: 1.05;
-
-
-    font-weight: 850;
-
-
-    color: var(--heading);
-
-
-    margin-bottom: 1.5rem;
-
-}
-
-
-
-.tourist-hero-content h1 span {
-
-
-    display: block;
-
-
-    color: var(--primary);
-
+        linear-gradient(0deg,
+            rgba(3, 15, 31, .68),
+            transparent);
 
 }
 
 
+/* =========================================================
+   BLUE ATMOSPHERIC LIGHT
+========================================================= */
 
+.tourist-hero-light {
 
+    position: absolute;
 
-.tourist-hero-content p {
+    width: 650px;
 
+    height: 650px;
 
-    font-size: 1.15rem;
+    left: -230px;
 
+    top: -180px;
 
-    line-height: 1.8;
+    border-radius: 50%;
 
+    background:
 
-    color: var(--text);
+        radial-gradient(circle,
+            rgba(37, 99, 235, .32),
+            transparent 70%);
 
-
-    max-width: 540px;
-
-
-    margin-bottom: 2.2rem;
+    filter:
+        blur(20px);
 
 }
 
 
+/* =========================================================
+   IMAGE VIGNETTE
+========================================================= */
+
+.tourist-hero-vignette {
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+
+        radial-gradient(ellipse at center,
+            transparent 35%,
+            rgba(0, 8, 20, .20) 100%);
+
+}
 
 
+/* =========================================================
+   ATMOSPHERE
+========================================================= */
+
+.tourist-hero-atmosphere {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: -1;
+
+    pointer-events: none;
+
+    overflow: hidden;
+
+}
 
 
+/* subtle orbit */
 
-/* ==========================================
-   BUTTONS
-========================================== */
+.tourist-orbit {
+
+    position: absolute;
+
+    border:
+        1px solid rgba(255, 255, 255, .08);
+
+    border-radius: 50%;
+
+    transform:
+        rotate(-22deg);
+
+}
 
 
-.tourist-hero-actions {
+.orbit-one {
 
+    width: 520px;
+
+    height: 220px;
+
+    left: 32%;
+
+    top: 16%;
+
+}
+
+
+.orbit-two {
+
+    width: 690px;
+
+    height: 280px;
+
+    left: 29%;
+
+    top: 9%;
+
+    opacity: .45;
+
+}
+
+
+/* decorative dots */
+
+.tourist-hero-dot {
+
+    position: absolute;
+
+    width: 5px;
+
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: #60a5fa;
+
+    box-shadow:
+        0 0 15px rgba(96, 165, 250, .7);
+
+    opacity: .7;
+
+}
+
+
+.dot-one {
+
+    left: 43%;
+
+    top: 19%;
+
+}
+
+
+.dot-two {
+
+    left: 54%;
+
+    top: 69%;
+
+}
+
+
+.dot-three {
+
+    left: 68%;
+
+    top: 27%;
+
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.tourist-hero-container {
+
+    position: relative;
+
+    z-index: 5;
+
+    width: min(1450px, 92%);
+
+    min-height: 780px;
+
+    margin: auto;
 
     display: flex;
 
+    align-items: center;
 
-    gap: 1rem;
-
-
-    margin-bottom: 3rem;
+    justify-content: space-between;
 
 }
 
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.tourist-hero-content {
+
+    position: relative;
+
+    z-index: 10;
+
+    width: min(700px, 58%);
+
+    padding:
+        5rem 0;
+
+}
+
+
+/* =========================================================
+   TAG
+========================================================= */
+
+.tourist-hero-tag {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: .7rem;
+
+    padding:
+        .65rem 1.05rem;
+
+    border-radius: 999px;
+
+    border:
+        1px solid rgba(147, 197, 253, .28);
+
+    background:
+        rgba(255, 255, 255, .10);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    color: #dbeafe;
+
+    font-size: .7rem;
+
+    font-weight: 900;
+
+    letter-spacing: .14em;
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, .08);
+
+}
+
+
+.tourist-hero-tag-icon {
+
+    width: 26px;
+
+    height: 26px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        #2563eb;
+
+    color: white;
+
+}
+
+
+.tourist-hero-tag-icon svg {
+
+    font-size: 15px;
+
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.tourist-hero-title {
+
+    max-width: 760px;
+
+    margin:
+        1.7rem 0 0;
+
+    color: white;
+
+    font-size:
+        clamp(3.5rem, 6vw, 6.3rem);
+
+    line-height: .94;
+
+    letter-spacing: -4px;
+
+    font-weight: 950;
+
+}
+
+
+.tourist-hero-title span {
+
+    display: block;
+
+    margin-top: .12em;
+
+    color: #4f8cff;
+
+}
+
+
+/* =========================================================
+   TITLE ACCENT
+========================================================= */
+
+.tourist-hero-accent {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: .65rem;
+
+    margin:
+        1.5rem 0 1.35rem;
+
+}
+
+
+.tourist-hero-accent span:first-child {
+
+    width: 80px;
+
+    height: 4px;
+
+    border-radius: 999px;
+
+    background:
+        #3b82f6;
+
+    box-shadow:
+        0 0 20px rgba(59, 130, 246, .4);
+
+}
+
+
+.tourist-hero-accent span:last-child {
+
+    width: 42px;
+
+    height: 4px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(147, 197, 253, .30);
+
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.tourist-hero-description {
+
+    max-width: 610px;
+
+    margin: 0;
+
+    color:
+        rgba(255, 255, 255, .76);
+
+    font-size:
+        clamp(.95rem, 1.3vw, 1.08rem);
+
+    line-height: 1.85;
+
+}
+
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.tourist-hero-actions {
+
+    display: flex;
+
+    margin-top: 2rem;
+
+}
 
 
 .tourist-primary-btn {
 
-
-    display: flex;
-
+    display: inline-flex;
 
     align-items: center;
 
+    justify-content: center;
 
-    gap: .7rem;
+    gap: .8rem;
 
+    min-height: 58px;
 
-    padding: 1rem 1.5rem;
+    padding:
+        0 1.6rem;
 
+    border-radius: 16px;
 
-    border-radius: 14px;
-
-
-    background: var(--primary);
-
+    background:
+        linear-gradient(135deg,
+            #2563eb,
+            #1d4ed8);
 
     color: white;
 
-
     text-decoration: none;
 
+    font-size: .92rem;
 
-    font-weight: 700;
+    font-weight: 850;
 
+    box-shadow:
+        0 18px 45px rgba(37, 99, 235, .35);
 
-    transition: .3s ease;
+    transition:
+        transform .35s ease,
+        box-shadow .35s ease,
+        background .35s ease;
 
 }
-
 
 
 .tourist-primary-btn:hover {
 
+    transform:
+        translateY(-4px);
 
-    transform: translateY(-3px);
+    box-shadow:
+        0 24px 55px rgba(37, 99, 235, .45);
 
-}
-
-
-
-
-
-.tourist-secondary-btn {
-
-
-    padding: 1rem 1.5rem;
-
-
-    border-radius: 14px;
-
-
-    border: 1px solid #dbe4f0;
-
-
-    color: var(--heading);
-
-
-    text-decoration: none;
-
-
-    font-weight: 700;
-
-
-    background: white;
+    background:
+        linear-gradient(135deg,
+            #3b82f6,
+            #2563eb);
 
 }
 
 
+.tourist-primary-btn svg {
+
+    font-size: 20px;
+
+    transition:
+        transform .3s ease;
+
+}
 
 
+.tourist-primary-btn:hover svg {
+
+    transform:
+        translateX(5px);
+
+}
 
 
-
-
-/* ==========================================
+/* =========================================================
    TRUST ITEMS
-========================================== */
-
+========================================================= */
 
 .tourist-trust {
 
-
     display: flex;
 
+    align-items: center;
 
-    gap: 1.5rem;
+    gap: 1.3rem;
 
+    margin-top: 3.3rem;
 
 }
-
 
 
 .tourist-trust-item {
 
-
     display: flex;
-
 
     align-items: center;
 
-
-    gap: .8rem;
-
+    gap: .7rem;
 
 }
 
 
+.tourist-trust-icon {
 
-.tourist-trust-item svg {
+    width: 43px;
 
+    height: 43px;
 
-    width: 42px;
+    flex-shrink: 0;
 
+    display: flex;
 
-    height: 42px;
+    align-items: center;
 
+    justify-content: center;
 
-    padding: .7rem;
-
-
-    border-radius: 14px;
-
+    border-radius: 13px;
 
     background:
-        rgba(0, 86, 179, .08);
+        rgba(255, 255, 255, .10);
 
+    border:
+        1px solid rgba(255, 255, 255, .10);
 
-    color: var(--primary);
+    color: #60a5fa;
+
+    backdrop-filter:
+        blur(12px);
 
 }
 
+
+.tourist-trust-icon svg {
+
+    font-size: 19px;
+
+}
 
 
 .tourist-trust-item strong {
 
-
     display: block;
 
+    color: white;
 
-    color: var(--heading);
+    font-size: .72rem;
 
-
-    font-size: .9rem;
+    font-weight: 850;
 
 }
-
 
 
 .tourist-trust-item span {
 
-
     display: block;
 
+    margin-top: .2rem;
 
-    font-size: .8rem;
+    color:
+        rgba(255, 255, 255, .52);
 
-
-    color: #6b7280;
-
-}
-
-
-
-
-
-
-
-/* ==========================================
-   IMAGE
-========================================== */
-
-
-.tourist-hero-image {
-
-
-    position: relative;
-
-
-    display: flex;
-
-
-    justify-content: center;
+    font-size: .61rem;
 
 }
 
 
+.tourist-trust-divider {
 
+    width: 1px;
 
+    height: 38px;
 
-.tourist-hero-image img {
-
-
-    width: 100%;
-
-
-    max-width: 560px;
-
-
-    height: 650px;
-
-
-    object-fit: cover;
-
-
-    border-radius: 40px;
-
-
-    box-shadow:
-
-        0 40px 100px rgba(15, 23, 42, .18);
+    background:
+        rgba(255, 255, 255, .16);
 
 }
 
 
+/* =========================================================
+   RIGHT VISUAL
+========================================================= */
+
+.tourist-hero-visual {
+
+    position: absolute;
+
+    right: 1%;
+
+    top: 0;
+
+    width: 52%;
+
+    height: 100%;
+
+    pointer-events: none;
+
+}
 
 
+/* =========================================================
+   TRUST BADGE
+========================================================= */
 
 .travel-image-badge {
 
-
     position: absolute;
 
+    right: 3%;
 
-    top: 30px;
+    top: 13%;
 
-
-    right: 20px;
-
-
-    z-index: 3;
-
+    z-index: 10;
 
     display: flex;
 
+    align-items: center;
+
+    gap: .7rem;
+
+    min-width: 235px;
+
+    padding:
+        .85rem 1rem;
+
+    border-radius: 18px;
+
+    background:
+        rgba(255, 255, 255, .91);
+
+    border:
+        1px solid rgba(255, 255, 255, .8);
+
+    backdrop-filter:
+        blur(20px);
+
+    -webkit-backdrop-filter:
+        blur(20px);
+
+    box-shadow:
+        0 25px 55px rgba(0, 0, 0, .16);
+
+}
+
+
+.travel-badge-check {
+
+    width: 39px;
+
+    height: 39px;
+
+    display: flex;
 
     align-items: center;
 
+    justify-content: center;
 
-    gap: .5rem;
+    flex-shrink: 0;
 
+    border-radius: 50%;
 
-    padding: .8rem 1.2rem;
+    background:
+        #ecfdf5;
 
-
-    background: white;
-
-
-    border-radius: 999px;
-
-
-    box-shadow:
-
-        0 15px 40px rgba(0, 0, 0, .12);
-
-
-    font-size: .85rem;
-
-
-    font-weight: 700;
-
+    color:
+        #16a34a;
 
 }
 
 
+.travel-badge-check svg {
 
-.travel-image-badge svg {
-
-
-    color: #16a34a;
+    font-size: 18px;
 
 }
 
 
+.travel-image-badge strong {
+
+    display: block;
+
+    color: #14213d;
+
+    font-size: .72rem;
+
+    font-weight: 900;
+
+}
 
 
+.travel-image-badge span:last-child {
+
+    display: block;
+
+    margin-top: .2rem;
+
+    color: #70809a;
+
+    font-size: .59rem;
+
+}
 
 
-
-/* ==========================================
+/* =========================================================
    FLOATING CARD
-========================================== */
-
+========================================================= */
 
 .travel-floating-card {
 
-
     position: absolute;
 
+    z-index: 12;
 
-    bottom: 40px;
+    left: 5%;
 
+    bottom: 14%;
 
-    left: -45px;
+    width: 300px;
 
+    padding:
+        1.6rem;
 
-    width: 290px;
+    border-radius: 25px;
 
+    background:
+        rgba(255, 255, 255, .95);
 
-    padding: 1.5rem;
-
-
-    background: white;
-
-
-    border-radius: 26px;
-
+    border:
+        1px solid rgba(255, 255, 255, .85);
 
     box-shadow:
+        0 30px 70px rgba(0, 0, 0, .20);
 
-        0 25px 70px rgba(15, 23, 42, .18);
+    backdrop-filter:
+        blur(25px);
 
+    -webkit-backdrop-filter:
+        blur(25px);
+
+    pointer-events: auto;
+
+    animation:
+        touristFloatingCard 6s ease-in-out infinite;
 
 }
 
 
+@keyframes touristFloatingCard {
+
+    0%,
+    100% {
+
+        transform:
+            translateY(0);
+
+    }
+
+    50% {
+
+        transform:
+            translateY(-9px);
+
+    }
+
+}
 
 
+/* =========================================================
+   FLOATING HEADER
+========================================================= */
 
 .floating-card-header {
 
-
     display: flex;
-
 
     align-items: center;
 
-
-    gap: .6rem;
-
-
-    color: var(--primary);
-
-
-    font-weight: 700;
-
-
-    margin-bottom: 1rem;
+    gap: .75rem;
 
 }
 
 
+.floating-card-icon {
 
+    width: 40px;
 
-
-.floating-card-header svg {
-
-
-    font-size: 1.4rem;
-
-}
-
-
-
-
-
-.travel-floating-card h3 {
-
-
-    font-size: 1.25rem;
-
-
-    margin-bottom: 1rem;
-
-
-    color: var(--heading);
-
-}
-
-
-
-
-
-.travel-floating-card ul {
-
-
-    list-style: none;
-
-
-    padding: 0;
-
-
-    margin: 0;
-
+    height: 40px;
 
     display: flex;
 
+    align-items: center;
 
-    flex-direction: column;
+    justify-content: center;
 
+    border-radius: 13px;
 
-    gap: .6rem;
+    background:
+        #eff6ff;
+
+    color:
+        #2563eb;
 
 }
 
+
+.floating-card-icon svg {
+
+    font-size: 19px;
+
+}
+
+
+.floating-card-header span {
+
+    display: block;
+
+    color:
+        #2563eb;
+
+    font-size: .61rem;
+
+    font-weight: 900;
+
+    letter-spacing: .08em;
+
+}
+
+
+.floating-card-header strong {
+
+    display: block;
+
+    margin-top: .2rem;
+
+    color:
+        #14213d;
+
+    font-size: .7rem;
+
+}
+
+
+/* =========================================================
+   FLOATING TITLE
+========================================================= */
+
+.travel-floating-card h2 {
+
+    margin:
+        1.25rem 0 1rem;
+
+    color:
+        #0f172a;
+
+    font-size:
+        1.45rem;
+
+    line-height: 1.15;
+
+    letter-spacing: -.6px;
+
+    font-weight: 900;
+
+}
+
+
+.travel-floating-card h2 span {
+
+    display: block;
+
+    color:
+        #2563eb;
+
+}
+
+
+/* =========================================================
+   FLOATING LIST
+========================================================= */
+
+.travel-floating-card ul {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: .65rem;
+
+    margin: 0;
+
+    padding: 0;
+
+    list-style: none;
+
+}
 
 
 .travel-floating-card li {
 
+    display: flex;
 
-    font-size: .9rem;
+    align-items: center;
 
+    gap: .55rem;
 
-    color: #4b5563;
+    color:
+        #526783;
 
-
-}
-
-
-
-.travel-floating-card li::before {
-
-
-    content: "✓";
-
-
-    color: var(--primary);
-
-
-    margin-right: .5rem;
+    font-size: .72rem;
 
 }
 
 
+.travel-floating-card li span {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color:
+        #2563eb;
+
+}
 
 
+.travel-floating-card li svg {
+
+    font-size: 15px;
+
+}
 
 
+/* =========================================================
+   FLOATING FOOTER
+========================================================= */
+
+.floating-card-footer {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: .5rem;
+
+    margin-top: 1.2rem;
+
+    padding-top: 1rem;
+
+    border-top:
+        1px solid #e8eef6;
+
+    color:
+        #7a8ba3;
+
+    font-size: .62rem;
+
+}
 
 
-/* ==========================================
-   TABLET
-========================================== */
+.floating-card-footer svg {
+
+    color:
+        #2563eb;
+
+    font-size: 16px;
+
+}
 
 
-@media(max-width:1100px) {
+/* =========================================================
+   MINI STATUS
+========================================================= */
+
+.travel-mini-status {
+
+    position: absolute;
+
+    right: 8%;
+
+    bottom: 8%;
+
+    z-index: 10;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: .65rem;
+
+    padding:
+        .75rem 1rem;
+
+    border-radius: 16px;
+
+    background:
+        rgba(7, 23, 45, .72);
+
+    border:
+        1px solid rgba(255, 255, 255, .13);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+}
 
 
-    .tourist-hero-wrapper {
+.travel-status-dot {
+
+    width: 9px;
+
+    height: 9px;
+
+    border-radius: 50%;
+
+    background:
+        #22c55e;
+
+    box-shadow:
+        0 0 0 5px rgba(34, 197, 94, .12),
+        0 0 15px rgba(34, 197, 94, .45);
+
+}
 
 
-        grid-template-columns: 1fr;
+.travel-mini-status strong {
 
+    display: block;
+
+    color: white;
+
+    font-size: .64rem;
+
+}
+
+
+.travel-mini-status span:last-child {
+
+    display: block;
+
+    margin-top: .15rem;
+
+    color:
+        rgba(255, 255, 255, .52);
+
+    font-size: .55rem;
+
+}
+
+
+/* =========================================================
+   SCROLL
+========================================================= */
+
+.tourist-hero-scroll {
+
+    position: absolute;
+
+    z-index: 20;
+
+    left: 50%;
+
+    bottom: 24px;
+
+    transform:
+        translateX(-50%);
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: .55rem;
+
+    color:
+        rgba(255, 255, 255, .48);
+
+    font-size: .52rem;
+
+    font-weight: 800;
+
+    letter-spacing: .18em;
+
+}
+
+
+.tourist-hero-scroll i {
+
+    display: block;
+
+    width: 1px;
+
+    height: 30px;
+
+    background:
+        linear-gradient(180deg,
+            rgba(255, 255, 255, .65),
+            transparent);
+
+}
+
+
+/* =========================================================
+   LARGE LAPTOP
+========================================================= */
+
+@media (max-width: 1200px) {
+
+    .tourist-hero-container {
+
+        width: 92%;
 
     }
-
 
     .tourist-hero-content {
 
-
-        max-width: 100%;
+        width: 58%;
 
     }
 
+    .tourist-hero-title {
 
-    .tourist-hero-image {
+        font-size:
+            clamp(3.2rem, 5.7vw, 5.4rem);
 
+    }
+
+    .tourist-floating-card {
+
+        left: 0;
+
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .tourist-hero {
+
+        min-height: 850px;
+
+    }
+
+    .tourist-hero-container {
+
+        min-height: 850px;
+
+        align-items: flex-end;
+
+        padding-bottom: 3rem;
+
+    }
+
+    .tourist-hero-content {
+
+        width: 70%;
+
+        padding:
+            0 0 3rem;
+
+    }
+
+    .tourist-hero-visual {
+
+        width: 75%;
+
+        right: -8%;
+
+    }
+
+    .tourist-hero-title {
+
+        font-size:
+            clamp(3rem, 7vw, 4.8rem);
+
+    }
+
+    .tourist-trust {
+
+        gap: .8rem;
+
+    }
+
+    .travel-floating-card {
+
+        width: 275px;
+
+        left: 0;
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .tourist-hero {
+
+        min-height: 850px;
+
+    }
+
+    .tourist-hero-background {
+
+        position: absolute;
+
+    }
+
+    .tourist-hero-image-layer {
+
+        background-position:
+            63% center;
+
+    }
+
+    .tourist-hero-overlay {
+
+        background:
+
+            linear-gradient(180deg,
+                rgba(4, 17, 37, .78) 0%,
+                rgba(4, 20, 42, .88) 48%,
+                rgba(4, 17, 36, .96) 100%);
+
+    }
+
+    .tourist-hero-container {
+
+        min-height: 850px;
+
+        width: 90%;
+
+        align-items: flex-end;
+
+    }
+
+    .tourist-hero-content {
+
+        width: 100%;
+
+        padding:
+            0 0 2rem;
+
+    }
+
+    .tourist-hero-title {
+
+        font-size:
+            clamp(2.8rem, 12vw, 4rem);
+
+        letter-spacing:
+            -2.5px;
+
+    }
+
+    .tourist-hero-description {
+
+        max-width: 100%;
+
+        font-size: .88rem;
+
+    }
+
+    .tourist-hero-actions {
+
+        margin-top: 1.5rem;
+
+    }
+
+    .tourist-primary-btn {
+
+        width: 100%;
+
+    }
+
+    .tourist-trust {
+
+        display: grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap: 1rem;
 
         margin-top: 2rem;
 
     }
 
+    .tourist-trust-divider {
+
+        display: none;
+
+    }
+
+    .tourist-trust-item {
+
+        min-width: 0;
+
+    }
+
+    .tourist-trust-item:nth-child(5) {
+
+        grid-column:
+            1 / -1;
+
+    }
+
+    .tourist-hero-visual {
+
+        display: none;
+
+    }
+
+    .tourist-hero-scroll {
+
+        display: none;
+
+    }
+
+    .tourist-orbit {
+
+        display: none;
+
+    }
 
 }
 
 
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
 
-
-
-
-/* ==========================================
-   MOBILE
-========================================== */
-
-
-@media(max-width:768px) {
-
+@media (max-width: 430px) {
 
     .tourist-hero {
 
-
-        padding: 4rem 0;
-
-    }
-
-
-
-    .tourist-hero-content h1 {
-
-
-        font-size: 2.5rem;
+        min-height: 820px;
 
     }
 
+    .tourist-hero-container {
 
-
-    .tourist-hero-actions {
-
-
-        flex-direction: column;
+        min-height: 820px;
 
     }
 
+    .tourist-hero-tag {
 
+        font-size: .57rem;
 
-    .tourist-trust {
-
-
-        flex-direction: column;
-
-    }
-
-
-
-    .tourist-hero-image img {
-
-
-        height: 480px;
-
-
-        border-radius: 28px;
+        padding:
+            .55rem .8rem;
 
     }
 
+    .tourist-hero-title {
 
+        font-size:
+            2.7rem;
 
-    .travel-floating-card {
-
-
-        left: 15px;
-
-
-        right: 15px;
-
-
-        bottom: 20px;
-
-
-        width: auto;
+        letter-spacing:
+            -2px;
 
     }
 
+    .tourist-hero-description {
 
+        font-size:
+            .82rem;
 
-    .travel-image-badge {
-
-
-        top: 15px;
-
-
-        right: 15px;
-
-        font-size: .75rem;
+        line-height:
+            1.7;
 
     }
 
+    .tourist-trust-item strong {
+
+        font-size:
+            .65rem;
+
+    }
+
+    .tourist-trust-item span {
+
+        font-size:
+            .55rem;
+
+    }
+
+    .tourist-trust-icon {
+
+        width: 38px;
+
+        height: 38px;
+
+    }
 
 }

@@ -9,11 +9,42 @@ import {
   HiOutlineHeart,
   HiOutlineArrowRight,
   HiOutlineSparkles,
+  HiOutlineLocationMarker,
 } from "react-icons/hi";
 
+import backgroundImage
+  from "../../../../assets/tourist/travel-pathways/what-brings-you-abroad-background.png";
+
+import routeImage
+  from "../../../../assets/tourist/travel-pathways/what-brings-you-abroad-route.png";
+
+import tourismImage
+  from "../../../../assets/tourist/travel-pathways/pathway-tourism.png";
+
+import businessImage
+  from "../../../../assets/tourist/travel-pathways/pathway-business.png";
+
+import studyImage
+  from "../../../../assets/tourist/travel-pathways/pathway-study.png";
+
+import familyImage
+  from "../../../../assets/tourist/travel-pathways/pathway-family.png";
+
+import landmarksImage
+  from "../../../../assets/tourist/travel-pathways/global-destinations-landmarks.png";
+
+import consultationRoute
+  from "../../../../assets/tourist/travel-pathways/pathway-consultation-route.png";
+
+import consultationIcon
+  from "../../../../assets/tourist/travel-pathways/pathway-consultation-icon.png";
+
+
 const visaOptions = [
+
   {
-    id: 1,
+    id: "01",
+
     icon: HiOutlineGlobeAlt,
 
     title: "Tourism & Holidays",
@@ -23,15 +54,23 @@ const visaOptions = [
     description:
       "Discover beautiful destinations for vacations, sightseeing and unforgettable travel experiences.",
 
-    tags: ["Vacation", "Tourism", "Adventure"],
+    tags: [
+      "Vacation",
+      "Tourism",
+      "Adventure"
+    ],
 
-    button: "Explore Destinations",
+    image: tourismImage,
+
+    destination: "Global Destinations",
 
     path: "/travel/tourism",
   },
 
+
   {
-    id: 2,
+    id: "02",
+
     icon: HiOutlineBriefcase,
 
     title: "Business Travel",
@@ -41,15 +80,23 @@ const visaOptions = [
     description:
       "Attend business meetings, conferences and international networking opportunities with confidence.",
 
-    tags: ["Business", "Meetings", "Events"],
+    tags: [
+      "Business",
+      "Meetings",
+      "Events"
+    ],
 
-    button: "View Opportunities",
+    image: businessImage,
+
+    destination: "International Business",
 
     path: "/travel/business",
   },
 
+
   {
-    id: 3,
+    id: "03",
+
     icon: HiOutlineAcademicCap,
 
     title: "Study Abroad",
@@ -59,15 +106,25 @@ const visaOptions = [
     description:
       "Access international education pathways, universities and student visa guidance.",
 
-    tags: ["Universities", "Programs", "Education"],
+    tags: [
+      "Universities",
+      "Programs",
+      "Education"
+    ],
 
-    button: "Find Programs",
+    image: studyImage,
+
+    destination: "Global Education",
 
     path: "/travel/study",
+
+    featured: true,
   },
 
+
   {
-    id: 4,
+    id: "04",
+
     icon: HiOutlineHeart,
 
     title: "Family Visits",
@@ -77,65 +134,171 @@ const visaOptions = [
     description:
       "Travel confidently to reunite with loved ones for family visits, celebrations and special moments.",
 
-    tags: ["Family", "Visits", "Support"],
+    tags: [
+      "Family",
+      "Visits",
+      "Support"
+    ],
 
-    button: "Learn More",
+    image: familyImage,
+
+    destination: "Family Travel",
 
     path: "/travel/family",
   },
+
 ];
 
+
 const TravelVisaGrid = () => {
+
   return (
+
     <section className="travel-visa-grid">
+
+
+      {/* =====================================================
+                BACKGROUND
+            ===================================================== */}
+
+      <div
+        className="travel-visa-background"
+        aria-hidden="true"
+      >
+
+        <img
+          src={backgroundImage}
+          alt=""
+          className="travel-visa-background-image"
+        />
+
+        <div className="travel-visa-background-wash"></div>
+
+        <img
+          src={routeImage}
+          alt=""
+          className="travel-visa-route"
+        />
+
+        <img
+          src={landmarksImage}
+          alt=""
+          className="travel-visa-landmarks"
+        />
+
+      </div>
+
+
+      {/* =====================================================
+                CONTENT
+            ===================================================== */}
 
       <div className="container">
 
-        {/* Header */}
 
-        <div className="travel-visa-header">
+        {/* =================================================
+                    HEADER
+                ================================================= */}
 
-          <span>
+        <header className="travel-visa-header">
+
+          <span className="travel-visa-eyebrow">
+
+            <i></i>
 
             START YOUR JOURNEY
 
           </span>
 
+
           <h2>
 
             What Brings You
 
-            <strong> Abroad?</strong>
+            <strong>
+              Abroad?
+            </strong>
 
           </h2>
+
+
+          <div className="travel-visa-heading-line">
+
+            <span></span>
+
+            <span></span>
+
+          </div>
+
 
           <p>
 
             Every journey begins with a purpose.
-            Choose the option that best matches your travel goals
-            and explore the opportunities available to you.
+            Choose the pathway that best matches
+            your travel goals and discover what
+            becomes possible beyond your borders.
 
           </p>
 
-        </div>
 
-        {/* Cards */}
+          <div className="travel-visa-route-label">
+
+            <HiOutlineLocationMarker />
+
+            <span>
+              CHOOSE YOUR PATH • PLAN WITH CONFIDENCE
+            </span>
+
+          </div>
+
+        </header>
+
+
+
+        {/* =================================================
+                    PATHWAY CARDS
+                ================================================= */}
 
         <div className="travel-visa-cards">
+
 
           {visaOptions.map((item) => {
 
             const Icon = item.icon;
+
 
             return (
 
               <Link
                 key={item.id}
                 to={item.path}
-                className="travel-visa-card"
+                className={`travel-visa-card ${item.featured
+                    ? "travel-visa-card-featured"
+                    : ""
+                  }`}
               >
 
-                <div className="travel-card-top">
+
+                {/* =================================
+                                    IMAGE
+                                ================================= */}
+
+                <div className="travel-visa-card-image">
+
+
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                  />
+
+
+                  <div className="travel-visa-card-image-overlay"></div>
+
+
+                  <span className="travel-visa-card-number">
+                    {item.id}
+                  </span>
+
 
                   <div className="travel-visa-icon">
 
@@ -143,51 +306,88 @@ const TravelVisaGrid = () => {
 
                   </div>
 
-                  <span className="travel-card-subtitle">
+
+                  <div className="travel-visa-destination">
+
+                    <HiOutlineLocationMarker />
+
+                    {item.destination}
+
+                  </div>
+
+
+                </div>
+
+
+
+                {/* =================================
+                                    CONTENT
+                                ================================= */}
+
+                <div className="travel-visa-card-content">
+
+
+                  <span className="travel-visa-subtitle">
+
+                    <i></i>
 
                     {item.subtitle}
 
                   </span>
 
-                </div>
 
-                <h3>
+                  <h3>
+                    {item.title}
+                  </h3>
 
-                  {item.title}
 
-                </h3>
+                  <p>
+                    {item.description}
+                  </p>
 
-                <p>
 
-                  {item.description}
 
-                </p>
+                  {/* TAGS */}
 
-                <div className="travel-visa-tags">
+                  <div className="travel-visa-tags">
 
-                  {item.tags.map((tag) => (
+                    {item.tags.map((tag) => (
 
-                    <span key={tag}>
+                      <span key={tag}>
+                        {tag}
+                      </span>
 
-                      {tag}
+                    ))}
+
+                  </div>
+
+
+
+                  {/* CARD FOOTER */}
+
+                  <div className="travel-visa-card-footer">
+
+                    <span>
+                      EXPLORE PATHWAY
+                    </span>
+
+                    <span className="travel-visa-card-arrow">
+
+                      <HiOutlineArrowRight />
 
                     </span>
 
-                  ))}
+                  </div>
+
 
                 </div>
 
-                <div className="travel-card-footer">
 
-                  <span>
+                <div
+                  className="travel-visa-card-glow"
+                  aria-hidden="true"
+                ></div>
 
-                    {item.button}
-
-                  </span>
-
-                  <HiOutlineArrowRight />
-
-                </div>
 
               </Link>
 
@@ -195,53 +395,126 @@ const TravelVisaGrid = () => {
 
           })}
 
+
         </div>
 
-        {/* Bottom CTA */}
+
+
+        {/* =================================================
+                    CONSULTATION CTA
+                ================================================= */}
 
         <div className="travel-visa-highlight">
 
+
+          {/* Decorative route */}
+
+          <img
+            src={consultationRoute}
+            alt=""
+            className="travel-highlight-route"
+            aria-hidden="true"
+          />
+
+
+
+          {/* Left icon */}
+
           <div className="travel-highlight-icon">
 
-            <HiOutlineSparkles />
+            <img
+              src={consultationIcon}
+              alt=""
+            />
 
           </div>
+
+
+
+          {/* Content */}
 
           <div className="travel-highlight-content">
 
+
+            <span className="travel-highlight-eyebrow">
+
+              PERSONALIZED GUIDANCE
+
+            </span>
+
+
             <h3>
 
-              Not Sure Which Pathway Is Right For You?
+              Not Sure Which Pathway
+              <strong> Is Right For You?</strong>
 
             </h3>
 
+
             <p>
 
-              Speak with one of our migration advisors and receive
-              personalised guidance based on your goals,
-              eligibility and preferred destination.
+              Speak with one of our migration advisors
+              and receive personalised guidance based
+              on your goals, eligibility and preferred
+              destination.
 
             </p>
 
+
           </div>
+
+
+
+          {/* CTA */}
 
           <Link
             to="/contact"
             className="travel-highlight-button"
           >
 
-            Book Free Consultation
+            <span>
+              Book Free Consultation
+            </span>
 
             <HiOutlineArrowRight />
 
           </Link>
 
+
         </div>
+
+
+
+        {/* =================================================
+                    BOTTOM STATEMENT
+                ================================================= */}
+
+        <div className="travel-visa-bottom">
+
+          <span></span>
+
+          <p>
+
+            Every destination starts with a decision.
+
+            <strong>
+              Let’s make yours a clear one.
+            </strong>
+
+          </p>
+
+          <span></span>
+
+        </div>
+
 
       </div>
 
     </section>
+
   );
+
 };
+
 
 export default TravelVisaGrid;

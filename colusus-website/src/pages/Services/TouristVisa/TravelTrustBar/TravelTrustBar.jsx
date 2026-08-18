@@ -4,59 +4,71 @@ import {
     HiOutlineShieldCheck,
     HiOutlineDocumentText,
     HiOutlineGlobeAlt,
-    HiOutlineClock
+    HiOutlineClock,
+    HiOutlineArrowRight,
 } from "react-icons/hi";
 
-const trustItems = [
+import travelTrustBackground from "../../../../assets/images/travel/why-travel-background.png";
 
+
+const trustItems = [
     {
+        number: "01",
         icon: HiOutlineShieldCheck,
         title: "Professional Guidance",
         description:
-            "Expert support throughout your visa application journey."
+            "Expert support throughout your visa application journey.",
     },
 
     {
+        number: "02",
         icon: HiOutlineDocumentText,
         title: "Document Review",
         description:
-            "Comprehensive checks before submission."
+            "Comprehensive checks before submission.",
     },
 
     {
+        number: "03",
         icon: HiOutlineGlobeAlt,
         title: "Multiple Destinations",
         description:
-            "Travel support for popular destinations worldwide."
+            "Travel support for popular destinations worldwide.",
     },
 
     {
+        number: "04",
         icon: HiOutlineClock,
         title: "Timely Updates",
         description:
-            "Stay informed throughout every stage."
-    }
-
+            "Stay informed throughout every stage.",
+    },
 ];
 
-const stats = [
 
+const stats = [
     {
         value: "20+",
-        label: "Destinations"
+        label: "Destinations",
+        detail: "Popular countries worldwide",
+        icon: HiOutlineGlobeAlt,
     },
 
     {
         value: "95%",
-        label: "Application Accuracy"
+        label: "Application Accuracy",
+        detail: "Careful preparation & review",
+        icon: HiOutlineShieldCheck,
     },
 
     {
         value: "Fast",
-        label: "Consultation Response"
-    }
-
+        label: "Consultation Response",
+        detail: "Quick replies when you need us",
+        icon: HiOutlineClock,
+    },
 ];
+
 
 const TravelTrustBar = () => {
 
@@ -64,49 +76,158 @@ const TravelTrustBar = () => {
 
         <section className="travel-trust">
 
-            <div className="container">
 
-                <div className="travel-trust-wrapper">
+            {/* =====================================================
+                FULL SECTION BACKGROUND
+            ===================================================== */}
 
-                    <div className="travel-trust-left">
+            <div
+                className="travel-trust-background"
+                aria-hidden="true"
+            >
+
+                <img
+                    className="travel-trust-background-image"
+                    src={travelTrustBackground}
+                    alt=""
+                />
+
+                <div className="travel-trust-background-overlay"></div>
+
+                <div className="travel-trust-background-glow"></div>
+
+            </div>
+
+
+            {/* =====================================================
+                CONTENT
+            ===================================================== */}
+
+            <div className="travel-trust-container">
+
+
+                {/* =================================================
+                    TOP AREA
+                ================================================= */}
+
+                <div className="travel-trust-top">
+
+
+                    {/* =================================================
+                        INTRO
+                    ================================================= */}
+
+                    <div className="travel-trust-intro">
+
 
                         <span className="travel-trust-tag">
+
+                            <span className="travel-trust-tag-dot"></span>
 
                             WHY TRAVEL WITH US
 
                         </span>
 
-                        <h2>
 
-                            Travel Planning Backed By
+                        <h2 className="travel-trust-title">
 
-                            <span> Professional Guidance.</span>
+                            Travel Planning
+
+                            <span>
+                                Backed By
+                            </span>
+
+                            <strong>
+                                Professional Guidance.
+                            </strong>
 
                         </h2>
 
-                        <p>
 
-                            Every successful trip begins with proper preparation.
-                            Our specialists help reduce mistakes, improve
-                            application quality and guide you from planning to
-                            submission.
+                        <div className="travel-trust-accent">
+
+                            <span></span>
+
+                            <span></span>
+
+                        </div>
+
+
+                        <p className="travel-trust-description">
+
+                            Every successful trip begins with proper
+                            preparation. Our specialists help reduce
+                            mistakes, improve application quality and
+                            guide you from planning to submission.
 
                         </p>
 
+
+                        <div className="travel-trust-meta">
+
+                            <span className="travel-trust-meta-line"></span>
+
+                            <span>
+                                PLAN • PREPARE • TRAVEL
+                            </span>
+
+                        </div>
+
+
+                        {/* GLOBAL SUPPORT */}
+
+                        <div className="travel-trust-mini-trust">
+
+                            <div className="travel-trust-mini-icon">
+
+                                <HiOutlineGlobeAlt />
+
+                            </div>
+
+
+                            <div>
+
+                                <strong>
+                                    Global Support
+                                </strong>
+
+                                <span>
+                                    Wherever your journey takes you
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
                     </div>
 
-                    <div className="travel-trust-right">
 
-                        {trustItems.map((item) => {
+                    {/* =================================================
+                        SERVICE CARDS
+                    ================================================= */}
+
+                    <div className="travel-trust-services">
+
+                        {trustItems.map((item, index) => {
 
                             const Icon = item.icon;
 
                             return (
 
-                                <div
-                                    key={item.title}
+                                <article
                                     className="travel-trust-card"
+                                    key={item.number}
+                                    style={{
+                                        "--card-index": index,
+                                    }}
                                 >
+
+
+                                    <span className="travel-trust-card-number">
+                                        {item.number}
+                                    </span>
+
 
                                     <div className="travel-trust-icon">
 
@@ -114,19 +235,42 @@ const TravelTrustBar = () => {
 
                                     </div>
 
-                                    <h3>
 
-                                        {item.title}
+                                    <div className="travel-trust-card-content">
 
-                                    </h3>
+                                        <span className="travel-trust-card-label">
+                                            TRUSTED SERVICE
+                                        </span>
 
-                                    <p>
+                                        <h3>
+                                            {item.title}
+                                        </h3>
 
-                                        {item.description}
+                                        <p>
+                                            {item.description}
+                                        </p>
 
-                                    </p>
+                                    </div>
 
-                                </div>
+
+                                    <div className="travel-trust-card-footer">
+
+                                        <span>
+                                            LEARN MORE
+                                        </span>
+
+                                        <HiOutlineArrowRight />
+
+                                    </div>
+
+
+                                    <div
+                                        className="travel-trust-card-accent"
+                                        aria-hidden="true"
+                                    ></div>
+
+
+                                </article>
 
                             );
 
@@ -136,32 +280,84 @@ const TravelTrustBar = () => {
 
                 </div>
 
+
+                {/* =================================================
+                    STATS
+                ================================================= */}
+
                 <div className="travel-trust-stats">
 
-                    {stats.map((item) => (
+                    {stats.map((item, index) => {
 
-                        <div
-                            key={item.label}
-                            className="travel-stat"
-                        >
+                        const Icon = item.icon;
 
-                            <h3>
+                        return (
 
-                                {item.value}
+                            <div
+                                className="travel-stat"
+                                key={item.label}
+                            >
 
-                            </h3>
+                                <div className="travel-stat-icon">
 
-                            <span>
+                                    <Icon />
 
-                                {item.label}
+                                </div>
 
-                            </span>
 
-                        </div>
+                                <div className="travel-stat-content">
 
-                    ))}
+                                    <strong className="travel-stat-value">
+                                        {item.value}
+                                    </strong>
+
+                                    <span className="travel-stat-label">
+                                        {item.label}
+                                    </span>
+
+                                    <small>
+                                        {item.detail}
+                                    </small>
+
+                                </div>
+
+
+                                {index < stats.length - 1 && (
+
+                                    <span
+                                        className="travel-stat-divider"
+                                        aria-hidden="true"
+                                    />
+
+                                )}
+
+                            </div>
+
+                        );
+
+                    })}
 
                 </div>
+
+
+                {/* =================================================
+                    BOTTOM STATEMENT
+                ================================================= */}
+
+                <div className="travel-trust-bottom">
+
+                    <span className="travel-trust-bottom-dot"></span>
+
+                    <span>
+                        Your journey deserves more than paperwork.
+                    </span>
+
+                    <strong>
+                        It deserves a clear plan.
+                    </strong>
+
+                </div>
+
 
             </div>
 
@@ -170,5 +366,6 @@ const TravelTrustBar = () => {
     );
 
 };
+
 
 export default TravelTrustBar;
