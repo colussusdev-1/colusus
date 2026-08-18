@@ -1,379 +1,1540 @@
-.why-travel {
+/* =========================================================
+   WHY CHOOSE TRAVEL
+========================================================= */
 
-    padding: 7rem 0;
+.why-travel {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+
+    padding: 8.5rem 0 6rem;
 
     background:
         linear-gradient(180deg,
-            #f8fafc,
-            #ffffff);
+            #f8fbff 0%,
+            #ffffff 48%,
+            #f4f9ff 100%);
+
+    color: #0f172a;
+}
+
+
+/* =========================================================
+   MAIN BACKGROUND ARTWORK
+========================================================= */
+
+.why-travel-background {
+    position: absolute;
+    inset: 0;
+
+    z-index: -6;
+
+    background-image:
+        var(--trust-bg);
+
+    background-repeat: no-repeat;
+
+    /*
+       IMPORTANT:
+       cover makes the generated artwork fill the
+       entire section instead of appearing as a tiny image.
+    */
+
+    background-size: contain;
+
+    background-position:
+        center top;
+
+    opacity: .72;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   BACKGROUND LIGHTING
+========================================================= */
+
+.why-travel::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    z-index: -5;
+
+    background:
+        radial-gradient(circle at 18% 20%,
+            rgba(255, 255, 255, .98),
+            rgba(255, 255, 255, .76) 28%,
+            transparent 58%),
+
+        radial-gradient(circle at 82% 42%,
+            rgba(219, 234, 254, .42),
+            transparent 44%),
+
+        linear-gradient(180deg,
+            rgba(255, 255, 255, .45),
+            rgba(255, 255, 255, .7));
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   BLUE ATMOSPHERIC GLOW
+========================================================= */
+
+.why-travel::after {
+    content: "";
+
+    position: absolute;
+
+    width: 650px;
+    height: 650px;
+
+    right: -260px;
+    top: 80px;
+
+    z-index: -4;
+
+    background:
+        radial-gradient(circle,
+            rgba(37, 99, 235, .14),
+            rgba(96, 165, 250, .06) 35%,
+            transparent 70%);
+
+    filter: blur(25px);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   FLIGHT ROUTE
+========================================================= */
+
+.why-travel-route {
+    position: absolute;
+
+    width: 900px;
+    height: 500px;
+
+    top: -70px;
+    right: -100px;
+
+    z-index: -3;
+
+    background-image:
+        var(--trust-route);
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+
+    opacity: .46;
+
+    pointer-events: none;
+
+    transform: rotate(-2deg);
+}
+
+
+/* =========================================================
+   AIRPLANE
+========================================================= */
+
+.why-travel-airplane {
+    position: absolute;
+
+    width: 115px;
+    height: 115px;
+
+    top: 75px;
+    right: 18%;
+
+    z-index: -2;
+
+    background-image:
+        var(--trust-airplane);
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+
+    opacity: .72;
+
+    transform:
+        rotate(-8deg);
+
+    animation:
+        trustPlaneFloat 6s ease-in-out infinite;
+
+    pointer-events: none;
+}
+
+
+@keyframes trustPlaneFloat {
+
+    0%,
+    100% {
+        transform:
+            translate3d(0, 0, 0) rotate(-8deg);
+    }
+
+    50% {
+        transform:
+            translate3d(0, -9px, 0) rotate(-5deg);
+    }
 
 }
 
 
+/* =========================================================
+   LANDMARKS
+========================================================= */
 
+.why-travel-landmarks {
+    position: absolute;
+
+    bottom: -80px;
+
+    z-index: -2;
+
+    width: 420px;
+    height: 300px;
+
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-size: contain;
+
+    opacity: .18;
+
+    pointer-events: none;
+
+    filter:
+        saturate(.8) contrast(.9);
+}
+
+
+.why-travel-landmarks--left {
+    left: -110px;
+
+    background-image:
+        var(--trust-landmarks-left);
+
+    transform:
+        scaleX(-1);
+}
+
+
+.why-travel-landmarks--right {
+    right: -90px;
+
+    background-image:
+        var(--trust-landmarks-right);
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.why-travel-container {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
 
 .why-travel-header {
+    position: relative;
 
-    max-width: 760px;
+    max-width: 850px;
 
-    margin: 0 auto 4rem;
+    margin:
+        0 auto 4.5rem;
 
     text-align: center;
-
 }
 
 
-
-.why-travel-header span {
-
+.why-travel-eyebrow {
     display: inline-flex;
 
-    padding: .45rem 1rem;
+    align-items: center;
+    gap: .5rem;
+
+    padding:
+        .55rem 1rem;
+
+    border:
+        1px solid rgba(37, 99, 235, .13);
 
     border-radius: 999px;
 
-    background: rgba(37, 99, 235, .08);
+    background:
+        rgba(239, 246, 255, .82);
 
-    color: var(--primary-color);
+    box-shadow:
+        0 8px 25px rgba(37, 99, 235, .06);
 
-    font-size: .8rem;
+    color:
+        #0757b8;
 
-    font-weight: 700;
+    font-size:
+        .68rem;
 
-    letter-spacing: .12em;
+    font-weight:
+        800;
 
+    letter-spacing:
+        .16em;
 }
 
 
+.why-travel-eyebrow i {
+    width: 6px;
+    height: 6px;
 
+    border-radius: 50%;
+
+    background:
+        #2563eb;
+
+    box-shadow:
+        0 0 0 4px rgba(37, 99, 235, .08);
+}
+
+
+/* =========================================================
+   HEADING
+========================================================= */
 
 .why-travel-header h2 {
+    margin:
+        1.5rem 0 1.2rem;
 
+    max-width:
+        820px;
 
-    margin: 1.2rem 0;
+    margin-left:
+        auto;
 
-    font-size: clamp(2.3rem, 4vw, 3.5rem);
+    margin-right:
+        auto;
 
-    line-height: 1.15;
+    font-size:
+        clamp(2.8rem, 5vw, 4.8rem);
 
-    color: #111827;
+    line-height:
+        .98;
 
-    font-weight: 800;
+    letter-spacing:
+        -.055em;
 
+    font-weight:
+        900;
+
+    color:
+        #0b1324;
 }
-
 
 
 .why-travel-header h2 strong {
-
     display: block;
 
-    color: var(--primary-color);
+    margin-top:
+        .15em;
 
+    color:
+        #1261c9;
+
+    font-weight:
+        900;
 }
 
 
+/* =========================================================
+   HEADER LINE
+========================================================= */
+
+.why-travel-heading-line {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: .45rem;
+
+    margin:
+        1.3rem 0 1.4rem;
+}
+
+
+.why-travel-heading-line span:first-child {
+    width: 48px;
+    height: 2px;
+
+    background:
+        #2563eb;
+}
+
+
+.why-travel-heading-line span:last-child {
+    width: 12px;
+    height: 2px;
+
+    background:
+        #bfdbfe;
+}
+
+
+/* =========================================================
+   HEADER DESCRIPTION
+========================================================= */
 
 .why-travel-header p {
+    max-width:
+        700px;
 
-    color: #6b7280;
+    margin:
+        0 auto;
 
-    line-height: 1.8;
+    color:
+        #536987;
 
-    font-size: 1.05rem;
+    font-size:
+        1rem;
 
+    line-height:
+        1.8;
 }
 
 
+/* =========================================================
+   HEADER META
+========================================================= */
+
+.why-travel-meta {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: .55rem;
+
+    margin-top:
+        1.5rem;
+
+    color:
+        #8aa0bb;
+
+    font-size:
+        .58rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .18em;
+}
 
 
+.why-travel-meta b {
+    color:
+        #2563eb;
+
+    font-size:
+        .55rem;
+}
+
+
+/* =========================================================
+   CARD GRID
+========================================================= */
 
 .why-travel-grid {
-
-
     display: grid;
 
     grid-template-columns:
-        repeat(4, 1fr);
+        repeat(4, minmax(0, 1fr));
 
-    gap: 1.5rem;
-
+    gap:
+        1.25rem;
 }
 
 
-
+/* =========================================================
+   CARD
+========================================================= */
 
 .why-travel-card {
+    position: relative;
 
+    min-width: 0;
 
-    padding: 2rem;
-
-
-    border-radius: 26px;
-
-
-    background:
-
-        rgba(255, 255, 255, .75);
-
-
-
-    backdrop-filter: blur(20px);
-
+    overflow: hidden;
 
     border:
+        1px solid rgba(148, 163, 184, .22);
 
-        1px solid rgba(15, 23, 42, .08);
+    border-radius:
+        26px;
 
+    background:
+        rgba(255, 255, 255, .78);
 
+    box-shadow:
+        0 20px 55px rgba(15, 23, 42, .055);
 
-    transition: .35s ease;
+    backdrop-filter:
+        blur(18px);
 
+    -webkit-backdrop-filter:
+        blur(18px);
 
+    transition:
+        transform .4s ease,
+        box-shadow .4s ease,
+        border-color .4s ease;
 }
-
-
 
 
 .why-travel-card:hover {
-
-
     transform:
-        translateY(-8px);
+        translateY(-10px);
 
-
+    border-color:
+        rgba(37, 99, 235, .28);
 
     box-shadow:
-
-        0 20px 50px rgba(15, 23, 42, .1);
-
-
-
+        0 30px 75px rgba(15, 23, 42, .12);
 }
 
 
+/* =========================================================
+   CARD VISUAL
+========================================================= */
 
+.why-travel-card-visual {
+    position: relative;
 
+    height:
+        145px;
 
-.why-travel-icon {
-
-
-    width: 64px;
-
-    height: 64px;
-
-
-    border-radius: 20px;
-
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
+    overflow: hidden;
 
     background:
-
         linear-gradient(135deg,
-            var(--primary-color),
-            #3b82f6);
-
-
-    color: white;
-
-
-    font-size: 1.8rem;
-
-
-    margin-bottom: 1.5rem;
-
-
+            #eaf3ff,
+            #f8fbff);
 }
 
 
+.why-travel-card-image {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    object-position: center;
+
+    opacity:
+        .82;
+
+    transform:
+        scale(1.04);
+
+    transition:
+        transform .65s ease,
+        opacity .5s ease;
+}
+
+
+.why-travel-card:hover .why-travel-card-image {
+    transform:
+        scale(1.1);
+
+    opacity:
+        .95;
+}
+
+
+/* =========================================================
+   CARD IMAGE OVERLAY
+========================================================= */
+
+.why-travel-card-image-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(180deg,
+            rgba(7, 37, 76, .08) 0%,
+            rgba(255, 255, 255, .02) 35%,
+            rgba(255, 255, 255, .92) 100%);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   CARD NUMBER
+========================================================= */
+
+.why-travel-number {
+    position: absolute;
+
+    top:
+        1rem;
+
+    right:
+        1.15rem;
+
+    color:
+        rgba(37, 99, 235, .16);
+
+    font-size:
+        2.8rem;
+
+    line-height:
+        1;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        -.08em;
+}
+
+
+/* =========================================================
+   CARD ICON
+========================================================= */
+
+.why-travel-icon {
+    position: absolute;
+
+    left:
+        1.2rem;
+
+    bottom:
+        1rem;
+
+    width:
+        48px;
+
+    height:
+        48px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border:
+        1px solid rgba(255, 255, 255, .7);
+
+    border-radius:
+        15px;
+
+    background:
+        rgba(255, 255, 255, .88);
+
+    color:
+        #1261c9;
+
+    font-size:
+        1.35rem;
+
+    box-shadow:
+        0 10px 25px rgba(15, 23, 42, .12);
+
+    backdrop-filter:
+        blur(12px);
+
+    transition:
+        background .35s ease,
+        color .35s ease,
+        transform .35s ease;
+}
+
+
+.why-travel-card:hover .why-travel-icon {
+    background:
+        #1261c9;
+
+    color:
+        white;
+
+    transform:
+        translateY(-3px);
+}
+
+
+/* =========================================================
+   CARD CONTENT
+========================================================= */
+
+.why-travel-card-content {
+    padding:
+        1.45rem 1.35rem 1.2rem;
+}
+
+
+.why-travel-card-eyebrow {
+    display:
+        block;
+
+    margin-bottom:
+        .65rem;
+
+    color:
+        #1261c9;
+
+    font-size:
+        .56rem;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        .16em;
+}
 
 
 .why-travel-card h3 {
+    margin:
+        0 0 .7rem;
 
+    color:
+        #0b1324;
 
-    font-size: 1.2rem;
+    font-size:
+        1.08rem;
 
-    color: #111827;
+    line-height:
+        1.25;
 
-    margin-bottom: .8rem;
-
-
+    font-weight:
+        850;
 }
-
-
 
 
 .why-travel-card p {
+    margin:
+        0;
 
+    min-height:
+        82px;
 
-    color: #6b7280;
+    color:
+        #60738e;
 
-    line-height: 1.7;
+    font-size:
+        .82rem;
 
-    font-size: .95rem;
-
-
+    line-height:
+        1.7;
 }
 
 
+/* =========================================================
+   CARD FOOTER
+========================================================= */
+
+.why-travel-card-footer {
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    margin-top:
+        1rem;
+
+    padding-top:
+        .85rem;
+
+    border-top:
+        1px solid rgba(148, 163, 184, .17);
+
+    color:
+        #9aabc0;
+
+    font-size:
+        .53rem;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        .15em;
+}
 
 
+.why-travel-card-arrow {
+    width:
+        28px;
 
-.why-travel-highlight {
+    height:
+        28px;
 
+    display:
+        flex;
 
-    margin-top: 3rem;
+    align-items:
+        center;
 
+    justify-content:
+        center;
 
-    display: flex;
-
-
-    gap: 1.5rem;
-
-
-    align-items: center;
-
-
-    padding: 2rem 2.5rem;
-
-
-    border-radius: 28px;
-
+    border-radius:
+        50%;
 
     background:
+        #eff6ff;
+
+    color:
+        #2563eb;
+
+    font-size:
+        .9rem;
+
+    transition:
+        transform .35s ease,
+        background .35s ease;
+}
 
 
-        rgba(37, 99, 235, .06);
+.why-travel-card:hover .why-travel-card-arrow {
+    transform:
+        translateX(4px);
+
+    background:
+        #2563eb;
+
+    color:
+        white;
+}
 
 
+/* =========================================================
+   BOTTOM CTA
+========================================================= */
+
+.why-travel-highlight {
+    position:
+        relative;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        auto 1fr auto;
+
+    align-items:
+        center;
+
+    gap:
+        1.5rem;
+
+    margin-top:
+        2.2rem;
+
+    padding:
+        1.55rem 1.65rem;
+
+    overflow:
+        hidden;
 
     border:
+        1px solid rgba(37, 99, 235, .17);
 
+    border-radius:
+        28px;
+
+    background:
+        linear-gradient(110deg,
+            rgba(239, 246, 255, .94),
+            rgba(255, 255, 255, .88) 55%,
+            rgba(239, 246, 255, .92));
+
+    box-shadow:
+        0 20px 60px rgba(37, 99, 235, .08);
+
+    backdrop-filter:
+        blur(20px);
+}
+
+
+/* CTA blue edge */
+
+.why-travel-highlight::before {
+    content: "";
+
+    position:
+        absolute;
+
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    width:
+        4px;
+
+    background:
+        linear-gradient(180deg,
+            #2563eb,
+            #60a5fa);
+}
+
+
+/* =========================================================
+   CTA GLOW
+========================================================= */
+
+.why-travel-highlight-glow {
+    position:
+        absolute;
+
+    width:
+        280px;
+
+    height:
+        280px;
+
+    right:
+        150px;
+
+    top:
+        -180px;
+
+    background:
+        radial-gradient(circle,
+            rgba(37, 99, 235, .15),
+            transparent 70%);
+
+    filter:
+        blur(12px);
+
+    pointer-events:
+        none;
+}
+
+
+/* =========================================================
+   CTA ICON
+========================================================= */
+
+.why-travel-highlight-icon {
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    width:
+        58px;
+
+    height:
+        58px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    flex-shrink:
+        0;
+
+    border:
         1px solid rgba(37, 99, 235, .12);
 
+    border-radius:
+        18px;
 
+    background:
+        linear-gradient(145deg,
+            #1261c9,
+            #3b82f6);
 
+    color:
+        white;
+
+    font-size:
+        1.45rem;
+
+    box-shadow:
+        0 12px 28px rgba(37, 99, 235, .25);
 }
 
 
+/* =========================================================
+   CTA CONTENT
+========================================================= */
 
+.highlight-content {
+    position:
+        relative;
 
-
-.highlight-icon {
-
-
-    width: 60px;
-
-    height: 60px;
-
-
-    flex-shrink: 0;
-
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-
-    border-radius: 18px;
-
-
-    background: white;
-
-
-    color: var(--primary-color);
-
-
-    font-size: 1.8rem;
-
-
+    z-index:
+        2;
 }
 
 
+.highlight-eyebrow {
+    display:
+        block;
+
+    margin-bottom:
+        .3rem;
+
+    color:
+        #2563eb;
+
+    font-size:
+        .56rem;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        .17em;
+}
 
 
 .why-travel-highlight h3 {
+    margin:
+        0 0 .4rem;
 
+    color:
+        #0b1324;
 
-    margin: 0 0 .5rem;
+    font-size:
+        clamp(1.15rem, 2vw, 1.55rem);
 
+    line-height:
+        1.25;
 
-    color: #111827;
-
-
+    font-weight:
+        850;
 }
-
 
 
 .why-travel-highlight p {
+    max-width:
+        720px;
 
+    margin:
+        0;
 
-    margin: 0;
+    color:
+        #60738e;
 
+    font-size:
+        .82rem;
 
-    color: #6b7280;
-
-
-    line-height: 1.7;
-
-
+    line-height:
+        1.7;
 }
 
 
+/* =========================================================
+   CTA BUTTON
+========================================================= */
 
+.highlight-button {
+    position:
+        relative;
 
-@media(max-width:992px) {
+    z-index:
+        3;
 
+    display:
+        inline-flex;
 
-    .why-travel-grid {
+    align-items:
+        center;
 
-        grid-template-columns:
-            repeat(2, 1fr);
+    gap:
+        .75rem;
 
-    }
+    flex-shrink:
+        0;
 
+    padding:
+        .75rem .8rem .75rem 1.15rem;
 
+    border-radius:
+        999px;
+
+    background:
+        #0f172a;
+
+    color:
+        white;
+
+    text-decoration:
+        none;
+
+    font-size:
+        .72rem;
+
+    font-weight:
+        800;
+
+    transition:
+        transform .35s ease,
+        background .35s ease,
+        box-shadow .35s ease;
 }
 
 
+.highlight-button:hover {
+    transform:
+        translateY(-3px);
+
+    background:
+        #1261c9;
+
+    box-shadow:
+        0 15px 30px rgba(37, 99, 235, .25);
+}
 
 
-@media(max-width:600px) {
+.highlight-button-icon {
+    width:
+        31px;
 
+    height:
+        31px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        50%;
+
+    background:
+        rgba(255, 255, 255, .12);
+
+    font-size:
+        .95rem;
+}
+
+
+/* =========================================================
+   CTA ROUTE ART
+========================================================= */
+
+.highlight-route {
+    position:
+        absolute;
+
+    width:
+        420px;
+
+    height:
+        170px;
+
+    right:
+        -80px;
+
+    bottom:
+        -75px;
+
+    background:
+        var(--trust-route);
+
+    background-repeat:
+        no-repeat;
+
+    background-position:
+        center;
+
+    background-size:
+        contain;
+
+    opacity:
+        .12;
+
+    transform:
+        rotate(4deg);
+
+    pointer-events:
+        none;
+}
+
+
+/* =========================================================
+   MICRO FOOTER
+========================================================= */
+
+.why-travel-footer-note {
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        .4rem;
+
+    margin-top:
+        1.6rem;
+
+    color:
+        #91a3b8;
+
+    font-size:
+        .56rem;
+}
+
+
+.why-travel-footer-note strong {
+    color:
+        #64748b;
+
+    font-weight:
+        800;
+}
+
+
+.why-travel-footer-dot {
+    width:
+        5px;
+
+    height:
+        5px;
+
+    border-radius:
+        50%;
+
+    background:
+        #2563eb;
+
+    box-shadow:
+        0 0 0 4px rgba(37, 99, 235, .08);
+}
+
+
+/* =========================================================
+   LARGE TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
 
     .why-travel {
-
-        padding: 4rem 0;
-
+        padding:
+            7rem 0 5rem;
     }
 
 
     .why-travel-grid {
-
-        grid-template-columns: 1fr;
-
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
     }
 
+
+    .why-travel-card p {
+        min-height:
+            auto;
+    }
+
+
+    .why-travel-route {
+        right:
+            -300px;
+    }
+
+
+    .why-travel-airplane {
+        right:
+            8%;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .why-travel {
+        padding:
+            6rem 0 4.5rem;
+    }
+
+
+    .why-travel-header {
+        margin-bottom:
+            3.2rem;
+    }
+
+
+    .why-travel-header h2 {
+        font-size:
+            clamp(2.5rem, 8vw, 4rem);
+    }
 
 
     .why-travel-highlight {
-
-        flex-direction: column;
-
-        align-items: flex-start;
-
-        padding: 1.5rem;
-
+        grid-template-columns:
+            auto 1fr;
     }
 
 
+    .highlight-button {
+        grid-column:
+            2;
+
+        justify-self:
+            start;
+    }
+
+
+    .why-travel-airplane {
+        opacity:
+            .38;
+
+        right:
+            2%;
+
+        top:
+            45px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .why-travel {
+        padding:
+            5rem 0 3.5rem;
+    }
+
+
+    .why-travel-background {
+        background-position:
+            62% top;
+
+        opacity:
+            .5;
+    }
+
+
+    .why-travel-route {
+        width:
+            650px;
+
+        right:
+            -330px;
+
+        top:
+            20px;
+
+        opacity:
+            .3;
+    }
+
+
+    .why-travel-airplane {
+        width:
+            75px;
+
+        height:
+            75px;
+
+        right:
+            3%;
+
+        top:
+            40px;
+
+        opacity:
+            .3;
+    }
+
+
+    .why-travel-landmarks {
+        width:
+            300px;
+
+        height:
+            210px;
+
+        opacity:
+            .1;
+    }
+
+
+    .why-travel-header {
+        margin-bottom:
+            2.5rem;
+    }
+
+
+    .why-travel-eyebrow {
+        font-size:
+            .58rem;
+    }
+
+
+    .why-travel-header h2 {
+        margin-top:
+            1.2rem;
+
+        font-size:
+            clamp(2.25rem, 11vw, 3.3rem);
+
+        letter-spacing:
+            -.045em;
+    }
+
+
+    .why-travel-header p {
+        font-size:
+            .9rem;
+
+        line-height:
+            1.7;
+    }
+
+
+    .why-travel-meta {
+        font-size:
+            .5rem;
+
+        letter-spacing:
+            .12em;
+    }
+
+
+    .why-travel-grid {
+        grid-template-columns:
+            1fr;
+
+        gap:
+            1rem;
+    }
+
+
+    .why-travel-card {
+        border-radius:
+            22px;
+    }
+
+
+    .why-travel-card-visual {
+        height:
+            155px;
+    }
+
+
+    .why-travel-highlight {
+        grid-template-columns:
+            1fr;
+
+        gap:
+            1rem;
+
+        padding:
+            1.35rem;
+
+        border-radius:
+            23px;
+    }
+
+
+    .highlight-button {
+        grid-column:
+            auto;
+
+        width:
+            100%;
+
+        justify-content:
+            space-between;
+    }
+
+
+    .why-travel-highlight p {
+        font-size:
+            .8rem;
+    }
+
+
+    .why-travel-footer-note {
+        flex-wrap:
+            wrap;
+
+        text-align:
+            center;
+
+        line-height:
+            1.5;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .why-travel-airplane {
+        animation:
+            none;
+    }
+
+
+    .why-travel-card,
+    .why-travel-card-image,
+    .why-travel-icon,
+    .why-travel-card-arrow,
+    .highlight-button {
+        transition:
+            none;
+    }
 
 }

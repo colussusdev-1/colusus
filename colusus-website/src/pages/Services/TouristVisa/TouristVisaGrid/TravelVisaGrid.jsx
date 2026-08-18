@@ -365,19 +365,6 @@ const TravelVisaGrid = () => {
 
                   {/* CARD FOOTER */}
 
-                  <div className="travel-visa-card-footer">
-
-                    <span>
-                      EXPLORE PATHWAY
-                    </span>
-
-                    <span className="travel-visa-card-arrow">
-
-                      <HiOutlineArrowRight />
-
-                    </span>
-
-                  </div>
 
 
                 </div>

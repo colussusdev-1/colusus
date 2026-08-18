@@ -44,10 +44,6 @@ const TouristVisa = () => {
 
             <TravelFAQ />
 
-
-            <TouristCTA />
-
-
         </div>
 
     )

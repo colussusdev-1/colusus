@@ -1,105 +1,159 @@
-import {
-    useState
-} from "react";
+import { useState } from "react";
 
 import "./TravelFAQ.css";
 
 import {
+    HiOutlineQuestionMarkCircle,
+    HiOutlineArrowRight,
+    HiOutlineChatAlt2,
+    HiOutlineShieldCheck,
+    HiOutlineGlobeAlt,
     HiOutlineChevronDown,
-    HiOutlineQuestionMarkCircle
 } from "react-icons/hi";
 
+import { Link } from "react-router-dom";
 
-const faqData = [
+
+import migrationBackground from "../../../../assets/tourist/trust/migration-trust-background.png";
+import migrationRoute from "../../../../assets/tourist/trust/migration-flight-route.png";
+import migrationAirplane from "../../../../assets/tourist/trust/migration-airplane.png";
+
+
+const faqItems = [
 
     {
-        id: 1,
-        question: "How do I know which travel option is right for me?",
+        id: "01",
+
+        question:
+            "How do I know which travel option is right for me?",
+
         answer:
-            "Our travel experts assess your purpose, destination, profile and goals before recommending the most suitable pathway."
+            "It depends on your travel purpose, destination, eligibility and personal circumstances. Our consultants can help you understand the available pathway and determine the option that best matches your goals.",
     },
 
 
     {
-        id: 2,
-        question: "What documents are required for a tourist visa?",
+        id: "02",
+
+        question:
+            "What documents are required for a tourist visa?",
+
         answer:
-            "Requirements depend on your destination. Generally, applicants may need a valid passport, financial documents, travel history, accommodation details and supporting documents."
+            "Requirements vary depending on the destination and your individual circumstances. We help you understand the required documents, organise your application and identify areas that may need additional attention before submission.",
     },
 
 
     {
-        id: 3,
-        question: "How long does the visa process take?",
+        id: "03",
+
+        question:
+            "How long does the visa process take?",
+
         answer:
-            "Processing times vary by country and visa type. During consultation, we provide a realistic timeline based on your selected destination."
+            "Processing times vary by destination, visa type and application circumstances. During your consultation, we help you understand the expected process and the important stages involved.",
     },
 
 
     {
-        id: 4,
-        question: "Can you help if my visa application was previously rejected?",
+        id: "04",
+
+        question:
+            "Can you help me prepare my application?",
+
         answer:
-            "Yes. We review previous applications, identify possible issues and help you prepare a stronger application strategy."
+            "Yes. We provide guidance throughout the preparation process, including document organisation, application preparation and general support before submission.",
     },
 
 
     {
-        id: 5,
-        question: "Do you only assist with tourist visas?",
+        id: "05",
+
+        question:
+            "What happens if I am unsure about my eligibility?",
+
         answer:
-            "No. We support multiple international travel pathways including business travel, study opportunities, family visits and relocation options."
+            "You can speak with our team before starting your application. We can help you understand the relevant requirements and identify the areas you should consider before proceeding.",
     },
-
-
-    {
-        id: 6,
-        question: "How do I begin my travel journey?",
-        answer:
-            "Start by booking a consultation. Our experts will evaluate your goals and guide you through the next steps."
-    }
 
 ];
-
 
 
 const TravelFAQ = () => {
 
 
-    const [active, setActive] = useState(null);
+    const [activeId, setActiveId] = useState(null);
 
+
+    const toggleFAQ = (id) => {
+
+        setActiveId((current) =>
+            current === id ? null : id
+        );
+
+    };
 
 
     return (
 
-        <section className="travel-faq">
+        <section
+            className="tourist-faq"
+
+            style={{
+                "--faq-background": `url(${migrationBackground})`,
+                "--faq-route": `url(${migrationRoute})`,
+                "--faq-airplane": `url(${migrationAirplane})`,
+            }}
+        >
 
 
-            <div className="container">
+            {/* =====================================================
+                ATMOSPHERIC BACKGROUND
+            ====================================================== */}
+
+            <div
+                className="tourist-faq-background"
+                aria-hidden="true"
+            />
+
+            <div
+                className="tourist-faq-route"
+                aria-hidden="true"
+            />
+
+            <div
+                className="tourist-faq-airplane"
+                aria-hidden="true"
+            />
 
 
+            <div className="container tourist-faq-container">
 
-                <div className="travel-faq-header">
+
+                {/* =================================================
+                    HEADER
+                ================================================= */}
+
+                <header className="tourist-faq-header">
 
 
-                    <span className="travel-faq-tag">
+                    <span className="tourist-faq-eyebrow">
+
+                        <span className="tourist-faq-eyebrow-dot" />
 
                         NEED HELP?
 
                     </span>
 
 
-
                     <h2>
 
                         Frequently Asked
 
-                        <span>
+                        <strong>
                             Questions
-                        </span>
+                        </strong>
 
                     </h2>
-
 
 
                     <p>
@@ -109,116 +163,274 @@ const TravelFAQ = () => {
 
                     </p>
 
-
-                </div>
-
+                </header>
 
 
 
-                <div className="travel-faq-wrapper">
+                {/* =================================================
+                    MAIN FAQ LAYOUT
+                ================================================= */}
+
+                <div className="tourist-faq-layout">
 
 
-                    {
-                        faqData.map((item) => {
+                    {/* =============================================
+                        LEFT EDITORIAL PANEL
+                    ============================================== */}
+
+                    <div className="tourist-faq-intro">
 
 
-                            const open = active === item.id;
+                        <div className="tourist-faq-intro-number">
+                            05
+                        </div>
 
+
+                        <span className="tourist-faq-intro-label">
+                            TRAVEL SUPPORT
+                        </span>
+
+
+                        <h3>
+
+                            Have Questions?
+
+                            <span>
+                                We've Got You Covered.
+                            </span>
+
+                        </h3>
+
+
+                        <p>
+
+                            Preparing for international travel can
+                            feel complicated. Get clear answers and
+                            practical guidance before you begin.
+
+                        </p>
+
+
+
+                        {/* =========================================
+                            CONTACT SUPPORT LINK
+                        ========================================== */}
+
+                        <Link
+                            to="/contact"
+                            className="tourist-faq-support"
+                            aria-label="Talk to our travel experts"
+                        >
+
+
+                            <div className="tourist-faq-support-icon">
+
+                                <HiOutlineChatAlt2 />
+
+                            </div>
+
+
+                            <div>
+
+                                <span>
+                                    NEED PERSONAL GUIDANCE?
+                                </span>
+
+                                <strong>
+                                    Talk to our travel experts.
+                                </strong>
+
+                            </div>
+
+
+                            <HiOutlineArrowRight
+                                className="tourist-faq-support-arrow"
+                            />
+
+                        </Link>
+
+
+
+                        {/* =========================================
+                            TRUST MINI ITEMS
+                        ========================================== */}
+
+                        <div className="tourist-faq-trust">
+
+
+                            <div className="tourist-faq-trust-item">
+
+                                <HiOutlineShieldCheck />
+
+                                <div>
+
+                                    <strong>
+                                        Expert Guidance
+                                    </strong>
+
+                                    <span>
+                                        Professional support
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div className="tourist-faq-trust-item">
+
+                                <HiOutlineGlobeAlt />
+
+                                <div>
+
+                                    <strong>
+                                        Global Support
+                                    </strong>
+
+                                    <span>
+                                        Multiple destinations
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    {/* =============================================
+                        FAQ ACCORDION
+                    ============================================== */}
+
+                    <div className="tourist-faq-list">
+
+
+                        {faqItems.map((item) => {
+
+
+                            const isActive =
+                                activeId === item.id;
 
 
                             return (
 
                                 <article
-
                                     key={item.id}
-
-                                    className={`travel-faq-card ${open ? "active" : ""
-                                        }`}
-
+                                    className={
+                                        `tourist-faq-item ${isActive
+                                            ? "is-active"
+                                            : ""
+                                        }`
+                                    }
                                 >
 
 
                                     <button
-
-                                        onClick={() => setActive(
-                                            open ? null : item.id
-                                        )}
-
+                                        type="button"
+                                        className="tourist-faq-question"
+                                        onClick={() =>
+                                            toggleFAQ(item.id)
+                                        }
+                                        aria-expanded={isActive}
                                     >
 
 
-                                        <div className="faq-question">
+                                        <span className="tourist-faq-question-number">
+                                            {item.id}
+                                        </span>
 
 
-                                            <div className="faq-icon">
+                                        <span className="tourist-faq-question-icon">
 
-                                                <HiOutlineQuestionMarkCircle />
+                                            <HiOutlineQuestionMarkCircle />
 
-                                            </div>
-
-
-
-                                            <h3>
-
-                                                {item.question}
-
-                                            </h3>
+                                        </span>
 
 
-                                        </div>
+                                        <span className="tourist-faq-question-text">
+
+                                            {item.question}
+
+                                        </span>
 
 
+                                        <span className="tourist-faq-chevron">
 
-                                        <HiOutlineChevronDown
+                                            <HiOutlineChevronDown />
 
-                                            className="faq-arrow"
-
-                                        />
+                                        </span>
 
 
                                     </button>
 
 
 
+                                    <div
+                                        className="tourist-faq-answer-wrapper"
+                                    >
 
-                                    {
+                                        <div className="tourist-faq-answer">
 
-                                        open &&
-
-                                        <div className="faq-answer">
+                                            <span className="tourist-faq-answer-line" />
 
                                             <p>
-
                                                 {item.answer}
-
                                             </p>
 
                                         </div>
 
-                                    }
-
+                                    </div>
 
 
                                 </article>
 
-                            )
+                            );
+
+                        })}
 
 
-                        })
-                    }
-
+                    </div>
 
                 </div>
 
 
-            </div>
 
+                {/* =================================================
+                    CONTACT FOOTER LINK
+                ================================================= */}
+
+                <Link
+                    to="/contact"
+                    className="tourist-faq-footer"
+                    aria-label="Start a conversation with our travel experts"
+                >
+
+                    <span className="tourist-faq-footer-dot" />
+
+                    <span>
+                        Still unsure?
+                    </span>
+
+                    <strong>
+                        Start with a conversation.
+                    </strong>
+
+                    <HiOutlineArrowRight />
+
+                </Link>
+
+
+            </div>
 
         </section>
 
-    )
+    );
 
-}
+};
 
 
 export default TravelFAQ;

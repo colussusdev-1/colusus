@@ -1,363 +1,1871 @@
-.travel-faq {
+/* =========================================================
+   TRAVEL FAQ
+========================================================= */
+
+.tourist-faq {
 
     position: relative;
 
-    padding: 7rem 0;
+    isolation: isolate;
 
     overflow: hidden;
 
+    padding: 8rem 0 7rem;
+
     background:
         linear-gradient(180deg,
-            #ffffff,
-            #f8fafc);
+            #ffffff 0%,
+            #f8fbff 48%,
+            #eef6ff 100%);
+
+    color: #0b1730;
 
 }
 
 
+/* =========================================================
+   ATMOSPHERIC BACKGROUND
+========================================================= */
 
-.travel-faq::before {
+.tourist-faq-background {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: -5;
+
+    pointer-events: none;
+
+    background-image:
+        var(--faq-background);
+
+    background-repeat: no-repeat;
+
+    background-position:
+        center center;
+
+    background-size:
+        cover;
+
+    opacity: .58;
+
+}
+
+
+/* Soft white veil over background */
+
+.tourist-faq::before {
 
     content: "";
 
     position: absolute;
 
-    width: 500px;
+    inset: 0;
 
-    height: 500px;
-
-    right: -150px;
-
-    top: 100px;
-
-    background:
-
-        radial-gradient(circle,
-            rgba(37, 99, 235, .12),
-            transparent 70%);
+    z-index: -4;
 
     pointer-events: none;
+
+    background:
+        linear-gradient(90deg,
+            rgba(255, 255, 255, .98) 0%,
+            rgba(255, 255, 255, .91) 38%,
+            rgba(255, 255, 255, .72) 70%,
+            rgba(238, 247, 255, .62) 100%);
 
 }
 
 
+/* =========================================================
+   ROUTE
+========================================================= */
+
+.tourist-faq-route {
+
+    position: absolute;
+
+    z-index: -3;
+
+    pointer-events: none;
+
+    width: 900px;
+
+    height: 500px;
+
+    top: 40px;
+
+    right: -120px;
+
+    background-image:
+        var(--faq-route);
+
+    background-repeat: no-repeat;
+
+    background-position:
+        center;
+
+    background-size:
+        contain;
+
+    opacity: .28;
+
+    transform:
+        rotate(-2deg);
+
+}
 
 
+/* =========================================================
+   AIRPLANE
+========================================================= */
 
-/* HEADER */
+.tourist-faq-airplane {
 
-.travel-faq-header {
+    position: absolute;
 
-    max-width: 760px;
+    z-index: -2;
 
-    margin: 0 auto 4rem;
+    pointer-events: none;
+
+    width: 90px;
+
+    height: 90px;
+
+    top: 105px;
+
+    right: 21%;
+
+    background-image:
+        var(--faq-airplane);
+
+    background-repeat: no-repeat;
+
+    background-position: center;
+
+    background-size: contain;
+
+    opacity: .7;
+
+    filter:
+        drop-shadow(0 12px 20px rgba(37, 99, 235, .14));
+
+    transform:
+        rotate(-8deg);
+
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.tourist-faq-container {
+
+    position: relative;
+
+    z-index: 2;
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.tourist-faq-header {
+
+    max-width: 850px;
+
+    margin: 0 auto 5rem;
 
     text-align: center;
 
 }
 
 
-
-.travel-faq-tag {
-
+.tourist-faq-eyebrow {
 
     display: inline-flex;
 
-    padding: .5rem 1rem;
+    align-items: center;
+
+    gap: .55rem;
+
+    padding:
+        .55rem 1.05rem;
+
+    border:
+        1px solid rgba(37, 99, 235, .12);
 
     border-radius: 999px;
 
-    background: rgba(37, 99, 235, .08);
+    background:
+        rgba(239, 246, 255, .88);
 
-    color: #2563eb;
-
-    font-size: .75rem;
-
-    font-weight: 800;
-
-    letter-spacing: .15em;
-
-}
-
-
-
-.travel-faq-header h2 {
-
-    margin: 1.5rem 0 1rem;
+    color:
+        #1261c9;
 
     font-size:
+        .7rem;
 
-        clamp(2.3rem, 5vw, 3.8rem);
+    font-weight:
+        800;
 
-    line-height: 1.1;
+    letter-spacing:
+        .16em;
 
-    font-weight: 800;
+    text-transform:
+        uppercase;
 
-    color: #0f172a;
+    box-shadow:
+        0 8px 25px rgba(37, 99, 235, .06);
 
 }
 
 
+.tourist-faq-eyebrow-dot {
 
-.travel-faq-header h2 span {
+    width: 6px;
+
+    height: 6px;
+
+    border-radius: 50%;
+
+    background:
+        #1769d2;
+
+    box-shadow:
+        0 0 0 4px rgba(37, 99, 235, .10);
+
+}
+
+
+/* =========================================================
+   HEADER TITLE
+========================================================= */
+
+.tourist-faq-header h2 {
+
+    margin:
+        1.5rem 0 1.2rem;
+
+    color:
+        #0b1730;
+
+    font-size:
+        clamp(2.8rem,
+            5vw,
+            4.8rem);
+
+    line-height:
+        .98;
+
+    letter-spacing:
+        -.045em;
+
+    font-weight:
+        850;
+
+}
+
+
+.tourist-faq-header h2 strong {
 
     display: block;
 
-    color: #2563eb;
+    margin-top: .08em;
+
+    color:
+        #1769d2;
+
+    font-weight:
+        850;
 
 }
 
 
+.tourist-faq-header p {
 
-.travel-faq-header p {
+    max-width:
+        650px;
 
-    color: #64748b;
+    margin:
+        0 auto;
 
-    line-height: 1.8;
+    color:
+        #59708e;
 
-}
+    font-size:
+        1.05rem;
 
-
-
-
-
-/* FAQ WRAPPER */
-
-
-.travel-faq-wrapper {
-
-    max-width: 850px;
-
-    margin: auto;
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 1rem;
+    line-height:
+        1.8;
 
 }
 
 
+/* =========================================================
+   MAIN LAYOUT
+========================================================= */
 
+.tourist-faq-layout {
 
+    display:
+        grid;
 
-/* CARD */
+    grid-template-columns:
+        minmax(280px, .82fr) minmax(0, 1.55fr);
 
+    gap:
+        4rem;
 
-.travel-faq-card {
-
-
-    background:
-
-        rgba(255, 255, 255, .75);
-
-
-    backdrop-filter: blur(20px);
-
-
-    border:
-
-        1px solid rgba(255, 255, 255, .8);
-
-
-    border-radius: 24px;
-
-
-    box-shadow:
-
-        0 20px 50px rgba(15, 23, 42, .06);
-
-
-    overflow: hidden;
-
-
-    transition: .35s ease;
-
+    align-items:
+        start;
 
 }
 
 
+/* =========================================================
+   LEFT EDITORIAL PANEL
+========================================================= */
 
+.tourist-faq-intro {
 
-.travel-faq-card.active {
+    position:
+        sticky;
 
-    border-color:
-
-        rgba(37, 99, 235, .25);
-
-
-}
-
-
-
-
-
-.travel-faq-card button {
-
-
-    width: 100%;
-
-    padding: 1.5rem;
-
-    border: none;
-
-    background: none;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    cursor: pointer;
-
-    text-align: left;
-
-
-}
-
-
-
-
-.faq-question {
-
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 1rem;
-
-}
-
-
-
-.faq-icon {
-
-
-    width: 45px;
-
-    height: 45px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-
-    border-radius: 15px;
-
-
-    background:
-
-        rgba(37, 99, 235, .1);
-
-
-    color: #2563eb;
-
-    font-size: 1.3rem;
-
-
-}
-
-
-
-.faq-question h3 {
-
-
-    font-size: 1rem;
-
-    color: #111827;
-
-    font-weight: 700;
-
-    margin: 0;
-
-
-}
-
-
-
-.faq-arrow {
-
-    color: #2563eb;
-
-    transition: .3s ease;
-
-}
-
-
-
-.travel-faq-card.active .faq-arrow {
-
-
-    transform: rotate(180deg);
-
-
-}
-
-
-
-
-.faq-answer {
-
+    top:
+        2rem;
 
     padding:
+        2.4rem;
 
-        0 1.5rem 1.5rem 5.5rem;
+    border:
+        1px solid rgba(37, 99, 235, .11);
 
+    border-radius:
+        30px;
+
+    background:
+        linear-gradient(145deg,
+            rgba(255, 255, 255, .96),
+            rgba(246, 250, 255, .86));
+
+    box-shadow:
+        0 25px 70px rgba(15, 48, 90, .08);
+
+    overflow:
+        hidden;
 
 }
 
 
+/* Decorative glow */
 
-.faq-answer p {
+.tourist-faq-intro::before {
 
+    content: "";
 
-    margin: 0;
+    position:
+        absolute;
 
-    color: #64748b;
+    width:
+        260px;
 
-    line-height: 1.8;
+    height:
+        260px;
+
+    top:
+        -150px;
+
+    right:
+        -130px;
+
+    border-radius:
+        50%;
+
+    background:
+        radial-gradient(circle,
+            rgba(37, 99, 235, .13),
+            transparent 70%);
+
+    pointer-events:
+        none;
 
 }
 
 
+/* =========================================================
+   INTRO NUMBER
+========================================================= */
+
+.tourist-faq-intro-number {
+
+    position:
+        absolute;
+
+    top:
+        1.5rem;
+
+    right:
+        1.7rem;
+
+    color:
+        rgba(37, 99, 235, .07);
+
+    font-size:
+        4.5rem;
+
+    line-height:
+        1;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        -.06em;
+
+}
 
 
+.tourist-faq-intro-label {
 
-@media(max-width:768px) {
+    display:
+        inline-flex;
+
+    margin-bottom:
+        1.2rem;
+
+    color:
+        #1769d2;
+
+    font-size:
+        .68rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .16em;
+
+    text-transform:
+        uppercase;
+
+}
 
 
-    .travel-faq {
+.tourist-faq-intro h3 {
 
-        padding: 5rem 0;
+    position:
+        relative;
 
-    }
+    margin:
+        0 0 1rem;
+
+    max-width:
+        380px;
+
+    color:
+        #0b1730;
+
+    font-size:
+        clamp(1.8rem,
+            2.5vw,
+            2.35rem);
+
+    line-height:
+        1.08;
+
+    letter-spacing:
+        -.035em;
+
+    font-weight:
+        800;
+
+}
 
 
-    .travel-faq-card button {
+.tourist-faq-intro h3 span {
 
-        padding: 1.2rem;
+    display:
+        block;
 
-    }
+    margin-top:
+        .12em;
+
+    color:
+        #1769d2;
+
+}
 
 
-    .faq-question h3 {
+.tourist-faq-intro>p {
 
-        font-size: .92rem;
+    margin:
+        0 0 2rem;
 
-    }
+    max-width:
+        390px;
+
+    color:
+        #60758f;
+
+    font-size:
+        .95rem;
+
+    line-height:
+        1.8;
+
+}
 
 
-    .faq-answer {
+/* =========================================================
+   SUPPORT CONTACT LINK
+========================================================= */
+
+.tourist-faq-support {
+
+    position:
+        relative;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        1rem;
+
+    width:
+        100%;
+
+    padding:
+        1rem;
+
+    border:
+        1px solid rgba(37, 99, 235, .13);
+
+    border-radius:
+        18px;
+
+    background:
+        rgba(255, 255, 255, .82);
+
+    text-decoration:
+        none;
+
+    box-shadow:
+        0 12px 30px rgba(15, 48, 90, .055);
+
+    transition:
+        transform .3s ease,
+        border-color .3s ease,
+        box-shadow .3s ease,
+        background .3s ease;
+
+}
+
+
+.tourist-faq-support:hover {
+
+    transform:
+        translateY(-4px);
+
+    border-color:
+        rgba(37, 99, 235, .3);
+
+    background:
+        #ffffff;
+
+    box-shadow:
+        0 18px 40px rgba(37, 99, 235, .12);
+
+}
+
+
+.tourist-faq-support-icon {
+
+    width:
+        46px;
+
+    height:
+        46px;
+
+    flex-shrink:
+        0;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        14px;
+
+    background:
+        linear-gradient(135deg,
+            #eaf3ff,
+            #dcecff);
+
+    color:
+        #1769d2;
+
+    font-size:
+        1.3rem;
+
+    transition:
+        background .3s ease,
+        color .3s ease;
+
+}
+
+
+.tourist-faq-support:hover .tourist-faq-support-icon {
+
+    background:
+        #1769d2;
+
+    color:
+        white;
+
+}
+
+
+.tourist-faq-support div:not(.tourist-faq-support-icon) {
+
+    min-width:
+        0;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        .25rem;
+
+}
+
+
+.tourist-faq-support span {
+
+    color:
+        #7b91ab;
+
+    font-size:
+        .58rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .12em;
+
+}
+
+
+.tourist-faq-support strong {
+
+    color:
+        #14233d;
+
+    font-size:
+        .85rem;
+
+    line-height:
+        1.35;
+
+}
+
+
+.tourist-faq-support-arrow {
+
+    margin-left:
+        auto;
+
+    flex-shrink:
+        0;
+
+    color:
+        #1769d2;
+
+    font-size:
+        1.2rem;
+
+    transition:
+        transform .3s ease;
+
+}
+
+
+.tourist-faq-support:hover .tourist-faq-support-arrow {
+
+    transform:
+        translateX(5px);
+
+}
+
+
+/* =========================================================
+   TRUST ITEMS
+========================================================= */
+
+.tourist-faq-trust {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap:
+        .8rem;
+
+    margin-top:
+        1.3rem;
+
+}
+
+
+.tourist-faq-trust-item {
+
+    display:
+        flex;
+
+    align-items:
+        flex-start;
+
+    gap:
+        .65rem;
+
+    padding:
+        .9rem;
+
+    border:
+        1px solid rgba(15, 23, 42, .06);
+
+    border-radius:
+        15px;
+
+    background:
+        rgba(255, 255, 255, .58);
+
+}
+
+
+.tourist-faq-trust-item>svg {
+
+    flex-shrink:
+        0;
+
+    margin-top:
+        .1rem;
+
+    color:
+        #1769d2;
+
+    font-size:
+        1.1rem;
+
+}
+
+
+.tourist-faq-trust-item div {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        .2rem;
+
+}
+
+
+.tourist-faq-trust-item strong {
+
+    color:
+        #1b2b43;
+
+    font-size:
+        .68rem;
+
+    line-height:
+        1.3;
+
+}
+
+
+.tourist-faq-trust-item span {
+
+    color:
+        #8395aa;
+
+    font-size:
+        .6rem;
+
+    line-height:
+        1.3;
+
+}
+
+
+/* =========================================================
+   FAQ LIST
+========================================================= */
+
+.tourist-faq-list {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        .9rem;
+
+}
+
+
+/* =========================================================
+   FAQ ITEM
+========================================================= */
+
+.tourist-faq-item {
+
+    position:
+        relative;
+
+    border:
+        1px solid rgba(15, 23, 42, .07);
+
+    border-radius:
+        22px;
+
+    background:
+        rgba(255, 255, 255, .91);
+
+    overflow:
+        hidden;
+
+    box-shadow:
+        0 12px 35px rgba(15, 48, 90, .045);
+
+    transition:
+        border-color .3s ease,
+        box-shadow .3s ease,
+        transform .3s ease;
+
+}
+
+
+.tourist-faq-item:hover {
+
+    border-color:
+        rgba(37, 99, 235, .18);
+
+    box-shadow:
+        0 18px 45px rgba(15, 48, 90, .075);
+
+}
+
+
+.tourist-faq-item.is-active {
+
+    border-color:
+        rgba(37, 99, 235, .26);
+
+    box-shadow:
+        0 22px 55px rgba(37, 99, 235, .09);
+
+}
+
+
+/* =========================================================
+   QUESTION BUTTON
+========================================================= */
+
+.tourist-faq-question {
+
+    position:
+        relative;
+
+    width:
+        100%;
+
+    min-height:
+        92px;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        35px 48px minmax(0, 1fr) 34px;
+
+    align-items:
+        center;
+
+    gap:
+        1rem;
+
+    padding:
+        1.15rem 1.35rem;
+
+    border:
+        0;
+
+    background:
+        transparent;
+
+    color:
+        #13223a;
+
+    font-family:
+        inherit;
+
+    text-align:
+        left;
+
+    cursor:
+        pointer;
+
+}
+
+
+/* =========================================================
+   QUESTION NUMBER
+========================================================= */
+
+.tourist-faq-question-number {
+
+    color:
+        #a3b3c7;
+
+    font-size:
+        .65rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .08em;
+
+    transition:
+        color .3s ease;
+
+}
+
+
+.tourist-faq-item.is-active .tourist-faq-question-number {
+
+    color:
+        #1769d2;
+
+}
+
+
+/* =========================================================
+   QUESTION ICON
+========================================================= */
+
+.tourist-faq-question-icon {
+
+    width:
+        44px;
+
+    height:
+        44px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        14px;
+
+    background:
+        #edf5ff;
+
+    color:
+        #1769d2;
+
+    font-size:
+        1.25rem;
+
+    transition:
+        background .3s ease,
+        color .3s ease,
+        transform .3s ease;
+
+}
+
+
+.tourist-faq-item.is-active .tourist-faq-question-icon {
+
+    background:
+        #1769d2;
+
+    color:
+        #ffffff;
+
+    transform:
+        scale(1.04);
+
+}
+
+
+/* =========================================================
+   QUESTION TEXT
+========================================================= */
+
+.tourist-faq-question-text {
+
+    padding-right:
+        .5rem;
+
+    color:
+        #15243b;
+
+    font-size:
+        .95rem;
+
+    font-weight:
+        750;
+
+    line-height:
+        1.45;
+
+}
+
+
+.tourist-faq-item.is-active .tourist-faq-question-text {
+
+    color:
+        #0d5fbe;
+
+}
+
+
+/* =========================================================
+   CHEVRON
+========================================================= */
+
+.tourist-faq-chevron {
+
+    width:
+        32px;
+
+    height:
+        32px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        50%;
+
+    color:
+        #1769d2;
+
+    font-size:
+        1.1rem;
+
+    transition:
+        transform .35s ease,
+        background .3s ease;
+
+}
+
+
+.tourist-faq-item:hover .tourist-faq-chevron {
+
+    background:
+        #f0f6ff;
+
+}
+
+
+.tourist-faq-item.is-active .tourist-faq-chevron {
+
+    transform:
+        rotate(180deg);
+
+    background:
+        #edf5ff;
+
+}
+
+
+/* =========================================================
+   ANSWER
+========================================================= */
+
+.tourist-faq-answer-wrapper {
+
+    display:
+        grid;
+
+    grid-template-rows:
+        0fr;
+
+    transition:
+        grid-template-rows .4s cubic-bezier(.22, .61, .36, 1);
+
+}
+
+
+.tourist-faq-item.is-active .tourist-faq-answer-wrapper {
+
+    grid-template-rows:
+        1fr;
+
+}
+
+
+.tourist-faq-answer {
+
+    min-height:
+        0;
+
+    overflow:
+        hidden;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        2px 1fr;
+
+    gap:
+        1rem;
+
+    padding:
+        0 1.35rem;
+
+    opacity:
+        0;
+
+    transform:
+        translateY(-5px);
+
+    transition:
+        opacity .25s ease,
+        transform .35s ease,
+        padding .35s ease;
+
+}
+
+
+.tourist-faq-item.is-active .tourist-faq-answer {
+
+    padding:
+        0 1.35rem 1.45rem;
+
+    opacity:
+        1;
+
+    transform:
+        translateY(0);
+
+}
+
+
+.tourist-faq-answer-line {
+
+    width:
+        2px;
+
+    min-height:
+        100%;
+
+    border-radius:
+        999px;
+
+    background:
+        linear-gradient(180deg,
+            #1769d2,
+            rgba(37, 99, 235, .08));
+
+}
+
+
+.tourist-faq-answer p {
+
+    margin:
+        0;
+
+    max-width:
+        680px;
+
+    color:
+        #61758f;
+
+    font-size:
+        .88rem;
+
+    line-height:
+        1.8;
+
+}
+
+
+/* =========================================================
+   FOOTER CTA
+========================================================= */
+
+.tourist-faq-footer {
+
+    position:
+        relative;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        .55rem;
+
+    width:
+        fit-content;
+
+    margin:
+        3rem auto 0;
+
+    padding:
+        .85rem 1.25rem;
+
+    border:
+        1px solid rgba(37, 99, 235, .1);
+
+    border-radius:
+        999px;
+
+    background:
+        rgba(255, 255, 255, .72);
+
+    color:
+        #6c7f96;
+
+    font-size:
+        .75rem;
+
+    text-decoration:
+        none;
+
+    box-shadow:
+        0 10px 30px rgba(15, 48, 90, .04);
+
+    transition:
+        transform .3s ease,
+        border-color .3s ease,
+        box-shadow .3s ease,
+        background .3s ease;
+
+}
+
+
+.tourist-faq-footer:hover {
+
+    transform:
+        translateY(-3px);
+
+    border-color:
+        rgba(37, 99, 235, .22);
+
+    background:
+        #ffffff;
+
+    box-shadow:
+        0 16px 38px rgba(37, 99, 235, .09);
+
+}
+
+
+.tourist-faq-footer-dot {
+
+    width:
+        6px;
+
+    height:
+        6px;
+
+    flex-shrink:
+        0;
+
+    border-radius:
+        50%;
+
+    background:
+        #1769d2;
+
+    box-shadow:
+        0 0 0 4px rgba(37, 99, 235, .08);
+
+}
+
+
+.tourist-faq-footer strong {
+
+    color:
+        #1769d2;
+
+    font-weight:
+        750;
+
+}
+
+
+.tourist-faq-footer svg {
+
+    color:
+        #1769d2;
+
+    font-size:
+        1rem;
+
+    transition:
+        transform .3s ease;
+
+}
+
+
+.tourist-faq-footer:hover svg {
+
+    transform:
+        translateX(5px);
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1050px) {
+
+    .tourist-faq {
 
         padding:
-
-            0 1.2rem 1.2rem 1.2rem;
+            6.5rem 0 6rem;
 
     }
 
+
+    .tourist-faq-layout {
+
+        grid-template-columns:
+            1fr;
+
+        gap:
+            2.5rem;
+
+    }
+
+
+    .tourist-faq-intro {
+
+        position:
+            relative;
+
+        top:
+            auto;
+
+        max-width:
+            760px;
+
+        width:
+            100%;
+
+        margin:
+            0 auto;
+
+    }
+
+
+    .tourist-faq-intro>p {
+
+        max-width:
+            650px;
+
+    }
+
+
+    .tourist-faq-support {
+
+        max-width:
+            560px;
+
+    }
+
+
+    .tourist-faq-trust {
+
+        max-width:
+            560px;
+
+    }
+
+
+    .tourist-faq-list {
+
+        max-width:
+            900px;
+
+        width:
+            100%;
+
+        margin:
+            0 auto;
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .tourist-faq {
+
+        padding:
+            5rem 0 4.5rem;
+
+    }
+
+
+    .tourist-faq-background {
+
+        background-size:
+            auto 100%;
+
+        background-position:
+            65% center;
+
+        opacity:
+            .32;
+
+    }
+
+
+    .tourist-faq::before {
+
+        background:
+            linear-gradient(180deg,
+                rgba(255, 255, 255, .97),
+                rgba(248, 251, 255, .94));
+
+    }
+
+
+    .tourist-faq-route {
+
+        width:
+            650px;
+
+        height:
+            350px;
+
+        top:
+            80px;
+
+        right:
+            -280px;
+
+        opacity:
+            .16;
+
+    }
+
+
+    .tourist-faq-airplane {
+
+        width:
+            55px;
+
+        height:
+            55px;
+
+        top:
+            100px;
+
+        right:
+            12%;
+
+        opacity:
+            .45;
+
+    }
+
+
+    .tourist-faq-header {
+
+        margin-bottom:
+            3rem;
+
+    }
+
+
+    .tourist-faq-header h2 {
+
+        font-size:
+            clamp(2.35rem,
+                11vw,
+                3.4rem);
+
+    }
+
+
+    .tourist-faq-header p {
+
+        font-size:
+            .9rem;
+
+        line-height:
+            1.7;
+
+    }
+
+
+    .tourist-faq-intro {
+
+        padding:
+            1.7rem;
+
+        border-radius:
+            24px;
+
+    }
+
+
+    .tourist-faq-intro-number {
+
+        font-size:
+            3.5rem;
+
+        top:
+            1.2rem;
+
+        right:
+            1.25rem;
+
+    }
+
+
+    .tourist-faq-intro h3 {
+
+        font-size:
+            1.8rem;
+
+    }
+
+
+    .tourist-faq-trust {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .tourist-faq-question {
+
+        grid-template-columns:
+            32px 42px minmax(0, 1fr) 28px;
+
+        gap:
+            .7rem;
+
+        min-height:
+            82px;
+
+        padding:
+            1rem;
+
+    }
+
+
+    .tourist-faq-question-icon {
+
+        width:
+            40px;
+
+        height:
+            40px;
+
+        border-radius:
+            12px;
+
+        font-size:
+            1.1rem;
+
+    }
+
+
+    .tourist-faq-question-text {
+
+        font-size:
+            .82rem;
+
+    }
+
+
+    .tourist-faq-question-number {
+
+        font-size:
+            .58rem;
+
+    }
+
+
+    .tourist-faq-answer {
+
+        gap:
+            .75rem;
+
+        padding:
+            0 1rem;
+
+    }
+
+
+    .tourist-faq-item.is-active .tourist-faq-answer {
+
+        padding:
+            0 1rem 1.2rem;
+
+    }
+
+
+    .tourist-faq-answer p {
+
+        font-size:
+            .8rem;
+
+        line-height:
+            1.7;
+
+    }
+
+
+    .tourist-faq-footer {
+
+        margin-top:
+            2.2rem;
+
+        font-size:
+            .68rem;
+
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 430px) {
+
+    .tourist-faq {
+
+        padding:
+            4.5rem 0 4rem;
+
+    }
+
+
+    .tourist-faq-eyebrow {
+
+        font-size:
+            .6rem;
+
+        padding:
+            .5rem .85rem;
+
+    }
+
+
+    .tourist-faq-header h2 {
+
+        font-size:
+            2.25rem;
+
+    }
+
+
+    .tourist-faq-layout {
+
+        gap:
+            1.7rem;
+
+    }
+
+
+    .tourist-faq-intro {
+
+        padding:
+            1.4rem;
+
+    }
+
+
+    .tourist-faq-support {
+
+        padding:
+            .85rem;
+
+    }
+
+
+    .tourist-faq-support-icon {
+
+        width:
+            40px;
+
+        height:
+            40px;
+
+        border-radius:
+            12px;
+
+    }
+
+
+    .tourist-faq-support span {
+
+        font-size:
+            .5rem;
+
+    }
+
+
+    .tourist-faq-support strong {
+
+        font-size:
+            .76rem;
+
+    }
+
+
+    .tourist-faq-question {
+
+        grid-template-columns:
+            30px 38px minmax(0, 1fr) 24px;
+
+        gap:
+            .55rem;
+
+        padding:
+            .85rem;
+
+    }
+
+
+    .tourist-faq-question-icon {
+
+        width:
+            36px;
+
+        height:
+            36px;
+
+        font-size:
+            1rem;
+
+    }
+
+
+    .tourist-faq-question-text {
+
+        font-size:
+            .76rem;
+
+    }
+
+
+    .tourist-faq-question-number {
+
+        display:
+            none;
+
+    }
+
+
+    .tourist-faq-chevron {
+
+        width:
+            26px;
+
+        height:
+            26px;
+
+    }
+
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.tourist-faq-question:focus-visible,
+.tourist-faq-support:focus-visible,
+.tourist-faq-footer:focus-visible {
+
+    outline:
+        3px solid rgba(37, 99, 235, .25);
+
+    outline-offset:
+        4px;
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .tourist-faq *,
+    .tourist-faq *::before,
+    .tourist-faq *::after {
+
+        transition:
+            none !important;
+
+        animation:
+            none !important;
+
+    }
 
 }

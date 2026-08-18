@@ -1,739 +1,2295 @@
-/* =================================================
-   TOURIST PROCESS SECTION
-================================================= */
-
+/* =========================================================
+   TOURIST PROCESS
+========================================================= */
 
 .tourist-process {
 
+    --process-blue: #0864d8;
+    --process-blue-dark: #0754b5;
+    --process-navy: #07152d;
+
+    --process-text: #14233d;
+    --process-muted: #5c708c;
+
     position: relative;
 
-    padding: 7rem 0;
+    min-height: 100vh;
+
+    padding: 7.5rem 0 6rem;
 
     overflow: hidden;
 
+    isolation: isolate;
+
     background:
         linear-gradient(180deg,
-            #ffffff,
-            #f8fafc);
+            #ffffff 0%,
+            #fbfdff 48%,
+            #eef6ff 100%);
 
 }
 
 
+/* =========================================================
+   BACKGROUND
+========================================================= */
 
-
-.tourist-process::before {
-
-
-    content: "";
+.tourist-process-background {
 
     position: absolute;
 
-    width: 600px;
+    inset: 0;
 
-    height: 600px;
+    z-index: -10;
 
-    top: 20%;
+    background-image:
+        var(--process-bg);
 
-    left: 50%;
+    background-repeat: no-repeat;
 
-    transform: translateX(-50%);
+    background-position:
+        center top;
 
-    background:
+    background-size:
+        cover;
 
-        radial-gradient(circle,
-            rgba(37, 99, 235, .12),
-            transparent 70%);
+    opacity: .42;
 
     pointer-events: none;
 
 }
 
 
-
-
-
-
-
-/* =================================================
-   HEADER
-================================================= */
-
-
-.tourist-process-header {
-
-
-    position: relative;
-
-    max-width: 760px;
-
-    margin: 0 auto 4.5rem;
-
-    text-align: center;
-
-    z-index: 2;
-
-}
-
-
-
-.tourist-process-tag {
-
-
-    display: inline-flex;
-
-    padding: .5rem 1rem;
-
-    border-radius: 999px;
-
-
-    background:
-
-        rgba(37, 99, 235, .08);
-
-
-    border:
-
-        1px solid rgba(37, 99, 235, .15);
-
-
-    color:
-
-        var(--primary-color);
-
-
-    font-size: .75rem;
-
-    font-weight: 800;
-
-    letter-spacing: .15em;
-
-}
-
-
-
-
-.tourist-process-header h2 {
-
-
-    margin: 1.5rem 0 1rem;
-
-
-    font-size:
-
-        clamp(2.3rem, 5vw, 3.8rem);
-
-
-    line-height: 1.1;
-
-
-    font-weight: 800;
-
-
-    letter-spacing: -1.5px;
-
-
-    color: #111827;
-
-
-}
-
-
-
-.tourist-process-header h2 span {
-
-
-    display: block;
-
-    color: var(--primary-color);
-
-}
-
-
-
-.tourist-process-header p {
-
-
-    max-width: 650px;
-
-    margin: auto;
-
-
-    color: #6b7280;
-
-
-    line-height: 1.8;
-
-
-    font-size: 1.05rem;
-
-
-}
-
-
-
-
-
-
-/* =================================================
-   GRID
-================================================= */
-
-
-.tourist-process-grid {
-
-
-    position: relative;
-
-
-    display: grid;
-
-
-    grid-template-columns: repeat(3, 1fr);
-
-
-    gap: 1.5rem;
-
-
-}
-
-
-
-
-
-
-/* =================================================
-   CARD
-================================================= */
-
-
-.tpCard {
-
-
-    position: relative;
-
-}
-
-
-
-
-
-/* =================================================
-   ICON
-================================================= */
-
-
-.tpCard__top {
-
-
-    display: flex;
-
-    align-items: center;
-
-    margin-bottom: 1.5rem;
-
-
-}
-
-
-
-
-.tpCard__circle {
-
-
-    width: 76px;
-
-    height: 76px;
-
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-
-    border-radius: 24px;
-
-
-    background:
-
-        linear-gradient(135deg,
-            var(--primary-color),
-            #60a5fa);
-
-
-    color: white;
-
-
-    font-size: 2rem;
-
-
-    box-shadow:
-
-        0 20px 45px rgba(37, 99, 235, .35);
-
-
-    position: relative;
-
-    z-index: 2;
-
-}
-
-
-
-
-.tpCard__circle::after {
-
+.tourist-process::before {
 
     content: "";
 
+    position: absolute;
+
+    inset: 0;
+
+    z-index: -9;
+
+    background:
+        linear-gradient(90deg,
+            rgba(255, 255, 255, .98) 0%,
+            rgba(255, 255, 255, .94) 28%,
+            rgba(255, 255, 255, .70) 55%,
+            rgba(255, 255, 255, .16) 100%);
+
+    pointer-events: none;
+
+}
+
+
+/* =========================================================
+   MAP ATMOSPHERE
+========================================================= */
+
+.tourist-process-map-glow {
 
     position: absolute;
 
+    top: -10rem;
 
-    inset: -8px;
+    right: -12rem;
 
+    width: 48rem;
 
-    border-radius: 30px;
+    height: 48rem;
 
+    z-index: -8;
+
+    border-radius: 50%;
 
     background:
-
-        rgba(37, 99, 235, .15);
-
+        radial-gradient(circle,
+            rgba(82, 151, 238, .15),
+            rgba(82, 151, 238, 0) 68%);
 
     filter: blur(15px);
 
-
-    z-index: -1;
+    pointer-events: none;
 
 }
 
 
+/* =========================================================
+   FLIGHT ROUTE
+========================================================= */
+
+.tourist-process-route {
+
+    position: absolute;
+
+    top: 3.5rem;
+
+    right: 3%;
+
+    width: 61%;
+
+    height: 21rem;
+
+    z-index: -7;
+
+    background-image:
+        var(--process-route);
+
+    background-repeat: no-repeat;
+
+    background-position: center;
+
+    background-size: contain;
+
+    opacity: .55;
+
+    pointer-events: none;
+
+}
 
 
+/* =========================================================
+   AIRPLANE
+========================================================= */
 
-/* CONNECTOR */
+.tourist-process-airplane {
+
+    position: absolute;
+
+    top: 4.2rem;
+
+    right: 18%;
+
+    width: 5.5rem;
+
+    height: 5.5rem;
+
+    z-index: -6;
+
+    background-image:
+        var(--process-airplane);
+
+    background-repeat: no-repeat;
+
+    background-position: center;
+
+    background-size: contain;
+
+    opacity: .72;
+
+    filter:
+        drop-shadow(0 12px 25px rgba(37, 99, 235, .16));
+
+    animation:
+        processAirplaneFloat 6s ease-in-out infinite;
+
+    pointer-events: none;
+
+}
 
 
-.tpCard__line {
+@keyframes processAirplaneFloat {
+
+    0%,
+    100% {
+
+        transform:
+            translate3d(0, 0, 0) rotate(-3deg);
+
+    }
+
+    50% {
+
+        transform:
+            translate3d(0, -9px, 0) rotate(1deg);
+
+    }
+
+}
 
 
-    flex: 1;
+/* =========================================================
+   LANDMARKS
+========================================================= */
+
+.tourist-process-landmarks {
+
+    position: absolute;
+
+    bottom: -1rem;
+
+    width: 25rem;
+
+    height: 21rem;
+
+    z-index: -5;
+
+    background-repeat: no-repeat;
+
+    background-position: bottom center;
+
+    background-size: contain;
+
+    opacity: .35;
+
+    pointer-events: none;
+
+}
 
 
-    height: 2px;
+.tourist-process-landmarks--left {
+
+    left: -2rem;
+
+    background-image:
+        var(--process-landmarks-left);
+
+}
 
 
-    margin-left: 1rem;
+.tourist-process-landmarks--right {
 
+    right: -2rem;
+
+    background-image:
+        var(--process-landmarks-right);
+
+}
+
+
+/* =========================================================
+   LOWER BLUE ATMOSPHERE
+========================================================= */
+
+.tourist-process::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: -15%;
+
+    right: -15%;
+
+    bottom: -25rem;
+
+    height: 45rem;
+
+    z-index: -4;
 
     background:
+        radial-gradient(ellipse,
+            rgba(55, 126, 221, .20),
+            transparent 68%);
 
+    filter: blur(20px);
 
-        linear-gradient(90deg,
-            var(--primary-color),
-            rgba(37, 99, 235, .1));
-
+    pointer-events: none;
 
 }
 
 
+/* =========================================================
+   CONTAINER
+========================================================= */
 
-
-
-/* =================================================
-   GLASS CARD
-================================================= */
-
-
-.tpCard__glass {
-
+.tourist-process-container {
 
     position: relative;
 
-
-    padding: 2rem;
-
-
-    min-height: 300px;
-
-
-    border-radius: 30px;
-
-
-    background:
-
-        rgba(255, 255, 255, .75);
-
-
-    backdrop-filter: blur(25px);
-
-
-    -webkit-backdrop-filter: blur(25px);
-
-
-    border:
-
-        1px solid rgba(255, 255, 255, .8);
-
-
-    box-shadow:
-
-
-        0 25px 70px rgba(15, 23, 42, .08);
-
-
-    transition: .35s ease;
-
+    z-index: 5;
 
 }
 
 
+/* =========================================================
+   HEADER
+========================================================= */
 
+.tourist-process-header {
 
-.tpCard__glass:hover {
+    max-width: 920px;
 
+    margin: 0 auto;
 
-    transform:
-
-        translateY(-10px);
-
-
-    box-shadow:
-
-
-        0 35px 90px rgba(37, 99, 235, .16);
-
+    text-align: center;
 
 }
 
 
-
-
-
-.tpCard__step {
-
+.tourist-process-eyebrow {
 
     display: inline-flex;
-
-
-    margin-bottom: 1rem;
-
-
-    color:
-
-        var(--primary-color);
-
-
-    font-size: .75rem;
-
-
-    font-weight: 800;
-
-
-    letter-spacing: .15em;
-
-
-}
-
-
-
-
-.tpCard__glass h3 {
-
-
-    margin-bottom: .8rem;
-
-
-    color: #111827;
-
-
-    font-size: 1.35rem;
-
-
-    font-weight: 800;
-
-
-}
-
-
-
-
-.tpCard__glass p {
-
-
-    color: #6b7280;
-
-
-    line-height: 1.8;
-
-
-    font-size: .95rem;
-
-
-}
-
-
-
-
-
-
-
-/* =================================================
-   FOOTER PILL
-================================================= */
-
-
-.tpCard__footer {
-
-
-    margin-top: 1.5rem;
-
-}
-
-
-
-.tpCard__pill {
-
-
-    display: inline-flex;
-
 
     align-items: center;
 
+    gap: .65rem;
 
-    gap: .45rem;
+    padding: .62rem 1.15rem;
 
-
-    padding: .55rem 1rem;
-
+    border:
+        1px solid rgba(37, 99, 235, .15);
 
     border-radius: 999px;
 
-
     background:
-
-        rgba(37, 99, 235, .08);
-
+        rgba(239, 246, 255, .92);
 
     color:
+        var(--process-blue);
 
-        var(--primary-color);
+    font-size: .7rem;
 
+    font-weight: 900;
 
-    font-size: .8rem;
+    letter-spacing: .16em;
 
-
-    font-weight: 700;
-
+    box-shadow:
+        0 10px 30px rgba(37, 99, 235, .07);
 
 }
 
 
+.tourist-process-eyebrow-dot {
+
+    width: 6px;
+
+    height: 6px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background:
+        var(--process-blue);
+
+    box-shadow:
+        0 0 0 4px rgba(37, 99, 235, .08);
+
+}
 
 
+/* =========================================================
+   HEADER TITLE
+========================================================= */
+
+.tourist-process-header h2 {
+
+    margin:
+        1.7rem auto 0;
+
+    max-width:
+        1000px;
+
+    font-size:
+        clamp(3rem,
+            5.5vw,
+            5.1rem);
+
+    line-height:
+        .97;
+
+    letter-spacing:
+        -.06em;
+
+    font-weight:
+        900;
+
+    color:
+        var(--process-navy);
+
+}
 
 
-/* =================================================
-   NOTE PANEL
-================================================= */
+.process-heading-main {
 
+    display:
+        block;
+
+}
+
+
+.process-heading-accent {
+
+    display:
+        block;
+
+    margin-top:
+        .1em;
+
+    color:
+        var(--process-blue);
+
+}
+
+
+/* =========================================================
+   HEADING DECORATION
+========================================================= */
+
+.process-heading-decoration {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        .4rem;
+
+    margin:
+        1.6rem auto 1.2rem;
+
+}
+
+
+.process-heading-line {
+
+    width:
+        3.2rem;
+
+    height:
+        2px;
+
+    border-radius:
+        999px;
+
+    background:
+        var(--process-blue);
+
+}
+
+
+.process-heading-line--short {
+
+    width:
+        .8rem;
+
+    opacity:
+        .4;
+
+}
+
+
+.process-heading-dot {
+
+    width:
+        5px;
+
+    height:
+        5px;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--process-blue);
+
+    box-shadow:
+        0 0 0 4px rgba(37, 99, 235, .08);
+
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.tourist-process-description {
+
+    max-width:
+        720px;
+
+    margin:
+        0 auto;
+
+    color:
+        var(--process-muted);
+
+    font-size:
+        1.04rem;
+
+    line-height:
+        1.8;
+
+}
+
+
+/* =========================================================
+   META
+========================================================= */
+
+.tourist-process-meta {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        .8rem;
+
+    margin-top:
+        1.25rem;
+
+    color:
+        #7a8ea9;
+
+    font-size:
+        .62rem;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        .18em;
+
+}
+
+
+.tourist-process-meta i {
+
+    width:
+        4px;
+
+    height:
+        4px;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--process-blue);
+
+}
+
+
+/* =========================================================
+   JOURNEY
+========================================================= */
+
+.tourist-process-journey {
+
+    position:
+        relative;
+
+    margin-top:
+        6.5rem;
+
+}
+
+
+/* =========================================================
+   JOURNEY LINE
+========================================================= */
+
+.tourist-process-journey-path {
+
+    position:
+        absolute;
+
+    top:
+        2.95rem;
+
+    left:
+        11%;
+
+    right:
+        11%;
+
+    height:
+        1px;
+
+    z-index:
+        1;
+
+}
+
+
+.journey-path-line {
+
+    position:
+        absolute;
+
+    inset:
+        0;
+
+    height:
+        1px;
+
+    background:
+        repeating-linear-gradient(90deg,
+            rgba(37, 99, 235, .36) 0,
+            rgba(37, 99, 235, .36) 7px,
+            transparent 7px,
+            transparent 15px);
+
+}
+
+
+.journey-path-dot {
+
+    position:
+        absolute;
+
+    top:
+        -3px;
+
+    width:
+        7px;
+
+    height:
+        7px;
+
+    border-radius:
+        50%;
+
+    background:
+        #ffffff;
+
+    border:
+        2px solid var(--process-blue);
+
+    box-shadow:
+        0 0 0 5px rgba(37, 99, 235, .07);
+
+}
+
+
+.journey-path-dot--one {
+
+    left:
+        0;
+
+}
+
+
+.journey-path-dot--two {
+
+    left:
+        50%;
+
+    transform:
+        translateX(-50%);
+
+}
+
+
+.journey-path-dot--three {
+
+    right:
+        0;
+
+}
+
+
+/* =========================================================
+   PROCESS GRID
+========================================================= */
+
+.tourist-process-grid {
+
+    position:
+        relative;
+
+    z-index:
+        3;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap:
+        1.6rem;
+
+}
+
+
+/* =========================================================
+   PROCESS CARD
+========================================================= */
+
+.tourist-process-card {
+
+    position:
+        relative;
+
+    min-height:
+        24rem;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    padding:
+        1.65rem 2rem 1.5rem;
+
+    overflow:
+        hidden;
+
+    border:
+        1px solid rgba(110, 151, 204, .20);
+
+    border-radius:
+        27px;
+
+    background:
+        linear-gradient(145deg,
+            rgba(255, 255, 255, .98),
+            rgba(248, 252, 255, .94));
+
+    box-shadow:
+        0 24px 65px rgba(25, 65, 110, .075);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    transition:
+        transform .45s ease,
+        box-shadow .45s ease,
+        border-color .45s ease;
+
+}
+
+
+/* subtle card atmosphere */
+
+.tourist-process-card::before {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    width:
+        15rem;
+
+    height:
+        15rem;
+
+    top:
+        -8rem;
+
+    left:
+        -7rem;
+
+    border-radius:
+        50%;
+
+    background:
+        radial-gradient(circle,
+            rgba(52, 125, 224, .12),
+            transparent 68%);
+
+    pointer-events:
+        none;
+
+}
+
+
+.tourist-process-card::after {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    width:
+        13rem;
+
+    height:
+        13rem;
+
+    right:
+        -8rem;
+
+    bottom:
+        -8rem;
+
+    border-radius:
+        50%;
+
+    background:
+        radial-gradient(circle,
+            rgba(67, 137, 224, .10),
+            transparent 68%);
+
+    pointer-events:
+        none;
+
+}
+
+
+.tourist-process-card:hover {
+
+    transform:
+        translateY(-9px);
+
+    border-color:
+        rgba(37, 99, 235, .28);
+
+    box-shadow:
+        0 34px 80px rgba(25, 65, 110, .13);
+
+}
+
+
+/* =========================================================
+   CARD IMAGE ATMOSPHERE
+========================================================= */
+
+.tourist-process-card-image {
+
+    position:
+        absolute;
+
+    top:
+        0;
+
+    right:
+        0;
+
+    width:
+        58%;
+
+    height:
+        10rem;
+
+    background-repeat:
+        no-repeat;
+
+    background-position:
+        center;
+
+    background-size:
+        cover;
+
+    opacity:
+        .075;
+
+    filter:
+        saturate(.8);
+
+    pointer-events:
+        none;
+
+}
+
+
+.tourist-process-card-image-fade {
+
+    position:
+        absolute;
+
+    top:
+        0;
+
+    right:
+        0;
+
+    width:
+        78%;
+
+    height:
+        12rem;
+
+    background:
+        linear-gradient(135deg,
+            rgba(255, 255, 255, 0),
+            rgba(255, 255, 255, .94));
+
+    pointer-events:
+        none;
+
+}
+
+
+/* =========================================================
+   CARD TOP
+
+   IMPORTANT:
+   The icon is now physically inside the card.
+========================================================= */
+
+.tourist-process-card-top {
+
+    position:
+        relative;
+
+    z-index:
+        5;
+
+    display:
+        flex;
+
+    align-items:
+        flex-start;
+
+    justify-content:
+        space-between;
+
+    min-height:
+        5.5rem;
+
+}
+
+
+/* =========================================================
+   CARD ICON
+========================================================= */
+
+.tourist-process-card-icon {
+
+    width:
+        4.5rem;
+
+    height:
+        4.5rem;
+
+    flex-shrink:
+        0;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border:
+        1px solid rgba(73, 136, 215, .18);
+
+    border-radius:
+        17px;
+
+    background:
+        linear-gradient(145deg,
+            #ffffff 0%,
+            #edf5ff 100%);
+
+    color:
+        var(--process-blue);
+
+    font-size:
+        1.7rem;
+
+    box-shadow:
+        0 14px 34px rgba(37, 99, 235, .14);
+
+    transition:
+        transform .35s ease,
+        box-shadow .35s ease,
+        background .35s ease;
+
+}
+
+
+.tourist-process-card:hover .tourist-process-card-icon {
+
+    transform:
+        translateY(-3px);
+
+    background:
+        linear-gradient(145deg,
+            #ffffff,
+            #e6f1ff);
+
+    box-shadow:
+        0 20px 42px rgba(37, 99, 235, .20);
+
+}
+
+
+/* =========================================================
+   CARD NUMBER
+========================================================= */
+
+.tourist-process-card-number {
+
+    position:
+        relative;
+
+    z-index:
+        4;
+
+    margin-top:
+        .05rem;
+
+    color:
+        rgba(37, 99, 235, .075);
+
+    font-size:
+        4.3rem;
+
+    line-height:
+        .85;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        -.08em;
+
+    pointer-events:
+        none;
+
+}
+
+
+/* =========================================================
+   CARD CONTENT
+========================================================= */
+
+.tourist-process-card-content {
+
+    position:
+        relative;
+
+    z-index:
+        6;
+
+    flex:
+        1;
+
+    padding-top:
+        .65rem;
+
+}
+
+
+/* =========================================================
+   CARD EYEBROW
+========================================================= */
+
+.tourist-process-card-eyebrow {
+
+    display:
+        block;
+
+    margin-bottom:
+        .7rem;
+
+    color:
+        var(--process-blue);
+
+    font-size:
+        .62rem;
+
+    line-height:
+        1;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        .16em;
+
+}
+
+
+/* =========================================================
+   CARD TITLE
+========================================================= */
+
+.tourist-process-card h3 {
+
+    margin:
+        0 0 .75rem;
+
+    color:
+        var(--process-navy);
+
+    font-size:
+        clamp(1.25rem,
+            1.8vw,
+            1.45rem);
+
+    line-height:
+        1.22;
+
+    font-weight:
+        850;
+
+    letter-spacing:
+        -.035em;
+
+}
+
+
+/* =========================================================
+   CARD DESCRIPTION
+========================================================= */
+
+.tourist-process-card p {
+
+    margin:
+        0;
+
+    max-width:
+        96%;
+
+    color:
+        var(--process-muted);
+
+    font-size:
+        .9rem;
+
+    line-height:
+        1.75;
+
+}
+
+
+/* =========================================================
+   CARD FOOTER
+========================================================= */
+
+.tourist-process-card-footer {
+
+    position:
+        relative;
+
+    z-index:
+        7;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        .75rem;
+
+    margin-top:
+        auto;
+
+    padding-top:
+        1rem;
+
+    border-top:
+        1px solid rgba(37, 99, 235, .10);
+
+}
+
+
+.process-card-status {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        .6rem;
+
+    color:
+        #66809f;
+
+    font-size:
+        .68rem;
+
+    font-weight:
+        750;
+
+}
+
+
+.process-card-status-dot {
+
+    width:
+        6px;
+
+    height:
+        6px;
+
+    flex-shrink:
+        0;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--process-blue);
+
+    box-shadow:
+        0 0 0 4px rgba(37, 99, 235, .07);
+
+}
+
+
+.process-card-arrow {
+
+    width:
+        2rem;
+
+    height:
+        2rem;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    flex-shrink:
+        0;
+
+    border:
+        1px solid rgba(37, 99, 235, .12);
+
+    border-radius:
+        50%;
+
+    color:
+        var(--process-blue);
+
+    font-size:
+        1rem;
+
+    background:
+        rgba(255, 255, 255, .7);
+
+    transition:
+        transform .3s ease,
+        background .3s ease;
+
+}
+
+
+.tourist-process-card:hover .process-card-arrow {
+
+    transform:
+        translateX(4px);
+
+    background:
+        #ffffff;
+
+}
+
+
+/* =========================================================
+   DESTINATION CTA
+========================================================= */
 
 .tourist-process-note {
 
+    position:
+        relative;
 
-    margin-top: 4rem;
+    display:
+        flex;
 
+    align-items:
+        center;
 
-    display: flex;
+    gap:
+        1.6rem;
 
+    min-height:
+        10rem;
 
-    gap: 1.5rem;
+    margin-top:
+        3rem;
 
+    padding:
+        1.7rem 2rem;
 
-    align-items: center;
-
-
-    padding: 2rem 2.5rem;
-
-
-    border-radius: 28px;
-
-
-    background:
-
-        rgba(37, 99, 235, .06);
-
+    overflow:
+        hidden;
 
     border:
+        1px solid rgba(55, 127, 222, .24);
 
-        1px solid rgba(37, 99, 235, .12);
+    border-radius:
+        28px;
 
+    background:
+        linear-gradient(105deg,
+            rgba(239, 247, 255, .97),
+            rgba(248, 252, 255, .93));
+
+    box-shadow:
+        0 25px 60px rgba(37, 99, 235, .08);
 
 }
 
 
+.tourist-process-note-glow {
+
+    position:
+        absolute;
+
+    width:
+        27rem;
+
+    height:
+        17rem;
+
+    right:
+        -9rem;
+
+    bottom:
+        -10rem;
+
+    border-radius:
+        50%;
+
+    background:
+        radial-gradient(circle,
+            rgba(47, 126, 226, .22),
+            transparent 68%);
+
+    filter:
+        blur(10px);
+
+    pointer-events:
+        none;
+
+}
+
+
+.tourist-process-note-route {
+
+    position:
+        absolute;
+
+    right:
+        -2rem;
+
+    bottom:
+        -2rem;
+
+    width:
+        20rem;
+
+    height:
+        10rem;
+
+    background-image:
+        var(--process-route);
+
+    background-repeat:
+        no-repeat;
+
+    background-position:
+        center;
+
+    background-size:
+        contain;
+
+    opacity:
+        .15;
+
+    transform:
+        rotate(5deg);
+
+    pointer-events:
+        none;
+
+}
+
+
+.tourist-process-note-plane {
+
+    position:
+        absolute;
+
+    right:
+        9rem;
+
+    top:
+        1rem;
+
+    width:
+        3.5rem;
+
+    height:
+        3.5rem;
+
+    background-image:
+        var(--process-airplane);
+
+    background-repeat:
+        no-repeat;
+
+    background-position:
+        center;
+
+    background-size:
+        contain;
+
+    opacity:
+        .18;
+
+    transform:
+        rotate(-5deg);
+
+    pointer-events:
+        none;
+
+}
+
+
+/* =========================================================
+   CTA ICON
+========================================================= */
 
 .tourist-process-note-icon {
 
+    position:
+        relative;
 
-    width: 65px;
+    z-index:
+        4;
 
+    width:
+        4.8rem;
 
-    height: 65px;
+    height:
+        4.8rem;
 
+    flex-shrink:
+        0;
 
-    border-radius: 20px;
+    display:
+        flex;
 
+    align-items:
+        center;
 
-    display: flex;
+    justify-content:
+        center;
 
+    border-radius:
+        18px;
 
-    align-items: center;
+    background:
+        #ffffff;
 
+    color:
+        var(--process-blue);
 
-    justify-content: center;
+    font-size:
+        1.9rem;
 
-
-    background: white;
-
-
-    color: var(--primary-color);
-
-
-    font-size: 2rem;
-
+    box-shadow:
+        0 15px 32px rgba(37, 99, 235, .14);
 
 }
 
 
+.tourist-process-note-content {
 
+    position:
+        relative;
+
+    z-index:
+        4;
+
+    flex:
+        1;
+
+}
+
+
+.tourist-process-note-eyebrow {
+
+    display:
+        block;
+
+    margin-bottom:
+        .45rem;
+
+    color:
+        var(--process-blue);
+
+    font-size:
+        .61rem;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        .16em;
+
+}
 
 
 .tourist-process-note h3 {
 
+    margin:
+        0 0 .45rem;
 
-    margin: 0 0 .5rem;
+    color:
+        var(--process-navy);
 
+    font-size:
+        clamp(1.3rem,
+            2vw,
+            1.7rem);
 
-    color: #111827;
+    line-height:
+        1.25;
 
+    font-weight:
+        850;
+
+    letter-spacing:
+        -.03em;
 
 }
-
 
 
 .tourist-process-note p {
 
+    max-width:
+        800px;
 
-    margin: 0;
+    margin:
+        0;
 
+    color:
+        var(--process-muted);
 
-    color: #6b7280;
+    font-size:
+        .9rem;
 
-
-    line-height: 1.7;
-
+    line-height:
+        1.7;
 
 }
 
 
+/* =========================================================
+   CTA ACTION
+========================================================= */
+
+.tourist-process-note-action {
+
+    position:
+        relative;
+
+    z-index:
+        4;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        flex-end;
+
+    gap:
+        .35rem;
+
+    min-width:
+        10rem;
+
+    padding-left:
+        1.5rem;
+
+    border-left:
+        1px solid rgba(37, 99, 235, .14);
+
+}
 
 
+.tourist-process-note-action span {
+
+    color:
+        #7b91ad;
+
+    font-size:
+        .58rem;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        .14em;
+
+}
 
 
-/* =================================================
-   TABLET
-================================================= */
+.tourist-process-note-action strong {
+
+    color:
+        var(--process-blue);
+
+    font-size:
+        .82rem;
+
+    font-weight:
+        850;
+
+}
 
 
-@media(max-width:992px) {
+/* =========================================================
+   FOOTER MESSAGE
+========================================================= */
+
+.tourist-process-footer {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        .7rem;
+
+    margin-top:
+        1.8rem;
+
+    color:
+        #7b8fa8;
+
+    font-size:
+        .66rem;
+
+    line-height:
+        1.5;
+
+    text-align:
+        center;
+
+}
+
+
+.tourist-process-footer-line {
+
+    width:
+        3rem;
+
+    height:
+        1px;
+
+    flex-shrink:
+        0;
+
+    background:
+        rgba(37, 99, 235, .16);
+
+}
+
+
+.tourist-process-footer-dot {
+
+    width:
+        5px;
+
+    height:
+        5px;
+
+    flex-shrink:
+        0;
+
+    border-radius:
+        50%;
+
+    background:
+        var(--process-blue);
+
+    box-shadow:
+        0 0 0 4px rgba(37, 99, 235, .07);
+
+}
+
+
+.tourist-process-footer strong {
+
+    color:
+        #405774;
+
+}
+
+
+/* =========================================================
+   LARGE TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .tourist-process {
+
+        padding:
+            6.5rem 0 5rem;
+
+    }
+
+
+    .tourist-process-route {
+
+        right:
+            -8%;
+
+        width:
+            68%;
+
+        opacity:
+            .4;
+
+    }
+
+
+    .tourist-process-airplane {
+
+        right:
+            12%;
+
+    }
 
 
     .tourist-process-grid {
 
+        gap:
+            1.2rem;
 
-        grid-template-columns: 1fr;
+    }
+
+
+    .tourist-process-card {
+
+        padding:
+            1.5rem;
 
     }
 
 
-    .tpCard__line {
+    .tourist-process-note-action {
 
-
-        display: none;
+        min-width:
+            8rem;
 
     }
-
 
 }
 
 
+/* =========================================================
+   TABLET
+========================================================= */
 
-
-
-/* =================================================
-   MOBILE
-================================================= */
-
-
-@media(max-width:600px) {
-
+@media (max-width: 850px) {
 
     .tourist-process {
 
-
-        padding: 4rem 0;
-
-    }
-
-
-
-    .tourist-process-header h2 {
-
-
-        font-size: 2rem;
+        padding:
+            5.5rem 0 4.5rem;
 
     }
 
 
+    .tourist-process-route {
 
-    .tpCard__glass {
+        width:
+            85%;
+
+        right:
+            -20%;
+
+        opacity:
+            .24;
+
+    }
 
 
-        padding: 1.5rem;
+    .tourist-process-airplane {
 
-        min-height: auto;
+        width:
+            4rem;
 
+        height:
+            4rem;
+
+        right:
+            8%;
+
+        opacity:
+            .45;
 
     }
 
 
+    .tourist-process-grid {
 
-    .tpCard__circle {
+        grid-template-columns:
+            1fr;
 
-
-        width: 62px;
-
-        height: 62px;
-
-        font-size: 1.5rem;
+        gap:
+            1.4rem;
 
     }
 
+
+    .tourist-process-journey-path {
+
+        display:
+            none;
+
+    }
+
+
+    .tourist-process-card {
+
+        min-height:
+            22rem;
+
+    }
 
 
     .tourist-process-note {
 
-
-        flex-direction: column;
-
-        align-items: flex-start;
-
-        padding: 1.5rem;
+        align-items:
+            flex-start;
 
     }
 
+
+    .tourist-process-note-action {
+
+        align-self:
+            center;
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .tourist-process {
+
+        padding:
+            4.5rem 0 3.5rem;
+
+    }
+
+
+    .tourist-process-background {
+
+        background-position:
+            72% top;
+
+        background-size:
+            auto 60%;
+
+        opacity:
+            .25;
+
+    }
+
+
+    .tourist-process::before {
+
+        background:
+            linear-gradient(180deg,
+                rgba(255, 255, 255, .97),
+                rgba(255, 255, 255, .82));
+
+    }
+
+
+    .tourist-process-map-glow {
+
+        width:
+            28rem;
+
+        height:
+            28rem;
+
+        right:
+            -14rem;
+
+    }
+
+
+    .tourist-process-route {
+
+        top:
+            2rem;
+
+        right:
+            -35%;
+
+        width:
+            110%;
+
+        opacity:
+            .18;
+
+    }
+
+
+    .tourist-process-airplane {
+
+        top:
+            2.8rem;
+
+        right:
+            8%;
+
+        width:
+            3.3rem;
+
+        height:
+            3.3rem;
+
+        opacity:
+            .3;
+
+    }
+
+
+    .tourist-process-landmarks {
+
+        width:
+            14rem;
+
+        height:
+            12rem;
+
+        opacity:
+            .18;
+
+    }
+
+
+    .tourist-process-header {
+
+        padding:
+            0 .5rem;
+
+    }
+
+
+    .tourist-process-eyebrow {
+
+        padding:
+            .52rem .9rem;
+
+        font-size:
+            .6rem;
+
+    }
+
+
+    .tourist-process-header h2 {
+
+        margin-top:
+            1.35rem;
+
+        font-size:
+            clamp(2.35rem,
+                11vw,
+                3.4rem);
+
+        line-height:
+            1.01;
+
+    }
+
+
+    .tourist-process-description {
+
+        font-size:
+            .9rem;
+
+        line-height:
+            1.7;
+
+    }
+
+
+    .tourist-process-meta {
+
+        font-size:
+            .52rem;
+
+        gap:
+            .45rem;
+
+    }
+
+
+    .tourist-process-journey {
+
+        margin-top:
+            4.8rem;
+
+    }
+
+
+    .tourist-process-card {
+
+        min-height:
+            23rem;
+
+        padding:
+            1.3rem;
+
+        border-radius:
+            22px;
+
+    }
+
+
+    .tourist-process-card-top {
+
+        min-height:
+            5rem;
+
+    }
+
+
+    .tourist-process-card-icon {
+
+        width:
+            4rem;
+
+        height:
+            4rem;
+
+        border-radius:
+            15px;
+
+        font-size:
+            1.5rem;
+
+    }
+
+
+    .tourist-process-card-number {
+
+        font-size:
+            3.1rem;
+
+    }
+
+
+    .tourist-process-card-content {
+
+        padding-top:
+            .45rem;
+
+    }
+
+
+    .tourist-process-card h3 {
+
+        font-size:
+            1.2rem;
+
+    }
+
+
+    .tourist-process-card p {
+
+        max-width:
+            100%;
+
+        font-size:
+            .84rem;
+
+    }
+
+
+    .tourist-process-card-footer {
+
+        padding-top:
+            .9rem;
+
+    }
+
+
+    .process-card-status {
+
+        font-size:
+            .64rem;
+
+    }
+
+
+    .tourist-process-card-image {
+
+        width:
+            65%;
+
+        height:
+            8rem;
+
+    }
+
+
+    .tourist-process-note {
+
+        flex-direction:
+            column;
+
+        align-items:
+            flex-start;
+
+        gap:
+            1rem;
+
+        padding:
+            1.35rem;
+
+        border-radius:
+            22px;
+
+    }
+
+
+    .tourist-process-note-icon {
+
+        width:
+            4rem;
+
+        height:
+            4rem;
+
+        border-radius:
+            15px;
+
+        font-size:
+            1.6rem;
+
+    }
+
+
+    .tourist-process-note h3 {
+
+        font-size:
+            1.18rem;
+
+    }
+
+
+    .tourist-process-note p {
+
+        font-size:
+            .82rem;
+
+    }
+
+
+    .tourist-process-note-action {
+
+        align-items:
+            flex-start;
+
+        width:
+            100%;
+
+        padding:
+            .9rem 0 0;
+
+        border-left:
+            0;
+
+        border-top:
+            1px solid rgba(37, 99, 235, .12);
+
+    }
+
+
+    .tourist-process-note-route {
+
+        width:
+            14rem;
+
+        height:
+            7rem;
+
+        right:
+            -3rem;
+
+        bottom:
+            -1rem;
+
+    }
+
+
+    .tourist-process-note-plane {
+
+        right:
+            2rem;
+
+        top:
+            2rem;
+
+        width:
+            2.5rem;
+
+        height:
+            2.5rem;
+
+    }
+
+
+    .tourist-process-footer {
+
+        flex-wrap:
+            wrap;
+
+        padding:
+            0 .8rem;
+
+    }
+
+
+    .tourist-process-footer-line {
+
+        display:
+            none;
+
+    }
+
+
+    .tourist-process-landmarks {
+
+        display:
+            none;
+
+    }
 
 }

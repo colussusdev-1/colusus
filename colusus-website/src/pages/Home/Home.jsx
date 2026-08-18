@@ -1,6 +1,12 @@
 import {
-    useState
+    useState,
+    useEffect
 } from "react";
+
+import {
+    useLocation
+} from "react-router-dom";
+
 
 import Hero from "./sections/Hero/Hero";
 import About from "./sections/About/About";
@@ -28,6 +34,12 @@ const Home = () => {
 
     const [showServices, setShowServices] = useState(false);
 
+    const location = useLocation();
+
+
+    /* =====================================================
+       SERVICES MENU
+    ===================================================== */
 
     const openServices = () => {
 
@@ -41,6 +53,55 @@ const Home = () => {
         setShowServices(false);
 
     };
+
+
+    /* =====================================================
+       HASH / SECTION NAVIGATION
+       
+       Allows:
+       
+       /#global-opportunities
+       
+       to land directly on the Countries section.
+    ===================================================== */
+
+    useEffect(() => {
+
+        if (
+            location.hash === "#global-opportunities"
+        ) {
+
+            /*
+                Wait for the page and ScrollReveal
+                wrappers to render before scrolling.
+            */
+
+            const timer = setTimeout(() => {
+
+                const target = document.getElementById(
+                    "global-opportunities"
+                );
+
+
+                if (target) {
+
+                    target.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start",
+                    });
+
+                }
+
+            }, 250);
+
+
+            return () => {
+                clearTimeout(timer);
+            };
+
+        }
+
+    }, [location.hash]);
 
 
     return (
@@ -57,6 +118,7 @@ const Home = () => {
             />
 
 
+
             {/* =====================================================
                 STATS
             ===================================================== */}
@@ -70,6 +132,7 @@ const Home = () => {
                 <StatsStrip />
 
             </ScrollReveal>
+
 
 
             {/* =====================================================
@@ -88,6 +151,7 @@ const Home = () => {
             </ScrollReveal>
 
 
+
             {/* =====================================================
                 SERVICE MEGA MENU
             ===================================================== */}
@@ -104,20 +168,33 @@ const Home = () => {
             }
 
 
+
             {/* =====================================================
-                COUNTRIES
+                GLOBAL OPPORTUNITIES / COUNTRIES
+               
+                THIS IS THE TARGET OF:
+               
+                /#global-opportunities
             ===================================================== */}
 
-            <ScrollReveal
-                direction="right"
-                duration={1.3}
-                distance={55}
-                delay={0.05}
+            <div
+                id="global-opportunities"
+                className="home-global-opportunities"
             >
 
-                <Countries />
+                <ScrollReveal
+                    direction="right"
+                    duration={1.3}
+                    distance={55}
+                    delay={0.05}
+                >
 
-            </ScrollReveal>
+                    <Countries />
+
+                </ScrollReveal>
+
+            </div>
+
 
 
             {/* =====================================================
@@ -136,6 +213,7 @@ const Home = () => {
             </ScrollReveal>
 
 
+
             {/* =====================================================
                 ZERO DEPOSIT PROGRAM
             ===================================================== */}
@@ -152,6 +230,7 @@ const Home = () => {
             </ScrollReveal>
 
 
+
             {/* =====================================================
                 SUCCESS STORIES
             ===================================================== */}
@@ -166,6 +245,7 @@ const Home = () => {
                 <SuccessStories />
 
             </ScrollReveal>
+
 
 
             {/* =====================================================
