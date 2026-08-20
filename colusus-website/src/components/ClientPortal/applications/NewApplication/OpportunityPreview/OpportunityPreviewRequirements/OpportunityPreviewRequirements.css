@@ -1,0 +1,315 @@
+/* ============================================================
+   REQUIREMENTS
+============================================================ */
+
+.opportunity-preview-requirements {
+    width: 100%;
+
+    padding: 26px 36px 34px;
+}
+
+
+/* ============================================================
+   HEADER
+============================================================ */
+
+.opportunity-preview-requirements-header {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 13px;
+
+    padding-bottom: 22px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+
+.opportunity-preview-requirements-icon {
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background: rgba(0, 102, 204, 0.08);
+
+    color: var(--primary);
+
+    font-size: 20px;
+}
+
+
+.opportunity-preview-requirements-header>div:last-child {
+    min-width: 0;
+}
+
+
+.opportunity-preview-requirements-header span {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: var(--primary);
+
+    font-size: 10px;
+    font-weight: var(--fw-bold);
+
+    letter-spacing: 0.08em;
+}
+
+
+.opportunity-preview-requirements-header h3 {
+    margin: 0 0 5px;
+
+    color: var(--heading);
+
+    font-size: 20px;
+    font-weight: var(--fw-bold);
+
+    line-height: 1.25;
+}
+
+
+.opportunity-preview-requirements-header p {
+    margin: 0;
+
+    color: var(--text-light);
+
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+
+/* ============================================================
+   REQUIREMENT GRID
+============================================================ */
+
+.opportunity-preview-requirements-list {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 10px 12px;
+
+    margin-top: 22px;
+}
+
+
+/* ============================================================
+   REQUIREMENT ITEM
+============================================================ */
+
+.opportunity-preview-requirement-item {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 11px;
+
+    min-height: 72px;
+
+    padding: 13px 14px;
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-md);
+
+    background: var(--surface);
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.opportunity-preview-requirement-item:hover {
+    border-color: rgba(0, 102, 204, 0.22);
+
+    background: var(--surface-light);
+
+    transform: translateY(-1px);
+}
+
+
+/* ============================================================
+   CHECK ICON
+============================================================ */
+
+.opportunity-preview-requirement-check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    margin-top: 2px;
+
+    color: var(--primary);
+
+    font-size: 18px;
+}
+
+
+/* ============================================================
+   CONTENT
+============================================================ */
+
+.opportunity-preview-requirement-content {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+
+    gap: 4px;
+}
+
+
+.opportunity-preview-requirement-content span {
+    color: var(--text-muted);
+
+    font-size: 10px;
+    font-weight: var(--fw-semibold);
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.05em;
+}
+
+
+.opportunity-preview-requirement-content strong {
+    color: var(--heading);
+
+    font-size: 13px;
+    font-weight: var(--fw-semibold);
+
+    line-height: 1.45;
+}
+
+
+/* ============================================================
+   EMPTY STATE
+============================================================ */
+
+.opportunity-preview-requirements-empty {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 12px;
+
+    margin-top: 22px;
+
+    padding: 16px;
+
+    border: 1px solid rgba(0, 102, 204, 0.14);
+
+    border-radius: var(--radius-md);
+
+    background: rgba(0, 102, 204, 0.04);
+}
+
+
+.opportunity-preview-requirements-empty>svg {
+    flex-shrink: 0;
+
+    margin-top: 1px;
+
+    color: var(--primary);
+
+    font-size: 21px;
+}
+
+
+.opportunity-preview-requirements-empty strong {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: var(--heading);
+
+    font-size: 13px;
+}
+
+
+.opportunity-preview-requirements-empty p {
+    margin: 0;
+
+    color: var(--text-light);
+
+    font-size: 12px;
+
+    line-height: 1.55;
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 900px) {
+
+    .opportunity-preview-requirements {
+        padding: 24px 26px 30px;
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 680px) {
+
+    .opportunity-preview-requirements {
+        padding: 20px 18px 26px;
+    }
+
+
+    .opportunity-preview-requirements-header {
+        gap: 10px;
+
+        padding-bottom: 18px;
+    }
+
+
+    .opportunity-preview-requirements-icon {
+        width: 34px;
+        height: 34px;
+
+        border-radius: 9px;
+
+        font-size: 18px;
+    }
+
+
+    .opportunity-preview-requirements-header h3 {
+        font-size: 17px;
+    }
+
+
+    .opportunity-preview-requirements-header p {
+        font-size: 12px;
+    }
+
+
+    .opportunity-preview-requirements-list {
+        grid-template-columns: 1fr;
+
+        margin-top: 18px;
+    }
+
+
+    .opportunity-preview-requirement-item {
+        min-height: 64px;
+
+        padding: 12px;
+    }
+
+}

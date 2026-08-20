@@ -1,0 +1,424 @@
+/* =========================================================
+   COLUSUS — APPLICATION ACTIVITY
+========================================================= */
+
+.application-activity {
+    width: 100%;
+
+    padding: 22px;
+
+    border: 1px solid #e3eaf1;
+
+    border-radius: 18px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 5px 20px rgba(15, 35, 70, 0.035);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.application-activity-header {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding-bottom: 17px;
+
+    border-bottom: 1px solid #edf1f5;
+}
+
+
+.application-activity-header>div:first-child>span {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #8b99aa;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.13em;
+}
+
+
+.application-activity-header h2 {
+    margin: 0;
+
+    color: #162b45;
+
+    font-size: 19px;
+
+    line-height: 1.2;
+
+    font-weight: 750;
+
+    letter-spacing: -0.025em;
+}
+
+
+.application-activity-header p {
+    margin: 5px 0 0;
+
+    color: #8190a1;
+
+    font-size: 10px;
+
+    line-height: 1.45;
+}
+
+
+/* =========================================================
+   HEADER ICON
+========================================================= */
+
+.application-activity-icon {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border: 1px solid #dce8f1;
+
+    border-radius: 10px;
+
+    background: #f3f8fc;
+
+    color: #7089a0;
+}
+
+
+.application-activity-icon svg {
+    width: 17px;
+    height: 17px;
+}
+
+
+/* =========================================================
+   LIST
+========================================================= */
+
+.application-activity-list {
+    padding-top: 19px;
+}
+
+
+/* =========================================================
+   ITEM
+========================================================= */
+
+.application-activity-item {
+    display: grid;
+
+    grid-template-columns:
+        34px minmax(0, 1fr);
+
+    gap: 12px;
+
+    min-height: 82px;
+}
+
+
+/* =========================================================
+   MARKER
+========================================================= */
+
+.application-activity-marker {
+    position: relative;
+
+    display: flex;
+
+    justify-content: center;
+}
+
+
+.application-activity-marker-icon {
+    position: relative;
+
+    z-index: 2;
+
+    width: 29px;
+    height: 29px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: 1px solid #dfe7ef;
+
+    border-radius: 50%;
+
+    background: #f8fafc;
+
+    color: #8294a7;
+}
+
+
+.application-activity-marker-icon svg {
+    width: 14px;
+    height: 14px;
+}
+
+
+/* =========================================================
+   LINE
+========================================================= */
+
+.application-activity-line {
+    position: absolute;
+
+    top: 29px;
+    bottom: 0;
+
+    left: 50%;
+
+    width: 1px;
+
+    transform: translateX(-50%);
+
+    background: #e4eaf0;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.application-activity-content {
+    min-width: 0;
+
+    padding:
+        1px 0 19px;
+}
+
+
+.application-activity-top {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+
+.application-activity-top h3 {
+    margin: 0;
+
+    color: #354a62;
+
+    font-size: 11.5px;
+
+    line-height: 1.35;
+
+    font-weight: 720;
+}
+
+
+.application-activity-top time {
+    flex-shrink: 0;
+
+    color: #9aa7b4;
+
+    font-size: 8px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+.application-activity-content p {
+    max-width: 650px;
+
+    margin: 4px 0 0;
+
+    color: #8290a0;
+
+    font-size: 9.5px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   ACTIVITY TYPES
+========================================================= */
+
+.application-activity-item.document .application-activity-marker-icon {
+    border-color: #dcebf5;
+
+    background: #f2f9fd;
+
+    color: #0872c8;
+}
+
+
+.application-activity-item.completed .application-activity-marker-icon {
+    border-color: #d5eee0;
+
+    background: #f0faf5;
+
+    color: #2c9b65;
+}
+
+
+.application-activity-item.updated .application-activity-marker-icon {
+    border-color: #dce6ef;
+
+    background: #f5f8fa;
+
+    color: #6e849a;
+}
+
+
+.application-activity-item.pending .application-activity-marker-icon {
+    border-color: #e9e0d1;
+
+    background: #fffaf2;
+
+    color: #b58b4f;
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.application-activity-empty {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 17px;
+
+    padding: 15px;
+
+    border: 1px dashed #dbe5ed;
+
+    border-radius: 11px;
+
+    background: #fafcfd;
+}
+
+
+.application-activity-empty-icon {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    background: #f0f5f8;
+
+    color: #8495a7;
+}
+
+
+.application-activity-empty-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+
+.application-activity-empty strong {
+    display: block;
+
+    color: #52657a;
+
+    font-size: 10.5px;
+
+    font-weight: 700;
+}
+
+
+.application-activity-empty p {
+    margin: 3px 0 0;
+
+    color: #8998a8;
+
+    font-size: 9px;
+
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .application-activity {
+        padding: 17px;
+    }
+
+
+    .application-activity-item {
+        grid-template-columns:
+            30px minmax(0, 1fr);
+
+        gap: 10px;
+    }
+
+
+    .application-activity-marker-icon {
+        width: 27px;
+        height: 27px;
+    }
+
+
+    .application-activity-line {
+        top: 27px;
+    }
+
+
+    .application-activity-top {
+        flex-direction: column;
+
+        gap: 3px;
+    }
+
+
+    .application-activity-top time {
+        font-size: 7.5px;
+    }
+
+}
+
+
+@media (max-width: 420px) {
+
+    .application-activity-header h2 {
+        font-size: 17px;
+    }
+
+}

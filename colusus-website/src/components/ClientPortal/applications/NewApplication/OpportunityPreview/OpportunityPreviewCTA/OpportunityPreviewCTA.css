@@ -1,0 +1,185 @@
+/* ============================================================
+   CTA
+============================================================ */
+
+.opportunity-preview-cta {
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    margin-top: auto;
+
+    padding: 14px 16px;
+
+    border-top: 1px solid var(--border);
+
+    background: var(--surface);
+}
+
+
+/* ============================================================
+   ICON
+============================================================ */
+
+.opportunity-preview-cta-icon {
+    width: 34px;
+    height: 34px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: rgba(0, 102, 204, 0.08);
+
+    color: var(--primary);
+
+    font-size: 18px;
+}
+
+
+/* ============================================================
+   CONTENT
+============================================================ */
+
+.opportunity-preview-cta-content {
+    min-width: 0;
+
+    flex: 1;
+}
+
+
+.opportunity-preview-cta-content strong {
+    display: block;
+
+    margin-bottom: 2px;
+
+    color: var(--heading);
+
+    font-size: 13px;
+    font-weight: var(--fw-bold);
+}
+
+
+.opportunity-preview-cta-content p {
+    margin: 0;
+
+    color: var(--text-light);
+
+    font-size: 11px;
+
+    line-height: 1.45;
+}
+
+
+/* ============================================================
+   BUTTON
+============================================================ */
+
+.opportunity-preview-cta-button {
+    min-height: 40px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    flex-shrink: 0;
+
+    padding: 0 17px;
+
+    border: 0;
+
+    border-radius: var(--radius-md);
+
+    background: var(--primary);
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 12px;
+    font-weight: var(--fw-bold);
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+}
+
+
+.opportunity-preview-cta-button svg {
+    font-size: 16px;
+
+    transition:
+        transform 0.2s ease;
+}
+
+
+.opportunity-preview-cta-button:hover:not(:disabled) {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 7px 18px rgba(0, 102, 204, 0.18);
+}
+
+
+.opportunity-preview-cta-button:hover:not(:disabled) svg {
+    transform: translateX(2px);
+}
+
+
+.opportunity-preview-cta-button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+
+.opportunity-preview-cta-button:disabled {
+    opacity: 0.6;
+
+    cursor: not-allowed;
+}
+
+
+/* ============================================================
+   MOBILE ACTION
+============================================================ */
+
+@media (max-width: 680px) {
+
+    .opportunity-preview-cta {
+        display: block;
+
+        padding: 14px 16px;
+    }
+
+
+    .opportunity-preview-cta-content {
+        margin: 10px 0 12px;
+    }
+
+
+    .opportunity-preview-cta-content strong {
+        font-size: 13px;
+    }
+
+
+    .opportunity-preview-cta-content p {
+        font-size: 11px;
+    }
+
+
+    .opportunity-preview-cta-button {
+        width: 100%;
+
+        min-height: 42px;
+    }
+
+}

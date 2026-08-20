@@ -1,386 +1,480 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-
-import {
-    HiOutlineArrowRight,
-    HiOutlineCalendar,
-    HiOutlineDocumentText,
-    HiOutlineLocationMarker,
-    HiOutlinePlus,
-} from "react-icons/hi";
+import { useEffect, useMemo, useState } from "react";
+import { HiOutlineRefresh } from "react-icons/hi";
 
 import applicationService from "../../services/application.service";
+
+import ApplicationsHeader from "../../components/ClientPortal/applications/ApplicationsHeader/ApplicationsHeader";
+import ApplicationsMetrics from "../../components/ClientPortal/applications/ApplicationsMetrics/ApplicationsMetrics";
+import ApplicationsToolbar from "../../components/ClientPortal/applications/ApplicationsToolbar/ApplicationsToolbar";
+import ApplicationsList from "../../components/ClientPortal/applications/ApplicationsList/ApplicationsList";
+import ApplicationsEmpty from "../../components/ClientPortal/applications/ApplicationsEmpty/ApplicationsEmpty";
 
 import "./Applications.css";
 
 
-/*
-============================================================
-FORMAT APPLICATION TYPE
-============================================================
-*/
+/* ============================================================
+   FILTER CONFIGURATION
+============================================================ */
 
-const formatType = (type) => {
-
-    if (!type) {
-        return "Migration Application";
-    }
-
-    return type
-        .replaceAll("_", " ")
-        .toLowerCase()
-        .replace(/\b\w/g, (letter) =>
-            letter.toUpperCase()
-        );
-
+const FILTER_KEYS = {
+    ALL: "ALL",
+    ACTIVE: "ACTIVE",
+    SUBMITTED: "SUBMITTED",
+    COMPLETED: "COMPLETED",
 };
 
 
-/*
-============================================================
-FORMAT APPLICATION STATUS
-============================================================
-*/
-
-const formatStatus = (status) => {
-
-    if (!status) {
-        return "Unknown";
-    }
-
-    return status
-        .replaceAll("_", " ")
-        .toLowerCase()
-        .replace(/\b\w/g, (letter) =>
-            letter.toUpperCase()
-        );
-
-};
-
-
-/*
-============================================================
-FORMAT DATE
-============================================================
-*/
-
-const formatDate = (date) => {
-
-    if (!date) {
-        return "—";
-    }
-
-    return new Intl.DateTimeFormat("en-GB", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-    }).format(new Date(date));
-
-};
-
-
-/*
-============================================================
-APPLICATION CENTER
-============================================================
-*/
+/* ============================================================
+   APPLICATIONS PAGE
+============================================================ */
 
 const Applications = () => {
+    const [applications, setApplications] = useState([]);
 
-    const [applications, setApplications] =
-        useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const [loading, setLoading] =
-        useState(true);
+    const [error, setError] = useState("");
 
-    const [error, setError] =
+    const [activeFilter, setActiveFilter] =
+        useState(FILTER_KEYS.ALL);
+
+    const [searchQuery, setSearchQuery] =
         useState("");
 
 
-    /*
-    ========================================================
-    LOAD APPLICATIONS
-    ========================================================
-    */
-
-    const loadApplications = async () => {
-
-        try {
-
-            setLoading(true);
-
-            setError("");
-
-            const data =
-                await applicationService.getApplications();
-
-            setApplications(
-                Array.isArray(data)
-                    ? data
-                    : []
-            );
-
-        } catch (error) {
-
-            console.error(
-                "FAILED TO LOAD APPLICATIONS:",
-                error
-            );
-
-            setError(
-                error.response?.data?.message ||
-                "Unable to load your applications."
-            );
-
-        } finally {
-
-            setLoading(false);
-
-        }
-
-    };
-
+    /* ==========================================================
+       LOAD APPLICATIONS
+    ========================================================== */
 
     useEffect(() => {
+        const loadApplications = async () => {
+            try {
+                setLoading(true);
+
+                setError("");
+
+                const data =
+                    await applicationService.getApplications();
+
+                setApplications(
+                    Array.isArray(data)
+                        ? data
+                        : []
+                );
+
+            } catch (error) {
+                console.error(
+                    "FAILED TO LOAD APPLICATIONS:",
+                    error
+                );
+
+                setError(
+                    error.response?.data?.message ||
+                    "Unable to load your applications."
+                );
+
+            } finally {
+                setLoading(false);
+            }
+        };
+
 
         loadApplications();
-
     }, []);
 
 
-    return (
+    /* ==========================================================
+       APPLICATION COUNTS
+    ========================================================== */
 
-        <div className="applications-page">
+    const applicationCounts = useMemo(() => {
+
+        const total =
+            applications.length;
 
 
-            {/* =================================================
-                HEADER
-            ================================================= */}
+        const completed =
+            applications.filter(
+                (application) =>
+                    [
+                        "APPROVED",
+                        "COMPLETED",
+                    ].includes(
+                        application.status
+                    )
+            ).length;
 
-            <section className="applications-header">
 
-                <div>
+        const submitted =
+            applications.filter(
+                (application) =>
+                    application.status ===
+                    "SUBMITTED"
+            ).length;
 
-                    <span className="applications-eyebrow">
-                        MIGRATION APPLICATIONS
+
+        const active =
+            applications.filter(
+                (application) =>
+                    ![
+                        "APPROVED",
+                        "COMPLETED",
+                        "REJECTED",
+                    ].includes(
+                        application.status
+                    )
+            ).length;
+
+
+        return {
+            total,
+            active,
+            completed,
+            submitted,
+        };
+
+    }, [applications]);
+
+
+    /* ==========================================================
+       FILTER TABS
+    ========================================================== */
+
+    const filters = useMemo(() => {
+
+        return [
+            {
+                key: FILTER_KEYS.ALL,
+                label: "All",
+                count: applicationCounts.total,
+            },
+
+            {
+                key: FILTER_KEYS.ACTIVE,
+                label: "In Progress",
+                count: applicationCounts.active,
+            },
+
+            {
+                key: FILTER_KEYS.SUBMITTED,
+                label: "Submitted",
+                count: applicationCounts.submitted,
+            },
+
+            {
+                key: FILTER_KEYS.COMPLETED,
+                label: "Completed",
+                count: applicationCounts.completed,
+            },
+        ];
+
+    }, [applicationCounts]);
+
+
+    /* ==========================================================
+       FILTER + SEARCH
+    ========================================================== */
+
+    const filteredApplications = useMemo(() => {
+
+        const normalizedSearch =
+            searchQuery
+                .trim()
+                .toLowerCase();
+
+
+        return applications.filter(
+            (application) => {
+
+                /* ------------------------------------------------------
+                   STATUS FILTER
+                ------------------------------------------------------ */
+
+                const status =
+                    application.status;
+
+
+                let matchesFilter = true;
+
+
+                if (
+                    activeFilter ===
+                    FILTER_KEYS.ACTIVE
+                ) {
+                    matchesFilter =
+                        ![
+                            "APPROVED",
+                            "COMPLETED",
+                            "REJECTED",
+                        ].includes(status);
+                }
+
+
+                if (
+                    activeFilter ===
+                    FILTER_KEYS.SUBMITTED
+                ) {
+                    matchesFilter =
+                        status === "SUBMITTED";
+                }
+
+
+                if (
+                    activeFilter ===
+                    FILTER_KEYS.COMPLETED
+                ) {
+                    matchesFilter =
+                        [
+                            "APPROVED",
+                            "COMPLETED",
+                        ].includes(status);
+                }
+
+
+                if (!matchesFilter) {
+                    return false;
+                }
+
+
+                /* ------------------------------------------------------
+                   SEARCH
+                ------------------------------------------------------ */
+
+                if (!normalizedSearch) {
+                    return true;
+                }
+
+
+                const country =
+                    application.destinationCountry ||
+                    application.opportunity?.countryName ||
+                    "";
+
+
+                const type =
+                    application.type ||
+                    "";
+
+
+                const statusText =
+                    application.status ||
+                    "";
+
+
+                const searchableText = [
+                    country,
+                    type,
+                    statusText,
+                ]
+                    .join(" ")
+                    .toLowerCase();
+
+
+                return searchableText.includes(
+                    normalizedSearch
+                );
+            }
+        );
+
+    }, [
+        applications,
+        activeFilter,
+        searchQuery,
+    ]);
+
+
+    /* ==========================================================
+       LOADING STATE
+    ========================================================== */
+
+    if (loading) {
+        return (
+            <main className="client-applications-page">
+
+                <div className="applications-page-loading">
+
+                    <div className="applications-loading-spinner">
+                        <HiOutlineRefresh />
+                    </div>
+
+                    <span>
+                        Loading your applications...
                     </span>
 
-                    <h1>
-                        Your Applications
-                    </h1>
+                </div>
+
+            </main>
+        );
+    }
+
+
+    /* ==========================================================
+       ERROR STATE
+    ========================================================== */
+
+    if (
+        error &&
+        !applications.length
+    ) {
+        return (
+            <main className="client-applications-page">
+
+                <div className="applications-page-error">
+
+                    <span>
+                        Something went wrong
+                    </span>
 
                     <p>
-                        Start and manage your migration
-                        applications from one place.
+                        {error}
                     </p>
 
+                    <button
+                        type="button"
+                        onClick={() =>
+                            window.location.reload()
+                        }
+                    >
+                        Try Again
+                    </button>
+
                 </div>
 
-
-                <Link
-                    to="/portal/applications/new"
-                    className="applications-primary-button"
-                >
-
-                    <HiOutlinePlus />
-
-                    Start Application
-
-                </Link>
-
-            </section>
+            </main>
+        );
+    }
 
 
-            {/* =================================================
-                ERROR
-            ================================================= */}
+    /* ==========================================================
+       EMPTY STATE
+    ========================================================== */
+
+    if (
+        !applications.length
+    ) {
+        return (
+            <main className="client-applications-page">
+
+                <ApplicationsHeader
+                    applicationsCount={0}
+                />
+
+                <ApplicationsEmpty />
+
+            </main>
+        );
+    }
+
+
+    /* ==========================================================
+       PAGE
+    ========================================================== */
+
+    return (
+        <main className="client-applications-page">
+
+            {/* ======================================================
+          HEADER
+      ====================================================== */}
+
+            <ApplicationsHeader
+                applicationsCount={
+                    applications.length
+                }
+            />
+
+
+            {/* ======================================================
+          ERROR NOTICE
+      ====================================================== */}
 
             {error && (
-
-                <div className="applications-alert error">
-
+                <div className="applications-inline-error">
                     {error}
-
                 </div>
-
             )}
 
 
-            {/* =================================================
-                LOADING
-            ================================================= */}
+            {/* ======================================================
+          METRICS
+      ====================================================== */}
 
-            {loading ? (
-
-                <div className="applications-loading">
-
-                    <div className="applications-spinner" />
-
-                    <p>
-                        Loading your applications...
-                    </p>
-
-                </div>
-
-            ) : applications.length === 0 ? (
-
-                /* =================================================
-                   EMPTY STATE
-                ================================================= */
-
-                <section className="applications-empty">
-
-                    <div className="applications-empty-icon">
-
-                        <HiOutlineDocumentText />
-
-                    </div>
+            <ApplicationsMetrics
+                totalApplications={
+                    applicationCounts.total
+                }
+                activeApplications={
+                    applicationCounts.active
+                }
+                completedApplications={
+                    applicationCounts.completed
+                }
+                submittedApplications={
+                    applicationCounts.submitted
+                }
+            />
 
 
-                    <h2>
-                        No applications yet
-                    </h2>
+            {/* ======================================================
+          TOOLBAR
+      ====================================================== */}
+
+            <ApplicationsToolbar
+                filters={filters}
+                activeFilter={activeFilter}
+                onFilterChange={setActiveFilter}
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+            />
 
 
-                    <p>
-                        Start your migration journey by
-                        choosing an application from the
-                        opportunities available to you.
-                    </p>
+            {/* ======================================================
+          RESULTS
+      ====================================================== */}
 
+            {filteredApplications.length > 0 ? (
 
-                    <Link
-                        to="/portal/applications/new"
-                        className="applications-primary-button"
-                    >
-
-                        <HiOutlinePlus />
-
-                        Start Your First Application
-
-                    </Link>
-
-                </section>
+                <ApplicationsList
+                    applications={
+                        filteredApplications
+                    }
+                />
 
             ) : (
 
-                /* =================================================
-                   APPLICATION LIST
-                ================================================= */
+                <div className="applications-no-results">
 
-                <section className="applications-list">
+                    <div className="applications-no-results-icon">
+                        <HiOutlineRefresh />
+                    </div>
 
-                    {applications.map(
-                        (application) => (
+                    <h2>
+                        No matching applications
+                    </h2>
 
-                            <article
-                                key={application._id}
-                                className="application-card"
-                            >
+                    <p>
+                        Try changing your search or
+                        selecting a different status.
+                    </p>
 
+                    <button
+                        type="button"
+                        onClick={() => {
+                            setSearchQuery("");
+                            setActiveFilter(
+                                FILTER_KEYS.ALL
+                            );
+                        }}
+                    >
+                        Clear Filters
+                    </button>
 
-                                {/* =================================
-                                    APPLICATION INFORMATION
-                                ================================= */}
-
-                                <div className="application-card-main">
-
-                                    <div className="application-card-icon">
-
-                                        <HiOutlineDocumentText />
-
-                                    </div>
-
-
-                                    <div>
-
-                                        <span className="application-card-type">
-
-                                            {formatType(
-                                                application.type
-                                            )}
-
-                                        </span>
-
-
-                                        <h2>
-                                            {application.destinationCountry}
-                                        </h2>
-
-
-                                        <div className="application-card-meta">
-
-                                            <span>
-
-                                                <HiOutlineLocationMarker />
-
-                                                {
-                                                    application.destinationCountry
-                                                }
-
-                                            </span>
-
-
-                                            <span>
-
-                                                <HiOutlineCalendar />
-
-                                                {formatDate(
-                                                    application.createdAt
-                                                )}
-
-                                            </span>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-
-                                {/* =================================
-                                    STATUS / DETAILS
-                                ================================= */}
-
-                                <div className="application-card-side">
-
-                                    <span
-                                        className={`application-card-status status-${application.status?.toLowerCase()}`}
-                                    >
-
-                                        {formatStatus(
-                                            application.status
-                                        )}
-
-                                    </span>
-
-
-                                    <Link
-                                        to={`/portal/applications/${application._id}`}
-                                        className="application-view-link"
-                                    >
-
-                                        View Details
-
-                                        <HiOutlineArrowRight />
-
-                                    </Link>
-
-                                </div>
-
-                            </article>
-
-                        )
-                    )}
-
-                </section>
+                </div>
 
             )}
 
-        </div>
-
+        </main>
     );
-
 };
 
 

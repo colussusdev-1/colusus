@@ -1,0 +1,618 @@
+/* =========================================================
+   COLUSUS — APPLICATION DETAILS
+========================================================= */
+
+.application-details-page {
+    position: relative;
+
+    width: 100%;
+    min-height: 100vh;
+
+    padding:
+        32px 38px 70px;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(circle at 78% 4%,
+            rgba(0, 122, 255, 0.075),
+            transparent 30%),
+        #f5f8fb;
+
+    color: #182e47;
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.application-details-background {
+    position: absolute;
+
+    z-index: 0;
+
+    top: 0;
+    right: 0;
+    left: 0;
+
+    height: 430px;
+
+    pointer-events: none;
+
+    background:
+        radial-gradient(circle at 82% 0%,
+            rgba(32, 167, 255, 0.09),
+            transparent 34%),
+        linear-gradient(180deg,
+            rgba(239, 247, 253, 0.95),
+            rgba(245, 248, 251, 0));
+
+    mask-image:
+        linear-gradient(to bottom,
+            #000 0%,
+            #000 60%,
+            transparent 100%);
+
+    -webkit-mask-image:
+        linear-gradient(to bottom,
+            #000 0%,
+            #000 60%,
+            transparent 100%);
+}
+
+
+/* =========================================================
+   PAGE CONTAINER
+========================================================= */
+
+.application-details-container {
+    position: relative;
+
+    z-index: 2;
+
+    width: 100%;
+
+    max-width: 1380px;
+
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.application-details-container>.application-details-header {
+    margin-bottom: 24px;
+}
+
+
+/* =========================================================
+   JOURNEY
+========================================================= */
+
+.application-details-container>.application-journey {
+    margin-bottom: 22px;
+}
+
+
+/* =========================================================
+   CURRENT STAGE
+========================================================= */
+
+.application-details-container>.application-stage-card {
+    margin-bottom: 30px;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.application-details-layout {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr) minmax(285px, 330px);
+
+    align-items: start;
+
+    gap: 24px;
+
+    width: 100%;
+}
+
+
+/* =========================================================
+   PRIMARY COLUMN
+========================================================= */
+
+.application-details-primary {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 22px;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.application-details-sidebar {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 22px;
+
+    position: sticky;
+
+    top: 24px;
+
+    align-self: start;
+}
+
+
+/* =========================================================
+   COMPONENT RHYTHM
+========================================================= */
+
+/*
+ * Defensive spacing.
+ *
+ * This makes sure that even if a component's own CSS
+ * changes later, the page still maintains breathing room.
+ */
+
+.application-details-primary>section,
+.application-details-sidebar>section,
+.application-details-primary>article,
+.application-details-sidebar>article {
+    width: 100%;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.application-details-footer {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-start;
+
+    margin-top: 34px;
+
+    padding-top: 22px;
+
+    border-top:
+        1px solid #e3eaf0;
+}
+
+
+.application-details-footer-link {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color: #64778d;
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    transition:
+        color 160ms ease,
+        transform 160ms ease;
+}
+
+
+.application-details-footer-link svg {
+    width: 15px;
+    height: 15px;
+
+    transition:
+        transform 160ms ease;
+}
+
+
+.application-details-footer-link:hover {
+    color: #0872c8;
+}
+
+
+.application-details-footer-link:hover svg {
+    transform: translateX(-3px);
+}
+
+
+/* =========================================================
+   LOADING / ERROR STATES
+========================================================= */
+
+.application-details-state {
+    min-height: 480px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 40px;
+
+    box-sizing: border-box;
+
+    border:
+        1px solid #e2e9ef;
+
+    border-radius: 20px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 8px 30px rgba(15, 35, 70, 0.04);
+
+    text-align: center;
+}
+
+
+.application-details-state h2 {
+    margin: 16px 0 0;
+
+    color: #1b3149;
+
+    font-size: 20px;
+
+    font-weight: 750;
+
+    letter-spacing: -0.02em;
+}
+
+
+.application-details-state p {
+    max-width: 420px;
+
+    margin: 7px 0 0;
+
+    color: #8190a1;
+
+    font-size: 11px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   LOADER
+========================================================= */
+
+.application-details-spinner {
+    width: 34px;
+    height: 34px;
+
+    border:
+        3px solid #e5edf3;
+
+    border-top-color: #0872c8;
+
+    border-radius: 50%;
+
+    animation:
+        applicationDetailsSpin 750ms linear infinite;
+}
+
+
+@keyframes applicationDetailsSpin {
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.application-details-state-error {
+    border-color: #e8e2e2;
+}
+
+
+.application-details-state-icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 14px;
+
+    background: #fff4f4;
+
+    border:
+        1px solid #f0dcdc;
+
+    color: #bd6060;
+
+    font-size: 18px;
+
+    font-weight: 800;
+}
+
+
+.application-details-back-button {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    margin-top: 22px;
+
+    min-height: 36px;
+
+    padding:
+        0 13px;
+
+    border:
+        1px solid #dce6ee;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: #60748a;
+
+    text-decoration: none;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    transition:
+        background 160ms ease,
+        border-color 160ms ease,
+        color 160ms ease;
+}
+
+
+.application-details-back-button svg {
+    width: 14px;
+    height: 14px;
+}
+
+
+.application-details-back-button:hover {
+    border-color: #c8dce9;
+
+    background: #f7fbfe;
+
+    color: #0872c8;
+}
+
+
+/* =========================================================
+   LARGE DESKTOP
+========================================================= */
+
+@media (min-width: 1500px) {
+
+    .application-details-page {
+        padding-left: 55px;
+        padding-right: 55px;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET / SMALL DESKTOP
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .application-details-page {
+        padding:
+            28px 25px 60px;
+    }
+
+
+    .application-details-layout {
+        grid-template-columns:
+            minmax(0, 1fr) minmax(260px, 300px);
+
+        gap: 20px;
+    }
+
+
+    .application-details-primary,
+    .application-details-sidebar {
+        gap: 19px;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .application-details-page {
+        padding:
+            24px 20px 55px;
+    }
+
+
+    .application-details-container>.application-details-header {
+        margin-bottom: 20px;
+    }
+
+
+    .application-details-container>.application-journey {
+        margin-bottom: 20px;
+    }
+
+
+    .application-details-container>.application-stage-card {
+        margin-bottom: 24px;
+    }
+
+
+    .application-details-layout {
+        grid-template-columns: 1fr;
+
+        gap: 22px;
+    }
+
+
+    .application-details-primary,
+    .application-details-sidebar {
+        gap: 20px;
+    }
+
+
+    .application-details-sidebar {
+        position: static;
+    }
+
+
+    .application-details-footer {
+        margin-top: 28px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+    .application-details-page {
+        padding:
+            19px 14px 45px;
+    }
+
+
+    .application-details-container>.application-details-header {
+        margin-bottom: 17px;
+    }
+
+
+    .application-details-container>.application-journey {
+        margin-bottom: 17px;
+    }
+
+
+    .application-details-container>.application-stage-card {
+        margin-bottom: 19px;
+    }
+
+
+    .application-details-layout {
+        gap: 18px;
+    }
+
+
+    .application-details-primary,
+    .application-details-sidebar {
+        gap: 17px;
+    }
+
+
+    .application-details-footer {
+        margin-top: 23px;
+
+        padding-top: 18px;
+    }
+
+
+    .application-details-state {
+        min-height: 390px;
+
+        padding:
+            30px 20px;
+    }
+
+
+    .application-details-state h2 {
+        font-size: 18px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 430px) {
+
+    .application-details-page {
+        padding:
+            16px 11px 40px;
+    }
+
+
+    .application-details-layout {
+        gap: 15px;
+    }
+
+
+    .application-details-primary,
+    .application-details-sidebar {
+        gap: 15px;
+    }
+
+
+    .application-details-footer {
+        margin-top: 20px;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .application-details-spinner,
+    .application-details-footer-link,
+    .application-details-footer-link svg,
+    .application-details-back-button {
+        animation: none;
+
+        transition: none;
+    }
+
+}

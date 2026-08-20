@@ -3,10 +3,10 @@ import mongoose from "mongoose";
 const applicationSchema = new mongoose.Schema(
   {
     /*
-        |--------------------------------------------------------------------------
-        | Client Owner
-        |--------------------------------------------------------------------------
-        */
+    |--------------------------------------------------------------------------
+    | CLIENT OWNER
+    |--------------------------------------------------------------------------
+    */
 
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -17,14 +17,13 @@ const applicationSchema = new mongoose.Schema(
     },
 
     /*
-        |--------------------------------------------------------------------------
-        | Selected Opportunity
-        |--------------------------------------------------------------------------
-        |
-        | This is the specific migration opportunity the client
-        | is applying for.
-        |
-        */
+    |--------------------------------------------------------------------------
+    | SELECTED OPPORTUNITY
+    |--------------------------------------------------------------------------
+    |
+    | The actual Colusus pathway the client selected.
+    |
+    */
 
     opportunity: {
       type: mongoose.Schema.Types.ObjectId,
@@ -35,10 +34,70 @@ const applicationSchema = new mongoose.Schema(
     },
 
     /*
-        |--------------------------------------------------------------------------
-        | Assigned Staff/Admin
-        |--------------------------------------------------------------------------
-        */
+    |--------------------------------------------------------------------------
+    | OPPORTUNITY SNAPSHOT
+    |--------------------------------------------------------------------------
+    |
+    | Preserve the configuration that existed when the
+    | client started the application.
+    |
+    */
+
+    opportunitySnapshot: {
+      title: {
+        type: String,
+
+        default: "",
+      },
+
+      countryName: {
+        type: String,
+
+        default: "",
+      },
+
+      countrySlug: {
+        type: String,
+
+        default: "",
+      },
+
+      countryFlag: {
+        type: String,
+
+        default: "",
+      },
+
+      category: {
+        type: String,
+
+        default: "",
+      },
+
+      type: {
+        type: String,
+
+        default: "",
+      },
+
+      description: {
+        type: String,
+
+        default: "",
+      },
+
+      applicationConfig: {
+        type: mongoose.Schema.Types.Mixed,
+
+        default: null,
+      },
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | ASSIGNED STAFF / ADMIN
+    |--------------------------------------------------------------------------
+    */
 
     assignedTo: {
       type: mongoose.Schema.Types.ObjectId,
@@ -49,21 +108,18 @@ const applicationSchema = new mongoose.Schema(
     },
 
     /*
-        |--------------------------------------------------------------------------
-        | Application Type
-        |--------------------------------------------------------------------------
-        */
+    |--------------------------------------------------------------------------
+    | APPLICATION TYPE
+    |--------------------------------------------------------------------------
+    */
 
     type: {
       type: String,
 
       enum: [
         "STUDENT_VISA",
-
         "WORK_VISA",
-
         "TOURIST_VISA",
-
         "PERMANENT_RESIDENCE",
       ],
 
@@ -71,10 +127,10 @@ const applicationSchema = new mongoose.Schema(
     },
 
     /*
-        |--------------------------------------------------------------------------
-        | Destination
-        |--------------------------------------------------------------------------
-        */
+    |--------------------------------------------------------------------------
+    | DESTINATION COUNTRY
+    |--------------------------------------------------------------------------
+    */
 
     destinationCountry: {
       type: String,
@@ -85,36 +141,112 @@ const applicationSchema = new mongoose.Schema(
     },
 
     /*
-        |--------------------------------------------------------------------------
-        | Application Status
-        |--------------------------------------------------------------------------
-        */
+    |--------------------------------------------------------------------------
+    | APPLICATION STATUS
+    |--------------------------------------------------------------------------
+    */
 
     status: {
       type: String,
 
       enum: [
+        "DRAFT",
         "SUBMITTED",
-
         "UNDER_REVIEW",
-
         "DOCUMENT_REQUEST",
-
         "PROCESSING",
-
         "APPROVED",
-
         "REJECTED",
       ],
 
-      default: "SUBMITTED",
+      default: "DRAFT",
     },
 
     /*
-        |--------------------------------------------------------------------------
-        | Priority
-        |--------------------------------------------------------------------------
-        */
+    |--------------------------------------------------------------------------
+    | APPLICATION PROGRESS
+    |--------------------------------------------------------------------------
+    */
+
+    currentStep: {
+      type: String,
+
+      default: "PERSONAL_INFORMATION",
+    },
+
+    currentStepIndex: {
+      type: Number,
+
+      default: 0,
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | CLIENT ANSWERS
+    |--------------------------------------------------------------------------
+    |
+    | Answers to pathway-specific application questions.
+    |
+    */
+
+    answers: {
+      type: mongoose.Schema.Types.Mixed,
+
+      default: {},
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | PERSONAL INFORMATION
+    |--------------------------------------------------------------------------
+    |
+    | Information collected during the application wizard.
+    |
+    */
+
+    personalInformation: {
+      type: mongoose.Schema.Types.Mixed,
+
+      default: {},
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | APPLICATION DOCUMENTS
+    |--------------------------------------------------------------------------
+    |
+    | Actual uploaded document records are handled by the
+    | document module. This field stores the relationship
+    | to those documents when necessary.
+    |
+    */
+
+    documentProgress: {
+      type: mongoose.Schema.Types.Mixed,
+
+      default: {},
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | WORKFLOW
+    |--------------------------------------------------------------------------
+    |
+    | Snapshot of the workflow assigned to this application.
+    |
+    */
+
+    workflow: {
+      type: [mongoose.Schema.Types.Mixed],
+
+      default: [],
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | PRIORITY
+    |--------------------------------------------------------------------------
+    */
 
     priority: {
       type: String,
@@ -125,10 +257,10 @@ const applicationSchema = new mongoose.Schema(
     },
 
     /*
-        |--------------------------------------------------------------------------
-        | Client Visible Notes
-        |--------------------------------------------------------------------------
-        */
+    |--------------------------------------------------------------------------
+    | CLIENT VISIBLE NOTES
+    |--------------------------------------------------------------------------
+    */
 
     notes: {
       type: String,
@@ -137,10 +269,10 @@ const applicationSchema = new mongoose.Schema(
     },
 
     /*
-        |--------------------------------------------------------------------------
-        | Internal Admin Notes
-        |--------------------------------------------------------------------------
-        */
+    |--------------------------------------------------------------------------
+    | INTERNAL ADMIN NOTES
+    |--------------------------------------------------------------------------
+    */
 
     internalNotes: [
       {
@@ -165,10 +297,10 @@ const applicationSchema = new mongoose.Schema(
     ],
 
     /*
-        |--------------------------------------------------------------------------
-        | Last Updated By
-        |--------------------------------------------------------------------------
-        */
+    |--------------------------------------------------------------------------
+    | LAST UPDATED BY
+    |--------------------------------------------------------------------------
+    */
 
     lastUpdatedBy: {
       type: mongoose.Schema.Types.ObjectId,
@@ -185,9 +317,9 @@ const applicationSchema = new mongoose.Schema(
 );
 
 /*
-============================================================
-INDEXES
-============================================================
+|--------------------------------------------------------------------------
+| INDEXES
+|--------------------------------------------------------------------------
 */
 
 applicationSchema.index({
@@ -196,6 +328,11 @@ applicationSchema.index({
 });
 
 applicationSchema.index({
+  opportunity: 1,
+});
+
+applicationSchema.index({
+  user: 1,
   opportunity: 1,
 });
 

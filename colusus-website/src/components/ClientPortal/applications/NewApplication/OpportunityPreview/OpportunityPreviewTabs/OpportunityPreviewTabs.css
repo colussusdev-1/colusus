@@ -1,0 +1,206 @@
+/* ============================================================
+   OPPORTUNITY PREVIEW TABS
+============================================================ */
+
+.opportunity-preview-tabs {
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 3px;
+
+    min-height: 52px;
+
+    padding: 0 20px;
+
+    border-bottom: 1px solid #e7edf3;
+
+    background: #ffffff;
+
+    overflow-x: auto;
+
+    scrollbar-width: none;
+}
+
+.opportunity-preview-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* ============================================================
+   TAB
+============================================================ */
+
+.opportunity-preview-tabs button {
+    position: relative;
+
+    flex: 0 0 auto;
+
+    height: 34px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 12px;
+
+    border: none;
+    border-radius: 7px;
+
+    background: transparent;
+
+    color: #748195;
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+
+    line-height: 1;
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition:
+        color 160ms ease,
+        background-color 160ms ease;
+}
+
+
+/* ============================================================
+   HOVER
+============================================================ */
+
+.opportunity-preview-tabs button:hover {
+    color: #172337;
+
+    background: #f5f8fb;
+}
+
+
+/* ============================================================
+   ACTIVE TAB
+============================================================ */
+
+.opportunity-preview-tabs button.active {
+    color: #0066cc;
+
+    background: #edf5fd;
+}
+
+
+/* ============================================================
+   ACTIVE INDICATOR
+============================================================ */
+
+.opportunity-preview-tabs button.active::after {
+    content: "";
+
+    position: absolute;
+
+    left: 10px;
+    right: 10px;
+    bottom: 0;
+
+    height: 2px;
+
+    border-radius: 999px;
+
+    background: #0066cc;
+}
+
+
+/* ============================================================
+   FOCUS
+============================================================ */
+
+.opportunity-preview-tabs button:focus-visible {
+    outline: 2px solid #0066cc;
+    outline-offset: 2px;
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 900px) {
+
+    .opportunity-preview-tabs {
+        padding: 0 16px;
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 700px) {
+
+    .opportunity-preview-tabs {
+        min-height: 50px;
+
+        padding: 0 14px;
+
+        gap: 2px;
+    }
+
+
+    .opportunity-preview-tabs button {
+        height: 32px;
+
+        padding: 0 10px;
+
+        font-size: 10px;
+    }
+
+
+    .opportunity-preview-tabs button.active::after {
+        left: 8px;
+        right: 8px;
+
+        bottom: 0;
+    }
+
+}
+
+
+/* ============================================================
+   SMALL MOBILE
+============================================================ */
+
+@media (max-width: 420px) {
+
+    .opportunity-preview-tabs {
+        padding: 0 12px;
+    }
+
+
+    .opportunity-preview-tabs button {
+        padding: 0 9px;
+
+        font-size: 10px;
+    }
+
+
+    .opportunity-preview-tabs button.active::after {
+        left: 7px;
+        right: 7px;
+    }
+
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .opportunity-preview-tabs button {
+        transition: none;
+    }
+
+}

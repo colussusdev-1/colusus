@@ -1,0 +1,223 @@
+/* =========================================================
+   COLUSUS — APPLICATION METRICS
+========================================================= */
+
+.applications-metrics {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 12px;
+
+    margin-bottom: 18px;
+}
+
+
+/* =========================================================
+   METRIC CARD
+========================================================= */
+
+.application-metric {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    min-height: 92px;
+
+    padding: 15px 17px;
+
+    background: #ffffff;
+
+    border: 1px solid #e4eaf1;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 5px 18px rgba(15, 35, 70, 0.035);
+
+    transition:
+        transform 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease;
+}
+
+
+.application-metric:hover {
+    transform: translateY(-1px);
+
+    border-color: #d7e1ec;
+
+    box-shadow:
+        0 9px 24px rgba(15, 35, 70, 0.055);
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.application-metric-icon {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 11px;
+}
+
+
+.application-metric-icon svg {
+    width: 19px;
+    height: 19px;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.application-metric-content {
+    min-width: 0;
+
+    display: grid;
+
+    grid-template-columns: 1fr auto;
+
+    column-gap: 10px;
+
+    align-items: center;
+}
+
+
+.application-metric-label {
+    min-width: 0;
+
+    overflow: hidden;
+
+    color: #63738a;
+
+    font-size: 11px;
+
+    font-weight: 650;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+
+.application-metric-value {
+    color: #152942;
+
+    font-size: 23px;
+
+    font-weight: 760;
+
+    line-height: 1;
+
+    letter-spacing: -0.04em;
+}
+
+
+.application-metric-description {
+    grid-column: 1 / -1;
+
+    margin-top: 5px;
+
+    color: #99a6b6;
+
+    font-size: 10px;
+
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   BLUE
+========================================================= */
+
+.application-metric-blue .application-metric-icon {
+    background: #eaf3ff;
+
+    color: #0a68c7;
+}
+
+
+/* =========================================================
+   ORANGE
+========================================================= */
+
+.application-metric-orange .application-metric-icon {
+    background: #fff4e7;
+
+    color: #d97816;
+}
+
+
+/* =========================================================
+   GREEN
+========================================================= */
+
+.application-metric-green .application-metric-icon {
+    background: #eaf8f0;
+
+    color: #218454;
+}
+
+
+/* =========================================================
+   PURPLE
+========================================================= */
+
+.application-metric-purple .application-metric-icon {
+    background: #f1edff;
+
+    color: #7357c7;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1050px) {
+
+    .applications-metrics {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+@media (max-width: 560px) {
+
+    .applications-metrics {
+        grid-template-columns: 1fr;
+
+        gap: 9px;
+    }
+
+
+    .application-metric {
+        min-height: 82px;
+
+        padding: 13px 15px;
+    }
+
+
+    .application-metric-value {
+        font-size: 21px;
+    }
+
+}

@@ -1,0 +1,541 @@
+/* =========================================================
+   COLUSUS — APPLICATION STAGE CARD
+========================================================= */
+
+.application-stage-card {
+    width: 100%;
+
+    padding: 20px 22px;
+
+    border: 1px solid #e1e8f0;
+
+    border-radius: 17px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 7px 25px rgba(15, 35, 70, 0.035);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.application-stage-header {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 18px;
+
+    padding-bottom: 15px;
+
+    border-bottom: 1px solid #edf1f5;
+}
+
+
+.application-stage-header>div:first-child {
+    min-width: 0;
+}
+
+
+.application-stage-header span {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #8b99aa;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.14em;
+
+    text-transform: uppercase;
+}
+
+
+.application-stage-header h2 {
+    margin: 0;
+
+    color: #18304a;
+
+    font-size: 15px;
+
+    line-height: 1.25;
+
+    font-weight: 750;
+
+    letter-spacing: -0.02em;
+}
+
+
+/* =========================================================
+   HEADER ICON
+========================================================= */
+
+.application-stage-header-icon {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border: 1px solid #dceaf5;
+
+    border-radius: 10px;
+
+    background: #f2f9fe;
+
+    color: #0872c8;
+}
+
+
+.application-stage-header-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+
+/* =========================================================
+   MAIN CURRENT STAGE
+========================================================= */
+
+.application-stage-main {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 13px;
+
+    padding:
+        17px 0 15px;
+}
+
+
+/* =========================================================
+   STAGE INDEX
+========================================================= */
+
+.application-stage-index {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(145deg,
+            #0874c9,
+            #36a6df);
+
+    color: #ffffff;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    box-shadow:
+        0 5px 14px rgba(8, 116, 201, 0.14);
+}
+
+
+.application-stage-index svg {
+    width: 18px;
+    height: 18px;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.application-stage-main-content {
+    min-width: 0;
+}
+
+
+.application-stage-label {
+    margin-bottom: 4px;
+
+    color: #9aa7b6;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.11em;
+}
+
+
+.application-stage-main-content h3 {
+    margin: 0;
+
+    color: #182f48;
+
+    font-size: 17px;
+
+    line-height: 1.2;
+
+    font-weight: 750;
+
+    letter-spacing: -0.025em;
+}
+
+
+.application-stage-main-content p {
+    max-width: 680px;
+
+    margin:
+        6px 0 0;
+
+    color: #77889b;
+
+    font-size: 10.5px;
+
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   NEXT STEP
+========================================================= */
+
+.application-stage-next {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    min-height: 52px;
+
+    padding:
+        9px 11px;
+
+    border:
+        1px solid #e5edf4;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(135deg,
+            #fafcfe,
+            #f7fafd);
+}
+
+
+.application-stage-next-indicator {
+    width: 3px;
+    height: 29px;
+
+    flex-shrink: 0;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(180deg,
+            #c5d8e8,
+            #d9e5ee);
+}
+
+
+.application-stage-next-content {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+.application-stage-next-content span {
+    color: #9aa7b5;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.11em;
+}
+
+
+.application-stage-next-content strong {
+    overflow: hidden;
+
+    color: #52657a;
+
+    font-size: 10.5px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+
+.application-stage-next>svg {
+    width: 15px;
+    height: 15px;
+
+    margin-left: auto;
+
+    flex-shrink: 0;
+
+    color: #8da0b3;
+}
+
+
+/* =========================================================
+   STATUS MESSAGES
+========================================================= */
+
+.application-stage-message {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 1px;
+
+    padding:
+        10px 11px;
+
+    border-radius: 10px;
+
+    font-size: 9.5px;
+
+    font-weight: 600;
+
+    line-height: 1.4;
+}
+
+
+.application-stage-message svg {
+    width: 16px;
+    height: 16px;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   SUCCESS
+========================================================= */
+
+.application-stage-message.success {
+    border: 1px solid #d7eee0;
+
+    background: #f3fbf6;
+
+    color: #32815a;
+}
+
+
+/* =========================================================
+   DANGER
+========================================================= */
+
+.application-stage-message.danger {
+    border: 1px solid #f0dada;
+
+    background: #fff7f7;
+
+    color: #b65c5c;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.application-stage-empty {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding-top: 17px;
+}
+
+
+.application-stage-empty-icon {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 10px;
+
+    background: #f1f5f8;
+
+    color: #8395a8;
+}
+
+
+.application-stage-empty-icon svg {
+    width: 17px;
+    height: 17px;
+}
+
+
+.application-stage-empty strong {
+    display: block;
+
+    color: #52657a;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+
+.application-stage-empty p {
+    margin:
+        3px 0 0;
+
+    color: #8997a7;
+
+    font-size: 9.5px;
+
+    line-height: 1.45;
+}
+
+
+/* =========================================================
+   COMPLETED VARIANT
+========================================================= */
+
+.application-stage-card.is-completed .application-stage-header-icon {
+    border-color: #d5eee0;
+
+    background: #f0faf5;
+
+    color: #2c9c66;
+}
+
+
+.application-stage-card.is-completed .application-stage-index {
+    background:
+        linear-gradient(145deg,
+            #2a9c65,
+            #57bd85);
+
+    box-shadow:
+        0 5px 14px rgba(42, 156, 101, 0.13);
+}
+
+
+/* =========================================================
+   REJECTED VARIANT
+========================================================= */
+
+.application-stage-card.is-rejected .application-stage-header-icon {
+    border-color: #f0d9d9;
+
+    background: #fff5f5;
+
+    color: #c45d5d;
+}
+
+
+.application-stage-card.is-rejected .application-stage-index {
+    background:
+        linear-gradient(145deg,
+            #bd5b5b,
+            #dc7979);
+
+    box-shadow:
+        0 5px 14px rgba(189, 91, 91, 0.11);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .application-stage-card {
+        padding:
+            17px;
+    }
+
+
+    .application-stage-header h2 {
+        font-size: 14px;
+    }
+
+
+    .application-stage-main {
+        padding:
+            15px 0 14px;
+    }
+
+
+    .application-stage-index {
+        width: 35px;
+        height: 35px;
+
+        border-radius: 10px;
+    }
+
+
+    .application-stage-main-content h3 {
+        font-size: 15px;
+    }
+
+
+    .application-stage-main-content p {
+        font-size: 10px;
+    }
+
+}
+
+
+@media (max-width: 420px) {
+
+    .application-stage-card {
+        padding:
+            15px;
+    }
+
+
+    .application-stage-header-icon {
+        width: 31px;
+        height: 31px;
+    }
+
+
+    .application-stage-main {
+        gap: 10px;
+    }
+
+}

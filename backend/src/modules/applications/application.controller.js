@@ -13,8 +13,6 @@ export const createApplication = async (req, res, next) => {
 
       opportunity: req.body.opportunity,
 
-      type: req.body.type,
-
       destinationCountry: req.body.destinationCountry,
 
       priority: req.body.priority,
@@ -22,10 +20,10 @@ export const createApplication = async (req, res, next) => {
       notes: req.body.notes,
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
 
-      message: "Application created successfully",
+      message: "Application draft created successfully",
 
       data: application,
     });
@@ -46,7 +44,7 @@ export const getApplications = async (req, res, next) => {
       req.user.id,
     );
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
 
       data: applications,
@@ -77,7 +75,7 @@ export const getApplication = async (req, res, next) => {
       });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
 
       data: application,

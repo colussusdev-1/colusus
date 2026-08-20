@@ -2,6 +2,12 @@ import mongoose from "mongoose";
 
 const documentSchema = new mongoose.Schema(
   {
+    /*
+        ========================================================
+        OWNER
+        ========================================================
+        */
+
     user: {
       type: mongoose.Schema.Types.ObjectId,
 
@@ -10,6 +16,12 @@ const documentSchema = new mongoose.Schema(
       required: true,
     },
 
+    /*
+        ========================================================
+        APPLICATION
+        ========================================================
+        */
+
     application: {
       type: mongoose.Schema.Types.ObjectId,
 
@@ -17,6 +29,12 @@ const documentSchema = new mongoose.Schema(
 
       required: true,
     },
+
+    /*
+        ========================================================
+        DOCUMENT INFORMATION
+        ========================================================
+        */
 
     name: {
       type: String,
@@ -46,11 +64,53 @@ const documentSchema = new mongoose.Schema(
       required: true,
     },
 
+    /*
+        ========================================================
+        CLOUDINARY FILE
+        ========================================================
+        */
+
     fileUrl: {
       type: String,
 
       default: "",
     },
+
+    cloudinaryPublicId: {
+      type: String,
+
+      default: "",
+    },
+
+    /*
+        ========================================================
+        ORIGINAL FILE INFORMATION
+        ========================================================
+        */
+
+    originalFileName: {
+      type: String,
+
+      default: "",
+    },
+
+    mimeType: {
+      type: String,
+
+      default: "",
+    },
+
+    fileSize: {
+      type: Number,
+
+      default: 0,
+    },
+
+    /*
+        ========================================================
+        DOCUMENT STATUS
+        ========================================================
+        */
 
     status: {
       type: String,
@@ -69,6 +129,12 @@ const documentSchema = new mongoose.Schema(
 
       default: "UPLOADED",
     },
+
+    /*
+        ========================================================
+        REVIEW
+        ========================================================
+        */
 
     reviewNote: {
       type: String,

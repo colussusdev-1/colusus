@@ -1,0 +1,539 @@
+/* =========================================================
+   COLUSUS — APPLICATION QUESTIONS
+========================================================= */
+
+.application-questions {
+    width: 100%;
+
+    padding: 22px;
+
+    border: 1px solid #e3eaf1;
+
+    border-radius: 18px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 5px 20px rgba(15, 35, 70, 0.035);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.application-questions-header {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding-bottom: 17px;
+
+    border-bottom: 1px solid #edf1f5;
+}
+
+
+.application-questions-header>div:first-child>span {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #8b99aa;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.13em;
+}
+
+
+.application-questions-header h2 {
+    margin: 0;
+
+    color: #162b45;
+
+    font-size: 19px;
+
+    line-height: 1.2;
+
+    font-weight: 750;
+
+    letter-spacing: -0.025em;
+}
+
+
+.application-questions-header p {
+    margin: 5px 0 0;
+
+    color: #8190a1;
+
+    font-size: 10px;
+
+    line-height: 1.45;
+}
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+.application-questions-summary {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-end;
+
+    flex-shrink: 0;
+}
+
+
+.application-questions-summary strong {
+    color: #0871c7;
+
+    font-size: 20px;
+
+    line-height: 1;
+}
+
+
+.application-questions-summary strong span {
+    color: #a0adbb;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+
+.application-questions-summary small {
+    margin-top: 4px;
+
+    color: #8d9aaa;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.08em;
+}
+
+
+/* =========================================================
+   LIST
+========================================================= */
+
+.application-questions-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    margin-top: 16px;
+}
+
+
+/* =========================================================
+   QUESTION
+========================================================= */
+
+.application-question {
+    padding: 13px;
+
+    border: 1px solid #e5ebf0;
+
+    border-radius: 12px;
+
+    background: #fbfcfd;
+}
+
+
+/* =========================================================
+   QUESTION HEADER
+========================================================= */
+
+.application-question-header {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 10px;
+}
+
+
+.application-question-number {
+    width: 29px;
+    height: 29px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 8px;
+
+    background: #edf5fa;
+
+    color: #6d8ba4;
+
+    font-size: 8px;
+
+    font-weight: 800;
+}
+
+
+.application-question-title {
+    min-width: 0;
+
+    flex: 1;
+}
+
+
+.application-question-title>span {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: #9ba8b5;
+
+    font-size: 7.5px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.1em;
+}
+
+
+.application-question-title h3 {
+    margin: 0;
+
+    color: #344960;
+
+    font-size: 11px;
+
+    line-height: 1.45;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   REQUIRED
+========================================================= */
+
+.application-question-required {
+    flex-shrink: 0;
+
+    padding:
+        4px 7px;
+
+    border-radius: 999px;
+
+    background: #fff5e9;
+
+    color: #b67a35;
+
+    font-size: 7px;
+
+    font-weight: 750;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   RESPONSE
+========================================================= */
+
+.application-question-response {
+    margin-top: 11px;
+
+    padding-top: 10px;
+
+    border-top: 1px solid #e8edf1;
+}
+
+
+.application-question-response-label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #9ba7b4;
+
+    font-size: 7.5px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.09em;
+}
+
+
+/* =========================================================
+   ANSWER
+========================================================= */
+
+.application-question-answer {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 7px;
+
+    padding:
+        9px 10px;
+
+    border: 1px solid #dceee4;
+
+    border-radius: 9px;
+
+    background: #f4fbf7;
+
+    color: #4c7861;
+
+    font-size: 9.5px;
+
+    line-height: 1.5;
+}
+
+
+.application-question-answer svg {
+    width: 15px;
+    height: 15px;
+
+    flex-shrink: 0;
+
+    color: #36a16c;
+}
+
+
+/* =========================================================
+   UNANSWERED
+========================================================= */
+
+.application-question-unanswered {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding:
+        9px 10px;
+
+    border: 1px dashed #dce5ec;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: #8c99a7;
+
+    font-size: 9px;
+}
+
+
+.application-question-unanswered svg {
+    width: 14px;
+    height: 14px;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   RESPONSE TYPE
+========================================================= */
+
+.application-question-options {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-top: 8px;
+}
+
+
+.application-question-options span {
+    color: #a0acb9;
+
+    font-size: 7px;
+
+    font-weight: 750;
+
+    letter-spacing: 0.08em;
+}
+
+
+.application-question-options strong {
+    color: #718398;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    text-transform: capitalize;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.application-questions-footer {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 11px;
+
+    padding:
+        10px 11px;
+
+    border: 1px solid #e2ebf2;
+
+    border-radius: 9px;
+
+    background: #f8fbfd;
+
+    color: #8191a2;
+
+    font-size: 8.5px;
+
+    line-height: 1.4;
+}
+
+
+.application-questions-footer svg {
+    width: 15px;
+    height: 15px;
+
+    flex-shrink: 0;
+
+    color: #7890a6;
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.application-questions-empty {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 17px;
+
+    padding: 15px;
+
+    border: 1px dashed #dbe5ed;
+
+    border-radius: 11px;
+
+    background: #fafcfd;
+}
+
+
+.application-questions-empty-icon {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    background: #f0f5f8;
+
+    color: #8495a7;
+}
+
+
+.application-questions-empty-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+
+.application-questions-empty strong {
+    display: block;
+
+    color: #52657a;
+
+    font-size: 10.5px;
+
+    font-weight: 700;
+}
+
+
+.application-questions-empty p {
+    margin: 3px 0 0;
+
+    color: #8998a8;
+
+    font-size: 9px;
+
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .application-questions {
+        padding: 17px;
+    }
+
+
+    .application-question-required {
+        display: none;
+    }
+
+
+    .application-question-title h3 {
+        font-size: 10.5px;
+    }
+
+}
+
+
+@media (max-width: 420px) {
+
+    .application-questions-header h2 {
+        font-size: 17px;
+    }
+
+
+    .application-question {
+        padding: 11px;
+    }
+
+}

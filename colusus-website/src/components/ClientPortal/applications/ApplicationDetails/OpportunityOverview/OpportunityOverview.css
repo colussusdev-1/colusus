@@ -1,0 +1,589 @@
+/* =========================================================
+   COLUSUS — OPPORTUNITY OVERVIEW
+========================================================= */
+
+.opportunity-overview {
+    width: 100%;
+
+    padding: 22px;
+
+    border: 1px solid #e3eaf1;
+
+    border-radius: 18px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 5px 20px rgba(15, 35, 70, 0.035);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.opportunity-overview-header {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding-bottom: 17px;
+
+    border-bottom: 1px solid #edf1f5;
+}
+
+
+.opportunity-overview-header span:first-child {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #8b99aa;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.13em;
+}
+
+
+.opportunity-overview-header h2 {
+    margin: 0;
+
+    color: #162b45;
+
+    font-size: 19px;
+
+    line-height: 1.2;
+
+    font-weight: 750;
+
+    letter-spacing: -0.025em;
+}
+
+
+.opportunity-overview-header p {
+    margin: 5px 0 0;
+
+    color: #8190a1;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   FEATURED
+========================================================= */
+
+.opportunity-featured {
+    display: inline-flex !important;
+
+    align-items: center;
+
+    justify-content: center;
+
+    height: 25px;
+
+    padding:
+        0 9px;
+
+    margin: 0 !important;
+
+    border: 1px solid #d9eaf5;
+
+    border-radius: 999px;
+
+    background: #f1f9fd;
+
+    color: #0871c7 !important;
+
+    font-size: 8px !important;
+
+    font-weight: 750 !important;
+
+    letter-spacing: 0 !important;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.opportunity-overview-description {
+    padding:
+        15px 0 14px;
+}
+
+
+.opportunity-overview-description p {
+    margin: 0;
+
+    color: #718196;
+
+    font-size: 10.5px;
+
+    line-height: 1.65;
+}
+
+
+/* =========================================================
+   METADATA GRID
+========================================================= */
+
+.opportunity-overview-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 1px;
+
+    overflow: hidden;
+
+    border: 1px solid #e8edf2;
+
+    border-radius: 12px;
+
+    background: #e8edf2;
+}
+
+
+/* =========================================================
+   METADATA ITEM
+========================================================= */
+
+.opportunity-overview-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    min-height: 62px;
+
+    padding:
+        10px 12px;
+
+    background: #ffffff;
+}
+
+
+.opportunity-overview-item-icon {
+    width: 31px;
+    height: 31px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    background: #f1f6fa;
+
+    color: #7b90a5;
+}
+
+
+.opportunity-overview-item-icon svg {
+    width: 15px;
+    height: 15px;
+}
+
+
+.opportunity-overview-item>div:last-child {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+.opportunity-overview-item span {
+    color: #97a4b2;
+
+    font-size: 8px;
+
+    font-weight: 750;
+
+    letter-spacing: 0.07em;
+
+    text-transform: uppercase;
+}
+
+
+.opportunity-overview-item strong {
+    overflow: hidden;
+
+    color: #354a62;
+
+    font-size: 10.5px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   COUNTRY METRICS
+========================================================= */
+
+.opportunity-overview-metrics {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    margin-top: 10px;
+
+    overflow: hidden;
+
+    border: 1px solid #e3ebf2;
+
+    border-radius: 11px;
+
+    background: #f8fbfd;
+}
+
+
+.opportunity-overview-metrics>div {
+    min-width: 0;
+
+    padding:
+        12px;
+
+    border-right: 1px solid #e3ebf2;
+}
+
+
+.opportunity-overview-metrics>div:last-child {
+    border-right: none;
+}
+
+
+.opportunity-overview-metrics span {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #99a6b4;
+
+    font-size: 7.5px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+}
+
+
+.opportunity-overview-metrics strong {
+    display: block;
+
+    overflow: hidden;
+
+    color: #3c5269;
+
+    font-size: 11px;
+
+    font-weight: 750;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   SALARY / HIGHLIGHT
+========================================================= */
+
+.opportunity-overview-highlight {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 10px;
+
+    padding:
+        12px;
+
+    border: 1px solid #dcebf5;
+
+    border-radius: 11px;
+
+    background: #f5faff;
+}
+
+
+.opportunity-overview-highlight-icon {
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    background: #e6f3fb;
+
+    color: #0872c8;
+}
+
+
+.opportunity-overview-highlight-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+
+.opportunity-overview-highlight span {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: #8ca0b2;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+}
+
+
+.opportunity-overview-highlight strong {
+    display: block;
+
+    color: #2f5674;
+
+    font-size: 12px;
+
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   BENEFITS
+========================================================= */
+
+.opportunity-benefits {
+    margin-top: 15px;
+}
+
+
+.opportunity-benefits-heading {
+    display: flex;
+
+    align-items: baseline;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 9px;
+}
+
+
+.opportunity-benefits-heading span {
+    color: #97a4b2;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.1em;
+}
+
+
+.opportunity-benefits-heading strong {
+    color: #53677d;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   BENEFITS LIST
+========================================================= */
+
+.opportunity-benefits-list {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 6px;
+}
+
+
+.opportunity-benefit {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 7px;
+
+    padding:
+        8px 9px;
+
+    border: 1px solid #e8edf2;
+
+    border-radius: 9px;
+
+    background: #fbfcfd;
+}
+
+
+.opportunity-benefit svg {
+    width: 14px;
+    height: 14px;
+
+    flex-shrink: 0;
+
+    color: #35a16d;
+}
+
+
+.opportunity-benefit span {
+    color: #687b90;
+
+    font-size: 9px;
+
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.opportunity-overview-empty {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 17px;
+
+    padding:
+        15px;
+
+    border: 1px dashed #dbe5ed;
+
+    border-radius: 11px;
+
+    background: #fafcfd;
+}
+
+
+.opportunity-overview-empty>svg {
+    width: 35px;
+    height: 35px;
+
+    padding: 8px;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    background: #f0f5f8;
+
+    color: #8495a7;
+}
+
+
+.opportunity-overview-empty strong {
+    display: block;
+
+    color: #52657a;
+
+    font-size: 10.5px;
+
+    font-weight: 700;
+}
+
+
+.opportunity-overview-empty p {
+    margin: 3px 0 0;
+
+    color: #8998a8;
+
+    font-size: 9px;
+
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .opportunity-overview {
+        padding: 17px;
+    }
+
+
+    .opportunity-overview-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .opportunity-overview-metrics {
+        grid-template-columns: 1fr;
+    }
+
+
+    .opportunity-overview-metrics>div {
+        border-right: none;
+
+        border-bottom: 1px solid #e3ebf2;
+    }
+
+
+    .opportunity-overview-metrics>div:last-child {
+        border-bottom: none;
+    }
+
+
+    .opportunity-benefits-list {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 420px) {
+
+    .opportunity-overview-header h2 {
+        font-size: 17px;
+    }
+
+}

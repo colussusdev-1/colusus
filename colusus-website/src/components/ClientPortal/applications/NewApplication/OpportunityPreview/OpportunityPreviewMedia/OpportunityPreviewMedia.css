@@ -1,0 +1,198 @@
+/* ============================================================
+   OPPORTUNITY PREVIEW MEDIA
+============================================================ */
+
+.opportunity-preview-media {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    min-width: 0;
+    min-height: 0;
+
+    overflow: hidden;
+
+    background: #edf3f8;
+}
+
+
+/* ============================================================
+   IMAGE
+============================================================ */
+
+.opportunity-preview-media-image {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+    object-position: center;
+
+    transition: transform 500ms ease;
+}
+
+
+/* ============================================================
+   SUBTLE HOVER
+============================================================ */
+
+.opportunity-preview-media:hover .opportunity-preview-media-image {
+    transform: scale(1.015);
+}
+
+
+/* ============================================================
+   FALLBACK
+============================================================ */
+
+.opportunity-preview-media-fallback {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        linear-gradient(135deg,
+            #eef5fb,
+            #e4edf6);
+
+    color: #0875d1;
+}
+
+
+.opportunity-preview-media-fallback svg {
+    width: 42px;
+    height: 42px;
+
+    opacity: 0.8;
+}
+
+
+/* ============================================================
+   IMAGE OVERLAY
+============================================================ */
+
+.opportunity-preview-media-overlay {
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(to bottom,
+            rgba(7, 27, 48, 0.02) 35%,
+            rgba(7, 27, 48, 0.12) 55%,
+            rgba(7, 27, 48, 0.72) 100%);
+}
+
+
+/* ============================================================
+   COUNTRY
+============================================================ */
+
+.opportunity-preview-media-country {
+    position: absolute;
+
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+
+    z-index: 2;
+
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    color: #ffffff;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    text-shadow:
+        0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+
+/* ============================================================
+   FLAG
+============================================================ */
+
+.opportunity-preview-media-flag {
+    width: 27px;
+    height: 18px;
+
+    flex: 0 0 27px;
+
+    display: block;
+
+    object-fit: cover;
+
+    border-radius: 3px;
+
+    border: 1px solid rgba(255, 255, 255, 0.7);
+
+    box-shadow:
+        0 2px 5px rgba(0, 0, 0, 0.16);
+}
+
+
+/* ============================================================
+   COUNTRY TEXT
+============================================================ */
+
+.opportunity-preview-media-country span {
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 700px) {
+
+    .opportunity-preview-media {
+        height: 190px;
+        min-height: 190px;
+    }
+
+
+    .opportunity-preview-media-country {
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+
+        font-size: 12px;
+    }
+
+
+    .opportunity-preview-media-flag {
+        width: 25px;
+        height: 17px;
+
+        flex-basis: 25px;
+    }
+
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .opportunity-preview-media-image {
+        transition: none;
+    }
+
+}

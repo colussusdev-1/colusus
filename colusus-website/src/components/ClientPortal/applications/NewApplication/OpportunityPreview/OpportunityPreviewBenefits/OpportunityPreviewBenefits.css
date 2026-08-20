@@ -1,0 +1,389 @@
+/* ============================================================
+   BENEFITS
+============================================================ */
+
+.opportunity-preview-benefits {
+    width: 100%;
+    padding: 26px 36px 34px;
+}
+
+
+/* ============================================================
+   HEADER
+============================================================ */
+
+.opportunity-preview-benefits-header {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 13px;
+
+    padding-bottom: 22px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+
+.opportunity-preview-benefits-icon {
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background: rgba(0, 102, 204, 0.08);
+
+    color: var(--primary);
+
+    font-size: 20px;
+}
+
+
+.opportunity-preview-benefits-header>div:last-child {
+    min-width: 0;
+}
+
+
+.opportunity-preview-benefits-header span {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: var(--primary);
+
+    font-size: 10px;
+    font-weight: var(--fw-bold);
+
+    letter-spacing: 0.08em;
+}
+
+
+.opportunity-preview-benefits-header h3 {
+    margin: 0 0 5px;
+
+    color: var(--heading);
+
+    font-size: 20px;
+    font-weight: var(--fw-bold);
+
+    line-height: 1.25;
+}
+
+
+.opportunity-preview-benefits-header p {
+    margin: 0;
+
+    color: var(--text-light);
+
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+
+/* ============================================================
+   BENEFIT GRID
+============================================================ */
+
+.opportunity-preview-benefits-list {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 10px 12px;
+
+    margin-top: 22px;
+}
+
+
+/* ============================================================
+   BENEFIT ITEM
+============================================================ */
+
+.opportunity-preview-benefit-item {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 11px;
+
+    min-height: 72px;
+
+    padding: 13px 14px;
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-md);
+
+    background: var(--surface);
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.opportunity-preview-benefit-item:hover {
+    border-color: rgba(0, 102, 204, 0.22);
+
+    background: var(--surface-light);
+
+    transform: translateY(-1px);
+}
+
+
+/* ============================================================
+   CHECK
+============================================================ */
+
+.opportunity-preview-benefit-check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    margin-top: 2px;
+
+    color: var(--primary);
+
+    font-size: 18px;
+}
+
+
+/* ============================================================
+   CONTENT
+============================================================ */
+
+.opportunity-preview-benefit-content {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+
+    gap: 4px;
+}
+
+
+.opportunity-preview-benefit-content span {
+    color: var(--text-muted);
+
+    font-size: 10px;
+    font-weight: var(--fw-semibold);
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.05em;
+}
+
+
+.opportunity-preview-benefit-content strong {
+    color: var(--heading);
+
+    font-size: 13px;
+    font-weight: var(--fw-semibold);
+
+    line-height: 1.45;
+}
+
+
+/* ============================================================
+   EMPTY STATE
+============================================================ */
+
+.opportunity-preview-benefits-empty {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 12px;
+
+    margin-top: 22px;
+
+    padding: 16px;
+
+    border: 1px solid rgba(0, 102, 204, 0.14);
+
+    border-radius: var(--radius-md);
+
+    background: rgba(0, 102, 204, 0.04);
+}
+
+
+.opportunity-preview-benefits-empty>svg {
+    flex-shrink: 0;
+
+    margin-top: 1px;
+
+    color: var(--primary);
+
+    font-size: 21px;
+}
+
+
+.opportunity-preview-benefits-empty strong {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: var(--heading);
+
+    font-size: 13px;
+}
+
+
+.opportunity-preview-benefits-empty p {
+    margin: 0;
+
+    color: var(--text-light);
+
+    font-size: 12px;
+
+    line-height: 1.55;
+}
+
+
+/* ============================================================
+   VALIDITY
+============================================================ */
+
+.opportunity-preview-benefits-validity {
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+
+    margin-top: 18px;
+
+    padding: 12px 14px;
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-md);
+
+    background: var(--surface-light);
+}
+
+
+.opportunity-preview-benefits-validity-icon {
+    width: 30px;
+    height: 30px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background: rgba(0, 102, 204, 0.08);
+
+    color: var(--primary);
+
+    font-size: 16px;
+}
+
+
+.opportunity-preview-benefits-validity>div:last-child {
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+
+.opportunity-preview-benefits-validity span {
+    color: var(--text-muted);
+
+    font-size: 9px;
+    font-weight: var(--fw-bold);
+
+    letter-spacing: 0.07em;
+}
+
+
+.opportunity-preview-benefits-validity strong {
+    color: var(--heading);
+
+    font-size: 13px;
+    font-weight: var(--fw-bold);
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 900px) {
+
+    .opportunity-preview-benefits {
+        padding: 24px 26px 30px;
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 680px) {
+
+    .opportunity-preview-benefits {
+        padding: 20px 18px 26px;
+    }
+
+
+    .opportunity-preview-benefits-header {
+        gap: 10px;
+
+        padding-bottom: 18px;
+    }
+
+
+    .opportunity-preview-benefits-icon {
+        width: 34px;
+        height: 34px;
+
+        border-radius: 9px;
+
+        font-size: 18px;
+    }
+
+
+    .opportunity-preview-benefits-header h3 {
+        font-size: 17px;
+    }
+
+
+    .opportunity-preview-benefits-header p {
+        font-size: 12px;
+    }
+
+
+    .opportunity-preview-benefits-list {
+        grid-template-columns: 1fr;
+
+        margin-top: 18px;
+    }
+
+
+    .opportunity-preview-benefit-item {
+        min-height: 64px;
+
+        padding: 12px;
+    }
+
+
+    .opportunity-preview-benefits-validity {
+        margin-top: 14px;
+
+        padding: 11px 12px;
+    }
+
+}

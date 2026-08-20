@@ -1,0 +1,459 @@
+/* ============================================================
+   DOCUMENT CARD
+============================================================ */
+
+.document-row {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 46px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 16px;
+
+    padding: 17px 18px;
+
+    background: #ffffff;
+    border: 1px solid #e8edf3;
+    border-radius: 16px;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.document-row:hover {
+    border-color: #d9e2ec;
+    box-shadow: 0 8px 24px rgba(15, 35, 60, 0.06);
+    transform: translateY(-1px);
+}
+
+
+/* ============================================================
+   DOCUMENT ICON
+============================================================ */
+
+.document-status-icon {
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 13px;
+
+    font-size: 21px;
+}
+
+.document-status-icon svg {
+    width: 21px;
+    height: 21px;
+}
+
+
+/* Uploaded */
+
+.document-status-icon.document-status-uploaded {
+    background: #eef5ff;
+    color: #2563eb;
+}
+
+
+/* Under review */
+
+.document-status-icon.document-status-review {
+    background: #fff7e8;
+    color: #c77a00;
+}
+
+
+/* Approved */
+
+.document-status-icon.document-status-approved {
+    background: #ecf9f2;
+    color: #168653;
+}
+
+
+/* Required / rejected */
+
+.document-status-icon.document-status-required {
+    background: #fff0f0;
+    color: #d64545;
+}
+
+
+/* ============================================================
+   DOCUMENT CONTENT
+============================================================ */
+
+.document-row-content {
+    min-width: 0;
+}
+
+.document-row-content h3 {
+    margin: 0;
+
+    color: #142235;
+
+    font-size: 15px;
+    font-weight: 650;
+    line-height: 1.35;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.document-row-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+
+    margin-top: 6px;
+
+    color: #7b8795;
+
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.document-row-meta>span {
+    display: inline-flex;
+    align-items: center;
+}
+
+.document-location {
+    gap: 3px;
+}
+
+.document-location svg {
+    width: 13px;
+    height: 13px;
+}
+
+
+/* ============================================================
+   REVIEW NOTE
+============================================================ */
+
+.document-review-note {
+    width: fit-content;
+    max-width: 100%;
+
+    margin-top: 9px;
+    padding: 7px 10px;
+
+    border-radius: 8px;
+
+    background: #fff7e8;
+    color: #93600b;
+
+    font-size: 11px;
+    line-height: 1.45;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* ============================================================
+   CARD ACTION AREA
+============================================================ */
+
+.document-row-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 9px;
+
+    flex-shrink: 0;
+}
+
+
+/* ============================================================
+   STATUS BADGE
+============================================================ */
+
+.document-status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 28px;
+
+    padding: 5px 10px;
+
+    border-radius: 999px;
+
+    font-size: 11px;
+    font-weight: 650;
+    line-height: 1;
+
+    white-space: nowrap;
+}
+
+
+/* Uploaded */
+
+.document-status-badge.status-uploaded {
+    background: #eef5ff;
+    color: #2563eb;
+}
+
+
+/* Under review */
+
+.document-status-badge.status-review {
+    background: #fff7e8;
+    color: #a96900;
+}
+
+
+/* Approved */
+
+.document-status-badge.status-approved {
+    background: #ecf9f2;
+    color: #168653;
+}
+
+
+/* Rejected */
+
+.document-status-badge.status-reupload,
+.document-status-badge.status-rejected {
+    background: #fff0f0;
+    color: #c43d3d;
+}
+
+
+/* ============================================================
+   VIEW BUTTON
+============================================================ */
+
+.document-view-button {
+    width: 34px;
+    height: 34px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #e3e8ee;
+    border-radius: 9px;
+
+    background: #ffffff;
+    color: #526274;
+
+    text-decoration: none;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.document-view-button svg {
+    width: 16px;
+    height: 16px;
+}
+
+.document-view-button:hover {
+    background: #f5f8fb;
+    border-color: #d4dce5;
+    color: #123b66;
+    transform: translateY(-1px);
+}
+
+
+/* ============================================================
+   RE-UPLOAD BUTTON
+============================================================ */
+
+.document-upload-small {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    min-height: 34px;
+
+    padding: 0 11px;
+
+    border: 0;
+    border-radius: 9px;
+
+    background: #123b66;
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 650;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.document-upload-small svg {
+    width: 14px;
+    height: 14px;
+}
+
+.document-upload-small:hover {
+    background: #0d2f53;
+    box-shadow: 0 5px 14px rgba(18, 59, 102, 0.18);
+    transform: translateY(-1px);
+}
+
+.document-upload-small:active {
+    transform: translateY(0);
+}
+
+.document-upload-small:focus-visible,
+.document-view-button:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.16);
+    outline-offset: 2px;
+}
+
+
+/* ============================================================
+   STATUS-SPECIFIC CARD ACCENTS
+============================================================ */
+
+.document-row.status-approved {
+    border-color: #e3eee8;
+}
+
+.document-row.status-review {
+    border-color: #eee8dc;
+}
+
+.document-row.status-reupload,
+.document-row.status-rejected {
+    border-color: #f0dddd;
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 700px) {
+
+    .document-row {
+        grid-template-columns: 40px minmax(0, 1fr);
+        gap: 12px;
+
+        padding: 14px;
+        border-radius: 14px;
+    }
+
+
+    .document-status-icon {
+        width: 40px;
+        height: 40px;
+
+        border-radius: 11px;
+
+        font-size: 18px;
+    }
+
+    .document-status-icon svg {
+        width: 18px;
+        height: 18px;
+    }
+
+
+    .document-row-content h3 {
+        font-size: 14px;
+    }
+
+
+    .document-row-meta {
+        margin-top: 5px;
+
+        font-size: 11px;
+        gap: 5px;
+    }
+
+
+    .document-row-actions {
+        grid-column: 1 / -1;
+
+        width: 100%;
+
+        justify-content: flex-start;
+
+        padding-top: 11px;
+
+        border-top: 1px solid #edf0f3;
+    }
+
+
+    .document-status-badge {
+        margin-right: auto;
+
+        min-height: 27px;
+
+        padding: 5px 9px;
+
+        font-size: 10px;
+    }
+
+
+    .document-view-button {
+        width: 32px;
+        height: 32px;
+    }
+
+
+    .document-upload-small {
+        min-height: 32px;
+
+        padding: 0 10px;
+
+        font-size: 10px;
+    }
+
+}
+
+
+/* ============================================================
+   SMALL MOBILE
+============================================================ */
+
+@media (max-width: 420px) {
+
+    .document-row {
+        padding: 12px;
+    }
+
+
+    .document-row-meta {
+        max-width: 100%;
+    }
+
+
+    .document-row-meta>span:nth-child(even) {
+        /* Keep metadata compact on very narrow screens */
+    }
+
+
+    .document-review-note {
+        font-size: 10px;
+    }
+
+
+    .document-upload-small {
+        padding: 0 9px;
+    }
+
+}

@@ -1,0 +1,364 @@
+/* =========================================================
+   COLUSUS — APPLICATIONS TOOLBAR
+========================================================= */
+
+.applications-toolbar {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 8px;
+
+    background: #ffffff;
+
+    border: 1px solid #e3e9f1;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 6px 24px rgba(15, 35, 70, 0.045);
+}
+
+
+/* =========================================================
+   FILTER TABS
+========================================================= */
+
+.application-tabs {
+    display: flex;
+    align-items: center;
+
+    gap: 3px;
+
+    min-width: 0;
+
+    overflow-x: auto;
+
+    scrollbar-width: none;
+}
+
+.application-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+
+.application-tabs button {
+    height: 40px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 0 13px;
+
+    flex-shrink: 0;
+
+    border: 0;
+
+    border-radius: 10px;
+
+    background: transparent;
+
+    color: #64758d;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition:
+        background-color 180ms ease,
+        color 180ms ease,
+        transform 180ms ease;
+}
+
+
+.application-tabs button:hover {
+    background: #f4f7fb;
+
+    color: #0968c7;
+}
+
+
+.application-tabs button.active {
+    background: #eaf3ff;
+
+    color: #075fbe;
+}
+
+
+.application-tabs button:active {
+    transform: translateY(1px);
+}
+
+
+/* =========================================================
+   TAB COUNT
+========================================================= */
+
+.application-tab-count {
+    min-width: 21px;
+
+    height: 21px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 6px;
+
+    border-radius: 999px;
+
+    background: #f0f3f7;
+
+    color: #78879b;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    line-height: 1;
+}
+
+
+.application-tabs button.active .application-tab-count {
+    background: #ffffff;
+
+    color: #075fbe;
+}
+
+
+/* =========================================================
+   RIGHT SIDE CONTROLS
+========================================================= */
+
+.application-tools {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.application-search {
+    width: 230px;
+
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 0 12px;
+
+    background: #ffffff;
+
+    border: 1px solid #dce4ed;
+
+    border-radius: 10px;
+
+    color: #8190a4;
+
+    transition:
+        border-color 180ms ease,
+        box-shadow 180ms ease;
+}
+
+
+.application-search:focus-within {
+    border-color: #1477d4;
+
+    box-shadow:
+        0 0 0 3px rgba(20, 119, 212, 0.09);
+}
+
+
+.application-search svg {
+    width: 16px;
+    height: 16px;
+
+    flex-shrink: 0;
+}
+
+
+.application-search input {
+    width: 100%;
+
+    min-width: 0;
+
+    padding: 0;
+
+    border: 0;
+
+    outline: 0;
+
+    background: transparent;
+
+    color: #14233b;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    font-weight: 500;
+}
+
+
+.application-search input::placeholder {
+    color: #9aa7b8;
+}
+
+
+.application-search input::-webkit-search-cancel-button {
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   FILTER BUTTON
+========================================================= */
+
+.application-filter-button {
+    height: 40px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 0 12px;
+
+    border: 1px solid #dce4ed;
+
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    color: #53657d;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition:
+        background-color 180ms ease,
+        border-color 180ms ease,
+        color 180ms ease;
+}
+
+
+.application-filter-button:hover {
+    background: #f7faff;
+
+    border-color: #cbd8e7;
+
+    color: #075fbe;
+}
+
+
+.application-filter-button svg:first-child {
+    width: 16px;
+    height: 16px;
+}
+
+
+.application-filter-button svg:last-child {
+    width: 14px;
+    height: 14px;
+
+    color: #8a99ab;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1180px) {
+
+    .applications-toolbar {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+
+    .application-tabs {
+        width: 100%;
+    }
+
+
+    .application-tools {
+        width: 100%;
+    }
+
+
+    .application-search {
+        flex: 1;
+
+        width: auto;
+    }
+
+}
+
+
+@media (max-width: 640px) {
+
+    .applications-toolbar {
+        padding: 7px;
+
+        border-radius: 14px;
+    }
+
+
+    .application-tabs button {
+        height: 38px;
+
+        padding: 0 11px;
+
+        font-size: 12px;
+    }
+
+
+    .application-tools {
+        display: grid;
+
+        grid-template-columns: 1fr auto;
+    }
+
+
+    .application-search {
+        width: 100%;
+    }
+
+
+    .application-filter-button {
+        padding: 0 11px;
+    }
+
+}

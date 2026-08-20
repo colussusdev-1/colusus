@@ -1,0 +1,481 @@
+/* ============================================================
+   GRID WRAPPER
+============================================================ */
+
+.opportunity-grid-wrapper {
+    width: 100%;
+}
+
+
+/* ============================================================
+   OPPORTUNITY GRID
+============================================================ */
+
+.opportunity-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 18px;
+
+    width: 100%;
+}
+
+
+/* ============================================================
+   EMPTY STATE
+============================================================ */
+
+.opportunity-grid-empty {
+
+    width: 100%;
+
+    min-height: 250px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 38px 24px;
+
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-lg);
+
+    background: var(--surface);
+
+    text-align: center;
+}
+
+
+.opportunity-grid-empty-icon {
+
+    width: 44px;
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 13px;
+
+    border-radius: 50%;
+
+    background: var(--surface-light);
+
+    color: var(--text-muted);
+
+    font-size: 19px;
+}
+
+
+.opportunity-grid-empty h3 {
+
+    margin: 0 0 6px;
+
+    color: var(--heading);
+
+    font-size: var(--fs-small);
+    font-weight: var(--fw-bold);
+}
+
+
+.opportunity-grid-empty p {
+
+    max-width: 400px;
+
+    margin: 0;
+
+    color: var(--text-light);
+
+    font-size: var(--fs-xs);
+
+    line-height: 1.6;
+}
+
+
+/* ============================================================
+   SKELETON
+============================================================ */
+
+.opportunity-grid-skeleton {
+
+    min-height: 330px;
+
+    padding: 20px;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+
+    background: var(--surface);
+
+    overflow: hidden;
+
+    animation: opportunitySkeletonPulse 1.5s ease-in-out infinite;
+}
+
+
+@keyframes opportunitySkeletonPulse {
+
+    0% {
+        opacity: 0.55;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.55;
+    }
+
+}
+
+
+/* ============================================================
+   SKELETON HEADER
+============================================================ */
+
+.opportunity-grid-skeleton-header {
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 25px;
+}
+
+
+.opportunity-grid-skeleton-flag {
+
+    width: 40px;
+    height: 40px;
+
+    flex: 0 0 40px;
+
+    border-radius: 11px;
+
+    background: var(--surface-light);
+}
+
+
+.opportunity-grid-skeleton-country {
+
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+
+.opportunity-grid-skeleton-country div {
+
+    width: 75px;
+    height: 9px;
+
+    border-radius: 5px;
+
+    background: var(--surface-light);
+}
+
+
+.opportunity-grid-skeleton-country span {
+
+    width: 48px;
+    height: 7px;
+
+    border-radius: 5px;
+
+    background: var(--surface-light);
+}
+
+
+.opportunity-grid-skeleton-badge {
+
+    width: 54px;
+    height: 22px;
+
+    border-radius: 999px;
+
+    background: var(--surface-light);
+}
+
+
+/* ============================================================
+   SKELETON CONTENT
+============================================================ */
+
+.opportunity-grid-skeleton-title {
+
+    width: 72%;
+    height: 16px;
+
+    margin-bottom: 14px;
+
+    border-radius: 5px;
+
+    background: var(--surface-light);
+}
+
+
+.opportunity-grid-skeleton-line {
+
+    width: 94%;
+    height: 8px;
+
+    margin-bottom: 8px;
+
+    border-radius: 5px;
+
+    background: var(--surface-light);
+}
+
+
+.opportunity-grid-skeleton-line.short {
+
+    width: 62%;
+}
+
+
+.opportunity-grid-skeleton-meta {
+
+    width: 72%;
+    height: 9px;
+
+    margin-top: 20px;
+
+    border-radius: 5px;
+
+    background: var(--surface-light);
+}
+
+
+.opportunity-grid-skeleton-footer {
+
+    width: 100%;
+    height: 42px;
+
+    margin-top: 38px;
+
+    border-radius: var(--radius-md);
+
+    background: var(--surface-light);
+}
+
+
+/* ============================================================
+   PAGINATION
+============================================================ */
+
+.opportunity-pagination {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    margin-top: 30px;
+}
+
+
+.opportunity-pagination-pages {
+
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+}
+
+
+/* ============================================================
+   PAGINATION BUTTONS
+============================================================ */
+
+.opportunity-pagination-page,
+.opportunity-pagination-arrow {
+
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    background: var(--surface);
+
+    color: var(--text-light);
+
+    font-family: var(--font-family);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+
+    cursor: pointer;
+
+    transition:
+        background 160ms ease,
+        border-color 160ms ease,
+        color 160ms ease,
+        transform 160ms ease;
+}
+
+
+.opportunity-pagination-page:hover,
+.opportunity-pagination-arrow:hover:not(:disabled) {
+
+    border-color: rgba(var(--primary-rgb), 0.25);
+
+    color: var(--primary);
+
+    background: rgba(var(--primary-rgb), 0.04);
+
+}
+
+
+.opportunity-pagination-page.active {
+
+    border-color: var(--primary);
+
+    background: var(--primary);
+
+    color: var(--white);
+}
+
+
+.opportunity-pagination-arrow {
+
+    color: var(--primary);
+}
+
+
+.opportunity-pagination-arrow:disabled {
+
+    opacity: 0.35;
+
+    cursor: not-allowed;
+}
+
+
+/* ============================================================
+   PAGINATION SUMMARY
+============================================================ */
+
+.opportunity-pagination-summary {
+
+    margin: 12px 0 0;
+
+    color: var(--text-muted);
+
+    font-size: 10px;
+
+    text-align: center;
+}
+
+
+.opportunity-pagination-summary strong {
+
+    color: var(--text-light);
+
+    font-weight: var(--fw-semibold);
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 1050px) {
+
+    .opportunity-grid {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 16px;
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 650px) {
+
+    .opportunity-grid {
+
+        grid-template-columns: 1fr;
+
+        gap: 13px;
+    }
+
+
+    .opportunity-grid-empty {
+
+        min-height: 220px;
+
+        padding: 30px 20px;
+
+        border-radius: var(--radius-md);
+    }
+
+
+    .opportunity-grid-skeleton {
+
+        min-height: 270px;
+
+        padding: 16px;
+
+        border-radius: var(--radius-md);
+    }
+
+
+    .opportunity-pagination {
+
+        margin-top: 24px;
+    }
+
+
+    .opportunity-pagination-page,
+    .opportunity-pagination-arrow {
+
+        width: 34px;
+        height: 34px;
+
+        border-radius: 9px;
+    }
+
+}
+
+
+/* ============================================================
+   SMALL MOBILE
+============================================================ */
+
+@media (max-width: 380px) {
+
+    .opportunity-pagination-pages {
+
+        gap: 3px;
+    }
+
+
+    .opportunity-pagination-page,
+    .opportunity-pagination-arrow {
+
+        width: 32px;
+        height: 32px;
+
+        font-size: 9px;
+    }
+
+}

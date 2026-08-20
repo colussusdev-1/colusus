@@ -1,0 +1,895 @@
+/* =========================================================
+   COLUSUS — COMPACT APPLICATION CARD
+========================================================= */
+
+.application-card {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        150px minmax(0, 1fr);
+
+    min-height: 178px;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border: 1px solid #dfe7f0;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 6px 20px rgba(15, 35, 70, 0.045);
+
+    transition:
+        transform 180ms ease,
+        box-shadow 180ms ease,
+        border-color 180ms ease;
+}
+
+
+.application-card:hover {
+    transform: translateY(-2px);
+
+    border-color: #cbd9e8;
+
+    box-shadow:
+        0 12px 28px rgba(15, 35, 70, 0.075);
+}
+
+
+/* =========================================================
+   LEFT VISUAL
+========================================================= */
+
+.application-card-visual {
+    position: relative;
+
+    min-height: 178px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(145deg,
+            #1268ad 0%,
+            #0a477f 48%,
+            #062b55 100%);
+}
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+.application-card-image {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    transition:
+        transform 500ms ease;
+}
+
+
+.application-card:hover .application-card-image {
+    transform: scale(1.035);
+}
+
+
+/* =========================================================
+   IMAGE FALLBACK
+========================================================= */
+
+.application-card-image-fallback {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(circle at 50% 35%,
+            rgba(72, 176, 241, 0.35),
+            transparent 42%),
+        linear-gradient(145deg,
+            #1678c5,
+            #062b55);
+
+    color: rgba(255, 255, 255, 0.92);
+}
+
+
+.application-card-image-fallback span {
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+
+    border-radius: 15px;
+
+    background:
+        rgba(255, 255, 255, 0.12);
+
+    backdrop-filter: blur(8px);
+
+    font-size: 22px;
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   VISUAL OVERLAY
+========================================================= */
+
+.application-card-visual-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 1;
+
+    background:
+        linear-gradient(180deg,
+            rgba(0, 35, 75, 0.02) 0%,
+            rgba(0, 22, 50, 0.52) 100%);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.application-card-status {
+    position: absolute;
+
+    top: 12px;
+    left: 12px;
+
+    z-index: 3;
+
+    height: 28px;
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 0 10px;
+
+    border: 1px solid rgba(255, 255, 255, 0.24);
+
+    border-radius: 999px;
+
+    background:
+        rgba(255, 255, 255, 0.14);
+
+    backdrop-filter: blur(9px);
+
+    color: #ffffff;
+
+    font-size: 9px;
+
+    font-weight: 750;
+
+    letter-spacing: 0.01em;
+
+    text-transform: uppercase;
+}
+
+
+.application-card-status-dot {
+    width: 5px;
+    height: 5px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #61d5ff;
+
+    box-shadow:
+        0 0 0 3px rgba(97, 213, 255, 0.12);
+}
+
+
+/* =========================================================
+   STATUS VARIANTS
+========================================================= */
+
+.application-card-status.approved,
+.application-card-status.completed {
+    background:
+        rgba(28, 155, 91, 0.18);
+
+    border-color:
+        rgba(89, 221, 151, 0.28);
+}
+
+
+.application-card-status.approved .application-card-status-dot,
+.application-card-status.completed .application-card-status-dot {
+    background: #63e3a0;
+}
+
+
+.application-card-status.rejected {
+    background:
+        rgba(220, 75, 75, 0.18);
+
+    border-color:
+        rgba(255, 130, 130, 0.28);
+}
+
+
+.application-card-status.rejected .application-card-status-dot {
+    background: #ff8585;
+}
+
+
+.application-card-status.processing,
+.application-card-status.under-review {
+    background:
+        rgba(255, 173, 65, 0.18);
+
+    border-color:
+        rgba(255, 193, 105, 0.28);
+}
+
+
+.application-card-status.processing .application-card-status-dot,
+.application-card-status.under-review .application-card-status-dot {
+    background: #ffc15f;
+}
+
+
+/* =========================================================
+   COUNTRY
+========================================================= */
+
+.application-card-country {
+    position: absolute;
+
+    left: 14px;
+    bottom: 13px;
+
+    z-index: 3;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    min-width: 0;
+}
+
+
+.application-card-country-code {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 255, 255, 0.14);
+
+    backdrop-filter: blur(8px);
+
+    color: #ffffff;
+
+    font-size: 11px;
+
+    font-weight: 800;
+}
+
+
+.application-card-country-name {
+    max-width: 105px;
+
+    overflow: hidden;
+
+    color: #ffffff;
+
+    font-size: 13px;
+
+    font-weight: 750;
+
+    letter-spacing: -0.01em;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.application-card-content {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    padding:
+        16px 19px 13px;
+}
+
+
+/* =========================================================
+   TOP ROW
+========================================================= */
+
+.application-card-top {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+
+.application-card-type {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #8493a6;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.12em;
+
+    text-transform: uppercase;
+}
+
+
+.application-card-title {
+    margin: 0;
+
+    color: #152942;
+
+    font-size: 19px;
+
+    line-height: 1.1;
+
+    font-weight: 760;
+
+    letter-spacing: -0.035em;
+}
+
+
+/* =========================================================
+   MENU BUTTON
+========================================================= */
+
+.application-card-menu {
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    padding: 0;
+
+    border: 1px solid #e0e7ef;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: #738399;
+
+    cursor: pointer;
+
+    transition:
+        background-color 160ms ease,
+        border-color 160ms ease,
+        color 160ms ease;
+}
+
+
+.application-card-menu:hover {
+    border-color: #cbd9e8;
+
+    background: #f7faff;
+
+    color: #126fca;
+}
+
+
+.application-card-menu svg {
+    width: 16px;
+    height: 16px;
+}
+
+
+/* =========================================================
+   META
+========================================================= */
+
+.application-card-meta {
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 7px 12px;
+
+    margin-top: 9px;
+}
+
+
+.application-card-meta-item {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    color: #72839a;
+
+    font-size: 10.5px;
+
+    font-weight: 500;
+
+    white-space: nowrap;
+}
+
+
+.application-card-meta-item svg {
+    width: 14px;
+    height: 14px;
+
+    flex-shrink: 0;
+
+    color: #8b9bb0;
+}
+
+
+.application-card-meta-divider {
+    width: 3px;
+    height: 3px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #b8c4d1;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.application-card-description {
+    max-width: 100%;
+
+    margin:
+        8px 0 0;
+
+    color: #718198;
+
+    font-size: 10.5px;
+
+    line-height: 1.45;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.application-card-progress {
+    margin-top: auto;
+
+    padding-top: 10px;
+}
+
+
+.application-card-progress-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 5px;
+}
+
+
+.application-card-progress-label {
+    color: #708097;
+
+    font-size: 9.5px;
+
+    font-weight: 600;
+}
+
+
+.application-card-progress-value {
+    color: #126fca;
+
+    font-size: 10.5px;
+
+    font-weight: 800;
+}
+
+
+.application-card-progress-track {
+    width: 100%;
+
+    height: 5px;
+
+    overflow: hidden;
+
+    border-radius: 999px;
+
+    background: #e9eff5;
+}
+
+
+.application-card-progress-fill {
+    display: block;
+
+    height: 100%;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(90deg,
+            #0877d1,
+            #35a9e8);
+
+    transition:
+        width 450ms ease;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.application-card-bottom {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-top: 9px;
+
+    padding-top: 8px;
+
+    border-top: 1px solid #edf1f5;
+}
+
+
+/* =========================================================
+   APPLICATION TYPE
+========================================================= */
+
+.application-card-visa-type {
+    min-width: 0;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    color: #6e7e94;
+
+    font-size: 10px;
+
+    font-weight: 600;
+}
+
+
+.application-card-visa-type svg {
+    width: 14px;
+    height: 14px;
+
+    flex-shrink: 0;
+
+    color: #8292a7;
+}
+
+
+.application-card-visa-type span {
+    overflow: hidden;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   DETAILS LINK
+========================================================= */
+
+.application-card-details-link {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    flex-shrink: 0;
+
+    color: #0669c7;
+
+    font-size: 10.5px;
+
+    font-weight: 750;
+
+    text-decoration: none;
+
+    white-space: nowrap;
+
+    transition:
+        color 160ms ease;
+}
+
+
+.application-card-details-link:hover {
+    color: #044f97;
+}
+
+
+.application-card-details-link svg {
+    width: 14px;
+    height: 14px;
+
+    transition:
+        transform 180ms ease;
+}
+
+
+.application-card-details-link:hover svg {
+    transform: translateX(3px);
+}
+
+
+/* =========================================================
+   RESPONSIVE — TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .application-card {
+        grid-template-columns:
+            125px minmax(0, 1fr);
+
+        min-height: 170px;
+    }
+
+
+    .application-card-visual {
+        min-height: 170px;
+    }
+
+
+    .application-card-content {
+        padding:
+            14px 16px 12px;
+    }
+
+
+    .application-card-title {
+        font-size: 18px;
+    }
+
+
+    .application-card-country {
+        left: 11px;
+        bottom: 11px;
+    }
+
+
+    .application-card-country-name {
+        max-width: 80px;
+    }
+
+
+    .application-card-status {
+        top: 10px;
+        left: 10px;
+
+        height: 26px;
+
+        padding:
+            0 9px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+========================================================= */
+
+@media (max-width: 620px) {
+
+    .application-card {
+        display: grid;
+
+        grid-template-columns: 1fr;
+
+        min-height: auto;
+    }
+
+
+    .application-card-visual {
+        height: 112px;
+
+        min-height: 112px;
+    }
+
+
+    .application-card-country {
+        bottom: 10px;
+    }
+
+
+    .application-card-content {
+        min-height: 170px;
+
+        padding:
+            14px 15px 12px;
+    }
+
+
+    .application-card-description {
+        white-space: normal;
+
+        display: -webkit-box;
+
+        -webkit-line-clamp: 2;
+
+        -webkit-box-orient: vertical;
+
+        overflow: hidden;
+    }
+
+
+    .application-card-progress {
+        padding-top: 9px;
+    }
+
+
+    .application-card-bottom {
+        margin-top: 8px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .application-card-content {
+        padding:
+            13px 13px 11px;
+    }
+
+
+    .application-card-title {
+        font-size: 17px;
+    }
+
+
+    .application-card-meta {
+        gap: 6px 9px;
+    }
+
+
+    .application-card-meta-divider {
+        display: none;
+    }
+
+
+    .application-card-meta-item {
+        font-size: 10px;
+    }
+
+
+    .application-card-description {
+        font-size: 10px;
+    }
+
+
+    .application-card-visa-type {
+        max-width: 45%;
+    }
+
+
+    .application-card-details-link {
+        font-size: 10px;
+    }
+
+}
+
+/* =========================================================
+   COUNTRY FLAG
+========================================================= */
+
+.application-card-country-flag {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(255, 255, 255, 0.28);
+
+    border-radius: 10px;
+
+    background: rgba(255, 255, 255, 0.14);
+
+    backdrop-filter: blur(8px);
+
+    box-shadow:
+        0 4px 12px rgba(0, 20, 45, 0.12);
+}
+
+.application-card-country-flag img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+}

@@ -1,11 +1,43 @@
 import documentService from "./document.service.js";
 
+/*
+============================================================
+CREATE / UPLOAD DOCUMENT
+============================================================
+*/
+
 export const createDocument = async (req, res, next) => {
   try {
+    console.log("=================================");
+    console.log("DOCUMENT UPLOAD");
+    console.log("=================================");
+
+    console.log("BODY:", req.body);
+
+    console.log(
+      "FILE:",
+      req.file
+        ? {
+            fieldname: req.file.fieldname,
+            originalname: req.file.originalname,
+            mimetype: req.file.mimetype,
+            size: req.file.size,
+          }
+        : null,
+    );
+
+    console.log("USER:", req.user?.id);
+
+    console.log("=================================");
+
     const document = await documentService.createDocument({
       user: req.user.id,
 
-      ...req.body,
+      application: req.body.application,
+
+      name: req.body.name,
+
+      type: req.body.type,
     });
 
     res.status(201).json({
@@ -19,6 +51,12 @@ export const createDocument = async (req, res, next) => {
     next(error);
   }
 };
+
+/*
+============================================================
+GET ALL CLIENT DOCUMENTS
+============================================================
+*/
 
 export const getDocuments = async (req, res, next) => {
   try {
@@ -34,11 +72,16 @@ export const getDocuments = async (req, res, next) => {
   }
 };
 
+/*
+============================================================
+GET APPLICATION DOCUMENTS
+============================================================
+*/
+
 export const getApplicationDocuments = async (req, res, next) => {
   try {
     const documents = await documentService.getApplicationDocuments(
       req.params.applicationId,
-
       req.user.id,
     );
 
@@ -52,13 +95,17 @@ export const getApplicationDocuments = async (req, res, next) => {
   }
 };
 
+/*
+============================================================
+UPDATE DOCUMENT
+============================================================
+*/
+
 export const updateDocumentStatus = async (req, res, next) => {
   try {
     const document = await documentService.updateDocumentStatus(
       req.params.id,
-
       req.user.id,
-
       req.body,
     );
 

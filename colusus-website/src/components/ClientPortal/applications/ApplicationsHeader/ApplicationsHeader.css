@@ -1,0 +1,270 @@
+/* =========================================================
+   COLUSUS — APPLICATIONS HEADER
+========================================================= */
+
+.applications-header {
+    width: 100%;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 40px;
+
+    padding: 4px 2px 28px;
+}
+
+
+/* =========================================================
+   HEADER CONTENT
+========================================================= */
+
+.applications-header-content {
+    min-width: 0;
+}
+
+
+.applications-header-eyebrow {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 10px;
+
+    color: #7c8ca1;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 0.14em;
+}
+
+
+.applications-header-eyebrow-line {
+    width: 18px;
+    height: 2px;
+
+    border-radius: 999px;
+
+    background: #1477d4;
+}
+
+
+.applications-header-title {
+    margin: 0;
+
+    color: #10243f;
+
+    font-size: clamp(28px, 3vw, 38px);
+
+    font-weight: 760;
+
+    line-height: 1.08;
+
+    letter-spacing: -0.045em;
+}
+
+
+.applications-header-description {
+    max-width: 580px;
+
+    margin: 10px 0 0;
+
+    color: #718197;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   ACTION AREA
+========================================================= */
+
+.applications-header-actions {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    flex-shrink: 0;
+}
+
+
+.applications-header-count {
+    color: #8492a5;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   START APPLICATION BUTTON
+========================================================= */
+
+.applications-header-button {
+    min-height: 44px;
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 0 14px 0 7px;
+
+    border: 1px solid #075fbe;
+
+    border-radius: 11px;
+
+    background: #075fbe;
+
+    color: #ffffff;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+    box-shadow:
+        0 7px 18px rgba(7, 95, 190, 0.17);
+
+    transition:
+        background-color 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        transform 180ms ease;
+}
+
+
+.applications-header-button:hover {
+    background: #064f9f;
+
+    border-color: #064f9f;
+
+    box-shadow:
+        0 10px 24px rgba(7, 95, 190, 0.23);
+
+    transform: translateY(-1px);
+}
+
+
+.applications-header-button:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   BUTTON ICON
+========================================================= */
+
+.applications-header-button-icon {
+    width: 30px;
+    height: 30px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+
+    background: rgba(255, 255, 255, 0.13);
+}
+
+
+.applications-header-button-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+
+/* =========================================================
+   BUTTON ARROW
+========================================================= */
+
+.applications-header-button-arrow {
+    width: 15px;
+    height: 15px;
+
+    margin-left: 2px;
+
+    opacity: 0.78;
+
+    transition:
+        transform 180ms ease,
+        opacity 180ms ease;
+}
+
+
+.applications-header-button:hover .applications-header-button-arrow {
+    transform: translateX(2px);
+
+    opacity: 1;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .applications-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 20px;
+
+        padding-bottom: 22px;
+    }
+
+
+    .applications-header-actions {
+        width: 100%;
+
+        justify-content: space-between;
+    }
+
+}
+
+
+@media (max-width: 520px) {
+
+    .applications-header {
+        gap: 16px;
+
+        padding-bottom: 18px;
+    }
+
+
+    .applications-header-title {
+        font-size: 29px;
+    }
+
+
+    .applications-header-description {
+        font-size: 12px;
+
+        line-height: 1.6;
+    }
+
+
+    .applications-header-count {
+        display: none;
+    }
+
+
+    .applications-header-button {
+        width: 100%;
+
+        justify-content: center;
+    }
+
+}

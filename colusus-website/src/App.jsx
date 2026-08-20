@@ -22,9 +22,9 @@ import OpportunityDetails from "./pages/Opportunities/OpportunityDetails/Opportu
 
 import FreeAssessment from "./pages/FreeAssesment/FreeAssessment";
 import ConsultationBooking from "./components/ConsultationBooking/ConsultationBooking";
-import ApplicationWizard from "./pages/Client/ApplicationWizard";
-
+import NewApplication from "./pages/Client/NewApplication";
 import Webmailer from "./pages/Webmailer/Webmailer";
+
 
 /*
 |--------------------------------------------------------------------------
@@ -37,9 +37,11 @@ import ProtectedRoute from "./components/ClientPortal/ProtectedRoute";
 
 import ClientDashboard from "./pages/Client/ClientDashboard";
 import Applications from "./pages/Client/Applications";
+import ApplicationDetail from "./pages/Client/ApplicationDetails";
 import Documents from "./pages/Client/Documents";
 import Updates from "./pages/Client/Updates";
 import Profile from "./pages/Client/Profile";
+
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +52,7 @@ import Profile from "./pages/Client/Profile";
 import AdminLogin from "./pages/admin/Auth/AdminLogin";
 import AdminConsultations from "./pages/admin/consultations/AdminConsultations";
 
+
 /*
 |--------------------------------------------------------------------------
 | AUTHENTICATION
@@ -58,6 +61,7 @@ import AdminConsultations from "./pages/admin/consultations/AdminConsultations";
 
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
+
 
 function App() {
 
@@ -68,6 +72,7 @@ function App() {
             <ScrollToTop />
 
             <Routes>
+
 
                 {/*
                 =================================================
@@ -218,6 +223,7 @@ function App() {
                     }
                 />
 
+
                 {/*
                 =================================================
                 WEBMAIL
@@ -228,6 +234,7 @@ function App() {
                     path="/webmail"
                     element={<Webmailer />}
                 />
+
 
                 {/*
                 =================================================
@@ -245,6 +252,7 @@ function App() {
                     element={<Register />}
                 />
 
+
                 {/*
                 =================================================
                 ADMIN AUTHENTICATION
@@ -256,6 +264,7 @@ function App() {
                     element={<AdminLogin />}
                 />
 
+
                 {/*
                 =================================================
                 ADMIN
@@ -266,6 +275,7 @@ function App() {
                     path="/admin/consultations"
                     element={<AdminConsultations />}
                 />
+
 
                 {/*
                 =================================================
@@ -280,6 +290,7 @@ function App() {
                         element={<PortalLayout />}
                     >
 
+
                         {/*
                         -----------------------------------------
                         DASHBOARD
@@ -290,6 +301,7 @@ function App() {
                             index
                             element={<ClientDashboard />}
                         />
+
 
                         {/*
                         -----------------------------------------
@@ -302,10 +314,24 @@ function App() {
                             element={<Applications />}
                         />
 
+
                         <Route
                             path="applications/new"
-                            element={<ApplicationWizard />}
+                            element={<NewApplication />}
                         />
+
+
+                        {/*
+                        -----------------------------------------
+                        APPLICATION DETAIL
+                        -----------------------------------------
+                        */}
+
+                        <Route
+                            path="applications/:id"
+                            element={<ApplicationDetail />}
+                        />
+
 
                         {/*
                         -----------------------------------------
@@ -318,6 +344,7 @@ function App() {
                             element={<Documents />}
                         />
 
+
                         {/*
                         -----------------------------------------
                         UPDATES
@@ -328,6 +355,7 @@ function App() {
                             path="updates"
                             element={<Updates />}
                         />
+
 
                         {/*
                         -----------------------------------------
@@ -351,5 +379,6 @@ function App() {
     );
 
 }
+
 
 export default App;

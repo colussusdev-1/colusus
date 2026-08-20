@@ -1,6 +1,6 @@
 import React from 'react'
 
-function ApplicationStepper() {
+function ApplicationDetailsStates() {
   return (
     <div>
       coming soon...
@@ -8,4 +8,4 @@ function ApplicationStepper() {
   )
 }
 
-export default ApplicationStepper
+export default ApplicationDetailsStates

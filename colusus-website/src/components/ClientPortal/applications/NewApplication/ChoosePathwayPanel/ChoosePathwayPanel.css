@@ -1,0 +1,609 @@
+/* ============================================================
+   CHOOSE PATHWAY PANEL
+============================================================ */
+
+.choose-pathway-panel {
+    width: 100%;
+
+    padding: 22px;
+
+    border: 1px solid var(--border);
+    border-radius: 14px;
+
+    background: var(--surface);
+
+    box-shadow: var(--shadow-sm);
+}
+
+
+/* ============================================================
+   HEADER
+============================================================ */
+
+.choose-pathway-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 20px;
+}
+
+
+.choose-pathway-heading {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+.choose-pathway-number {
+    width: 32px;
+    height: 32px;
+
+    flex: 0 0 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: var(--primary);
+
+    color: var(--white);
+
+    font-size: 13px;
+    font-weight: var(--fw-bold);
+}
+
+
+.choose-pathway-heading h2 {
+    margin: 0 0 3px;
+
+    color: var(--heading);
+
+    font-size: 15px;
+    font-weight: var(--fw-bold);
+}
+
+
+.choose-pathway-heading p {
+    margin: 0;
+
+    color: var(--text-muted);
+
+    font-size: 11px;
+    line-height: 1.45;
+}
+
+
+/* ============================================================
+   COUNT
+============================================================ */
+
+.choose-pathway-count {
+    display: inline-flex;
+    align-items: baseline;
+
+    gap: 5px;
+
+    padding: 7px 11px;
+
+    border: 1px solid var(--border);
+    border-radius: 999px;
+
+    background: var(--surface-light);
+
+    white-space: nowrap;
+}
+
+
+.choose-pathway-count strong {
+    color: var(--primary);
+
+    font-size: 13px;
+}
+
+
+.choose-pathway-count span {
+    color: var(--text-muted);
+
+    font-size: 10px;
+}
+
+
+/* ============================================================
+   SEARCH
+============================================================ */
+
+.choose-pathway-search {
+    position: relative;
+
+    width: 100%;
+
+    margin-bottom: 12px;
+}
+
+
+.choose-pathway-search svg {
+    position: absolute;
+
+    left: 13px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: var(--text-muted);
+
+    font-size: 16px;
+
+    pointer-events: none;
+}
+
+
+.choose-pathway-search input {
+    width: 100%;
+    height: 42px;
+
+    padding:
+        0 40px;
+
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    outline: none;
+
+    background: var(--surface);
+
+    color: var(--heading);
+
+    font-family: var(--font-family);
+
+    font-size: 12px;
+
+    transition: var(--transition-fast);
+}
+
+
+.choose-pathway-search input::placeholder {
+    color: var(--text-muted);
+}
+
+
+.choose-pathway-search input:focus {
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px rgba(var(--primary-rgb), 0.07);
+}
+
+
+/* ============================================================
+   CATEGORY PILLS
+============================================================ */
+
+.choose-pathway-categories {
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    margin-bottom: 20px;
+
+    overflow-x: auto;
+
+    scrollbar-width: none;
+}
+
+
+.choose-pathway-categories::-webkit-scrollbar {
+    display: none;
+}
+
+
+.choose-pathway-category {
+    flex: 0 0 auto;
+
+    height: 30px;
+
+    padding:
+        0 13px;
+
+    border: 1px solid transparent;
+    border-radius: 999px;
+
+    background: var(--surface-light);
+
+    color: var(--text-light);
+
+    font-family: var(--font-family);
+
+    font-size: 10px;
+    font-weight: var(--fw-semibold);
+
+    cursor: pointer;
+
+    transition: var(--transition-fast);
+}
+
+
+.choose-pathway-category:hover {
+    color: var(--primary);
+
+    border-color:
+        rgba(var(--primary-rgb),
+            0.18);
+}
+
+
+.choose-pathway-category.active {
+    border-color: var(--primary);
+
+    background: var(--primary);
+
+    color: var(--white);
+}
+
+
+/* ============================================================
+   RESULTS
+============================================================ */
+
+.choose-pathway-results {
+    width: 100%;
+}
+
+
+/* ============================================================
+   GRID
+============================================================ */
+
+.choose-pathway-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3,
+            minmax(0, 1fr));
+
+    gap: 14px;
+}
+
+
+/* ============================================================
+   LOADING
+============================================================ */
+
+.choose-pathway-loading {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3,
+            minmax(0, 1fr));
+
+    gap: 14px;
+}
+
+
+.choose-pathway-skeleton {
+    height: 350px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 12px;
+
+    background:
+        linear-gradient(90deg,
+            var(--surface-light) 25%,
+            var(--surface) 50%,
+            var(--surface-light) 75%);
+
+    background-size: 200% 100%;
+
+    animation:
+        choose-pathway-shimmer 1.4s ease-in-out infinite;
+}
+
+
+@keyframes choose-pathway-shimmer {
+
+    0% {
+        background-position:
+            200% 0;
+    }
+
+    100% {
+        background-position:
+            -200% 0;
+    }
+
+}
+
+
+/* ============================================================
+   EMPTY
+============================================================ */
+
+.choose-pathway-empty {
+    min-height: 220px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px;
+
+    border:
+        1px dashed var(--border);
+
+    border-radius: 10px;
+
+    text-align: center;
+}
+
+
+.choose-pathway-empty-icon {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 10px;
+
+    border-radius: 50%;
+
+    background: var(--surface-light);
+
+    color: var(--text-muted);
+}
+
+
+.choose-pathway-empty h3 {
+    margin: 0 0 5px;
+
+    color: var(--heading);
+
+    font-size: 13px;
+}
+
+
+.choose-pathway-empty p {
+    max-width: 320px;
+
+    margin: 0;
+
+    color: var(--text-muted);
+
+    font-size: 11px;
+
+    line-height: 1.55;
+}
+
+
+/* ============================================================
+   FOOTER
+============================================================ */
+
+.choose-pathway-footer {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-top: 18px;
+    padding-top: 15px;
+
+    border-top:
+        1px solid var(--border);
+
+    color: var(--text-muted);
+
+    font-size: 10px;
+}
+
+
+.choose-pathway-showing strong {
+    color: var(--heading);
+}
+
+
+/* ============================================================
+   PAGINATION
+============================================================ */
+
+.choose-pathway-pagination {
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+}
+
+
+.choose-pathway-pagination button {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 7px;
+
+    background: var(--surface);
+
+    color: var(--text-light);
+
+    font-family: var(--font-family);
+
+    font-size: 10px;
+    font-weight: var(--fw-semibold);
+
+    cursor: pointer;
+
+    transition: var(--transition-fast);
+}
+
+
+.choose-pathway-pagination button:hover:not(:disabled) {
+    border-color: var(--primary);
+
+    color: var(--primary);
+}
+
+
+.choose-pathway-pagination button.active {
+    border-color: var(--primary);
+
+    background: var(--primary);
+
+    color: var(--white);
+}
+
+
+.choose-pathway-pagination button:disabled {
+    opacity: 0.35;
+
+    cursor: not-allowed;
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 1050px) {
+
+    .choose-pathway-grid,
+    .choose-pathway-loading {
+        grid-template-columns:
+            repeat(2,
+                minmax(0, 1fr));
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 650px) {
+
+    .choose-pathway-panel {
+        padding: 15px;
+
+        border-radius: 11px;
+    }
+
+
+    .choose-pathway-header {
+        align-items: flex-start;
+
+        margin-bottom: 15px;
+    }
+
+
+    .choose-pathway-number {
+        width: 28px;
+        height: 28px;
+
+        flex-basis: 28px;
+
+        font-size: 11px;
+    }
+
+
+    .choose-pathway-heading {
+        gap: 9px;
+    }
+
+
+    .choose-pathway-heading h2 {
+        font-size: 13px;
+    }
+
+
+    .choose-pathway-heading p {
+        display: none;
+    }
+
+
+    .choose-pathway-count {
+        padding: 6px 9px;
+    }
+
+
+    .choose-pathway-count span {
+        display: none;
+    }
+
+
+    .choose-pathway-grid,
+    .choose-pathway-loading {
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+    }
+
+
+    .choose-pathway-footer {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 12px;
+    }
+
+
+    .choose-pathway-pagination {
+        width: 100%;
+
+        justify-content: flex-end;
+    }
+
+}
+
+
+/* ============================================================
+   SMALL MOBILE
+============================================================ */
+
+@media (max-width: 420px) {
+
+    .choose-pathway-panel {
+        padding: 13px;
+    }
+
+
+    .choose-pathway-category {
+        height: 28px;
+
+        padding:
+            0 11px;
+
+        font-size: 9px;
+    }
+
+
+    .choose-pathway-search input {
+        height: 40px;
+
+        font-size: 11px;
+    }
+
+}

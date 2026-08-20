@@ -1,0 +1,264 @@
+/* ============================================================
+   WORKFLOW STEPPER
+============================================================ */
+
+.workflow-stepper {
+    width: 100%;
+    margin-bottom: 26px;
+}
+
+
+/* ============================================================
+   INNER
+============================================================ */
+
+.workflow-stepper-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+}
+
+
+/* ============================================================
+   ITEM
+============================================================ */
+
+.workflow-stepper-item {
+    display: flex;
+    align-items: center;
+
+    flex: 1;
+    min-width: 0;
+}
+
+
+/* ============================================================
+   STEP
+============================================================ */
+
+.workflow-step {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    min-width: max-content;
+
+    color: var(--text-muted);
+
+    font-size: 11px;
+    font-weight: var(--fw-semibold);
+
+    transition: var(--transition-fast);
+}
+
+
+/* ============================================================
+   NUMBER
+============================================================ */
+
+.workflow-step-number {
+    width: 30px;
+    height: 30px;
+
+    flex: 0 0 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid var(--border);
+    border-radius: 50%;
+
+    background: var(--surface);
+
+    color: var(--text-muted);
+
+    font-size: 11px;
+    font-weight: var(--fw-semibold);
+
+    transition: var(--transition-fast);
+}
+
+
+/* ============================================================
+   ACTIVE
+============================================================ */
+
+.workflow-step.active {
+    color: var(--heading);
+}
+
+
+.workflow-step.active .workflow-step-number {
+    border-color: var(--primary);
+
+    background: var(--primary);
+
+    color: var(--white);
+
+    box-shadow:
+        0 0 0 4px rgba(var(--primary-rgb), 0.08);
+}
+
+
+/* ============================================================
+   COMPLETED
+============================================================ */
+
+.workflow-step.completed {
+    color: var(--primary);
+}
+
+
+.workflow-step.completed .workflow-step-number {
+    border-color: var(--primary);
+
+    background: rgba(var(--primary-rgb), 0.08);
+
+    color: var(--primary);
+}
+
+
+/* ============================================================
+   CONNECTOR
+============================================================ */
+
+.workflow-step-connector {
+    display: flex;
+    align-items: center;
+
+    flex: 1;
+
+    min-width: 28px;
+
+    margin: 0 12px;
+
+    color: var(--text-muted);
+}
+
+
+.workflow-step-connector span {
+    flex: 1;
+
+    height: 1px;
+
+    background:
+        repeating-linear-gradient(to right,
+            var(--border) 0,
+            var(--border) 3px,
+            transparent 3px,
+            transparent 7px);
+}
+
+
+.workflow-step-connector svg {
+    flex: 0 0 auto;
+
+    margin-left: 5px;
+
+    font-size: 12px;
+
+    opacity: 0.55;
+}
+
+
+/* ============================================================
+   COMPLETED CONNECTOR
+============================================================ */
+
+.workflow-step-connector.completed {
+    color: var(--primary);
+}
+
+
+.workflow-step-connector.completed span {
+    background:
+        repeating-linear-gradient(to right,
+            rgba(var(--primary-rgb), 0.5) 0,
+            rgba(var(--primary-rgb), 0.5) 3px,
+            transparent 3px,
+            transparent 7px);
+}
+
+
+.workflow-step-connector.completed svg {
+    opacity: 0.8;
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 900px) {
+
+    .workflow-step-label {
+        font-size: 10px;
+    }
+
+
+    .workflow-step-connector {
+        margin: 0 7px;
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 650px) {
+
+    .workflow-stepper {
+        margin-bottom: 20px;
+
+        overflow-x: auto;
+
+        scrollbar-width: none;
+    }
+
+
+    .workflow-stepper::-webkit-scrollbar {
+        display: none;
+    }
+
+
+    .workflow-stepper-inner {
+        width: max-content;
+
+        min-width: 620px;
+
+        justify-content: flex-start;
+    }
+
+
+    .workflow-stepper-item {
+        flex: 0 0 auto;
+    }
+
+
+    .workflow-step-number {
+        width: 27px;
+        height: 27px;
+
+        flex-basis: 27px;
+
+        font-size: 10px;
+    }
+
+
+    .workflow-step-label {
+        font-size: 10px;
+    }
+
+
+    .workflow-step-connector {
+        min-width: 25px;
+
+        margin: 0 7px;
+    }
+
+}

@@ -26,20 +26,24 @@ const getApplicationDocuments = async (applicationId) => {
 
 /*
 ============================================================
-CREATE DOCUMENT
+UPLOAD DOCUMENT
 ============================================================
 
-NOTE:
+FormData is passed directly to Axios.
 
-This currently sends document metadata only.
+DO NOT manually set Content-Type here.
 
-Actual file-upload storage will be connected
-after we add the backend upload layer.
+The browser automatically creates:
+
+multipart/form-data;
+boundary=------------------------
+
+This boundary is required by Multer.
 ============================================================
 */
 
-const createDocument = async (documentData) => {
-  const { data } = await api.post("/documents", documentData);
+const createDocument = async (formData) => {
+  const { data } = await api.post("/documents", formData);
 
   return data.data;
 };

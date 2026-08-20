@@ -1,6 +1,6 @@
 import React from 'react'
 
-function QuestionRenderer() {
+function ApplicationNoResults() {
   return (
     <div>
       coming soon...
@@ -8,4 +8,4 @@ function QuestionRenderer() {
   )
 }
 
-export default QuestionRenderer
+export default ApplicationNoResults

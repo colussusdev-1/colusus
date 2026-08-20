@@ -1,0 +1,446 @@
+/* ============================================================
+   APPLICATION PROCESS
+============================================================ */
+
+.opportunity-preview-process {
+    width: 100%;
+
+    padding: 26px 36px 34px;
+}
+
+
+/* ============================================================
+   HEADER
+============================================================ */
+
+.opportunity-preview-process-header {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 13px;
+
+    padding-bottom: 22px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+
+.opportunity-preview-process-icon {
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background: rgba(0, 102, 204, 0.08);
+
+    color: var(--primary);
+
+    font-size: 20px;
+}
+
+
+.opportunity-preview-process-header>div:last-child {
+    min-width: 0;
+}
+
+
+.opportunity-preview-process-header span {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: var(--primary);
+
+    font-size: 10px;
+    font-weight: var(--fw-bold);
+
+    letter-spacing: 0.08em;
+}
+
+
+.opportunity-preview-process-header h3 {
+    margin: 0 0 5px;
+
+    color: var(--heading);
+
+    font-size: 20px;
+    font-weight: var(--fw-bold);
+
+    line-height: 1.25;
+}
+
+
+.opportunity-preview-process-header p {
+    margin: 0;
+
+    color: var(--text-light);
+
+    font-size: 13px;
+
+    line-height: 1.55;
+}
+
+
+/* ============================================================
+   PROCESS LIST
+============================================================ */
+
+.opportunity-preview-process-list {
+    margin-top: 24px;
+}
+
+
+/* ============================================================
+   PROCESS STEP
+============================================================ */
+
+.opportunity-preview-process-step {
+    display: flex;
+    align-items: stretch;
+
+    gap: 14px;
+}
+
+
+/* ============================================================
+   STEP SIDE
+============================================================ */
+
+.opportunity-preview-process-step-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 34px;
+
+    flex-shrink: 0;
+}
+
+
+.opportunity-preview-process-step-number {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(0, 102, 204, 0.16);
+
+    border-radius: 10px;
+
+    background: rgba(0, 102, 204, 0.06);
+
+    color: var(--primary);
+
+    font-size: 10px;
+    font-weight: var(--fw-bold);
+}
+
+
+.opportunity-preview-process-line {
+    width: 1px;
+
+    flex: 1;
+
+    min-height: 24px;
+
+    margin: 5px 0;
+
+    background: var(--border);
+}
+
+
+/* ============================================================
+   STEP CONTENT
+============================================================ */
+
+.opportunity-preview-process-step-content {
+    min-width: 0;
+
+    flex: 1;
+
+    padding: 1px 0 24px;
+}
+
+
+.opportunity-preview-process-step-content>span {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: var(--text-muted);
+
+    font-size: 9px;
+    font-weight: var(--fw-bold);
+
+    letter-spacing: 0.07em;
+}
+
+
+.opportunity-preview-process-step-content strong {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: var(--heading);
+
+    font-size: 14px;
+    font-weight: var(--fw-bold);
+
+    line-height: 1.35;
+}
+
+
+.opportunity-preview-process-step-content p {
+    max-width: 540px;
+
+    margin: 0;
+
+    color: var(--text-light);
+
+    font-size: 12px;
+
+    line-height: 1.55;
+}
+
+
+/* ============================================================
+   DOCUMENT NOTE
+============================================================ */
+
+.opportunity-preview-process-note {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 11px;
+
+    margin-top: 2px;
+
+    padding: 14px;
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-md);
+
+    background: var(--surface-light);
+}
+
+
+.opportunity-preview-process-note-icon {
+    width: 30px;
+    height: 30px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background: rgba(0, 102, 204, 0.08);
+
+    color: var(--primary);
+
+    font-size: 16px;
+}
+
+
+.opportunity-preview-process-note strong {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: var(--heading);
+
+    font-size: 12px;
+
+    font-weight: var(--fw-bold);
+}
+
+
+.opportunity-preview-process-note p {
+    margin: 0;
+
+    color: var(--text-light);
+
+    font-size: 11px;
+
+    line-height: 1.5;
+}
+
+
+/* ============================================================
+   READY STATE
+============================================================ */
+
+.opportunity-preview-process-ready {
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+
+    margin-top: 10px;
+
+    padding: 13px 14px;
+
+    border: 1px solid rgba(0, 102, 204, 0.14);
+
+    border-radius: var(--radius-md);
+
+    background: rgba(0, 102, 204, 0.04);
+}
+
+
+.opportunity-preview-process-ready-icon {
+    width: 30px;
+    height: 30px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background: rgba(0, 102, 204, 0.08);
+
+    color: var(--primary);
+
+    font-size: 16px;
+}
+
+
+.opportunity-preview-process-ready strong {
+    display: block;
+
+    margin-bottom: 2px;
+
+    color: var(--heading);
+
+    font-size: 12px;
+
+    font-weight: var(--fw-bold);
+}
+
+
+.opportunity-preview-process-ready p {
+    margin: 0;
+
+    color: var(--text-light);
+
+    font-size: 11px;
+
+    line-height: 1.5;
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 900px) {
+
+    .opportunity-preview-process {
+        padding: 24px 26px 30px;
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 680px) {
+
+    .opportunity-preview-process {
+        padding: 20px 18px 26px;
+    }
+
+
+    .opportunity-preview-process-header {
+        gap: 10px;
+
+        padding-bottom: 18px;
+    }
+
+
+    .opportunity-preview-process-icon {
+        width: 34px;
+        height: 34px;
+
+        border-radius: 9px;
+
+        font-size: 18px;
+    }
+
+
+    .opportunity-preview-process-header h3 {
+        font-size: 17px;
+    }
+
+
+    .opportunity-preview-process-header p {
+        font-size: 12px;
+    }
+
+
+    .opportunity-preview-process-list {
+        margin-top: 20px;
+    }
+
+
+    .opportunity-preview-process-step {
+        gap: 11px;
+    }
+
+
+    .opportunity-preview-process-step-side {
+        width: 30px;
+    }
+
+
+    .opportunity-preview-process-step-number {
+        width: 30px;
+        height: 30px;
+
+        border-radius: 8px;
+
+        font-size: 9px;
+    }
+
+
+    .opportunity-preview-process-step-content {
+        padding-bottom: 20px;
+    }
+
+
+    .opportunity-preview-process-step-content strong {
+        font-size: 13px;
+    }
+
+
+    .opportunity-preview-process-step-content p {
+        font-size: 11px;
+    }
+
+
+    .opportunity-preview-process-note {
+        padding: 12px;
+    }
+
+
+    .opportunity-preview-process-ready {
+        padding: 12px;
+    }
+
+}

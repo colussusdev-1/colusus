@@ -43,6 +43,109 @@ const countries = [
 ];
 
 // =====================================================
+// DEFAULT APPLICATION WORKFLOW
+// =====================================================
+
+const buildDefaultWorkflow = () => {
+  return [
+    {
+      key: "APPLICATION_SUBMITTED",
+      label: "Application Submitted",
+      status: "PENDING",
+      order: 1,
+    },
+    {
+      key: "DOCUMENT_REVIEW",
+      label: "Document Review",
+      status: "PENDING",
+      order: 2,
+    },
+    {
+      key: "PROCESSING",
+      label: "Application Processing",
+      status: "PENDING",
+      order: 3,
+    },
+    {
+      key: "FINAL_DECISION",
+      label: "Final Decision",
+      status: "PENDING",
+      order: 4,
+    },
+  ];
+};
+
+// =====================================================
+// BUILD REQUIRED DOCUMENT CONFIGURATION
+// =====================================================
+
+const buildRequiredDocuments = (opportunity) => {
+  // If a pathway explicitly defines requiredDocuments,
+  // use those instead of the generic documents list.
+
+  if (
+    Array.isArray(opportunity.requiredDocuments) &&
+    opportunity.requiredDocuments.length > 0
+  ) {
+    return opportunity.requiredDocuments;
+  }
+
+  // Otherwise convert the existing documents array
+  // into the application wizard configuration.
+
+  if (
+    !Array.isArray(opportunity.documents) ||
+    opportunity.documents.length === 0
+  ) {
+    return [];
+  }
+
+  return opportunity.documents.map((document, index) => ({
+    key: `DOCUMENT_${index + 1}`,
+    label: document,
+    required: true,
+    type: "FILE",
+    order: index + 1,
+  }));
+};
+
+// =====================================================
+// BUILD APPLICATION QUESTIONS
+// =====================================================
+
+const buildApplicationQuestions = (opportunity) => {
+  if (
+    Array.isArray(opportunity.questions) &&
+    opportunity.questions.length > 0
+  ) {
+    return opportunity.questions;
+  }
+
+  return [];
+};
+
+// =====================================================
+// BUILD APPLICATION CONFIGURATION
+// =====================================================
+
+const buildApplicationConfig = (opportunity) => {
+  const customWorkflow = opportunity.applicationConfig?.workflow;
+
+  return {
+    steps: ["PERSONAL_INFORMATION", "QUESTIONS", "DOCUMENTS", "REVIEW"],
+
+    questions: buildApplicationQuestions(opportunity),
+
+    requiredDocuments: buildRequiredDocuments(opportunity),
+
+    workflow:
+      Array.isArray(customWorkflow) && customWorkflow.length > 0
+        ? customWorkflow
+        : buildDefaultWorkflow(),
+  };
+};
+
+// =====================================================
 // BUILD OPPORTUNITIES
 // =====================================================
 
@@ -50,18 +153,13 @@ const buildOpportunities = () => {
   const opportunities = [];
 
   for (const country of countries) {
-    // -------------------------------------------------
-    // Safety check
-    // -------------------------------------------------
+    if (!country || !Array.isArray(country.opportunities)) {
+      console.warn(
+        `⚠ No opportunities found for ${country?.name || "unknown country"}`,
+      );
 
-    if (!country || !country.opportunities) {
       continue;
     }
-
-    // -------------------------------------------------
-    // Convert each frontend opportunity into a
-    // backend Opportunity document
-    // -------------------------------------------------
 
     for (const opportunity of country.opportunities) {
       opportunities.push({
@@ -77,15 +175,7 @@ const buildOpportunities = () => {
 
         countryFlag: country.flag || "",
 
-        /*
-         * Frontend images are imported Vite modules.
-         *
-         * We do NOT store those imports directly in MongoDB.
-         *
-         * For now keep this empty.
-         */
-
-        countryImage: "",
+        countryImage: country.image || "",
 
         // =================================================
         // COUNTRY METADATA
@@ -119,6 +209,8 @@ const buildOpportunities = () => {
 
         slug: opportunity.slug,
 
+        image: opportunity.image || "",
+
         category: opportunity.category || "",
 
         location: opportunity.location || "",
@@ -140,6 +232,12 @@ const buildOpportunities = () => {
         description: opportunity.description || "",
 
         // =================================================
+        // HIGHLIGHTS
+        // =================================================
+
+        highlights: opportunity.highlights || [],
+
+        // =================================================
         // REQUIREMENTS
         // =================================================
 
@@ -158,16 +256,34 @@ const buildOpportunities = () => {
         benefits: opportunity.benefits || [],
 
         // =================================================
+        // APPLICATION JOURNEY
+        // =================================================
+
+        steps: opportunity.steps || [],
+
+        // =================================================
         // POSITIONS
         // =================================================
 
         positions: opportunity.positions || [],
 
         // =================================================
-        // APPLICATION JOURNEY
+        // WORK CONDITIONS
         // =================================================
 
-        steps: opportunity.steps || [],
+        workConditions: opportunity.workConditions || null,
+
+        // =================================================
+        // CONTRACT
+        // =================================================
+
+        contract: opportunity.contract || "",
+
+        // =================================================
+        // FAQ
+        // =================================================
+
+        faq: opportunity.faq || [],
 
         // =================================================
         // PRICING
@@ -182,50 +298,16 @@ const buildOpportunities = () => {
         paymentPlan: opportunity.paymentPlan || [],
 
         // =================================================
+        // TERMS
+        // =================================================
+
+        terms: opportunity.terms || [],
+
+        // =================================================
         // APPLICATION CONFIGURATION
         // =================================================
 
-        applicationConfig: {
-          steps: ["PERSONAL_INFORMATION", "DOCUMENTS", "REVIEW"],
-
-          questions: opportunity.questions || [],
-
-          requiredDocuments: opportunity.requiredDocuments || [],
-
-          workflow: [
-            {
-              key: "APPLICATION_SUBMITTED",
-
-              label: "Application Submitted",
-
-              status: "PENDING",
-            },
-
-            {
-              key: "DOCUMENT_REVIEW",
-
-              label: "Document Review",
-
-              status: "PENDING",
-            },
-
-            {
-              key: "PROCESSING",
-
-              label: "Application Processing",
-
-              status: "PENDING",
-            },
-
-            {
-              key: "FINAL_DECISION",
-
-              label: "Final Decision",
-
-              status: "PENDING",
-            },
-          ],
-        },
+        applicationConfig: buildApplicationConfig(opportunity),
 
         // =================================================
         // ACTIVE
@@ -246,21 +328,18 @@ const buildOpportunities = () => {
 const seedOpportunities = async () => {
   const opportunities = buildOpportunities();
 
+  console.log(`Preparing ${opportunities.length} opportunities...`);
+
   for (const opportunity of opportunities) {
     await Opportunity.findOneAndUpdate(
       {
         countrySlug: opportunity.countrySlug,
-
         slug: opportunity.slug,
       },
-
       opportunity,
-
       {
         upsert: true,
-
         new: true,
-
         setDefaultsOnInsert: true,
       },
     );

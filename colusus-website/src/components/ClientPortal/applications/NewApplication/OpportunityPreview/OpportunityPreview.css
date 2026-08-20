@@ -1,0 +1,661 @@
+/* ============================================================
+   OPPORTUNITY PREVIEW
+   COMPACT PATHWAY DECISION PANEL
+============================================================ */
+
+
+/* ============================================================
+   OVERLAY
+============================================================ */
+
+.opportunity-preview-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 16px;
+
+    background: rgba(12, 28, 48, 0.32);
+
+    backdrop-filter: blur(6px);
+
+    animation: opportunityPreviewFade 160ms ease;
+}
+
+
+/* ============================================================
+   MAIN PANEL
+============================================================ */
+
+.opportunity-preview {
+    width: min(1080px, 100%);
+    height: min(680px, calc(100vh - 32px));
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+
+    border: 1px solid #dce5ef;
+    border-radius: 18px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 24px 70px rgba(16, 35, 58, 0.18);
+
+    animation: opportunityPreviewUp 180ms ease;
+}
+
+
+/* ============================================================
+   MAIN CONTENT
+============================================================ */
+
+.opportunity-preview-main {
+    flex: 1;
+
+    min-height: 0;
+
+    display: grid;
+
+    grid-template-columns: 36% 64%;
+}
+
+
+/* ============================================================
+   RIGHT SIDE / DETAILS
+============================================================ */
+
+.opportunity-preview-details {
+    min-width: 0;
+    min-height: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+
+    background: #ffffff;
+}
+
+
+/* ============================================================
+   TABS
+============================================================ */
+
+.opportunity-preview-tabs {
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 3px;
+
+    height: 54px;
+
+    padding: 0 20px;
+
+    border-bottom: 1px solid #e7edf3;
+
+    background: #ffffff;
+
+    overflow-x: auto;
+
+    scrollbar-width: none;
+}
+
+
+.opportunity-preview-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+
+.opportunity-preview-tabs button {
+    flex-shrink: 0;
+
+    height: 34px;
+
+    padding: 0 11px;
+
+    border: 0;
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: #66758a;
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 160ms ease,
+        color 160ms ease;
+}
+
+
+.opportunity-preview-tabs button:hover {
+    color: #101c2d;
+
+    background: #f4f7fa;
+}
+
+
+.opportunity-preview-tabs button.active {
+    color: #0066cc;
+
+    background: #edf5fd;
+}
+
+
+/* ============================================================
+   TAB CONTENT
+============================================================ */
+
+.opportunity-preview-overview {
+    flex: 1;
+
+    min-height: 0;
+
+    overflow-y: auto;
+
+    padding: 22px 24px 20px;
+
+    scrollbar-width: thin;
+
+    scrollbar-color: #cdd8e4 transparent;
+}
+
+
+.opportunity-preview-overview::-webkit-scrollbar {
+    width: 5px;
+}
+
+
+.opportunity-preview-overview::-webkit-scrollbar-thumb {
+    background: #cdd8e4;
+
+    border-radius: 10px;
+}
+
+
+/* ============================================================
+   SHARED LEGACY CONTENT STYLES
+   Kept for compatibility with any remaining
+   preview-level content.
+============================================================ */
+
+.opportunity-preview-title-block>span {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #0066cc;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+}
+
+
+.opportunity-preview-title-block h2 {
+    margin: 0 0 7px;
+
+    color: #111c2e;
+
+    font-size: 29px;
+    line-height: 1.08;
+    font-weight: 750;
+
+    letter-spacing: -0.7px;
+}
+
+
+.opportunity-preview-title-block p {
+    max-width: 680px;
+
+    margin: 0;
+
+    color: #6b788a;
+
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+
+/* ============================================================
+   QUICK FACTS
+============================================================ */
+
+.opportunity-preview-facts {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    margin-top: 18px;
+
+    border: 1px solid #e0e7ef;
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    background: #ffffff;
+}
+
+
+.opportunity-preview-facts>div {
+    min-width: 0;
+
+    display: grid;
+
+    grid-template-columns: 28px 1fr;
+    grid-template-rows: auto auto;
+
+    column-gap: 7px;
+
+    padding: 11px 12px;
+
+    border-right: 1px solid #e0e7ef;
+}
+
+
+.opportunity-preview-facts>div:last-child {
+    border-right: 0;
+}
+
+
+.opportunity-preview-facts svg {
+    grid-row: span 2;
+
+    width: 17px;
+    height: 17px;
+
+    margin-top: 2px;
+
+    color: #0066cc;
+}
+
+
+.opportunity-preview-facts span {
+    display: block;
+
+    color: #94a1b2;
+
+    font-size: 9px;
+    line-height: 1.2;
+}
+
+
+.opportunity-preview-facts strong {
+    display: block;
+
+    margin-top: 2px;
+
+    overflow: hidden;
+
+    color: #172337;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* ============================================================
+   SECTION
+============================================================ */
+
+.opportunity-preview-section {
+    margin-top: 18px;
+
+    padding-top: 17px;
+
+    border-top: 1px solid #e5ebf1;
+}
+
+
+.opportunity-preview-section-heading {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 12px;
+}
+
+
+.opportunity-preview-section-heading svg {
+    width: 17px;
+    height: 17px;
+
+    color: #0066cc;
+}
+
+
+.opportunity-preview-section-heading h3 {
+    margin: 0;
+
+    color: #182337;
+
+    font-size: 16px;
+    font-weight: 700;
+}
+
+
+/* ============================================================
+   PATHWAY POINTS
+============================================================ */
+
+.opportunity-preview-points {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    column-gap: 28px;
+    row-gap: 9px;
+}
+
+
+.opportunity-preview-points>div {
+    min-width: 0;
+
+    display: flex;
+    align-items: flex-start;
+
+    gap: 7px;
+
+    color: #68768a;
+
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+
+.opportunity-preview-points svg {
+    width: 15px;
+    height: 15px;
+
+    flex-shrink: 0;
+
+    margin-top: 1px;
+
+    color: #0874d1;
+}
+
+
+.opportunity-preview-muted {
+    margin: 0;
+
+    color: #8995a5;
+
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+
+/* ============================================================
+   OUTCOMES
+============================================================ */
+
+.opportunity-preview-outcomes {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    margin-top: 17px;
+
+    border: 1px solid #e0e7ef;
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+
+.opportunity-preview-outcomes>div {
+    min-width: 0;
+
+    padding: 10px 12px;
+
+    border-right: 1px solid #e0e7ef;
+}
+
+
+.opportunity-preview-outcomes>div:last-child {
+    border-right: 0;
+}
+
+
+.opportunity-preview-outcomes span {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #94a1b2;
+
+    font-size: 9px;
+}
+
+
+.opportunity-preview-outcomes strong {
+    display: block;
+
+    overflow: hidden;
+
+    color: #172337;
+
+    font-size: 11px;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* ============================================================
+   ANIMATIONS
+============================================================ */
+
+@keyframes opportunityPreviewFade {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+
+}
+
+
+@keyframes opportunityPreviewUp {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(10px) scale(0.99);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0) scale(1);
+    }
+
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 900px) {
+
+    .opportunity-preview {
+        width: min(900px, 100%);
+
+        height: min(700px, calc(100vh - 24px));
+    }
+
+
+    .opportunity-preview-main {
+        grid-template-columns: 34% 66%;
+    }
+
+
+    .opportunity-preview-overview {
+        padding: 20px;
+    }
+
+
+    .opportunity-preview-title-block h2 {
+        font-size: 26px;
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 700px) {
+
+    .opportunity-preview-overlay {
+        align-items: flex-end;
+
+        padding: 0;
+    }
+
+
+    .opportunity-preview {
+        width: 100%;
+        height: 94vh;
+        max-height: 94vh;
+
+        border-radius: 18px 18px 0 0;
+    }
+
+
+    .opportunity-preview-main {
+        display: block;
+
+        overflow-y: auto;
+    }
+
+
+    .opportunity-preview-details {
+        overflow: visible;
+    }
+
+
+    .opportunity-preview-tabs {
+        height: 50px;
+
+        padding: 0 14px;
+    }
+
+
+    .opportunity-preview-overview {
+        overflow: visible;
+
+        padding: 18px 16px 25px;
+    }
+
+
+    .opportunity-preview-title-block h2 {
+        font-size: 25px;
+    }
+
+
+    .opportunity-preview-facts {
+        grid-template-columns: 1fr;
+    }
+
+
+    .opportunity-preview-facts>div {
+        border-right: 0;
+
+        border-bottom: 1px solid #e0e7ef;
+    }
+
+
+    .opportunity-preview-facts>div:last-child {
+        border-bottom: 0;
+    }
+
+
+    .opportunity-preview-points {
+        grid-template-columns: 1fr;
+
+        row-gap: 8px;
+    }
+
+
+    .opportunity-preview-outcomes {
+        grid-template-columns: 1fr;
+    }
+
+
+    .opportunity-preview-outcomes>div {
+        border-right: 0;
+
+        border-bottom: 1px solid #e0e7ef;
+    }
+
+
+    .opportunity-preview-outcomes>div:last-child {
+        border-bottom: 0;
+    }
+
+}
+
+
+/* ============================================================
+   SMALL MOBILE
+============================================================ */
+
+@media (max-width: 420px) {
+
+    .opportunity-preview-overview {
+        padding: 16px 14px 22px;
+    }
+
+
+    .opportunity-preview-title-block h2 {
+        font-size: 23px;
+    }
+
+
+    .opportunity-preview-title-block p {
+        font-size: 12px;
+    }
+
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .opportunity-preview-overlay,
+    .opportunity-preview {
+        animation: none;
+    }
+
+}
