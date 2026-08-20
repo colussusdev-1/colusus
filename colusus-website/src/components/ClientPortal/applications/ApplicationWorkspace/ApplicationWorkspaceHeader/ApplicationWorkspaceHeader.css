@@ -1,0 +1,518 @@
+/* ============================================================
+   APPLICATION WORKSPACE HEADER
+============================================================ */
+
+.application-workspace-header {
+    width: 100%;
+
+    border-bottom: 1px solid var(--border);
+
+    background: var(--surface);
+}
+
+
+.application-workspace-header-inner {
+    width: 100%;
+    max-width: 1440px;
+
+    min-height: 68px;
+
+    margin: 0 auto;
+
+    padding: 10px 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 24px;
+}
+
+
+/* ============================================================
+   LEFT
+============================================================ */
+
+.application-workspace-header-left {
+    min-width: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+}
+
+
+/* ============================================================
+   BACK BUTTON
+============================================================ */
+
+.application-workspace-header-back {
+    flex-shrink: 0;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 7px 0;
+
+    border: 0;
+
+    background: transparent;
+
+    color: var(--text-light);
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    font-weight: var(--fw-bold);
+
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.application-workspace-header-back svg {
+    width: 16px;
+    height: 16px;
+
+    stroke-width: 1.9;
+}
+
+
+.application-workspace-header-back:hover {
+    color: var(--primary);
+
+    transform: translateX(-2px);
+}
+
+
+/* ============================================================
+   DIVIDER
+============================================================ */
+
+.application-workspace-header-divider {
+    width: 1px;
+
+    height: 30px;
+
+    flex-shrink: 0;
+
+    background: var(--border);
+}
+
+
+/* ============================================================
+   IDENTITY
+============================================================ */
+
+.application-workspace-header-identity {
+    min-width: 0;
+}
+
+
+.application-workspace-header-title-row {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    min-width: 0;
+}
+
+
+.application-workspace-header-title-row h1 {
+    max-width: 480px;
+
+    margin: 0;
+
+    overflow: hidden;
+
+    color: var(--heading);
+
+    font-size: 16px;
+
+    font-weight: var(--fw-bold);
+
+    line-height: 1.25;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+/* ============================================================
+   STATUS
+============================================================ */
+
+.application-workspace-status {
+    flex-shrink: 0;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    min-height: 21px;
+
+    padding: 0 8px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 999px;
+
+    background: var(--surface-light);
+
+    color: var(--text-light);
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.02em;
+}
+
+
+.application-workspace-status-dot {
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: currentColor;
+}
+
+
+.application-workspace-status-draft {
+    color: var(--primary);
+}
+
+
+.application-workspace-status-submitted,
+.application-workspace-status-under_review {
+    color: #876b20;
+}
+
+
+.application-workspace-status-processing {
+    color: var(--primary);
+}
+
+
+.application-workspace-status-approved {
+    color: #28774b;
+}
+
+
+.application-workspace-status-rejected {
+    color: #a54848;
+}
+
+
+/* ============================================================
+   META
+============================================================ */
+
+.application-workspace-header-meta {
+    margin-top: 3px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color: var(--text-light);
+
+    font-size: 10px;
+
+    line-height: 1.4;
+}
+
+
+.application-workspace-header-meta span {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 4px;
+
+    white-space: nowrap;
+}
+
+
+.application-workspace-header-meta svg {
+    width: 12px;
+    height: 12px;
+}
+
+
+.application-workspace-header-meta-separator {
+    opacity: 0.55;
+}
+
+
+/* ============================================================
+   RIGHT
+============================================================ */
+
+.application-workspace-header-right {
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+}
+
+
+/* ============================================================
+   APPLICATION ID
+============================================================ */
+
+.application-workspace-id {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-end;
+
+    gap: 2px;
+}
+
+
+.application-workspace-id span {
+    color: var(--text-light);
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+}
+
+
+.application-workspace-id strong {
+    color: var(--heading);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.04em;
+}
+
+
+/* ============================================================
+   SAVE STATE
+============================================================ */
+
+.application-workspace-save-state {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    color: var(--text-light);
+
+    font-size: 10px;
+
+    white-space: nowrap;
+}
+
+
+.application-workspace-save-state svg {
+    width: 14px;
+    height: 14px;
+}
+
+
+.application-workspace-save-state svg:first-child {
+    color: #2d8755;
+}
+
+
+/* ============================================================
+   SAVE BUTTON
+============================================================ */
+
+.application-workspace-save {
+    min-height: 34px;
+
+    padding: 0 12px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 6px;
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-md);
+
+    background: var(--surface);
+
+    color: var(--heading);
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    font-weight: var(--fw-bold);
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.application-workspace-save svg {
+    width: 14px;
+    height: 14px;
+}
+
+
+.application-workspace-save:hover:not(:disabled) {
+    border-color: var(--primary);
+
+    color: var(--primary);
+
+    transform: translateY(-1px);
+}
+
+
+.application-workspace-save:disabled {
+    opacity: 0.6;
+
+    cursor: not-allowed;
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 1000px) {
+
+    .application-workspace-header-inner {
+        padding: 10px 16px;
+    }
+
+
+    .application-workspace-id {
+        display: none;
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 700px) {
+
+    .application-workspace-header-inner {
+        min-height: auto;
+
+        padding: 12px 14px;
+
+        align-items: flex-start;
+    }
+
+
+    .application-workspace-header-left {
+        gap: 10px;
+    }
+
+
+    .application-workspace-header-divider {
+        height: 26px;
+    }
+
+
+    .application-workspace-header-back span {
+        display: none;
+    }
+
+
+    .application-workspace-header-title-row {
+        display: block;
+    }
+
+
+    .application-workspace-header-title-row h1 {
+        max-width: 260px;
+
+        font-size: 14px;
+    }
+
+
+    .application-workspace-status {
+        margin-top: 5px;
+    }
+
+
+    .application-workspace-header-meta {
+        display: none;
+    }
+
+
+    .application-workspace-header-right {
+        gap: 8px;
+    }
+
+
+    .application-workspace-save-state {
+        display: none;
+    }
+
+
+    .application-workspace-save {
+        width: 34px;
+
+        padding: 0;
+    }
+
+
+    .application-workspace-save span {
+        display: none;
+    }
+
+}
+
+
+/* ============================================================
+   SMALL MOBILE
+============================================================ */
+
+@media (max-width: 420px) {
+
+    .application-workspace-header-title-row h1 {
+        max-width: 190px;
+
+        font-size: 13px;
+    }
+
+}

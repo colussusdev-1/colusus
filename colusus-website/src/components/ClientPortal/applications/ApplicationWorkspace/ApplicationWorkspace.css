@@ -1,0 +1,8 @@
+/* ApplicationWorkspacePage.css */
+
+.application-workspace-page {
+    width: 100%;
+    min-height: 100vh;
+
+    background: var(--background);
+}

@@ -1,0 +1,532 @@
+/* ============================================================
+   APPLICATION PROGRESS
+============================================================ */
+
+.application-progress {
+    width: 100%;
+
+    padding: 18px;
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-lg);
+
+    background: var(--surface);
+
+    box-shadow:
+        0 6px 24px rgba(16, 35, 58, 0.035);
+}
+
+
+/* ============================================================
+   HEADER
+============================================================ */
+
+.application-progress-header {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 12px;
+}
+
+
+.application-progress-eyebrow {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: var(--primary);
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.1em;
+}
+
+
+.application-progress-header h2 {
+    margin: 0;
+
+    color: var(--heading);
+
+    font-size: 14px;
+
+    font-weight: var(--fw-bold);
+
+    line-height: 1.3;
+}
+
+
+.application-progress-count {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 3px;
+
+    padding: 5px 8px;
+
+    border-radius: 999px;
+
+    background: var(--surface-light);
+
+    color: var(--heading);
+
+    font-size: 10px;
+
+    font-weight: 800;
+}
+
+
+.application-progress-count span {
+    color: var(--text-light);
+
+    font-weight: 500;
+}
+
+
+/* ============================================================
+   PROGRESS BAR
+============================================================ */
+
+.application-progress-bar {
+    width: 100%;
+
+    height: 3px;
+
+    margin: 16px 0 18px;
+
+    overflow: hidden;
+
+    border-radius: 999px;
+
+    background: var(--surface-light);
+}
+
+
+.application-progress-bar span {
+    display: block;
+
+    height: 100%;
+
+    border-radius: inherit;
+
+    background: var(--primary);
+
+    transition:
+        width 0.3s ease;
+}
+
+
+/* ============================================================
+   STEP LIST
+============================================================ */
+
+.application-progress-list {
+    position: relative;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 0;
+
+    margin: 0;
+
+    padding: 0;
+
+    list-style: none;
+}
+
+
+/* ============================================================
+   STEP ITEM
+============================================================ */
+
+.application-progress-item {
+    position: relative;
+
+    min-height: 66px;
+}
+
+
+.application-progress-item:last-child {
+    min-height: auto;
+}
+
+
+/* ============================================================
+   CONNECTOR
+============================================================ */
+
+.application-progress-connector {
+    position: absolute;
+
+    top: 35px;
+
+    left: 15px;
+
+    width: 1px;
+
+    height: calc(100% - 18px);
+
+    background: var(--border);
+
+    transition:
+        background 0.25s ease;
+}
+
+
+.application-progress-item.completed .application-progress-connector {
+    background: var(--primary);
+}
+
+
+/* ============================================================
+   STEP BUTTON
+============================================================ */
+
+.application-progress-step {
+    position: relative;
+
+    width: 100%;
+
+    min-height: 58px;
+
+    padding: 7px 5px;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 11px;
+
+    border: 0;
+
+    border-radius: var(--radius-md);
+
+    background: transparent;
+
+    color: inherit;
+
+    font-family: inherit;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease;
+}
+
+
+.application-progress-step:hover:not(:disabled) {
+    background: var(--surface-light);
+}
+
+
+/* ============================================================
+   MARKER
+============================================================ */
+
+.application-progress-marker {
+    position: relative;
+
+    z-index: 2;
+
+    width: 30px;
+    height: 30px;
+
+    flex: 0 0 30px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid var(--border);
+
+    border-radius: 50%;
+
+    background: var(--surface);
+
+    color: var(--text-light);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.application-progress-marker svg {
+    width: 14px;
+    height: 14px;
+
+    stroke-width: 2;
+}
+
+
+/* ============================================================
+   ACTIVE
+============================================================ */
+
+.application-progress-item.active .application-progress-marker {
+    border-color: var(--primary);
+
+    background: var(--primary);
+
+    color: #ffffff;
+
+    box-shadow:
+        0 0 0 4px rgba(16, 76, 129, 0.08);
+}
+
+
+.application-progress-item.active .application-progress-step-label {
+    color: var(--heading);
+
+    font-weight: 800;
+}
+
+
+/* ============================================================
+   COMPLETED
+============================================================ */
+
+.application-progress-item.completed .application-progress-marker {
+    border-color: var(--primary);
+
+    background: var(--primary);
+
+    color: #ffffff;
+}
+
+
+.application-progress-item.completed .application-progress-step-label {
+    color: var(--heading);
+}
+
+
+/* ============================================================
+   LOCKED
+============================================================ */
+
+.application-progress-item.locked .application-progress-step {
+    cursor: not-allowed;
+}
+
+
+.application-progress-item.locked .application-progress-marker {
+    background: var(--surface-light);
+
+    color: var(--text-light);
+
+    opacity: 0.7;
+}
+
+
+.application-progress-item.locked .application-progress-step-label {
+    color: var(--text-light);
+}
+
+
+/* ============================================================
+   CONTENT
+============================================================ */
+
+.application-progress-content {
+    min-width: 0;
+
+    padding-top: 2px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+.application-progress-step-label {
+    color: var(--text);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    line-height: 1.3;
+
+    transition:
+        color 0.2s ease;
+}
+
+
+.application-progress-step-description {
+    color: var(--text-light);
+
+    font-size: 9px;
+
+    line-height: 1.45;
+}
+
+
+/* ============================================================
+   FOOTER
+============================================================ */
+
+.application-progress-footer {
+    margin-top: 10px;
+
+    padding-top: 12px;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 7px;
+
+    border-top: 1px solid var(--border);
+
+    color: var(--text-light);
+
+    font-size: 8px;
+
+    line-height: 1.5;
+}
+
+
+.application-progress-footer-dot {
+    width: 5px;
+    height: 5px;
+
+    flex: 0 0 5px;
+
+    margin-top: 3px;
+
+    border-radius: 50%;
+
+    background: #4b966a;
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 1100px) {
+
+    .application-progress {
+        padding: 15px;
+    }
+
+
+    .application-progress-step-description {
+        display: none;
+    }
+
+
+    .application-progress-item {
+        min-height: 58px;
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 760px) {
+
+    .application-progress {
+        padding: 14px;
+
+        overflow-x: auto;
+    }
+
+
+    .application-progress-header {
+        align-items: center;
+    }
+
+
+    .application-progress-list {
+        display: grid;
+
+        grid-template-columns:
+            repeat(auto-fit,
+                minmax(130px, 1fr));
+
+        gap: 5px;
+    }
+
+
+    .application-progress-item {
+        min-height: auto;
+    }
+
+
+    .application-progress-connector {
+        display: none;
+    }
+
+
+    .application-progress-step {
+        min-height: 52px;
+
+        padding: 6px;
+    }
+
+
+    .application-progress-content {
+        padding-top: 4px;
+    }
+
+
+    .application-progress-step-description {
+        display: none;
+    }
+
+
+    .application-progress-footer {
+        display: none;
+    }
+
+}
+
+
+/* ============================================================
+   SMALL MOBILE
+============================================================ */
+
+@media (max-width: 480px) {
+
+    .application-progress-list {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+
+    .application-progress-marker {
+        width: 27px;
+        height: 27px;
+
+        flex-basis: 27px;
+    }
+
+
+    .application-progress-step-label {
+        font-size: 10px;
+    }
+
+}

@@ -1,37 +1,59 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-import { HiOutlineArrowLeft } from "react-icons/hi";
+import {
+    HiOutlineArrowLeft,
+} from "react-icons/hi";
 
 import applicationService from "../../services/application.service";
 
-import ApplicationDetailsHeader from "../../components/ClientPortal/applications/ApplicationDetails/ApplicationDetailsHeader/ApplicationDetailsHeader";
+import ApplicationDetailsHeader
+    from "../../components/ClientPortal/applications/ApplicationDetails/ApplicationDetailsHeader/ApplicationDetailsHeader";
 
-import ApplicationJourney from "../../components/ClientPortal/applications/ApplicationDetails/ApplicationJourney/ApplicationJourney";
+import ApplicationJourney
+    from "../../components/ClientPortal/applications/ApplicationDetails/ApplicationJourney/ApplicationJourney";
 
-import ApplicationStageCard from "../../components/ClientPortal/applications/ApplicationDetails/ApplicationStageCard/ApplicationStageCard";
+import ApplicationStageCard
+    from "../../components/ClientPortal/applications/ApplicationDetails/ApplicationStageCard/ApplicationStageCard";
 
-import ApplicationDocuments from "../../components/ClientPortal/applications/ApplicationDetails/ApplicationDocuments/ApplicationDocuments";
+import ApplicationCompletion
+    from "../../components/ClientPortal/applications/ApplicationDetails/ApplicationCompletion/ApplicationCompletion";
 
-import ApplicationInformation from "../../components/ClientPortal/applications/ApplicationDetails/ApplicationInformation/ApplicationInformation";
+import ApplicationDocuments
+    from "../../components/ClientPortal/applications/ApplicationDetails/ApplicationDocuments/ApplicationDocuments";
 
-import OpportunityOverview from "../../components/ClientPortal/applications/ApplicationDetails/OpportunityOverview/OpportunityOverview";
+import ApplicationInformation
+    from "../../components/ClientPortal/applications/ApplicationDetails/ApplicationInformation/ApplicationInformation";
 
-import ApplicationQuestions from "../../components/ClientPortal/applications/ApplicationDetails/ApplicationQuestions/ApplicationQuestions";
+import OpportunityOverview
+    from "../../components/ClientPortal/applications/ApplicationDetails/OpportunityOverview/OpportunityOverview";
 
-import ApplicationActivity from "../../components/ClientPortal/applications/ApplicationDetails/ApplicationActivity/ApplicationActivity";
+import ApplicationQuestions
+    from "../../components/ClientPortal/applications/ApplicationDetails/ApplicationQuestions/ApplicationQuestions";
+
+import ApplicationActivity
+    from "../../components/ClientPortal/applications/ApplicationDetails/ApplicationActivity/ApplicationActivity";
 
 import "./ApplicationDetails.css";
 
 
 const ApplicationDetails = () => {
+
     const { id } = useParams();
 
-    const [application, setApplication] = useState(null);
 
-    const [loading, setLoading] = useState(true);
+    /* =========================================================
+       STATE
+    ========================================================= */
 
-    const [error, setError] = useState("");
+    const [application, setApplication] =
+        useState(null);
+
+    const [loading, setLoading] =
+        useState(true);
+
+    const [error, setError] =
+        useState("");
 
 
     /* =========================================================
@@ -39,13 +61,17 @@ const ApplicationDetails = () => {
     ========================================================= */
 
     const loadApplication = async () => {
+
         try {
+
             setLoading(true);
 
             setError("");
 
+
             const response =
                 await applicationService.getApplication(id);
+
 
             /*
              * Supports:
@@ -61,18 +87,20 @@ const ApplicationDetails = () => {
                 response?.data ||
                 response;
 
+
             setApplication(data);
 
         } catch (error) {
 
             console.error(
                 "FAILED TO LOAD APPLICATION DETAILS:",
-                error
+                error,
             );
+
 
             setError(
                 error?.response?.data?.message ||
-                "Unable to load this application."
+                "Unable to load this application.",
             );
 
         } finally {
@@ -80,6 +108,7 @@ const ApplicationDetails = () => {
             setLoading(false);
 
         }
+
     };
 
 
@@ -92,7 +121,7 @@ const ApplicationDetails = () => {
         if (!id) {
 
             setError(
-                "No application was specified."
+                "No application was specified.",
             );
 
             setLoading(false);
@@ -100,9 +129,43 @@ const ApplicationDetails = () => {
             return;
         }
 
+
         loadApplication();
 
     }, [id]);
+
+
+    /* =========================================================
+       APPLICATION UPDATE
+    =========================================================
+    
+       ApplicationCompletion currently uses this callback
+       for local step navigation.
+
+       Once we build the real save/update endpoint,
+       this will become the place where the application
+       is persisted to the backend.
+    ========================================================= */
+
+    const handleApplicationUpdate = (
+        updates,
+    ) => {
+
+        setApplication((current) => {
+
+            if (!current) {
+                return current;
+            }
+
+
+            return {
+                ...current,
+                ...updates,
+            };
+
+        });
+
+    };
 
 
     /* =========================================================
@@ -112,6 +175,7 @@ const ApplicationDetails = () => {
     if (loading) {
 
         return (
+
             <main className="application-details-page">
 
                 <div className="application-details-container">
@@ -133,7 +197,9 @@ const ApplicationDetails = () => {
                 </div>
 
             </main>
+
         );
+
     }
 
 
@@ -144,24 +210,34 @@ const ApplicationDetails = () => {
     if (error || !application) {
 
         return (
+
             <main className="application-details-page">
 
                 <div className="application-details-container">
 
-                    <div className="application-details-state application-details-state-error">
+                    <div
+                        className="
+                            application-details-state
+                            application-details-state-error
+                        "
+                    >
 
                         <div className="application-details-state-icon">
                             !
                         </div>
 
+
                         <h2>
                             Application unavailable
                         </h2>
 
+
                         <p>
                             {error ||
-                                "We could not find this application."}
+                                "We could not find this application."
+                            }
                         </p>
+
 
                         <Link
                             to="/portal/applications"
@@ -179,7 +255,9 @@ const ApplicationDetails = () => {
                 </div>
 
             </main>
+
         );
+
     }
 
 
@@ -188,7 +266,9 @@ const ApplicationDetails = () => {
     ========================================================= */
 
     return (
+
         <main className="application-details-page">
+
 
             {/* =====================================================
                 BACKGROUND
@@ -206,8 +286,6 @@ const ApplicationDetails = () => {
 
                 {/* =================================================
                     APPLICATION HEADER
-
-                    Header now owns the back navigation.
                 ================================================= */}
 
                 <ApplicationDetailsHeader
@@ -234,6 +312,23 @@ const ApplicationDetails = () => {
 
 
                 {/* =================================================
+                    APPLICATION COMPLETION
+
+                    This is the interactive client workspace.
+
+                    It sits between the application journey and
+                    the existing application information sections.
+                ================================================= */}
+
+                <ApplicationCompletion
+                    application={application}
+                    onApplicationUpdate={
+                        handleApplicationUpdate
+                    }
+                />
+
+
+                {/* =================================================
                     MAIN CONTENT
                 ================================================= */}
 
@@ -246,17 +341,37 @@ const ApplicationDetails = () => {
 
                     <div className="application-details-primary">
 
+
+                        {/* =========================================
+                            DOCUMENTS
+                        ========================================= */}
+
                         <ApplicationDocuments
                             application={application}
                         />
+
+
+                        {/* =========================================
+                            APPLICATION INFORMATION
+                        ========================================= */}
 
                         <ApplicationInformation
                             application={application}
                         />
 
+
+                        {/* =========================================
+                            OPPORTUNITY
+                        ========================================= */}
+
                         <OpportunityOverview
                             application={application}
                         />
+
+
+                        {/* =========================================
+                            APPLICATION QUESTIONS
+                        ========================================= */}
 
                         <ApplicationQuestions
                             application={application}
@@ -302,7 +417,9 @@ const ApplicationDetails = () => {
             </div>
 
         </main>
+
     );
+
 };
 
 
