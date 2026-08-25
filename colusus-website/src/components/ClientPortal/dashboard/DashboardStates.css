@@ -1,0 +1,1073 @@
+/* ============================================================
+   COLUSUS CLIENT PORTAL
+
+   DASHBOARD STATES
+============================================================ */
+
+
+/* ============================================================
+   ALERT
+============================================================ */
+
+.dashboard-alert {
+
+    width: 100%;
+
+    min-height: 48px;
+
+    margin-bottom: 20px;
+
+    padding: 12px 16px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    border: 1px solid #f3d6d6;
+
+    border-radius: 12px;
+
+    background: #fff8f8;
+
+    color: #b42318;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+    box-sizing: border-box;
+}
+
+
+.dashboard-alert svg {
+
+    width: 18px;
+
+    height: 18px;
+
+    flex-shrink: 0;
+}
+
+
+/* ============================================================
+   LOADING
+============================================================ */
+
+.dashboard-loading {
+
+    width: 100%;
+
+    min-height: 360px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 16px;
+
+    color: #7890a8;
+}
+
+
+.dashboard-loading p {
+
+    margin: 0;
+
+    font-size: 13px;
+
+    font-weight: 500;
+}
+
+
+.dashboard-loader {
+
+    width: 34px;
+
+    height: 34px;
+
+    border: 3px solid #e5edf5;
+
+    border-top-color: #0877cc;
+
+    border-radius: 50%;
+
+    animation:
+        dashboard-loader-spin 800ms linear infinite;
+}
+
+
+@keyframes dashboard-loader-spin {
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+/* ============================================================
+   EMPTY STATE
+============================================================ */
+
+.dashboard-empty {
+
+    position: relative;
+
+    width: 100%;
+
+    min-height: 560px;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(280px, 0.85fr) minmax(420px, 1.15fr);
+
+    align-items: center;
+
+    gap: 56px;
+
+    padding: 52px 56px;
+
+    overflow: hidden;
+
+    border: 1px solid #e2eaf2;
+
+    border-radius: 24px;
+
+    background:
+
+        radial-gradient(circle at 15% 20%,
+            rgba(8, 119, 204, 0.08),
+            transparent 30%),
+
+        radial-gradient(circle at 95% 90%,
+            rgba(8, 119, 204, 0.06),
+            transparent 32%),
+
+        #ffffff;
+
+    box-shadow:
+        0 12px 36px rgba(16, 33, 60, 0.05);
+
+    box-sizing: border-box;
+
+    isolation: isolate;
+}
+
+
+/* ============================================================
+   SUBTLE BACKGROUND GRID
+============================================================ */
+
+.dashboard-empty::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: -1;
+
+    opacity: 0.45;
+
+    background-image:
+
+        linear-gradient(rgba(8, 119, 204, 0.035) 1px,
+            transparent 1px),
+
+        linear-gradient(90deg,
+            rgba(8, 119, 204, 0.035) 1px,
+            transparent 1px);
+
+    background-size: 42px 42px;
+
+    mask-image:
+        linear-gradient(to bottom right,
+            black,
+            transparent 75%);
+
+    pointer-events: none;
+}
+
+
+/* ============================================================
+   VISUAL AREA
+============================================================ */
+
+.dashboard-empty__visual {
+
+    position: relative;
+
+    width: 100%;
+
+    min-height: 380px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+
+/* ============================================================
+   VISUAL GLOW
+============================================================ */
+
+.dashboard-empty__visual-glow {
+
+    position: absolute;
+
+    width: 300px;
+
+    height: 300px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(circle,
+            rgba(8, 119, 204, 0.13),
+            rgba(8, 119, 204, 0.03) 55%,
+            transparent 72%);
+
+    filter: blur(4px);
+}
+
+
+/* ============================================================
+   MAIN DOCUMENT
+============================================================ */
+
+.dashboard-empty__document {
+
+    position: relative;
+
+    width: 190px;
+
+    height: 238px;
+
+    padding: 22px;
+
+    border: 1px solid #dce7f0;
+
+    border-radius: 18px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 24px 55px rgba(16, 33, 60, 0.13),
+
+        0 4px 12px rgba(16, 33, 60, 0.05);
+
+    transform:
+        rotate(-4deg);
+
+    box-sizing: border-box;
+
+    z-index: 2;
+}
+
+
+.dashboard-empty__document-top {
+
+    display: flex;
+
+    gap: 5px;
+
+    margin-bottom: 28px;
+}
+
+
+.dashboard-empty__document-dot {
+
+    width: 6px;
+
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #cbd8e5;
+}
+
+
+.dashboard-empty__document-line {
+
+    width: 100%;
+
+    height: 8px;
+
+    margin-bottom: 12px;
+
+    border-radius: 999px;
+
+    background: #edf2f7;
+}
+
+
+.dashboard-empty__document-line--large {
+
+    width: 76%;
+
+    height: 11px;
+
+    background: #dfeaf3;
+}
+
+
+.dashboard-empty__document-line--short {
+
+    width: 58%;
+}
+
+
+.dashboard-empty__document-check {
+
+    position: absolute;
+
+    right: 18px;
+
+    bottom: 20px;
+
+    width: 42px;
+
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: #eaf5fd;
+
+    color: #0877cc;
+}
+
+
+.dashboard-empty__document-check svg {
+
+    width: 22px;
+
+    height: 22px;
+}
+
+
+/* ============================================================
+   FLOATING CARDS
+============================================================ */
+
+.dashboard-empty__floating-card {
+
+    position: absolute;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    min-width: 160px;
+
+    padding: 12px 14px;
+
+    border: 1px solid #e2eaf2;
+
+    border-radius: 14px;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    box-shadow:
+        0 14px 32px rgba(16, 33, 60, 0.09);
+
+    backdrop-filter: blur(8px);
+
+    z-index: 3;
+}
+
+
+.dashboard-empty__floating-card--profile {
+
+    top: 58px;
+
+    left: 8px;
+
+    transform:
+        rotate(2deg);
+}
+
+
+.dashboard-empty__floating-card--documents {
+
+    right: 2px;
+
+    bottom: 64px;
+
+    transform:
+        rotate(-2deg);
+}
+
+
+.dashboard-empty__floating-icon {
+
+    width: 34px;
+
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 10px;
+
+    background: #edf6fd;
+
+    color: #0877cc;
+}
+
+
+.dashboard-empty__floating-icon svg {
+
+    width: 17px;
+
+    height: 17px;
+}
+
+
+.dashboard-empty__floating-card strong {
+
+    display: block;
+
+    margin-bottom: 2px;
+
+    color: #17324f;
+
+    font-size: 11px;
+
+    font-weight: 750;
+}
+
+
+.dashboard-empty__floating-card span {
+
+    display: block;
+
+    color: #8a9caf;
+
+    font-size: 9px;
+
+    line-height: 1.3;
+}
+
+
+/* ============================================================
+   CONTENT
+============================================================ */
+
+.dashboard-empty__content {
+
+    max-width: 620px;
+
+    padding: 4px 0;
+}
+
+
+/* ============================================================
+   EYEBROW
+============================================================ */
+
+.dashboard-empty__eyebrow {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 16px;
+
+    color: #0877cc;
+
+    font-size: 11px;
+
+    line-height: 1;
+
+    font-weight: 800;
+
+    letter-spacing: 0.13em;
+
+    text-transform: uppercase;
+}
+
+
+.dashboard-empty__eyebrow::before {
+
+    content: "";
+
+    width: 24px;
+
+    height: 2px;
+
+    border-radius: 999px;
+
+    background: #0877cc;
+}
+
+
+/* ============================================================
+   HEADING
+============================================================ */
+
+.dashboard-empty__content h2 {
+
+    max-width: 620px;
+
+    margin: 0;
+
+    color: #102b48;
+
+    font-size: clamp(34px,
+            3.1vw,
+            52px);
+
+    line-height: 1.06;
+
+    font-weight: 750;
+
+    letter-spacing: -1.8px;
+}
+
+
+.dashboard-empty__content h2 span {
+
+    display: block;
+
+    color: #0877cc;
+}
+
+
+/* ============================================================
+   DESCRIPTION
+============================================================ */
+
+.dashboard-empty__description {
+
+    max-width: 560px;
+
+    margin: 18px 0 28px;
+
+    color: #71869c;
+
+    font-size: 14px;
+
+    line-height: 1.75;
+}
+
+
+/* ============================================================
+   JOURNEY STEPS
+============================================================ */
+
+.dashboard-empty__steps {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 10px;
+
+    margin-bottom: 28px;
+}
+
+
+.dashboard-empty__step {
+
+    min-width: 0;
+
+    padding: 15px;
+
+    border: 1px solid #e6edf4;
+
+    border-radius: 14px;
+
+    background: rgba(248, 251, 253, 0.85);
+
+    transition:
+        border-color 180ms ease,
+        background 180ms ease,
+        transform 180ms ease;
+}
+
+
+.dashboard-empty__step:hover {
+
+    border-color: #cfe2f1;
+
+    background: #ffffff;
+
+    transform:
+        translateY(-2px);
+}
+
+
+.dashboard-empty__step-number {
+
+    margin-bottom: 10px;
+
+    color: #0877cc;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+}
+
+
+.dashboard-empty__step-content strong {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #17324f;
+
+    font-size: 11px;
+
+    line-height: 1.35;
+
+    font-weight: 750;
+}
+
+
+.dashboard-empty__step-content span {
+
+    display: block;
+
+    color: #8a9caf;
+
+    font-size: 9px;
+
+    line-height: 1.55;
+}
+
+
+/* ============================================================
+   PRIMARY BUTTON
+============================================================ */
+
+.dashboard-primary-button {
+
+    width: fit-content;
+
+    min-height: 50px;
+
+    padding: 0 20px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    border: 0;
+
+    border-radius: 11px;
+
+    background: #0877cc;
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    font-weight: 750;
+
+    line-height: 1;
+
+    text-decoration: none;
+
+    box-shadow:
+        0 10px 24px rgba(8, 119, 204, 0.20);
+
+    transition:
+        background 180ms ease,
+        transform 180ms ease,
+        box-shadow 180ms ease;
+}
+
+
+.dashboard-primary-button svg {
+
+    width: 18px;
+
+    height: 18px;
+
+    transition:
+        transform 180ms ease;
+}
+
+
+.dashboard-primary-button:hover {
+
+    background: #0669b5;
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 14px 28px rgba(8, 119, 204, 0.25);
+}
+
+
+.dashboard-primary-button:hover svg {
+
+    transform:
+        translateX(3px);
+}
+
+
+.dashboard-primary-button:active {
+
+    transform:
+        translateY(0);
+}
+
+
+/* ============================================================
+   SUPPORT TEXT
+============================================================ */
+
+.dashboard-empty__support {
+
+    margin: 11px 0 0;
+
+    color: #9aaabd;
+
+    font-size: 10px;
+
+    line-height: 1.5;
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 1100px) {
+
+    .dashboard-empty {
+
+        grid-template-columns:
+            minmax(230px, 0.75fr) minmax(390px, 1.25fr);
+
+        gap: 35px;
+
+        padding: 42px;
+    }
+
+
+    .dashboard-empty__floating-card--profile {
+
+        left: -5px;
+    }
+
+
+    .dashboard-empty__floating-card--documents {
+
+        right: -5px;
+    }
+
+}
+
+
+/* ============================================================
+   TABLET / SMALL LAPTOP
+============================================================ */
+
+@media (max-width: 900px) {
+
+    .dashboard-empty {
+
+        grid-template-columns: 1fr;
+
+        gap: 10px;
+
+        padding: 40px;
+    }
+
+
+    .dashboard-empty__visual {
+
+        min-height: 270px;
+
+        order: 1;
+    }
+
+
+    .dashboard-empty__content {
+
+        order: 2;
+
+        max-width: 100%;
+    }
+
+
+    .dashboard-empty__content h2 {
+
+        font-size: 38px;
+    }
+
+
+    .dashboard-empty__steps {
+
+        max-width: 700px;
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 640px) {
+
+    .dashboard-empty {
+
+        min-height: auto;
+
+        padding: 28px 22px 30px;
+
+        border-radius: 18px;
+
+        gap: 4px;
+    }
+
+
+    .dashboard-empty__visual {
+
+        min-height: 225px;
+    }
+
+
+    .dashboard-empty__document {
+
+        width: 145px;
+
+        height: 185px;
+
+        padding: 17px;
+    }
+
+
+    .dashboard-empty__document-top {
+
+        margin-bottom: 21px;
+    }
+
+
+    .dashboard-empty__document-check {
+
+        right: 14px;
+
+        bottom: 14px;
+
+        width: 34px;
+
+        height: 34px;
+    }
+
+
+    .dashboard-empty__document-check svg {
+
+        width: 18px;
+
+        height: 18px;
+    }
+
+
+    .dashboard-empty__floating-card {
+
+        min-width: 130px;
+
+        padding: 9px 10px;
+
+        gap: 8px;
+    }
+
+
+    .dashboard-empty__floating-card--profile {
+
+        top: 28px;
+
+        left: -4px;
+    }
+
+
+    .dashboard-empty__floating-card--documents {
+
+        right: -4px;
+
+        bottom: 28px;
+    }
+
+
+    .dashboard-empty__floating-icon {
+
+        width: 28px;
+
+        height: 28px;
+    }
+
+
+    .dashboard-empty__floating-icon svg {
+
+        width: 14px;
+
+        height: 14px;
+    }
+
+
+    .dashboard-empty__floating-card strong {
+
+        font-size: 9px;
+    }
+
+
+    .dashboard-empty__floating-card span {
+
+        font-size: 8px;
+    }
+
+
+    .dashboard-empty__content h2 {
+
+        font-size: 32px;
+
+        letter-spacing: -1px;
+    }
+
+
+    .dashboard-empty__description {
+
+        margin-top: 14px;
+
+        margin-bottom: 22px;
+
+        font-size: 13px;
+
+        line-height: 1.65;
+    }
+
+
+    .dashboard-empty__steps {
+
+        grid-template-columns: 1fr;
+
+        gap: 8px;
+
+        margin-bottom: 22px;
+    }
+
+
+    .dashboard-empty__step {
+
+        display: flex;
+
+        align-items: flex-start;
+
+        gap: 12px;
+
+        padding: 12px;
+    }
+
+
+    .dashboard-empty__step-number {
+
+        margin: 1px 0 0;
+
+        min-width: 22px;
+    }
+
+
+    .dashboard-empty__step-content strong {
+
+        font-size: 10px;
+    }
+
+
+    .dashboard-empty__step-content span {
+
+        font-size: 9px;
+    }
+
+
+    .dashboard-primary-button {
+
+        width: 100%;
+    }
+
+}
+
+
+/* ============================================================
+   SMALL PHONES
+============================================================ */
+
+@media (max-width: 390px) {
+
+    .dashboard-empty {
+
+        padding: 24px 18px 26px;
+    }
+
+
+    .dashboard-empty__visual {
+
+        min-height: 200px;
+    }
+
+
+    .dashboard-empty__document {
+
+        width: 130px;
+
+        height: 168px;
+    }
+
+
+    .dashboard-empty__floating-card--profile {
+
+        left: -8px;
+    }
+
+
+    .dashboard-empty__floating-card--documents {
+
+        right: -8px;
+    }
+
+
+    .dashboard-empty__content h2 {
+
+        font-size: 29px;
+    }
+
+}
