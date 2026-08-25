@@ -383,8 +383,8 @@ const ClientDashboard = () => {
           <button
             type="button"
             className={`dashboard-icon-button ${refreshing
-                ? "is-refreshing"
-                : ""
+              ? "is-refreshing"
+              : ""
               }`}
             onClick={() =>
               loadApplications(true)

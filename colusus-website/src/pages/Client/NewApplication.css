@@ -1,15 +1,38 @@
 /* =========================================================
    COLUSUS — NEW APPLICATION
-   COUNTRY FIRST → PATHWAYS → OPPORTUNITY
+   DESTINATION → PATHWAY → OPPORTUNITY
+   PREMIUM CHOREOGRAPHY
 ========================================================= */
 
 .new-application {
+    position: relative;
+
     width: 100%;
     min-height: 100%;
 
     padding: 0 46px 70px;
 
     color: #14243a;
+
+    animation:
+        newApplicationPageIn 420ms ease-out both;
+}
+
+
+/* =========================================================
+   PAGE ENTRANCE
+========================================================= */
+
+@keyframes newApplicationPageIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 
@@ -17,8 +40,28 @@
    WORKFLOW
 ========================================================= */
 
-.new-application > .workflow-stepper {
+.new-application>.workflow-stepper {
     margin-bottom: 30px;
+
+    animation:
+        newApplicationElementIn 500ms 40ms ease-out both;
+}
+
+
+/* =========================================================
+   SHARED ELEMENT ENTRANCE
+========================================================= */
+
+@keyframes newApplicationElementIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 
@@ -42,6 +85,22 @@
 
     font-size: 11px;
     line-height: 1.5;
+
+    animation:
+        newApplicationAlertIn 300ms ease-out both;
+}
+
+
+@keyframes newApplicationAlertIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 
@@ -83,6 +142,24 @@
 
     box-shadow:
         0 8px 30px rgba(20, 48, 78, 0.035);
+
+    animation:
+        countryPanelIn 520ms 100ms ease-out both;
+}
+
+
+@keyframes countryPanelIn {
+    from {
+        opacity: 0;
+        transform:
+            translateY(14px) scale(0.995);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translateY(0) scale(1);
+    }
 }
 
 
@@ -150,6 +227,20 @@
     border-radius: 10px;
 
     background: #f5f9fc;
+
+    transition:
+        transform 200ms ease,
+        border-color 200ms ease,
+        background 200ms ease;
+}
+
+
+.new-application-country-count:hover {
+    transform: translateY(-2px);
+
+    border-color: #c8deed;
+
+    background: #f0f8fd;
 }
 
 
@@ -196,8 +287,14 @@
     background: #ffffff;
 
     transition:
-        border-color 180ms ease,
-        box-shadow 180ms ease;
+        border-color 200ms ease,
+        box-shadow 200ms ease,
+        transform 200ms ease;
+}
+
+
+.new-application-country-search:hover {
+    border-color: #c8d9e6;
 }
 
 
@@ -205,7 +302,10 @@
     border-color: #8fc5e8;
 
     box-shadow:
-        0 0 0 3px rgba(8, 116, 201, 0.07);
+        0 0 0 3px rgba(8, 116, 201, 0.07),
+        0 5px 18px rgba(8, 116, 201, 0.035);
+
+    transform: translateY(-1px);
 }
 
 
@@ -216,6 +316,17 @@
     flex-shrink: 0;
 
     color: #8ca1b5;
+
+    transition:
+        color 180ms ease,
+        transform 180ms ease;
+}
+
+
+.new-application-country-search:focus-within svg {
+    color: #0874c9;
+
+    transform: scale(1.05);
 }
 
 
@@ -267,7 +378,6 @@
     position: relative;
 
     width: 100%;
-
     min-width: 0;
 
     padding: 0;
@@ -291,20 +401,85 @@
     box-shadow:
         0 4px 16px rgba(20, 48, 78, 0.025);
 
+    opacity: 0;
+
+    animation:
+        countryCardIn 500ms ease-out forwards;
+
     transition:
-        transform 180ms ease,
-        border-color 180ms ease,
-        box-shadow 180ms ease;
+        transform 220ms cubic-bezier(.22, .61, .36, 1),
+        border-color 220ms ease,
+        box-shadow 220ms ease;
+}
+
+
+/*
+   Stagger the cards naturally.
+*/
+
+.new-application-country-card:nth-child(1) {
+    animation-delay: 140ms;
+}
+
+.new-application-country-card:nth-child(2) {
+    animation-delay: 185ms;
+}
+
+.new-application-country-card:nth-child(3) {
+    animation-delay: 230ms;
+}
+
+.new-application-country-card:nth-child(4) {
+    animation-delay: 275ms;
+}
+
+.new-application-country-card:nth-child(5) {
+    animation-delay: 320ms;
+}
+
+.new-application-country-card:nth-child(6) {
+    animation-delay: 365ms;
+}
+
+.new-application-country-card:nth-child(7) {
+    animation-delay: 410ms;
+}
+
+.new-application-country-card:nth-child(8) {
+    animation-delay: 455ms;
+}
+
+
+@keyframes countryCardIn {
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(12px) scale(0.985);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0) scale(1);
+    }
 }
 
 
 .new-application-country-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-5px);
 
     border-color: #c7dce9;
 
     box-shadow:
-        0 16px 32px rgba(18, 55, 88, 0.10);
+        0 18px 36px rgba(18, 55, 88, 0.11);
+}
+
+
+.new-application-country-card:active {
+    transform:
+        translateY(-2px) scale(0.995);
 }
 
 
@@ -345,13 +520,12 @@
     object-fit: cover;
 
     transition:
-        transform 450ms ease;
+        transform 650ms cubic-bezier(.22, .61, .36, 1);
 }
 
 
-.new-application-country-card:hover
-.new-application-country-card-image img {
-    transform: scale(1.045);
+.new-application-country-card:hover .new-application-country-card-image img {
+    transform: scale(1.055);
 }
 
 
@@ -365,14 +539,24 @@
     inset: 0;
 
     background:
-        linear-gradient(
-            180deg,
+        linear-gradient(180deg,
             rgba(11, 31, 52, 0.03) 0%,
             rgba(11, 31, 52, 0.06) 45%,
-            rgba(11, 31, 52, 0.34) 100%
-        );
+            rgba(11, 31, 52, 0.34) 100%);
 
     pointer-events: none;
+
+    transition:
+        background 300ms ease;
+}
+
+
+.new-application-country-card:hover .new-application-country-card-image-overlay {
+    background:
+        linear-gradient(180deg,
+            rgba(11, 31, 52, 0.02) 0%,
+            rgba(11, 31, 52, 0.04) 42%,
+            rgba(11, 31, 52, 0.28) 100%);
 }
 
 
@@ -390,11 +574,9 @@
     justify-content: center;
 
     background:
-        linear-gradient(
-            135deg,
+        linear-gradient(135deg,
             #edf6fb,
-            #dcecf6
-        );
+            #dcecf6);
 
     color: #0874c9;
 }
@@ -403,6 +585,14 @@
 .new-application-country-card-image-fallback svg {
     width: 34px;
     height: 34px;
+
+    transition:
+        transform 300ms ease;
+}
+
+
+.new-application-country-card:hover .new-application-country-card-image-fallback svg {
+    transform: scale(1.08);
 }
 
 
@@ -437,8 +627,8 @@
     -webkit-backdrop-filter: blur(5px);
 
     transition:
-        background 180ms ease,
-        transform 180ms ease;
+        background 200ms ease,
+        transform 250ms cubic-bezier(.22, .61, .36, 1);
 }
 
 
@@ -448,11 +638,11 @@
 }
 
 
-.new-application-country-card:hover
-.new-application-country-card-arrow {
+.new-application-country-card:hover .new-application-country-card-arrow {
     background: #0874c9;
 
-    transform: translateX(2px);
+    transform:
+        translateX(2px) scale(1.04);
 }
 
 
@@ -462,6 +652,14 @@
 
 .new-application-country-card-content {
     padding: 15px 16px 17px;
+
+    transition:
+        transform 220ms ease;
+}
+
+
+.new-application-country-card:hover .new-application-country-card-content {
+    transform: translateX(1px);
 }
 
 
@@ -507,6 +705,9 @@
     justify-content: center;
 
     gap: 12px;
+
+    animation:
+        newApplicationElementIn 350ms ease-out both;
 }
 
 
@@ -535,11 +736,9 @@
 
 
 @keyframes newApplicationSpin {
-
     to {
         transform: rotate(360deg);
     }
-
 }
 
 
@@ -559,10 +758,13 @@
     justify-content: center;
 
     text-align: center;
+
+    animation:
+        newApplicationElementIn 350ms ease-out both;
 }
 
 
-.new-application-country-empty > svg {
+.new-application-country-empty>svg {
     width: 34px;
     height: 34px;
 
@@ -600,6 +802,26 @@
     width: 100%;
 
     margin-top: 28px;
+
+    animation:
+        pathwayPageIn 430ms ease-out both;
+}
+
+
+@keyframes pathwayPageIn {
+    from {
+        opacity: 0;
+
+        transform:
+            translateX(8px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateX(0);
+    }
 }
 
 
@@ -634,20 +856,28 @@
 
     transition:
         color 160ms ease,
-        transform 160ms ease;
+        transform 180ms ease;
 }
 
 
 .new-application-back-countries:hover {
     color: #0874c9;
 
-    transform: translateX(-2px);
+    transform: translateX(-3px);
 }
 
 
 .new-application-back-countries svg {
     width: 16px;
     height: 16px;
+
+    transition:
+        transform 180ms ease;
+}
+
+
+.new-application-back-countries:hover svg {
+    transform: translateX(-2px);
 }
 
 
@@ -673,14 +903,32 @@
     border-radius: 18px;
 
     background:
-        linear-gradient(
-            135deg,
+        linear-gradient(135deg,
             #ffffff 0%,
-            #f7fbfe 100%
-        );
+            #f7fbfe 100%);
 
     box-shadow:
         0 8px 28px rgba(21, 55, 88, 0.035);
+
+    animation:
+        selectedCountryIn 500ms 80ms ease-out both;
+}
+
+
+@keyframes selectedCountryIn {
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
 }
 
 
@@ -715,6 +963,18 @@
     background: #f1f7fb;
 
     color: #0874c9;
+
+    transition:
+        transform 250ms ease,
+        box-shadow 250ms ease;
+}
+
+
+.new-application-selected-country-header:hover .new-application-selected-country-flag {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 18px rgba(8, 116, 201, 0.08);
 }
 
 
@@ -785,6 +1045,17 @@
     border-radius: 12px;
 
     background: #f4f8fb;
+
+    transition:
+        transform 200ms ease,
+        background 200ms ease;
+}
+
+
+.new-application-selected-country-count:hover {
+    transform: translateY(-2px);
+
+    background: #edf6fc;
 }
 
 
@@ -814,11 +1085,30 @@
    PATHWAY PANEL
 ========================================================= */
 
-.new-application-country-pathways
-.choose-pathway-panel {
+.new-application-country-pathways .choose-pathway-panel {
     width: 100%;
 
     margin-top: 0;
+
+    animation:
+        pathwayPanelIn 500ms 140ms ease-out both;
+}
+
+
+@keyframes pathwayPanelIn {
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
 }
 
 
@@ -856,6 +1146,20 @@
 
     -webkit-backdrop-filter:
         blur(7px);
+
+    animation:
+        profileBackdropIn 220ms ease-out both;
+}
+
+
+@keyframes profileBackdropIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 
@@ -880,7 +1184,24 @@
         0 28px 90px rgba(9, 35, 62, 0.20);
 
     animation:
-        applicationProfileGateIn 220ms ease-out;
+        applicationProfileGateIn 280ms cubic-bezier(.22, .61, .36, 1) both;
+}
+
+
+@keyframes applicationProfileGateIn {
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(18px) scale(0.975);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0) scale(1);
+    }
 }
 
 
@@ -932,7 +1253,7 @@
         #183653;
 
     transform:
-        rotate(3deg);
+        rotate(8deg);
 }
 
 
@@ -967,6 +1288,26 @@
 
     color:
         #0874c9;
+
+    animation:
+        profileIconIn 400ms 100ms ease-out both;
+}
+
+
+@keyframes profileIconIn {
+    from {
+        opacity: 0;
+
+        transform:
+            scale(0.85);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            scale(1);
+    }
 }
 
 
@@ -1059,6 +1400,9 @@
 
     background:
         #f5fbf7;
+
+    animation:
+        profileContentIn 400ms 120ms ease-out both;
 }
 
 
@@ -1105,6 +1449,23 @@
     font-size: 10px;
 
     line-height: 1.45;
+}
+
+
+@keyframes profileContentIn {
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
 }
 
 
@@ -1224,13 +1585,19 @@
 
 .application-profile-gate-primary:hover {
     transform:
-        translateY(-1px);
+        translateY(-2px);
 
     background:
         #086dbb;
 
     box-shadow:
         0 11px 25px rgba(8, 116, 201, 0.24);
+}
+
+
+.application-profile-gate-primary:active {
+    transform:
+        translateY(0);
 }
 
 
@@ -1266,6 +1633,9 @@
 
     color:
         #213d59;
+
+    transform:
+        translateY(-1px);
 }
 
 
@@ -1305,31 +1675,6 @@
 
     text-align:
         center;
-}
-
-
-/* =========================================================
-   PROFILE ANIMATION
-========================================================= */
-
-@keyframes applicationProfileGateIn {
-
-    from {
-        opacity: 0;
-
-        transform:
-            translateY(10px)
-            scale(0.985);
-    }
-
-    to {
-        opacity: 1;
-
-        transform:
-            translateY(0)
-            scale(1);
-    }
-
 }
 
 
@@ -1689,6 +2034,21 @@
 
 @media (prefers-reduced-motion: reduce) {
 
+    .new-application,
+    .new-application>.workflow-stepper,
+    .new-application-countries,
+    .new-application-country-card,
+    .new-application-country-pathways,
+    .new-application-selected-country-header,
+    .new-application-country-pathways .choose-pathway-panel,
+    .application-profile-gate-backdrop,
+    .application-profile-gate-modal,
+    .application-profile-gate-icon,
+    .application-profile-gate-saved {
+        animation: none;
+    }
+
+
     .new-application-country-card,
     .new-application-country-card-image img,
     .new-application-country-card-arrow,
@@ -1701,11 +2061,6 @@
 
 
     .new-application-loading-spinner {
-        animation: none;
-    }
-
-
-    .application-profile-gate-modal {
         animation: none;
     }
 

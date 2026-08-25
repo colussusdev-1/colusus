@@ -1,6 +1,7 @@
 /* ============================================================
+   COLUSUS
    OPPORTUNITY PREVIEW
-   COMPACT PATHWAY DECISION PANEL
+   VIEWPORT-LEVEL PATHWAY MODAL
 ============================================================ */
 
 
@@ -9,21 +10,45 @@
 ============================================================ */
 
 .opportunity-preview-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 1000;
+
+    position: fixed !important;
+
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    width: 100vw;
+
+    height: 100vh;
+    height: 100dvh;
+
+    z-index: 99999;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
-    padding: 16px;
+    padding: 20px;
 
-    background: rgba(12, 28, 48, 0.32);
+    box-sizing: border-box;
 
-    backdrop-filter: blur(6px);
+    background:
+        rgba(12, 28, 48, 0.38);
 
-    animation: opportunityPreviewFade 160ms ease;
+    backdrop-filter:
+        blur(7px);
+
+    -webkit-backdrop-filter:
+        blur(7px);
+
+    overflow: hidden;
+
+    overscroll-behavior: none;
+
+    animation:
+        opportunityPreviewFade 180ms ease both;
 }
 
 
@@ -32,23 +57,47 @@
 ============================================================ */
 
 .opportunity-preview {
-    width: min(1080px, 100%);
-    height: min(680px, calc(100vh - 32px));
+
+    position: relative;
+
+    width:
+        min(1080px,
+            calc(100vw - 40px));
+
+    height:
+        min(680px,
+            calc(100dvh - 40px));
+
+    max-width: 1080px;
+
+    max-height:
+        calc(100dvh - 40px);
 
     display: flex;
+
     flex-direction: column;
 
     overflow: hidden;
 
-    border: 1px solid #dce5ef;
-    border-radius: 18px;
+    box-sizing: border-box;
+
+    border:
+        1px solid #dce5ef;
+
+    border-radius: 20px;
 
     background: #ffffff;
 
     box-shadow:
-        0 24px 70px rgba(16, 35, 58, 0.18);
+        0 30px 90px rgba(16, 35, 58, 0.24),
 
-    animation: opportunityPreviewUp 180ms ease;
+        0 10px 30px rgba(16, 35, 58, 0.10);
+
+    animation:
+        opportunityPreviewUp 200ms cubic-bezier(0.22,
+            1,
+            0.36,
+            1) both;
 }
 
 
@@ -57,13 +106,17 @@
 ============================================================ */
 
 .opportunity-preview-main {
+
     flex: 1;
 
     min-height: 0;
 
     display: grid;
 
-    grid-template-columns: 36% 64%;
+    grid-template-columns:
+        36% 64%;
+
+    overflow: hidden;
 }
 
 
@@ -72,15 +125,19 @@
 ============================================================ */
 
 .opportunity-preview-details {
+
     min-width: 0;
+
     min-height: 0;
 
     display: flex;
+
     flex-direction: column;
 
     overflow: hidden;
 
-    background: #ffffff;
+    background:
+        #ffffff;
 }
 
 
@@ -89,9 +146,11 @@
 ============================================================ */
 
 .opportunity-preview-tabs {
+
     flex-shrink: 0;
 
     display: flex;
+
     align-items: center;
 
     gap: 3px;
@@ -100,58 +159,94 @@
 
     padding: 0 20px;
 
-    border-bottom: 1px solid #e7edf3;
+    box-sizing: border-box;
 
-    background: #ffffff;
+    border-bottom:
+        1px solid #e7edf3;
+
+    background:
+        #ffffff;
 
     overflow-x: auto;
+
+    overflow-y: hidden;
 
     scrollbar-width: none;
 }
 
 
 .opportunity-preview-tabs::-webkit-scrollbar {
+
     display: none;
+
 }
 
 
 .opportunity-preview-tabs button {
+
     flex-shrink: 0;
 
     height: 34px;
 
-    padding: 0 11px;
+    padding:
+        0 11px;
 
     border: 0;
+
     border-radius: 8px;
 
-    background: transparent;
+    background:
+        transparent;
 
-    color: #66758a;
+    color:
+        #66758a;
 
-    font-family: inherit;
-    font-size: 11px;
-    font-weight: 600;
+    font-family:
+        inherit;
 
-    cursor: pointer;
+    font-size:
+        11px;
+
+    font-weight:
+        600;
+
+    cursor:
+        pointer;
 
     transition:
         background 160ms ease,
-        color 160ms ease;
+        color 160ms ease,
+        transform 160ms ease;
 }
 
 
 .opportunity-preview-tabs button:hover {
-    color: #101c2d;
 
-    background: #f4f7fa;
+    color:
+        #101c2d;
+
+    background:
+        #f4f7fa;
+
+}
+
+
+.opportunity-preview-tabs button:active {
+
+    transform:
+        scale(0.98);
+
 }
 
 
 .opportunity-preview-tabs button.active {
-    color: #0066cc;
 
-    background: #edf5fd;
+    color:
+        #0066cc;
+
+    background:
+        #edf5fd;
+
 }
 
 
@@ -160,76 +255,124 @@
 ============================================================ */
 
 .opportunity-preview-overview {
+
     flex: 1;
 
     min-height: 0;
 
     overflow-y: auto;
 
-    padding: 22px 24px 20px;
+    overflow-x: hidden;
 
-    scrollbar-width: thin;
+    padding:
+        22px 24px 20px;
 
-    scrollbar-color: #cdd8e4 transparent;
+    box-sizing: border-box;
+
+    overscroll-behavior:
+        contain;
+
+    scrollbar-width:
+        thin;
+
+    scrollbar-color:
+        #cdd8e4 transparent;
 }
 
 
 .opportunity-preview-overview::-webkit-scrollbar {
-    width: 5px;
+
+    width:
+        5px;
+
+}
+
+
+.opportunity-preview-overview::-webkit-scrollbar-track {
+
+    background:
+        transparent;
+
 }
 
 
 .opportunity-preview-overview::-webkit-scrollbar-thumb {
-    background: #cdd8e4;
 
-    border-radius: 10px;
+    background:
+        #cdd8e4;
+
+    border-radius:
+        10px;
+
 }
 
 
 /* ============================================================
-   SHARED LEGACY CONTENT STYLES
-   Kept for compatibility with any remaining
-   preview-level content.
+   SHARED LEGACY CONTENT
 ============================================================ */
 
 .opportunity-preview-title-block>span {
+
     display: block;
 
-    margin-bottom: 5px;
+    margin-bottom:
+        5px;
 
-    color: #0066cc;
+    color:
+        #0066cc;
 
-    font-size: 10px;
-    font-weight: 800;
+    font-size:
+        10px;
 
-    letter-spacing: 0.08em;
+    font-weight:
+        800;
 
-    text-transform: uppercase;
+    letter-spacing:
+        0.08em;
+
+    text-transform:
+        uppercase;
 }
 
 
 .opportunity-preview-title-block h2 {
-    margin: 0 0 7px;
 
-    color: #111c2e;
+    margin:
+        0 0 7px;
 
-    font-size: 29px;
-    line-height: 1.08;
-    font-weight: 750;
+    color:
+        #111c2e;
 
-    letter-spacing: -0.7px;
+    font-size:
+        29px;
+
+    line-height:
+        1.08;
+
+    font-weight:
+        750;
+
+    letter-spacing:
+        -0.7px;
 }
 
 
 .opportunity-preview-title-block p {
-    max-width: 680px;
 
-    margin: 0;
+    max-width:
+        680px;
 
-    color: #6b788a;
+    margin:
+        0;
 
-    font-size: 13px;
-    line-height: 1.55;
+    color:
+        #6b788a;
+
+    font-size:
+        13px;
+
+    line-height:
+        1.55;
 }
 
 
@@ -238,78 +381,122 @@
 ============================================================ */
 
 .opportunity-preview-facts {
-    display: grid;
 
-    grid-template-columns: repeat(3, 1fr);
+    display:
+        grid;
 
-    margin-top: 18px;
+    grid-template-columns:
+        repeat(3, 1fr);
 
-    border: 1px solid #e0e7ef;
-    border-radius: 10px;
+    margin-top:
+        18px;
 
-    overflow: hidden;
+    border:
+        1px solid #e0e7ef;
 
-    background: #ffffff;
+    border-radius:
+        10px;
+
+    overflow:
+        hidden;
+
+    background:
+        #ffffff;
 }
 
 
 .opportunity-preview-facts>div {
-    min-width: 0;
 
-    display: grid;
+    min-width:
+        0;
 
-    grid-template-columns: 28px 1fr;
-    grid-template-rows: auto auto;
+    display:
+        grid;
 
-    column-gap: 7px;
+    grid-template-columns:
+        28px 1fr;
 
-    padding: 11px 12px;
+    grid-template-rows:
+        auto auto;
 
-    border-right: 1px solid #e0e7ef;
+    column-gap:
+        7px;
+
+    padding:
+        11px 12px;
+
+    border-right:
+        1px solid #e0e7ef;
 }
 
 
 .opportunity-preview-facts>div:last-child {
-    border-right: 0;
+
+    border-right:
+        0;
 }
 
 
 .opportunity-preview-facts svg {
-    grid-row: span 2;
 
-    width: 17px;
-    height: 17px;
+    grid-row:
+        span 2;
 
-    margin-top: 2px;
+    width:
+        17px;
 
-    color: #0066cc;
+    height:
+        17px;
+
+    margin-top:
+        2px;
+
+    color:
+        #0066cc;
 }
 
 
 .opportunity-preview-facts span {
-    display: block;
 
-    color: #94a1b2;
+    display:
+        block;
 
-    font-size: 9px;
-    line-height: 1.2;
+    color:
+        #94a1b2;
+
+    font-size:
+        9px;
+
+    line-height:
+        1.2;
 }
 
 
 .opportunity-preview-facts strong {
-    display: block;
 
-    margin-top: 2px;
+    display:
+        block;
 
-    overflow: hidden;
+    margin-top:
+        2px;
 
-    color: #172337;
+    overflow:
+        hidden;
 
-    font-size: 11px;
-    font-weight: 700;
+    color:
+        #172337;
 
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    font-size:
+        11px;
+
+    font-weight:
+        700;
+
+    text-overflow:
+        ellipsis;
+
+    white-space:
+        nowrap;
 }
 
 
@@ -318,39 +505,60 @@
 ============================================================ */
 
 .opportunity-preview-section {
-    margin-top: 18px;
 
-    padding-top: 17px;
+    margin-top:
+        18px;
 
-    border-top: 1px solid #e5ebf1;
+    padding-top:
+        17px;
+
+    border-top:
+        1px solid #e5ebf1;
 }
 
 
 .opportunity-preview-section-heading {
-    display: flex;
-    align-items: center;
 
-    gap: 8px;
+    display:
+        flex;
 
-    margin-bottom: 12px;
+    align-items:
+        center;
+
+    gap:
+        8px;
+
+    margin-bottom:
+        12px;
 }
 
 
 .opportunity-preview-section-heading svg {
-    width: 17px;
-    height: 17px;
 
-    color: #0066cc;
+    width:
+        17px;
+
+    height:
+        17px;
+
+    color:
+        #0066cc;
 }
 
 
 .opportunity-preview-section-heading h3 {
-    margin: 0;
 
-    color: #182337;
+    margin:
+        0;
 
-    font-size: 16px;
-    font-weight: 700;
+    color:
+        #182337;
+
+    font-size:
+        16px;
+
+    font-weight:
+        700;
 }
 
 
@@ -359,49 +567,78 @@
 ============================================================ */
 
 .opportunity-preview-points {
-    display: grid;
 
-    grid-template-columns: 1fr 1fr;
+    display:
+        grid;
 
-    column-gap: 28px;
-    row-gap: 9px;
+    grid-template-columns:
+        1fr 1fr;
+
+    column-gap:
+        28px;
+
+    row-gap:
+        9px;
 }
 
 
 .opportunity-preview-points>div {
-    min-width: 0;
 
-    display: flex;
-    align-items: flex-start;
+    min-width:
+        0;
 
-    gap: 7px;
+    display:
+        flex;
 
-    color: #68768a;
+    align-items:
+        flex-start;
 
-    font-size: 12px;
-    line-height: 1.45;
+    gap:
+        7px;
+
+    color:
+        #68768a;
+
+    font-size:
+        12px;
+
+    line-height:
+        1.45;
 }
 
 
 .opportunity-preview-points svg {
-    width: 15px;
-    height: 15px;
 
-    flex-shrink: 0;
+    width:
+        15px;
 
-    margin-top: 1px;
+    height:
+        15px;
 
-    color: #0874d1;
+    flex-shrink:
+        0;
+
+    margin-top:
+        1px;
+
+    color:
+        #0874d1;
 }
 
 
 .opportunity-preview-muted {
-    margin: 0;
 
-    color: #8995a5;
+    margin:
+        0;
 
-    font-size: 12px;
-    line-height: 1.55;
+    color:
+        #8995a5;
+
+    font-size:
+        12px;
+
+    line-height:
+        1.55;
 }
 
 
@@ -410,55 +647,82 @@
 ============================================================ */
 
 .opportunity-preview-outcomes {
-    display: grid;
 
-    grid-template-columns: repeat(3, 1fr);
+    display:
+        grid;
 
-    margin-top: 17px;
+    grid-template-columns:
+        repeat(3, 1fr);
 
-    border: 1px solid #e0e7ef;
-    border-radius: 10px;
+    margin-top:
+        17px;
 
-    overflow: hidden;
+    border:
+        1px solid #e0e7ef;
+
+    border-radius:
+        10px;
+
+    overflow:
+        hidden;
 }
 
 
 .opportunity-preview-outcomes>div {
-    min-width: 0;
 
-    padding: 10px 12px;
+    min-width:
+        0;
 
-    border-right: 1px solid #e0e7ef;
+    padding:
+        10px 12px;
+
+    border-right:
+        1px solid #e0e7ef;
 }
 
 
 .opportunity-preview-outcomes>div:last-child {
-    border-right: 0;
+
+    border-right:
+        0;
 }
 
 
 .opportunity-preview-outcomes span {
-    display: block;
 
-    margin-bottom: 4px;
+    display:
+        block;
 
-    color: #94a1b2;
+    margin-bottom:
+        4px;
 
-    font-size: 9px;
+    color:
+        #94a1b2;
+
+    font-size:
+        9px;
 }
 
 
 .opportunity-preview-outcomes strong {
-    display: block;
 
-    overflow: hidden;
+    display:
+        block;
 
-    color: #172337;
+    overflow:
+        hidden;
 
-    font-size: 11px;
+    color:
+        #172337;
 
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    font-size:
+        11px;
+
+    text-overflow:
+        ellipsis;
+
+    white-space:
+        nowrap;
 }
 
 
@@ -469,11 +733,13 @@
 @keyframes opportunityPreviewFade {
 
     from {
-        opacity: 0;
+        opacity:
+            0;
     }
 
     to {
-        opacity: 1;
+        opacity:
+            1;
     }
 
 }
@@ -482,17 +748,23 @@
 @keyframes opportunityPreviewUp {
 
     from {
-        opacity: 0;
+
+        opacity:
+            0;
 
         transform:
-            translateY(10px) scale(0.99);
+            translateY(12px) scale(0.985);
+
     }
 
     to {
-        opacity: 1;
+
+        opacity:
+            1;
 
         transform:
             translateY(0) scale(1);
+
     }
 
 }
@@ -504,25 +776,51 @@
 
 @media (max-width: 900px) {
 
-    .opportunity-preview {
-        width: min(900px, 100%);
+    .opportunity-preview-overlay {
 
-        height: min(700px, calc(100vh - 24px));
+        padding:
+            14px;
+
+    }
+
+
+    .opportunity-preview {
+
+        width:
+            min(900px,
+                calc(100vw - 28px));
+
+        height:
+            min(700px,
+                calc(100dvh - 28px));
+
+        max-height:
+            calc(100dvh - 28px);
+
     }
 
 
     .opportunity-preview-main {
-        grid-template-columns: 34% 66%;
+
+        grid-template-columns:
+            34% 66%;
+
     }
 
 
     .opportunity-preview-overview {
-        padding: 20px;
+
+        padding:
+            20px;
+
     }
 
 
     .opportunity-preview-title-block h2 {
-        font-size: 26px;
+
+        font-size:
+            26px;
+
     }
 
 }
@@ -535,90 +833,159 @@
 @media (max-width: 700px) {
 
     .opportunity-preview-overlay {
-        align-items: flex-end;
 
-        padding: 0;
+        align-items:
+            flex-end;
+
+        justify-content:
+            center;
+
+        padding:
+            0;
+
     }
 
 
     .opportunity-preview {
-        width: 100%;
-        height: 94vh;
-        max-height: 94vh;
 
-        border-radius: 18px 18px 0 0;
+        width:
+            100vw;
+
+        max-width:
+            100vw;
+
+        height:
+            94dvh;
+
+        max-height:
+            94dvh;
+
+        border-radius:
+            18px 18px 0 0;
+
     }
 
 
     .opportunity-preview-main {
-        display: block;
 
-        overflow-y: auto;
+        display:
+            block;
+
+        overflow-y:
+            auto;
+
+        overflow-x:
+            hidden;
+
+        overscroll-behavior:
+            contain;
+
+        -webkit-overflow-scrolling:
+            touch;
+
     }
 
 
     .opportunity-preview-details {
-        overflow: visible;
+
+        overflow:
+            visible;
+
     }
 
 
     .opportunity-preview-tabs {
-        height: 50px;
 
-        padding: 0 14px;
+        height:
+            50px;
+
+        padding:
+            0 14px;
+
     }
 
 
     .opportunity-preview-overview {
-        overflow: visible;
 
-        padding: 18px 16px 25px;
+        overflow:
+            visible;
+
+        padding:
+            18px 16px 25px;
+
     }
 
 
     .opportunity-preview-title-block h2 {
-        font-size: 25px;
+
+        font-size:
+            25px;
+
     }
 
 
     .opportunity-preview-facts {
-        grid-template-columns: 1fr;
+
+        grid-template-columns:
+            1fr;
+
     }
 
 
     .opportunity-preview-facts>div {
-        border-right: 0;
 
-        border-bottom: 1px solid #e0e7ef;
+        border-right:
+            0;
+
+        border-bottom:
+            1px solid #e0e7ef;
+
     }
 
 
     .opportunity-preview-facts>div:last-child {
-        border-bottom: 0;
+
+        border-bottom:
+            0;
+
     }
 
 
     .opportunity-preview-points {
-        grid-template-columns: 1fr;
 
-        row-gap: 8px;
+        grid-template-columns:
+            1fr;
+
+        row-gap:
+            8px;
+
     }
 
 
     .opportunity-preview-outcomes {
-        grid-template-columns: 1fr;
+
+        grid-template-columns:
+            1fr;
+
     }
 
 
     .opportunity-preview-outcomes>div {
-        border-right: 0;
 
-        border-bottom: 1px solid #e0e7ef;
+        border-right:
+            0;
+
+        border-bottom:
+            1px solid #e0e7ef;
+
     }
 
 
     .opportunity-preview-outcomes>div:last-child {
-        border-bottom: 0;
+
+        border-bottom:
+            0;
+
     }
 
 }
@@ -630,18 +997,38 @@
 
 @media (max-width: 420px) {
 
+    .opportunity-preview {
+
+        height:
+            95dvh;
+
+        max-height:
+            95dvh;
+
+    }
+
+
     .opportunity-preview-overview {
-        padding: 16px 14px 22px;
+
+        padding:
+            16px 14px 22px;
+
     }
 
 
     .opportunity-preview-title-block h2 {
-        font-size: 23px;
+
+        font-size:
+            23px;
+
     }
 
 
     .opportunity-preview-title-block p {
-        font-size: 12px;
+
+        font-size:
+            12px;
+
     }
 
 }
@@ -655,7 +1042,10 @@
 
     .opportunity-preview-overlay,
     .opportunity-preview {
-        animation: none;
+
+        animation:
+            none;
+
     }
 
 }

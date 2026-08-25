@@ -1,65 +1,38 @@
 /* =========================================================
    COLUSUS — APPLICATION DETAILS
+   FULL WORKSPACE VIEW
 ========================================================= */
 
 .application-details-page {
     position: relative;
 
     width: 100%;
-    min-height: 100vh;
 
-    padding: 32px 38px 70px;
+    /*
+     * Do NOT use 100vh here.
+     *
+     * This page lives inside .portal-content,
+     * so its height should be determined by the
+     * portal workspace.
+     */
+    min-height: 100%;
+
+    padding: 30px 38px 50px;
 
     box-sizing: border-box;
 
-    overflow: hidden;
-
-    background:
-        radial-gradient(circle at 78% 4%,
-            rgba(0, 122, 255, 0.075),
-            transparent 30%),
-        #f5f8fb;
+    background: #f5f8fb;
 
     color: #182e47;
 }
 
 
 /* =========================================================
-   BACKGROUND
+   REMOVE DECORATIVE BACKGROUND LAYER
 ========================================================= */
 
 .application-details-background {
-    position: absolute;
-
-    z-index: 0;
-
-    top: 0;
-    right: 0;
-    left: 0;
-
-    height: 430px;
-
-    pointer-events: none;
-
-    background:
-        radial-gradient(circle at 82% 0%,
-            rgba(32, 167, 255, 0.09),
-            transparent 34%),
-        linear-gradient(180deg,
-            rgba(239, 247, 253, 0.95),
-            rgba(245, 248, 251, 0));
-
-    mask-image:
-        linear-gradient(to bottom,
-            #000 0%,
-            #000 60%,
-            transparent 100%);
-
-    -webkit-mask-image:
-        linear-gradient(to bottom,
-            #000 0%,
-            #000 60%,
-            transparent 100%);
+    display: none;
 }
 
 
@@ -70,36 +43,25 @@
 .application-details-container {
     position: relative;
 
-    z-index: 2;
-
     width: 100%;
 
     max-width: 1380px;
 
     margin: 0 auto;
 
-    /*
-     * Single spacing system for all major
-     * application-detail sections.
-     */
     display: flex;
 
     flex-direction: column;
 
     gap: 24px;
+
+    box-sizing: border-box;
 }
 
 
 /* =========================================================
-   MAJOR COMPONENT SPACING
+   SECTION RHYTHM
 ========================================================= */
-
-/*
- * The parent container controls vertical spacing.
- *
- * Individual components should not add their own
- * bottom margins here. This prevents uneven gaps.
- */
 
 .application-details-container>.application-details-header,
 
@@ -112,14 +74,14 @@
 .application-details-container>.application-details-layout,
 
 .application-details-container>.application-details-footer {
-    margin-top: 0;
+    width: 100%;
 
-    margin-bottom: 0;
+    margin: 0;
 }
 
 
 /* =========================================================
-   MAIN CONTENT LAYOUT
+   MAIN CONTENT
 ========================================================= */
 
 .application-details-layout {
@@ -152,7 +114,7 @@
 
 
 /* =========================================================
-   SIDEBAR
+   ACTIVITY SIDEBAR
 ========================================================= */
 
 .application-details-sidebar {
@@ -166,32 +128,26 @@
 
     position: sticky;
 
-    top: 24px;
+    top: 20px;
 
     align-self: start;
 }
 
 
 /* =========================================================
-   COMPONENT RHYTHM
+   CHILD WIDTH CONTROL
 ========================================================= */
-
-/*
- * Defensive rule.
- *
- * Ensures child components do not introduce
- * unexpected external spacing.
- */
 
 .application-details-primary>section,
 .application-details-primary>article,
+
 .application-details-sidebar>section,
 .application-details-sidebar>article {
     width: 100%;
 
-    margin-top: 0;
+    min-width: 0;
 
-    margin-bottom: 0;
+    margin: 0;
 }
 
 
@@ -206,9 +162,7 @@
 
     justify-content: flex-start;
 
-    margin: 0;
-
-    padding-top: 24px;
+    padding-top: 22px;
 
     border-top:
         1px solid #e3eaf0;
@@ -247,20 +201,26 @@
 
 .application-details-footer-link:hover {
     color: #0872c8;
+
+    transform:
+        translateX(2px);
 }
 
 
 .application-details-footer-link:hover svg {
-    transform: translateX(-3px);
+    transform:
+        translateX(-3px);
 }
 
 
 /* =========================================================
-   LOADING / ERROR STATES
+   LOADING / ERROR
 ========================================================= */
 
 .application-details-state {
-    min-height: 480px;
+    min-height: 420px;
+
+    width: 100%;
 
     display: flex;
 
@@ -325,7 +285,8 @@
     border:
         3px solid #e5edf3;
 
-    border-top-color: #0872c8;
+    border-top-color:
+        #0872c8;
 
     border-radius: 50%;
 
@@ -348,7 +309,8 @@
 ========================================================= */
 
 .application-details-state-error {
-    border-color: #e8e2e2;
+    border-color:
+        #e8e2e2;
 }
 
 
@@ -376,6 +338,10 @@
     font-weight: 800;
 }
 
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
 
 .application-details-back-button {
     display: inline-flex;
@@ -436,9 +402,8 @@
 @media (min-width: 1500px) {
 
     .application-details-page {
-        padding-left: 55px;
-
-        padding-right: 55px;
+        padding-left: 50px;
+        padding-right: 50px;
     }
 
 }
@@ -452,26 +417,26 @@
 
     .application-details-page {
         padding:
-            28px 25px 60px;
+            28px 25px 45px;
     }
 
 
     .application-details-container {
-        gap: 22px;
+        gap: 21px;
     }
 
 
     .application-details-layout {
         grid-template-columns:
-            minmax(0, 1fr) minmax(260px, 300px);
+            minmax(0, 1fr) minmax(255px, 300px);
 
-        gap: 22px;
+        gap: 20px;
     }
 
 
     .application-details-primary,
     .application-details-sidebar {
-        gap: 22px;
+        gap: 20px;
     }
 
 }
@@ -485,25 +450,25 @@
 
     .application-details-page {
         padding:
-            24px 20px 55px;
+            24px 20px 45px;
     }
 
 
     .application-details-container {
-        gap: 22px;
+        gap: 20px;
     }
 
 
     .application-details-layout {
         grid-template-columns: 1fr;
 
-        gap: 22px;
+        gap: 20px;
     }
 
 
     .application-details-primary,
     .application-details-sidebar {
-        gap: 22px;
+        gap: 20px;
     }
 
 
@@ -513,7 +478,7 @@
 
 
     .application-details-footer {
-        padding-top: 22px;
+        padding-top: 20px;
     }
 
 }
@@ -527,33 +492,33 @@
 
     .application-details-page {
         padding:
-            19px 14px 45px;
+            18px 14px 38px;
     }
 
 
     .application-details-container {
-        gap: 18px;
+        gap: 17px;
     }
 
 
     .application-details-layout {
-        gap: 18px;
+        gap: 17px;
     }
 
 
     .application-details-primary,
     .application-details-sidebar {
-        gap: 18px;
+        gap: 17px;
     }
 
 
     .application-details-footer {
-        padding-top: 18px;
+        padding-top: 17px;
     }
 
 
     .application-details-state {
-        min-height: 390px;
+        min-height: 360px;
 
         padding:
             30px 20px;
@@ -575,28 +540,28 @@
 
     .application-details-page {
         padding:
-            16px 11px 40px;
+            15px 11px 34px;
     }
 
 
     .application-details-container {
-        gap: 16px;
+        gap: 15px;
     }
 
 
     .application-details-layout {
-        gap: 16px;
+        gap: 15px;
     }
 
 
     .application-details-primary,
     .application-details-sidebar {
-        gap: 16px;
+        gap: 15px;
     }
 
 
     .application-details-footer {
-        padding-top: 16px;
+        padding-top: 15px;
     }
 
 }

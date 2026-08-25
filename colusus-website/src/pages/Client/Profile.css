@@ -1,21 +1,37 @@
-/* =========================================================
+/* ============================================================
    COLUSUS — CLIENT PROFILE
-========================================================= */
+   Premium Profile Page + Subtle Choreography
+============================================================ */
 
 .profile-page {
     width: 100%;
     min-height: 100%;
     padding: 30px;
-    background: #f7f9fc;
+
+    background:
+        radial-gradient(circle at 92% 4%,
+            rgba(8, 116, 201, 0.035),
+            transparent 28%),
+        #f7f9fc;
+
+    box-sizing: border-box;
+
+    animation:
+        profilePageEnter 520ms cubic-bezier(.22, 1, .36, 1) both;
 }
 
 
 .profile-page-container {
     width: 100%;
     max-width: 1180px;
+
     margin: 0 auto;
 }
 
+
+/* ============================================================
+   GENERAL TYPOGRAPHY
+============================================================ */
 
 .profile-page-container h1 {
     margin: 0;
@@ -24,6 +40,8 @@
 
     font-size: 30px;
     font-weight: 760;
+
+    line-height: 1.15;
 
     letter-spacing: -0.04em;
 }
@@ -35,31 +53,14 @@
     color: #718198;
 
     font-size: 14px;
+
     line-height: 1.6;
 }
 
 
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 768px) {
-
-    .profile-page {
-        padding: 20px 16px;
-    }
-
-
-    .profile-page-container h1 {
-        font-size: 25px;
-    }
-
-
-    .profile-page-container p {
-        font-size: 13px;
-    }
-
-}
+/* ============================================================
+   SUCCESS / ERROR MESSAGES
+============================================================ */
 
 .profile-page-message {
     width: 100%;
@@ -73,7 +74,13 @@
     font-size: 11px;
 
     font-weight: 650;
+
+    box-sizing: border-box;
+
+    animation:
+        profileMessageEnter 420ms cubic-bezier(.22, 1, .36, 1) both;
 }
+
 
 .profile-page-message-success {
     color: #316d49;
@@ -81,7 +88,11 @@
     background: #f0f9f3;
 
     border: 1px solid #d9eddf;
+
+    box-shadow:
+        0 4px 14px rgba(49, 109, 73, .035);
 }
+
 
 .profile-page-message-error {
     color: #9a4242;
@@ -89,4 +100,498 @@
     background: #fff5f5;
 
     border: 1px solid #f0dada;
+
+    box-shadow:
+        0 4px 14px rgba(154, 66, 66, .035);
+}
+
+
+/* ============================================================
+   LOADING
+============================================================ */
+
+.profile-page-loading {
+    min-height: 55vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    color: #718198;
+
+    font-size: 12px;
+
+    animation:
+        profileLoadingEnter 450ms ease both;
+}
+
+
+.profile-page-loader {
+    width: 38px;
+    height: 38px;
+
+    border:
+        3px solid #e4ebf2;
+
+    border-top-color: #0874c9;
+
+    border-radius: 50%;
+
+    animation:
+        profileLoaderSpin .85s linear infinite;
+}
+
+
+.profile-page-loading p {
+    margin: 0;
+
+    color: #7c8c9e;
+
+    font-size: 11px;
+}
+
+
+/* ============================================================
+   ERROR STATE
+============================================================ */
+
+.profile-page-error {
+    min-height: 55vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 30px;
+
+    text-align: center;
+
+    animation:
+        profileErrorEnter 500ms cubic-bezier(.22, 1, .36, 1) both;
+}
+
+
+.profile-page-error h2 {
+    margin: 0;
+
+    color: #1a3049;
+
+    font-size: 20px;
+
+    font-weight: 760;
+
+    letter-spacing: -.025em;
+}
+
+
+.profile-page-error p {
+    max-width: 430px;
+
+    margin: 8px 0 18px;
+
+    color: #78899b;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+.profile-page-error button {
+    min-height: 38px;
+
+    padding: 0 15px;
+
+    border: 1px solid #086bc7;
+
+    border-radius: 9px;
+
+    background: #086bc7;
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 180ms ease,
+        background 180ms ease,
+        box-shadow 180ms ease;
+}
+
+
+.profile-page-error button:hover {
+    background: #075da9;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(8, 107, 199, .18);
+}
+
+
+.profile-page-error button:active {
+    transform: translateY(0);
+}
+
+
+/* ============================================================
+   COMPONENT CHOREOGRAPHY
+============================================================ */
+
+/*
+   These animations target the actual profile sections.
+
+   The components remain responsible for their own
+   layout and styling. This page simply choreographs
+   their entrance.
+*/
+
+.profile-page-container>* {
+    animation:
+        profileSectionEnter 600ms cubic-bezier(.22, 1, .36, 1) both;
+}
+
+
+/* ============================================================
+   STAGGERED SECTIONS
+============================================================ */
+
+.profile-page-container>*:nth-child(1) {
+    animation-delay: 70ms;
+}
+
+
+.profile-page-container>*:nth-child(2) {
+    animation-delay: 150ms;
+}
+
+
+.profile-page-container>*:nth-child(3) {
+    animation-delay: 230ms;
+}
+
+
+.profile-page-container>*:nth-child(4) {
+    animation-delay: 310ms;
+}
+
+
+.profile-page-container>*:nth-child(5) {
+    animation-delay: 390ms;
+}
+
+
+/* ============================================================
+   SUCCESS / ERROR OVERRIDE
+============================================================ */
+
+.profile-page-container .profile-page-message {
+    animation:
+        profileMessageEnter 420ms cubic-bezier(.22, 1, .36, 1) both;
+}
+
+
+/* ============================================================
+   INTERACTION WITH PROFILE CARDS
+============================================================ */
+
+/*
+   Your child components already own their visual styling.
+
+   These selectors add only a very restrained lift when
+   the component exposes a card-like surface.
+*/
+
+.profile-page-container .profile-card,
+.profile-page-container .profile-section,
+.profile-page-container .account-information,
+.profile-page-container .personal-information,
+.profile-page-container .profile-completion,
+.profile-page-container .profile-security-notice {
+    transition:
+        box-shadow 220ms ease,
+        border-color 220ms ease,
+        transform 220ms ease;
+}
+
+
+.profile-page-container .profile-card:hover,
+.profile-page-container .profile-section:hover,
+.profile-page-container .account-information:hover,
+.profile-page-container .personal-information:hover {
+    transform: translateY(-1px);
+}
+
+
+/* ============================================================
+   FOCUS
+============================================================ */
+
+.profile-page button:focus-visible,
+.profile-page input:focus-visible,
+.profile-page select:focus-visible,
+.profile-page textarea:focus-visible {
+    outline: 2px solid rgba(8, 116, 201, .3);
+
+    outline-offset: 2px;
+}
+
+
+/* ============================================================
+   KEYFRAMES
+============================================================ */
+
+@keyframes profilePageEnter {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+
+}
+
+
+@keyframes profileSectionEnter {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+
+}
+
+
+@keyframes profileMessageEnter {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(-6px) scale(.99);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0) scale(1);
+    }
+
+}
+
+
+@keyframes profileLoadingEnter {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+
+}
+
+
+@keyframes profileLoaderSpin {
+
+    from {
+        transform:
+            rotate(0deg);
+    }
+
+    to {
+        transform:
+            rotate(360deg);
+    }
+
+}
+
+
+@keyframes profileErrorEnter {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 1100px) {
+
+    .profile-page {
+        padding: 28px 24px;
+    }
+
+}
+
+
+@media (max-width: 900px) {
+
+    .profile-page {
+        padding: 24px 20px;
+    }
+
+
+    .profile-page-container h1 {
+        font-size: 27px;
+    }
+
+
+    .profile-page-container p {
+        font-size: 13px;
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 768px) {
+
+    .profile-page {
+        padding: 20px 16px 40px;
+    }
+
+
+    .profile-page-container h1 {
+        font-size: 25px;
+    }
+
+
+    .profile-page-container p {
+        font-size: 13px;
+    }
+
+
+    .profile-page-message {
+        padding:
+            11px 12px;
+
+        margin-bottom: 13px;
+
+        font-size: 10px;
+    }
+
+
+    .profile-page-error {
+        min-height: 50vh;
+
+        padding:
+            20px 10px;
+    }
+
+
+    .profile-page-error h2 {
+        font-size: 18px;
+    }
+
+
+    .profile-page-error p {
+        font-size: 11px;
+    }
+
+}
+
+
+/* ============================================================
+   SMALL PHONES
+============================================================ */
+
+@media (max-width: 420px) {
+
+    .profile-page {
+        padding:
+            17px 12px 35px;
+    }
+
+
+    .profile-page-container h1 {
+        font-size: 23px;
+    }
+
+
+    .profile-page-container p {
+        font-size: 12px;
+    }
+
+
+    .profile-page-message {
+        font-size: 9px;
+    }
+
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .profile-page,
+    .profile-page-container>*,
+    .profile-page-message,
+    .profile-page-loading,
+    .profile-page-error {
+        animation: none;
+    }
+
+
+    .profile-page-loader {
+        animation: none;
+    }
+
+
+    .profile-page-container .profile-card,
+    .profile-page-container .profile-section,
+    .profile-page-container .account-information,
+    .profile-page-container .personal-information {
+        transition: none;
+    }
+
 }

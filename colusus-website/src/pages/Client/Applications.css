@@ -1,29 +1,152 @@
-/* =========================================================
+/* ============================================================
    COLUSUS — APPLICATIONS PAGE
-========================================================= */
+   Premium operations choreography
+============================================================ */
 
 .client-applications-page {
+
     width: 100%;
     max-width: 1440px;
 
     margin: 0 auto;
 
-    padding: 34px 38px 60px;
+    padding:
+        34px 38px 60px;
 
     box-sizing: border-box;
+
 }
 
 
-/* =========================================================
+/* ============================================================
+   PAGE ENTRANCE
+============================================================ */
+
+.client-applications-page {
+
+    animation:
+        applications-page-enter 600ms cubic-bezier(0.22,
+            1,
+            0.36,
+            1) both;
+
+}
+
+
+@keyframes applications-page-enter {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(10px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+/* ============================================================
+   COMPONENT CHOREOGRAPHY
+============================================================ */
+
+.client-applications-page>* {
+
+    animation:
+        applications-section-enter 600ms cubic-bezier(0.22,
+            1,
+            0.36,
+            1) both;
+
+}
+
+
+.client-applications-page>*:nth-child(1) {
+
+    animation-delay:
+        60ms;
+
+}
+
+
+.client-applications-page>*:nth-child(2) {
+
+    animation-delay:
+        140ms;
+
+}
+
+
+.client-applications-page>*:nth-child(3) {
+
+    animation-delay:
+        220ms;
+
+}
+
+
+.client-applications-page>*:nth-child(4) {
+
+    animation-delay:
+        300ms;
+
+}
+
+
+.client-applications-page>*:nth-child(5) {
+
+    animation-delay:
+        380ms;
+
+}
+
+
+@keyframes applications-section-enter {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(16px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+/* ============================================================
    INLINE ERROR
-========================================================= */
+============================================================ */
 
 .applications-inline-error {
+
     margin-bottom: 14px;
 
-    padding: 11px 14px;
+    padding:
+        11px 14px;
 
-    border: 1px solid #f2d6d6;
+    border:
+        1px solid #f2d6d6;
 
     border-radius: 10px;
 
@@ -34,20 +157,53 @@
     font-size: 12px;
 
     font-weight: 600;
+
+    animation:
+        applications-error-enter 420ms cubic-bezier(0.22,
+            1,
+            0.36,
+            1) both;
+
 }
 
 
-/* =========================================================
+@keyframes applications-error-enter {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(-7px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+/* ============================================================
    LOADING
-========================================================= */
+============================================================ */
 
 .applications-page-loading {
+
     min-height: 55vh;
 
     display: flex;
+
     flex-direction: column;
 
     align-items: center;
+
     justify-content: center;
 
     gap: 12px;
@@ -55,18 +211,43 @@
     color: #728198;
 
     font-size: 13px;
+
+    animation:
+        applications-loading-enter 500ms ease both;
+
+}
+
+
+@keyframes applications-loading-enter {
+
+    from {
+
+        opacity: 0;
+
+    }
+
+    to {
+
+        opacity: 1;
+
+    }
+
 }
 
 
 .applications-loading-spinner {
+
     width: 42px;
     height: 42px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
-    border: 1px solid #dce6f1;
+    border:
+        1px solid #dce6f1;
 
     border-radius: 12px;
 
@@ -75,73 +256,147 @@
     color: #1477d4;
 
     animation:
-        applications-spin 1.1s linear infinite;
+        applications-spinner-pulse 1.4s ease-in-out infinite;
+
 }
 
 
 .applications-loading-spinner svg {
+
     width: 20px;
     height: 20px;
+
+    animation:
+        applications-spin 1.1s linear infinite;
+
 }
 
 
 @keyframes applications-spin {
+
     from {
-        transform: rotate(0deg);
+
+        transform:
+            rotate(0deg);
+
     }
 
     to {
-        transform: rotate(360deg);
+
+        transform:
+            rotate(360deg);
+
     }
+
 }
 
 
-/* =========================================================
-   ERROR
-========================================================= */
+@keyframes applications-spinner-pulse {
+
+    0%,
+    100% {
+
+        transform:
+            scale(1);
+
+        box-shadow:
+            0 0 0 rgba(20,
+                119,
+                212,
+                0);
+
+    }
+
+    50% {
+
+        transform:
+            scale(1.04);
+
+        box-shadow:
+            0 8px 24px rgba(20,
+                119,
+                212,
+                0.08);
+
+    }
+
+}
+
+
+/* ============================================================
+   ERROR PAGE
+============================================================ */
 
 .applications-page-error {
+
     min-height: 55vh;
 
     display: flex;
+
     flex-direction: column;
 
     align-items: center;
+
     justify-content: center;
 
     text-align: center;
+
+    animation:
+        applications-empty-enter 650ms cubic-bezier(0.22,
+            1,
+            0.36,
+            1) both;
+
 }
 
 
 .applications-page-error span {
+
     color: #162942;
 
     font-size: 20px;
 
     font-weight: 750;
+
 }
 
 
 .applications-page-error p {
+
     max-width: 420px;
 
-    margin: 8px 0 18px;
+    margin:
+        8px 0 18px;
 
     color: #77869a;
 
     font-size: 13px;
 
     line-height: 1.6;
+
 }
 
 
+/* ============================================================
+   ERROR / CLEAR BUTTON
+============================================================ */
+
 .applications-page-error button,
 .applications-no-results button {
+
     min-height: 40px;
 
-    padding: 0 15px;
+    display: inline-flex;
 
-    border: 1px solid #075fbe;
+    align-items: center;
+
+    justify-content: center;
+
+    padding:
+        0 15px;
+
+    border:
+        1px solid #075fbe;
 
     border-radius: 9px;
 
@@ -156,40 +411,114 @@
     font-weight: 700;
 
     cursor: pointer;
+
+    transition:
+        transform 180ms ease,
+        background 180ms ease,
+        box-shadow 180ms ease;
+
 }
 
 
-/* =========================================================
+.applications-page-error button:hover,
+.applications-no-results button:hover {
+
+    background: #0755aa;
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 8px 18px rgba(7,
+            95,
+            190,
+            0.16);
+
+}
+
+
+.applications-page-error button:active,
+.applications-no-results button:active {
+
+    transform:
+        translateY(0);
+
+}
+
+
+/* ============================================================
    NO RESULTS
-========================================================= */
+============================================================ */
 
 .applications-no-results {
+
     min-height: 250px;
 
     display: flex;
+
     flex-direction: column;
 
     align-items: center;
+
     justify-content: center;
 
-    padding: 35px 20px;
+    padding:
+        35px 20px;
 
     text-align: center;
 
-    border: 1px solid #e3e9f1;
+    border:
+        1px solid #e3e9f1;
 
     border-radius: 18px;
 
     background: #ffffff;
+
+    animation:
+        applications-empty-enter 650ms 100ms cubic-bezier(0.22,
+            1,
+            0.36,
+            1) both;
+
 }
 
 
+@keyframes applications-empty-enter {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(20px) scale(0.985);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0) scale(1);
+
+    }
+
+}
+
+
+/* ============================================================
+   NO RESULTS ICON
+============================================================ */
+
 .applications-no-results-icon {
+
     width: 44px;
     height: 44px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
     margin-bottom: 13px;
@@ -199,16 +528,40 @@
     background: #f1f5fa;
 
     color: #718198;
+
+    transition:
+        transform 220ms ease,
+        background 220ms ease;
+
+}
+
+
+.applications-no-results:hover .applications-no-results-icon {
+
+    transform:
+        translateY(-3px);
+
+    background: #eaf3fb;
+
+    color: #1477d4;
+
 }
 
 
 .applications-no-results-icon svg {
+
     width: 20px;
     height: 20px;
+
 }
 
 
+/* ============================================================
+   NO RESULTS CONTENT
+============================================================ */
+
 .applications-no-results h2 {
+
     margin: 0;
 
     color: #172941;
@@ -216,35 +569,318 @@
     font-size: 18px;
 
     font-weight: 750;
+
+    letter-spacing: -0.02em;
+
 }
 
 
 .applications-no-results p {
-    margin: 7px 0 16px;
+
+    margin:
+        7px 0 16px;
 
     color: #7a899c;
 
     font-size: 12px;
+
 }
 
 
-/* =========================================================
-   RESPONSIVE
-========================================================= */
+/* ============================================================
+   INTERACTION WITH CHILD COMPONENTS
+============================================================ */
 
-@media (max-width: 900px) {
+/*
+   These selectors intentionally target the components
+   already rendered by Applications.jsx.
 
-    .client-applications-page {
-        padding: 28px 24px 50px;
+   No JSX changes are required.
+*/
+
+
+.client-applications-page .applications-header {
+
+    animation:
+        applications-content-rise 600ms 70ms cubic-bezier(0.22,
+            1,
+            0.36,
+            1) both;
+
+}
+
+
+.client-applications-page .applications-metrics {
+
+    animation:
+        applications-content-rise 600ms 160ms cubic-bezier(0.22,
+            1,
+            0.36,
+            1) both;
+
+}
+
+
+.client-applications-page .applications-toolbar {
+
+    animation:
+        applications-content-rise 600ms 250ms cubic-bezier(0.22,
+            1,
+            0.36,
+            1) both;
+
+}
+
+
+.client-applications-page .applications-list {
+
+    animation:
+        applications-content-rise 650ms 340ms cubic-bezier(0.22,
+            1,
+            0.36,
+            1) both;
+
+}
+
+
+@keyframes applications-content-rise {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(14px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
     }
 
 }
 
 
+/* ============================================================
+   APPLICATION CARDS
+============================================================ */
+
+.client-applications-page .application-card {
+
+    transition:
+        transform 220ms ease,
+        box-shadow 220ms ease,
+        border-color 220ms ease;
+
+}
+
+
+.client-applications-page .application-card:hover {
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 14px 30px rgba(18,
+            44,
+            70,
+            0.07);
+
+}
+
+
+/* ============================================================
+   METRIC CARDS
+============================================================ */
+
+.client-applications-page .metric-card {
+
+    transition:
+        transform 220ms ease,
+        box-shadow 220ms ease,
+        border-color 220ms ease;
+
+}
+
+
+.client-applications-page .metric-card:hover {
+
+    transform:
+        translateY(-3px);
+
+    border-color:
+        #d7e5f1;
+
+    box-shadow:
+        0 12px 28px rgba(18,
+            44,
+            70,
+            0.065);
+
+}
+
+
+/* ============================================================
+   FILTER BUTTON CHOREOGRAPHY
+============================================================ */
+
+.client-applications-page .applications-filter {
+
+    transition:
+        transform 160ms ease,
+        background 160ms ease,
+        border-color 160ms ease,
+        color 160ms ease;
+
+}
+
+
+.client-applications-page .applications-filter:hover {
+
+    transform:
+        translateY(-1px);
+
+}
+
+
+.client-applications-page .applications-filter:active {
+
+    transform:
+        translateY(0);
+
+}
+
+
+/* ============================================================
+   SEARCH INPUT
+============================================================ */
+
+.client-applications-page input {
+
+    transition:
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        background 180ms ease;
+
+}
+
+
+/* ============================================================
+   MOBILE PAGE RHYTHM
+============================================================ */
+
+@media (max-width: 900px) {
+
+    .client-applications-page {
+
+        padding:
+            28px 24px 50px;
+
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
 @media (max-width: 560px) {
 
     .client-applications-page {
-        padding: 22px 15px 40px;
+
+        padding:
+            22px 15px 40px;
+
+    }
+
+
+    .client-applications-page>* {
+
+        animation-duration:
+            500ms;
+
+    }
+
+
+    .applications-no-results {
+
+        min-height:
+            220px;
+
+        padding:
+            30px 18px;
+
+    }
+
+
+    .applications-no-results h2 {
+
+        font-size:
+            17px;
+
+    }
+
+
+    .applications-no-results p {
+
+        font-size:
+            11px;
+
+        line-height:
+            1.5;
+
+    }
+
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .client-applications-page,
+    .client-applications-page>*,
+    .applications-page-loading,
+    .applications-page-error,
+    .applications-no-results,
+    .applications-inline-error,
+    .applications-loading-spinner,
+    .applications-loading-spinner svg,
+    .applications-header,
+    .applications-metrics,
+    .applications-toolbar,
+    .applications-list {
+
+        animation:
+            none !important;
+
+        opacity:
+            1 !important;
+
+        transform:
+            none !important;
+
+    }
+
+
+    .application-card,
+    .metric-card,
+    .applications-filter,
+    .applications-page-error button,
+    .applications-no-results button,
+    .applications-no-results-icon {
+
+        transition:
+            none !important;
+
     }
 
 }

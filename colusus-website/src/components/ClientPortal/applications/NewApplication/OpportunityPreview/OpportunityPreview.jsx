@@ -3,6 +3,8 @@ import {
   useState,
 } from "react";
 
+import { createPortal } from "react-dom";
+
 import OpportunityPreviewHeader
   from "./OpportunityPreviewHeader/OpportunityPreviewHeader.jsx";
 
@@ -567,6 +569,62 @@ const OpportunityPreview = ({
 
 
   /* ==========================================================
+     LOCK BACKGROUND PAGE
+  ========================================================== */
+
+  useEffect(() => {
+
+    if (!opportunity) {
+      return undefined;
+    }
+
+
+    const previousOverflow =
+      document.body.style.overflow;
+
+    const previousPaddingRight =
+      document.body.style.paddingRight;
+
+
+    /*
+     * Prevent the Applications page and
+     * portal shell from scrolling underneath
+     * the preview.
+     */
+    document.body.style.overflow = "hidden";
+
+
+    /*
+     * Prevent a layout jump when the browser
+     * scrollbar disappears.
+     */
+    const scrollbarWidth =
+      window.innerWidth -
+      document.documentElement.clientWidth;
+
+
+    if (scrollbarWidth > 0) {
+
+      document.body.style.paddingRight =
+        `${scrollbarWidth}px`;
+
+    }
+
+
+    return () => {
+
+      document.body.style.overflow =
+        previousOverflow;
+
+      document.body.style.paddingRight =
+        previousPaddingRight;
+
+    };
+
+  }, [opportunity]);
+
+
+  /* ==========================================================
      EMPTY STATE
   ========================================================== */
 
@@ -598,10 +656,10 @@ const OpportunityPreview = ({
 
 
   /* ==========================================================
-     RENDER
+     MODAL CONTENT
   ========================================================== */
 
-  return (
+  const previewContent = (
 
     <div
       className="opportunity-preview-overlay"
@@ -727,6 +785,17 @@ const OpportunityPreview = ({
     </div>
 
   );
+
+
+  /* ==========================================================
+     VIEWPORT PORTAL
+  ========================================================== */
+
+  return createPortal(
+    previewContent,
+    document.body
+  );
+
 };
 
 
