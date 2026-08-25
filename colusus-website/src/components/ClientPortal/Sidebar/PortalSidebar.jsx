@@ -1,3 +1,8 @@
+import {
+    useEffect,
+    useState,
+} from "react";
+
 import { NavLink } from "react-router-dom";
 
 import {
@@ -8,6 +13,7 @@ import {
     HiOutlineUser,
     HiOutlineQuestionMarkCircle,
     HiOutlineLogout,
+    HiOutlineX,
 } from "react-icons/hi";
 
 import "./PortalSidebar.css";
@@ -17,53 +23,177 @@ import colususLogo from "../../../assets/logo.png";
 
 const PortalSidebar = () => {
 
+    const [mobileOpen, setMobileOpen] = useState(false);
+
+
     const navigation = [
+
         {
             label: "Dashboard",
             path: "/portal",
             icon: HiOutlineHome,
             end: true,
         },
+
         {
             label: "Applications",
             path: "/portal/applications",
             icon: HiOutlineDocumentText,
         },
+
         {
             label: "Documents",
             path: "/portal/documents",
             icon: HiOutlineFolderOpen,
         },
+
         {
             label: "Updates",
             path: "/portal/updates",
             icon: HiOutlineBell,
         },
+
         {
             label: "Profile",
             path: "/portal/profile",
             icon: HiOutlineUser,
         },
+
     ];
 
 
+    /*
+    ============================================================
+    MOBILE MENU EVENTS
+    ============================================================
+    */
+
+    useEffect(() => {
+
+        const handleOpenMobileMenu = () => {
+
+            setMobileOpen(true);
+
+        };
+
+
+        window.addEventListener(
+            "colusus:open-mobile-menu",
+            handleOpenMobileMenu,
+        );
+
+
+        return () => {
+
+            window.removeEventListener(
+                "colusus:open-mobile-menu",
+                handleOpenMobileMenu,
+            );
+
+        };
+
+    }, []);
+
+
+    /*
+    ============================================================
+    LOCK BODY SCROLL
+    ============================================================
+    */
+
+    useEffect(() => {
+
+        if (mobileOpen) {
+
+            document.body.classList.add(
+                "portal-mobile-menu-open",
+            );
+
+        } else {
+
+            document.body.classList.remove(
+                "portal-mobile-menu-open",
+            );
+
+        }
+
+
+        return () => {
+
+            document.body.classList.remove(
+                "portal-mobile-menu-open",
+            );
+
+        };
+
+    }, [mobileOpen]);
+
+
+    /*
+    ============================================================
+    ESCAPE KEY
+    ============================================================
+    */
+
+    useEffect(() => {
+
+        const handleKeyDown = (event) => {
+
+            if (
+                event.key === "Escape" &&
+                mobileOpen
+            ) {
+
+                setMobileOpen(false);
+
+            }
+
+        };
+
+
+        window.addEventListener(
+            "keydown",
+            handleKeyDown,
+        );
+
+
+        return () => {
+
+            window.removeEventListener(
+                "keydown",
+                handleKeyDown,
+            );
+
+        };
+
+    }, [mobileOpen]);
+
+
+    /*
+    ============================================================
+    CLOSE AFTER NAVIGATION
+    ============================================================
+    */
+
+    const handleNavigation = () => {
+
+        setMobileOpen(false);
+
+    };
+
+
+    /*
+    ============================================================
+    LOGOUT
+    ============================================================
+    */
+
     const handleLogout = () => {
 
-        /*
-        ------------------------------------------------------
-        CLEAR AUTHENTICATION
-        ------------------------------------------------------
-        */
-
         localStorage.removeItem("token");
+
         localStorage.removeItem("user");
 
-
-        /*
-        ------------------------------------------------------
-        NOTIFY OTHER PORTAL COMPONENTS
-        ------------------------------------------------------
-        */
 
         window.dispatchEvent(
             new CustomEvent(
@@ -72,153 +202,209 @@ const PortalSidebar = () => {
         );
 
 
-        /*
-        ------------------------------------------------------
-        REDIRECT
-        ------------------------------------------------------
-        */
-
         window.location.href = "/login";
+
+    };
+
+
+    /*
+    ============================================================
+    CLOSE MENU
+    ============================================================
+    */
+
+    const handleCloseMenu = () => {
+
+        setMobileOpen(false);
 
     };
 
 
     return (
 
-        <aside className="portal-sidebar">
+        <>
+
+            {/* =================================================
+                MOBILE BACKDROP
+            ================================================= */}
+
+            <div
+                className={
+                    `portal-sidebar__mobile-backdrop ${mobileOpen
+                        ? "is-open"
+                        : ""
+                    }`
+                }
+                onClick={handleCloseMenu}
+                aria-hidden="true"
+            />
 
 
             {/* =================================================
-                BRAND
+                SIDEBAR
             ================================================= */}
 
-            <div className="portal-sidebar__brand">
-
-                <NavLink
-                    to="/portal"
-                    className="portal-sidebar__brand-link"
-                    aria-label="Colusus Client Portal"
-                >
-
-                    <img
-                        src={colususLogo}
-                        alt="Colusus"
-                        className="portal-sidebar__logo"
-                    />
-
-                </NavLink>
-
-            </div>
-
-
-            {/* =================================================
-                NAVIGATION
-            ================================================= */}
-
-            <nav
-                className="portal-sidebar__nav"
-                aria-label="Client portal navigation"
+            <aside
+                className={
+                    `portal-sidebar ${mobileOpen
+                        ? "portal-sidebar--mobile-open"
+                        : ""
+                    }`
+                }
             >
 
-                <div className="portal-sidebar__section-label">
-                    Workspace
+                {/* =================================================
+                    BRAND
+                ================================================= */}
+
+                <div className="portal-sidebar__brand">
+
+                    <NavLink
+                        to="/portal"
+                        className="portal-sidebar__brand-link"
+                        aria-label="Colusus Client Portal"
+                        onClick={handleNavigation}
+                    >
+
+                        <img
+                            src={colususLogo}
+                            alt="Colusus"
+                            className="portal-sidebar__logo"
+                        />
+
+                    </NavLink>
+
+
+                    {/* =================================================
+                        MOBILE CLOSE
+                    ================================================= */}
+
+                    <button
+                        type="button"
+                        className="portal-sidebar__mobile-close"
+                        onClick={handleCloseMenu}
+                        aria-label="Close navigation menu"
+                    >
+
+                        <HiOutlineX />
+
+                    </button>
+
                 </div>
 
 
-                {navigation.map((item) => {
+                {/* =================================================
+                    NAVIGATION
+                ================================================= */}
 
-                    const Icon = item.icon;
+                <nav
+                    className="portal-sidebar__nav"
+                    aria-label="Client portal navigation"
+                >
 
-
-                    return (
-
-                        <NavLink
-                            key={item.path}
-                            to={item.path}
-                            end={item.end}
-                            className={({ isActive }) =>
-                                `portal-sidebar__link ${isActive
-                                    ? "active"
-                                    : ""
-                                }`
-                            }
-                        >
-
-                            <Icon
-                                className="portal-sidebar__icon"
-                                aria-hidden="true"
-                            />
-
-                            <span>
-                                {item.label}
-                            </span>
-
-                        </NavLink>
-
-                    );
-
-                })}
-
-            </nav>
+                    <div className="portal-sidebar__section-label">
+                        Workspace
+                    </div>
 
 
-            {/* =================================================
-                BOTTOM AREA
-            ================================================= */}
+                    {navigation.map((item) => {
 
-            <div className="portal-sidebar__bottom">
+                        const Icon = item.icon;
+
+
+                        return (
+
+                            <NavLink
+                                key={item.path}
+                                to={item.path}
+                                end={item.end}
+                                onClick={handleNavigation}
+                                className={({ isActive }) =>
+                                    `portal-sidebar__link ${isActive
+                                        ? "active"
+                                        : ""
+                                    }`
+                                }
+                            >
+
+                                <Icon
+                                    className="portal-sidebar__icon"
+                                    aria-hidden="true"
+                                />
+
+                                <span>
+                                    {item.label}
+                                </span>
+
+                            </NavLink>
+
+                        );
+
+                    })}
+
+                </nav>
 
 
                 {/* =================================================
-                    HELP
+                    BOTTOM AREA
                 ================================================= */}
 
-                <NavLink
-                    to="/portal/help"
-                    className={({ isActive }) =>
-                        `portal-sidebar__link ${isActive
-                            ? "active"
-                            : ""
-                        }`
-                    }
-                >
-
-                    <HiOutlineQuestionMarkCircle
-                        className="portal-sidebar__icon"
-                        aria-hidden="true"
-                    />
-
-                    <span>
-                        Help & Support
-                    </span>
-
-                </NavLink>
+                <div className="portal-sidebar__bottom">
 
 
-                {/* =================================================
-                    LOGOUT
-                ================================================= */}
+                    {/* =================================================
+                        HELP
+                    ================================================= */}
 
-                <button
-                    type="button"
-                    className="portal-sidebar__logout"
-                    onClick={handleLogout}
-                >
+                    <NavLink
+                        to="/portal/help"
+                        onClick={handleNavigation}
+                        className={({ isActive }) =>
+                            `portal-sidebar__link ${isActive
+                                ? "active"
+                                : ""
+                            }`
+                        }
+                    >
 
-                    <HiOutlineLogout
-                        className="portal-sidebar__icon"
-                        aria-hidden="true"
-                    />
+                        <HiOutlineQuestionMarkCircle
+                            className="portal-sidebar__icon"
+                            aria-hidden="true"
+                        />
 
-                    <span>
-                        Logout
-                    </span>
+                        <span>
+                            Help & Support
+                        </span>
 
-                </button>
+                    </NavLink>
 
-            </div>
 
-        </aside>
+                    {/* =================================================
+                        LOGOUT
+                    ================================================= */}
+
+                    <button
+                        type="button"
+                        className="portal-sidebar__logout"
+                        onClick={handleLogout}
+                    >
+
+                        <HiOutlineLogout
+                            className="portal-sidebar__icon"
+                            aria-hidden="true"
+                        />
+
+                        <span>
+                            Logout
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </aside>
+
+        </>
 
     );
 

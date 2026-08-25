@@ -1,15 +1,17 @@
 /* ============================================================
    COLUSUS CLIENT PORTAL
-   FIXED SIDEBAR
+   SIDEBAR
 ============================================================ */
 
 .portal-sidebar {
+
     position: fixed;
 
     top: 0;
     left: 0;
 
     width: 260px;
+
     height: 100vh;
     height: 100dvh;
 
@@ -25,6 +27,13 @@
     overflow: hidden;
 
     box-sizing: border-box;
+
+    transition:
+        transform 280ms cubic-bezier(0.22,
+            1,
+            0.36,
+            1);
+
 }
 
 
@@ -33,14 +42,17 @@
 ============================================================ */
 
 .portal-sidebar__brand {
+
     position: relative;
 
     width: 100%;
+
     height: 96px;
 
     flex-shrink: 0;
 
     display: flex;
+
     align-items: center;
 
     padding: 0 24px;
@@ -50,6 +62,7 @@
     box-sizing: border-box;
 
     overflow: hidden;
+
 }
 
 
@@ -58,27 +71,27 @@
 ============================================================ */
 
 .portal-sidebar__brand-link {
+
     width: 100%;
     height: 100%;
 
     display: flex;
+
     align-items: center;
 
     text-decoration: none;
 
     overflow: hidden;
+
 }
 
 
 /* ============================================================
    LOGO
-
-   The source logo contains internal whitespace.
-   The scale compensates for that so the visible logo
-   actually occupies the sidebar properly.
 ============================================================ */
 
 .portal-sidebar__logo {
+
     display: block;
 
     width: 150px;
@@ -87,12 +100,78 @@
     flex-shrink: 0;
 
     object-fit: contain;
+
     object-position: left center;
 
     transform: scale(1.65);
+
     transform-origin: left center;
 
     box-sizing: border-box;
+
+}
+
+
+/* ============================================================
+   MOBILE CLOSE BUTTON
+============================================================ */
+
+.portal-sidebar__mobile-close {
+
+    display: none;
+
+    width: 40px;
+    height: 40px;
+
+    flex-shrink: 0;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: 1px solid #e2e9f0;
+
+    border-radius: 11px;
+
+    background: #f7f9fc;
+
+    color: #64748b;
+
+    font-family: inherit;
+
+    font-size: 20px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background 180ms ease,
+        border-color 180ms ease,
+        color 180ms ease,
+        transform 180ms ease;
+
+}
+
+
+.portal-sidebar__mobile-close:hover {
+
+    background: #eef5fb;
+
+    border-color: #d4e2ee;
+
+    color: #075da5;
+
+    transform: rotate(4deg);
+
+}
+
+
+.portal-sidebar__mobile-close:active {
+
+    transform: scale(0.94);
+
 }
 
 
@@ -101,6 +180,7 @@
 ============================================================ */
 
 .portal-sidebar__nav {
+
     flex: 1;
 
     min-height: 0;
@@ -108,9 +188,11 @@
     padding: 30px 14px 18px;
 
     overflow-y: auto;
+
     overflow-x: hidden;
 
     box-sizing: border-box;
+
 }
 
 
@@ -119,6 +201,7 @@
 ============================================================ */
 
 .portal-sidebar__section-label {
+
     padding: 0 12px;
 
     margin-bottom: 12px;
@@ -126,6 +209,7 @@
     color: #8a9bb0;
 
     font-size: 10px;
+
     line-height: 1.2;
 
     font-weight: 800;
@@ -133,6 +217,7 @@
     letter-spacing: 0.12em;
 
     text-transform: uppercase;
+
 }
 
 
@@ -141,9 +226,11 @@
 ============================================================ */
 
 .portal-sidebar__link {
+
     position: relative;
 
     width: 100%;
+
     min-height: 48px;
 
     margin-bottom: 5px;
@@ -151,6 +238,7 @@
     padding: 0 14px;
 
     display: flex;
+
     align-items: center;
 
     gap: 13px;
@@ -164,6 +252,7 @@
     text-decoration: none;
 
     font-size: 14px;
+
     line-height: 1;
 
     font-weight: 650;
@@ -172,6 +261,7 @@
         background 180ms ease,
         color 180ms ease,
         transform 180ms ease;
+
 }
 
 
@@ -180,9 +270,11 @@
 ============================================================ */
 
 .portal-sidebar__link:hover {
+
     background: #f5f8fc;
 
     color: #075da5;
+
 }
 
 
@@ -191,9 +283,11 @@
 ============================================================ */
 
 .portal-sidebar__link.active {
+
     background: #eaf4fc;
 
     color: #075da5;
+
 }
 
 
@@ -202,12 +296,14 @@
 ============================================================ */
 
 .portal-sidebar__link.active::before {
+
     content: "";
 
     position: absolute;
 
     top: 9px;
     bottom: 9px;
+
     left: 0;
 
     width: 3px;
@@ -216,6 +312,7 @@
         0 4px 4px 0;
 
     background: #086bc7;
+
 }
 
 
@@ -224,10 +321,12 @@
 ============================================================ */
 
 .portal-sidebar__icon {
+
     width: 20px;
     height: 20px;
 
     flex-shrink: 0;
+
 }
 
 
@@ -236,6 +335,7 @@
 ============================================================ */
 
 .portal-sidebar__bottom {
+
     flex-shrink: 0;
 
     padding: 15px 14px 22px;
@@ -245,6 +345,7 @@
     background: #ffffff;
 
     box-sizing: border-box;
+
 }
 
 
@@ -253,17 +354,21 @@
 ============================================================ */
 
 .portal-sidebar__logout {
+
     width: 100%;
+
     min-height: 48px;
 
     padding: 0 14px;
 
     display: flex;
+
     align-items: center;
 
     gap: 13px;
 
     border: 0;
+
     border-radius: 12px;
 
     background: transparent;
@@ -283,13 +388,66 @@
     transition:
         background 180ms ease,
         color 180ms ease;
+
 }
 
 
 .portal-sidebar__logout:hover {
+
     background: #fff3f3;
 
     color: #dc2626;
+
+}
+
+
+/* ============================================================
+   MOBILE BACKDROP
+============================================================ */
+
+.portal-sidebar__mobile-backdrop {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 999;
+
+    background:
+        rgba(15,
+            31,
+            52,
+            0.40);
+
+    backdrop-filter: blur(2px);
+
+    -webkit-backdrop-filter: blur(2px);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transition:
+        opacity 220ms ease,
+        visibility 220ms ease;
+
+}
+
+
+/* ============================================================
+   MOBILE BACKDROP OPEN
+============================================================ */
+
+.portal-sidebar__mobile-backdrop.is-open {
+
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+
 }
 
 
@@ -298,31 +456,46 @@
 ============================================================ */
 
 .portal-sidebar__nav::-webkit-scrollbar {
+
     width: 4px;
+
 }
+
 
 .portal-sidebar__nav::-webkit-scrollbar-track {
+
     background: transparent;
+
 }
 
+
 .portal-sidebar__nav::-webkit-scrollbar-thumb {
+
     background: #dce5ee;
 
     border-radius: 999px;
+
 }
+
 
 .portal-sidebar__nav::-webkit-scrollbar-thumb:hover {
+
     background: #c8d5e2;
+
 }
 
 
-/* Firefox */
+/* ============================================================
+   FIREFOX SCROLLBAR
+============================================================ */
 
 .portal-sidebar__nav {
+
     scrollbar-width: thin;
 
     scrollbar-color:
         #dce5ee transparent;
+
 }
 
 
@@ -333,23 +506,33 @@
 @media (max-width: 992px) {
 
     .portal-sidebar {
+
         width: 230px;
+
     }
 
 
     .portal-sidebar__brand {
+
         height: 88px;
 
         padding: 0 20px;
+
     }
 
 
     .portal-sidebar__logo {
+
         width: 135px;
+
         height: 64px;
 
-        transform: scale(1.55);
-        transform-origin: left center;
+        transform:
+            scale(1.55);
+
+        transform-origin:
+            left center;
+
     }
 
 }
@@ -361,8 +544,257 @@
 
 @media (max-width: 768px) {
 
+    /*
+    ------------------------------------------------------------
+    SIDEBAR STARTS CLOSED
+    ------------------------------------------------------------
+    */
+
     .portal-sidebar {
-        display: none;
+
+        width: min(310px,
+                86vw);
+
+        height: 100vh;
+
+        height: 100dvh;
+
+        transform:
+            translateX(-105%);
+
+        box-shadow:
+            14px 0 40px rgba(20,
+                43,
+                70,
+                0.14);
+
+    }
+
+
+    /*
+    ------------------------------------------------------------
+    SIDEBAR OPEN
+    ------------------------------------------------------------
+    */
+
+    .portal-sidebar--mobile-open {
+
+        transform:
+            translateX(0);
+
+    }
+
+
+    /*
+    ------------------------------------------------------------
+    BRAND
+    ------------------------------------------------------------
+    */
+
+    .portal-sidebar__brand {
+
+        height: 82px;
+
+        padding: 0 18px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+    }
+
+
+    /*
+    ------------------------------------------------------------
+    BRAND LINK
+    ------------------------------------------------------------
+    */
+
+    .portal-sidebar__brand-link {
+
+        width: auto;
+
+        flex: 1;
+
+        min-width: 0;
+
+    }
+
+
+    /*
+    ------------------------------------------------------------
+    MOBILE LOGO
+    ------------------------------------------------------------
+    */
+
+    .portal-sidebar__logo {
+
+        width: 190px;
+
+        height: 58px;
+
+        transform:
+            scale(1.35);
+
+        transform-origin:
+            left center;
+
+    }
+
+
+    /*
+    ------------------------------------------------------------
+    CLOSE BUTTON
+    ------------------------------------------------------------
+    */
+
+    .portal-sidebar__mobile-close {
+
+        display: flex;
+
+    }
+
+
+    /*
+    ------------------------------------------------------------
+    NAVIGATION
+    ------------------------------------------------------------
+    */
+
+    .portal-sidebar__nav {
+
+        padding:
+            24px 14px 18px;
+
+    }
+
+
+    .portal-sidebar__section-label {
+
+        padding-left: 12px;
+
+        margin-bottom: 12px;
+
+    }
+
+
+    .portal-sidebar__link {
+
+        min-height: 52px;
+
+        margin-bottom: 6px;
+
+        font-size: 14px;
+
+    }
+
+
+    .portal-sidebar__icon {
+
+        width: 20px;
+
+        height: 20px;
+
+    }
+
+
+    /*
+    ------------------------------------------------------------
+    BOTTOM
+    ------------------------------------------------------------
+    */
+
+    .portal-sidebar__bottom {
+
+        padding:
+            15px 14px 18px;
+
+    }
+
+}
+
+
+/* ============================================================
+   SMALL MOBILE
+============================================================ */
+
+@media (max-width: 420px) {
+
+    .portal-sidebar {
+
+        width: 88vw;
+
+    }
+
+
+    .portal-sidebar__brand {
+
+        padding:
+            0 16px;
+
+    }
+
+
+    .portal-sidebar__logo {
+
+        width: 175px;
+
+        height: 54px;
+
+        transform:
+            scale(1.3);
+
+    }
+
+
+    .portal-sidebar__mobile-close {
+
+        width: 38px;
+
+        height: 38px;
+
+    }
+
+}
+
+
+/* ============================================================
+   BODY SCROLL LOCK
+============================================================ */
+
+body.portal-mobile-menu-open {
+
+    overflow: hidden;
+
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .portal-sidebar {
+
+        transition: none;
+
+    }
+
+
+    .portal-sidebar__mobile-backdrop {
+
+        transition: none;
+
+    }
+
+
+    .portal-sidebar__mobile-close {
+
+        transition: none;
+
     }
 
 }
