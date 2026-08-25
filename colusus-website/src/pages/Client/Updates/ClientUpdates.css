@@ -1,0 +1,1553 @@
+/* ============================================================
+   COLUSUS — CLIENT UPDATES
+   White / Premium Client Portal
+============================================================ */
+
+
+/* ============================================================
+   ROOT
+============================================================ */
+
+.client-updates {
+    position: relative;
+
+    width: 100%;
+    max-width: 1180px;
+
+    margin: 0 auto;
+
+    padding:
+        28px 28px 70px;
+
+    color: #14263d;
+}
+
+
+/* ============================================================
+   HEADER
+============================================================ */
+
+.updates-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 30px;
+
+    margin-bottom: 22px;
+}
+
+
+.updates-header-copy {
+    min-width: 0;
+}
+
+
+.updates-eyebrow {
+    display: inline-flex;
+    align-items: center;
+
+    margin-bottom: 7px;
+
+    color: #0874c9;
+
+    font-size: 9px;
+    line-height: 1;
+
+    font-weight: 800;
+
+    letter-spacing: 0.15em;
+
+    text-transform: uppercase;
+}
+
+
+.updates-header-copy h1 {
+    margin: 0;
+
+    color: #12263e;
+
+    font-size: 30px;
+    line-height: 1.12;
+
+    font-weight: 780;
+
+    letter-spacing: -0.04em;
+}
+
+
+.updates-header-copy p {
+    max-width: 590px;
+
+    margin:
+        8px 0 0;
+
+    color: #74859a;
+
+    font-size: 11px;
+    line-height: 1.65;
+}
+
+
+/* ============================================================
+   HEADER ACTIONS
+============================================================ */
+
+.updates-header-actions {
+    flex-shrink: 0;
+}
+
+
+.updates-refresh {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    min-height: 36px;
+
+    padding:
+        0 13px;
+
+    border:
+        1px solid #dce5ed;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: #536b82;
+
+    font-family: inherit;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        border-color 180ms ease,
+        background 180ms ease,
+        color 180ms ease;
+}
+
+
+.updates-refresh:hover {
+    border-color: #c9d8e5;
+
+    background: #f8fafc;
+
+    color: #183b5c;
+}
+
+
+.updates-refresh:disabled {
+    opacity: 0.55;
+
+    cursor: not-allowed;
+}
+
+
+.updates-refresh svg {
+    width: 14px;
+    height: 14px;
+}
+
+
+.updates-refresh .is-refreshing {
+    animation:
+        updatesSpin 0.8s linear infinite;
+}
+
+
+/* ============================================================
+   SUMMARY
+============================================================ */
+
+.updates-summary {
+    display: flex;
+    align-items: center;
+
+    min-height: 86px;
+
+    margin-bottom: 16px;
+
+    padding:
+        14px 17px;
+
+    border:
+        1px solid #e2e9ef;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 4px 18px rgba(18, 43, 67, 0.035);
+}
+
+
+.updates-summary-icon {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    margin-right: 12px;
+
+    border:
+        1px solid #d8e9f6;
+
+    border-radius: 10px;
+
+    background: #f2f8fd;
+
+    color: #0874c9;
+}
+
+
+.updates-summary-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+
+.updates-summary-copy {
+    min-width: 90px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+.updates-summary-copy span {
+    color: #8a99a9;
+
+    font-size: 8px;
+    line-height: 1.2;
+
+    font-weight: 750;
+
+    letter-spacing: 0.09em;
+
+    text-transform: uppercase;
+}
+
+
+.updates-summary-copy strong {
+    margin-top: 3px;
+
+    color: #18314c;
+
+    font-size: 19px;
+    line-height: 1.15;
+
+    font-weight: 780;
+
+    letter-spacing: -0.025em;
+}
+
+
+.updates-summary-copy small {
+    margin-top: 2px;
+
+    color: #9aa7b4;
+
+    font-size: 8px;
+    line-height: 1.3;
+}
+
+
+.updates-summary-divider {
+    width: 1px;
+    height: 40px;
+
+    flex-shrink: 0;
+
+    margin:
+        0 28px;
+
+    background: #e8edf2;
+}
+
+
+.updates-summary-action {
+    margin-left: auto;
+}
+
+
+.updates-summary-action button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    min-height: 34px;
+
+    padding:
+        0 11px;
+
+    border:
+        1px solid #dce6ee;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #587087;
+
+    font-family: inherit;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 180ms ease,
+        border-color 180ms ease,
+        color 180ms ease;
+}
+
+
+.updates-summary-action button:hover:not(:disabled) {
+    border-color: #c7d8e5;
+
+    background: #f7fafc;
+
+    color: #173a59;
+}
+
+
+.updates-summary-action button:disabled {
+    opacity: 0.45;
+
+    cursor: not-allowed;
+}
+
+
+.updates-summary-action svg {
+    width: 13px;
+    height: 13px;
+}
+
+
+/* ============================================================
+   TOOLBAR
+============================================================ */
+
+.updates-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 18px;
+}
+
+
+.updates-filters {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 4px;
+
+    padding: 3px;
+
+    border:
+        1px solid #e3e9ef;
+
+    border-radius: 9px;
+
+    background: #f7f9fb;
+}
+
+
+.updates-filters button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    min-height: 29px;
+
+    padding:
+        0 10px;
+
+    border: 0;
+
+    border-radius: 6px;
+
+    background: transparent;
+
+    color: #7b8b9c;
+
+    font-family: inherit;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 160ms ease,
+        color 160ms ease,
+        box-shadow 160ms ease;
+}
+
+
+.updates-filters button:hover {
+    color: #304d68;
+}
+
+
+.updates-filters button.active {
+    background: #ffffff;
+
+    color: #1a3b59;
+
+    box-shadow:
+        0 2px 6px rgba(21, 47, 70, 0.07);
+}
+
+
+.updates-filters button span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 17px;
+    height: 17px;
+
+    padding:
+        0 4px;
+
+    border-radius: 50%;
+
+    background: #e9eff4;
+
+    color: #718398;
+
+    font-size: 7px;
+}
+
+
+.updates-filters button.active span {
+    background: #eaf5fc;
+
+    color: #0874c9;
+}
+
+
+/* ============================================================
+   ERROR
+============================================================ */
+
+.updates-error {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 16px;
+
+    padding:
+        12px 13px;
+
+    border:
+        1px solid #f0dada;
+
+    border-radius: 10px;
+
+    background: #fff8f8;
+}
+
+
+.updates-error>svg {
+    width: 17px;
+    height: 17px;
+
+    flex-shrink: 0;
+
+    color: #c65c5c;
+}
+
+
+.updates-error>div {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+.updates-error strong {
+    color: #8d3d3d;
+
+    font-size: 9px;
+    font-weight: 750;
+}
+
+
+.updates-error span {
+    margin-top: 2px;
+
+    color: #9b6c6c;
+
+    font-size: 8px;
+}
+
+
+.updates-error button {
+    margin-left: auto;
+
+    flex-shrink: 0;
+
+    border: 0;
+
+    background: transparent;
+
+    color: #a34b4b;
+
+    font-family: inherit;
+
+    font-size: 8px;
+    font-weight: 750;
+
+    cursor: pointer;
+}
+
+
+/* ============================================================
+   FEED
+============================================================ */
+
+.updates-feed {
+    width: 100%;
+}
+
+
+.updates-group {
+    margin-bottom: 22px;
+}
+
+
+.updates-group-heading {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 8px;
+
+    padding:
+        0 2px;
+}
+
+
+.updates-group-heading span {
+    flex-shrink: 0;
+
+    color: #8796a6;
+
+    font-size: 8px;
+    line-height: 1;
+
+    font-weight: 800;
+
+    letter-spacing: 0.13em;
+
+    text-transform: uppercase;
+}
+
+
+.updates-group-heading i {
+    width: 100%;
+    height: 1px;
+
+    background: #edf1f4;
+}
+
+
+/* ============================================================
+   LIST
+============================================================ */
+
+.updates-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+
+/* ============================================================
+   UPDATE CARD
+============================================================ */
+
+.update-card {
+    position: relative;
+
+    display: flex;
+    align-items: flex-start;
+
+    gap: 12px;
+
+    min-width: 0;
+
+    padding:
+        14px 14px 14px 15px;
+
+    border:
+        1px solid #e5ebf0;
+
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 2px 10px rgba(21, 48, 71, 0.025);
+
+    transition:
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        transform 180ms ease,
+        background 180ms ease;
+}
+
+
+.update-card:hover {
+    border-color: #d6e1e9;
+
+    box-shadow:
+        0 6px 20px rgba(20, 48, 72, 0.055);
+
+    transform: translateY(-1px);
+}
+
+
+.update-card.unread {
+    border-color: #d6e8f5;
+
+    background:
+        linear-gradient(90deg,
+            #fbfdff 0%,
+            #ffffff 100%);
+}
+
+
+/* ============================================================
+   UNREAD MARKER
+============================================================ */
+
+.update-unread-dot {
+    position: absolute;
+
+    top: 16px;
+    left: 5px;
+
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: #0874c9;
+
+    box-shadow:
+        0 0 0 3px rgba(8, 116, 201, 0.08);
+}
+
+
+/* ============================================================
+   ICON
+============================================================ */
+
+.update-icon {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border:
+        1px solid transparent;
+
+    border-radius: 9px;
+}
+
+
+.update-icon svg {
+    width: 17px;
+    height: 17px;
+}
+
+
+.update-icon.application,
+.update-icon.status {
+    background: #eef7fd;
+
+    border-color: #dcecf7;
+
+    color: #0874c9;
+}
+
+
+.update-icon.approved {
+    background: #eef9f4;
+
+    border-color: #d9eee2;
+
+    color: #2d9966;
+}
+
+
+.update-icon.rejected {
+    background: #fff3f3;
+
+    border-color: #f2dddd;
+
+    color: #c45d5d;
+}
+
+
+.update-icon.action {
+    background: #fff8ed;
+
+    border-color: #f2e5ce;
+
+    color: #c08435;
+}
+
+
+.update-icon.general {
+    background: #f3f5f8;
+
+    border-color: #e5e9ee;
+
+    color: #718298;
+}
+
+
+/* ============================================================
+   CONTENT
+============================================================ */
+
+.update-content {
+    min-width: 0;
+
+    flex: 1;
+}
+
+
+.update-topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-bottom: 4px;
+}
+
+
+.update-type {
+    color: #8797a7;
+
+    font-size: 7px;
+    line-height: 1.2;
+
+    font-weight: 800;
+
+    letter-spacing: 0.09em;
+
+    text-transform: uppercase;
+}
+
+
+.update-topline time {
+    flex-shrink: 0;
+
+    color: #9aa7b4;
+
+    font-size: 8px;
+    line-height: 1.2;
+}
+
+
+.update-content h3 {
+    margin: 0;
+
+    color: #1a3048;
+
+    font-size: 12px;
+    line-height: 1.35;
+
+    font-weight: 750;
+
+    letter-spacing: -0.01em;
+}
+
+
+.update-card.unread .update-content h3 {
+    color: #132b45;
+}
+
+
+.update-content p {
+    max-width: 760px;
+
+    margin:
+        4px 0 0;
+
+    color: #748599;
+
+    font-size: 9px;
+    line-height: 1.55;
+}
+
+
+/* ============================================================
+   META
+============================================================ */
+
+.update-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 6px;
+
+    margin-top: 7px;
+}
+
+
+.update-meta span {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 4px;
+
+    min-height: 21px;
+
+    padding:
+        0 7px;
+
+    border:
+        1px solid #e5ebf0;
+
+    border-radius: 5px;
+
+    background: #f8fafb;
+
+    color: #78899a;
+
+    font-size: 7px;
+    font-weight: 650;
+}
+
+
+.update-meta svg {
+    width: 11px;
+    height: 11px;
+
+    color: #8495a5;
+}
+
+
+/* ============================================================
+   ACTIONS
+============================================================ */
+
+.update-actions {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 9px;
+}
+
+
+.update-actions button {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 5px;
+
+    padding: 0;
+
+    border: 0;
+
+    background: transparent;
+
+    color: #0874c9;
+
+    font-family: inherit;
+
+    font-size: 8px;
+    line-height: 1.3;
+
+    font-weight: 750;
+
+    cursor: pointer;
+}
+
+
+.update-actions button:hover {
+    color: #055a9d;
+}
+
+
+.update-actions button:disabled {
+    opacity: 0.45;
+
+    cursor: not-allowed;
+}
+
+
+.update-actions svg {
+    width: 11px;
+    height: 11px;
+}
+
+
+.update-actions .update-view-button {
+    color: #718397;
+}
+
+
+.update-actions .update-view-button:hover {
+    color: #294963;
+}
+
+
+/* ============================================================
+   DELETE
+============================================================ */
+
+.update-delete {
+    width: 27px;
+    height: 27px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    margin-left: 3px;
+
+    border: 0;
+
+    border-radius: 7px;
+
+    background: transparent;
+
+    color: #b2bdc7;
+
+    cursor: pointer;
+
+    opacity: 0;
+
+    transition:
+        opacity 160ms ease,
+        background 160ms ease,
+        color 160ms ease;
+}
+
+
+.update-card:hover .update-delete,
+.update-delete:focus-visible {
+    opacity: 1;
+}
+
+
+.update-delete:hover {
+    background: #fff3f3;
+
+    color: #c15c5c;
+}
+
+
+.update-delete:disabled {
+    opacity: 0.4;
+
+    cursor: not-allowed;
+}
+
+
+.update-delete svg {
+    width: 13px;
+    height: 13px;
+}
+
+
+/* ============================================================
+   EMPTY STATE
+============================================================ */
+
+.updates-empty {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    padding:
+        58px 20px;
+
+    border:
+        1px solid #e4eaf0;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    text-align: center;
+}
+
+
+.updates-empty-icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 13px;
+
+    border:
+        1px solid #e2e9ef;
+
+    border-radius: 13px;
+
+    background: #f7f9fb;
+
+    color: #8b9bab;
+}
+
+
+.updates-empty-icon svg {
+    width: 21px;
+    height: 21px;
+}
+
+
+.updates-empty>span {
+    color: #8b9aaa;
+
+    font-size: 7px;
+    line-height: 1;
+
+    font-weight: 800;
+
+    letter-spacing: 0.14em;
+}
+
+
+.updates-empty h2 {
+    margin:
+        7px 0 0;
+
+    color: #20374f;
+
+    font-size: 17px;
+    line-height: 1.2;
+
+    font-weight: 760;
+
+    letter-spacing: -0.025em;
+}
+
+
+.updates-empty p {
+    max-width: 390px;
+
+    margin:
+        6px 0 0;
+
+    color: #8291a1;
+
+    font-size: 9px;
+    line-height: 1.6;
+}
+
+
+/* ============================================================
+   LOADING
+============================================================ */
+
+.updates-loading {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+
+.updates-loading-card {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 12px;
+
+    min-height: 90px;
+
+    padding: 14px;
+
+    border:
+        1px solid #e7ecf0;
+
+    border-radius: 12px;
+
+    background: #ffffff;
+}
+
+
+.updates-loading-card>span {
+    width: 36px;
+    height: 36px;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    background:
+        linear-gradient(90deg,
+            #f0f3f6 25%,
+            #e8edf1 50%,
+            #f0f3f6 75%);
+
+    background-size: 200% 100%;
+
+    animation:
+        updatesSkeleton 1.3s infinite;
+}
+
+
+.updates-loading-card>div {
+    flex: 1;
+
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+
+.updates-loading-card b,
+.updates-loading-card i,
+.updates-loading-card em {
+    display: block;
+
+    height: 7px;
+
+    border-radius: 4px;
+
+    background:
+        linear-gradient(90deg,
+            #f0f3f6 25%,
+            #e8edf1 50%,
+            #f0f3f6 75%);
+
+    background-size: 200% 100%;
+
+    animation:
+        updatesSkeleton 1.3s infinite;
+}
+
+
+.updates-loading-card b {
+    width: 35%;
+}
+
+
+.updates-loading-card i {
+    width: 70%;
+}
+
+
+.updates-loading-card em {
+    width: 52%;
+}
+
+
+/* ============================================================
+   FOCUS
+============================================================ */
+
+.updates-refresh:focus-visible,
+.updates-summary-action button:focus-visible,
+.updates-filters button:focus-visible,
+.update-actions button:focus-visible,
+.update-delete:focus-visible,
+.updates-error button:focus-visible {
+    outline:
+        2px solid rgba(8, 116, 201, 0.35);
+
+    outline-offset: 2px;
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 900px) {
+
+    .client-updates {
+        padding:
+            24px 20px 60px;
+    }
+
+
+    .updates-header-copy h1 {
+        font-size: 27px;
+    }
+
+
+    .updates-summary-divider {
+        margin:
+            0 20px;
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 680px) {
+
+    .client-updates {
+        padding:
+            20px 14px 50px;
+    }
+
+
+    .updates-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 14px;
+
+        margin-bottom: 17px;
+    }
+
+
+    .updates-header-copy h1 {
+        font-size: 24px;
+    }
+
+
+    .updates-header-copy p {
+        max-width: 100%;
+
+        font-size: 10px;
+    }
+
+
+    .updates-header-actions {
+        width: 100%;
+    }
+
+
+    .updates-refresh {
+        width: 100%;
+    }
+
+
+    .updates-summary {
+        min-height: auto;
+
+        display: grid;
+
+        grid-template-columns:
+            auto minmax(0, 1fr) minmax(0, 1fr);
+
+        gap: 10px;
+
+        padding: 13px;
+    }
+
+
+    .updates-summary-icon {
+        width: 35px;
+        height: 35px;
+
+        margin-right: 0;
+    }
+
+
+    .updates-summary-divider {
+        display: none;
+    }
+
+
+    .updates-summary-copy {
+        min-width: 0;
+
+        padding-left: 4px;
+    }
+
+
+    .updates-summary-copy strong {
+        font-size: 17px;
+    }
+
+
+    .updates-summary-action {
+        grid-column:
+            1 / -1;
+
+        margin:
+            2px 0 0;
+    }
+
+
+    .updates-summary-action button {
+        width: 100%;
+    }
+
+
+    .updates-toolbar {
+        margin-bottom: 14px;
+    }
+
+
+    .updates-filters {
+        width: 100%;
+    }
+
+
+    .updates-filters button {
+        flex: 1;
+    }
+
+
+    .update-card {
+        gap: 9px;
+
+        padding:
+            12px 11px;
+    }
+
+
+    .update-icon {
+        width: 32px;
+        height: 32px;
+
+        border-radius: 8px;
+    }
+
+
+    .update-icon svg {
+        width: 15px;
+        height: 15px;
+    }
+
+
+    .update-content h3 {
+        font-size: 11px;
+    }
+
+
+    .update-content p {
+        font-size: 8px;
+    }
+
+
+    .update-topline time {
+        font-size: 7px;
+    }
+
+
+    .update-delete {
+        opacity: 1;
+
+        width: 24px;
+        height: 24px;
+    }
+
+
+    .updates-empty {
+        padding:
+            48px 16px;
+    }
+
+}
+
+
+/* ============================================================
+   SMALL MOBILE
+============================================================ */
+
+@media (max-width: 420px) {
+
+    .client-updates {
+        padding:
+            17px 10px 40px;
+    }
+
+
+    .updates-header-copy h1 {
+        font-size: 22px;
+    }
+
+
+    .updates-summary {
+        grid-template-columns:
+            35px 1fr 1fr;
+
+        padding: 11px;
+    }
+
+
+    .updates-summary-copy span {
+        font-size: 7px;
+    }
+
+
+    .updates-summary-copy strong {
+        font-size: 15px;
+    }
+
+
+    .updates-summary-copy small {
+        font-size: 7px;
+    }
+
+
+    .update-card {
+        position: relative;
+
+        padding:
+            11px 9px;
+    }
+
+
+    .update-unread-dot {
+        left: 3px;
+    }
+
+
+    .update-icon {
+        width: 29px;
+        height: 29px;
+    }
+
+
+    .update-icon svg {
+        width: 14px;
+        height: 14px;
+    }
+
+
+    .update-topline {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 3px;
+    }
+
+
+    .update-content h3 {
+        font-size: 10px;
+    }
+
+
+    .update-content p {
+        font-size: 8px;
+    }
+
+
+    .update-meta {
+        gap: 4px;
+    }
+
+
+    .update-meta span {
+        font-size: 6px;
+    }
+
+
+    .update-actions {
+        gap: 9px;
+    }
+
+
+    .update-actions button {
+        font-size: 7px;
+    }
+
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .update-card,
+    .updates-refresh,
+    .updates-filters button,
+    .update-delete {
+        transition: none;
+    }
+
+
+    .updates-refresh .is-refreshing,
+    .updates-loading-card b,
+    .updates-loading-card i,
+    .updates-loading-card em,
+    .updates-loading-card>span {
+        animation: none;
+    }
+
+}
+
+
+/* ============================================================
+   ANIMATIONS
+============================================================ */
+
+@keyframes updatesSpin {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+@keyframes updatesSkeleton {
+
+    0% {
+        background-position:
+            200% 0;
+    }
+
+    100% {
+        background-position:
+            -200% 0;
+    }
+
+}

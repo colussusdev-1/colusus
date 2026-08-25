@@ -8,13 +8,10 @@
     grid-template-columns: 46px minmax(0, 1fr) auto;
     align-items: center;
     gap: 16px;
-
     padding: 17px 18px;
-
     background: #ffffff;
     border: 1px solid #e8edf3;
     border-radius: 16px;
-
     transition:
         border-color 0.2s ease,
         box-shadow 0.2s ease,
@@ -35,15 +32,11 @@
 .document-status-icon {
     width: 46px;
     height: 46px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     flex-shrink: 0;
-
     border-radius: 13px;
-
     font-size: 21px;
 }
 
@@ -95,13 +88,10 @@
 
 .document-row-content h3 {
     margin: 0;
-
     color: #142235;
-
     font-size: 15px;
     font-weight: 650;
     line-height: 1.35;
-
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -112,11 +102,8 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 7px;
-
     margin-top: 6px;
-
     color: #7b8795;
-
     font-size: 12px;
     line-height: 1.4;
 }
@@ -143,18 +130,13 @@
 .document-review-note {
     width: fit-content;
     max-width: 100%;
-
     margin-top: 9px;
     padding: 7px 10px;
-
     border-radius: 8px;
-
     background: #fff7e8;
     color: #93600b;
-
     font-size: 11px;
     line-height: 1.45;
-
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -169,7 +151,6 @@
     align-items: center;
     justify-content: flex-end;
     gap: 9px;
-
     flex-shrink: 0;
 }
 
@@ -182,17 +163,12 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-
     min-height: 28px;
-
     padding: 5px 10px;
-
     border-radius: 999px;
-
     font-size: 11px;
     font-weight: 650;
     line-height: 1;
-
     white-space: nowrap;
 }
 
@@ -221,7 +197,7 @@
 }
 
 
-/* Rejected */
+/* Rejected / Re-upload */
 
 .document-status-badge.status-reupload,
 .document-status-badge.status-rejected {
@@ -234,6 +210,14 @@
    VIEW BUTTON
 ============================================================ */
 
+/*
+   This is now a BUTTON instead of an <a>.
+
+   We intentionally reset the browser's native button styling
+   because this action opens the internal Colusus document
+   viewer rather than directly opening the Cloudinary URL.
+*/
+
 .document-view-button {
     width: 34px;
     height: 34px;
@@ -242,24 +226,40 @@
     align-items: center;
     justify-content: center;
 
+    flex-shrink: 0;
+
+    padding: 0;
+
     border: 1px solid #e3e8ee;
     border-radius: 9px;
 
     background: #ffffff;
     color: #526274;
 
+    font-family: inherit;
+    font-size: inherit;
+
+    line-height: 1;
+
     text-decoration: none;
+
+    cursor: pointer;
+
+    appearance: none;
+    -webkit-appearance: none;
 
     transition:
         background 0.2s ease,
         border-color 0.2s ease,
         color 0.2s ease,
-        transform 0.2s ease;
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .document-view-button svg {
     width: 16px;
     height: 16px;
+    flex-shrink: 0;
 }
 
 .document-view-button:hover {
@@ -267,6 +267,20 @@
     border-color: #d4dce5;
     color: #123b66;
     transform: translateY(-1px);
+}
+
+.document-view-button:active {
+    transform: translateY(0);
+    background: #eef3f8;
+}
+
+.document-view-button:focus {
+    outline: none;
+}
+
+.document-view-button:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.16);
+    outline-offset: 2px;
 }
 
 
@@ -278,6 +292,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+
     gap: 6px;
 
     min-height: 34px;
@@ -294,7 +309,12 @@
     font-size: 11px;
     font-weight: 650;
 
+    line-height: 1;
+
     cursor: pointer;
+
+    appearance: none;
+    -webkit-appearance: none;
 
     transition:
         background 0.2s ease,
@@ -305,6 +325,7 @@
 .document-upload-small svg {
     width: 14px;
     height: 14px;
+    flex-shrink: 0;
 }
 
 .document-upload-small:hover {
@@ -317,8 +338,11 @@
     transform: translateY(0);
 }
 
-.document-upload-small:focus-visible,
-.document-view-button:focus-visible {
+.document-upload-small:focus {
+    outline: none;
+}
+
+.document-upload-small:focus-visible {
     outline: 3px solid rgba(37, 99, 235, 0.16);
     outline-offset: 2px;
 }
@@ -351,7 +375,6 @@
     .document-row {
         grid-template-columns: 40px minmax(0, 1fr);
         gap: 12px;
-
         padding: 14px;
         border-radius: 14px;
     }
@@ -360,9 +383,7 @@
     .document-status-icon {
         width: 40px;
         height: 40px;
-
         border-radius: 11px;
-
         font-size: 18px;
     }
 
@@ -379,7 +400,6 @@
 
     .document-row-meta {
         margin-top: 5px;
-
         font-size: 11px;
         gap: 5px;
     }
@@ -415,6 +435,12 @@
     }
 
 
+    .document-view-button svg {
+        width: 15px;
+        height: 15px;
+    }
+
+
     .document-upload-small {
         min-height: 32px;
 
@@ -443,7 +469,9 @@
 
 
     .document-row-meta>span:nth-child(even) {
-        /* Keep metadata compact on very narrow screens */
+        /*
+        Keep metadata compact on very narrow screens.
+        */
     }
 
 
@@ -454,6 +482,12 @@
 
     .document-upload-small {
         padding: 0 9px;
+    }
+
+
+    .document-view-button {
+        width: 31px;
+        height: 31px;
     }
 
 }

@@ -52,13 +52,91 @@ console.log("Allowed Origins:", allowedOrigins);
 console.log("CLIENT_URL:", config.clientUrl);
 console.log("=================================");
 
+/*
+|--------------------------------------------------------------------------
+| Explicit CORS / Preflight Middleware
+|--------------------------------------------------------------------------
+|
+| We handle OPTIONS requests explicitly here.
+|
+| This is important because the browser sends an OPTIONS
+| preflight request before authenticated API requests.
+|
+|--------------------------------------------------------------------------
+*/
+
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+
+  /*
+    |--------------------------------------------------------------------------
+    | No Origin
+    |--------------------------------------------------------------------------
+    */
+
+  if (!origin) {
+    return next();
+  }
+
+  const normalizedOrigin = origin.trim().replace(/\/$/, "");
+
+  /*
+    |--------------------------------------------------------------------------
+    | Allowed Origin
+    |--------------------------------------------------------------------------
+    */
+
+  if (allowedOrigins.includes(normalizedOrigin)) {
+    res.header("Access-Control-Allow-Origin", normalizedOrigin);
+
+    res.header("Access-Control-Allow-Credentials", "true");
+
+    res.header(
+      "Access-Control-Allow-Methods",
+      "GET,POST,PUT,PATCH,DELETE,OPTIONS",
+    );
+
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+    );
+
+    res.header("Vary", "Origin");
+  }
+
+  /*
+    |--------------------------------------------------------------------------
+    | OPTIONS / PREFLIGHT
+    |--------------------------------------------------------------------------
+    */
+
+  if (req.method === "OPTIONS") {
+    if (allowedOrigins.includes(normalizedOrigin)) {
+      return res.sendStatus(204);
+    }
+
+    return res.status(403).json({
+      success: false,
+      message: "CORS origin not allowed",
+    });
+  }
+
+  next();
+});
+
+/*
+|--------------------------------------------------------------------------
+| CORS Package
+|--------------------------------------------------------------------------
+*/
+
 app.use(
   cors({
     origin: (origin, callback) => {
       /*
-            |--------------------------------------------------------------------------
-            | Requests Without Origin
-            |--------------------------------------------------------------------------
+            |----------------------------------------------------------------------
+            | Requests without Origin
+            |----------------------------------------------------------------------
             */
 
       if (!origin) {
@@ -68,9 +146,9 @@ app.use(
       const normalizedOrigin = origin.trim().replace(/\/$/, "");
 
       /*
-            |--------------------------------------------------------------------------
-            | Allowed Origin
-            |--------------------------------------------------------------------------
+            |----------------------------------------------------------------------
+            | Allowed Origins
+            |----------------------------------------------------------------------
             */
 
       if (allowedOrigins.includes(normalizedOrigin)) {
@@ -78,9 +156,9 @@ app.use(
       }
 
       /*
-            |--------------------------------------------------------------------------
-            | Local Development
-            |--------------------------------------------------------------------------
+            |----------------------------------------------------------------------
+            | Localhost Development
+            |----------------------------------------------------------------------
             */
 
       if (normalizedOrigin.startsWith("http://localhost:")) {
@@ -88,9 +166,9 @@ app.use(
       }
 
       /*
-            |--------------------------------------------------------------------------
+            |----------------------------------------------------------------------
             | Block Unknown Origin
-            |--------------------------------------------------------------------------
+            |----------------------------------------------------------------------
             */
 
       console.error("CORS BLOCKED ORIGIN:", normalizedOrigin);

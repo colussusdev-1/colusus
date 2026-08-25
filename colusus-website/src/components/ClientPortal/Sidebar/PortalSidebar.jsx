@@ -12,6 +12,9 @@ import {
 
 import "./PortalSidebar.css";
 
+import colususLogo from "../../../assets/logo.png";
+
+
 const PortalSidebar = () => {
 
     const navigation = [
@@ -43,8 +46,47 @@ const PortalSidebar = () => {
         },
     ];
 
+
+    const handleLogout = () => {
+
+        /*
+        ------------------------------------------------------
+        CLEAR AUTHENTICATION
+        ------------------------------------------------------
+        */
+
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+
+
+        /*
+        ------------------------------------------------------
+        NOTIFY OTHER PORTAL COMPONENTS
+        ------------------------------------------------------
+        */
+
+        window.dispatchEvent(
+            new CustomEvent(
+                "colusus:user-updated",
+            ),
+        );
+
+
+        /*
+        ------------------------------------------------------
+        REDIRECT
+        ------------------------------------------------------
+        */
+
+        window.location.href = "/login";
+
+    };
+
+
     return (
+
         <aside className="portal-sidebar">
+
 
             {/* =================================================
                 BRAND
@@ -52,21 +94,19 @@ const PortalSidebar = () => {
 
             <div className="portal-sidebar__brand">
 
-                <div className="portal-sidebar__logo">
-                    C
-                </div>
+                <NavLink
+                    to="/portal"
+                    className="portal-sidebar__brand-link"
+                    aria-label="Colusus Client Portal"
+                >
 
-                <div className="portal-sidebar__brand-text">
+                    <img
+                        src={colususLogo}
+                        alt="Colusus"
+                        className="portal-sidebar__logo"
+                    />
 
-                    <strong>
-                        COLUSUS
-                    </strong>
-
-                    <span>
-                        Migration Platform
-                    </span>
-
-                </div>
+                </NavLink>
 
             </div>
 
@@ -75,34 +115,46 @@ const PortalSidebar = () => {
                 NAVIGATION
             ================================================= */}
 
-            <nav className="portal-sidebar__nav">
+            <nav
+                className="portal-sidebar__nav"
+                aria-label="Client portal navigation"
+            >
 
                 <div className="portal-sidebar__section-label">
                     Workspace
                 </div>
 
+
                 {navigation.map((item) => {
 
                     const Icon = item.icon;
 
+
                     return (
+
                         <NavLink
                             key={item.path}
                             to={item.path}
                             end={item.end}
                             className={({ isActive }) =>
-                                `portal-sidebar__link ${isActive ? "active" : ""
+                                `portal-sidebar__link ${isActive
+                                    ? "active"
+                                    : ""
                                 }`
                             }
                         >
 
-                            <Icon className="portal-sidebar__icon" />
+                            <Icon
+                                className="portal-sidebar__icon"
+                                aria-hidden="true"
+                            />
 
                             <span>
                                 {item.label}
                             </span>
 
                         </NavLink>
+
                     );
 
                 })}
@@ -116,16 +168,24 @@ const PortalSidebar = () => {
 
             <div className="portal-sidebar__bottom">
 
+
+                {/* =================================================
+                    HELP
+                ================================================= */}
+
                 <NavLink
                     to="/portal/help"
                     className={({ isActive }) =>
-                        `portal-sidebar__link ${isActive ? "active" : ""
+                        `portal-sidebar__link ${isActive
+                            ? "active"
+                            : ""
                         }`
                     }
                 >
 
                     <HiOutlineQuestionMarkCircle
                         className="portal-sidebar__icon"
+                        aria-hidden="true"
                     />
 
                     <span>
@@ -135,13 +195,19 @@ const PortalSidebar = () => {
                 </NavLink>
 
 
+                {/* =================================================
+                    LOGOUT
+                ================================================= */}
+
                 <button
                     type="button"
                     className="portal-sidebar__logout"
+                    onClick={handleLogout}
                 >
 
                     <HiOutlineLogout
                         className="portal-sidebar__icon"
+                        aria-hidden="true"
                     />
 
                     <span>
@@ -153,7 +219,10 @@ const PortalSidebar = () => {
             </div>
 
         </aside>
+
     );
+
 };
+
 
 export default PortalSidebar;

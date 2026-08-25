@@ -7,7 +7,20 @@
 ============================================================ */
 
 import australiaImage from "../../../assets/images/countries/australia.jpg";
+import bulgariaImage from "../../../assets/images/countries/bulgaria.jpg";
 import canadaImage from "../../../assets/images/countries/canada.jpg";
+import croatiaImage from "../../../assets/images/countries/croatia.jpg";
+import finlandImage from "../../../assets/images/countries/finland.jpg";
+import germanyImage from "../../../assets/images/countries/germany.jpg";
+import hungaryImage from "../../../assets/images/countries/hungary.jpg";
+import latviaImage from "../../../assets/images/countries/latvia.jpg";
+import lithuaniaImage from "../../../assets/images/countries/lithuania.jpg";
+import norwayImage from "../../../assets/images/countries/norway.jpg";
+import polandImage from "../../../assets/images/countries/poland.jpg";
+import romaniaImage from "../../../assets/images/countries/romania.jpg";
+import serbiaImage from "../../../assets/images/countries/serbia.jpg";
+import spainImage from "../../../assets/images/countries/spain.jpg";
+import unitedKingdomImage from "../../../assets/images/countries/uk.jpg";
 
 /* ============================================================
    COUNTRY FLAGS
@@ -33,7 +46,35 @@ import usaFlag from "../../../assets/flags/usa.png";
 export const COUNTRY_IMAGES = {
   AUSTRALIA: australiaImage,
 
+  BULGARIA: bulgariaImage,
+
   CANADA: canadaImage,
+
+  CROATIA: croatiaImage,
+
+  FINLAND: finlandImage,
+
+  GERMANY: germanyImage,
+
+  HUNGARY: hungaryImage,
+
+  LATVIA: latviaImage,
+
+  LITHUANIA: lithuaniaImage,
+
+  NORWAY: norwayImage,
+
+  POLAND: polandImage,
+
+  ROMANIA: romaniaImage,
+
+  SERBIA: serbiaImage,
+
+  SPAIN: spainImage,
+
+  "UNITED KINGDOM": unitedKingdomImage,
+
+  UK: unitedKingdomImage,
 };
 
 /* ============================================================
@@ -76,12 +117,6 @@ export const COUNTRY_FLAGS = {
    COUNTRY ALIASES
 ============================================================ */
 
-/*
- * These allow the UI to remain reliable even when
- * opportunity/application data uses slightly different
- * country names.
- */
-
 export const COUNTRY_ALIASES = {
   /* Australia */
 
@@ -98,6 +133,8 @@ export const COUNTRY_ALIASES = {
   "GREAT BRITAIN": "UNITED KINGDOM",
 
   UK: "UNITED KINGDOM",
+
+  ENGLAND: "UNITED KINGDOM",
 
   /* United States */
 
@@ -119,11 +156,8 @@ export const normalizeCountry = (country) => {
 
   const normalizedCountry = String(country)
     .trim()
-
     .toUpperCase()
-
     .replace(/[_-]+/g, " ")
-
     .replace(/\s+/g, " ");
 
   return COUNTRY_ALIASES[normalizedCountry] || normalizedCountry;
@@ -160,11 +194,19 @@ export const COUNTRY_CODES = {
 
   CANADA: "CA",
 
+  CROATIA: "HR",
+
+  FINLAND: "FI",
+
   GERMANY: "DE",
 
   HUNGARY: "HU",
 
-  NIGERIA: "NG",
+  LATVIA: "LV",
+
+  LITHUANIA: "LT",
+
+  NORWAY: "NO",
 
   POLAND: "PL",
 
@@ -172,11 +214,15 @@ export const COUNTRY_CODES = {
 
   SERBIA: "RS",
 
-  SINGAPORE: "SG",
+  SPAIN: "ES",
 
   "UNITED KINGDOM": "GB",
 
   "UNITED STATES": "US",
+
+  NIGERIA: "NG",
+
+  SINGAPORE: "SG",
 };
 
 /* ============================================================

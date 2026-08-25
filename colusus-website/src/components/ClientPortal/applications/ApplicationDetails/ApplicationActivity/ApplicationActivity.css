@@ -422,3 +422,58 @@
     }
 
 }
+
+/* =========================================================
+   ATTENTION ACTIVITIES
+========================================================= */
+
+.application-activity-item.attention .application-activity-marker-icon {
+
+    border-color: #f0d8d8;
+
+    background: #fff6f6;
+
+    color: #c76a6a;
+}
+
+
+/* =========================================================
+   CREATED / STARTED
+========================================================= */
+
+.application-activity-item.updated .application-activity-marker-icon {
+
+    border-color: #dce6ef;
+
+    background: #f5f8fa;
+
+    color: #6e849a;
+}
+
+
+/* =========================================================
+   SUBMITTED / APPROVED
+========================================================= */
+
+.application-activity-item.completed .application-activity-marker-icon {
+
+    border-color: #d5eee0;
+
+    background: #f0faf5;
+
+    color: #2c9b65;
+}
+
+
+/* =========================================================
+   DOCUMENT EVENTS
+========================================================= */
+
+.application-activity-item.document .application-activity-marker-icon {
+
+    border-color: #dcebf5;
+
+    background: #f2f9fd;
+
+    color: #0872c8;
+}

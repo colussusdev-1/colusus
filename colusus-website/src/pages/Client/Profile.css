@@ -1,0 +1,92 @@
+/* =========================================================
+   COLUSUS — CLIENT PROFILE
+========================================================= */
+
+.profile-page {
+    width: 100%;
+    min-height: 100%;
+    padding: 30px;
+    background: #f7f9fc;
+}
+
+
+.profile-page-container {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+
+.profile-page-container h1 {
+    margin: 0;
+
+    color: #142b46;
+
+    font-size: 30px;
+    font-weight: 760;
+
+    letter-spacing: -0.04em;
+}
+
+
+.profile-page-container p {
+    margin: 8px 0 0;
+
+    color: #718198;
+
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .profile-page {
+        padding: 20px 16px;
+    }
+
+
+    .profile-page-container h1 {
+        font-size: 25px;
+    }
+
+
+    .profile-page-container p {
+        font-size: 13px;
+    }
+
+}
+
+.profile-page-message {
+    width: 100%;
+
+    margin-bottom: 16px;
+
+    padding: 12px 15px;
+
+    border-radius: 10px;
+
+    font-size: 11px;
+
+    font-weight: 650;
+}
+
+.profile-page-message-success {
+    color: #316d49;
+
+    background: #f0f9f3;
+
+    border: 1px solid #d9eddf;
+}
+
+.profile-page-message-error {
+    color: #9a4242;
+
+    background: #fff5f5;
+
+    border: 1px solid #f0dada;
+}

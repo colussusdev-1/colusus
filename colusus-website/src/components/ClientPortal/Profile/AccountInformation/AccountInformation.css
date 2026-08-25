@@ -1,0 +1,250 @@
+/* =========================================================
+   COLUSUS CLIENT PORTAL
+   ACCOUNT INFORMATION
+========================================================= */
+
+.account-information {
+    width: 100%;
+
+    margin-bottom: 20px;
+
+    padding: 25px 26px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5ebf2;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 7px 25px rgba(20, 43, 70, 0.035);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.account-information-header {
+    display: flex;
+
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding-bottom: 20px;
+
+    border-bottom: 1px solid #edf1f5;
+}
+
+
+.account-information-eyebrow {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #8193a7;
+
+    font-size: 9px;
+
+    font-weight: 750;
+
+    letter-spacing: 0.14em;
+}
+
+
+.account-information-header h2 {
+    margin: 0;
+
+    color: #173552;
+
+    font-size: 18px;
+
+    font-weight: 750;
+
+    letter-spacing: -0.025em;
+}
+
+
+.account-information-header p {
+    max-width: 600px;
+
+    margin: 6px 0 0;
+
+    color: #78899c;
+
+    font-size: 11px;
+
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.account-information-status {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    flex-shrink: 0;
+
+    padding: 7px 10px;
+
+    color: #47765a;
+
+    background: #f1f9f4;
+
+    border: 1px solid #dceee2;
+
+    border-radius: 999px;
+
+    font-size: 9px;
+
+    font-weight: 700;
+}
+
+
+.account-information-status svg {
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.account-information-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 14px;
+
+    padding-top: 20px;
+}
+
+
+/* =========================================================
+   FIELD
+========================================================= */
+
+.account-information-field {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    min-width: 0;
+
+    padding: 15px;
+
+    background: #fafcfe;
+
+    border: 1px solid #e9eef4;
+
+    border-radius: 13px;
+}
+
+
+.account-information-field-icon {
+    width: 36px;
+    height: 36px;
+
+    flex: 0 0 36px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color: #3478b8;
+
+    background: #edf6ff;
+
+    border-radius: 10px;
+
+    font-size: 17px;
+}
+
+
+.account-information-field-content {
+    min-width: 0;
+}
+
+
+.account-information-field-content span {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #8a9aaa;
+
+    font-size: 9px;
+
+    font-weight: 650;
+}
+
+
+.account-information-field-content strong {
+    display: block;
+
+    overflow: hidden;
+
+    color: #304963;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .account-information {
+        padding: 20px 18px;
+
+        border-radius: 17px;
+    }
+
+
+    .account-information-header {
+        flex-direction: column;
+
+        gap: 12px;
+
+        padding-bottom: 16px;
+    }
+
+
+    .account-information-header h2 {
+        font-size: 16px;
+    }
+
+
+    .account-information-grid {
+        grid-template-columns: 1fr;
+
+        padding-top: 16px;
+    }
+
+
+    .account-information-field {
+        padding: 13px;
+    }
+
+}

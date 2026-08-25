@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   HiOutlineArrowLeft,
@@ -27,6 +27,9 @@ DOCUMENTS
 */
 
 const Documents = () => {
+
+  const navigate = useNavigate();
+
 
   /*
   ========================================================
@@ -75,19 +78,19 @@ const Documents = () => {
       setDocuments(
         Array.isArray(data)
           ? data
-          : []
+          : [],
       );
 
     } catch (error) {
 
       console.error(
         "FAILED TO LOAD DOCUMENTS:",
-        error
+        error,
       );
 
       setError(
-        error.response?.data?.message ||
-        "Unable to load your documents."
+        error?.response?.data?.message ||
+        "Unable to load your documents.",
       );
 
     }
@@ -111,14 +114,14 @@ const Documents = () => {
       setApplications(
         Array.isArray(data)
           ? data
-          : []
+          : [],
       );
 
     } catch (error) {
 
       console.error(
         "FAILED TO LOAD APPLICATIONS:",
-        error
+        error,
       );
 
       /*
@@ -182,7 +185,7 @@ const Documents = () => {
       documents.filter(
         (document) =>
           document.status?.toUpperCase() ===
-          "APPROVED"
+          "APPROVED",
       ).length;
 
 
@@ -190,7 +193,7 @@ const Documents = () => {
       documents.filter(
         (document) =>
           document.status?.toUpperCase() ===
-          "UNDER_REVIEW"
+          "UNDER_REVIEW",
       ).length;
 
 
@@ -198,7 +201,7 @@ const Documents = () => {
       documents.filter(
         (document) =>
           document.status?.toUpperCase() ===
-          "REUPLOAD_REQUIRED"
+          "REUPLOAD_REQUIRED",
       ).length;
 
 
@@ -206,7 +209,7 @@ const Documents = () => {
       documents.filter(
         (document) =>
           document.status?.toUpperCase() ===
-          "REJECTED"
+          "REJECTED",
       ).length;
 
 
@@ -218,7 +221,7 @@ const Documents = () => {
     const percentage =
       total > 0
         ? Math.round(
-          (approved / total) * 100
+          (approved / total) * 100,
         )
         : 0;
 
@@ -234,6 +237,36 @@ const Documents = () => {
     };
 
   }, [documents]);
+
+
+  /*
+  ========================================================
+  OPEN DOCUMENT VIEWER
+  ========================================================
+  |
+  | IMPORTANT:
+  |
+  | We NEVER navigate directly to document.fileUrl.
+  |
+  | The client stays inside the Colusus portal.
+  |
+  ========================================================
+  */
+
+  const handleViewDocument = (
+    document,
+  ) => {
+
+    if (!document?._id) {
+      return;
+    }
+
+
+    navigate(
+      `/portal/documents/${document._id}/view`,
+    );
+
+  };
 
 
   /*
@@ -289,8 +322,8 @@ const Documents = () => {
 
 
       {/* =================================================
-                HEADER
-            ================================================= */}
+          HEADER
+      ================================================= */}
 
       <section className="documents-header">
 
@@ -347,8 +380,8 @@ const Documents = () => {
 
 
       {/* =================================================
-                ERROR
-            ================================================= */}
+          ERROR
+      ================================================= */}
 
       {error && (
 
@@ -360,8 +393,8 @@ const Documents = () => {
 
 
       {/* =================================================
-                LOADING
-            ================================================= */}
+          LOADING
+      ================================================= */}
 
       {loading ? (
 
@@ -381,8 +414,8 @@ const Documents = () => {
 
 
           {/* =================================================
-                        DOCUMENT OVERVIEW
-                    ================================================= */}
+              DOCUMENT OVERVIEW
+          ================================================= */}
 
           <section className="documents-overview">
 
@@ -519,8 +552,8 @@ const Documents = () => {
 
 
           {/* =================================================
-                        ACTION REQUIRED
-                    ================================================= */}
+              ACTION REQUIRED
+          ================================================= */}
 
           {statistics.actionRequired > 0 && (
 
@@ -567,8 +600,8 @@ const Documents = () => {
 
 
           {/* =================================================
-                        DOCUMENT LIST
-                    ================================================= */}
+              DOCUMENT LIST
+          ================================================= */}
 
           <section className="documents-list-section">
 
@@ -660,10 +693,11 @@ const Documents = () => {
                     <DocumentCard
                       key={document._id}
                       document={document}
+                      onView={handleViewDocument}
                       onReupload={openUpload}
                     />
 
-                  )
+                  ),
                 )}
 
               </div>
@@ -674,8 +708,8 @@ const Documents = () => {
 
 
           {/* =================================================
-                        SECURITY NOTE
-                    ================================================= */}
+              SECURITY NOTE
+          ================================================= */}
 
           <div className="documents-security">
 
@@ -705,8 +739,8 @@ const Documents = () => {
 
 
       {/* ============================================================
-                DOCUMENT UPLOAD COMPONENT
-            ============================================================ */}
+          DOCUMENT UPLOAD COMPONENT
+      ============================================================ */}
 
       {showUpload && (
 

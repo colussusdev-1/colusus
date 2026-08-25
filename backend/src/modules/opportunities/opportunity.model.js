@@ -1,5 +1,42 @@
 import mongoose from "mongoose";
 
+/*
+|--------------------------------------------------------------------------
+| DEFAULT APPLICATION STEPS
+|--------------------------------------------------------------------------
+|
+| Client personal information is handled by the Client Profile.
+|
+| The application itself begins with document collection.
+|
+*/
+
+const DEFAULT_APPLICATION_STEPS = ["DOCUMENTS", "REVIEW"];
+
+/*
+|--------------------------------------------------------------------------
+| SUPPORTED DOCUMENT TYPES
+|--------------------------------------------------------------------------
+|
+| These values MUST remain aligned with the Document model.
+|
+*/
+
+const DOCUMENT_TYPES = [
+  "PASSPORT",
+  "IDENTIFICATION",
+  "ACADEMIC_CERTIFICATE",
+  "FINANCIAL_DOCUMENT",
+  "EMPLOYMENT_DOCUMENT",
+  "OTHER",
+];
+
+/*
+|--------------------------------------------------------------------------
+| OPPORTUNITY SCHEMA
+|--------------------------------------------------------------------------
+*/
+
 const opportunitySchema = new mongoose.Schema(
   {
     /*
@@ -10,30 +47,39 @@ const opportunitySchema = new mongoose.Schema(
 
     countryId: {
       type: Number,
+
       required: true,
     },
 
     countryName: {
       type: String,
+
       required: true,
+
       trim: true,
     },
 
     countrySlug: {
       type: String,
+
       required: true,
+
       trim: true,
+
       lowercase: true,
+
       index: true,
     },
 
     countryFlag: {
       type: String,
+
       default: "",
     },
 
     countryImage: {
       type: String,
+
       default: "",
     },
 
@@ -45,46 +91,55 @@ const opportunitySchema = new mongoose.Schema(
 
     applicants: {
       type: String,
+
       default: "",
     },
 
     countryCategories: {
       type: [String],
+
       default: [],
     },
 
     countryVisa: {
       type: String,
+
       default: "",
     },
 
     countryDuration: {
       type: String,
+
       default: "",
     },
 
     countryProcessingTime: {
       type: String,
+
       default: "",
     },
 
     countryDescription: {
       type: String,
+
       default: "",
     },
 
     opportunityScore: {
       type: String,
+
       default: "",
     },
 
     successRate: {
       type: String,
+
       default: "",
     },
 
     featured: {
       type: Boolean,
+
       default: false,
     },
 
@@ -96,48 +151,59 @@ const opportunitySchema = new mongoose.Schema(
 
     legacyId: {
       type: Number,
+
       required: true,
     },
 
     title: {
       type: String,
+
       required: true,
+
       trim: true,
     },
 
     slug: {
       type: String,
+
       required: true,
+
       trim: true,
     },
 
     image: {
       type: String,
+
       default: "",
     },
 
     category: {
       type: String,
+
       default: "",
     },
 
     location: {
       type: String,
+
       default: "",
     },
 
     type: {
       type: String,
+
       default: "",
     },
 
     duration: {
       type: String,
+
       default: "",
     },
 
     icon: {
       type: String,
+
       default: "",
     },
 
@@ -149,16 +215,19 @@ const opportunitySchema = new mongoose.Schema(
 
     salary: {
       type: String,
+
       default: "",
     },
 
     demand: {
       type: String,
+
       default: "",
     },
 
     description: {
       type: String,
+
       default: "",
     },
 
@@ -166,19 +235,11 @@ const opportunitySchema = new mongoose.Schema(
     |--------------------------------------------------------------------------
     | HIGHLIGHTS
     |--------------------------------------------------------------------------
-    |
-    | Examples:
-    |
-    | [
-    |   "Verified Job Offer",
-    |   "Work Permit",
-    |   "Employer Accommodation"
-    | ]
-    |
     */
 
     highlights: {
       type: [String],
+
       default: [],
     },
 
@@ -190,17 +251,30 @@ const opportunitySchema = new mongoose.Schema(
 
     requirements: {
       type: [String],
+
       default: [],
     },
 
     /*
     |--------------------------------------------------------------------------
-    | REQUIRED DOCUMENTS
+    | PUBLIC REQUIRED DOCUMENT INFORMATION
     |--------------------------------------------------------------------------
+    |
+    | This is the public-facing document list.
+    |
+    | Example:
+    |
+    | documents: [
+    |   "Passport",
+    |   "Academic Certificate",
+    |   "Bank Statement"
+    | ]
+    |
     */
 
     documents: {
       type: [String],
+
       default: [],
     },
 
@@ -212,6 +286,7 @@ const opportunitySchema = new mongoose.Schema(
 
     benefits: {
       type: [String],
+
       default: [],
     },
 
@@ -222,16 +297,6 @@ const opportunitySchema = new mongoose.Schema(
     |
     | These are the public-facing pathway steps.
     |
-    | Example:
-    |
-    | [
-    |   {
-    |     title: "Document Submission",
-    |     description: "...",
-    |     duration: "..."
-    |   }
-    | ]
-    |
     */
 
     steps: {
@@ -239,16 +304,19 @@ const opportunitySchema = new mongoose.Schema(
         {
           title: {
             type: String,
+
             default: "",
           },
 
           description: {
             type: String,
+
             default: "",
           },
 
           duration: {
             type: String,
+
             default: "",
           },
         },
@@ -261,32 +329,11 @@ const opportunitySchema = new mongoose.Schema(
     |--------------------------------------------------------------------------
     | POSITIONS
     |--------------------------------------------------------------------------
-    |
-    | Position structures differ between opportunities.
-    |
-    | Examples include:
-    |
-    | {
-    |   sector: "Construction",
-    |   roles: [...],
-    |   salary: "...",
-    |   notes: [...]
-    | }
-    |
-    | or:
-    |
-    | {
-    |   title: "Cleaner",
-    |   category: "Cleaning",
-    |   description: "..."
-    | }
-    |
-    | We therefore preserve the complete structure.
-    |
     */
 
     positions: {
       type: [mongoose.Schema.Types.Mixed],
+
       default: [],
     },
 
@@ -294,24 +341,11 @@ const opportunitySchema = new mongoose.Schema(
     |--------------------------------------------------------------------------
     | WORK CONDITIONS
     |--------------------------------------------------------------------------
-    |
-    | Some opportunities use an object:
-    |
-    | {
-    |   hours: "8 - 12 Hours Per Day"
-    | }
-    |
-    | Others use an array:
-    |
-    | [
-    |   "Working Hours: 120–160 Hours Per Month",
-    |   "Probation Period: 3 Months"
-    | ]
-    |
     */
 
     workConditions: {
       type: mongoose.Schema.Types.Mixed,
+
       default: null,
     },
 
@@ -323,6 +357,7 @@ const opportunitySchema = new mongoose.Schema(
 
     contract: {
       type: String,
+
       default: "",
     },
 
@@ -334,6 +369,7 @@ const opportunitySchema = new mongoose.Schema(
 
     faq: {
       type: [mongoose.Schema.Types.Mixed],
+
       default: [],
     },
 
@@ -341,13 +377,11 @@ const opportunitySchema = new mongoose.Schema(
     |--------------------------------------------------------------------------
     | PRICING
     |--------------------------------------------------------------------------
-    |
-    | Pricing structures can differ between pathways.
-    |
     */
 
     pricing: {
       type: mongoose.Schema.Types.Mixed,
+
       default: null,
     },
 
@@ -359,6 +393,7 @@ const opportunitySchema = new mongoose.Schema(
 
     paymentPlan: {
       type: [mongoose.Schema.Types.Mixed],
+
       default: [],
     },
 
@@ -370,6 +405,7 @@ const opportunitySchema = new mongoose.Schema(
 
     terms: {
       type: [String],
+
       default: [],
     },
 
@@ -378,23 +414,39 @@ const opportunitySchema = new mongoose.Schema(
     | APPLICATION CONFIGURATION
     |--------------------------------------------------------------------------
     |
-    | This is the important part for the application wizard.
+    | The opportunity controls the application requirements.
     |
-    | The opportunity determines:
+    | Default journey:
     |
-    | - which application steps are shown
-    | - which questions are asked
-    | - which documents are required
-    | - which internal workflow is created
+    | DOCUMENTS → REVIEW
+    |
+    | Personal information belongs to ClientProfile.
     |
     */
 
     applicationConfig: {
+      /*
+      |--------------------------------------------------------------------------
+      | APPLICATION STEPS
+      |--------------------------------------------------------------------------
+      */
+
       steps: {
         type: [String],
 
-        default: ["PERSONAL_INFORMATION", "DOCUMENTS", "REVIEW"],
+        default: DEFAULT_APPLICATION_STEPS,
       },
+
+      /*
+      |--------------------------------------------------------------------------
+      | QUESTIONS
+      |--------------------------------------------------------------------------
+      |
+      | Kept for future pathway-specific requirements.
+      |
+      | They are NOT part of the default application journey.
+      |
+      */
 
       questions: {
         type: [mongoose.Schema.Types.Mixed],
@@ -402,11 +454,70 @@ const opportunitySchema = new mongoose.Schema(
         default: [],
       },
 
+      /*
+      |--------------------------------------------------------------------------
+      | REQUIRED DOCUMENTS
+      |--------------------------------------------------------------------------
+      |
+      | These are the actual documents the client must submit
+      | for this specific migration pathway.
+      |
+      | The `type` MUST match the Document model.
+      |
+      | Example:
+      |
+      | {
+      |   name: "Passport",
+      |   type: "PASSPORT",
+      |   description: "Valid passport bio-data page",
+      |   required: true
+      | }
+      |
+      */
+
       requiredDocuments: {
-        type: [mongoose.Schema.Types.Mixed],
+        type: [
+          {
+            name: {
+              type: String,
+
+              required: true,
+
+              trim: true,
+            },
+
+            type: {
+              type: String,
+
+              enum: DOCUMENT_TYPES,
+
+              required: true,
+            },
+
+            description: {
+              type: String,
+
+              default: "",
+
+              trim: true,
+            },
+
+            required: {
+              type: Boolean,
+
+              default: true,
+            },
+          },
+        ],
 
         default: [],
       },
+
+      /*
+      |--------------------------------------------------------------------------
+      | INTERNAL WORKFLOW
+      |--------------------------------------------------------------------------
+      */
 
       workflow: {
         type: [mongoose.Schema.Types.Mixed],
@@ -442,8 +553,10 @@ const opportunitySchema = new mongoose.Schema(
 opportunitySchema.index(
   {
     countrySlug: 1,
+
     slug: 1,
   },
+
   {
     unique: true,
   },

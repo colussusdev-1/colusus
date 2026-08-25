@@ -1,164 +1,202 @@
-/* =====================================================
-   COLUSUS CLIENT PORTAL
-   TOPBAR
-===================================================== */
+/* ============================================================
+   COLUSUS — CLIENT PORTAL
+   PREMIUM TOPBAR
+============================================================ */
 
 .portal-topbar {
-
-    width: 100%;
-
-    height: 90px;
-
-    padding: 0 32px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    background: #ffffff;
-
-    border-bottom: 1px solid #e8edf4;
-
     position: sticky;
-
     top: 0;
-
     z-index: 90;
 
-}
-
-
-/* =====================================================
-   PAGE CONTEXT
-===================================================== */
-
-.portal-topbar__context {
+    width: 100%;
+    min-height: 88px;
 
     display: flex;
+    align-items: center;
+    justify-content: space-between;
 
+    padding: 0 34px;
+
+    background: rgba(255, 255, 255, 0.98);
+
+    border-bottom: 1px solid #e7edf4;
+
+    box-sizing: border-box;
+}
+
+
+/* ============================================================
+   PAGE CONTEXT
+============================================================ */
+
+.portal-topbar__context {
+    position: relative;
+
+    min-width: 0;
+
+    display: flex;
     flex-direction: column;
 
-    gap: 3px;
+    gap: 5px;
 
+    padding-left: 14px;
 }
 
+
+/* ============================================================
+   BLUE PAGE ACCENT
+============================================================ */
+
+.portal-topbar__context::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 5px;
+    bottom: 4px;
+
+    width: 3px;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(180deg,
+            #0876d1 0%,
+            #075db0 100%);
+}
+
+
+/* ============================================================
+   CONTEXT LABEL
+============================================================ */
 
 .portal-topbar__context-label {
+    display: block;
 
-    color: #94a3b8;
+    color: #8295aa;
 
-    font-size: 11px;
+    font-size: 9px;
+    line-height: 1.2;
 
-    font-weight: 600;
+    font-weight: 800;
 
-    letter-spacing: .04em;
+    letter-spacing: 0.13em;
 
+    text-transform: uppercase;
 }
 
 
-.portal-topbar__context h1 {
+/* ============================================================
+   PAGE TITLE
+============================================================ */
 
+.portal-topbar__context h1 {
     margin: 0;
 
-    color: #10213c;
+    color: #076bc5;
 
-    font-size: 18px;
+    font-family:
+        "Trebuchet MS",
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    font-size: 25px;
+    line-height: 1.12;
 
     font-weight: 700;
 
+    letter-spacing: -0.045em;
+
+    white-space: nowrap;
+
+    transition:
+        color 180ms ease;
 }
 
 
-/* =====================================================
-   ACTIONS
-===================================================== */
+/* ============================================================
+   ACTION AREA
+============================================================ */
 
 .portal-topbar__actions {
-
     display: flex;
-
     align-items: center;
 
-    gap: 10px;
-
+    gap: 12px;
 }
 
 
-/* =====================================================
-   ICON BUTTON
-===================================================== */
+/* ============================================================
+   NOTIFICATION BUTTON
+============================================================ */
 
 .portal-topbar__icon-btn {
-
-    width: 42px;
-
-    height: 42px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
     position: relative;
 
-    border: 1px solid #e5ebf2;
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    padding: 0;
+
+    border: 1px solid #dfe7ef;
 
     border-radius: 50%;
 
     background: #ffffff;
 
-    color: #64748b;
+    color: #61758c;
 
-    font-size: 19px;
+    font-size: 20px;
 
     cursor: pointer;
 
     transition:
-        background .25s ease,
-        border-color .25s ease,
-        color .25s ease,
-        transform .25s ease;
-
+        color 180ms ease,
+        background 180ms ease,
+        border-color 180ms ease,
+        transform 180ms ease,
+        box-shadow 180ms ease;
 }
 
 
 .portal-topbar__icon-btn:hover {
+    color: #076bc5;
 
-    background: #f1f6fc;
+    background: #f6fbff;
 
-    border-color: #d7e4f1;
-
-    color: #0056b3;
+    border-color: #cbddec;
 
     transform: translateY(-1px);
 
+    box-shadow:
+        0 8px 20px rgba(12, 65, 110, 0.08);
 }
 
 
-/* =====================================================
-   NOTIFICATION
-===================================================== */
-
-.portal-topbar__notification {
-
-    position: relative;
-
+.portal-topbar__icon-btn:active {
+    transform: translateY(0);
 }
 
+
+/* ============================================================
+   NOTIFICATION DOT
+============================================================ */
 
 .portal-topbar__notification-dot {
-
     position: absolute;
 
-    top: 9px;
-
-    right: 9px;
+    top: 8px;
+    right: 8px;
 
     width: 7px;
-
     height: 7px;
 
     border: 2px solid #ffffff;
@@ -166,46 +204,41 @@
     border-radius: 50%;
 
     background: #ef4444;
-
 }
 
 
-/* =====================================================
+/* ============================================================
    DIVIDER
-===================================================== */
+============================================================ */
 
 .portal-topbar__divider {
-
     width: 1px;
+    height: 36px;
 
-    height: 34px;
+    margin: 0 7px;
 
-    margin: 0 8px;
-
-    background: #e8edf4;
-
+    background: #e4eaf1;
 }
 
 
-/* =====================================================
-   USER
-===================================================== */
+/* ============================================================
+   ACCOUNT BUTTON
+============================================================ */
 
 .portal-topbar__user {
-
-    min-height: 48px;
+    min-width: 190px;
+    min-height: 54px;
 
     display: flex;
-
     align-items: center;
 
-    gap: 10px;
+    gap: 11px;
 
-    padding: 4px 6px 4px 4px;
+    padding: 5px 8px 5px 5px;
 
-    border: none;
+    border: 1px solid transparent;
 
-    border-radius: 12px;
+    border-radius: 14px;
 
     background: transparent;
 
@@ -213,248 +246,505 @@
 
     cursor: pointer;
 
-    transition: background .25s ease;
+    text-align: left;
 
+    transition:
+        background 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease;
 }
 
 
 .portal-topbar__user:hover {
+    background: #f7fafd;
 
-    background: #f5f8fc;
+    border-color: #edf1f5;
 
+    box-shadow:
+        0 5px 16px rgba(18, 48, 77, 0.04);
 }
 
 
-/* =====================================================
+.portal-topbar__user:focus-visible {
+    outline: 3px solid rgba(8, 105, 200, 0.14);
+
+    outline-offset: 2px;
+}
+
+
+/* ============================================================
    AVATAR
-===================================================== */
+============================================================ */
 
 .portal-topbar__avatar {
+    width: 44px;
+    height: 44px;
 
-    width: 40px;
-
-    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     flex-shrink: 0;
 
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
+    border: 1px solid #d7e8f8;
 
     border-radius: 50%;
 
-    background: #eaf3fc;
+    background:
+        linear-gradient(145deg,
+            #eef7ff 0%,
+            #e3f0fc 100%);
 
-    color: #0056b3;
+    color: #076bc5;
 
     font-size: 14px;
 
+    line-height: 1;
+
     font-weight: 800;
 
+    letter-spacing: 0.02em;
+
+    box-shadow:
+        inset 0 0 0 3px rgba(255, 255, 255, 0.45);
 }
 
 
-/* =====================================================
-   USER INFORMATION
-===================================================== */
+/* ============================================================
+   ACCOUNT INFORMATION
+============================================================ */
 
 .portal-topbar__user-info {
+    min-width: 0;
+
+    flex: 1;
 
     display: flex;
-
     flex-direction: column;
-
     align-items: flex-start;
 
-    gap: 2px;
-
+    gap: 3px;
 }
 
 
 .portal-topbar__user-info strong {
+    display: block;
+
+    max-width: 145px;
+
+    overflow: hidden;
 
     color: #10213c;
 
     font-size: 13px;
+    line-height: 1.25;
 
-    font-weight: 700;
+    font-weight: 760;
 
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
 }
 
 
 .portal-topbar__user-info span {
+    display: block;
 
-    color: #94a3b8;
+    max-width: 145px;
+
+    overflow: hidden;
+
+    color: #8b9caf;
 
     font-size: 10px;
+    line-height: 1.25;
 
+    font-weight: 500;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
 }
 
+
+/* ============================================================
+   CHEVRON
+============================================================ */
 
 .portal-topbar__chevron {
-
     width: 16px;
-
     height: 16px;
 
-    color: #94a3b8;
+    flex-shrink: 0;
 
+    color: #8b9caf;
+
+    transition:
+        transform 180ms ease,
+        color 180ms ease;
 }
 
 
-/* =====================================================
-   MOBILE MENU BUTTON
-===================================================== */
+.portal-topbar__user:hover .portal-topbar__chevron {
+    color: #076bc5;
+
+    transform: translateY(1px);
+}
+
+
+/* ============================================================
+   MOBILE MENU
+============================================================ */
 
 .portal-topbar__menu {
-
     display: none;
 
     width: 42px;
-
     height: 42px;
 
     align-items: center;
-
     justify-content: center;
 
-    border: 1px solid #e5ebf2;
+    flex-shrink: 0;
+
+    padding: 0;
+
+    border: 1px solid #dfe7ef;
 
     border-radius: 12px;
 
     background: #ffffff;
 
-    color: #10213c;
+    color: #172b45;
 
     font-size: 21px;
 
     cursor: pointer;
 
+    transition:
+        background 180ms ease,
+        border-color 180ms ease,
+        color 180ms ease;
 }
 
 
-/* =====================================================
-   TABLET
-===================================================== */
+.portal-topbar__menu:hover {
+    color: #076bc5;
 
-@media (max-width: 992px) {
+    background: #f6faff;
+
+    border-color: #d1dfed;
+}
+
+
+.portal-topbar__menu:focus-visible {
+    outline: 3px solid rgba(8, 105, 200, 0.14);
+
+    outline-offset: 2px;
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 1100px) {
 
     .portal-topbar {
+        min-height: 84px;
 
-        padding: 0 24px;
+        padding: 0 26px;
+    }
 
+
+    .portal-topbar__context h1 {
+        font-size: 23px;
+    }
+
+
+    .portal-topbar__user {
+        min-width: 175px;
     }
 
 }
 
 
-/* =====================================================
+/* ============================================================
+   SMALL TABLET
+============================================================ */
+
+@media (max-width: 850px) {
+
+    .portal-topbar {
+        padding: 0 20px;
+    }
+
+
+    .portal-topbar__actions {
+        gap: 8px;
+    }
+
+
+    .portal-topbar__user {
+        min-width: 160px;
+    }
+
+
+    .portal-topbar__user-info strong {
+        max-width: 120px;
+    }
+
+
+    .portal-topbar__user-info span {
+        max-width: 120px;
+    }
+
+}
+
+
+/* ============================================================
    MOBILE
-===================================================== */
+============================================================ */
 
 @media (max-width: 768px) {
 
     .portal-topbar {
+        min-height: 72px;
 
-        height: 72px;
+        padding: 0 15px;
 
-        padding: 0 16px;
-
-        gap: 12px;
-
+        gap: 10px;
     }
+
+
+    /* --------------------------------------------------------
+       MENU
+    -------------------------------------------------------- */
 
     .portal-topbar__menu {
-
         display: flex;
-
-        flex-shrink: 0;
-
     }
 
-    .portal-topbar__context {
 
+    /* --------------------------------------------------------
+       CONTEXT
+    -------------------------------------------------------- */
+
+    .portal-topbar__context {
         min-width: 0;
 
         flex: 1;
 
+        padding-left: 10px;
     }
+
+
+    .portal-topbar__context::before {
+        width: 2px;
+
+        top: 4px;
+        bottom: 3px;
+    }
+
 
     .portal-topbar__context-label {
-
         display: none;
-
     }
 
-    .portal-topbar__context h1 {
 
-        font-size: 16px;
+    .portal-topbar__context h1 {
+        max-width: 100%;
+
+        color: #076bc5;
+
+        font-size: 17px;
+
+        line-height: 1.2;
 
         white-space: nowrap;
 
         overflow: hidden;
 
         text-overflow: ellipsis;
-
     }
+
+
+    /* --------------------------------------------------------
+       ACTIONS
+    -------------------------------------------------------- */
 
     .portal-topbar__actions {
-
-        gap: 5px;
-
+        gap: 6px;
     }
+
+
+    /* --------------------------------------------------------
+       NOTIFICATION
+    -------------------------------------------------------- */
 
     .portal-topbar__icon-btn {
-
         width: 38px;
-
         height: 38px;
 
-        border: none;
+        border: 1px solid #e5ebf2;
 
-        background: #f5f8fc;
+        background: #ffffff;
 
+        font-size: 18px;
     }
 
-    .portal-topbar__divider,
 
-    .portal-topbar__user-info,
+    .portal-topbar__notification-dot {
+        top: 6px;
+        right: 6px;
 
-    .portal-topbar__chevron {
+        width: 6px;
+        height: 6px;
+    }
 
+
+    /* --------------------------------------------------------
+       DIVIDER
+    -------------------------------------------------------- */
+
+    .portal-topbar__divider {
         display: none;
-
     }
+
+
+    /* --------------------------------------------------------
+       ACCOUNT
+    -------------------------------------------------------- */
 
     .portal-topbar__user {
+        min-width: auto;
+        min-height: auto;
 
         padding: 0;
 
+        border: 0;
+
+        background: transparent;
     }
 
+
+    .portal-topbar__user:hover {
+        background: transparent;
+
+        border-color: transparent;
+
+        box-shadow: none;
+    }
+
+
     .portal-topbar__avatar {
-
         width: 38px;
-
         height: 38px;
 
+        font-size: 12px;
+    }
+
+
+    .portal-topbar__user-info,
+    .portal-topbar__chevron {
+        display: none;
     }
 
 }
 
 
-/* =====================================================
+/* ============================================================
    SMALL MOBILE
-===================================================== */
+============================================================ */
 
-@media (max-width: 420px) {
+@media (max-width: 480px) {
 
-    .portal-topbar__icon-btn:first-child {
+    .portal-topbar {
+        padding: 0 12px;
 
-        display: none;
+        gap: 8px;
+    }
 
+
+    .portal-topbar__menu {
+        width: 38px;
+        height: 38px;
+
+        border-radius: 10px;
+
+        font-size: 19px;
+    }
+
+
+    .portal-topbar__context h1 {
+        font-size: 15px;
+    }
+
+
+    .portal-topbar__actions {
+        gap: 4px;
+    }
+
+
+    .portal-topbar__icon-btn {
+        width: 36px;
+        height: 36px;
+
+        font-size: 17px;
+    }
+
+
+    .portal-topbar__avatar {
+        width: 36px;
+        height: 36px;
+
+        font-size: 11px;
+    }
+
+}
+
+
+/* ============================================================
+   VERY SMALL MOBILE
+============================================================ */
+
+@media (max-width: 360px) {
+
+    .portal-topbar {
+        padding: 0 10px;
+    }
+
+
+    .portal-topbar__context h1 {
+        font-size: 14px;
+    }
+
+
+    .portal-topbar__icon-btn {
+        width: 34px;
+        height: 34px;
+    }
+
+
+    .portal-topbar__avatar {
+        width: 34px;
+        height: 34px;
+    }
+
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .portal-topbar__icon-btn,
+    .portal-topbar__user,
+    .portal-topbar__chevron,
+    .portal-topbar__menu {
+        transition: none;
     }
 
 }

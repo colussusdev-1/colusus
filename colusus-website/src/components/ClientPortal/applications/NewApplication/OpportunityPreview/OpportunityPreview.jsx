@@ -24,6 +24,9 @@ import OpportunityPreviewRequirements
 import OpportunityPreviewBenefits
   from "./OpportunityPreviewBenefits/OpportunityPreviewBenefits.jsx";
 
+import OpportunityPreviewPricing
+  from "./OpportunityPreviewPricing/OpportunityPreviewPricing.jsx";
+
 import OpportunityPreviewProcess
   from "./OpportunityPreviewProcess/OpportunityPreviewProcess.jsx";
 
@@ -663,47 +666,44 @@ const OpportunityPreview = ({
             <div className="opportunity-preview-overview">
 
               {activeTab === "overview" && (
-
                 <OpportunityPreviewOverview
                   opportunity={opportunity}
                 />
-
               )}
 
 
               {activeTab === "eligibility" && (
-
                 <OpportunityPreviewEligibility
                   opportunity={opportunity}
                 />
-
               )}
 
 
               {activeTab === "requirements" && (
-
                 <OpportunityPreviewRequirements
                   opportunity={opportunity}
                 />
-
               )}
 
 
               {activeTab === "benefits" && (
-
                 <OpportunityPreviewBenefits
                   opportunity={opportunity}
                 />
+              )}
 
+
+              {activeTab === "pricing" && (
+                <OpportunityPreviewPricing
+                  opportunity={opportunity}
+                />
               )}
 
 
               {activeTab === "process" && (
-
                 <OpportunityPreviewProcess
                   opportunity={opportunity}
                 />
-
               )}
 
             </div>

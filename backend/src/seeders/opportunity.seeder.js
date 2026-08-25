@@ -1,8 +1,10 @@
 import Opportunity from "../modules/opportunities/opportunity.model.js";
 
-// =====================================================
-// COUNTRY DATA
-// =====================================================
+/*
+|--------------------------------------------------------------------------
+| COUNTRY DATA
+|--------------------------------------------------------------------------
+*/
 
 import australia from "./data/australia.js";
 import bulgaria from "./data/bulgaria.js";
@@ -20,9 +22,11 @@ import serbia from "./data/serbia.js";
 import spain from "./data/spain.js";
 import uk from "./data/uk.js";
 
-// =====================================================
-// ALL COUNTRIES
-// =====================================================
+/*
+|--------------------------------------------------------------------------
+| ALL COUNTRIES
+|--------------------------------------------------------------------------
+*/
 
 const countries = [
   australia,
@@ -42,56 +46,210 @@ const countries = [
   uk,
 ];
 
-// =====================================================
-// DEFAULT APPLICATION WORKFLOW
-// =====================================================
+/*
+|--------------------------------------------------------------------------
+| DEFAULT APPLICATION WORKFLOW
+|--------------------------------------------------------------------------
+|
+| The client-facing application journey is:
+|
+| DOCUMENTS → REVIEW
+|
+| Personal information is completed through Client Profile
+| before an application is started.
+|
+*/
+
+const DEFAULT_APPLICATION_STEPS = ["DOCUMENTS", "REVIEW"];
+
+/*
+|--------------------------------------------------------------------------
+| DEFAULT INTERNAL WORKFLOW
+|--------------------------------------------------------------------------
+*/
 
 const buildDefaultWorkflow = () => {
   return [
     {
       key: "APPLICATION_SUBMITTED",
+
       label: "Application Submitted",
+
       status: "PENDING",
+
       order: 1,
     },
+
     {
       key: "DOCUMENT_REVIEW",
+
       label: "Document Review",
+
       status: "PENDING",
+
       order: 2,
     },
+
     {
       key: "PROCESSING",
+
       label: "Application Processing",
+
       status: "PENDING",
+
       order: 3,
     },
+
     {
       key: "FINAL_DECISION",
+
       label: "Final Decision",
+
       status: "PENDING",
+
       order: 4,
     },
   ];
 };
 
-// =====================================================
-// BUILD REQUIRED DOCUMENT CONFIGURATION
-// =====================================================
+/*
+|--------------------------------------------------------------------------
+| DOCUMENT TYPE RESOLVER
+|--------------------------------------------------------------------------
+|
+| Converts the public document name into one of the document
+| types supported by the Document model.
+|
+| IMPORTANT:
+| We NEVER use "FILE".
+|
+|--------------------------------------------------------------------------
+*/
+
+const resolveDocumentType = (documentName) => {
+  const normalizedName = String(documentName || "")
+    .trim()
+    .toLowerCase();
+
+  if (normalizedName.includes("passport")) {
+    return "PASSPORT";
+  }
+
+  if (
+    normalizedName.includes("identification") ||
+    normalizedName.includes("identity") ||
+    normalizedName.includes("national id") ||
+    normalizedName.includes("id card")
+  ) {
+    return "IDENTIFICATION";
+  }
+
+  if (
+    normalizedName.includes("academic") ||
+    normalizedName.includes("certificate") ||
+    normalizedName.includes("degree") ||
+    normalizedName.includes("diploma") ||
+    normalizedName.includes("transcript")
+  ) {
+    return "ACADEMIC_CERTIFICATE";
+  }
+
+  if (
+    normalizedName.includes("financial") ||
+    normalizedName.includes("bank") ||
+    normalizedName.includes("statement") ||
+    normalizedName.includes("funds") ||
+    normalizedName.includes("proof of funds")
+  ) {
+    return "FINANCIAL_DOCUMENT";
+  }
+
+  if (
+    normalizedName.includes("employment") ||
+    normalizedName.includes("employer") ||
+    normalizedName.includes("employment letter") ||
+    normalizedName.includes("work experience")
+  ) {
+    return "EMPLOYMENT_DOCUMENT";
+  }
+
+  return "OTHER";
+};
+
+/*
+|--------------------------------------------------------------------------
+| BUILD REQUIRED DOCUMENT CONFIGURATION
+|--------------------------------------------------------------------------
+|
+| Priority:
+|
+| 1. Explicit pathway configuration
+| 2. Existing public documents array
+|
+|--------------------------------------------------------------------------
+*/
 
 const buildRequiredDocuments = (opportunity) => {
-  // If a pathway explicitly defines requiredDocuments,
-  // use those instead of the generic documents list.
+  /*
+  |--------------------------------------------------------------------------
+  | EXPLICIT REQUIRED DOCUMENTS
+  |--------------------------------------------------------------------------
+  */
 
   if (
     Array.isArray(opportunity.requiredDocuments) &&
     opportunity.requiredDocuments.length > 0
   ) {
-    return opportunity.requiredDocuments;
+    return opportunity.requiredDocuments.map((document, index) => {
+      const name =
+        document?.name ||
+        document?.label ||
+        document?.title ||
+        document?.documentName ||
+        `Required Document ${index + 1}`;
+
+      /*
+        |--------------------------------------------------------------------------
+        | Respect a valid explicit type.
+        |--------------------------------------------------------------------------
+        */
+
+      const validTypes = [
+        "PASSPORT",
+        "IDENTIFICATION",
+        "ACADEMIC_CERTIFICATE",
+        "FINANCIAL_DOCUMENT",
+        "EMPLOYMENT_DOCUMENT",
+        "OTHER",
+      ];
+
+      const type = validTypes.includes(document?.type)
+        ? document.type
+        : resolveDocumentType(name);
+
+      return {
+        key: document?.key || `DOCUMENT_${index + 1}`,
+
+        name,
+
+        label: document?.label || name,
+
+        description: document?.description || "",
+
+        required: document?.required !== false,
+
+        type,
+
+        order: document?.order || index + 1,
+      };
+    });
   }
 
-  // Otherwise convert the existing documents array
-  // into the application wizard configuration.
+  /*
+  |--------------------------------------------------------------------------
+  | FALLBACK TO PUBLIC DOCUMENT LIST
+  |--------------------------------------------------------------------------
+  */
 
   if (
     !Array.isArray(opportunity.documents) ||
@@ -100,18 +258,38 @@ const buildRequiredDocuments = (opportunity) => {
     return [];
   }
 
-  return opportunity.documents.map((document, index) => ({
-    key: `DOCUMENT_${index + 1}`,
-    label: document,
-    required: true,
-    type: "FILE",
-    order: index + 1,
-  }));
+  return opportunity.documents.map((document, index) => {
+    const name = String(document || "").trim();
+
+    return {
+      key: `DOCUMENT_${index + 1}`,
+
+      name,
+
+      label: name,
+
+      description: "",
+
+      required: true,
+
+      type: resolveDocumentType(name),
+
+      order: index + 1,
+    };
+  });
 };
 
-// =====================================================
-// BUILD APPLICATION QUESTIONS
-// =====================================================
+/*
+|--------------------------------------------------------------------------
+| BUILD APPLICATION QUESTIONS
+|--------------------------------------------------------------------------
+|
+| Questions remain available for future pathway-specific
+| requirements, but they are NOT part of the default V1
+| client journey.
+|
+|--------------------------------------------------------------------------
+*/
 
 const buildApplicationQuestions = (opportunity) => {
   if (
@@ -124,19 +302,50 @@ const buildApplicationQuestions = (opportunity) => {
   return [];
 };
 
-// =====================================================
-// BUILD APPLICATION CONFIGURATION
-// =====================================================
+/*
+|--------------------------------------------------------------------------
+| BUILD APPLICATION CONFIGURATION
+|--------------------------------------------------------------------------
+*/
 
 const buildApplicationConfig = (opportunity) => {
   const customWorkflow = opportunity.applicationConfig?.workflow;
 
+  const customSteps = opportunity.applicationConfig?.steps;
+
   return {
-    steps: ["PERSONAL_INFORMATION", "QUESTIONS", "DOCUMENTS", "REVIEW"],
+    /*
+    |--------------------------------------------------------------------------
+    | Client-facing application steps
+    |--------------------------------------------------------------------------
+    */
+
+    steps:
+      Array.isArray(customSteps) && customSteps.length > 0
+        ? customSteps
+        : DEFAULT_APPLICATION_STEPS,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Future questions
+    |--------------------------------------------------------------------------
+    */
 
     questions: buildApplicationQuestions(opportunity),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Required documents
+    |--------------------------------------------------------------------------
+    */
+
     requiredDocuments: buildRequiredDocuments(opportunity),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Internal workflow
+    |--------------------------------------------------------------------------
+    */
 
     workflow:
       Array.isArray(customWorkflow) && customWorkflow.length > 0
@@ -145,9 +354,11 @@ const buildApplicationConfig = (opportunity) => {
   };
 };
 
-// =====================================================
-// BUILD OPPORTUNITIES
-// =====================================================
+/*
+|--------------------------------------------------------------------------
+| BUILD OPPORTUNITIES
+|--------------------------------------------------------------------------
+*/
 
 const buildOpportunities = () => {
   const opportunities = [];
@@ -163,9 +374,11 @@ const buildOpportunities = () => {
 
     for (const opportunity of country.opportunities) {
       opportunities.push({
-        // =================================================
-        // COUNTRY INFORMATION
-        // =================================================
+        /*
+        |--------------------------------------------------------------------------
+        | COUNTRY INFORMATION
+        |--------------------------------------------------------------------------
+        */
 
         countryId: country.id,
 
@@ -177,9 +390,11 @@ const buildOpportunities = () => {
 
         countryImage: country.image || "",
 
-        // =================================================
-        // COUNTRY METADATA
-        // =================================================
+        /*
+        |--------------------------------------------------------------------------
+        | COUNTRY METADATA
+        |--------------------------------------------------------------------------
+        */
 
         applicants: country.applicants || "",
 
@@ -199,9 +414,11 @@ const buildOpportunities = () => {
 
         featured: country.featured || false,
 
-        // =================================================
-        // OPPORTUNITY IDENTITY
-        // =================================================
+        /*
+        |--------------------------------------------------------------------------
+        | OPPORTUNITY IDENTITY
+        |--------------------------------------------------------------------------
+        */
 
         legacyId: opportunity.id,
 
@@ -221,9 +438,11 @@ const buildOpportunities = () => {
 
         icon: opportunity.icon || "",
 
-        // =================================================
-        // OPPORTUNITY DETAILS
-        // =================================================
+        /*
+        |--------------------------------------------------------------------------
+        | OPPORTUNITY DETAILS
+        |--------------------------------------------------------------------------
+        */
 
         salary: opportunity.salary || "",
 
@@ -231,87 +450,115 @@ const buildOpportunities = () => {
 
         description: opportunity.description || "",
 
-        // =================================================
-        // HIGHLIGHTS
-        // =================================================
+        /*
+        |--------------------------------------------------------------------------
+        | HIGHLIGHTS
+        |--------------------------------------------------------------------------
+        */
 
         highlights: opportunity.highlights || [],
 
-        // =================================================
-        // REQUIREMENTS
-        // =================================================
+        /*
+        |--------------------------------------------------------------------------
+        | REQUIREMENTS
+        |--------------------------------------------------------------------------
+        */
 
         requirements: opportunity.requirements || [],
 
-        // =================================================
-        // DOCUMENTS
-        // =================================================
+        /*
+        |--------------------------------------------------------------------------
+        | PUBLIC DOCUMENTS
+        |--------------------------------------------------------------------------
+        */
 
         documents: opportunity.documents || [],
 
-        // =================================================
-        // BENEFITS
-        // =================================================
+        /*
+        |--------------------------------------------------------------------------
+        | BENEFITS
+        |--------------------------------------------------------------------------
+        */
 
         benefits: opportunity.benefits || [],
 
-        // =================================================
-        // APPLICATION JOURNEY
-        // =================================================
+        /*
+        |--------------------------------------------------------------------------
+        | APPLICATION JOURNEY
+        |--------------------------------------------------------------------------
+        */
 
         steps: opportunity.steps || [],
 
-        // =================================================
-        // POSITIONS
-        // =================================================
+        /*
+        |--------------------------------------------------------------------------
+        | POSITIONS
+        |--------------------------------------------------------------------------
+        */
 
         positions: opportunity.positions || [],
 
-        // =================================================
-        // WORK CONDITIONS
-        // =================================================
+        /*
+        |--------------------------------------------------------------------------
+        | WORK CONDITIONS
+        |--------------------------------------------------------------------------
+        */
 
         workConditions: opportunity.workConditions || null,
 
-        // =================================================
-        // CONTRACT
-        // =================================================
+        /*
+        |--------------------------------------------------------------------------
+        | CONTRACT
+        |--------------------------------------------------------------------------
+        */
 
         contract: opportunity.contract || "",
 
-        // =================================================
-        // FAQ
-        // =================================================
+        /*
+        |--------------------------------------------------------------------------
+        | FAQ
+        |--------------------------------------------------------------------------
+        */
 
         faq: opportunity.faq || [],
 
-        // =================================================
-        // PRICING
-        // =================================================
+        /*
+        |--------------------------------------------------------------------------
+        | PRICING
+        |--------------------------------------------------------------------------
+        */
 
         pricing: opportunity.pricing || null,
 
-        // =================================================
-        // PAYMENT PLAN
-        // =================================================
+        /*
+        |--------------------------------------------------------------------------
+        | PAYMENT PLAN
+        |--------------------------------------------------------------------------
+        */
 
         paymentPlan: opportunity.paymentPlan || [],
 
-        // =================================================
-        // TERMS
-        // =================================================
+        /*
+        |--------------------------------------------------------------------------
+        | TERMS
+        |--------------------------------------------------------------------------
+        */
 
         terms: opportunity.terms || [],
 
-        // =================================================
-        // APPLICATION CONFIGURATION
-        // =================================================
+        /*
+        |--------------------------------------------------------------------------
+        | APPLICATION CONFIGURATION
+        |--------------------------------------------------------------------------
+        */
 
         applicationConfig: buildApplicationConfig(opportunity),
 
-        // =================================================
-        // ACTIVE
-        // =================================================
+        /*
+        |--------------------------------------------------------------------------
+        | ACTIVE
+        |--------------------------------------------------------------------------
+        */
 
         active: true,
       });
@@ -321,9 +568,11 @@ const buildOpportunities = () => {
   return opportunities;
 };
 
-// =====================================================
-// SEED OPPORTUNITIES
-// =====================================================
+/*
+|--------------------------------------------------------------------------
+| SEED OPPORTUNITIES
+|--------------------------------------------------------------------------
+*/
 
 const seedOpportunities = async () => {
   const opportunities = buildOpportunities();
@@ -334,12 +583,17 @@ const seedOpportunities = async () => {
     await Opportunity.findOneAndUpdate(
       {
         countrySlug: opportunity.countrySlug,
+
         slug: opportunity.slug,
       },
+
       opportunity,
+
       {
         upsert: true,
+
         new: true,
+
         setDefaultsOnInsert: true,
       },
     );

@@ -5,6 +5,8 @@ import {
   HiOutlineChevronRight,
 } from "react-icons/hi";
 
+import "./ApplicationHistory.css";
+
 import {
   formatApplicationType,
   formatDate,

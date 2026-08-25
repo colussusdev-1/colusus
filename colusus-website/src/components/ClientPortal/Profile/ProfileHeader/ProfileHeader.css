@@ -1,0 +1,387 @@
+/* =========================================================
+   COLUSUS CLIENT PORTAL
+   PROFILE HEADER
+========================================================= */
+
+.profile-header {
+    width: 100%;
+    margin-bottom: 24px;
+
+    background: #ffffff;
+
+    border: 1px solid #e7edf5;
+
+    border-radius: 22px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 10px 35px rgba(20, 43, 70, 0.05);
+}
+
+
+/* =========================================================
+   HEADER CONTENT
+========================================================= */
+
+.profile-header-content {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 32px;
+
+    padding: 30px 32px;
+}
+
+
+/* =========================================================
+   IDENTITY
+========================================================= */
+
+.profile-header-identity {
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    min-width: 0;
+}
+
+
+.profile-header-avatar {
+    width: 68px;
+    height: 68px;
+
+    flex: 0 0 68px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color: #1d67b1;
+
+    background:
+        linear-gradient(145deg,
+            #edf6ff,
+            #f7fbff);
+
+    border: 1px solid #dceafa;
+
+    border-radius: 18px;
+
+    font-size: 40px;
+}
+
+
+.profile-header-copy {
+    min-width: 0;
+}
+
+
+.profile-header-eyebrow {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #5e7a98;
+
+    font-size: 11px;
+    font-weight: 750;
+
+    letter-spacing: 0.14em;
+}
+
+
+.profile-header-copy h1 {
+    margin: 0;
+
+    color: #142b46;
+
+    font-size: 28px;
+    line-height: 1.2;
+
+    font-weight: 760;
+
+    letter-spacing: -0.035em;
+}
+
+
+.profile-header-copy h1 span {
+    color: #1d67b1;
+}
+
+
+.profile-header-copy p {
+    max-width: 650px;
+
+    margin: 8px 0 0;
+
+    color: #718198;
+
+    font-size: 13px;
+
+    line-height: 1.65;
+}
+
+
+/* =========================================================
+   SECURITY BADGE
+========================================================= */
+
+.profile-header-security {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    flex-shrink: 0;
+
+    padding: 11px 14px;
+
+    background: #f7fbff;
+
+    border: 1px solid #e2eef9;
+
+    border-radius: 13px;
+}
+
+
+.profile-header-security-icon {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color: #2473bd;
+
+    background: #eaf5ff;
+
+    border-radius: 10px;
+
+    font-size: 19px;
+}
+
+
+.profile-header-security strong {
+    display: block;
+
+    color: #29415c;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+
+.profile-header-security span {
+    display: block;
+
+    margin-top: 2px;
+
+    color: #8191a5;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.profile-header-progress {
+    padding: 18px 32px 22px;
+
+    background: #fbfcfe;
+
+    border-top: 1px solid #edf1f6;
+}
+
+
+.profile-header-progress-info {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 10px;
+}
+
+
+.profile-header-progress-info>div {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+}
+
+
+.profile-header-progress-info span {
+    color: #64768c;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+.profile-header-progress-info strong {
+    color: #173552;
+
+    font-size: 13px;
+    font-weight: 750;
+}
+
+
+.profile-header-progress-status {
+    color: #2473bd !important;
+
+    font-size: 11px !important;
+    font-weight: 700 !important;
+}
+
+
+.profile-header-progress-track {
+    width: 100%;
+    height: 7px;
+
+    overflow: hidden;
+
+    background: #e9eff5;
+
+    border-radius: 999px;
+}
+
+
+.profile-header-progress-fill {
+    height: 100%;
+
+    min-width: 0;
+
+    background:
+        linear-gradient(90deg,
+            #1d67b1,
+            #4b9be0);
+
+    border-radius: inherit;
+
+    transition: width 500ms ease;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .profile-header-content {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 20px;
+    }
+
+
+    .profile-header-security {
+        width: 100%;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .profile-header {
+        margin-bottom: 18px;
+
+        border-radius: 18px;
+    }
+
+
+    .profile-header-content {
+        padding: 22px 18px;
+
+        gap: 18px;
+    }
+
+
+    .profile-header-identity {
+        align-items: flex-start;
+
+        gap: 13px;
+    }
+
+
+    .profile-header-avatar {
+        width: 50px;
+        height: 50px;
+
+        flex-basis: 50px;
+
+        border-radius: 14px;
+
+        font-size: 30px;
+    }
+
+
+    .profile-header-eyebrow {
+        margin-bottom: 4px;
+
+        font-size: 9px;
+    }
+
+
+    .profile-header-copy h1 {
+        font-size: 22px;
+    }
+
+
+    .profile-header-copy p {
+        margin-top: 7px;
+
+        font-size: 12px;
+
+        line-height: 1.55;
+    }
+
+
+    .profile-header-security {
+        padding: 10px 12px;
+    }
+
+
+    .profile-header-security-icon {
+        width: 30px;
+        height: 30px;
+
+        font-size: 17px;
+    }
+
+
+    .profile-header-security strong {
+        font-size: 11px;
+    }
+
+
+    .profile-header-security span {
+        font-size: 9px;
+    }
+
+
+    .profile-header-progress {
+        padding: 15px 18px 18px;
+    }
+
+}

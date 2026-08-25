@@ -1,7 +1,18 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+import {
+    HiOutlineArrowRight,
+    HiOutlineCheckCircle,
+    HiOutlineLockClosed,
+    HiOutlineMail,
+    HiOutlineShieldCheck,
+    HiOutlineUser,
+} from "react-icons/hi";
+
 import authService from "../../services/authService";
+
+import logo from "../../assets/logo.png";
 
 import "./Register.css";
 
@@ -24,13 +35,14 @@ const Register = () => {
     });
 
 
-    const [loading, setLoading] =
-        useState(false);
+    const [loading, setLoading] = useState(false);
+
+    const [error, setError] = useState("");
 
 
-    const [error, setError] =
-        useState("");
-
+    /* ============================================================
+       HANDLE INPUT
+    ============================================================ */
 
     const handleChange = (event) => {
 
@@ -51,6 +63,10 @@ const Register = () => {
     };
 
 
+    /* ============================================================
+       SUBMIT
+    ============================================================ */
+
     const handleSubmit = async (event) => {
 
         event.preventDefault();
@@ -58,11 +74,9 @@ const Register = () => {
         setError("");
 
 
-        /*
-        ========================================================
-        VALIDATION
-        ========================================================
-        */
+        /* --------------------------------------------------------
+           REQUIRED FIELDS
+        -------------------------------------------------------- */
 
         if (
             !form.name.trim() ||
@@ -80,6 +94,10 @@ const Register = () => {
         }
 
 
+        /* --------------------------------------------------------
+           PASSWORD LENGTH
+        -------------------------------------------------------- */
+
         if (form.password.length < 6) {
 
             setError(
@@ -90,6 +108,10 @@ const Register = () => {
 
         }
 
+
+        /* --------------------------------------------------------
+           PASSWORD MATCH
+        -------------------------------------------------------- */
 
         if (
             form.password !==
@@ -105,11 +127,9 @@ const Register = () => {
         }
 
 
-        /*
-        ========================================================
-        REGISTER
-        ========================================================
-        */
+        /* --------------------------------------------------------
+           REGISTER
+        -------------------------------------------------------- */
 
         try {
 
@@ -119,20 +139,21 @@ const Register = () => {
             const result =
                 await authService.register({
 
-                    name: form.name.trim(),
+                    name:
+                        form.name.trim(),
 
-                    email: form.email.trim(),
+                    email:
+                        form.email.trim(),
 
-                    password: form.password,
+                    password:
+                        form.password,
 
                 });
 
 
-            /*
-            ----------------------------------------------------
-            Ensure only CLIENT accounts enter the portal
-            ----------------------------------------------------
-            */
+            /* ----------------------------------------------------
+               CLIENT ACCOUNT ONLY
+            ---------------------------------------------------- */
 
             if (
                 result.user?.role !==
@@ -150,19 +171,19 @@ const Register = () => {
             }
 
 
-            /*
-            ----------------------------------------------------
-            Registration successful
-            ----------------------------------------------------
-            */
+            /* ----------------------------------------------------
+               SUCCESS
+            ---------------------------------------------------- */
 
             navigate("/portal");
+
 
         } catch (error) {
 
             setError(
 
                 error.response?.data?.message ||
+
                 "Unable to create your account. Please try again."
 
             );
@@ -178,182 +199,478 @@ const Register = () => {
 
     return (
 
-        <main className="register-page">
+        <main className="auth-page register-page">
 
-            <div className="register-card">
-
-
-                {/* =================================================
-                    HEADER
-                ================================================= */}
-
-                <div className="register-header">
-
-                    <span className="register-label">
-                        COLUSUS CLIENT PORTAL
-                    </span>
-
-
-                    <h1>
-                        Create Your Account
-                    </h1>
-
-
-                    <p>
-                        Create your account to manage
-                        your migration journey with Colusus.
-                    </p>
-
-                </div>
+            <div className="auth-shell">
 
 
                 {/* =================================================
-                    FORM
+                    LEFT SHOWCASE
                 ================================================= */}
 
-                <form
-                    className="register-form"
-                    onSubmit={handleSubmit}
-                >
+                <section className="auth-showcase">
+
+                    {/* BACKGROUND DECORATION */}
+
+                    <div className="auth-showcase-background">
+
+                        <span
+                            className="auth-orbit auth-orbit-one"
+                        />
+
+                        <span
+                            className="auth-orbit auth-orbit-two"
+                        />
+
+                        <span
+                            className="auth-grid"
+                        />
+
+                    </div>
 
 
-                    {/* ERROR */}
+                    <div className="auth-showcase-content">
 
-                    {error && (
 
-                        <div className="register-error">
+                        {/* =================================================
+                            BRAND
+                        ================================================= */}
 
-                            {error}
+                        <div className="auth-brand">
+
+                            <img
+                                src={logo}
+                                alt="Colossus"
+                                className="auth-brand-logo"
+                            />
 
                         </div>
 
-                    )}
+
+                        {/* =================================================
+                            HERO
+                        ================================================= */}
+
+                        <div className="auth-showcase-hero">
+
+                            <span className="auth-kicker">
+                                START YOUR JOURNEY
+                            </span>
 
 
-                    {/* NAME */}
+                            <h2>
 
-                    <div className="register-form-group">
+                                One account.
 
-                        <label htmlFor="name">
-                            Full Name
-                        </label>
+                                <br />
+
+                                <span>
+                                    Your journey ahead.
+                                </span>
+
+                            </h2>
 
 
-                        <input
-                            id="name"
-                            name="name"
-                            type="text"
-                            value={form.name}
-                            onChange={handleChange}
-                            placeholder="Enter your full name"
-                            autoComplete="name"
-                        />
+                            <p>
+
+                                Create your Colossus client
+                                account and keep your migration
+                                journey organised from day one.
+
+                            </p>
+
+                        </div>
+
+
+                        {/* =================================================
+                            BENEFITS
+                        ================================================= */}
+
+                        <div className="auth-benefits">
+
+
+                            {/* APPLICATIONS */}
+
+                            <div className="auth-benefit">
+
+                                <div className="auth-benefit-icon">
+
+                                    <HiOutlineCheckCircle />
+
+                                </div>
+
+
+                                <div>
+
+                                    <strong>
+                                        Track applications
+                                    </strong>
+
+                                    <span>
+
+                                        See your migration progress
+                                        and application status.
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            {/* DOCUMENTS */}
+
+                            <div className="auth-benefit">
+
+                                <div className="auth-benefit-icon">
+
+                                    <HiOutlineShieldCheck />
+
+                                </div>
+
+
+                                <div>
+
+                                    <strong>
+                                        Secure documents
+                                    </strong>
+
+                                    <span>
+
+                                        Upload and manage your
+                                        required documents securely.
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            {/* WORKSPACE */}
+
+                            <div className="auth-benefit">
+
+                                <div className="auth-benefit-icon">
+
+                                    <HiOutlineUser />
+
+                                </div>
+
+
+                                <div>
+
+                                    <strong>
+                                        Your client workspace
+                                    </strong>
+
+                                    <span>
+
+                                        Keep your migration information
+                                        together in one place.
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+                        {/* =================================================
+                            TRUST FOOTER
+                        ================================================= */}
+
+                        <div className="auth-showcase-footer">
+
+                            <span className="auth-footer-line" />
+
+                            <span>
+                                Built for your migration journey
+                            </span>
+
+                        </div>
 
                     </div>
 
-
-                    {/* EMAIL */}
-
-                    <div className="register-form-group">
-
-                        <label htmlFor="email">
-                            Email Address
-                        </label>
-
-
-                        <input
-                            id="email"
-                            name="email"
-                            type="email"
-                            value={form.email}
-                            onChange={handleChange}
-                            placeholder="you@example.com"
-                            autoComplete="email"
-                        />
-
-                    </div>
-
-
-                    {/* PASSWORD */}
-
-                    <div className="register-form-group">
-
-                        <label htmlFor="password">
-                            Password
-                        </label>
-
-
-                        <input
-                            id="password"
-                            name="password"
-                            type="password"
-                            value={form.password}
-                            onChange={handleChange}
-                            placeholder="Create a password"
-                            autoComplete="new-password"
-                        />
-
-                    </div>
-
-
-                    {/* CONFIRM PASSWORD */}
-
-                    <div className="register-form-group">
-
-                        <label htmlFor="confirmPassword">
-                            Confirm Password
-                        </label>
-
-
-                        <input
-                            id="confirmPassword"
-                            name="confirmPassword"
-                            type="password"
-                            value={form.confirmPassword}
-                            onChange={handleChange}
-                            placeholder="Confirm your password"
-                            autoComplete="new-password"
-                        />
-
-                    </div>
-
-
-                    {/* SUBMIT */}
-
-                    <button
-                        type="submit"
-                        className="register-submit"
-                        disabled={loading}
-                    >
-
-                        {loading
-                            ? "Creating Account..."
-                            : "Create Account"
-                        }
-
-                    </button>
-
-
-                </form>
+                </section>
 
 
                 {/* =================================================
-                    LOGIN LINK
+                    FORM PANEL
                 ================================================= */}
 
-                <div className="register-footer">
+                <section className="auth-form-panel">
 
-                    <span>
-                        Already have an account?
-                    </span>
+                    <div className="auth-form-card">
 
 
-                    <Link to="/login">
-                        Sign In
-                    </Link>
+                        {/* =================================================
+                            MOBILE BRAND
+                        ================================================= */}
 
-                </div>
+                        <div className="auth-mobile-brand">
 
+                            <img
+                                src={logo}
+                                alt="Colossus"
+                                className="auth-brand-logo"
+                            />
+
+                        </div>
+
+
+                        {/* =================================================
+                            FORM HEADER
+                        ================================================= */}
+
+                        <header className="auth-form-header">
+
+                            <span className="auth-form-eyebrow">
+
+                                CLIENT REGISTRATION
+
+                            </span>
+
+
+                            <h1>
+                                Create your account
+                            </h1>
+
+
+                            <p>
+
+                                Set up your secure client account
+                                and start your migration journey.
+
+                            </p>
+
+                        </header>
+
+
+                        {/* =================================================
+                            ERROR
+                        ================================================= */}
+
+                        {error && (
+
+                            <div className="auth-error">
+
+                                <span />
+
+                                <p>
+                                    {error}
+                                </p>
+
+                            </div>
+
+                        )}
+
+
+                        {/* =================================================
+                            REGISTRATION FORM
+                        ================================================= */}
+
+                        <form
+                            className="auth-form"
+                            onSubmit={handleSubmit}
+                        >
+
+
+                            {/* =================================================
+                                FULL NAME
+                            ================================================= */}
+
+                            <div className="auth-field">
+
+                                <label htmlFor="name">
+                                    Full name
+                                </label>
+
+
+                                <div className="auth-input-wrapper">
+
+                                    <HiOutlineUser />
+
+
+                                    <input
+                                        id="name"
+                                        name="name"
+                                        type="text"
+                                        value={form.name}
+                                        onChange={handleChange}
+                                        placeholder="Enter your full name"
+                                        autoComplete="name"
+                                    />
+
+                                </div>
+
+                            </div>
+
+
+                            {/* =================================================
+                                EMAIL
+                            ================================================= */}
+
+                            <div className="auth-field">
+
+                                <label htmlFor="email">
+                                    Email address
+                                </label>
+
+
+                                <div className="auth-input-wrapper">
+
+                                    <HiOutlineMail />
+
+
+                                    <input
+                                        id="email"
+                                        name="email"
+                                        type="email"
+                                        value={form.email}
+                                        onChange={handleChange}
+                                        placeholder="you@example.com"
+                                        autoComplete="email"
+                                    />
+
+                                </div>
+
+                            </div>
+
+
+                            {/* =================================================
+                                PASSWORD
+                            ================================================= */}
+
+                            <div className="auth-field">
+
+                                <label htmlFor="password">
+                                    Password
+                                </label>
+
+
+                                <div className="auth-input-wrapper">
+
+                                    <HiOutlineLockClosed />
+
+
+                                    <input
+                                        id="password"
+                                        name="password"
+                                        type="password"
+                                        value={form.password}
+                                        onChange={handleChange}
+                                        placeholder="Create a password"
+                                        autoComplete="new-password"
+                                    />
+
+                                </div>
+
+                            </div>
+
+
+                            {/* =================================================
+                                CONFIRM PASSWORD
+                            ================================================= */}
+
+                            <div className="auth-field">
+
+                                <label htmlFor="confirmPassword">
+                                    Confirm password
+                                </label>
+
+
+                                <div className="auth-input-wrapper">
+
+                                    <HiOutlineLockClosed />
+
+
+                                    <input
+                                        id="confirmPassword"
+                                        name="confirmPassword"
+                                        type="password"
+                                        value={form.confirmPassword}
+                                        onChange={handleChange}
+                                        placeholder="Confirm your password"
+                                        autoComplete="new-password"
+                                    />
+
+                                </div>
+
+                            </div>
+
+
+                            {/* =================================================
+                                SUBMIT
+                            ================================================= */}
+
+                            <button
+                                type="submit"
+                                className="auth-submit"
+                                disabled={loading}
+                            >
+
+                                <span>
+
+                                    {loading
+                                        ? "Creating account..."
+                                        : "Create Account"
+                                    }
+
+                                </span>
+
+
+                                {!loading && (
+
+                                    <HiOutlineArrowRight />
+
+                                )}
+
+                            </button>
+
+
+                        </form>
+
+
+                        {/* =================================================
+                            LOGIN FOOTER
+                        ================================================= */}
+
+                        <div className="auth-form-footer">
+
+                            <span>
+                                Already have an account?
+                            </span>
+
+
+                            <Link to="/login">
+                                Sign in
+                            </Link>
+
+                        </div>
+
+
+                        {/* =================================================
+                            SECURITY
+                        ================================================= */}
+
+                        <div className="auth-security">
+
+                            <HiOutlineShieldCheck />
+
+                            <span>
+                                Your account is protected
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </section>
 
             </div>
 

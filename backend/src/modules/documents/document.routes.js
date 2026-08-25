@@ -4,6 +4,7 @@ import {
   createDocument,
   getDocuments,
   getApplicationDocuments,
+  getDocument,
   updateDocumentStatus,
 } from "./document.controller.js";
 
@@ -17,6 +18,8 @@ const router = express.Router();
 |--------------------------------------------------------------------------
 | Create / Upload Document
 |--------------------------------------------------------------------------
+|
+| POST /api/v1/documents
 |
 | Client sends multipart/form-data:
 |
@@ -34,6 +37,12 @@ router.post("/", authenticate, upload.single("file"), createDocument);
 |--------------------------------------------------------------------------
 | Get Client Documents
 |--------------------------------------------------------------------------
+|
+| GET /api/v1/documents
+|
+| Returns all documents belonging to the authenticated client.
+|
+|--------------------------------------------------------------------------
 */
 
 router.get("/", authenticate, getDocuments);
@@ -41,6 +50,13 @@ router.get("/", authenticate, getDocuments);
 /*
 |--------------------------------------------------------------------------
 | Get Application Documents
+|--------------------------------------------------------------------------
+|
+| GET /api/v1/documents/application/:applicationId
+|
+| Returns only documents belonging to the authenticated client's
+| specific application.
+|
 |--------------------------------------------------------------------------
 */
 
@@ -52,7 +68,27 @@ router.get(
 
 /*
 |--------------------------------------------------------------------------
+| Get Single Document
+|--------------------------------------------------------------------------
+|
+| GET /api/v1/documents/:id
+|
+| Used by the Client Portal document viewer.
+|
+| The document service verifies ownership before returning it.
+|
+|--------------------------------------------------------------------------
+*/
+
+router.get("/:id", authenticate, getDocument);
+
+/*
+|--------------------------------------------------------------------------
 | Update Document
+|--------------------------------------------------------------------------
+|
+| PATCH /api/v1/documents/:id
+|
 |--------------------------------------------------------------------------
 */
 

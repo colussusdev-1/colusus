@@ -1,0 +1,183 @@
+/* =========================================================
+   COLUSUS CLIENT PORTAL
+   PROFILE SECURITY NOTICE
+========================================================= */
+
+.profile-security-notice {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+
+    padding: 18px 20px;
+
+    background: #f9fbfd;
+
+    border: 1px solid #e5edf4;
+
+    border-radius: 16px;
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.profile-security-notice-icon {
+    width: 42px;
+    height: 42px;
+
+    flex: 0 0 42px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color: #2775b8;
+
+    background: #edf6ff;
+
+    border: 1px solid #dcecf9;
+
+    border-radius: 12px;
+
+    font-size: 21px;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.profile-security-notice-content {
+    min-width: 0;
+
+    flex: 1;
+}
+
+
+.profile-security-notice-label {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: #8a9bad;
+
+    font-size: 9px;
+
+    font-weight: 750;
+
+    letter-spacing: 0.13em;
+}
+
+
+.profile-security-notice-content h3 {
+    margin: 0;
+
+    color: #29435f;
+
+    font-size: 13px;
+
+    font-weight: 720;
+}
+
+
+.profile-security-notice-content p {
+    max-width: 760px;
+
+    margin: 4px 0 0;
+
+    color: #75869a;
+
+    font-size: 11px;
+
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   BADGE
+========================================================= */
+
+.profile-security-notice-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    flex-shrink: 0;
+
+    padding: 7px 10px;
+
+    color: #427457;
+
+    background: #f1f9f4;
+
+    border: 1px solid #dceee2;
+
+    border-radius: 999px;
+
+    font-size: 9px;
+
+    font-weight: 700;
+}
+
+
+.profile-security-notice-badge svg {
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .profile-security-notice {
+        align-items: flex-start;
+
+        gap: 11px;
+
+        padding: 15px;
+
+        border-radius: 14px;
+    }
+
+
+    .profile-security-notice-icon {
+        width: 36px;
+        height: 36px;
+
+        flex-basis: 36px;
+
+        border-radius: 10px;
+
+        font-size: 18px;
+    }
+
+
+    .profile-security-notice-content h3 {
+        font-size: 12px;
+    }
+
+
+    .profile-security-notice-content p {
+        font-size: 10px;
+
+        line-height: 1.5;
+    }
+
+
+    .profile-security-notice-badge {
+        display: none;
+    }
+
+}

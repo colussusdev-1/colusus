@@ -1,0 +1,390 @@
+/* =========================================================
+   COLUSUS CLIENT PORTAL
+   PROFILE COMPLETION
+========================================================= */
+
+.profile-completion {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 28px;
+
+    margin-bottom: 20px;
+
+    padding: 24px 26px;
+
+    background:
+        linear-gradient(135deg,
+            #f7fbff 0%,
+            #ffffff 70%);
+
+    border: 1px solid #dfeaf5;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 8px 28px rgba(20, 43, 70, 0.045);
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.profile-completion-main {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 16px;
+
+    min-width: 0;
+}
+
+
+.profile-completion-icon {
+    width: 46px;
+    height: 46px;
+
+    flex: 0 0 46px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color: #d58a20;
+
+    background: #fff7e9;
+
+    border: 1px solid #f3dfb8;
+
+    border-radius: 14px;
+
+    font-size: 24px;
+}
+
+
+.profile-completion-content {
+    min-width: 0;
+
+    flex: 1;
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.profile-completion-title-row {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+
+.profile-completion-eyebrow {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #7890a9;
+
+    font-size: 9px;
+
+    font-weight: 750;
+
+    letter-spacing: 0.13em;
+}
+
+
+.profile-completion-title-row h2 {
+    margin: 0;
+
+    color: #173552;
+
+    font-size: 18px;
+
+    line-height: 1.25;
+
+    font-weight: 750;
+
+    letter-spacing: -0.02em;
+}
+
+
+.profile-completion-percentage {
+    color: #1d67b1;
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.profile-completion-content>p {
+    max-width: 680px;
+
+    margin: 7px 0 14px;
+
+    color: #718198;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.profile-completion-track {
+    width: 100%;
+
+    height: 6px;
+
+    overflow: hidden;
+
+    background: #e5edf5;
+
+    border-radius: 999px;
+}
+
+
+.profile-completion-fill {
+    height: 100%;
+
+    background:
+        linear-gradient(90deg,
+            #1d67b1,
+            #4a9add);
+
+    border-radius: inherit;
+
+    transition: width 500ms ease;
+}
+
+
+/* =========================================================
+   MISSING FIELDS
+========================================================= */
+
+.profile-completion-missing {
+    margin-top: 13px;
+}
+
+
+.profile-completion-missing>span {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #8493a5;
+
+    font-size: 10px;
+
+    font-weight: 650;
+}
+
+
+.profile-completion-missing>div {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 6px;
+}
+
+
+.profile-completion-tag {
+    padding: 5px 9px;
+
+    color: #52677f;
+
+    background: #ffffff;
+
+    border: 1px solid #dce6ef;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+
+    font-weight: 600;
+}
+
+
+.profile-completion-more {
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 5px 8px;
+
+    color: #2473bd;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   ACTION
+========================================================= */
+
+.profile-completion-action {
+    min-width: 158px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 12px 16px;
+
+    color: #ffffff;
+
+    background: #1d67b1;
+
+    border: 0;
+
+    border-radius: 11px;
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 7px 18px rgba(29, 103, 177, 0.18);
+
+    transition:
+        transform 180ms ease,
+        box-shadow 180ms ease,
+        background 180ms ease;
+}
+
+
+.profile-completion-action:hover {
+    background: #175995;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 10px 22px rgba(29, 103, 177, 0.22);
+}
+
+
+.profile-completion-action svg {
+    font-size: 15px;
+}
+
+
+/* =========================================================
+   COMPLETE STATE
+========================================================= */
+
+.profile-completion:has(.profile-completion-icon svg[data-complete="true"]) {
+    border-color: #dceee5;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .profile-completion {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+
+    .profile-completion-action {
+        width: 100%;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .profile-completion {
+        gap: 18px;
+
+        padding: 20px 18px;
+
+        border-radius: 17px;
+    }
+
+
+    .profile-completion-main {
+        gap: 12px;
+    }
+
+
+    .profile-completion-icon {
+        width: 40px;
+        height: 40px;
+
+        flex-basis: 40px;
+
+        border-radius: 11px;
+
+        font-size: 21px;
+    }
+
+
+    .profile-completion-title-row {
+        gap: 10px;
+    }
+
+
+    .profile-completion-title-row h2 {
+        font-size: 16px;
+    }
+
+
+    .profile-completion-percentage {
+        font-size: 16px;
+    }
+
+
+    .profile-completion-content>p {
+        font-size: 11px;
+    }
+
+
+    .profile-completion-action {
+        padding: 12px 15px;
+
+        font-size: 11px;
+    }
+
+}

@@ -1,11 +1,141 @@
 import mongoose from "mongoose";
 
+/*
+============================================================
+APPLICATION ACTIVITY SCHEMA
+============================================================
+|
+| Stores the real event history for an application.
+|
+| This powers:
+|
+| - Recent Activity
+| - Document activity
+| - Application status changes
+| - Submission events
+| - Approval / rejection events
+|
+============================================================
+*/
+
+const applicationActivitySchema = new mongoose.Schema(
+  {
+    /*
+    ----------------------------------------------------------
+    ACTIVITY TYPE
+    ----------------------------------------------------------
+    */
+
+    type: {
+      type: String,
+
+      enum: [
+        "CREATED",
+        "STARTED",
+
+        "DOCUMENT_UPLOADED",
+        "DOCUMENT_REVIEW",
+        "DOCUMENT_APPROVED",
+        "DOCUMENT_REJECTED",
+        "DOCUMENT_REUPLOAD_REQUIRED",
+        "DOCUMENTS_COMPLETED",
+
+        "STATUS_CHANGED",
+
+        "SUBMITTED",
+
+        "APPROVED",
+        "REJECTED",
+
+        "UPDATED",
+      ],
+
+      required: true,
+    },
+
+    /*
+    ----------------------------------------------------------
+    ACTIVITY TITLE
+    ----------------------------------------------------------
+    */
+
+    title: {
+      type: String,
+
+      required: true,
+
+      trim: true,
+    },
+
+    /*
+    ----------------------------------------------------------
+    ACTIVITY DESCRIPTION
+    ----------------------------------------------------------
+    */
+
+    description: {
+      type: String,
+
+      default: "",
+
+      trim: true,
+    },
+
+    /*
+    ----------------------------------------------------------
+    ACTIVITY METADATA
+    ----------------------------------------------------------
+    |
+    | Used for additional information such as:
+    |
+    | documentId
+    | documentName
+    | previousStatus
+    | status
+    | currentStep
+    | etc.
+    |
+    ----------------------------------------------------------
+    */
+
+    metadata: {
+      type: mongoose.Schema.Types.Mixed,
+
+      default: {},
+    },
+
+    /*
+    ----------------------------------------------------------
+    CREATED AT
+    ----------------------------------------------------------
+    */
+
+    createdAt: {
+      type: Date,
+
+      default: Date.now,
+
+      index: true,
+    },
+  },
+
+  {
+    _id: true,
+  },
+);
+
+/*
+============================================================
+APPLICATION SCHEMA
+============================================================
+*/
+
 const applicationSchema = new mongoose.Schema(
   {
     /*
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------
     | CLIENT OWNER
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------
     */
 
     user: {
@@ -14,15 +144,14 @@ const applicationSchema = new mongoose.Schema(
       ref: "User",
 
       required: true,
+
+      index: true,
     },
 
     /*
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------
     | SELECTED OPPORTUNITY
-    |--------------------------------------------------------------------------
-    |
-    | The actual Colusus pathway the client selected.
-    |
+    |----------------------------------------------------------------
     */
 
     opportunity: {
@@ -31,16 +160,14 @@ const applicationSchema = new mongoose.Schema(
       ref: "Opportunity",
 
       required: true,
+
+      index: true,
     },
 
     /*
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------
     | OPPORTUNITY SNAPSHOT
-    |--------------------------------------------------------------------------
-    |
-    | Preserve the configuration that existed when the
-    | client started the application.
-    |
+    |----------------------------------------------------------------
     */
 
     opportunitySnapshot: {
@@ -94,9 +221,9 @@ const applicationSchema = new mongoose.Schema(
     },
 
     /*
-    |--------------------------------------------------------------------------
-    | ASSIGNED STAFF / ADMIN
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------
+    | ASSIGNED STAFF
+    |----------------------------------------------------------------
     */
 
     assignedTo: {
@@ -108,9 +235,9 @@ const applicationSchema = new mongoose.Schema(
     },
 
     /*
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------
     | APPLICATION TYPE
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------
     */
 
     type: {
@@ -127,9 +254,9 @@ const applicationSchema = new mongoose.Schema(
     },
 
     /*
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------
     | DESTINATION COUNTRY
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------
     */
 
     destinationCountry: {
@@ -141,9 +268,27 @@ const applicationSchema = new mongoose.Schema(
     },
 
     /*
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------
     | APPLICATION STATUS
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------
+    |
+    | CLIENT CONTROLLED:
+    |
+    | DRAFT
+    | IN_PROGRESS
+    |
+    | STAFF / BACKEND CONTROLLED:
+    |
+    | SUBMITTED
+    | UNDER_REVIEW
+    | DOCUMENT_REQUEST
+    | PROCESSING
+    | APPROVED
+    | REJECTED
+    |
+    | The client portal must not arbitrarily change staff-only
+    | statuses.
+    |
     */
 
     status: {
@@ -151,6 +296,7 @@ const applicationSchema = new mongoose.Schema(
 
       enum: [
         "DRAFT",
+        "IN_PROGRESS",
         "SUBMITTED",
         "UNDER_REVIEW",
         "DOCUMENT_REQUEST",
@@ -160,33 +306,36 @@ const applicationSchema = new mongoose.Schema(
       ],
 
       default: "DRAFT",
+
+      index: true,
     },
 
     /*
-    |--------------------------------------------------------------------------
-    | APPLICATION PROGRESS
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------
+    | APPLICATION JOURNEY
+    |----------------------------------------------------------------
     */
 
     currentStep: {
       type: String,
 
-      default: "PERSONAL_INFORMATION",
+      default: "DOCUMENTS",
+
+      trim: true,
     },
 
     currentStepIndex: {
       type: Number,
 
       default: 0,
+
+      min: 0,
     },
 
     /*
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------
     | CLIENT ANSWERS
-    |--------------------------------------------------------------------------
-    |
-    | Answers to pathway-specific application questions.
-    |
+    |----------------------------------------------------------------
     */
 
     answers: {
@@ -196,12 +345,9 @@ const applicationSchema = new mongoose.Schema(
     },
 
     /*
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------
     | PERSONAL INFORMATION
-    |--------------------------------------------------------------------------
-    |
-    | Information collected during the application wizard.
-    |
+    |----------------------------------------------------------------
     */
 
     personalInformation: {
@@ -211,29 +357,37 @@ const applicationSchema = new mongoose.Schema(
     },
 
     /*
-    |--------------------------------------------------------------------------
-    | APPLICATION DOCUMENTS
-    |--------------------------------------------------------------------------
-    |
-    | Actual uploaded document records are handled by the
-    | document module. This field stores the relationship
-    | to those documents when necessary.
-    |
+    |----------------------------------------------------------------
+    | DOCUMENT PROGRESS
+    |----------------------------------------------------------------
     */
 
     documentProgress: {
       type: mongoose.Schema.Types.Mixed,
 
-      default: {},
+      default: {
+        required: 0,
+
+        uploaded: 0,
+
+        approved: 0,
+
+        pending: 0,
+
+        rejected: 0,
+
+        missing: [],
+
+        percentage: 0,
+
+        complete: false,
+      },
     },
 
     /*
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------
     | WORKFLOW
-    |--------------------------------------------------------------------------
-    |
-    | Snapshot of the workflow assigned to this application.
-    |
+    |----------------------------------------------------------------
     */
 
     workflow: {
@@ -243,9 +397,25 @@ const applicationSchema = new mongoose.Schema(
     },
 
     /*
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------
+    | APPLICATION ACTIVITY
+    |----------------------------------------------------------------
+    |
+    | This is the persistent activity history displayed by
+    | ApplicationActivity.jsx.
+    |
+    */
+
+    activity: {
+      type: [applicationActivitySchema],
+
+      default: [],
+    },
+
+    /*
+    |----------------------------------------------------------------
     | PRIORITY
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------
     */
 
     priority: {
@@ -257,21 +427,23 @@ const applicationSchema = new mongoose.Schema(
     },
 
     /*
-    |--------------------------------------------------------------------------
-    | CLIENT VISIBLE NOTES
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------
+    | CLIENT NOTES
+    |----------------------------------------------------------------
     */
 
     notes: {
       type: String,
 
       default: "",
+
+      trim: true,
     },
 
     /*
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------
     | INTERNAL ADMIN NOTES
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------
     */
 
     internalNotes: [
@@ -280,12 +452,16 @@ const applicationSchema = new mongoose.Schema(
           type: String,
 
           required: true,
+
+          trim: true,
         },
 
         createdBy: {
           type: mongoose.Schema.Types.ObjectId,
 
           ref: "User",
+
+          default: null,
         },
 
         createdAt: {
@@ -297,9 +473,9 @@ const applicationSchema = new mongoose.Schema(
     ],
 
     /*
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------
     | LAST UPDATED BY
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------
     */
 
     lastUpdatedBy: {
@@ -317,13 +493,14 @@ const applicationSchema = new mongoose.Schema(
 );
 
 /*
-|--------------------------------------------------------------------------
-| INDEXES
-|--------------------------------------------------------------------------
+============================================================
+INDEXES
+============================================================
 */
 
 applicationSchema.index({
   user: 1,
+
   createdAt: -1,
 });
 
@@ -333,9 +510,28 @@ applicationSchema.index({
 
 applicationSchema.index({
   user: 1,
+
   opportunity: 1,
 });
 
-const Application = mongoose.model("Application", applicationSchema);
+applicationSchema.index({
+  user: 1,
+
+  status: 1,
+
+  createdAt: -1,
+});
+
+/*
+============================================================
+MODEL
+============================================================
+*/
+
+const Application = mongoose.model(
+  "Application",
+
+  applicationSchema,
+);
 
 export default Application;

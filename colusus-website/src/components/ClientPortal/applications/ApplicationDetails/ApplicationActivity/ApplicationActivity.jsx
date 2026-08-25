@@ -2,23 +2,32 @@ import {
   HiOutlineCheckCircle,
   HiOutlineClock,
   HiOutlineDocumentText,
+  HiOutlineExclamationCircle,
   HiOutlineInformationCircle,
   HiOutlineRefresh,
+  HiOutlineUpload,
 } from "react-icons/hi";
 
 import "./ApplicationActivity.css";
 
+/*
+============================================================
+NORMALIZE ACTIVITY TYPE
+============================================================
+*/
 
-/* =========================================================
-   HELPERS
-========================================================= */
-
-const normalizeStatus = (value) => {
+const normalizeActivityType = (value) => {
   return String(value || "")
     .trim()
-    .toUpperCase();
+    .toUpperCase()
+    .replace(/\s+/g, "_");
 };
 
+/*
+============================================================
+FORMAT DATE
+============================================================
+*/
 
 const formatActivityDate = (date) => {
   if (!date) {
@@ -31,16 +40,18 @@ const formatActivityDate = (date) => {
     return "Date unavailable";
   }
 
-  return parsedDate.toLocaleDateString(
-    "en-GB",
-    {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    }
-  );
+  return parsedDate.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
 };
 
+/*
+============================================================
+FORMAT TIME
+============================================================
+*/
 
 const formatActivityTime = (date) => {
   if (!date) {
@@ -53,27 +64,42 @@ const formatActivityTime = (date) => {
     return "";
   }
 
-  return parsedDate.toLocaleTimeString(
-    "en-GB",
-    {
-      hour: "2-digit",
-      minute: "2-digit",
-    }
-  );
+  return parsedDate.toLocaleTimeString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 };
 
+/*
+============================================================
+GET ACTIVITY ICON
+============================================================
+*/
 
 const getActivityIcon = (type) => {
-  switch (
-  normalizeStatus(type)
-  ) {
-    case "DOCUMENT":
+  switch (normalizeActivityType(type)) {
     case "DOCUMENT_UPLOADED":
+      return HiOutlineUpload;
+
     case "DOCUMENT_REVIEW":
+      return HiOutlineClock;
+
+    case "DOCUMENT_APPROVED":
+      return HiOutlineCheckCircle;
+
+    case "DOCUMENT_REJECTED":
+    case "DOCUMENT_REUPLOAD_REQUIRED":
+    case "REJECTED":
+      return HiOutlineExclamationCircle;
+
+    case "DOCUMENTS_COMPLETED":
       return HiOutlineDocumentText;
 
-    case "COMPLETED":
+    case "CREATED":
+    case "STARTED":
+    case "SUBMITTED":
     case "APPROVED":
+    case "COMPLETED":
       return HiOutlineCheckCircle;
 
     case "UPDATED":
@@ -88,20 +114,32 @@ const getActivityIcon = (type) => {
   }
 };
 
+/*
+============================================================
+GET ACTIVITY CLASS
+============================================================
+*/
 
 const getActivityClass = (type) => {
-  switch (
-  normalizeStatus(type)
-  ) {
-    case "DOCUMENT":
+  switch (normalizeActivityType(type)) {
     case "DOCUMENT_UPLOADED":
     case "DOCUMENT_REVIEW":
+    case "DOCUMENTS_COMPLETED":
       return "document";
 
-    case "COMPLETED":
+    case "DOCUMENT_APPROVED":
     case "APPROVED":
+    case "COMPLETED":
+    case "SUBMITTED":
       return "completed";
 
+    case "DOCUMENT_REJECTED":
+    case "DOCUMENT_REUPLOAD_REQUIRED":
+    case "REJECTED":
+      return "attention";
+
+    case "CREATED":
+    case "STARTED":
     case "UPDATED":
     case "STATUS_CHANGED":
       return "updated";
@@ -114,84 +152,209 @@ const getActivityClass = (type) => {
   }
 };
 
+/*
+============================================================
+GET ACTIVITY DATE
+============================================================
+*/
 
-/* =========================================================
-   BUILD FALLBACK ACTIVITY
-========================================================= */
+const getActivityDate = (activity) => {
+  return (
+    activity?.createdAt ||
+    activity?.date ||
+    activity?.updatedAt ||
+    null
+  );
+};
 
-const buildFallbackActivity = (
-  application
-) => {
+/*
+============================================================
+GET ACTIVITY KEY
+============================================================
+*/
 
+const getActivityKey = (activity, index) => {
+  return (
+    activity?._id ||
+    activity?.id ||
+    `${activity?.type || "activity"}-${getActivityDate(activity) || "unknown"
+    }-${index}`
+  );
+};
+
+/*
+============================================================
+LEGACY FALLBACK
+============================================================
+|
+| Only used for old applications that do not yet have
+| the activity array.
+|
+============================================================
+*/
+
+const buildFallbackActivity = (application) => {
   if (!application) {
     return [];
   }
 
-
   const activities = [];
 
-
   /*
-   * Application creation
-   */
+  ----------------------------------------------------------
+  CREATED
+  ----------------------------------------------------------
+  */
 
   if (application.createdAt) {
     activities.push({
-      id: "application-created",
+      id: "legacy-application-created",
 
       type: "CREATED",
+
+      title: "Application created",
+
+      description:
+        "Your application was created successfully.",
+
+      createdAt: application.createdAt,
+    });
+  }
+
+  /*
+  ----------------------------------------------------------
+  CURRENT STATUS
+  ----------------------------------------------------------
+  */
+
+  const status = normalizeActivityType(
+    application.status,
+  );
+
+  /*
+  ----------------------------------------------------------
+  IN PROGRESS
+  ----------------------------------------------------------
+  */
+
+  if (status === "IN_PROGRESS") {
+    activities.push({
+      id: "legacy-application-started",
+
+      type: "STARTED",
+
+      title: "Application started",
+
+      description:
+        "You have started completing your application.",
+
+      createdAt:
+        application.updatedAt ||
+        application.createdAt,
+    });
+  }
+
+  /*
+  ----------------------------------------------------------
+  SUBMITTED
+  ----------------------------------------------------------
+  */
+
+  if (status === "SUBMITTED") {
+    activities.push({
+      id: "legacy-application-submitted",
+
+      type: "SUBMITTED",
 
       title: "Application submitted",
 
       description:
-        "Your application was successfully submitted to Colusus.",
+        "Your application has been submitted to Colusus.",
 
-      date: application.createdAt,
+      createdAt:
+        application.updatedAt ||
+        application.createdAt,
     });
   }
 
-
   /*
-   * Current status.
-   *
-   * We only add this when updatedAt exists
-   * and is different from createdAt.
-   */
+  ----------------------------------------------------------
+  UNDER REVIEW
+  ----------------------------------------------------------
+  */
 
-  if (
-    application.updatedAt &&
-    application.createdAt &&
-    application.updatedAt !==
-    application.createdAt
-  ) {
+  if (status === "UNDER_REVIEW") {
     activities.push({
-      id: "application-updated",
+      id: "legacy-application-review",
 
-      type: "UPDATED",
+      type: "STATUS_CHANGED",
 
-      title: "Application updated",
+      title: "Application under review",
 
       description:
-        "Your application information or status was updated.",
+        "Your application is currently being reviewed by the Colusus team.",
 
-      date: application.updatedAt,
+      createdAt:
+        application.updatedAt ||
+        application.createdAt,
     });
   }
 
+  /*
+  ----------------------------------------------------------
+  DOCUMENT REQUEST
+  ----------------------------------------------------------
+  */
+
+  if (status === "DOCUMENT_REQUEST") {
+    activities.push({
+      id: "legacy-document-request",
+
+      type: "STATUS_CHANGED",
+
+      title: "Additional documents requested",
+
+      description:
+        "Colusus has requested additional documents for your application.",
+
+      createdAt:
+        application.updatedAt ||
+        application.createdAt,
+    });
+  }
 
   /*
-   * Current terminal state.
-   */
+  ----------------------------------------------------------
+  PROCESSING
+  ----------------------------------------------------------
+  */
 
-  const status =
-    normalizeStatus(
-      application.status
-    );
+  if (status === "PROCESSING") {
+    activities.push({
+      id: "legacy-application-processing",
 
+      type: "STATUS_CHANGED",
+
+      title: "Application processing",
+
+      description:
+        "Your application is currently being processed by the Colusus team.",
+
+      createdAt:
+        application.updatedAt ||
+        application.createdAt,
+    });
+  }
+
+  /*
+  ----------------------------------------------------------
+  APPROVED
+  ----------------------------------------------------------
+  */
 
   if (status === "APPROVED") {
     activities.push({
-      id: "application-approved",
+      id: "legacy-application-approved",
 
       type: "APPROVED",
 
@@ -200,73 +363,131 @@ const buildFallbackActivity = (
       description:
         "Your application has been approved.",
 
-      date:
+      createdAt:
         application.updatedAt ||
         application.createdAt,
     });
   }
 
+  /*
+  ----------------------------------------------------------
+  REJECTED
+  ----------------------------------------------------------
+  */
 
   if (status === "REJECTED") {
     activities.push({
-      id: "application-rejected",
+      id: "legacy-application-rejected",
 
-      type: "UPDATED",
+      type: "REJECTED",
 
-      title: "Application status updated",
+      title: "Application requires attention",
 
       description:
-        "Your application status has been updated. Please review the latest information.",
+        "Your application requires attention. Please review the latest information from Colusus.",
 
-      date:
+      createdAt:
         application.updatedAt ||
         application.createdAt,
     });
   }
-
 
   return activities;
 };
 
+/*
+============================================================
+GET APPLICATION ACTIVITIES
+============================================================
+*/
 
-/* =========================================================
-   COMPONENT
-========================================================= */
+const getApplicationActivities = (application) => {
+  /*
+  ----------------------------------------------------------
+  REAL BACKEND ACTIVITY
+  ----------------------------------------------------------
+  */
+
+  if (Array.isArray(application?.activity)) {
+    return application.activity;
+  }
+
+  /*
+  ----------------------------------------------------------
+  LEGACY FALLBACK
+  ----------------------------------------------------------
+  */
+
+  return buildFallbackActivity(application);
+};
+
+/*
+============================================================
+COMPONENT
+============================================================
+*/
 
 const ApplicationActivity = ({
   application,
+  onRefresh,
+  refreshing = false,
 }) => {
-
   /*
-   * Prefer real activity data if the backend
-   * eventually provides it.
-   *
-   * Fallback activity keeps the component
-   * useful with the current Application model.
-   */
+  ----------------------------------------------------------
+  ACTIVITIES
+  ----------------------------------------------------------
+  */
 
   const activities =
-    Array.isArray(
-      application?.activity
+    getApplicationActivities(application);
+
+  /*
+  ----------------------------------------------------------
+  SORT NEWEST FIRST
+  ----------------------------------------------------------
+  */
+
+  const sortedActivities = [...activities]
+    .filter(
+      (activity) =>
+        activity &&
+        typeof activity === "object",
     )
-      ? application.activity
-      : Array.isArray(
-        application?.activities
-      )
-        ? application.activities
-        : buildFallbackActivity(
-          application
-        );
+    .sort((a, b) => {
+      const dateA = new Date(
+        getActivityDate(a) || 0,
+      ).getTime();
 
+      const dateB = new Date(
+        getActivityDate(b) || 0,
+      ).getTime();
 
-  const sortedActivities = [
-    ...activities,
-  ].sort(
-    (a, b) =>
-      new Date(b.date || b.createdAt) -
-      new Date(a.date || a.createdAt)
-  );
+      return dateB - dateA;
+    });
 
+  /*
+  ----------------------------------------------------------
+  REFRESH HANDLER
+  ----------------------------------------------------------
+  */
+
+  const handleRefresh = async () => {
+    if (
+      refreshing ||
+      typeof onRefresh !== "function"
+    ) {
+      return;
+    }
+
+    try {
+      await onRefresh();
+    } catch (error) {
+      console.error(
+        "FAILED TO REFRESH APPLICATION:",
+        error,
+      );
+    }
+  };
 
   return (
     <section className="application-activity">
@@ -278,7 +499,6 @@ const ApplicationActivity = ({
       <div className="application-activity-header">
 
         <div>
-
           <span>
             APPLICATION ACTIVITY
           </span>
@@ -291,16 +511,31 @@ const ApplicationActivity = ({
             Important updates and events from
             your application journey.
           </p>
-
         </div>
 
+        {/* =================================================
+            REFRESH
+        ================================================= */}
 
-        <div className="application-activity-icon">
+        <button
+          type="button"
+          className={`application-activity-icon ${refreshing
+              ? "is-refreshing"
+              : ""
+            }`}
+          onClick={handleRefresh}
+          disabled={
+            refreshing ||
+            typeof onRefresh !==
+            "function"
+          }
+          aria-label="Refresh application activity"
+          title="Refresh activity"
+        >
           <HiOutlineRefresh />
-        </div>
+        </button>
 
       </div>
-
 
       {/* =====================================================
           EMPTY STATE
@@ -315,7 +550,6 @@ const ApplicationActivity = ({
           </div>
 
           <div>
-
             <strong>
               No activity yet
             </strong>
@@ -324,7 +558,6 @@ const ApplicationActivity = ({
               Activity will appear here as your
               application progresses.
             </p>
-
           </div>
 
         </div>
@@ -340,40 +573,38 @@ const ApplicationActivity = ({
           {sortedActivities.map(
             (activity, index) => {
 
-              const Icon =
-                getActivityIcon(
-                  activity.type
+              const type =
+                normalizeActivityType(
+                  activity.type,
                 );
 
+              const Icon =
+                getActivityIcon(type);
 
               const activityClass =
-                getActivityClass(
-                  activity.type
-                );
-
+                getActivityClass(type);
 
               const date =
-                activity.date ||
-                activity.createdAt;
-
+                getActivityDate(
+                  activity,
+                );
 
               const isLast =
                 index ===
-                sortedActivities.length - 1;
-
+                sortedActivities.length -
+                1;
 
               return (
                 <div
-                  key={
-                    activity.id ||
-                    activity._id ||
-                    `${activity.title}-${index}`
-                  }
+                  key={getActivityKey(
+                    activity,
+                    index,
+                  )}
                   className={`application-activity-item ${activityClass}`}
                 >
 
                   {/* =================================================
-                      TIMELINE
+                      MARKER
                   ================================================= */}
 
                   <div className="application-activity-marker">
@@ -382,13 +613,11 @@ const ApplicationActivity = ({
                       <Icon />
                     </div>
 
-
                     {!isLast && (
                       <span className="application-activity-line" />
                     )}
 
                   </div>
-
 
                   {/* =================================================
                       CONTENT
@@ -405,16 +634,16 @@ const ApplicationActivity = ({
 
                       <time>
                         {formatActivityDate(
-                          date
+                          date,
                         )}
 
                         {formatActivityTime(
-                          date
+                          date,
                         ) && (
                             <>
                               {" · "}
                               {formatActivityTime(
-                                date
+                                date,
                               )}
                             </>
                           )}
@@ -422,18 +651,37 @@ const ApplicationActivity = ({
 
                     </div>
 
-
                     <p>
                       {activity.description ||
                         activity.message ||
                         "Your application has been updated."}
                     </p>
 
+                    {/* =================================================
+                        REVIEW NOTE
+                    ================================================= */}
+
+                    {activity?.metadata
+                      ?.reviewNote && (
+                        <div className="application-activity-note">
+
+                          <HiOutlineInformationCircle />
+
+                          <span>
+                            {
+                              activity.metadata
+                                .reviewNote
+                            }
+                          </span>
+
+                        </div>
+                      )}
+
                   </div>
 
                 </div>
               );
-            }
+            },
           )}
 
         </div>
@@ -442,6 +690,5 @@ const ApplicationActivity = ({
     </section>
   );
 };
-
 
 export default ApplicationActivity;

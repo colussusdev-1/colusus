@@ -8,8 +8,7 @@
     width: 100%;
     min-height: 100vh;
 
-    padding:
-        32px 38px 70px;
+    padding: 32px 38px 70px;
 
     box-sizing: border-box;
 
@@ -78,38 +77,49 @@
     max-width: 1380px;
 
     margin: 0 auto;
+
+    /*
+     * Single spacing system for all major
+     * application-detail sections.
+     */
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 24px;
 }
 
 
 /* =========================================================
-   HEADER
+   MAJOR COMPONENT SPACING
 ========================================================= */
 
-.application-details-container>.application-details-header {
-    margin-bottom: 24px;
+/*
+ * The parent container controls vertical spacing.
+ *
+ * Individual components should not add their own
+ * bottom margins here. This prevents uneven gaps.
+ */
+
+.application-details-container>.application-details-header,
+
+.application-details-container>.application-journey,
+
+.application-details-container>.application-stage-card,
+
+.application-details-container>.application-completion,
+
+.application-details-container>.application-details-layout,
+
+.application-details-container>.application-details-footer {
+    margin-top: 0;
+
+    margin-bottom: 0;
 }
 
 
 /* =========================================================
-   JOURNEY
-========================================================= */
-
-.application-details-container>.application-journey {
-    margin-bottom: 22px;
-}
-
-
-/* =========================================================
-   CURRENT STAGE
-========================================================= */
-
-.application-details-container>.application-stage-card {
-    margin-bottom: 30px;
-}
-
-
-/* =========================================================
-   MAIN CONTENT
+   MAIN CONTENT LAYOUT
 ========================================================= */
 
 .application-details-layout {
@@ -137,7 +147,7 @@
 
     flex-direction: column;
 
-    gap: 22px;
+    gap: 24px;
 }
 
 
@@ -152,7 +162,7 @@
 
     flex-direction: column;
 
-    gap: 22px;
+    gap: 24px;
 
     position: sticky;
 
@@ -167,17 +177,21 @@
 ========================================================= */
 
 /*
- * Defensive spacing.
+ * Defensive rule.
  *
- * This makes sure that even if a component's own CSS
- * changes later, the page still maintains breathing room.
+ * Ensures child components do not introduce
+ * unexpected external spacing.
  */
 
 .application-details-primary>section,
-.application-details-sidebar>section,
 .application-details-primary>article,
+.application-details-sidebar>section,
 .application-details-sidebar>article {
     width: 100%;
+
+    margin-top: 0;
+
+    margin-bottom: 0;
 }
 
 
@@ -192,9 +206,9 @@
 
     justify-content: flex-start;
 
-    margin-top: 34px;
+    margin: 0;
 
-    padding-top: 22px;
+    padding-top: 24px;
 
     border-top:
         1px solid #e3eaf0;
@@ -376,8 +390,7 @@
 
     min-height: 36px;
 
-    padding:
-        0 13px;
+    padding: 0 13px;
 
     border:
         1px solid #dce6ee;
@@ -424,6 +437,7 @@
 
     .application-details-page {
         padding-left: 55px;
+
         padding-right: 55px;
     }
 
@@ -442,17 +456,22 @@
     }
 
 
+    .application-details-container {
+        gap: 22px;
+    }
+
+
     .application-details-layout {
         grid-template-columns:
             minmax(0, 1fr) minmax(260px, 300px);
 
-        gap: 20px;
+        gap: 22px;
     }
 
 
     .application-details-primary,
     .application-details-sidebar {
-        gap: 19px;
+        gap: 22px;
     }
 
 }
@@ -470,18 +489,8 @@
     }
 
 
-    .application-details-container>.application-details-header {
-        margin-bottom: 20px;
-    }
-
-
-    .application-details-container>.application-journey {
-        margin-bottom: 20px;
-    }
-
-
-    .application-details-container>.application-stage-card {
-        margin-bottom: 24px;
+    .application-details-container {
+        gap: 22px;
     }
 
 
@@ -494,7 +503,7 @@
 
     .application-details-primary,
     .application-details-sidebar {
-        gap: 20px;
+        gap: 22px;
     }
 
 
@@ -504,7 +513,7 @@
 
 
     .application-details-footer {
-        margin-top: 28px;
+        padding-top: 22px;
     }
 
 }
@@ -522,18 +531,8 @@
     }
 
 
-    .application-details-container>.application-details-header {
-        margin-bottom: 17px;
-    }
-
-
-    .application-details-container>.application-journey {
-        margin-bottom: 17px;
-    }
-
-
-    .application-details-container>.application-stage-card {
-        margin-bottom: 19px;
+    .application-details-container {
+        gap: 18px;
     }
 
 
@@ -544,13 +543,11 @@
 
     .application-details-primary,
     .application-details-sidebar {
-        gap: 17px;
+        gap: 18px;
     }
 
 
     .application-details-footer {
-        margin-top: 23px;
-
         padding-top: 18px;
     }
 
@@ -582,19 +579,24 @@
     }
 
 
+    .application-details-container {
+        gap: 16px;
+    }
+
+
     .application-details-layout {
-        gap: 15px;
+        gap: 16px;
     }
 
 
     .application-details-primary,
     .application-details-sidebar {
-        gap: 15px;
+        gap: 16px;
     }
 
 
     .application-details-footer {
-        margin-top: 20px;
+        padding-top: 16px;
     }
 
 }

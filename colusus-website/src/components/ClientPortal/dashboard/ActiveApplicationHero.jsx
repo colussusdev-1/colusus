@@ -9,6 +9,7 @@ import {
 import {
   formatApplicationType,
   formatDate,
+  getCurrentJourneyStage,
 } from "./dashboard.utils";
 
 import { getCountryFlag } from "./countries";
@@ -20,65 +21,86 @@ const ActiveApplicationHero = ({
   progress,
 }) => {
 
+  /* =========================================================
+     COUNTRY
+  ========================================================= */
+
   const destinationCountry =
     application?.destinationCountry?.trim() ||
+    application?.opportunitySnapshot?.countryName?.trim() ||
+    application?.opportunity?.countryName?.trim() ||
     "Unknown";
+
 
   const countryCode =
     destinationCountry
       .slice(0, 2)
       .toUpperCase();
 
+
   const countryFlag =
-    getCountryFlag(destinationCountry);
+    getCountryFlag(
+      destinationCountry,
+    );
 
 
-  /* =========================================
-     FLAG DEBUG LOGS
-  ========================================= */
+  /* =========================================================
+     CURRENT JOURNEY STAGE
+  ========================================================= */
 
-  console.log(
-    "[COLUSUS FLAG DEBUG] --------------------"
-  );
+  const currentStage =
+    getCurrentJourneyStage(
+      application,
+    );
 
-  console.log(
-    "[COLUSUS FLAG DEBUG] Application:",
-    application
-  );
 
-  console.log(
-    "[COLUSUS FLAG DEBUG] destinationCountry:",
-    destinationCountry
-  );
+  /* =========================================================
+     APPLICATION TYPE
+  ========================================================= */
 
-  console.log(
-    "[COLUSUS FLAG DEBUG] countryCode:",
-    countryCode
-  );
+  const applicationType =
+    formatApplicationType(
+      application?.type ||
+      application?.opportunitySnapshot?.type,
+    );
 
-  console.log(
-    "[COLUSUS FLAG DEBUG] countryFlag:",
-    countryFlag
-  );
 
-  console.log(
-    "[COLUSUS FLAG DEBUG] Flag branch:",
-    countryFlag
-      ? "IMAGE"
-      : "FALLBACK CODE"
-  );
+  /* =========================================================
+     STATUS
+  ========================================================= */
 
-  console.log(
-    "[COLUSUS FLAG DEBUG] --------------------"
-  );
+  const statusLabel =
+    status?.label ||
+    "Pending";
 
+
+  const statusDescription =
+    status?.description ||
+    "Your application is currently being processed.";
+
+
+  /* =========================================================
+     CURRENT STAGE LABEL
+  ========================================================= */
+
+  const currentStageLabel =
+    currentStage?.label ||
+    application?.currentStep ||
+    statusLabel;
+
+
+  /* =========================================================
+     RENDER
+  ========================================================= */
 
   return (
+
     <section className="colusus-application-hero">
 
-      {/* =========================================
+
+      {/* =====================================================
           HERO BACKGROUND
-      ========================================= */}
+      ===================================================== */}
 
       <div className="hero-map-light" />
 
@@ -87,13 +109,19 @@ const ActiveApplicationHero = ({
       <div className="hero-orbit orbit-two" />
 
 
-      {/* =========================================
+      {/* =====================================================
           MAIN APPLICATION CONTENT
-      ========================================= */}
+      ===================================================== */}
 
       <div className="application-main-content">
 
+
+        {/* ===================================================
+            HEADING
+        =================================================== */}
+
         <div className="application-heading-row">
+
 
           <div>
 
@@ -102,8 +130,12 @@ const ActiveApplicationHero = ({
             </span>
 
 
-            {/* COUNTRY */}
+            {/* ===============================================
+                COUNTRY
+            =============================================== */}
+
             <div className="country-title">
+
 
               <div className="country-flag">
 
@@ -113,33 +145,12 @@ const ActiveApplicationHero = ({
                     src={countryFlag}
                     alt={`${destinationCountry} flag`}
                     className="country-flag-image"
-
-                    onLoad={() => {
-                      console.log(
-                        "[COLUSUS FLAG DEBUG] IMAGE LOADED:",
-                        countryFlag
-                      );
-                    }}
-
-                    onError={(event) => {
-                      console.error(
-                        "[COLUSUS FLAG DEBUG] IMAGE FAILED TO LOAD:",
-                        countryFlag
-                      );
-
-                      console.error(
-                        "[COLUSUS FLAG DEBUG] Image element:",
-                        event.currentTarget
-                      );
-                    }}
                   />
 
                 ) : (
 
                   <span className="country-code">
-
                     {countryCode}
-
                   </span>
 
                 )}
@@ -156,9 +167,9 @@ const ActiveApplicationHero = ({
           </div>
 
 
-          {/* =====================================
+          {/* =================================================
               APPLICATION STATUS
-          ===================================== */}
+          ================================================= */}
 
           <span
             className={`application-status ${status?.className || ""
@@ -167,26 +178,25 @@ const ActiveApplicationHero = ({
 
             <span />
 
-            {status?.label || "Pending"}
+            {statusLabel}
 
           </span>
 
         </div>
 
 
-        {/* =========================================
+        {/* ===================================================
             APPLICATION DETAILS
-        ========================================= */}
+        =================================================== */}
 
         <div className="application-details">
+
 
           <span>
 
             <HiOutlineDocumentText />
 
-            {formatApplicationType(
-              application?.type
-            )}
+            {applicationType}
 
           </span>
 
@@ -198,7 +208,7 @@ const ActiveApplicationHero = ({
             Started{" "}
 
             {formatDate(
-              application?.createdAt
+              application?.createdAt,
             )}
 
           </span>
@@ -206,21 +216,20 @@ const ActiveApplicationHero = ({
         </div>
 
 
-        {/* =========================================
+        {/* ===================================================
             APPLICATION DESCRIPTION
-        ========================================= */}
+        =================================================== */}
 
         <p className="application-description">
 
-          {status?.description ||
-            "Your application is currently being processed."}
+          {statusDescription}
 
         </p>
 
 
-        {/* =========================================
+        {/* ===================================================
             APPLICATION LINK
-        ========================================= */}
+        =================================================== */}
 
         <Link
           to={`/portal/applications/${application?._id}`}
@@ -236,13 +245,19 @@ const ActiveApplicationHero = ({
       </div>
 
 
-      {/* =========================================
+      {/* =====================================================
           JOURNEY PROGRESS
-      ========================================= */}
+      ===================================================== */}
 
       <div className="journey-progress-card">
 
+
+        {/* ===================================================
+            PROGRESS HEADER
+        =================================================== */}
+
         <div className="progress-heading">
+
 
           <div>
 
@@ -251,7 +266,9 @@ const ActiveApplicationHero = ({
             </span>
 
             <small>
-              Current stage
+              {currentStage
+                ? "Current stage"
+                : "Application journey"}
             </small>
 
           </div>
@@ -264,7 +281,10 @@ const ActiveApplicationHero = ({
         </div>
 
 
-        {/* PROGRESS BAR */}
+        {/* ===================================================
+            PROGRESS BAR
+        =================================================== */}
+
         <div className="progress-bar">
 
           <span
@@ -276,19 +296,25 @@ const ActiveApplicationHero = ({
         </div>
 
 
-        {/* CURRENT STAGE */}
+        {/* ===================================================
+            CURRENT STAGE
+        =================================================== */}
+
         <div className="current-stage">
 
           <span />
 
           <strong>
-            {status?.label || "Pending"}
+            {currentStageLabel}
           </strong>
 
         </div>
 
 
-        {/* FULL JOURNEY */}
+        {/* ===================================================
+            FULL JOURNEY
+        =================================================== */}
+
         <Link
           to={`/portal/applications/${application?._id}`}
           className="progress-link"

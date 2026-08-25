@@ -1,0 +1,496 @@
+/* ============================================================
+   COLUSUS — DASHBOARD METRICS
+============================================================ */
+
+.dashboard-metrics {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 12px;
+
+    margin-top: 14px;
+}
+
+
+/* ============================================================
+   METRIC CARD
+============================================================ */
+
+.dark-metric-card {
+    position: relative;
+
+    min-width: 0;
+    min-height: 72px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 12px 13px;
+
+    border:
+        1px solid rgba(190, 215, 235, 0.14);
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(145deg,
+            #102c49 0%,
+            #0b243e 100%);
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    overflow: hidden;
+
+    transition:
+        transform 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        background 180ms ease;
+}
+
+
+/* ============================================================
+   SUBTLE CARD DETAIL
+============================================================ */
+
+.dark-metric-card::after {
+    content: "";
+
+    position: absolute;
+
+    right: -28px;
+    bottom: -38px;
+
+    width: 88px;
+    height: 88px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, 0.025);
+
+    pointer-events: none;
+}
+
+
+/* ============================================================
+   HOVER
+============================================================ */
+
+a.dark-metric-card:hover {
+    transform:
+        translateY(-1px);
+
+    border-color:
+        rgba(190, 215, 235, 0.28);
+
+    box-shadow:
+        0 8px 22px rgba(7, 29, 49, 0.12);
+
+    background:
+        linear-gradient(145deg,
+            #123351 0%,
+            #0c2844 100%);
+}
+
+
+/* ============================================================
+   SYMBOL
+============================================================ */
+
+.metric-symbol {
+    position: relative;
+
+    z-index: 1;
+
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+/* ============================================================
+   SYMBOL ICON
+============================================================ */
+
+.metric-symbol svg {
+    width: 16px;
+    height: 16px;
+}
+
+
+/* ============================================================
+   BLUE
+============================================================ */
+
+.metric-symbol.blue {
+    background:
+        rgba(54, 157, 226, 0.13);
+
+    color:
+        #69b9ea;
+
+    border-color:
+        rgba(105, 185, 234, 0.14);
+}
+
+
+/* ============================================================
+   ORANGE
+============================================================ */
+
+.metric-symbol.orange {
+    background:
+        rgba(224, 157, 77, 0.12);
+
+    color:
+        #e4ae6e;
+
+    border-color:
+        rgba(228, 174, 110, 0.14);
+}
+
+
+/* ============================================================
+   GREEN
+============================================================ */
+
+.metric-symbol.green {
+    background:
+        rgba(63, 178, 117, 0.12);
+
+    color:
+        #68c594;
+
+    border-color:
+        rgba(104, 197, 148, 0.14);
+}
+
+
+/* ============================================================
+   PURPLE
+============================================================ */
+
+.metric-symbol.purple {
+    background:
+        rgba(142, 121, 202, 0.12);
+
+    color:
+        #aa99d8;
+
+    border-color:
+        rgba(170, 153, 216, 0.14);
+}
+
+
+/* ============================================================
+   INFORMATION
+============================================================ */
+
+.metric-information {
+    position: relative;
+
+    z-index: 1;
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+}
+
+
+/* ============================================================
+   LABEL
+============================================================ */
+
+.metric-information span {
+    display: block;
+
+    margin-bottom: 2px;
+
+    color:
+        #8fa6ba;
+
+    font-size: 7.5px;
+
+    line-height: 1.2;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+}
+
+
+/* ============================================================
+   VALUE
+============================================================ */
+
+.metric-information strong {
+    display: block;
+
+    max-width: 100%;
+
+    overflow: hidden;
+
+    color:
+        #ffffff;
+
+    font-size: 16px;
+
+    line-height: 1.2;
+
+    font-weight: 750;
+
+    letter-spacing: -0.025em;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+
+/* ============================================================
+   SUPPORTING TEXT
+============================================================ */
+
+.metric-information small {
+    display: block;
+
+    margin-top: 2px;
+
+    overflow: hidden;
+
+    color:
+        #718ba1;
+
+    font-size: 7.5px;
+
+    line-height: 1.25;
+
+    font-weight: 500;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+
+/* ============================================================
+   ARROW
+============================================================ */
+
+.metric-arrow {
+    position: relative;
+
+    z-index: 1;
+
+    width: 13px;
+    height: 13px;
+
+    flex-shrink: 0;
+
+    margin-left: auto;
+
+    color:
+        #70899f;
+
+    transition:
+        transform 180ms ease,
+        color 180ms ease;
+}
+
+
+a.dark-metric-card:hover .metric-arrow {
+    transform:
+        translateX(2px);
+
+    color:
+        #a9bfd1;
+}
+
+
+/* ============================================================
+   DESKTOP
+============================================================ */
+
+@media (max-width: 1100px) {
+
+    .dashboard-metrics {
+        gap: 9px;
+    }
+
+
+    .dark-metric-card {
+        min-height: 70px;
+
+        padding:
+            11px 12px;
+
+        gap: 9px;
+    }
+
+
+    .metric-symbol {
+        width: 32px;
+        height: 32px;
+    }
+
+
+    .metric-symbol svg {
+        width: 15px;
+        height: 15px;
+    }
+
+
+    .metric-information strong {
+        font-size: 14px;
+    }
+
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 850px) {
+
+    .dashboard-metrics {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 10px;
+    }
+
+
+    .dark-metric-card {
+        min-height: 70px;
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 560px) {
+
+    .dashboard-metrics {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 8px;
+
+        margin-top: 10px;
+    }
+
+
+    .dark-metric-card {
+        min-height: 66px;
+
+        gap: 8px;
+
+        padding:
+            9px 10px;
+
+        border-radius: 11px;
+    }
+
+
+    .metric-symbol {
+        width: 29px;
+        height: 29px;
+
+        border-radius: 8px;
+    }
+
+
+    .metric-symbol svg {
+        width: 14px;
+        height: 14px;
+    }
+
+
+    .metric-information span {
+        font-size: 6.5px;
+    }
+
+
+    .metric-information strong {
+        font-size: 13px;
+    }
+
+
+    .metric-information small {
+        font-size: 6.5px;
+    }
+
+
+    .metric-arrow {
+        width: 11px;
+        height: 11px;
+    }
+
+}
+
+
+/* ============================================================
+   VERY SMALL MOBILE
+============================================================ */
+
+@media (max-width: 380px) {
+
+    .dashboard-metrics {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .dark-metric-card {
+        min-height: 62px;
+
+        padding:
+            9px 10px;
+    }
+
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .dark-metric-card,
+    .metric-arrow {
+        transition: none;
+    }
+
+}

@@ -188,6 +188,7 @@ DOCUMENT CARD
 
 const DocumentCard = ({
     document,
+    onView,
     onReupload,
 }) => {
 
@@ -199,6 +200,40 @@ const DocumentCard = ({
     const config =
         statusConfig[status] ||
         statusConfig.UPLOADED;
+
+
+    /*
+    ========================================================
+    VIEW DOCUMENT
+    ========================================================
+    |
+    | IMPORTANT:
+    |
+    | We intentionally DO NOT use:
+    |
+    | document.fileUrl
+    |
+    | here.
+    |
+    | The Cloudinary URL must never be exposed as the
+    | navigation target of the client portal.
+    |
+    | Documents.jsx handles navigation through:
+    |
+    | /portal/documents/:documentId/view
+    |
+    ========================================================
+    */
+
+    const handleView = () => {
+
+        if (!document?._id) {
+            return;
+        }
+
+        onView?.(document);
+
+    };
 
 
     return (
@@ -328,7 +363,9 @@ const DocumentCard = ({
             <div className="document-row-actions">
 
 
-                {/* STATUS */}
+                {/* =================================================
+                    STATUS
+                ================================================= */}
 
                 <span
                     className={`document-status-badge ${config.className}`}
@@ -339,27 +376,39 @@ const DocumentCard = ({
                 </span>
 
 
-                {/* VIEW */}
+                {/* =================================================
+                    VIEW
+                =================================================
+                |
+                | We no longer use an <a> tag pointing directly
+                | to Cloudinary.
+                |
+                | This keeps the user inside the Colusus portal.
+                |
+                ================================================= */}
 
-                {document?.fileUrl && (
+                {document?._id && (
 
-                    <a
-                        href={document.fileUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                    <button
+                        type="button"
                         className="document-view-button"
-                        aria-label={`View ${document.name || "document"}`}
+                        onClick={handleView}
+                        aria-label={`View ${document.name ||
+                            "document"
+                            }`}
                         title="View document"
                     >
 
                         <HiOutlineEye />
 
-                    </a>
+                    </button>
 
                 )}
 
 
-                {/* RE-UPLOAD */}
+                {/* =================================================
+                    RE-UPLOAD
+                ================================================= */}
 
                 {status === "REUPLOAD_REQUIRED" && (
 

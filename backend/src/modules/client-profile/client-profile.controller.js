@@ -1,173 +1,170 @@
 import clientProfileService from "./client-profile.service.js";
 
+/*
+============================================================
+CREATE PROFILE
+============================================================
+*/
 
+export const createProfile = async (req, res, next) => {
+  try {
+    /*
+    ----------------------------------------------------------
+    CHECK FOR EXISTING PROFILE
+    ----------------------------------------------------------
+    */
 
-export const createProfile = async (
-    req,
-    res,
-    next
-) => {
+    const existingProfile = await clientProfileService.getProfileByUserId(
+      req.user.id,
+    );
 
-    try {
-
-
-        const existingProfile =
-        await clientProfileService.getProfileByUserId(
-            req.user.id
-        );
-
-
-        if (existingProfile) {
-
-            return res.status(400).json({
-
-                success: false,
-
-                message: "Profile already exists"
-
-            });
-
-        }
-
-
-
-        const profile =
-        await clientProfileService.createProfile({
-
-            user: req.user.id,
-
-            ...req.body
-
-        });
-
-
-
-        res.status(201).json({
-
-            success: true,
-
-            message: "Client profile created successfully",
-
-            data: profile
-
-        });
-
-
-
-    } catch(error) {
-
-        next(error);
-
+    if (existingProfile) {
+      return res.status(400).json({
+        success: false,
+        message: "Profile already exists",
+      });
     }
 
+    /*
+    ----------------------------------------------------------
+    CREATE PROFILE
+    ----------------------------------------------------------
+    */
+
+    const profile = await clientProfileService.createProfile({
+      user: req.user.id,
+
+      ...req.body,
+    });
+
+    return res.status(201).json({
+      success: true,
+
+      message: "Client profile created successfully",
+
+      data: profile,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
+/*
+============================================================
+GET PROFILE
+============================================================
 
+If the client does not have a profile yet, an empty profile
+is created automatically.
 
+This allows newly registered clients to enter the profile
+completion flow without receiving a 404.
 
+============================================================
+*/
 
-export const getProfile = async (
-    req,
-    res,
-    next
-) => {
+export const getProfile = async (req, res, next) => {
+  try {
+    /*
+    ----------------------------------------------------------
+    FIND EXISTING PROFILE
+    ----------------------------------------------------------
+    */
 
-    try {
+    let profile = await clientProfileService.getProfileByUserId(req.user.id);
 
+    /*
+    ----------------------------------------------------------
+    CREATE EMPTY PROFILE FOR NEW CLIENT
+    ----------------------------------------------------------
+    */
 
-        const profile =
-        await clientProfileService.getProfileByUserId(
-            req.user.id
-        );
-
-
-
-        if (!profile) {
-
-            return res.status(404).json({
-
-                success:false,
-
-                message:"Client profile not found"
-
-            });
-
-        }
-
-
-
-        res.status(200).json({
-
-            success:true,
-
-            data:profile
-
-        });
-
-
-
-    } catch(error) {
-
-        next(error);
-
+    if (!profile) {
+      profile = await clientProfileService.createProfile({
+        user: req.user.id,
+      });
     }
 
+    /*
+    ----------------------------------------------------------
+    SUCCESS
+    ----------------------------------------------------------
+    */
+
+    return res.status(200).json({
+      success: true,
+
+      data: profile,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
+/*
+============================================================
+GET PROFILE COMPLETION
+============================================================
+*/
 
+export const getProfileCompletion = async (req, res, next) => {
+  try {
+    const completion = await clientProfileService.getProfileCompletion(
+      req.user.id,
+    );
 
+    return res.status(200).json({
+      success: true,
 
+      data: completion,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
-export const updateProfile = async (
-    req,
-    res,
-    next
-) => {
+/*
+============================================================
+UPDATE PROFILE
+============================================================
+*/
 
-    try {
+export const updateProfile = async (req, res, next) => {
+  try {
+    const profile = await clientProfileService.updateProfile(
+      req.user.id,
 
+      req.body,
+    );
 
-        const profile =
-        await clientProfileService.updateProfile(
+    /*
+    ----------------------------------------------------------
+    PROFILE NOT FOUND
+    ----------------------------------------------------------
+    */
 
-            req.user.id,
+    if (!profile) {
+      return res.status(404).json({
+        success: false,
 
-            req.body
-
-        );
-
-
-
-        if (!profile) {
-
-            return res.status(404).json({
-
-                success:false,
-
-                message:"Client profile not found"
-
-            });
-
-        }
-
-
-
-        res.status(200).json({
-
-            success:true,
-
-            message:"Profile updated successfully",
-
-            data:profile
-
-        });
-
-
-
-    } catch(error) {
-
-        next(error);
-
+        message: "Client profile not found",
+      });
     }
 
+    /*
+    ----------------------------------------------------------
+    SUCCESS
+    ----------------------------------------------------------
+    */
+
+    return res.status(200).json({
+      success: true,
+
+      message: "Profile updated successfully",
+
+      data: profile,
+    });
+  } catch (error) {
+    next(error);
+  }
 };

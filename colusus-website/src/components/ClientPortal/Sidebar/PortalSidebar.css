@@ -1,340 +1,368 @@
-/* =====================================================
+/* ============================================================
    COLUSUS CLIENT PORTAL
-   SIDEBAR
-===================================================== */
+   FIXED SIDEBAR
+============================================================ */
 
 .portal-sidebar {
-
-    width: 260px;
-
-    min-width: 260px;
-
-    height: 100vh;
-
-    position: sticky;
+    position: fixed;
 
     top: 0;
+    left: 0;
+
+    width: 260px;
+    height: 100vh;
+    height: 100dvh;
 
     display: flex;
-
     flex-direction: column;
 
     background: #ffffff;
 
-    border-right: 1px solid #e8edf4;
+    border-right: 1px solid #e5ebf2;
 
-    z-index: 100;
+    z-index: 1000;
 
+    overflow: hidden;
+
+    box-sizing: border-box;
 }
 
 
-/* =====================================================
-   BRAND
-===================================================== */
+/* ============================================================
+   BRAND AREA
+============================================================ */
 
 .portal-sidebar__brand {
+    position: relative;
 
-    height: 90px;
-
-    padding: 0 24px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 12px;
-
-    border-bottom: 1px solid #eef2f7;
-
-}
-
-
-.portal-sidebar__logo {
-
-    width: 40px;
-
-    height: 40px;
+    width: 100%;
+    height: 96px;
 
     flex-shrink: 0;
 
     display: flex;
-
     align-items: center;
 
-    justify-content: center;
+    padding: 0 24px;
 
-    border-radius: 12px;
+    border-bottom: 1px solid #edf1f5;
 
-    background: #0056b3;
+    box-sizing: border-box;
 
-    color: #ffffff;
+    overflow: hidden;
+}
 
-    font-size: 18px;
+
+/* ============================================================
+   BRAND LINK
+============================================================ */
+
+.portal-sidebar__brand-link {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+
+    text-decoration: none;
+
+    overflow: hidden;
+}
+
+
+/* ============================================================
+   LOGO
+
+   The source logo contains internal whitespace.
+   The scale compensates for that so the visible logo
+   actually occupies the sidebar properly.
+============================================================ */
+
+.portal-sidebar__logo {
+    display: block;
+
+    width: 150px;
+    height: 72px;
+
+    flex-shrink: 0;
+
+    object-fit: contain;
+    object-position: left center;
+
+    transform: scale(1.65);
+    transform-origin: left center;
+
+    box-sizing: border-box;
+}
+
+
+/* ============================================================
+   NAVIGATION
+============================================================ */
+
+.portal-sidebar__nav {
+    flex: 1;
+
+    min-height: 0;
+
+    padding: 30px 14px 18px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    box-sizing: border-box;
+}
+
+
+/* ============================================================
+   WORKSPACE LABEL
+============================================================ */
+
+.portal-sidebar__section-label {
+    padding: 0 12px;
+
+    margin-bottom: 12px;
+
+    color: #8a9bb0;
+
+    font-size: 10px;
+    line-height: 1.2;
 
     font-weight: 800;
 
-}
-
-
-.portal-sidebar__brand-text {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 2px;
-
-}
-
-
-.portal-sidebar__brand-text strong {
-
-    color: #10213c;
-
-    font-size: 15px;
-
-    letter-spacing: .08em;
-
-}
-
-
-.portal-sidebar__brand-text span {
-
-    color: #94a3b8;
-
-    font-size: 10px;
-
-}
-
-
-/* =====================================================
-   NAVIGATION
-===================================================== */
-
-.portal-sidebar__nav {
-
-    flex: 1;
-
-    padding: 28px 14px;
-
-    overflow-y: auto;
-
-}
-
-
-.portal-sidebar__section-label {
-
-    padding: 0 12px;
-
-    margin-bottom: 10px;
-
-    color: #94a3b8;
-
-    font-size: 10px;
-
-    font-weight: 700;
-
-    letter-spacing: .1em;
+    letter-spacing: 0.12em;
 
     text-transform: uppercase;
-
 }
 
 
-/* =====================================================
-   NAV LINKS
-===================================================== */
+/* ============================================================
+   NAVIGATION LINK
+============================================================ */
 
 .portal-sidebar__link {
-
     position: relative;
 
     width: 100%;
-
     min-height: 48px;
 
     margin-bottom: 5px;
 
-    padding: 0 13px;
+    padding: 0 14px;
 
     display: flex;
-
     align-items: center;
 
-    gap: 12px;
+    gap: 13px;
 
     border-radius: 12px;
 
+    box-sizing: border-box;
+
+    color: #62758c;
+
     text-decoration: none;
 
-    color: #64748b;
-
     font-size: 14px;
+    line-height: 1;
 
-    font-weight: 600;
+    font-weight: 650;
 
     transition:
-        background .25s ease,
-        color .25s ease,
-        transform .25s ease;
-
+        background 180ms ease,
+        color 180ms ease,
+        transform 180ms ease;
 }
 
+
+/* ============================================================
+   NAVIGATION HOVER
+============================================================ */
 
 .portal-sidebar__link:hover {
+    background: #f5f8fc;
 
-    background: #f1f6fc;
-
-    color: #0056b3;
-
+    color: #075da5;
 }
 
+
+/* ============================================================
+   ACTIVE
+============================================================ */
 
 .portal-sidebar__link.active {
+    background: #eaf4fc;
 
-    background: #eaf3fc;
-
-    color: #0056b3;
-
+    color: #075da5;
 }
 
 
-.portal-sidebar__link.active::before {
+/* ============================================================
+   ACTIVE BAR
+============================================================ */
 
+.portal-sidebar__link.active::before {
     content: "";
 
     position: absolute;
 
+    top: 9px;
+    bottom: 9px;
     left: 0;
-
-    top: 10px;
-
-    bottom: 10px;
 
     width: 3px;
 
-    border-radius: 0 4px 4px 0;
+    border-radius:
+        0 4px 4px 0;
 
-    background: #0056b3;
-
+    background: #086bc7;
 }
 
 
+/* ============================================================
+   ICON
+============================================================ */
+
 .portal-sidebar__icon {
-
     width: 20px;
-
     height: 20px;
 
     flex-shrink: 0;
-
 }
 
 
-/* =====================================================
-   BOTTOM
-===================================================== */
+/* ============================================================
+   BOTTOM AREA
+============================================================ */
 
 .portal-sidebar__bottom {
+    flex-shrink: 0;
 
-    padding: 16px 14px 20px;
+    padding: 15px 14px 22px;
 
-    border-top: 1px solid #eef2f7;
+    border-top: 1px solid #edf1f5;
 
+    background: #ffffff;
+
+    box-sizing: border-box;
 }
 
 
+/* ============================================================
+   LOGOUT
+============================================================ */
+
 .portal-sidebar__logout {
-
     width: 100%;
-
     min-height: 48px;
 
-    padding: 0 13px;
+    padding: 0 14px;
 
     display: flex;
-
     align-items: center;
 
-    gap: 12px;
+    gap: 13px;
 
-    border: none;
-
+    border: 0;
     border-radius: 12px;
 
     background: transparent;
 
-    color: #64748b;
+    color: #62758c;
 
     font-family: inherit;
 
     font-size: 14px;
 
-    font-weight: 600;
-
-    cursor: pointer;
+    font-weight: 650;
 
     text-align: left;
 
-    transition:
-        background .25s ease,
-        color .25s ease;
+    cursor: pointer;
 
+    transition:
+        background 180ms ease,
+        color 180ms ease;
 }
 
 
 .portal-sidebar__logout:hover {
-
-    background: #fff1f2;
+    background: #fff3f3;
 
     color: #dc2626;
-
 }
 
 
-/* =====================================================
-   SCROLLBAR
-===================================================== */
+/* ============================================================
+   SIDEBAR SCROLLBAR
+============================================================ */
 
 .portal-sidebar__nav::-webkit-scrollbar {
-
     width: 4px;
-
 }
 
+.portal-sidebar__nav::-webkit-scrollbar-track {
+    background: transparent;
+}
 
 .portal-sidebar__nav::-webkit-scrollbar-thumb {
-
-    background: #dbe4ef;
+    background: #dce5ee;
 
     border-radius: 999px;
+}
 
+.portal-sidebar__nav::-webkit-scrollbar-thumb:hover {
+    background: #c8d5e2;
 }
 
 
-/* =====================================================
-   TABLET / MOBILE
-===================================================== */
+/* Firefox */
+
+.portal-sidebar__nav {
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        #dce5ee transparent;
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
 
 @media (max-width: 992px) {
 
     .portal-sidebar {
-
         width: 230px;
+    }
 
-        min-width: 230px;
 
+    .portal-sidebar__brand {
+        height: 88px;
+
+        padding: 0 20px;
+    }
+
+
+    .portal-sidebar__logo {
+        width: 135px;
+        height: 64px;
+
+        transform: scale(1.55);
+        transform-origin: left center;
     }
 
 }
 
 
+/* ============================================================
+   MOBILE
+============================================================ */
+
 @media (max-width: 768px) {
 
     .portal-sidebar {
-
         display: none;
-
     }
 
 }

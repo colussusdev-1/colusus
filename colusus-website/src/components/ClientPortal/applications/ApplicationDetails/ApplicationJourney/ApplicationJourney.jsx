@@ -7,22 +7,10 @@ import "./ApplicationJourney.css";
 
 
 /* =========================================================
-   WORKFLOW
+   HELPERS
 ========================================================= */
 
-const getWorkflow = (application) => {
-  return (
-    application?.opportunity?.applicationConfig
-      ?.workflow || []
-  );
-};
-
-
-/* =========================================================
-   NORMALIZE
-========================================================= */
-
-const normalizeStatus = (value) => {
+const normalizeValue = (value) => {
   return String(value || "")
     .trim()
     .toUpperCase()
@@ -31,76 +19,132 @@ const normalizeStatus = (value) => {
 
 
 /* =========================================================
-   FIND CURRENT STAGE
+   WORKFLOW
+========================================================= */
+
+const getWorkflow = (application) => {
+
+  /*
+   * Prefer the workflow snapshot stored directly
+   * on the application.
+   */
+
+  if (
+    Array.isArray(application?.workflow) &&
+    application.workflow.length
+  ) {
+    return application.workflow;
+  }
+
+
+  /*
+   * Fallback for older applications.
+   */
+
+  if (
+    Array.isArray(
+      application?.opportunity?.applicationConfig?.workflow
+    )
+  ) {
+    return application.opportunity.applicationConfig.workflow;
+  }
+
+
+  if (
+    Array.isArray(
+      application?.opportunitySnapshot?.applicationConfig?.workflow
+    )
+  ) {
+    return application.opportunitySnapshot.applicationConfig.workflow;
+  }
+
+
+  return [];
+};
+
+
+/* =========================================================
+   CURRENT WORKFLOW INDEX
 ========================================================= */
 
 const getCurrentWorkflowIndex = (
   workflow,
-  applicationStatus
+  application
 ) => {
+
   if (!workflow.length) {
     return -1;
   }
 
-  const normalizedStatus =
-    normalizeStatus(applicationStatus);
 
   /*
-   * Direct workflow key match.
-   *
-   * Example:
-   *
-   * APPLICATION_SUBMITTED
-   * DOCUMENT_REVIEW
-   * PROCESSING
+   * currentStep is the primary source of truth.
    */
 
-  const keyIndex = workflow.findIndex(
-    (stage) =>
-      normalizeStatus(stage.key) ===
-      normalizedStatus
-  );
+  const currentStep =
+    normalizeValue(
+      application?.currentStep
+    );
 
-  if (keyIndex !== -1) {
-    return keyIndex;
+
+  if (currentStep) {
+
+    const stepIndex =
+      workflow.findIndex(
+        (stage) =>
+          normalizeValue(stage?.key) ===
+          currentStep ||
+          normalizeValue(stage?.label) ===
+          currentStep
+      );
+
+
+    if (stepIndex !== -1) {
+      return stepIndex;
+    }
   }
 
 
   /*
-   * Label match.
-   */
-
-  const labelIndex = workflow.findIndex(
-    (stage) =>
-      normalizeStatus(stage.label) ===
-      normalizedStatus
-  );
-
-  if (labelIndex !== -1) {
-    return labelIndex;
-  }
-
-
-  /*
-   * Submitted applications start
-   * at the first workflow stage.
+   * currentStepIndex is the next fallback.
    */
 
   if (
-    normalizedStatus === "SUBMITTED" ||
-    normalizedStatus === "APPLICATION_SUBMITTED"
+    Number.isInteger(
+      application?.currentStepIndex
+    ) &&
+    application.currentStepIndex >= 0 &&
+    application.currentStepIndex < workflow.length
   ) {
-    return 0;
+    return application.currentStepIndex;
   }
 
 
   /*
-   * If the backend status doesn't correspond
-   * to a workflow key, use the first stage
-   * as the safe fallback.
+   * Finally attempt to match the application
+   * status against the workflow.
    */
 
-  return 0;
+  const status =
+    normalizeValue(
+      application?.status
+    );
+
+
+  const statusIndex =
+    workflow.findIndex(
+      (stage) =>
+        normalizeValue(stage?.key) === status ||
+        normalizeValue(stage?.label) === status
+    );
+
+
+  if (statusIndex !== -1) {
+    return statusIndex;
+  }
+
+
+  return -1;
 };
 
 
@@ -114,15 +158,40 @@ const getStageState = (
   applicationStatus
 ) => {
 
-  const normalizedStatus =
-    normalizeStatus(applicationStatus);
+  const status =
+    normalizeValue(
+      applicationStatus
+    );
 
 
   /*
-   * Rejected applications.
+   * Draft means the journey has not started.
    */
 
-  if (normalizedStatus === "REJECTED") {
+  if (status === "DRAFT") {
+    return "upcoming";
+  }
+
+
+  /*
+   * Approved / completed means the entire journey
+   * has been completed.
+   */
+
+  if (
+    status === "APPROVED" ||
+    status === "COMPLETED"
+  ) {
+    return "completed";
+  }
+
+
+  /*
+   * Rejected applications keep the current stage
+   * visible while previous stages remain completed.
+   */
+
+  if (status === "REJECTED") {
 
     if (index === currentIndex) {
       return "current";
@@ -137,53 +206,68 @@ const getStageState = (
 
 
   /*
-   * Completed applications.
+   * Normal application journey.
    */
 
-  if (
-    normalizedStatus === "APPROVED" ||
-    normalizedStatus === "COMPLETED"
-  ) {
-    return "completed";
+  if (currentIndex < 0) {
+    return "upcoming";
   }
 
-
-  /*
-   * Normal journey.
-   */
 
   if (index < currentIndex) {
     return "completed";
   }
 
+
   if (index === currentIndex) {
     return "current";
   }
+
 
   return "upcoming";
 };
 
 
 /* =========================================================
-   STAGE DESCRIPTION
+   DESCRIPTION
 ========================================================= */
 
 const getStageDescription = (
   stage,
-  state
+  state,
+  application
 ) => {
 
   if (stage?.description) {
     return stage.description;
   }
 
+
+  const status =
+    normalizeValue(
+      application?.status
+    );
+
+
+  if (status === "DRAFT") {
+
+    if (state === "current") {
+      return "Start your application to begin this stage.";
+    }
+
+    return "This stage will become available when you start your application.";
+  }
+
+
   if (state === "completed") {
     return "This stage has been completed.";
   }
 
+
   if (state === "current") {
     return "This is the current stage of your application.";
   }
+
 
   return "This stage has not been reached yet.";
 };
@@ -203,13 +287,29 @@ const getJourneyProgress = (
     return 0;
   }
 
-  const normalizedStatus =
-    normalizeStatus(applicationStatus);
 
+  const status =
+    normalizeValue(
+      applicationStatus
+    );
+
+
+  /*
+   * Draft = journey has not started.
+   */
+
+  if (status === "DRAFT") {
+    return 0;
+  }
+
+
+  /*
+   * Terminal success.
+   */
 
   if (
-    normalizedStatus === "APPROVED" ||
-    normalizedStatus === "COMPLETED"
+    status === "APPROVED" ||
+    status === "COMPLETED"
   ) {
     return 100;
   }
@@ -219,19 +319,6 @@ const getJourneyProgress = (
     return 0;
   }
 
-
-  /*
-   * The first stage represents the application
-   * having entered the journey.
-   *
-   * Therefore:
-   *
-   * 4 stages
-   * stage 1 = 25%
-   * stage 2 = 50%
-   * stage 3 = 75%
-   * stage 4 = 100%
-   */
 
   return Math.round(
     ((currentIndex + 1) /
@@ -250,13 +337,15 @@ const ApplicationJourney = ({
 }) => {
 
   const workflow =
-    getWorkflow(application);
+    getWorkflow(
+      application
+    );
 
 
   const currentIndex =
     getCurrentWorkflowIndex(
       workflow,
-      application?.status
+      application
     );
 
 
@@ -300,6 +389,7 @@ const ApplicationJourney = ({
             <HiOutlineClock />
           </div>
 
+
           <div>
 
             <strong>
@@ -321,9 +411,11 @@ const ApplicationJourney = ({
   }
 
 
-  /* =====================================================
-     PAGE
-  ===================================================== */
+  const isDraft =
+    normalizeValue(
+      application?.status
+    ) === "DRAFT";
+
 
   return (
     <section className="application-journey">
@@ -401,7 +493,8 @@ const ApplicationJourney = ({
             const description =
               getStageDescription(
                 stage,
-                state
+                state,
+                application
               );
 
 
@@ -414,16 +507,15 @@ const ApplicationJourney = ({
               <div
                 key={
                   stage?.key ||
-                  `${stage?.label}-${index}`
+                  stage?.label ||
+                  `${index}`
                 }
-                className={
-                  `application-journey-stage ${state}`
-                }
+                className={`application-journey-stage ${state}`}
               >
 
-                {/* =================================================
+                {/* =================================
                                     MARKER
-                                ================================================= */}
+                                ================================= */}
 
                 <div className="application-journey-marker">
 
@@ -453,9 +545,9 @@ const ApplicationJourney = ({
                 </div>
 
 
-                {/* =================================================
+                {/* =================================
                                     CONTENT
-                                ================================================= */}
+                                ================================= */}
 
                 <div className="application-journey-stage-content">
 
@@ -472,6 +564,7 @@ const ApplicationJourney = ({
                           "0"
                         )}
                       </span>
+
 
                       <h3>
                         {stage?.label ||
@@ -491,7 +584,9 @@ const ApplicationJourney = ({
                         "Current"}
 
                       {state === "upcoming" &&
-                        "Upcoming"}
+                        (isDraft
+                          ? "Not started"
+                          : "Upcoming")}
 
                     </span>
 

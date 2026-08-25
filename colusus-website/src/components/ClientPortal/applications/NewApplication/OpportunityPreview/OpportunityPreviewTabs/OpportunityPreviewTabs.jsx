@@ -24,6 +24,10 @@ const OpportunityPreviewTabs = ({
             label: "Benefits",
         },
         {
+            id: "pricing",
+            label: "Pricing",
+        },
+        {
             id: "process",
             label: "Application Process",
         },
@@ -58,8 +62,14 @@ const OpportunityPreviewTabs = ({
                         type="button"
                         role="tab"
                         aria-selected={isActive}
-                        aria-controls={`opportunity-preview-panel-${tab.id}`}
-                        tabIndex={isActive ? 0 : -1}
+                        aria-controls={
+                            `opportunity-preview-panel-${tab.id}`
+                        }
+                        tabIndex={
+                            isActive
+                                ? 0
+                                : -1
+                        }
                         className={
                             isActive
                                 ? "active"
@@ -69,7 +79,9 @@ const OpportunityPreviewTabs = ({
                             handleChange(tab.id)
                         }
                     >
+
                         {tab.label}
+
                     </button>
                 );
 

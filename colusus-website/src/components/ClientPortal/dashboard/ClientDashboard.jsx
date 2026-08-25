@@ -5,9 +5,9 @@ import applicationService from "../../services/application.service";
 import "./ClientDashboard.css";
 
 import {
-  calculateProgress,
-  getJourneyStages,
-  getStatusConfig,
+  getActiveApplication,
+  getApplicationCounts,
+  getApplicationSummary,
   getUser,
 } from "../../components/client/dashboard/dashboard.utils";
 
@@ -16,10 +16,15 @@ import {
 } from "../../components/client/dashboard/dashboard.visuals";
 
 import DashboardIntro from "../../components/client/dashboard/DashboardIntro";
+
 import ActiveApplicationHero from "../../components/client/dashboard/ActiveApplicationHero";
+
 import DashboardMetrics from "../../components/client/dashboard/DashboardMetrics";
+
 import DashboardContentGrid from "../../components/client/dashboard/DashboardContentGrid";
+
 import ApplicationHistory from "../../components/client/dashboard/ApplicationHistory";
+
 import SecurityStrip from "../../components/client/dashboard/SecurityStrip";
 
 import {
@@ -28,115 +33,395 @@ import {
   DashboardEmpty,
 } from "../../components/client/dashboard/DashboardStates";
 
+
 const ClientDashboard = () => {
+
+  /* =========================================================
+     STATE
+  ========================================================= */
+
   const [applications, setApplications] = useState([]);
+
   const [loading, setLoading] = useState(true);
+
   const [error, setError] = useState("");
+
+
+  /* =========================================================
+     USER
+  ========================================================= */
 
   const user = getUser();
 
+
+  /* =========================================================
+     LOAD APPLICATIONS
+  ========================================================= */
+
   useEffect(() => {
+
+    let mounted = true;
+
+
     const loadApplications = async () => {
+
       try {
+
         setLoading(true);
+
         setError("");
+
 
         const data =
           await applicationService.getApplications();
 
+
+        if (!mounted) {
+          return;
+        }
+
+
         setApplications(
-          Array.isArray(data) ? data : []
+          Array.isArray(data)
+            ? data
+            : [],
         );
+
       } catch (error) {
+
         console.error(
           "FAILED TO LOAD APPLICATIONS:",
-          error
+          error,
         );
+
+
+        if (!mounted) {
+          return;
+        }
+
 
         setError(
           error.response?.data?.message ||
-          "Unable to load your applications."
+          "Unable to load your applications.",
         );
+
       } finally {
-        setLoading(false);
+
+        if (mounted) {
+          setLoading(false);
+        }
+
       }
+
     };
 
+
     loadApplications();
+
+
+    return () => {
+      mounted = false;
+    };
+
   }, []);
 
-  const activeApplication = useMemo(() => {
-    if (!applications.length) {
-      return null;
-    }
 
-    return (
-      applications.find(
-        (application) =>
-          !["APPROVED", "REJECTED"].includes(
-            application.status
-          )
-      ) || applications[0]
-    );
-  }, [applications]);
+  /* =========================================================
+     APPLICATION COUNTS
+  =========================================================
+  
+  Used by the overview dashboard.
 
-  const status = getStatusConfig(
-    activeApplication?.status
+  This gives us:
+
+  - total
+  - active
+  - draft
+  - in progress
+  - submitted
+  - under review
+  - processing
+  - completed
+  - approved
+  - rejected
+
+  ========================================================= */
+
+  const applicationCounts = useMemo(
+    () =>
+      getApplicationCounts(
+        applications,
+      ),
+    [applications],
   );
 
-  const progress = calculateProgress(
-    activeApplication?.status
+
+  /* =========================================================
+     ACTIVE APPLICATION
+  =========================================================
+  
+  IMPORTANT:
+
+  The dashboard should NOT simply use the first application.
+
+  getActiveApplication() determines which application deserves
+  attention based on its current state.
+
+  ========================================================= */
+
+  const activeApplication = useMemo(
+    () =>
+      getActiveApplication(
+        applications,
+      ),
+    [applications],
   );
 
-  const journeyStages = getJourneyStages(
-    activeApplication
+
+  /* =========================================================
+     ACTIVE APPLICATION SUMMARY
+  =========================================================
+  
+  This centralizes:
+
+  - status
+  - progress
+  - documents
+  - next action
+  - current stage
+  - journey stages
+
+  ========================================================= */
+
+  const activeSummary = useMemo(
+    () =>
+      getApplicationSummary(
+        activeApplication,
+      ),
+    [activeApplication],
   );
+
+
+  /* =========================================================
+     DASHBOARD VALUES
+  ========================================================= */
+
+  const status =
+    activeSummary.statusConfig;
+
+
+  const progress =
+    activeSummary.progress;
+
+
+  const journeyStages =
+    activeSummary.journeyStages;
+
+
+  /* =========================================================
+     FIRST NAME
+  ========================================================= */
 
   const firstName =
-    user?.name?.split(" ")[0] || "there";
+    user?.name
+      ?.trim()
+      ?.split(/\s+/)[0] ||
+    "there";
+
+
+  /* =========================================================
+     RENDER
+  ========================================================= */
 
   return (
+
     <main className="client-dashboard">
+
+
+      {/* =====================================================
+          BACKGROUND
+      ===================================================== */}
+
       <DashboardBackground />
 
-      <DashboardIntro firstName={firstName} />
 
-      {error && <DashboardAlert message={error} />}
+      {/* =====================================================
+          INTRO
+      ===================================================== */}
+
+      <DashboardIntro
+        firstName={firstName}
+      />
+
+
+      {/* =====================================================
+          ERROR
+      ===================================================== */}
+
+      {error && (
+        <DashboardAlert
+          message={error}
+        />
+      )}
+
+
+      {/* =====================================================
+          LOADING
+      ===================================================== */}
 
       {loading ? (
+
         <DashboardLoading />
-      ) : !activeApplication ? (
+
+      ) : !applications.length ? (
+
+        /* ===================================================
+           NO APPLICATIONS
+        =================================================== */
+
         <DashboardEmpty />
+
       ) : (
+
+        /* ===================================================
+           DASHBOARD
+        =================================================== */
+
         <>
-          <ActiveApplicationHero
-            application={activeApplication}
-            status={status}
-            progress={progress}
-          />
+
+
+          {/* =================================================
+              ACTIVE APPLICATION
+          ================================================= */}
+
+          {activeApplication && (
+
+            <ActiveApplicationHero
+              application={
+                activeApplication
+              }
+
+              status={
+                status
+              }
+
+              progress={
+                progress
+              }
+
+              summary={
+                activeSummary
+              }
+
+              applicationCounts={
+                applicationCounts
+              }
+            />
+
+          )}
+
+
+          {/* =================================================
+              DASHBOARD METRICS
+          ================================================= */}
 
           <DashboardMetrics
-            applicationsCount={applications.length}
-            status={status}
-            progress={progress}
-            startedAt={activeApplication.createdAt}
+
+            applicationsCount={
+              applicationCounts.total
+            }
+
+            activeApplicationsCount={
+              applicationCounts.active
+            }
+
+            completedApplicationsCount={
+              applicationCounts.completed
+            }
+
+            documentSummary={
+              activeSummary.documents
+            }
+
+            application={
+              activeApplication
+            }
+
+            status={
+              status
+            }
+
+            progress={
+              progress
+            }
+
+            startedAt={
+              activeApplication?.createdAt
+            }
+
           />
 
-          <DashboardContentGrid
-            application={activeApplication}
-            journeyStages={journeyStages}
-            status={status}
-          />
+
+          {/* =================================================
+              DASHBOARD CONTENT
+          ================================================= */}
+
+          {activeApplication && (
+
+            <DashboardContentGrid
+
+              application={
+                activeApplication
+              }
+
+              journeyStages={
+                journeyStages
+              }
+
+              status={
+                status
+              }
+
+              summary={
+                activeSummary
+              }
+
+              applicationCounts={
+                applicationCounts
+              }
+
+            />
+
+          )}
+
+
+          {/* =================================================
+              APPLICATION HISTORY
+          ================================================= */}
 
           <ApplicationHistory
-            applications={applications}
+
+            applications={
+              applications
+            }
+
           />
 
+
+          {/* =================================================
+              SECURITY
+          ================================================= */}
+
           <SecurityStrip />
+
+
         </>
+
       )}
+
     </main>
   );
 };
+
 
 export default ClientDashboard;

@@ -1,0 +1,1712 @@
+/* =========================================================
+   COLUSUS — NEW APPLICATION
+   COUNTRY FIRST → PATHWAYS → OPPORTUNITY
+========================================================= */
+
+.new-application {
+    width: 100%;
+    min-height: 100%;
+
+    padding: 0 46px 70px;
+
+    color: #14243a;
+}
+
+
+/* =========================================================
+   WORKFLOW
+========================================================= */
+
+.new-application > .workflow-stepper {
+    margin-bottom: 30px;
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.new-application-error {
+    width: 100%;
+
+    margin: 18px 0;
+
+    padding: 12px 15px;
+
+    border: 1px solid #f1d4d4;
+    border-radius: 10px;
+
+    background: #fff8f8;
+
+    color: #b44949;
+
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   SHARED EYEBROW
+========================================================= */
+
+.new-application-section-eyebrow {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #0874c9;
+
+    font-size: 9px;
+    line-height: 1.3;
+
+    font-weight: 800;
+
+    letter-spacing: 0.15em;
+}
+
+
+/* =========================================================
+   COUNTRY SELECTION
+========================================================= */
+
+.new-application-countries {
+    width: 100%;
+
+    margin-top: 28px;
+
+    padding: 30px;
+
+    border: 1px solid #e1e8ef;
+    border-radius: 20px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 8px 30px rgba(20, 48, 78, 0.035);
+}
+
+
+/* =========================================================
+   COUNTRY HEADER
+========================================================= */
+
+.new-application-countries-header {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 30px;
+
+    padding-bottom: 24px;
+
+    border-bottom: 1px solid #edf1f5;
+}
+
+
+.new-application-countries-header h2 {
+    margin: 0;
+
+    color: #142b46;
+
+    font-size: 24px;
+    line-height: 1.2;
+
+    font-weight: 760;
+
+    letter-spacing: -0.035em;
+}
+
+
+.new-application-countries-header p {
+    max-width: 610px;
+
+    margin: 7px 0 0;
+
+    color: #8190a1;
+
+    font-size: 11px;
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   COUNTRY COUNT
+========================================================= */
+
+.new-application-country-count {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    flex-shrink: 0;
+
+    padding: 10px 14px;
+
+    border: 1px solid #dce7f0;
+    border-radius: 10px;
+
+    background: #f5f9fc;
+}
+
+
+.new-application-country-count strong {
+    color: #0874c9;
+
+    font-size: 17px;
+    line-height: 1;
+
+    font-weight: 800;
+}
+
+
+.new-application-country-count span {
+    color: #8193a7;
+
+    font-size: 9px;
+
+    font-weight: 650;
+}
+
+
+/* =========================================================
+   COUNTRY SEARCH
+========================================================= */
+
+.new-application-country-search {
+    width: 100%;
+    height: 46px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 22px;
+
+    padding: 0 14px;
+
+    border: 1px solid #dce5ed;
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    transition:
+        border-color 180ms ease,
+        box-shadow 180ms ease;
+}
+
+
+.new-application-country-search:focus-within {
+    border-color: #8fc5e8;
+
+    box-shadow:
+        0 0 0 3px rgba(8, 116, 201, 0.07);
+}
+
+
+.new-application-country-search svg {
+    width: 18px;
+    height: 18px;
+
+    flex-shrink: 0;
+
+    color: #8ca1b5;
+}
+
+
+.new-application-country-search input {
+    width: 100%;
+    height: 100%;
+
+    padding: 0;
+
+    border: 0;
+    outline: 0;
+
+    background: transparent;
+
+    color: #263e57;
+
+    font-family: inherit;
+
+    font-size: 11px;
+}
+
+
+.new-application-country-search input::placeholder {
+    color: #9aaabd;
+}
+
+
+/* =========================================================
+   COUNTRY GRID
+========================================================= */
+
+.new-application-country-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 16px;
+
+    margin-top: 24px;
+}
+
+
+/* =========================================================
+   COUNTRY CARD
+========================================================= */
+
+.new-application-country-card {
+    position: relative;
+
+    width: 100%;
+
+    min-width: 0;
+
+    padding: 0;
+
+    border: 1px solid #dfe7ee;
+
+    border-radius: 16px;
+
+    background: #ffffff;
+
+    color: inherit;
+
+    text-align: left;
+
+    overflow: hidden;
+
+    cursor: pointer;
+
+    appearance: none;
+
+    box-shadow:
+        0 4px 16px rgba(20, 48, 78, 0.025);
+
+    transition:
+        transform 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease;
+}
+
+
+.new-application-country-card:hover {
+    transform: translateY(-4px);
+
+    border-color: #c7dce9;
+
+    box-shadow:
+        0 16px 32px rgba(18, 55, 88, 0.10);
+}
+
+
+.new-application-country-card:focus-visible {
+    outline: none;
+
+    border-color: #0874c9;
+
+    box-shadow:
+        0 0 0 3px rgba(8, 116, 201, 0.11),
+        0 14px 30px rgba(18, 55, 88, 0.08);
+}
+
+
+/* =========================================================
+   COUNTRY IMAGE
+========================================================= */
+
+.new-application-country-card-image {
+    position: relative;
+
+    width: 100%;
+
+    height: 155px;
+
+    overflow: hidden;
+
+    background: #edf4f8;
+}
+
+
+.new-application-country-card-image img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    transition:
+        transform 450ms ease;
+}
+
+
+.new-application-country-card:hover
+.new-application-country-card-image img {
+    transform: scale(1.045);
+}
+
+
+/* =========================================================
+   IMAGE OVERLAY
+========================================================= */
+
+.new-application-country-card-image-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(11, 31, 52, 0.03) 0%,
+            rgba(11, 31, 52, 0.06) 45%,
+            rgba(11, 31, 52, 0.34) 100%
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   IMAGE FALLBACK
+========================================================= */
+
+.new-application-country-card-image-fallback {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #edf6fb,
+            #dcecf6
+        );
+
+    color: #0874c9;
+}
+
+
+.new-application-country-card-image-fallback svg {
+    width: 34px;
+    height: 34px;
+}
+
+
+/* =========================================================
+   COUNTRY CARD ARROW
+========================================================= */
+
+.new-application-country-card-arrow {
+    position: absolute;
+
+    top: 12px;
+    right: 12px;
+
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+
+    border-radius: 50%;
+
+    background:
+        rgba(16, 43, 67, 0.58);
+
+    color: #ffffff;
+
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+
+    transition:
+        background 180ms ease,
+        transform 180ms ease;
+}
+
+
+.new-application-country-card-arrow svg {
+    width: 15px;
+    height: 15px;
+}
+
+
+.new-application-country-card:hover
+.new-application-country-card-arrow {
+    background: #0874c9;
+
+    transform: translateX(2px);
+}
+
+
+/* =========================================================
+   COUNTRY CARD CONTENT
+========================================================= */
+
+.new-application-country-card-content {
+    padding: 15px 16px 17px;
+}
+
+
+.new-application-country-card-content h3 {
+    margin: 0;
+
+    color: #172f49;
+
+    font-size: 14px;
+
+    line-height: 1.25;
+
+    font-weight: 750;
+
+    letter-spacing: -0.02em;
+}
+
+
+.new-application-country-card-content p {
+    margin: 5px 0 0;
+
+    color: #8a9aaa;
+
+    font-size: 9.5px;
+
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   COUNTRY LOADING
+========================================================= */
+
+.new-application-country-loading {
+    min-height: 240px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+}
+
+
+.new-application-loading-spinner {
+    width: 28px;
+    height: 28px;
+
+    border: 2px solid #e2ebf2;
+
+    border-top-color: #0874c9;
+
+    border-radius: 50%;
+
+    animation:
+        newApplicationSpin 700ms linear infinite;
+}
+
+
+.new-application-country-loading p {
+    margin: 0;
+
+    color: #899aaa;
+
+    font-size: 10px;
+}
+
+
+@keyframes newApplicationSpin {
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+/* =========================================================
+   COUNTRY EMPTY
+========================================================= */
+
+.new-application-country-empty {
+    min-height: 240px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+}
+
+
+.new-application-country-empty > svg {
+    width: 34px;
+    height: 34px;
+
+    margin-bottom: 12px;
+
+    color: #9aabba;
+}
+
+
+.new-application-country-empty h3 {
+    margin: 0;
+
+    color: #40556b;
+
+    font-size: 14px;
+
+    font-weight: 720;
+}
+
+
+.new-application-country-empty p {
+    margin: 5px 0 0;
+
+    color: #8998a8;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   SELECTED COUNTRY / PATHWAYS
+========================================================= */
+
+.new-application-country-pathways {
+    width: 100%;
+
+    margin-top: 28px;
+}
+
+
+/* =========================================================
+   BACK TO COUNTRIES
+========================================================= */
+
+.new-application-back-countries {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-bottom: 18px;
+
+    padding: 0;
+
+    border: 0;
+
+    background: transparent;
+
+    color: #6f8499;
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        color 160ms ease,
+        transform 160ms ease;
+}
+
+
+.new-application-back-countries:hover {
+    color: #0874c9;
+
+    transform: translateX(-2px);
+}
+
+
+.new-application-back-countries svg {
+    width: 16px;
+    height: 16px;
+}
+
+
+/* =========================================================
+   SELECTED COUNTRY HEADER
+========================================================= */
+
+.new-application-selected-country-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 25px;
+
+    margin-bottom: 20px;
+
+    padding: 24px 26px;
+
+    border: 1px solid #dfe8ef;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff 0%,
+            #f7fbfe 100%
+        );
+
+    box-shadow:
+        0 8px 28px rgba(21, 55, 88, 0.035);
+}
+
+
+.new-application-selected-country-identity {
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    min-width: 0;
+}
+
+
+.new-application-selected-country-flag {
+    width: 62px;
+    height: 62px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    overflow: hidden;
+
+    border: 1px solid #d7e5ee;
+
+    border-radius: 15px;
+
+    background: #f1f7fb;
+
+    color: #0874c9;
+}
+
+
+.new-application-selected-country-flag img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+}
+
+
+.new-application-selected-country-flag svg {
+    width: 28px;
+    height: 28px;
+}
+
+
+.new-application-selected-country-identity h2 {
+    margin: 0;
+
+    color: #142b46;
+
+    font-size: 23px;
+
+    line-height: 1.2;
+
+    font-weight: 760;
+
+    letter-spacing: -0.035em;
+}
+
+
+.new-application-selected-country-identity p {
+    margin: 5px 0 0;
+
+    color: #8191a2;
+
+    font-size: 10px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   SELECTED COUNTRY COUNT
+========================================================= */
+
+.new-application-selected-country-count {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    min-width: 78px;
+    min-height: 62px;
+
+    padding: 8px 13px;
+
+    border: 1px solid #dce7ef;
+
+    border-radius: 12px;
+
+    background: #f4f8fb;
+}
+
+
+.new-application-selected-country-count strong {
+    color: #0874c9;
+
+    font-size: 20px;
+
+    line-height: 1;
+
+    font-weight: 800;
+}
+
+
+.new-application-selected-country-count span {
+    margin-top: 5px;
+
+    color: #8a9aab;
+
+    font-size: 8px;
+
+    font-weight: 650;
+}
+
+
+/* =========================================================
+   PATHWAY PANEL
+========================================================= */
+
+.new-application-country-pathways
+.choose-pathway-panel {
+    width: 100%;
+
+    margin-top: 0;
+}
+
+
+/* =========================================================
+   PROFILE GATE
+========================================================= */
+
+.application-profile-gate {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9999;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 24px;
+}
+
+
+.application-profile-gate-backdrop {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        rgba(9, 29, 49, 0.52);
+
+    backdrop-filter:
+        blur(7px);
+
+    -webkit-backdrop-filter:
+        blur(7px);
+}
+
+
+.application-profile-gate-modal {
+    position: relative;
+
+    z-index: 2;
+
+    width: min(100%, 520px);
+
+    padding: 34px;
+
+    border:
+        1px solid #e1e9f1;
+
+    border-radius: 22px;
+
+    background:
+        #ffffff;
+
+    box-shadow:
+        0 28px 90px rgba(9, 35, 62, 0.20);
+
+    animation:
+        applicationProfileGateIn 220ms ease-out;
+}
+
+
+/* =========================================================
+   PROFILE CLOSE
+========================================================= */
+
+.application-profile-gate-close {
+    position: absolute;
+
+    top: 18px;
+    right: 18px;
+
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: 0;
+
+    border-radius: 50%;
+
+    background:
+        #f4f7fa;
+
+    color:
+        #73859a;
+
+    cursor:
+        pointer;
+
+    transition:
+        background 180ms ease,
+        color 180ms ease,
+        transform 180ms ease;
+}
+
+
+.application-profile-gate-close:hover {
+    background:
+        #eaf0f5;
+
+    color:
+        #183653;
+
+    transform:
+        rotate(3deg);
+}
+
+
+.application-profile-gate-close svg {
+    width: 16px;
+    height: 16px;
+}
+
+
+/* =========================================================
+   PROFILE ICON
+========================================================= */
+
+.application-profile-gate-icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 18px;
+
+    border:
+        1px solid #cfe7f8;
+
+    border-radius: 14px;
+
+    background:
+        #eef8ff;
+
+    color:
+        #0874c9;
+}
+
+
+.application-profile-gate-icon svg {
+    width: 23px;
+    height: 23px;
+}
+
+
+/* =========================================================
+   PROFILE EYEBROW
+========================================================= */
+
+.application-profile-gate-eyebrow {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #0874c9;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.15em;
+}
+
+
+/* =========================================================
+   PROFILE TITLE
+========================================================= */
+
+.application-profile-gate-modal h2 {
+    margin: 0;
+
+    max-width: 390px;
+
+    color: #142b46;
+
+    font-size: 25px;
+
+    line-height: 1.15;
+
+    font-weight: 780;
+
+    letter-spacing: -0.035em;
+}
+
+
+/* =========================================================
+   PROFILE DESCRIPTION
+========================================================= */
+
+.application-profile-gate-description {
+    margin:
+        12px 0 20px;
+
+    color: #718398;
+
+    font-size: 12px;
+
+    line-height: 1.65;
+}
+
+
+.application-profile-gate-description strong {
+    color: #334b63;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   PROFILE SAVED
+========================================================= */
+
+.application-profile-gate-saved {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 11px;
+
+    padding: 13px;
+
+    border:
+        1px solid #d8ecdf;
+
+    border-radius: 12px;
+
+    background:
+        #f5fbf7;
+}
+
+
+.application-profile-gate-saved-icon {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    width: 26px;
+    height: 26px;
+
+    color:
+        #2b9b67;
+}
+
+
+.application-profile-gate-saved-icon svg {
+    width: 19px;
+    height: 19px;
+}
+
+
+.application-profile-gate-saved strong {
+    display: block;
+
+    margin-bottom: 2px;
+
+    color: #286b4b;
+
+    font-size: 10px;
+
+    font-weight: 750;
+}
+
+
+.application-profile-gate-saved span {
+    display: block;
+
+    color: #6d8b7a;
+
+    font-size: 10px;
+
+    line-height: 1.45;
+}
+
+
+/* =========================================================
+   PROFILE FIELDS
+========================================================= */
+
+.application-profile-gate-fields {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-top: 12px;
+
+    padding:
+        10px 12px;
+
+    border:
+        1px solid #e5ebf1;
+
+    border-radius: 9px;
+
+    background:
+        #fafcfd;
+}
+
+
+.application-profile-gate-fields span {
+    color: #98a6b5;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.12em;
+}
+
+
+.application-profile-gate-fields strong {
+    color: #52677c;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    text-align: right;
+}
+
+
+/* =========================================================
+   PROFILE ACTIONS
+========================================================= */
+
+.application-profile-gate-actions {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 9px;
+
+    margin-top: 20px;
+}
+
+
+.application-profile-gate-primary,
+.application-profile-gate-secondary {
+    width: 100%;
+
+    min-height: 46px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding:
+        0 14px;
+
+    border-radius: 10px;
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    font-weight: 720;
+
+    cursor: pointer;
+
+    transition:
+        transform 180ms ease,
+        box-shadow 180ms ease,
+        background 180ms ease,
+        border-color 180ms ease,
+        color 180ms ease;
+}
+
+
+.application-profile-gate-primary {
+    border:
+        1px solid #0874c9;
+
+    background:
+        #0874c9;
+
+    color:
+        #ffffff;
+
+    box-shadow:
+        0 8px 20px rgba(8, 116, 201, 0.18);
+}
+
+
+.application-profile-gate-primary:hover {
+    transform:
+        translateY(-1px);
+
+    background:
+        #086dbb;
+
+    box-shadow:
+        0 11px 25px rgba(8, 116, 201, 0.24);
+}
+
+
+.application-profile-gate-primary svg:first-child {
+    width: 16px;
+    height: 16px;
+}
+
+
+.application-profile-gate-primary svg:last-child {
+    width: 15px;
+    height: 15px;
+
+    margin-left: auto;
+}
+
+
+.application-profile-gate-secondary {
+    border:
+        1px solid #dce5ed;
+
+    background:
+        #ffffff;
+
+    color:
+        #536a80;
+}
+
+
+.application-profile-gate-secondary:hover {
+    background:
+        #f7fafc;
+
+    color:
+        #213d59;
+}
+
+
+.application-profile-gate-secondary svg:first-child {
+    width: 16px;
+    height: 16px;
+}
+
+
+.application-profile-gate-secondary svg:last-child {
+    width: 14px;
+    height: 14px;
+
+    margin-left: auto;
+
+    color:
+        #9aa9b7;
+}
+
+
+/* =========================================================
+   PROFILE FOOTNOTE
+========================================================= */
+
+.application-profile-gate-footnote {
+    margin:
+        14px 0 0;
+
+    color:
+        #9aa7b4;
+
+    font-size:
+        9px;
+
+    line-height:
+        1.5;
+
+    text-align:
+        center;
+}
+
+
+/* =========================================================
+   PROFILE ANIMATION
+========================================================= */
+
+@keyframes applicationProfileGateIn {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(10px)
+            scale(0.985);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — 1200px
+========================================================= */
+
+@media (max-width: 1200px) {
+
+    .new-application {
+        padding-left: 32px;
+        padding-right: 32px;
+    }
+
+
+    .new-application-country-grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — 900px
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .new-application {
+        padding-left: 22px;
+        padding-right: 22px;
+    }
+
+
+    .new-application-country-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+
+    .new-application-countries {
+        padding: 24px;
+    }
+
+
+    .new-application-selected-country-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+
+    .new-application-selected-country-count {
+        flex-direction: row;
+
+        gap: 7px;
+
+        min-width: auto;
+        min-height: auto;
+    }
+
+
+    .new-application-selected-country-count span {
+        margin-top: 0;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — 620px
+========================================================= */
+
+@media (max-width: 620px) {
+
+    .new-application {
+        padding:
+            0 15px 45px;
+    }
+
+
+    .new-application-countries {
+        margin-top: 20px;
+
+        padding: 19px;
+
+        border-radius: 16px;
+    }
+
+
+    .new-application-countries-header {
+        flex-direction: column;
+
+        gap: 15px;
+
+        padding-bottom: 19px;
+    }
+
+
+    .new-application-countries-header h2 {
+        font-size: 21px;
+    }
+
+
+    .new-application-countries-header p {
+        font-size: 10px;
+    }
+
+
+    .new-application-country-count {
+        align-self: flex-start;
+    }
+
+
+    .new-application-country-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 10px;
+    }
+
+
+    .new-application-country-card-image {
+        height: 125px;
+    }
+
+
+    .new-application-country-card-content {
+        padding:
+            12px 13px 14px;
+    }
+
+
+    .new-application-country-card-content h3 {
+        font-size: 12px;
+    }
+
+
+    .new-application-country-card-content p {
+        font-size: 8.5px;
+    }
+
+
+    .new-application-country-card-arrow {
+        width: 28px;
+        height: 28px;
+
+        top: 9px;
+        right: 9px;
+    }
+
+
+    .new-application-country-card-arrow svg {
+        width: 13px;
+        height: 13px;
+    }
+
+
+    .new-application-selected-country-header {
+        padding: 19px;
+
+        border-radius: 15px;
+    }
+
+
+    .new-application-selected-country-identity {
+        align-items: flex-start;
+    }
+
+
+    .new-application-selected-country-flag {
+        width: 50px;
+        height: 50px;
+
+        border-radius: 12px;
+    }
+
+
+    .new-application-selected-country-identity h2 {
+        font-size: 20px;
+    }
+
+
+    .new-application-selected-country-identity p {
+        font-size: 9px;
+    }
+
+
+    .application-profile-gate {
+        padding: 15px;
+    }
+
+
+    .application-profile-gate-modal {
+        padding: 26px 20px;
+
+        border-radius: 18px;
+    }
+
+
+    .application-profile-gate-modal h2 {
+        font-size: 22px;
+    }
+
+
+    .application-profile-gate-description {
+        font-size: 11px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — 420px
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .new-application {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+
+    .new-application-countries {
+        padding: 16px;
+
+        border-radius: 14px;
+    }
+
+
+    .new-application-country-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .new-application-country-card {
+        display: grid;
+
+        grid-template-columns:
+            115px minmax(0, 1fr);
+
+        min-height: 115px;
+
+        align-items: stretch;
+    }
+
+
+    .new-application-country-card-image {
+        height: 100%;
+
+        min-height: 115px;
+    }
+
+
+    .new-application-country-card-content {
+        display: flex;
+
+        flex-direction: column;
+
+        justify-content: center;
+
+        padding: 14px;
+    }
+
+
+    .new-application-country-card-content h3 {
+        font-size: 13px;
+    }
+
+
+    .new-application-country-card-content p {
+        font-size: 8.5px;
+    }
+
+
+    .new-application-selected-country-header {
+        padding: 16px;
+    }
+
+
+    .new-application-selected-country-identity {
+        gap: 11px;
+    }
+
+
+    .new-application-selected-country-flag {
+        width: 44px;
+        height: 44px;
+    }
+
+
+    .new-application-selected-country-identity h2 {
+        font-size: 18px;
+    }
+
+
+    .new-application-selected-country-identity p {
+        font-size: 8.5px;
+    }
+
+
+    .application-profile-gate {
+        padding: 10px;
+    }
+
+
+    .application-profile-gate-modal {
+        padding: 23px 17px;
+
+        border-radius: 16px;
+    }
+
+
+    .application-profile-gate-close {
+        top: 13px;
+        right: 13px;
+    }
+
+
+    .application-profile-gate-icon {
+        width: 44px;
+        height: 44px;
+    }
+
+
+    .application-profile-gate-modal h2 {
+        font-size: 20px;
+    }
+
+
+    .application-profile-gate-description {
+        font-size: 10.5px;
+    }
+
+
+    .application-profile-gate-fields {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 4px;
+    }
+
+
+    .application-profile-gate-fields strong {
+        text-align: left;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .new-application-country-card,
+    .new-application-country-card-image img,
+    .new-application-country-card-arrow,
+    .new-application-back-countries,
+    .application-profile-gate-primary,
+    .application-profile-gate-secondary,
+    .application-profile-gate-close {
+        transition: none;
+    }
+
+
+    .new-application-loading-spinner {
+        animation: none;
+    }
+
+
+    .application-profile-gate-modal {
+        animation: none;
+    }
+
+}

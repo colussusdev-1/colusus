@@ -39,7 +39,8 @@ import ClientDashboard from "./pages/Client/ClientDashboard";
 import Applications from "./pages/Client/Applications";
 import ApplicationDetail from "./pages/Client/ApplicationDetails";
 import Documents from "./pages/Client/Documents";
-import Updates from "./pages/Client/Updates";
+import DocumentViewer from "./components/ClientPortal/Documents/DocumentViewer/DocumentViewer";
+import ClientUpdates from "./pages/Client/Updates/ClientUpdates";
 import Profile from "./pages/Client/Profile";
 
 
@@ -290,7 +291,6 @@ function App() {
                         element={<PortalLayout />}
                     >
 
-
                         {/*
                         -----------------------------------------
                         DASHBOARD
@@ -313,7 +313,6 @@ function App() {
                             path="applications"
                             element={<Applications />}
                         />
-
 
                         <Route
                             path="applications/new"
@@ -344,6 +343,11 @@ function App() {
                             element={<Documents />}
                         />
 
+                        <Route
+                            path="documents/:documentId/view"
+                            element={<DocumentViewer />}
+                        />
+
 
                         {/*
                         -----------------------------------------
@@ -353,7 +357,7 @@ function App() {
 
                         <Route
                             path="updates"
-                            element={<Updates />}
+                            element={<ClientUpdates />}
                         />
 
 
