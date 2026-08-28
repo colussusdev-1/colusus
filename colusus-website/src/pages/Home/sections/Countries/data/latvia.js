@@ -1,3 +1,5 @@
+import latviaFlag from "../../../../../assets/flags/latvia.png";
+
 import latviaImage from "../../../../../assets/images/countries/latvia.jpg";
 import latviaWorkImage from "../../../../../assets/images/opportunities/latvia-work.jpg";
 
@@ -10,7 +12,7 @@ const latvia = {
 
   slug: "latvia",
 
-  flag: "🇱🇻",
+  flag: latviaFlag,
 
   image: latviaImage,
 

@@ -1,3 +1,4 @@
+import croatiaFlag from "../../../../../assets/flags/croatia.png";
 import croatiaImage from "../../../../../assets/images/countries/croatia.jpg";
 import croatiaAgricultureImage from "../../../../../assets/images/opportunities/croatia-agriculture.jpg";
 
@@ -10,7 +11,7 @@ const croatia = {
 
   slug: "croatia",
 
-  flag: "🇭🇷",
+  flag: croatiaFlag,
 
   image: croatiaImage,
 

@@ -1,3 +1,4 @@
+import canadaFlag from "../../../../../assets/flags/canada.png";
 import canadaImage from "../../../../../assets/images/countries/canada.jpg";
 import softwareEngineerImage from "../../../../../assets/images/opportunities/software-engineer.jpg";
 
@@ -10,7 +11,7 @@ const canada = {
 
   slug: "canada",
 
-  flag: "🇨🇦",
+  flag: canadaFlag,
 
   image: canadaImage,
 
@@ -60,49 +61,63 @@ const canada = {
 
       highlights: [
         "Permanent residency pathway",
+
         "High salary opportunities",
+
         "Family sponsorship options",
+
         "Growing technology sector",
       ],
 
       requirements: [
         "Computer Science degree or equivalent experience",
+
         "Relevant software engineering experience",
+
         "English language proficiency",
       ],
 
       documents: [
         "Passport",
+
         "CV / Resume",
+
         "Educational certificates",
+
         "Employment records",
       ],
 
       benefits: [
         "Permanent residency pathway",
+
         "High salary opportunities",
+
         "Family sponsorship options",
       ],
 
       steps: [
         {
           title: "Eligibility Review",
+
           description:
             "Assess your profile against Canada's immigration requirements.",
         },
 
         {
           title: "Document Preparation",
+
           description: "Prepare academic, professional and identity documents.",
         },
 
         {
           title: "Application Submission",
+
           description: "Submit your migration application.",
         },
 
         {
           title: "Visa Processing",
+
           description: "Track approval and relocation steps.",
         },
       ],

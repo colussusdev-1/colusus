@@ -1,3 +1,5 @@
+import polandFlag from "../../../../../assets/flags/poland.png";
+
 import polandImage from "../../../../../assets/images/countries/poland.jpg";
 
 import polandWorkImage from "../../../../../assets/images/opportunities/poland-work.jpg";
@@ -14,7 +16,7 @@ const poland = {
 
   slug: "poland",
 
-  flag: "🇵🇱",
+  flag: polandFlag,
 
   image: polandImage,
 

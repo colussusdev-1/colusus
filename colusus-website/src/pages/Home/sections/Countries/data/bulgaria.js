@@ -1,3 +1,4 @@
+import bulgariaFlag from "../../../../../assets/flags/bulgaria.png";
 import bulgariaImage from "../../../../../assets/images/countries/bulgaria.jpg";
 import bulgariaHospitalityImage from "../../../../../assets/images/opportunities/bulgaria-hospitality.jpg";
 
@@ -10,7 +11,7 @@ const bulgaria = {
 
   slug: "bulgaria",
 
-  flag: "🇧🇬",
+  flag: bulgariaFlag,
 
   image: bulgariaImage,
 

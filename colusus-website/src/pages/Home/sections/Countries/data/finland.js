@@ -1,601 +1,261 @@
+import finlandFlag from "../../../../../assets/flags/finland.png";
 import finland from "../../../../../assets/images/countries/finland.jpg";
 
-
 const finlandData = {
+  id: 6,
 
+  name: "Finland",
 
-    id:6,
+  shortName: "Finland",
 
+  slug: "finland",
 
-    name:"Finland",
+  flag: finlandFlag,
 
-    shortName:"Finland",
+  image: finland,
 
-    slug:"finland",
+  applicants: "520",
 
+  category: ["study", "work", "residency", "europe"],
 
+  visa: "Residence Permit",
 
-    flag:"🇫🇮",
+  duration: "8–12 Weeks",
 
+  processingTime: "Medium",
 
-    image:finland,
-
-
-
-    applicants:"520",
-
-
-
-    category:[
-
-        "study",
-        "work",
-        "residency",
-        "europe"
-
-    ],
-
-
-
-    visa:"Residence Permit",
-
-
-
-    duration:"8–12 Weeks",
-
-
-
-    processingTime:"Medium",
-
-
-
-    description:
-
+  description:
     "Explore Finland study, technology and residence opportunities with pathways designed for international professionals and students.",
 
+  opportunityScore: "82%",
 
+  successRate: "Good",
 
-    opportunityScore:"82%",
+  featured: false,
 
+  opportunities: [
+    {
+      id: 1,
 
+      title: "Tech Jobs",
 
-    successRate:"Good",
+      slug: "tech-jobs",
 
+      category: "Jobs",
 
+      location: "Helsinki, Finland",
 
-    featured:false,
+      type: "Work Residence Permit",
 
+      duration: "10–16 Weeks",
 
+      icon: "💻",
 
+      salary: "€45,000 - €90,000/year",
 
+      demand: "High",
 
-    opportunities:[
+      description:
+        "Finland's growing technology ecosystem creates opportunities for software engineers, developers and IT professionals.",
 
+      requirements: [
+        "Relevant technology skills",
 
+        "Professional experience",
 
+        "English proficiency",
 
+        "Employment offer",
+      ],
 
+      documents: [
+        "Valid passport",
 
-        {
+        "CV",
 
-            id:1,
+        "Portfolio/GitHub profile",
 
+        "Employment contract",
 
-            title:"Tech Jobs",
+        "Educational certificates",
+      ],
 
+      benefits: [
+        "Strong work-life balance",
 
-            slug:"tech-jobs",
+        "Competitive technology salaries",
 
+        "Residence pathway",
 
+        "Family relocation options",
+      ],
+    },
 
-            category:"Jobs",
+    {
+      id: 2,
 
+      title: "International Student",
 
+      slug: "international-student",
 
-            location:"Helsinki, Finland",
+      category: "Study",
 
+      location: "Finland",
 
+      type: "Student Residence Permit",
 
-            type:"Work Residence Permit",
+      duration: "8–14 Weeks",
 
+      icon: "🎓",
 
+      salary: "Part-time work and post-study opportunities",
 
-            duration:"10–16 Weeks",
+      demand: "Growing",
 
+      description:
+        "Study at Finnish universities while gaining access to international career opportunities and future residence pathways.",
 
+      requirements: [
+        "University admission letter",
 
-            icon:"💻",
+        "Academic qualification",
 
+        "Proof of funds",
 
+        "English language requirement",
+      ],
 
+      documents: [
+        "Passport",
 
+        "Admission letter",
 
-            salary:
+        "Academic transcripts",
 
-            "€45,000 - €90,000/year",
+        "Financial documents",
+      ],
 
+      benefits: [
+        "High-quality education",
 
+        "Safe learning environment",
 
+        "Post-study work opportunities",
 
+        "European career access",
+      ],
+    },
 
-            demand:
+    {
+      id: 3,
 
-            "High",
+      title: "Software Engineer",
 
+      slug: "software-engineer",
 
+      category: "Jobs",
 
+      location: "Helsinki, Espoo, Finland",
 
+      type: "Specialist Residence Permit",
 
+      duration: "8–14 Weeks",
 
-            description:
+      icon: "🚀",
 
-            "Finland's growing technology ecosystem creates opportunities for software engineers, developers and IT professionals.",
+      salary: "€50,000 - €100,000/year",
 
+      demand: "Very High",
 
+      description:
+        "Finland actively attracts international software engineers to support its technology and innovation sectors.",
 
+      requirements: [
+        "Software development experience",
 
+        "Programming skills",
 
+        "Relevant degree or equivalent expertise",
 
-            requirements:[
+        "English proficiency",
+      ],
 
+      documents: [
+        "Passport",
 
-                "Relevant technology skills",
+        "CV",
 
+        "Technical portfolio",
 
-                "Professional experience",
+        "Employment contract",
 
+        "Certificates",
+      ],
 
-                "English proficiency",
+      benefits: [
+        "High quality of life",
 
+        "International tech environment",
 
-                "Employment offer"
+        "Career growth opportunities",
 
+        "Long-term residence pathway",
+      ],
+    },
 
-            ],
+    {
+      id: 4,
 
+      title: "Residence Permit",
 
+      slug: "residence-permit",
 
+      category: "Residency",
 
+      location: "Finland",
 
-            documents:[
+      type: "Long-Term Residence",
 
+      duration: "8–14 Weeks",
 
-                "Valid passport",
+      icon: "🏠",
 
+      salary: "Settlement pathway",
 
-                "CV",
+      demand: "Stable",
 
+      description:
+        "Build a long-term future in Finland through employment, study or family-based residence routes.",
 
-                "Portfolio/GitHub profile",
+      requirements: [
+        "Valid reason for residence",
 
+        "Financial stability",
 
-                "Employment contract",
+        "Required supporting documents",
+      ],
 
+      documents: [
+        "Passport",
 
-                "Educational certificates"
+        "Residence application documents",
 
+        "Proof of income",
 
-            ],
+        "Supporting evidence",
+      ],
 
+      benefits: [
+        "Long-term stability",
 
+        "Access to public services",
 
+        "Family opportunities",
 
-
-            benefits:[
-
-
-                "Strong work-life balance",
-
-
-                "Competitive technology salaries",
-
-
-                "Residence pathway",
-
-
-                "Family relocation options"
-
-
-            ]
-
-        },
-
-
-
-
-
-
-
-
-
-        {
-
-            id:2,
-
-
-            title:"International Student",
-
-
-
-            slug:"international-student",
-
-
-
-            category:"Study",
-
-
-
-            location:"Finland",
-
-
-
-            type:"Student Residence Permit",
-
-
-
-            duration:"8–14 Weeks",
-
-
-
-            icon:"🎓",
-
-
-
-
-
-            salary:
-
-            "Part-time work and post-study opportunities",
-
-
-
-
-
-            demand:
-
-            "Growing",
-
-
-
-
-
-            description:
-
-            "Study at Finnish universities while gaining access to international career opportunities and future residence pathways.",
-
-
-
-
-
-            requirements:[
-
-
-                "University admission letter",
-
-
-                "Academic qualification",
-
-
-                "Proof of funds",
-
-
-                "English language requirement"
-
-
-            ],
-
-
-
-
-
-            documents:[
-
-
-                "Passport",
-
-
-                "Admission letter",
-
-
-                "Academic transcripts",
-
-
-                "Financial documents"
-
-
-            ],
-
-
-
-
-
-            benefits:[
-
-
-                "High-quality education",
-
-
-                "Safe learning environment",
-
-
-                "Post-study work opportunities",
-
-
-                "European career access"
-
-
-            ]
-
-        },
-
-
-
-
-
-
-
-
-
-        {
-
-            id:3,
-
-
-
-            title:"Software Engineer",
-
-
-
-            slug:"software-engineer",
-
-
-
-            category:"Jobs",
-
-
-
-            location:"Helsinki, Espoo, Finland",
-
-
-
-            type:"Specialist Residence Permit",
-
-
-
-            duration:"8–14 Weeks",
-
-
-
-            icon:"🚀",
-
-
-
-
-
-            salary:
-
-            "€50,000 - €100,000/year",
-
-
-
-
-
-            demand:
-
-            "Very High",
-
-
-
-
-
-
-            description:
-
-            "Finland actively attracts international software engineers to support its technology and innovation sectors.",
-
-
-
-
-
-            requirements:[
-
-
-                "Software development experience",
-
-
-                "Programming skills",
-
-
-                "Relevant degree or equivalent expertise",
-
-
-                "English proficiency"
-
-
-            ],
-
-
-
-
-
-            documents:[
-
-
-                "Passport",
-
-
-                "CV",
-
-
-                "Technical portfolio",
-
-
-                "Employment contract",
-
-
-                "Certificates"
-
-
-            ],
-
-
-
-
-
-            benefits:[
-
-
-                "High quality of life",
-
-
-                "International tech environment",
-
-
-                "Career growth opportunities",
-
-
-                "Long-term residence pathway"
-
-
-            ]
-
-        },
-
-
-
-
-
-
-
-
-
-        {
-
-            id:4,
-
-
-
-            title:"Residence Permit",
-
-
-
-            slug:"residence-permit",
-
-
-
-            category:"Residency",
-
-
-
-            location:"Finland",
-
-
-
-            type:"Long-Term Residence",
-
-
-
-            duration:"8–14 Weeks",
-
-
-
-            icon:"🏠",
-
-
-
-
-
-            salary:
-
-            "Settlement pathway",
-
-
-
-
-
-            demand:
-
-            "Stable",
-
-
-
-
-
-            description:
-
-            "Build a long-term future in Finland through employment, study or family-based residence routes.",
-
-
-
-
-
-            requirements:[
-
-
-                "Valid reason for residence",
-
-
-                "Financial stability",
-
-
-                "Required supporting documents"
-
-
-            ],
-
-
-
-
-
-            documents:[
-
-
-                "Passport",
-
-
-                "Residence application documents",
-
-
-                "Proof of income",
-
-
-                "Supporting evidence"
-
-
-            ],
-
-
-
-
-
-            benefits:[
-
-
-                "Long-term stability",
-
-
-                "Access to public services",
-
-
-                "Family opportunities",
-
-
-                "Pathway to permanent residence"
-
-
-            ]
-
-        }
-
-
-
-
-
-
-    ]
-
+        "Pathway to permanent residence",
+      ],
+    },
+  ],
 };
-
-
 
 export default finlandData;

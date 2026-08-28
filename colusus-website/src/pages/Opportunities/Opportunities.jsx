@@ -1,9 +1,12 @@
+import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 
 import countries from "../Home/sections/Countries/countriesData";
 
-import OpportunityHero from "./components/OpportunityHero/OpportunityHero";
-import OpportunityExplorer from "./components/OpportunityExplorer/OpportunityExplorer";
+import normalizeOpportunities from "./utils/normalizeOpportunities";
+
+import CountryHero from "./components/CountryHero/CountryHero";
+import PathwayExplorer from "./components/PathwayExplorer/PathwayExplorer";
 
 import "./Opportunities.css";
 
@@ -13,21 +16,100 @@ const Opportunities = () => {
     const { country } = useParams();
 
 
-    const selectedCountry = countries.find(
-        (item) => item.slug === country
+    /* ==========================================================
+       COUNTRY
+    ========================================================== */
+
+    const selectedCountry = useMemo(
+        () =>
+            countries.find(
+                (item) => item.slug === country
+            ),
+        [country]
     );
 
 
+    /* ==========================================================
+       OPPORTUNITIES
+    ========================================================== */
 
-    if (!selectedCountry) {
+    const opportunities = useMemo(
+        () =>
+            selectedCountry
+                ? normalizeOpportunities(selectedCountry)
+                : [],
+        [selectedCountry]
+    );
+
+
+    /* ==========================================================
+       COUNTRY DATA
+    ========================================================== */
+
+    const countryData = useMemo(() => {
+
+        if (!selectedCountry) {
+            return null;
+        }
+
+        return {
+            ...selectedCountry,
+
+            opportunities,
+
+            applicants:
+                selectedCountry.applicants ||
+                "500+",
+
+            processingTime:
+                selectedCountry.processingTime ||
+                selectedCountry.duration ||
+                "Varies",
+
+            opportunityScore:
+                selectedCountry.opportunityScore ||
+                "High",
+
+            successRate:
+                selectedCountry.successRate ||
+                "High",
+
+            pathwaysCount:
+                opportunities.length,
+        };
+
+    }, [
+        selectedCountry,
+        opportunities,
+    ]);
+
+
+    /* ==========================================================
+       COUNTRY NOT FOUND
+    ========================================================== */
+
+    if (!countryData) {
 
         return (
 
-            <main className="opportunities-page opportunities-error">
+            <main
+                className="
+                    opportunities-page
+                    opportunities-error
+                "
+            >
 
-                <div className="opportunities-error-content">
+                <div
+                    className="
+                        opportunities-error__content
+                    "
+                >
 
-                    <span>
+                    <span
+                        className="
+                            opportunities-error__eyebrow
+                        "
+                    >
                         Global Opportunities
                     </span>
 
@@ -38,9 +120,9 @@ const Opportunities = () => {
 
 
                     <p>
-                        The destination you are looking for is currently unavailable.
+                        The destination you're looking
+                        for is currently unavailable.
                     </p>
-
 
                 </div>
 
@@ -51,151 +133,36 @@ const Opportunities = () => {
     }
 
 
-
-    /*
-        Normalize old and new country structures
-
-        Old:
-        offers: []
-
-        New:
-        opportunities: []
-    */
-
-
-    const opportunities =
-        selectedCountry.opportunities ||
-        selectedCountry.offers ||
-        [];
-
-
-
-
-    const normalizedOpportunities = opportunities.map(
-        (item) => ({
-
-            ...item,
-
-
-            // fallback fields
-
-            image:
-                item.image ||
-                selectedCountry.image,
-
-
-            location:
-                item.location ||
-                selectedCountry.name,
-
-
-            category:
-                item.category ||
-                "Jobs",
-
-
-            duration:
-                item.duration ||
-                item.timeline ||
-                selectedCountry.duration,
-
-
-            type:
-                item.type ||
-                selectedCountry.visa,
-
-
-            salary:
-                item.salary ||
-                "Available Upon Assessment",
-
-
-            benefits:
-                item.benefits ||
-                item.highlights ||
-                [],
-
-
-            requirements:
-                item.requirements ||
-                [],
-
-
-            steps:
-                item.steps ||
-                item.process ||
-                [],
-
-
-        })
-    );
-
-
-
-
-
-    const countryData = {
-
-        ...selectedCountry,
-
-
-        opportunities:
-            normalizedOpportunities,
-
-
-        // make sure these exist
-
-        applicants:
-            selectedCountry.applicants || "500+",
-
-
-        processingTime:
-            selectedCountry.processingTime ||
-            selectedCountry.duration,
-
-
-        opportunityScore:
-            selectedCountry.opportunityScore ||
-            "High",
-
-
-        successRate:
-            selectedCountry.successRate ||
-            "High",
-
-
-    };
-
-
-
-
+    /* ==========================================================
+       PAGE
+    ========================================================== */
 
     return (
 
         <main className="opportunities-page">
 
+            {/* ==================================================
+                01 — COUNTRY INTELLIGENCE
+            ================================================== */}
 
-            <OpportunityHero
-
+            <CountryHero
                 country={countryData}
-
             />
 
 
+            {/* ==================================================
+                02 — PATHWAY EXPLORER
+            ================================================== */}
 
-            <OpportunityExplorer
-
+            <PathwayExplorer
                 country={countryData}
-
             />
-
 
         </main>
 
     );
 
 };
-
 
 
 export default Opportunities;

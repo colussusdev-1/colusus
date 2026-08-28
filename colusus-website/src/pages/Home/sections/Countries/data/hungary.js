@@ -1,3 +1,5 @@
+import hungaryFlag from "../../../../../assets/flags/hungary.png";
+
 import hungaryImage from "../../../../../assets/images/countries/hungary.jpg";
 import hungaryWorkImage from "../../../../../assets/images/opportunities/hungary-work.jpg";
 
@@ -10,7 +12,7 @@ const hungary = {
 
   slug: "hungary",
 
-  flag: "🇭🇺",
+  flag: hungaryFlag,
 
   image: hungaryImage,
 

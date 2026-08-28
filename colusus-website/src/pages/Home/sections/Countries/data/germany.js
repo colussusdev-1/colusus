@@ -1,3 +1,5 @@
+import germanyFlag from "../../../../../assets/flags/germany.png";
+
 import germanyImage from "../../../../../assets/images/countries/germany.jpg";
 
 import germanyWorkImage from "../../../../../assets/images/opportunities/germany-work.jpg";
@@ -12,7 +14,7 @@ const germany = {
 
   slug: "germany",
 
-  flag: "🇩🇪",
+  flag: germanyFlag,
 
   image: germanyImage,
 
@@ -253,9 +255,7 @@ const germany = {
 
           roles: [
             "Registered Nurses",
-
             "Hospital Nurses",
-
             "Clinical Nursing Staff",
           ],
         },

@@ -1,0 +1,481 @@
+/* ==========================================================
+   JOURNEY STRIP
+========================================================== */
+
+.journey-strip {
+
+    position: relative;
+
+    width: 100%;
+
+    padding: 28px 0;
+
+    background: #f8fbff;
+
+}
+
+
+/* ==========================================================
+   CONTAINER
+========================================================== */
+
+.journey-strip__container {
+
+    width: min(1180px,
+            calc(100% - 48px));
+
+    min-height: 145px;
+
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns:
+        280px minmax(0, 1fr) auto;
+
+    align-items: center;
+
+    gap: 35px;
+
+    padding: 22px 24px;
+
+    border:
+        1px solid #e2eaf5;
+
+    border-radius: 24px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 18px 50px rgba(27, 61, 105, .07);
+
+}
+
+
+/* ==========================================================
+   INTRO
+========================================================== */
+
+.journey-strip__intro {
+
+    min-width: 0;
+
+}
+
+
+.journey-strip__eyebrow {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    color: #1769e0;
+
+    font-size: 9px;
+
+    font-weight: 900;
+
+    letter-spacing: .1em;
+
+    text-transform: uppercase;
+
+}
+
+
+.journey-strip__eyebrow svg {
+
+    font-size: 14px;
+
+}
+
+
+.journey-strip__intro h2 {
+
+    margin: 7px 0 0;
+
+    color: #0b1930;
+
+    font-size: 22px;
+
+    line-height: 1.05;
+
+    letter-spacing: -.045em;
+
+}
+
+
+.journey-strip__intro h2 span {
+
+    color: #1769e0;
+
+}
+
+
+.journey-strip__intro p {
+
+    max-width: 260px;
+
+    margin: 8px 0 0;
+
+    color: #74859e;
+
+    font-size: 10px;
+
+    line-height: 1.6;
+
+}
+
+
+/* ==========================================================
+   STEPS
+========================================================== */
+
+.journey-strip__steps {
+
+    min-width: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+.journey-strip__step {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    min-width: 145px;
+
+}
+
+
+.journey-strip__number {
+
+    align-self: flex-start;
+
+    color: #c6d5e8;
+
+    font-size: 9px;
+
+    line-height: 1;
+
+    font-weight: 900;
+
+}
+
+
+.journey-strip__step-content {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+}
+
+
+.journey-strip__icon {
+
+    width: 35px;
+
+    height: 35px;
+
+    flex: 0 0 35px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 11px;
+
+    background: #edf4ff;
+
+    color: #1769e0;
+
+    font-size: 16px;
+
+}
+
+
+.journey-strip__step-content strong {
+
+    display: block;
+
+    color: #172740;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+}
+
+
+.journey-strip__step-content span {
+
+    display: block;
+
+    margin-top: 3px;
+
+    color: #8595aa;
+
+    font-size: 9px;
+
+    line-height: 1.35;
+
+}
+
+
+.journey-strip__connector {
+
+    display: grid;
+
+    place-items: center;
+
+    width: 30px;
+
+    color: #b5c6dc;
+
+    font-size: 15px;
+
+}
+
+
+/* ==========================================================
+   CTA
+========================================================== */
+
+.journey-strip__cta {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 13px;
+
+    min-height: 43px;
+
+    padding: 0 17px;
+
+    border-radius: 12px;
+
+    background: #1769e0;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    white-space: nowrap;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    box-shadow:
+        0 10px 25px rgba(23, 105, 224, .18);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+
+}
+
+
+.journey-strip__cta svg {
+
+    font-size: 16px;
+
+}
+
+
+.journey-strip__cta:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 15px 30px rgba(23, 105, 224, .24);
+
+}
+
+
+/* ==========================================================
+   ANIMATION
+========================================================== */
+
+.journey-strip__container {
+
+    animation:
+        journeyStripReveal .75s .15s cubic-bezier(.22, 1, .36, 1) both;
+
+}
+
+
+@keyframes journeyStripReveal {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(25px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+/* ==========================================================
+   TABLET
+========================================================== */
+
+@media (max-width: 1050px) {
+
+    .journey-strip__container {
+
+        grid-template-columns:
+            1fr auto;
+
+        gap: 25px;
+
+    }
+
+
+    .journey-strip__steps {
+
+        grid-column: 1 / -1;
+
+        grid-row: 2;
+
+        justify-content: flex-start;
+
+    }
+
+
+    .journey-strip__intro {
+
+        grid-column: 1;
+
+        grid-row: 1;
+
+    }
+
+
+    .journey-strip__cta {
+
+        grid-column: 2;
+
+        grid-row: 1;
+
+    }
+
+}
+
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media (max-width: 700px) {
+
+    .journey-strip {
+
+        padding: 18px 0;
+
+    }
+
+
+    .journey-strip__container {
+
+        width: calc(100% - 30px);
+
+        grid-template-columns: 1fr;
+
+        gap: 20px;
+
+        padding: 22px;
+
+        border-radius: 20px;
+
+    }
+
+
+    .journey-strip__intro {
+
+        grid-column: auto;
+
+        grid-row: auto;
+
+    }
+
+
+    .journey-strip__intro p {
+
+        max-width: 100%;
+
+    }
+
+
+    .journey-strip__steps {
+
+        grid-column: auto;
+
+        grid-row: auto;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 5px;
+
+    }
+
+
+    .journey-strip__step {
+
+        min-width: 0;
+
+    }
+
+
+    .journey-strip__connector {
+
+        width: 35px;
+
+        height: 20px;
+
+        transform: rotate(90deg);
+
+    }
+
+
+    .journey-strip__cta {
+
+        grid-column: auto;
+
+        grid-row: auto;
+
+        width: 100%;
+
+    }
+
+}

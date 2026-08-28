@@ -15,49 +15,76 @@ const CountryCard = ({ country }) => {
 
     const handleExplore = () => {
 
-        navigate(`/opportunities/${country.slug}`);
+        navigate(
+            `/opportunities/${country.slug}`
+        );
+
+    };
+
+
+    const handleKeyDown = (event) => {
+
+        if (
+            event.key === "Enter" ||
+            event.key === " "
+        ) {
+
+            event.preventDefault();
+
+            handleExplore();
+
+        }
 
     };
 
 
     return (
 
-        <div
+        <article
             className="country-card"
             onClick={handleExplore}
+            onKeyDown={handleKeyDown}
             role="button"
-            tabIndex="0"
+            tabIndex={0}
         >
 
+
+            {/* ==================================================
+                COUNTRY IMAGE
+            ================================================== */}
 
             <img
                 src={country.image}
                 alt={country.name}
                 className="country-image"
+                loading="lazy"
             />
 
 
-
-            <div className="country-overlay" />
-
-
-
-
-            {
-                country.featured && (
-
-                    <div className="country-featured">
-
-                        Featured
-
-                    </div>
-
-                )
-            }
+            <div
+                className="country-overlay"
+                aria-hidden="true"
+            />
 
 
+            {/* ==================================================
+                FEATURED
+            ================================================== */}
+
+            {country.featured && (
+
+                <div className="country-featured">
+
+                    Featured
+
+                </div>
+
+            )}
 
 
+            {/* ==================================================
+                EXPLORE HOVER
+            ================================================== */}
 
             <div className="country-hover">
 
@@ -70,30 +97,46 @@ const CountryCard = ({ country }) => {
             </div>
 
 
+            {/* ==================================================
+                COUNTRY FLAG
+            ================================================== */}
+
+            {country.flag && (
+
+                <div className="country-flag">
+
+                    <img
+                        src={country.flag}
+                        alt={`${country.name} flag`}
+                    />
+
+                </div>
+
+            )}
 
 
+            {/* ==================================================
+                APPLICANTS
+            ================================================== */}
 
-            <div className="country-flag">
+            {country.applicants && (
 
-                {country.flag}
+                <div className="country-applicants">
 
-            </div>
+                    <HiOutlineUserGroup />
 
+                    <span>
+                        {country.applicants}
+                    </span>
 
+                </div>
 
-
-
-            <div className="country-applicants">
-
-                <HiOutlineUserGroup />
-
-                {country.applicants}
-
-            </div>
-
+            )}
 
 
-
+            {/* ==================================================
+                COUNTRY CONTENT
+            ================================================== */}
 
             <div className="country-content">
 
@@ -105,26 +148,29 @@ const CountryCard = ({ country }) => {
                 </h3>
 
 
-
-
                 <div className="country-meta">
 
 
-                    <span className="country-duration">
+                    {country.duration && (
 
-                        {country.duration}
+                        <span className="country-duration">
 
-                    </span>
+                            {country.duration}
+
+                        </span>
+
+                    )}
 
 
+                    {country.visa && (
 
+                        <span className="country-visa">
 
-                    <span className="country-visa">
+                            {country.visa}
 
-                        {country.visa}
+                        </span>
 
-                    </span>
-
+                    )}
 
                 </div>
 
@@ -132,9 +178,7 @@ const CountryCard = ({ country }) => {
             </div>
 
 
-
-
-        </div>
+        </article>
 
     );
 

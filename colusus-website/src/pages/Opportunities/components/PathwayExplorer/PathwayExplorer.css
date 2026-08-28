@@ -1,0 +1,1026 @@
+/* ==========================================================
+   PATHWAY EXPLORER
+========================================================== */
+
+.pathway-explorer {
+    width: 100%;
+    padding: 34px 0 76px;
+
+    background:
+        linear-gradient(180deg,
+            #ffffff 0%,
+            #fbfdff 48%,
+            #f8fbff 100%);
+}
+
+
+/* ==========================================================
+   CONTAINER
+========================================================== */
+
+.pathway-explorer__container {
+    width: min(1160px,
+            calc(100% - 44px));
+
+    margin: 0 auto;
+}
+
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.pathway-explorer__header {
+    display: flex;
+
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 30px;
+
+    margin-bottom: 20px;
+}
+
+
+.pathway-explorer__heading {
+    min-width: 0;
+}
+
+
+.pathway-explorer__eyebrow {
+    display: inline-flex;
+
+    align-items: center;
+    gap: 6px;
+
+    color: #1769e0;
+
+    font-size: 9px;
+    font-weight: 900;
+
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+
+.pathway-explorer__eyebrow svg {
+    font-size: 14px;
+}
+
+
+.pathway-explorer__header h2 {
+    margin: 7px 0 0;
+
+    color: #0b1930;
+
+    font-size:
+        clamp(25px,
+            3vw,
+            34px);
+
+    line-height: 1;
+
+    letter-spacing: -.055em;
+}
+
+
+.pathway-explorer__header h2 span {
+    color: #1769e0;
+}
+
+
+.pathway-explorer__header p {
+    max-width: 550px;
+
+    margin: 10px 0 0;
+
+    color: #718198;
+
+    font-size: 11px;
+
+    line-height: 1.65;
+}
+
+
+.pathway-explorer__header p strong {
+    color: #263a57;
+}
+
+
+/* ==========================================================
+   COUNT
+========================================================== */
+
+.pathway-explorer__count {
+    display: flex;
+
+    align-items: baseline;
+
+    gap: 6px;
+
+    padding-bottom: 2px;
+
+    white-space: nowrap;
+}
+
+
+.pathway-explorer__count strong {
+    color: #0b1930;
+
+    font-size: 27px;
+
+    line-height: 1;
+
+    letter-spacing: -.05em;
+}
+
+
+.pathway-explorer__count span {
+    color: #8493a8;
+
+    font-size: 9px;
+
+    font-weight: 800;
+}
+
+
+/* ==========================================================
+   FILTERS
+========================================================== */
+
+.pathway-explorer__filters {
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    width: fit-content;
+
+    margin-bottom: 18px;
+
+    padding: 4px;
+
+    border:
+        1px solid #e4ebf3;
+
+    border-radius: 12px;
+
+    background:
+        rgba(247, 249, 252, .92);
+
+    box-shadow:
+        0 5px 18px rgba(22,
+            55,
+            90,
+            .035);
+
+    backdrop-filter:
+        blur(14px);
+}
+
+
+.pathway-explorer__filters button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    min-height: 30px;
+
+    padding: 0 11px;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: #7a899d;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+
+.pathway-explorer__filters button svg {
+    font-size: 13px;
+}
+
+
+.pathway-explorer__filters button:hover {
+    color: #1769e0;
+
+    background:
+        rgba(255,
+            255,
+            255,
+            .7);
+}
+
+
+.pathway-explorer__filters button:active {
+    transform:
+        scale(.96);
+}
+
+
+.pathway-explorer__filters button.is-active {
+    background: #ffffff;
+
+    color: #1769e0;
+
+    box-shadow:
+        0 5px 15px rgba(21,
+            55,
+            96,
+            .08);
+}
+
+
+/* ==========================================================
+   GRID
+========================================================== */
+
+.pathway-explorer__grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3,
+            minmax(0, 1fr));
+
+    gap: 14px;
+}
+
+
+/* ==========================================================
+   PATHWAY CARD
+========================================================== */
+
+.pathway-card {
+    position: relative;
+
+    display: flex;
+
+    flex-direction: column;
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    border:
+        1px solid #e3eaf3;
+
+    border-radius: 18px;
+
+    background: #ffffff;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 6px 22px rgba(24,
+            53,
+            86,
+            .045);
+
+    transition:
+        transform .4s cubic-bezier(.22,
+            1,
+            .36,
+            1),
+
+        border-color .3s ease,
+
+        box-shadow .4s ease;
+}
+
+
+.pathway-card::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 2px;
+
+    background:
+        linear-gradient(90deg,
+            #1769e0,
+            #56ccf2,
+            transparent);
+
+    opacity: 0;
+
+    transform:
+        scaleX(.65);
+
+    transform-origin: left;
+
+    transition:
+        opacity .3s ease,
+        transform .4s ease;
+}
+
+
+.pathway-card:hover {
+    transform:
+        translateY(-6px);
+
+    border-color:
+        #c9dbf3;
+
+    box-shadow:
+        0 22px 48px rgba(23,
+            60,
+            105,
+            .12);
+}
+
+
+.pathway-card:hover::after {
+    opacity: 1;
+
+    transform:
+        scaleX(1);
+}
+
+
+/* ==========================================================
+   IMAGE
+========================================================== */
+
+.pathway-card__image {
+    position: relative;
+
+    height: 142px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(135deg,
+            #dfeeff,
+            #f5f9fe);
+}
+
+
+.pathway-card__image img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transform:
+        scale(1.015);
+
+    transition:
+        transform .75s cubic-bezier(.22,
+            1,
+            .36,
+            1);
+}
+
+
+.pathway-card:hover .pathway-card__image img {
+    transform:
+        scale(1.08);
+}
+
+
+/* ==========================================================
+   IMAGE FALLBACK
+========================================================== */
+
+.pathway-card__image-fallback {
+    width: 100%;
+    height: 100%;
+
+    display: grid;
+
+    place-items: center;
+
+    color: #1769e0;
+
+    font-size: 32px;
+
+    background:
+        radial-gradient(circle at 30% 20%,
+            #ffffff,
+            #edf5ff 55%,
+            #e4efff);
+}
+
+
+/* ==========================================================
+   IMAGE OVERLAY
+========================================================== */
+
+.pathway-card__image-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(180deg,
+            rgba(5,
+                18,
+                35,
+                .28) 0%,
+
+            rgba(5,
+                18,
+                35,
+                .03) 43%,
+
+            rgba(5,
+                18,
+                35,
+                .68) 100%);
+
+    transition:
+        background .35s ease;
+}
+
+
+.pathway-card:hover .pathway-card__image-overlay {
+    background:
+        linear-gradient(180deg,
+            rgba(5,
+                18,
+                35,
+                .22) 0%,
+
+            rgba(5,
+                18,
+                35,
+                .04) 40%,
+
+            rgba(5,
+                18,
+                35,
+                .72) 100%);
+}
+
+
+/* ==========================================================
+   IMAGE TOP
+========================================================== */
+
+.pathway-card__image-top {
+    position: absolute;
+
+    top: 11px;
+    left: 11px;
+    right: 11px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+/* ==========================================================
+   CATEGORY
+========================================================== */
+
+.pathway-card__category {
+    display: inline-flex;
+
+    align-items: center;
+
+    min-height: 23px;
+
+    padding:
+        0 8px;
+
+    border:
+        1px solid rgba(255,
+            255,
+            255,
+            .3);
+
+    border-radius: 7px;
+
+    background:
+        rgba(8,
+            22,
+            42,
+            .52);
+
+    backdrop-filter:
+        blur(12px);
+
+    -webkit-backdrop-filter:
+        blur(12px);
+
+    color: #ffffff;
+
+    font-size: 7px;
+
+    font-weight: 900;
+
+    letter-spacing: .09em;
+
+    text-transform: uppercase;
+
+    box-shadow:
+        0 5px 15px rgba(0,
+            0,
+            0,
+            .08);
+}
+
+
+.pathway-card__index {
+    color:
+        rgba(255,
+            255,
+            255,
+            .78);
+
+    font-size: 9px;
+
+    font-weight: 900;
+
+    letter-spacing: .04em;
+}
+
+
+/* ==========================================================
+   IMAGE ICON
+========================================================== */
+
+.pathway-card__image-icon {
+    position: absolute;
+
+    left: 11px;
+    bottom: 11px;
+
+    width: 34px;
+    height: 34px;
+
+    display: grid;
+
+    place-items: center;
+
+    border:
+        1px solid rgba(255,
+            255,
+            255,
+            .42);
+
+    border-radius: 10px;
+
+    background:
+        rgba(255,
+            255,
+            255,
+            .92);
+
+    backdrop-filter:
+        blur(12px);
+
+    -webkit-backdrop-filter:
+        blur(12px);
+
+    color: #1769e0;
+
+    font-size: 16px;
+
+    box-shadow:
+        0 7px 18px rgba(0,
+            0,
+            0,
+            .12);
+
+    transition:
+        transform .35s ease;
+}
+
+
+.pathway-card:hover .pathway-card__image-icon {
+    transform:
+        translateY(-2px) scale(1.04);
+}
+
+
+/* ==========================================================
+   CARD BODY
+========================================================== */
+
+.pathway-card__body {
+    display: flex;
+
+    flex-direction: column;
+
+    min-height: 172px;
+
+    padding:
+        15px 16px 14px;
+}
+
+
+/* ==========================================================
+   TITLE
+========================================================== */
+
+.pathway-card h3 {
+    margin: 0;
+
+    color: #15253d;
+
+    font-size: 15px;
+
+    line-height: 1.28;
+
+    letter-spacing: -.028em;
+}
+
+
+/* ==========================================================
+   DESCRIPTION
+========================================================== */
+
+.pathway-card p {
+    display: -webkit-box;
+
+    margin:
+        7px 0 0;
+
+    overflow: hidden;
+
+    color: #7b8ba0;
+
+    font-size: 9px;
+
+    line-height: 1.62;
+
+    -webkit-line-clamp: 3;
+
+    -webkit-box-orient: vertical;
+}
+
+
+/* ==========================================================
+   META
+========================================================== */
+
+.pathway-card__meta {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap:
+        7px 12px;
+
+    margin-top: 11px;
+}
+
+
+.pathway-card__meta span {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 4px;
+
+    max-width: 100%;
+
+    overflow: hidden;
+
+    color: #8997aa;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+
+.pathway-card__meta svg {
+    flex:
+        0 0 auto;
+
+    color: #1769e0;
+
+    font-size: 11px;
+}
+
+
+/* ==========================================================
+   FOOTER
+========================================================== */
+
+.pathway-card__footer {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-top: auto;
+
+    padding-top: 12px;
+
+    border-top:
+        1px solid #edf1f6;
+
+    color: #1769e0;
+
+    font-size: 9px;
+
+    font-weight: 900;
+}
+
+
+.pathway-card__arrow {
+    width: 27px;
+    height: 27px;
+
+    display: grid;
+
+    place-items: center;
+
+    flex:
+        0 0 auto;
+
+    border-radius: 50%;
+
+    background:
+        #edf4ff;
+
+    transition:
+        transform .35s cubic-bezier(.22,
+            1,
+            .36,
+            1),
+
+        background .25s ease,
+
+        color .25s ease;
+}
+
+
+.pathway-card__arrow svg {
+    font-size: 13px;
+}
+
+
+.pathway-card:hover .pathway-card__arrow {
+    transform:
+        translateX(4px);
+
+    background:
+        #1769e0;
+
+    color: #ffffff;
+}
+
+
+/* ==========================================================
+   EMPTY STATE
+========================================================== */
+
+.pathway-explorer__empty {
+    min-height: 180px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    border:
+        1px dashed #dce5f0;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(180deg,
+            #fbfdff,
+            #f7faff);
+
+    text-align: center;
+}
+
+
+.pathway-explorer__empty svg {
+    margin-bottom: 4px;
+
+    color: #1769e0;
+
+    font-size: 24px;
+}
+
+
+.pathway-explorer__empty strong {
+    color: #263951;
+
+    font-size: 12px;
+}
+
+
+.pathway-explorer__empty span {
+    max-width: 300px;
+
+    color: #8a99ac;
+
+    font-size: 9px;
+
+    line-height: 1.55;
+}
+
+
+/* ==========================================================
+   ACCESSIBILITY
+========================================================== */
+
+.pathway-card:focus-visible {
+    outline:
+        2px solid #1769e0;
+
+    outline-offset: 3px;
+}
+
+
+/* ==========================================================
+   REDUCED MOTION
+========================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .pathway-card,
+    .pathway-card::after,
+    .pathway-card__image img,
+    .pathway-card__image-icon,
+    .pathway-card__arrow {
+
+        transition: none;
+
+    }
+
+}
+
+
+/* ==========================================================
+   TABLET
+========================================================== */
+
+@media (max-width: 900px) {
+
+    .pathway-explorer__grid {
+        grid-template-columns:
+            repeat(2,
+                minmax(0, 1fr));
+    }
+
+}
+
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media (max-width: 650px) {
+
+    .pathway-explorer {
+        padding:
+            28px 0 52px;
+    }
+
+
+    .pathway-explorer__container {
+        width:
+            calc(100% - 30px);
+    }
+
+
+    .pathway-explorer__header {
+        align-items: flex-start;
+
+        margin-bottom: 17px;
+    }
+
+
+    .pathway-explorer__count {
+        display: none;
+    }
+
+
+    .pathway-explorer__header h2 {
+        font-size: 27px;
+    }
+
+
+    .pathway-explorer__header p {
+        font-size: 10px;
+
+        line-height: 1.65;
+    }
+
+
+    .pathway-explorer__filters {
+        width: 100%;
+
+        overflow-x: auto;
+
+        scrollbar-width: none;
+    }
+
+
+    .pathway-explorer__filters::-webkit-scrollbar {
+        display: none;
+    }
+
+
+    .pathway-explorer__filters button {
+        flex:
+            0 0 auto;
+    }
+
+
+    .pathway-explorer__grid {
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+    }
+
+
+    .pathway-card__image {
+        height: 154px;
+    }
+
+
+    .pathway-card__body {
+        min-height: 154px;
+
+        padding:
+            14px 15px 13px;
+    }
+
+
+    .pathway-card h3 {
+        font-size: 15px;
+    }
+
+
+    .pathway-card p {
+        font-size: 9px;
+
+        -webkit-line-clamp: 3;
+    }
+
+}
+
+
+/* ==========================================================
+   SMALL MOBILE
+========================================================== */
+
+@media (max-width: 390px) {
+
+    .pathway-explorer__container {
+        width:
+            calc(100% - 24px);
+    }
+
+
+    .pathway-card__image {
+        height: 145px;
+    }
+
+
+    .pathway-card__meta {
+        gap:
+            6px 9px;
+    }
+
+}

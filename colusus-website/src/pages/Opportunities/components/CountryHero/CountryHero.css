@@ -1,0 +1,829 @@
+/* ==========================================================
+   COUNTRY HERO
+========================================================== */
+
+.country-hero {
+
+    position: relative;
+
+    width: 100%;
+
+    min-height: 365px;
+
+    margin: 0;
+
+    overflow: hidden;
+
+    background:
+        #f5f8fd;
+
+}
+
+
+/* ==========================================================
+   BACKGROUND
+========================================================== */
+
+.country-hero__background {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 0;
+
+    overflow: hidden;
+
+}
+
+
+.country-hero__background img {
+
+    position: absolute;
+
+    top: 0;
+
+    right: 0;
+
+    width: 54%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    opacity: .18;
+
+    filter:
+        saturate(.7) contrast(.9);
+
+}
+
+
+/* ==========================================================
+   INTELLIGENCE WASH
+========================================================== */
+
+.country-hero__wash {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 1;
+
+    background:
+
+        linear-gradient(90deg,
+            #f5f8fd 0%,
+            #f5f8fd 42%,
+            rgba(245, 248, 253, .94) 62%,
+            rgba(245, 248, 253, .52) 100%);
+
+}
+
+
+/* ==========================================================
+   SUBTLE GRID
+========================================================== */
+
+.country-hero::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 2;
+
+    pointer-events: none;
+
+    opacity: .25;
+
+    background-image:
+
+        linear-gradient(rgba(23, 105, 224, .035) 1px,
+            transparent 1px),
+
+        linear-gradient(90deg,
+            rgba(23, 105, 224, .035) 1px,
+            transparent 1px);
+
+    background-size:
+        42px 42px;
+
+}
+
+
+/* ==========================================================
+   CONTAINER
+========================================================== */
+
+.country-hero__container {
+
+    position: relative;
+
+    z-index: 3;
+
+    width: min(1180px,
+            calc(100% - 48px));
+
+    min-height: 365px;
+
+    margin: 0 auto;
+
+    padding:
+        27px 0 25px;
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+/* ==========================================================
+   TOP LINE
+========================================================== */
+
+.country-hero__topline {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+}
+
+
+.country-hero__crumb {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color: #7d8da4;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+}
+
+
+.country-hero__crumb svg {
+
+    color: #1769e0;
+
+    font-size: 14px;
+
+}
+
+
+.country-hero__crumb i {
+
+    color: #c4cfdd;
+
+    font-style: normal;
+
+}
+
+
+.country-hero__crumb strong {
+
+    color: #1a2b43;
+
+}
+
+
+.country-hero__status {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    color: #687b94;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+}
+
+
+.country-hero__status span {
+
+    width: 6px;
+
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #19ad72;
+
+    box-shadow:
+        0 0 0 4px rgba(25, 173, 114, .1);
+
+}
+
+
+/* ==========================================================
+   MAIN
+========================================================== */
+
+.country-hero__main {
+
+    flex: 1;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr) 330px;
+
+    align-items: center;
+
+    gap: 70px;
+
+    padding:
+        28px 0 20px;
+
+}
+
+
+/* ==========================================================
+   CONTENT
+========================================================== */
+
+.country-hero__content {
+
+    max-width: 650px;
+
+}
+
+
+.country-hero__eyebrow {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    color: #1769e0;
+
+    font-size: 8px;
+
+    font-weight: 900;
+
+    letter-spacing: .11em;
+
+    text-transform: uppercase;
+
+}
+
+
+.country-hero__eyebrow svg {
+
+    font-size: 13px;
+
+}
+
+
+.country-hero h1 {
+
+    margin: 8px 0 0;
+
+    color: #0b1930;
+
+    font-size: clamp(38px,
+            5vw,
+            58px);
+
+    line-height: .94;
+
+    letter-spacing: -.065em;
+
+}
+
+
+.country-hero h1 span {
+
+    color: #1769e0;
+
+}
+
+
+.country-hero__description {
+
+    max-width: 600px;
+
+    margin: 14px 0 0;
+
+    color: #6d8099;
+
+    font-size: 12px;
+
+    line-height: 1.65;
+
+}
+
+
+.country-hero__description strong {
+
+    color: #263a55;
+
+}
+
+
+/* ==========================================================
+   SIGNALS
+========================================================== */
+
+.country-hero__signals {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+    margin-top: 17px;
+
+}
+
+
+.country-hero__signals span {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding:
+        7px 10px;
+
+    border:
+        1px solid #dfe8f3;
+
+    border-radius: 9px;
+
+    background:
+        rgba(255, 255, 255, .65);
+
+    color: #50637d;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+}
+
+
+.country-hero__signals svg {
+
+    color: #16ad70;
+
+    font-size: 12px;
+
+}
+
+
+/* ==========================================================
+   INTELLIGENCE PANEL
+========================================================== */
+
+.country-hero__intel {
+
+    position: relative;
+
+    padding: 19px;
+
+    border:
+        1px solid rgba(205, 219, 236, .9);
+
+    border-radius: 18px;
+
+    background:
+        rgba(255, 255, 255, .78);
+
+    box-shadow:
+        0 18px 45px rgba(27, 60, 100, .07);
+
+    backdrop-filter:
+        blur(14px);
+
+}
+
+
+.country-hero__intel::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+
+    right: 0;
+
+    width: 90px;
+
+    height: 90px;
+
+    border-radius:
+        0 18px 0 90px;
+
+    background:
+        rgba(23, 105, 224, .045);
+
+}
+
+
+.country-hero__intel-label {
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+}
+
+
+.country-hero__intel-label span {
+
+    color: #7d8fa7;
+
+    font-size: 7px;
+
+    font-weight: 900;
+
+    letter-spacing: .12em;
+
+}
+
+
+.country-hero__intel-label svg {
+
+    color: #1769e0;
+
+    font-size: 15px;
+
+}
+
+
+.country-hero__intel-title {
+
+    display: flex;
+
+    align-items: baseline;
+
+    gap: 6px;
+
+    margin-top: 10px;
+
+}
+
+
+.country-hero__intel-title strong {
+
+    color: #1769e0;
+
+    font-size: 24px;
+
+    letter-spacing: -.04em;
+
+}
+
+
+.country-hero__intel-title span {
+
+    color: #70829a;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+}
+
+
+.country-hero__intel-line {
+
+    width: 100%;
+
+    height: 4px;
+
+    margin-top: 10px;
+
+    overflow: hidden;
+
+    border-radius: 10px;
+
+    background: #e9eff7;
+
+}
+
+
+.country-hero__intel-line span {
+
+    display: block;
+
+    width: 82%;
+
+    height: 100%;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(90deg,
+            #1769e0,
+            #5e9cf1);
+
+}
+
+
+.country-hero__intel-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    margin-top: 17px;
+
+    border-top:
+        1px solid #e8eef5;
+
+}
+
+
+.country-hero__intel-grid div {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+
+    padding:
+        13px 8px 0;
+
+}
+
+
+.country-hero__intel-grid div+div {
+
+    border-left:
+        1px solid #e8eef5;
+
+}
+
+
+.country-hero__intel-grid strong {
+
+    color: #162840;
+
+    font-size: 14px;
+
+    letter-spacing: -.025em;
+
+}
+
+
+.country-hero__intel-grid span {
+
+    color: #8291a6;
+
+    font-size: 7px;
+
+    font-weight: 700;
+
+}
+
+
+/* ==========================================================
+   BOTTOM
+========================================================== */
+
+.country-hero__bottom {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+}
+
+
+.country-hero__bottom button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    min-height: 38px;
+
+    padding:
+        0 15px;
+
+    border: 0;
+
+    border-radius: 10px;
+
+    background: #1769e0;
+
+    color: #ffffff;
+
+    cursor: pointer;
+
+    font: inherit;
+
+    font-size: 9px;
+
+    font-weight: 900;
+
+    box-shadow:
+        0 10px 22px rgba(23, 105, 224, .18);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+
+}
+
+
+.country-hero__bottom button svg {
+
+    font-size: 15px;
+
+    transition:
+        transform .25s ease;
+
+}
+
+
+.country-hero__bottom button:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 14px 28px rgba(23, 105, 224, .24);
+
+}
+
+
+.country-hero__bottom button:hover svg {
+
+    transform:
+        translateX(4px);
+
+}
+
+
+.country-hero__hint {
+
+    color: #8998aa;
+
+    font-size: 8px;
+
+}
+
+
+/* ==========================================================
+   TABLET
+========================================================== */
+
+@media (max-width: 850px) {
+
+    .country-hero__main {
+
+        grid-template-columns: 1fr;
+
+        gap: 20px;
+
+    }
+
+
+    .country-hero__intel {
+
+        display: none;
+
+    }
+
+}
+
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media (max-width: 600px) {
+
+    .country-hero {
+
+        min-height: 390px;
+
+    }
+
+
+    .country-hero__container {
+
+        width:
+            calc(100% - 30px);
+
+        min-height: 390px;
+
+        padding:
+            20px 0;
+
+    }
+
+
+    .country-hero__topline {
+
+        align-items: flex-start;
+
+    }
+
+
+    .country-hero__status {
+
+        font-size: 8px;
+
+    }
+
+
+    .country-hero__main {
+
+        padding:
+            35px 0 20px;
+
+    }
+
+
+    .country-hero h1 {
+
+        font-size: 43px;
+
+    }
+
+
+    .country-hero__description {
+
+        font-size: 11px;
+
+    }
+
+
+    .country-hero__hint {
+
+        display: none;
+
+    }
+
+
+    .country-hero__bottom button {
+
+        width: 100%;
+
+        justify-content: space-between;
+
+    }
+
+}
+
+/* ==========================================================
+   COUNTRY FLAG
+========================================================== */
+
+.country-hero__flag {
+
+    width: 22px;
+
+    height: 15px;
+
+    display: block;
+
+    flex: 0 0 auto;
+
+    object-fit: cover;
+
+    border-radius: 3px;
+
+    box-shadow:
+        0 1px 4px rgba(15, 35, 60, .12);
+
+}

@@ -1,3 +1,5 @@
+import spainFlag from "../../../../../assets/flags/spain.png";
+
 import spainImage from "../../../../../assets/images/countries/spain.jpg";
 import spainWarehouseImage from "../../../../../assets/images/opportunities/spain-warehouse.jpg";
 
@@ -10,7 +12,7 @@ const spain = {
 
   slug: "spain",
 
-  flag: "🇪🇸",
+  flag: spainFlag,
 
   image: spainImage,
 

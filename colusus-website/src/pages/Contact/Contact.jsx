@@ -1,54 +1,60 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 import {
-    FiArrowRight,
-    FiPhone,
-    FiMail,
-    FiMessageCircle,
-    FiMapPin,
-    FiClock,
-    FiShield,
-    FiGlobe,
-    FiCheckCircle,
-    FiAlertCircle,
-} from "react-icons/fi";
+    HiOutlineArrowRight,
+    HiOutlineCalendar,
+    HiOutlineCheckCircle,
+    HiOutlineClock,
+    HiOutlineGlobeAlt,
+    HiOutlineLocationMarker,
+    HiOutlineLockClosed,
+    HiOutlineMail,
+    HiOutlinePaperAirplane,
+    HiOutlinePhone,
+    HiOutlineUser,
+} from "react-icons/hi";
 
-import { Link } from "react-router-dom";
+import {
+    FaWhatsapp,
+} from "react-icons/fa";
 
-import migrationBackground from "../../assets/tourist/trust/migration-trust-background.png";
+import contactHero from "../../assets/images/contact/contact-hero.png";
 
 import "./Contact.css";
 
 
 const Contact = () => {
 
-    const [form, setForm] = useState({
-        fullName: "",
+    const [formData, setFormData] = useState({
+        name: "",
         email: "",
         phone: "",
         service: "",
         message: "",
     });
 
+    const [status, setStatus] = useState({
+        type: "",
+        message: "",
+    });
+
     const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState("");
-    const [error, setError] = useState("");
 
 
-    const phoneOne = "+234 703 520 9306";
-    const phoneTwo = "+234 902 695 3513";
-
-    const email = "admin@colossusmigration.com";
-
-    const whatsapp = "2347035209306";
-
+    /* ==========================================================
+       FORM CHANGE
+    ========================================================== */
 
     const handleChange = (event) => {
 
-        const { name, value } = event.target;
+        const {
+            name,
+            value,
+        } = event.target;
 
-        setForm((previous) => ({
+        setFormData((previous) => ({
             ...previous,
             [name]: value,
         }));
@@ -56,58 +62,54 @@ const Contact = () => {
     };
 
 
+    /* ==========================================================
+       FORM SUBMIT
+    ========================================================== */
+
     const handleSubmit = async (event) => {
 
         event.preventDefault();
 
-        setSuccess("");
-        setError("");
+        setStatus({
+            type: "",
+            message: "",
+        });
 
-
-        if (
-            !form.fullName ||
-            !form.email ||
-            !form.phone ||
-            !form.service ||
-            !form.message
-        ) {
-
-            setError("Please complete all fields.");
-
-            return;
-
-        }
-
+        setLoading(true);
 
         try {
 
-            setLoading(true);
-
             await axios.post(
-                `${import.meta.env.VITE_API_URL}/contact`,
-                form
+                "/contact",
+                formData
             );
 
+            setStatus({
+                type: "success",
+                message:
+                    "Your enquiry has been received. Our team will get back to you shortly.",
+            });
 
-            setSuccess(
-                "Your enquiry has been received. Our team will contact you shortly."
-            );
-
-
-            setForm({
-                fullName: "",
+            setFormData({
+                name: "",
                 email: "",
                 phone: "",
                 service: "",
                 message: "",
             });
 
-        } catch (err) {
+        } catch (error) {
 
-            setError(
-                err.response?.data?.message ||
-                "Unable to send your message. Please try again."
+            console.error(
+                "CONTACT FORM ERROR:",
+                error
             );
+
+            setStatus({
+                type: "error",
+                message:
+                    "We couldn't send your enquiry right now. Please try again or contact us directly.",
+            });
 
         } finally {
 
@@ -118,123 +120,182 @@ const Contact = () => {
     };
 
 
+    /* ==========================================================
+       WHATSAPP
+    ========================================================== */
+
+    const whatsappNumber =
+        "2347035209306";
+
+    const whatsappMessage =
+        encodeURIComponent(
+            "Hello Colossus Migration, I would like to speak with an agent about my migration options."
+        );
+
+    const whatsappUrl =
+        `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+
+
     return (
 
-        <main
-            className="contact-page"
-            style={{
-                "--contact-background": `url(${migrationBackground})`,
-            }}
-        >
+        <main className="contact-page">
 
 
-            {/* =====================================================
+            {/* ==================================================
                 HERO
-            ===================================================== */}
+            ================================================== */}
 
             <section className="contact-hero">
 
-                <div className="contact-background" />
+                <div className="contact-shell">
 
-
-                <div className="container contact-container">
-
-                    <div className="contact-hero-content">
-
+                    <div className="contact-hero__content">
 
                         <span className="contact-eyebrow">
-
-                            <span />
-
-                            CONTACT COLOSSUS MIGRATION
-
+                            CONTACT COLOSSUS
                         </span>
 
 
                         <h1>
 
-                            Let's Talk About
+                            Let's talk about your{" "}
 
-                            <strong>
-                                Your Journey Abroad.
-                            </strong>
+                            <span>
+                                journey abroad.
+                            </span>
 
                         </h1>
 
 
                         <p>
 
-                            Whether you're planning to study, work,
-                            visit family or explore a new destination,
-                            our team is ready to help you understand
-                            your next step.
+                            Tell us where you're trying to go
+                            and we'll help you understand the
+                            clearest next step.
 
                         </p>
 
 
-                        <div className="contact-hero-actions">
+                        <div className="contact-hero__actions">
 
                             <Link
                                 to="/consultation"
-                                className="contact-primary-button"
+                                className="contact-button contact-button--primary"
                             >
 
-                                Book Consultation
+                                <HiOutlineCalendar />
 
-                                <FiArrowRight />
+                                <span>
+                                    Book a consultation
+                                </span>
+
+                                <HiOutlineArrowRight />
 
                             </Link>
 
 
                             <a
-                                href={`https://wa.me/${whatsapp}`}
+                                href={whatsappUrl}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="contact-secondary-button"
+                                className="contact-button contact-button--secondary"
                             >
 
-                                <FiMessageCircle />
+                                <FaWhatsapp />
 
-                                Talk On WhatsApp
+                                <span>
+                                    WhatsApp us
+                                </span>
 
                             </a>
 
                         </div>
 
-
-                        <div className="contact-trust">
-
-                            <div>
-
-                                <FiShield />
-
-                                <span>
-                                    Trusted Guidance
-                                </span>
-
-                            </div>
+                    </div>
 
 
-                            <div>
+                    <div className="contact-hero__visual">
 
-                                <FiGlobe />
+                        <div className="contact-hero__glow" />
 
-                                <span>
-                                    Global Opportunities
-                                </span>
+                        <img
+                            src={contactHero}
+                            alt="Family preparing for international travel"
+                        />
 
-                            </div>
+                    </div>
+
+                </div>
+
+            </section>
 
 
-                            <div>
+            {/* ==================================================
+                TRUST STRIP
+            ================================================== */}
 
-                                <FiClock />
+            <section className="contact-trust">
 
-                                <span>
-                                    Fast Response
-                                </span>
+                <div className="contact-shell contact-trust__grid">
 
-                            </div>
+
+                    <div className="contact-trust__item">
+
+                        <span className="contact-trust__icon">
+                            <HiOutlineCheckCircle />
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Trusted Guidance
+                            </strong>
+
+                            <small>
+                                Expert advice you can rely on
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div className="contact-trust__item">
+
+                        <span className="contact-trust__icon">
+                            <HiOutlineGlobeAlt />
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Global Opportunities
+                            </strong>
+
+                            <small>
+                                Pathways to top destinations
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div className="contact-trust__item">
+
+                        <span className="contact-trust__icon">
+                            <HiOutlineClock />
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Fast Response
+                            </strong>
+
+                            <small>
+                                We respond quickly
+                            </small>
 
                         </div>
 
@@ -245,220 +306,254 @@ const Contact = () => {
             </section>
 
 
+            {/* ==================================================
+                CONTACT WORKSPACE
+            ================================================== */}
 
-            {/* =====================================================
-                CONTACT CONTENT
-            ===================================================== */}
+            <section className="contact-workspace">
 
-            <section className="contact-main">
+                <div className="contact-shell">
 
-                <div className="container">
-
-
-                    <div className="contact-layout">
+                    <div className="contact-workspace__card">
 
 
-                        {/* =================================================
+                        {/* ==================================================
                             FORM
-                        ================================================= */}
+                        ================================================== */}
 
-                        <div className="contact-form-card">
-
+                        <div className="contact-form-panel">
 
                             <div className="contact-section-heading">
 
-                                <span>
-                                    SEND AN ENQUIRY
+                                <span className="contact-section-heading__icon">
+                                    <HiOutlinePaperAirplane />
                                 </span>
 
-                                <h2>
-                                    Tell Us How We Can Help
-                                </h2>
+                                <div>
 
-                                <p>
-                                    Share a few details about your plans
-                                    and our specialists will get back to you.
-                                </p>
+                                    <span>
+                                        SEND AN ENQUIRY
+                                    </span>
+
+                                    <h2>
+                                        Tell us how we can help.
+                                    </h2>
+
+                                    <p>
+                                        Fill out the form and our
+                                        team will get back to you shortly.
+                                    </p>
+
+                                </div>
 
                             </div>
 
 
-                            {success && (
-
-                                <div className="contact-alert success">
-
-                                    <FiCheckCircle />
-
-                                    <span>
-                                        {success}
-                                    </span>
-
-                                </div>
-
-                            )}
+                            <form
+                                className="contact-form"
+                                onSubmit={handleSubmit}
+                            >
 
 
-                            {error && (
-
-                                <div className="contact-alert error">
-
-                                    <FiAlertCircle />
-
-                                    <span>
-                                        {error}
-                                    </span>
-
-                                </div>
-
-                            )}
+                                <div className="contact-form__row">
 
 
-                            <form onSubmit={handleSubmit}>
+                                    <label className="contact-field">
 
-
-                                <div className="contact-form-row">
-
-
-                                    <div className="contact-field">
-
-                                        <label>
+                                        <span>
                                             Full Name
-                                        </label>
+                                        </span>
 
-                                        <input
-                                            type="text"
-                                            name="fullName"
-                                            placeholder="Your full name"
-                                            value={form.fullName}
-                                            onChange={handleChange}
-                                        />
+                                        <div className="contact-field__input">
 
-                                    </div>
+                                            <HiOutlineUser />
 
+                                            <input
+                                                type="text"
+                                                name="name"
+                                                value={formData.name}
+                                                onChange={handleChange}
+                                                placeholder="Your full name"
+                                                required
+                                            />
 
-                                    <div className="contact-field">
+                                        </div>
 
-                                        <label>
-                                            Email Address
-                                        </label>
-
-                                        <input
-                                            type="email"
-                                            name="email"
-                                            placeholder="you@example.com"
-                                            value={form.email}
-                                            onChange={handleChange}
-                                        />
-
-                                    </div>
-
-
-                                </div>
-
-
-                                <div className="contact-form-row">
-
-
-                                    <div className="contact-field">
-
-                                        <label>
-                                            Phone Number
-                                        </label>
-
-                                        <input
-                                            type="tel"
-                                            name="phone"
-                                            placeholder="+234..."
-                                            value={form.phone}
-                                            onChange={handleChange}
-                                        />
-
-                                    </div>
-
-
-                                    <div className="contact-field">
-
-                                        <label>
-                                            What Do You Need Help With?
-                                        </label>
-
-                                        <select
-                                            name="service"
-                                            value={form.service}
-                                            onChange={handleChange}
-                                        >
-
-                                            <option value="">
-                                                Select a service
-                                            </option>
-
-                                            <option value="Immigration">
-                                                Immigration
-                                            </option>
-
-                                            <option value="Overseas Jobs">
-                                                Overseas Jobs
-                                            </option>
-
-                                            <option value="Study Abroad">
-                                                Study Abroad
-                                            </option>
-
-                                            <option value="Offshore Company">
-                                                Offshore Company
-                                            </option>
-
-                                            <option value="Travel Services">
-                                                Travel Services
-                                            </option>
-
-                                        </select>
-
-                                    </div>
-
-
-                                </div>
-
-
-                                <div className="contact-field">
-
-                                    <label>
-                                        Your Message
                                     </label>
 
-                                    <textarea
-                                        name="message"
-                                        rows="5"
-                                        placeholder="Tell us about your plans..."
-                                        value={form.message}
-                                        onChange={handleChange}
-                                    />
+
+                                    <label className="contact-field">
+
+                                        <span>
+                                            Email Address
+                                        </span>
+
+                                        <div className="contact-field__input">
+
+                                            <HiOutlineMail />
+
+                                            <input
+                                                type="email"
+                                                name="email"
+                                                value={formData.email}
+                                                onChange={handleChange}
+                                                placeholder="you@example.com"
+                                                required
+                                            />
+
+                                        </div>
+
+                                    </label>
 
                                 </div>
 
 
-                                <button
-                                    type="submit"
-                                    className="contact-submit"
-                                    disabled={loading}
-                                >
-
-                                    {loading
-                                        ? "Sending..."
-                                        : "Send Enquiry"
-                                    }
-
-                                    {!loading && <FiArrowRight />}
-
-                                </button>
+                                <div className="contact-form__row">
 
 
-                                <div className="contact-form-note">
+                                    <label className="contact-field">
 
-                                    <FiShield />
+                                        <span>
+                                            Phone Number
+                                        </span>
 
-                                    Your information is handled
-                                    confidentially.
+                                        <div className="contact-field__input">
+
+                                            <HiOutlinePhone />
+
+                                            <input
+                                                type="tel"
+                                                name="phone"
+                                                value={formData.phone}
+                                                onChange={handleChange}
+                                                placeholder="+234..."
+                                                required
+                                            />
+
+                                        </div>
+
+                                    </label>
+
+
+                                    <label className="contact-field">
+
+                                        <span>
+                                            Service Interested In
+                                        </span>
+
+                                        <div className="contact-field__input">
+
+                                            <HiOutlineGlobeAlt />
+
+                                            <select
+                                                name="service"
+                                                value={formData.service}
+                                                onChange={handleChange}
+                                                required
+                                            >
+
+                                                <option value="">
+                                                    Select a service
+                                                </option>
+
+                                                <option value="Work Migration">
+                                                    Work Migration
+                                                </option>
+
+                                                <option value="Study Abroad">
+                                                    Study Abroad
+                                                </option>
+
+                                                <option value="Tourist Visa">
+                                                    Tourist Visa
+                                                </option>
+
+                                                <option value="Residency">
+                                                    Residency
+                                                </option>
+
+                                                <option value="General Consultation">
+                                                    General Consultation
+                                                </option>
+
+                                            </select>
+
+                                        </div>
+
+                                    </label>
+
+                                </div>
+
+
+                                <label className="contact-field">
+
+                                    <span>
+                                        Your Message
+                                    </span>
+
+                                    <div className="contact-field__textarea">
+
+                                        <HiOutlinePaperAirplane />
+
+                                        <textarea
+                                            name="message"
+                                            value={formData.message}
+                                            onChange={handleChange}
+                                            placeholder="Tell us about your goals, destination or what you need help with..."
+                                            rows="5"
+                                            required
+                                        />
+
+                                    </div>
+
+                                </label>
+
+
+                                {status.message && (
+
+                                    <div
+                                        className={`contact-status contact-status--${status.type}`}
+                                    >
+
+                                        {status.message}
+
+                                    </div>
+
+                                )}
+
+
+                                <div className="contact-form__footer">
+
+                                    <button
+                                        type="submit"
+                                        className="contact-submit"
+                                        disabled={loading}
+                                    >
+
+                                        <span>
+                                            {loading
+                                                ? "Sending..."
+                                                : "Send enquiry"
+                                            }
+                                        </span>
+
+                                        {!loading && (
+                                            <HiOutlineArrowRight />
+                                        )}
+
+                                    </button>
+
+
+                                    <div className="contact-secure">
+
+                                        <HiOutlineLockClosed />
+
+                                        <span>
+                                            Your information is confidential
+                                            and secure.
+                                        </span>
+
+                                    </div>
 
                                 </div>
 
@@ -467,198 +562,179 @@ const Contact = () => {
                         </div>
 
 
+                        {/* ==================================================
+                            CONTACT DETAILS
+                        ================================================== */}
 
-                        {/* =================================================
-                            CONTACT INFORMATION
-                        ================================================= */}
-
-                        <aside className="contact-info">
-
-
-                            <span className="contact-info-eyebrow">
-
-                                NEED PERSONAL GUIDANCE?
-
-                            </span>
+                        <aside className="contact-details">
 
 
-                            <h2>
+                            <div className="contact-details__heading">
 
-                                Start With A
-
-                                <strong>
-                                    Conversation.
-                                </strong>
-
-                            </h2>
-
-
-                            <p>
-
-                                Not sure where to begin?
-                                Talk directly with our team and
-                                get pointed in the right direction.
-
-                            </p>
-
-
-                            {/* CONSULTATION */}
-
-                            <Link
-                                to="/consultation"
-                                className="consultation-card"
-                            >
-
-                                <div className="consultation-icon">
-
-                                    <FiGlobe />
-
-                                </div>
-
+                                <span className="contact-section-heading__icon">
+                                    <HiOutlinePhone />
+                                </span>
 
                                 <div>
 
                                     <span>
-                                        RECOMMENDED
+                                        SPEAK WITH OUR TEAM
                                     </span>
 
-                                    <strong>
-                                        Book A Consultation
-                                    </strong>
+                                    <h2>
+                                        Need guidance?
+                                    </h2>
 
-                                    <small>
-                                        Get personalised guidance
-                                        for your situation.
-                                    </small>
+                                    <p>
+                                        Not sure which pathway is right
+                                        for you? We're here to help.
+                                    </p>
 
                                 </div>
 
+                            </div>
 
-                                <FiArrowRight />
+
+                            <Link
+                                to="/consultation"
+                                className="contact-consultation"
+                            >
+
+                                <span>
+                                    Book a consultation
+                                </span>
+
+                                <HiOutlineArrowRight />
 
                             </Link>
 
 
+                            <div className="contact-methods">
 
-                            {/* WHATSAPP */}
 
-                            <a
-                                href={`https://wa.me/${whatsapp}`}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="info-link"
-                            >
+                                {/* WHATSAPP */}
 
-                                <div className="info-link-icon">
-                                    <FiMessageCircle />
-                                </div>
+                                <a
+                                    href={whatsappUrl}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="contact-method"
+                                >
 
-                                <div>
-
-                                    <span>
-                                        WHATSAPP
+                                    <span className="contact-method__icon contact-method__icon--whatsapp">
+                                        <FaWhatsapp />
                                     </span>
 
-                                    <strong>
-                                        Start a conversation
-                                    </strong>
-
-                                </div>
-
-                                <FiArrowRight />
-
-                            </a>
-
-
-
-                            {/* PHONE */}
-
-                            <div className="info-group">
-
-                                <span>
-                                    CALL OUR TEAM
-                                </span>
-
-
-                                <a
-                                    href="tel:+2347035209306"
-                                >
-
-                                    <FiPhone />
-
-                                    {phoneOne}
-
-                                </a>
-
-
-                                <a
-                                    href="tel:+2349026953513"
-                                >
-
-                                    <FiPhone />
-
-                                    {phoneTwo}
-
-                                </a>
-
-                            </div>
-
-
-
-                            {/* EMAIL */}
-
-                            <div className="info-group">
-
-                                <span>
-                                    EMAIL
-                                </span>
-
-
-                                <a
-                                    href={`mailto:${email}`}
-                                >
-
-                                    <FiMail />
-
-                                    {email}
-
-                                </a>
-
-                            </div>
-
-
-
-                            {/* LOCATION */}
-
-                            <div className="info-bottom">
-
-
-                                <div>
-
-                                    <FiMapPin />
-
-                                    <span>
-
-                                        Lagos, Nigeria
-
-                                    </span>
-
-                                </div>
-
-
-                                <div>
-
-                                    <FiClock />
-
-                                    <span>
-
-                                        Monday – Saturday
+                                    <div>
 
                                         <small>
-                                            9:00 AM – 6:00 PM
+                                            WHATSAPP
                                         </small>
 
+                                        <strong>
+                                            +234 703 520 9306
+                                        </strong>
+
+                                    </div>
+
+                                </a>
+
+
+                                {/* PHONE */}
+
+                                <div className="contact-method">
+
+                                    <span className="contact-method__icon">
+                                        <HiOutlinePhone />
                                     </span>
+
+                                    <div>
+
+                                        <small>
+                                            PHONE
+                                        </small>
+
+                                        <a href="tel:+2347035209306">
+                                            +234 703 520 9306
+                                        </a>
+
+                                        <a href="tel:+2349026953513">
+                                            +234 902 695 3513
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
+
+                                {/* EMAIL */}
+
+                                <a
+                                    href="mailto:admin@colossusmigration.com"
+                                    className="contact-method"
+                                >
+
+                                    <span className="contact-method__icon">
+                                        <HiOutlineMail />
+                                    </span>
+
+                                    <div>
+
+                                        <small>
+                                            EMAIL
+                                        </small>
+
+                                        <strong>
+                                            admin@colossusmigration.com
+                                        </strong>
+
+                                    </div>
+
+                                </a>
+
+
+                                {/* LOCATION */}
+
+                                <div className="contact-method">
+
+                                    <span className="contact-method__icon">
+                                        <HiOutlineLocationMarker />
+                                    </span>
+
+                                    <div>
+
+                                        <small>
+                                            LOCATION
+                                        </small>
+
+                                        <strong>
+                                            Lagos, Nigeria
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+
+                                {/* HOURS */}
+
+                                <div className="contact-method">
+
+                                    <span className="contact-method__icon">
+                                        <HiOutlineClock />
+                                    </span>
+
+                                    <div>
+
+                                        <small>
+                                            HOURS
+                                        </small>
+
+                                        <strong>
+                                            Mon – Sat · 9:00 AM – 6:00 PM
+                                        </strong>
+
+                                    </div>
 
                                 </div>
 
@@ -674,28 +750,58 @@ const Contact = () => {
             </section>
 
 
+            {/* ==================================================
+                FINAL CTA
+            ================================================== */}
 
-            {/* =====================================================
-                BOTTOM MESSAGE
-            ===================================================== */}
+            <section className="contact-trust-cta">
 
-            <section className="contact-bottom">
+                <div className="contact-shell">
 
-                <div className="container">
+                    <div className="contact-trust-cta__inner">
 
-                    <span>
-                        YOUR JOURNEY DESERVES A CLEAR PLAN
-                    </span>
 
-                    <h3>
+                        <div className="contact-trust-cta__badge">
 
-                        Wherever You're Going,
+                            <HiOutlineCheckCircle />
 
-                        <strong>
-                            Start With Confidence.
-                        </strong>
+                        </div>
 
-                    </h3>
+
+                        <div className="contact-trust-cta__content">
+
+                            <span>
+                                YOUR JOURNEY DESERVES A CLEAR PLAN
+                            </span>
+
+                            <h2>
+                                Start with confidence.
+                            </h2>
+
+                            <p>
+                                From choosing the right pathway to final
+                                approval, we walk with you every step of
+                                the way.
+                            </p>
+
+                        </div>
+
+
+                        <Link
+                            to="/consultation"
+                            className="contact-trust-cta__button"
+                        >
+
+                            <span>
+                                Start your journey
+                            </span>
+
+                            <HiOutlineArrowRight />
+
+                        </Link>
+
+
+                    </div>
 
                 </div>
 

@@ -1,3 +1,5 @@
+import romaniaFlag from "../../../../../assets/flags/romania.png";
+
 import romaniaImage from "../../../../../assets/images/countries/romania.jpg";
 import romaniaWorkImage from "../../../../../assets/images/opportunities/romania-work.jpg";
 
@@ -10,7 +12,7 @@ const romania = {
 
   slug: "romania",
 
-  flag: "🇷🇴",
+  flag: romaniaFlag,
 
   image: romaniaImage,
 

@@ -1,3 +1,5 @@
+import serbiaFlag from "../../../../../assets/flags/serbia.png";
+
 import serbiaImage from "../../../../../assets/images/countries/serbia.jpg";
 import serbiaWorkImage from "../../../../../assets/images/opportunities/serbia-warehouse.jpg";
 
@@ -10,7 +12,7 @@ const serbia = {
 
   slug: "serbia",
 
-  flag: "🇷🇸",
+  flag: serbiaFlag,
 
   image: serbiaImage,
 

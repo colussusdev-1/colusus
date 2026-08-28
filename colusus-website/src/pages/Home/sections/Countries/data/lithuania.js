@@ -1,3 +1,5 @@
+import lithuaniaFlag from "../../../../../assets/flags/lithuania.png";
+
 import lithuaniaImage from "../../../../../assets/images/countries/lithuania.jpg";
 import lithuaniaWorkImage from "../../../../../assets/images/opportunities/lithuania-work.jpg";
 
@@ -10,7 +12,7 @@ const lithuania = {
 
   slug: "lithuania",
 
-  flag: "🇱🇹",
+  flag: lithuaniaFlag,
 
   image: lithuaniaImage,
 
