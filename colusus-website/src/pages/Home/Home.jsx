@@ -1,5 +1,4 @@
 import {
-    useState,
     useEffect
 } from "react";
 
@@ -19,56 +18,34 @@ import ZeroDepositProgram from "../../components/ZeroDepositProgram/ZeroDepositP
 import SuccessStories from "./sections/SuccessStories/SuccessStories";
 import ContactCTA from "./sections/ContactCTA/ContactCTA";
 
-import ServiceMegaMenu from "./sections/Hero/ServiceMegaMenu/ServiceMegaMenu";
-
 import ScrollReveal from "../../components/ScrollReveal/ScrollReveal";
-
-import {
-    servicesLinks
-} from "../../components/Navbar/serviceData";
 
 import "./Home.css";
 
 
 const Home = () => {
 
-    const [showServices, setShowServices] = useState(false);
-
     const location = useLocation();
 
 
     /* =====================================================
-       SERVICES MENU
-    ===================================================== */
-
-    const openServices = () => {
-
-        setShowServices(true);
-
-    };
-
-
-    const closeServices = () => {
-
-        setShowServices(false);
-
-    };
-
-
-    /* =====================================================
        HASH / SECTION NAVIGATION
-       
-       Allows:
-       
+
+       Supports:
+
+       /#countries
        /#global-opportunities
-       
-       to land directly on the Countries section.
+
+       Both will take the user to the Countries section.
     ===================================================== */
 
     useEffect(() => {
 
+        const hash = location.hash;
+
         if (
-            location.hash === "#global-opportunities"
+            hash === "#countries" ||
+            hash === "#global-opportunities"
         ) {
 
             /*
@@ -78,10 +55,8 @@ const Home = () => {
 
             const timer = setTimeout(() => {
 
-                const target = document.getElementById(
-                    "global-opportunities"
-                );
-
+                const target =
+                    document.getElementById("countries");
 
                 if (target) {
 
@@ -96,7 +71,9 @@ const Home = () => {
 
 
             return () => {
+
                 clearTimeout(timer);
+
             };
 
         }
@@ -113,10 +90,7 @@ const Home = () => {
                 HERO
             ===================================================== */}
 
-            <Hero
-                openServices={openServices}
-            />
-
+            <Hero />
 
 
             {/* =====================================================
@@ -132,7 +106,6 @@ const Home = () => {
                 <StatsStrip />
 
             </ScrollReveal>
-
 
 
             {/* =====================================================
@@ -151,34 +124,20 @@ const Home = () => {
             </ScrollReveal>
 
 
-
-            {/* =====================================================
-                SERVICE MEGA MENU
-            ===================================================== */}
-
-            {
-                showServices && (
-
-                    <ServiceMegaMenu
-                        services={servicesLinks}
-                        onClose={closeServices}
-                    />
-
-                )
-            }
-
-
-
             {/* =====================================================
                 GLOBAL OPPORTUNITIES / COUNTRIES
-               
-                THIS IS THE TARGET OF:
-               
-                /#global-opportunities
+
+                HERO:
+
+                Explore Pathways
+                    ↓
+                #countries
+                    ↓
+                Countries section
             ===================================================== */}
 
             <div
-                id="global-opportunities"
+                id="countries"
                 className="home-global-opportunities"
             >
 
@@ -194,7 +153,6 @@ const Home = () => {
                 </ScrollReveal>
 
             </div>
-
 
 
             {/* =====================================================
@@ -213,7 +171,6 @@ const Home = () => {
             </ScrollReveal>
 
 
-
             {/* =====================================================
                 ZERO DEPOSIT PROGRAM
             ===================================================== */}
@@ -230,7 +187,6 @@ const Home = () => {
             </ScrollReveal>
 
 
-
             {/* =====================================================
                 SUCCESS STORIES
             ===================================================== */}
@@ -245,7 +201,6 @@ const Home = () => {
                 <SuccessStories />
 
             </ScrollReveal>
-
 
 
             {/* =====================================================

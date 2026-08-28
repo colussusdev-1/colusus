@@ -12,7 +12,7 @@ import {
 const stats = [
     {
         icon: <HiOutlineGlobeAlt />,
-        value: "15+",
+        value: "18+",
         label: "Countries Served",
     },
     {

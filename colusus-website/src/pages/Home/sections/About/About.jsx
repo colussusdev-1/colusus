@@ -1,391 +1,497 @@
-import { Link } from "react-router-dom";
+import React, {
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 
 import {
-    HiOutlineArrowRight,
-    HiOutlineCheckCircle,
+    HiArrowRight,
     HiOutlineGlobeAlt,
-    HiOutlineAcademicCap,
-    HiOutlineBriefcase,
-    HiOutlineDocumentText,
+    HiOutlineLocationMarker,
+    HiOutlineShieldCheck,
+    HiOutlineSparkles,
 } from "react-icons/hi";
 
-import ScrollReveal from "../../../../components/ScrollReveal/ScrollReveal";
-
 import "./Home-about.css";
-
-import aboutImage from "../../../../assets/images/about/about.jpg";
-import aboutBackground
-    from "../../../../assets/images/about/about-background.png";
 
 
 const About = () => {
 
-    const trustPoints = [
+    const sectionRef = useRef(null);
 
-        {
-            title: "Work Visa",
-            subtitle: "Pathways",
-            icon: HiOutlineBriefcase,
-        },
+    const [isVisible, setIsVisible] = useState(false);
 
-        {
-            title: "Study",
-            subtitle: "Opportunities",
-            icon: HiOutlineAcademicCap,
-        },
 
-        {
-            title: "Immigration",
-            subtitle: "Guidance",
-            icon: HiOutlineDocumentText,
-        },
+    /* ============================================================
+       SCROLL ENTRY OBSERVER
+    ============================================================ */
 
-        {
-            title: "Travel",
-            subtitle: "Support",
-            icon: HiOutlineGlobeAlt,
-        },
+    useEffect(() => {
 
-    ];
+        const section = sectionRef.current;
+
+        if (!section) return;
+
+
+        const observer = new IntersectionObserver(
+
+            ([entry]) => {
+
+                if (entry.isIntersecting) {
+
+                    setIsVisible(true);
+
+                    observer.disconnect();
+
+                }
+
+            },
+
+            {
+                threshold: 0.18,
+                rootMargin: "0px 0px -8% 0px",
+            }
+
+        );
+
+
+        observer.observe(section);
+
+
+        return () => {
+
+            observer.disconnect();
+
+        };
+
+    }, []);
+
 
 
     return (
 
-        <section className="home-about">
-
+        <section
+            ref={sectionRef}
+            className={`home-about ${isVisible
+                    ? "home-about--visible"
+                    : ""
+                }`}
+        >
 
             {/* =====================================================
-                PREMIUM BACKGROUND
+                BACKGROUND ATMOSPHERE
             ===================================================== */}
 
             <div
-                className="home-about-background"
+                className="home-about__background"
                 aria-hidden="true"
             >
 
-                <img
-                    src={aboutBackground}
-                    alt=""
-                />
+                <span className="home-about__glow home-about__glow--one"></span>
+
+                <span className="home-about__glow home-about__glow--two"></span>
+
+                <span className="home-about__grid"></span>
+
+                <span className="home-about__ambient-orb home-about__ambient-orb--one"></span>
+
+                <span className="home-about__ambient-orb home-about__ambient-orb--two"></span>
 
             </div>
 
 
-            {/* =====================================================
-                BACKGROUND READABILITY
-            ===================================================== */}
 
-            <div
-                className="home-about-background-overlay"
-                aria-hidden="true"
-            />
-
-
-            {/* =====================================================
-                CONTENT
-            ===================================================== */}
-
-            <div className="container home-about-container">
+            <div className="home-about__inner">
 
 
                 {/* =================================================
-                    LEFT IMAGE EXPERIENCE
+                    HEADER
                 ================================================= */}
 
-                <ScrollReveal
-                    direction="left"
-                    duration={1.15}
-                    distance={70}
-                    delay={0.05}
-                    className="home-about-image-reveal"
-                >
-
-                    <div className="home-about-image">
-
-                        <img
-                            src={aboutImage}
-                            alt="Colossus Migration and Tours helping clients explore international opportunities"
-                        />
+                <header className="home-about__header">
 
 
-                        {/* IMAGE OVERLAY */}
+                    <div className="home-about__eyebrow">
 
-                        <div className="home-about-image-overlay" />
-
-
-                        {/* IMAGE TOP BADGE */}
-
-                        <div className="home-about-image-badge">
-
-                            <HiOutlineCheckCircle />
-
-                            <span>
-                                Trusted Migration Support
-                            </span>
-
-                        </div>
-
-
-                        {/* TRUST CARD */}
-
-                        <div className="home-about-trust-card">
-
-
-                            <div className="home-about-trust-icon">
-
-                                <HiOutlineCheckCircle />
-
-                            </div>
-
-
-                            <div className="home-about-trust-content">
-
-                                <span>
-                                    TRUSTED SUPPORT FOR
-                                </span>
-
-                                <p>
-                                    Professionals • Students • Families
-                                </p>
-
-                                <small>
-                                    Seeking opportunities abroad
-                                </small>
-
-                            </div>
-
-
-                        </div>
-
-
-                    </div>
-
-                </ScrollReveal>
-
-
-                {/* =================================================
-                    RIGHT CONTENT
-                ================================================= */}
-
-                <div className="home-about-content">
-
-
-                    {/* =================================================
-                        TAG
-                    ================================================= */}
-
-                    <ScrollReveal
-                        direction="up"
-                        duration={1}
-                        distance={35}
-                    >
-
-                        <span className="home-about-tag">
+                        <span className="home-about__eyebrow-icon">
 
                             <HiOutlineGlobeAlt />
 
-                            ABOUT COLOSSUS
-
                         </span>
 
-                    </ScrollReveal>
+                        <span className="home-about__eyebrow-line"></span>
+
+                        <span>
+                            ABOUT COLOSSUS
+                        </span>
+
+                    </div>
+
+
+                    <div className="home-about__header-note">
+
+                        <span>
+                            Global mobility.
+                        </span>
+
+                        <strong>
+                            Clearer pathways.
+                        </strong>
+
+                    </div>
+
+
+                </header>
+
+
+
+                {/* =================================================
+                    MAIN EXPERIENCE
+                ================================================= */}
+
+                <div className="home-about__experience">
 
 
                     {/* =================================================
-                        TITLE
+                        LEFT VISUAL
                     ================================================= */}
 
-                    <ScrollReveal
-                        direction="up"
-                        duration={1.15}
-                        distance={45}
-                        delay={0.08}
-                    >
-
-                        <h2>
-
-                            Trusted Pathways
-
-                            <br />
-
-                            To Canada
-
-                            <span>
-                                & Beyond
-                            </span>
-
-                        </h2>
-
-                    </ScrollReveal>
+                    <div className="home-about__visual home-about__visual--left">
 
 
-                    {/* =================================================
-                        DECORATIVE LINE
-                    ================================================= */}
+                        <div className="home-about__image home-about__image--one">
 
-                    <ScrollReveal
-                        direction="up"
-                        duration={0.9}
-                        distance={20}
-                        delay={0.12}
-                    >
-
-                        <div className="home-about-heading-line">
-
-                            <span />
-
-                            <i />
+                            <img
+                                src="/images/ab1.png"
+                                alt="Colossus Migration & Tours international migration"
+                            />
 
                         </div>
 
-                    </ScrollReveal>
+
+                        <div className="home-about__image home-about__image--two">
+
+                            <img
+                                src="/images/ab2.png"
+                                alt="Colossus Migration & Tours global opportunities"
+                            />
+
+                        </div>
 
 
-                    {/* =================================================
-                        DESCRIPTION
-                    ================================================= */}
+                        <div className="home-about__mini-card home-about__mini-card--left">
 
-                    <ScrollReveal
-                        direction="up"
-                        duration={1.15}
-                        distance={40}
-                        delay={0.16}
-                    >
+                            <span className="home-about__mini-icon">
 
-                        <p className="home-about-description">
+                                <HiOutlineLocationMarker />
 
-                            Colossus Migration & Tours helps professionals,
-                            students, families and entrepreneurs confidently
-                            explore global opportunities through trusted
-                            immigration pathways, overseas employment and
-                            international education solutions.
-
-                        </p>
-
-                    </ScrollReveal>
+                            </span>
 
 
-                    {/* =================================================
-                        TRUST POINTS
-                    ================================================= */}
+                            <div>
 
-                    <div className="home-about-trust-points">
+                                <strong>
+                                    18+ Countries
+                                </strong>
 
+                                <span>
+                                    Global opportunities
+                                </span>
 
-                        {
-                            trustPoints.map(
-                                (
-                                    item,
-                                    index
-                                ) => {
+                            </div>
 
-                                    const Icon = item.icon;
-
-
-                                    return (
-
-                                        <ScrollReveal
-                                            key={item.title}
-                                            direction="up"
-                                            duration={0.9}
-                                            distance={35}
-                                            delay={
-                                                0.2 +
-                                                index * 0.09
-                                            }
-                                        >
-
-                                            <div className="home-about-trust-point">
-
-
-                                                <span className="home-about-point-icon">
-
-                                                    <Icon />
-
-                                                </span>
-
-
-                                                <span className="home-about-point-content">
-
-                                                    <strong>
-                                                        {item.title}
-                                                    </strong>
-
-                                                    <small>
-                                                        {item.subtitle}
-                                                    </small>
-
-                                                </span>
-
-
-                                            </div>
-
-                                        </ScrollReveal>
-
-                                    );
-
-                                }
-                            )
-                        }
+                        </div>
 
 
                     </div>
 
 
+
                     {/* =================================================
-                        CTA
+                        CENTER CONTENT
                     ================================================= */}
 
-                    <ScrollReveal
-                        direction="up"
-                        duration={1}
-                        distance={30}
-                        delay={0.52}
-                    >
+                    <div className="home-about__center">
 
-                        <div className="home-about-buttons">
 
-                            <Link
-                                to="/about"
-                                className="home-about-contact-btn"
-                            >
+                        <div
+                            className="home-about__center-glow"
+                            aria-hidden="true"
+                        ></div>
 
-                                <span>
-                                    Learn More About Us
-                                </span>
 
-                                <HiOutlineArrowRight />
+                        {/* =============================================
+                            ORBITAL DECORATION
+                        ============================================= */}
 
-                            </Link>
+                        <div
+                            className="home-about__orbit"
+                            aria-hidden="true"
+                        >
+
+                            <span className="home-about__orbit-ring home-about__orbit-ring--one"></span>
+
+                            <span className="home-about__orbit-ring home-about__orbit-ring--two"></span>
+
+                            <span className="home-about__orbit-dot home-about__orbit-dot--one"></span>
+
+                            <span className="home-about__orbit-dot home-about__orbit-dot--two"></span>
 
                         </div>
 
-                    </ScrollReveal>
+
+
+                        <div className="home-about__content">
+
+
+                            <div className="home-about__badge">
+
+                                <span className="home-about__badge-icon">
+
+                                    <HiOutlineSparkles />
+
+                                </span>
+
+                                <span>
+                                    BEYOND BORDERS
+                                </span>
+
+                            </div>
+
+
+
+                            <h2 className="home-about__title">
+
+                                <span>
+                                    Your move
+                                </span>
+
+                                <span>
+                                    deserves
+                                </span>
+
+                                <em>
+                                    a better journey.
+                                </em>
+
+                            </h2>
+
+
+
+                            <div className="home-about__divider">
+
+                                <span></span>
+
+                                <i></i>
+
+                                <span></span>
+
+                            </div>
+
+
+
+                            <p className="home-about__description">
+
+                                <strong>
+                                    Colossus Migration & Tours
+                                </strong>{" "}
+                                helps professionals, students,
+                                families and entrepreneurs navigate
+                                international opportunities through
+                                trusted migration, education,
+                                employment and travel pathways.
+
+                            </p>
+
+
+
+                            <a
+                                href="/about"
+                                className="home-about__link"
+                            >
+
+                                <span>
+                                    Discover Colossus
+                                </span>
+
+                                <span className="home-about__link-icon">
+
+                                    <HiArrowRight />
+
+                                </span>
+
+                            </a>
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    {/* =================================================
+                        RIGHT VISUAL
+                    ================================================= */}
+
+                    <div className="home-about__visual home-about__visual--right">
+
+
+                        <div className="home-about__image home-about__image--three">
+
+                            <img
+                                src="/images/ab3.png"
+                                alt="International travel opportunity"
+                            />
+
+                        </div>
+
+
+                        <div className="home-about__image home-about__image--four">
+
+                            <img
+                                src="/images/ab4.png"
+                                alt="Migration consultation"
+                            />
+
+                        </div>
+
+
+                        <div className="home-about__mini-card home-about__mini-card--right">
+
+                            <span className="home-about__mini-icon">
+
+                                <HiOutlineShieldCheck />
+
+                            </span>
+
+
+                            <div>
+
+                                <strong>
+                                    Trusted Guidance
+                                </strong>
+
+                                <span>
+                                    Professional support
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                {/* =================================================
+                    VALUE BAR
+                ================================================= */}
+
+                <div className="home-about__footer">
+
+
+                    <div className="home-about__footer-intro">
+
+                        <span>
+                            WHY COLOSSUS
+                        </span>
+
+                        <strong>
+                            One journey.
+                            <br />
+                            Multiple possibilities.
+                        </strong>
+
+                    </div>
+
+
+
+                    <div className="home-about__values">
+
+
+                        <div className="home-about__value">
+
+                            <div className="home-about__value-icon">
+
+                                <HiOutlineGlobeAlt />
+
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Global Reach
+                                </strong>
+
+                                <span>
+                                    Opportunities across borders
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div className="home-about__value">
+
+                            <div className="home-about__value-icon">
+
+                                <HiOutlineShieldCheck />
+
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Trusted Guidance
+                                </strong>
+
+                                <span>
+                                    Clear support at every step
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div className="home-about__value">
+
+                            <div className="home-about__value-icon">
+
+                                <HiOutlineSparkles />
+
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Personal Approach
+                                </strong>
+
+                                <span>
+                                    Built around your destination
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
 
 
                 </div>
 
 
             </div>
-
-
-            {/* =====================================================
-                DECORATIVE FLOATING ELEMENT
-            ===================================================== */}
-
-            <div
-                className="home-about-floating-badge"
-                aria-hidden="true"
-            >
-
-                <span className="home-about-floating-dot" />
-
-                <span>
-                    Global Opportunities
-                </span>
-
-            </div>
-
 
         </section>
 
