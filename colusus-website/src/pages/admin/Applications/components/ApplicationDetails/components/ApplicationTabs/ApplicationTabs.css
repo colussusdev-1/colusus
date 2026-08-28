@@ -1,0 +1,98 @@
+.applicationTabs {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 25px;
+
+    margin-top: 10px;
+
+    border-bottom:
+        1px solid #e3e8ef;
+
+}
+
+
+.applicationTabs__item {
+
+    position: relative;
+
+    padding:
+        13px 2px 11px;
+
+    border: 0;
+
+    background: transparent;
+
+    color: #8290a3;
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+}
+
+
+.applicationTabs__item::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    right: 0;
+
+    bottom: -1px;
+
+    height: 2px;
+
+    background: transparent;
+
+}
+
+
+.applicationTabs__item:hover {
+
+    color: #3569ee;
+
+}
+
+
+.applicationTabs__item.is-active {
+
+    color: #3569ee;
+
+}
+
+
+.applicationTabs__item.is-active::after {
+
+    background: #3569ee;
+
+}
+
+
+@media (max-width: 520px) {
+
+    .applicationTabs {
+
+        gap: 18px;
+
+        overflow-x: auto;
+
+    }
+
+
+    .applicationTabs__item {
+
+        flex-shrink: 0;
+
+    }
+
+}

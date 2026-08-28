@@ -1,0 +1,173 @@
+.overviewStats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 15px;
+}
+
+.overviewStatCard {
+    position: relative;
+
+    min-width: 0;
+
+    padding: 19px;
+
+    display: flex;
+
+    gap: 15px;
+
+    background: #ffffff;
+
+    border:
+        1px solid #e7ecf3;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 4px 16px rgba(22, 43, 72, 0.03);
+
+    overflow: hidden;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.overviewStatCard::after {
+    content: "";
+
+    position: absolute;
+
+    width: 90px;
+    height: 90px;
+
+    top: -55px;
+    right: -45px;
+
+    border-radius: 50%;
+
+    background: rgba(56, 105, 221, 0.025);
+
+    pointer-events: none;
+}
+
+.overviewStatCard:hover {
+    transform:
+        translateY(-2px);
+
+    border-color: #dce3ed;
+
+    box-shadow:
+        0 10px 25px rgba(22, 43, 72, 0.06);
+}
+
+.overviewStatCard__icon {
+    width: 39px;
+    height: 39px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+}
+
+.overviewStatCard__icon svg {
+    width: 19px;
+    height: 19px;
+}
+
+.overviewStatCard__icon--blue {
+    background: #edf3ff;
+    color: #376be4;
+}
+
+.overviewStatCard__icon--purple {
+    background: #f1edff;
+    color: #7354d9;
+}
+
+.overviewStatCard__icon--orange {
+    background: #fff5df;
+    color: #d79114;
+}
+
+.overviewStatCard__icon--green {
+    background: #e9f8f2;
+    color: #23936d;
+}
+
+.overviewStatCard__body {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+.overviewStatCard__label {
+    color: #7d899d;
+
+    font-size: 10px;
+
+    font-weight: 550;
+}
+
+.overviewStatCard__value {
+    margin-top: 5px;
+
+    color: #172033;
+
+    font-size: 28px;
+
+    line-height: 1;
+
+    font-weight: 700;
+
+    letter-spacing: -0.04em;
+}
+
+.overviewStatCard__meta {
+    margin-top: 8px;
+
+    color: #929cac;
+
+    font-size: 9px;
+}
+
+.overviewStatCard__meta--positive {
+    color: #2b9872;
+}
+
+.overviewStatCard__meta--warning {
+    color: #cc8a17;
+}
+
+@media (max-width: 1100px) {
+
+    .overviewStats {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+@media (max-width: 520px) {
+
+    .overviewStats {
+        grid-template-columns: 1fr;
+
+        gap: 10px;
+    }
+
+    .overviewStatCard {
+        padding: 16px;
+    }
+
+}

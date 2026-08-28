@@ -1,0 +1,877 @@
+/*
+|--------------------------------------------------------------------------
+| APPLICATION TIMELINE
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 28px;
+
+    border: 1px solid #e3e8ef;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 7px 24px rgba(15,
+            23,
+            42,
+            0.025);
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| HEADER
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__header {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 24px;
+
+    padding-bottom: 24px;
+
+    border-bottom: 1px solid #edf0f4;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| EYEBROW
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__eyebrow {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #3569ee;
+
+    font-size: 9px;
+
+    line-height: 1;
+
+    font-weight: 800;
+
+    letter-spacing: 0.14em;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| TITLE
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__header h2 {
+    margin: 0;
+
+    color: #172033;
+
+    font-size: 20px;
+
+    line-height: 1.25;
+
+    font-weight: 750;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| DESCRIPTION
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__header p {
+    max-width: 560px;
+
+    margin: 7px 0 0;
+
+    color: #718097;
+
+    font-size: 11px;
+
+    line-height: 1.6;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| COUNT
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__count {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    flex-shrink: 0;
+
+    padding: 8px 11px;
+
+    border-radius: 7px;
+
+    background: #f4f7fb;
+
+    color: #718097;
+
+    font-size: 10px;
+
+    font-weight: 600;
+}
+
+
+.applicationTimeline__count strong {
+    color: #3569ee;
+
+    font-size: 13px;
+
+    font-weight: 750;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| LIST
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__list {
+    padding-top: 26px;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| ITEM
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__item {
+    display: grid;
+
+    grid-template-columns:
+        42px minmax(0, 1fr);
+
+    column-gap: 16px;
+
+    min-height: 115px;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| RAIL
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__rail {
+    position: relative;
+
+    display: flex;
+
+    justify-content: center;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| ICON
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__icon {
+    position: relative;
+
+    z-index: 2;
+
+    width: 34px;
+
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border: 1px solid #dce4f0;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    color: #7d8ca2;
+}
+
+
+.applicationTimeline__icon svg {
+    width: 15px;
+
+    height: 15px;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| TIMELINE LINE
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__line {
+    position: absolute;
+
+    top: 34px;
+
+    bottom: 0;
+
+    left: 50%;
+
+    width: 1px;
+
+    transform: translateX(-50%);
+
+    background: #e3e8ef;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| CONTENT
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__content {
+    min-width: 0;
+
+    padding-bottom: 28px;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| DATE
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__date {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-bottom: 6px;
+
+    color: #9aa5b5;
+
+    font-size: 9px;
+
+    font-weight: 600;
+}
+
+
+.applicationTimeline__date i {
+    width: 3px;
+
+    height: 3px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #b8c1ce;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| TITLE
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__content h3 {
+    margin: 0;
+
+    color: #172033;
+
+    font-size: 13px;
+
+    line-height: 1.4;
+
+    font-weight: 700;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| DESCRIPTION
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__content>p {
+    max-width: 650px;
+
+    margin: 5px 0 0;
+
+    color: #718097;
+
+    font-size: 11px;
+
+    line-height: 1.6;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| DOCUMENT NAME
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__documentName {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    max-width: 100%;
+
+    margin-top: 10px;
+
+    padding: 7px 10px;
+
+    border: 1px solid #e5eaf1;
+
+    border-radius: 6px;
+
+    background: #f8fafc;
+
+    color: #5f6d81;
+
+    font-size: 9px;
+
+    font-weight: 600;
+}
+
+
+.applicationTimeline__documentName svg {
+    width: 13px;
+
+    height: 13px;
+
+    flex-shrink: 0;
+
+    color: #3569ee;
+}
+
+
+.applicationTimeline__documentName span {
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| STATUS CHANGE
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__statusChange {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 10px;
+
+    padding: 7px 10px;
+
+    border: 1px solid #e6ebf2;
+
+    border-radius: 6px;
+
+    background: #f8fafc;
+
+    color: #7a8799;
+
+    font-size: 9px;
+
+    font-weight: 600;
+}
+
+
+.applicationTimeline__statusChange strong {
+    color: #3569ee;
+
+    font-weight: 750;
+}
+
+
+.applicationTimeline__statusArrow {
+    color: #a5afbd;
+
+    font-size: 11px;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| DOCUMENT META
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__documentMeta {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 10px;
+
+    flex-wrap: wrap;
+
+    color: #7b8799;
+
+    font-size: 9px;
+}
+
+
+.applicationTimeline__documentMeta span {
+    padding: 5px 8px;
+
+    border-radius: 5px;
+
+    background: #f4f7fb;
+}
+
+
+.applicationTimeline__documentMeta strong {
+    padding: 5px 8px;
+
+    border-radius: 5px;
+
+    background: #eaf8f2;
+
+    color: #268f6b;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| REVIEW NOTE
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__reviewNote {
+    max-width: 650px;
+
+    margin-top: 10px;
+
+    padding: 10px 12px;
+
+    border: 1px solid #e7ebf1;
+
+    border-radius: 7px;
+
+    background: #fafbfd;
+}
+
+
+.applicationTimeline__reviewNote>span {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #9aa5b5;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+}
+
+
+.applicationTimeline__reviewNote p {
+    margin: 0;
+
+    color: #657287;
+
+    font-size: 10px;
+
+    line-height: 1.55;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| CREATED
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__item--created .applicationTimeline__item--created .applicationTimeline__icon {
+    border-color: #dce6ff;
+
+    background: #f2f6ff;
+
+    color: #3569ee;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| STARTED
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__item--started .applicationTimeline__icon {
+    border-color: #d7eee5;
+
+    background: #effaf6;
+
+    color: #268f6b;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| DOCUMENT
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__item--document .applicationTimeline__icon {
+    border-color: #dce6ff;
+
+    background: #f2f6ff;
+
+    color: #3569ee;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| DOCUMENT REVIEW
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__item--review .applicationTimeline__icon {
+    border-color: #f1dfb9;
+
+    background: #fff8eb;
+
+    color: #bd7d0d;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| COMPLETED
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__item--completed .applicationTimeline__icon {
+    border-color: #d7eee5;
+
+    background: #effaf6;
+
+    color: #268f6b;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| STATUS
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__item--status .applicationTimeline__icon {
+    border-color: #f1dfb9;
+
+    background: #fff8eb;
+
+    color: #bd7d0d;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| SUBMITTED
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__item--submitted .applicationTimeline__icon {
+    border-color: #dce6ff;
+
+    background: #f2f6ff;
+
+    color: #3569ee;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| APPROVED
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__item--approved .applicationTimeline__icon {
+    border-color: #d7eee5;
+
+    background: #effaf6;
+
+    color: #268f6b;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| REJECTED
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__item--rejected .applicationTimeline__icon {
+    border-color: #f2d7da;
+
+    background: #fff3f4;
+
+    color: #c64f58;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| UPDATED
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__item--updated .applicationTimeline__icon {
+    border-color: #e0e5ec;
+
+    background: #f6f8fa;
+
+    color: #718097;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| DEFAULT
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__item--default .applicationTimeline__icon {
+    border-color: #dce4f0;
+
+    background: #ffffff;
+
+    color: #7d8ca2;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| EMPTY STATE
+|--------------------------------------------------------------------------
+*/
+
+.applicationTimeline__empty {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-direction: column;
+
+    min-height: 260px;
+
+    padding: 30px;
+
+    text-align: center;
+}
+
+
+.applicationTimeline__emptyIcon {
+    width: 46px;
+
+    height: 46px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-bottom: 14px;
+
+    border-radius: 50%;
+
+    background: #f3f6fa;
+
+    color: #8190a4;
+}
+
+
+.applicationTimeline__emptyIcon svg {
+    width: 20px;
+
+    height: 20px;
+}
+
+
+.applicationTimeline__empty h3 {
+    margin: 0;
+
+    color: #172033;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+
+.applicationTimeline__empty p {
+    max-width: 390px;
+
+    margin: 7px 0 0;
+
+    color: #8a96a8;
+
+    font-size: 11px;
+
+    line-height: 1.6;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| TABLET
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 700px) {
+
+    .applicationTimeline {
+        padding: 22px;
+    }
+
+
+    .applicationTimeline__header {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 14px;
+    }
+
+
+    .applicationTimeline__count {
+        align-self: flex-start;
+    }
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| MOBILE
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 520px) {
+
+    .applicationTimeline {
+        padding: 18px;
+    }
+
+
+    .applicationTimeline__header h2 {
+        font-size: 18px;
+    }
+
+
+    .applicationTimeline__item {
+        grid-template-columns:
+            34px minmax(0, 1fr);
+
+        column-gap: 12px;
+
+        min-height: 105px;
+    }
+
+
+    .applicationTimeline__icon {
+        width: 30px;
+
+        height: 30px;
+    }
+
+
+    .applicationTimeline__icon svg {
+        width: 14px;
+
+        height: 14px;
+    }
+
+
+    .applicationTimeline__line {
+        top: 30px;
+    }
+
+
+    .applicationTimeline__content {
+        padding-bottom: 23px;
+    }
+
+
+    .applicationTimeline__content h3 {
+        font-size: 12px;
+    }
+
+
+    .applicationTimeline__content>p {
+        font-size: 10px;
+    }
+
+
+    .applicationTimeline__statusChange {
+        flex-wrap: wrap;
+    }
+
+
+    .applicationTimeline__documentName {
+        max-width: 100%;
+    }
+
+
+    .applicationTimeline__reviewNote {
+        max-width: 100%;
+    }
+
+}

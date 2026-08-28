@@ -1,0 +1,193 @@
+.adminApplications {
+    width: 100%;
+
+    max-width: 100%;
+
+    padding: 34px 40px 42px;
+
+    box-sizing: border-box;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| TABLE PANEL
+|--------------------------------------------------------------------------
+*/
+
+.adminApplications__tablePanel {
+    overflow: hidden;
+
+    border:
+        1px solid #e5eaf1;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 8px 24px rgba(15,
+            23,
+            42,
+            0.025);
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| PAGE STATES
+|--------------------------------------------------------------------------
+*/
+
+.adminApplicationsState {
+    min-height: 70vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    padding: 30px;
+
+    color: #748197;
+
+    background: #f6f8fb;
+}
+
+.adminApplicationsState p {
+    margin: 0;
+
+    font-size: 13px;
+}
+
+.adminApplicationsState__spinner {
+    width: 25px;
+    height: 25px;
+
+    border:
+        2px solid #e4e9f0;
+
+    border-top-color:
+        #3569ee;
+
+    border-radius: 50%;
+
+    animation:
+        applicationsSpinner 0.8s linear infinite;
+}
+
+@keyframes applicationsSpinner {
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| ERROR
+|--------------------------------------------------------------------------
+*/
+
+.adminApplicationsState--error {
+    align-items: center;
+}
+
+.adminApplicationsState__content {
+    width: 100%;
+    max-width: 420px;
+
+    padding: 30px;
+
+    border:
+        1px solid #e5eaf1;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    text-align: center;
+}
+
+.adminApplicationsState__content>span {
+    color: #3569ee;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.14em;
+}
+
+.adminApplicationsState__content h2 {
+    margin: 10px 0 8px;
+
+    color: #172033;
+
+    font-size: 18px;
+}
+
+.adminApplicationsState__content p {
+    margin: 0;
+
+    color: #7c8799;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+.adminApplicationsState__content button {
+    margin-top: 18px;
+
+    padding: 10px 16px;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    background: #3569ee;
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| RESPONSIVE
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 1100px) {
+
+    .adminApplications {
+        padding:
+            28px 24px 36px;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .adminApplications {
+        padding:
+            22px 16px 30px;
+    }
+
+}

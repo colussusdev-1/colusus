@@ -1,0 +1,227 @@
+.applicationJourney {
+    padding: 22px;
+
+    border:
+        1px solid #e4e9f0;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 8px 24px rgba(15, 23, 42, 0.025);
+}
+
+
+.applicationJourney__header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 18px;
+
+    margin-bottom: 22px;
+}
+
+
+.applicationJourney__title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+.applicationJourney__icon {
+    width: 36px;
+
+    height: 36px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: #eef3ff;
+
+    color: #3569ee;
+}
+
+
+.applicationJourney__icon svg {
+    width: 18px;
+
+    height: 18px;
+}
+
+
+.applicationJourney__title>div:last-child {
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+.applicationJourney__title span {
+    color: #3569ee;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.13em;
+}
+
+
+.applicationJourney__title h2 {
+    margin: 4px 0 0;
+
+    color: #172033;
+
+    font-size: 15px;
+
+    font-weight: 700;
+}
+
+
+.applicationJourney__percentage {
+    color: #3569ee;
+
+    font-size: 25px;
+
+    line-height: 1;
+
+    letter-spacing: -0.04em;
+}
+
+
+.applicationJourney__track {
+    width: 100%;
+
+    height: 9px;
+
+    overflow: hidden;
+
+    border-radius: 999px;
+
+    background: #edf1f6;
+}
+
+
+.applicationJourney__track span {
+    display: block;
+
+    height: 100%;
+
+    border-radius: inherit;
+
+    background: #3569ee;
+
+    transition:
+        width 0.5s ease;
+}
+
+
+.applicationJourney__meta {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 12px;
+
+    margin-top: 20px;
+}
+
+
+.applicationJourney__meta>div {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+    padding: 13px;
+
+    border:
+        1px solid #e9edf3;
+
+    border-radius: 10px;
+
+    background: #fafbfd;
+}
+
+
+.applicationJourney__meta span {
+    color: #8c97a9;
+
+    font-size: 9px;
+}
+
+
+.applicationJourney__meta strong {
+    color: #29364a;
+
+    font-size: 12px;
+
+    font-weight: 650;
+}
+
+
+.applicationJourney__notice {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 8px;
+
+    margin-top: 15px;
+
+    padding: 11px 12px;
+
+    border-radius: 9px;
+
+    background: #f6f8fb;
+
+    color: #7b8799;
+}
+
+
+.applicationJourney__notice svg {
+    width: 15px;
+
+    height: 15px;
+
+    flex-shrink: 0;
+
+    margin-top: 1px;
+}
+
+
+.applicationJourney__notice p {
+    margin: 0;
+
+    font-size: 10px;
+
+    line-height: 1.55;
+}
+
+
+@media (max-width: 500px) {
+
+    .applicationJourney {
+        padding: 17px;
+    }
+
+
+    .applicationJourney__meta {
+        grid-template-columns: 1fr;
+    }
+
+}

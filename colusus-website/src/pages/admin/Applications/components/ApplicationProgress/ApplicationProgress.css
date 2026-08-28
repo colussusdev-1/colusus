@@ -1,0 +1,285 @@
+.applicationProgress {
+
+    padding: 22px;
+
+    border:
+        1px solid #e3e8ef;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 7px 24px rgba(15, 23, 42, 0.025);
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| HEADER
+|--------------------------------------------------------------------------
+*/
+
+.applicationProgress__header {
+
+    margin-bottom: 28px;
+
+}
+
+
+.applicationProgress__eyebrow {
+
+    color: #3569ee;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.14em;
+
+}
+
+
+.applicationProgress h2 {
+
+    margin:
+        7px 0 0;
+
+    color: #172033;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| PIPELINE
+|--------------------------------------------------------------------------
+*/
+
+.applicationProgress__pipeline {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    width: 100%;
+
+}
+
+
+.applicationProgress__stage {
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    flex-direction: column;
+
+    flex-shrink: 0;
+
+    width: 76px;
+
+}
+
+
+.applicationProgress__dot {
+
+    width: 20px;
+
+    height: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border:
+        2px solid #dce3ec;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    color: #9aa6b7;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    z-index: 2;
+
+}
+
+
+.applicationProgress__stage.is-active .applicationProgress__dot {
+
+    width: 22px;
+
+    height: 22px;
+
+    border-color: #3569ee;
+
+    background: #ffffff;
+
+    color: #3569ee;
+
+    box-shadow:
+        0 0 0 4px #eef3ff;
+
+}
+
+
+.applicationProgress__stage.is-completed .applicationProgress__dot {
+
+    border-color: #3569ee;
+
+    background: #3569ee;
+
+    color: #ffffff;
+
+}
+
+
+.applicationProgress__label {
+
+    max-width: 85px;
+
+    margin-top: 8px;
+
+    color: #8793a6;
+
+    font-size: 8px;
+
+    line-height: 1.35;
+
+    text-align: center;
+
+}
+
+
+.applicationProgress__stage.is-active .applicationProgress__label {
+
+    color: #26344a;
+
+    font-weight: 700;
+
+}
+
+
+.applicationProgress__stage.is-completed .applicationProgress__label {
+
+    color: #5e6d82;
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| CONNECTING LINE
+|--------------------------------------------------------------------------
+*/
+
+.applicationProgress__line {
+
+    flex: 1;
+
+    height: 2px;
+
+    margin-top: 9px;
+
+    background: #e5eaf1;
+
+}
+
+
+.applicationProgress__line.is-completed {
+
+    background: #3569ee;
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| MESSAGE
+|--------------------------------------------------------------------------
+*/
+
+.applicationProgress__message {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 8px;
+
+    margin-top: 26px;
+
+    padding:
+        11px 13px;
+
+    border-radius: 9px;
+
+    background: #f6f8fb;
+
+}
+
+
+.applicationProgress__message svg {
+
+    width: 15px;
+
+    height: 15px;
+
+    flex-shrink: 0;
+
+    margin-top: 1px;
+
+    color: #8190a5;
+
+}
+
+
+.applicationProgress__message p {
+
+    margin: 0;
+
+    color: #77859a;
+
+    font-size: 10px;
+
+    line-height: 1.55;
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| RESPONSIVE
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 650px) {
+
+    .applicationProgress {
+
+        overflow-x: auto;
+
+    }
+
+
+    .applicationProgress__pipeline {
+
+        min-width: 580px;
+
+    }
+
+}

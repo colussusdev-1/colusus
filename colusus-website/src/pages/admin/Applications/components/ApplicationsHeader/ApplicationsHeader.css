@@ -1,0 +1,143 @@
+.applicationsHeader {
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 30px;
+
+    margin-bottom: 24px;
+}
+
+
+.applicationsHeader__copy {
+    min-width: 0;
+}
+
+
+.applicationsHeader__eyebrow {
+    display: inline-block;
+
+    margin-bottom: 9px;
+
+    color: #3569ee;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.14em;
+}
+
+
+.applicationsHeader__copy h1 {
+    margin: 0;
+
+    color: #172033;
+
+    font-size: 28px;
+
+    line-height: 1.15;
+
+    font-weight: 750;
+
+    letter-spacing: -0.035em;
+}
+
+
+.applicationsHeader__copy p {
+    margin: 8px 0 0;
+
+    color: #7c8799;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| COUNT
+|--------------------------------------------------------------------------
+*/
+
+.applicationsHeader__count {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 10px 13px;
+
+    border:
+        1px solid #e4e9f1;
+
+    border-radius: 11px;
+
+    background: #ffffff;
+}
+
+
+.applicationsHeader__countIcon {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background: #eef3ff;
+
+    color: #3569ee;
+}
+
+
+.applicationsHeader__countIcon svg {
+    width: 17px;
+    height: 17px;
+}
+
+
+.applicationsHeader__count>div:last-child {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+
+.applicationsHeader__count strong {
+    color: #172033;
+
+    font-size: 17px;
+
+    line-height: 1;
+}
+
+
+.applicationsHeader__count span {
+    color: #8a95a7;
+
+    font-size: 9px;
+}
+
+
+@media (max-width: 600px) {
+
+    .applicationsHeader {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 18px;
+    }
+
+}

@@ -1,0 +1,204 @@
+.adminOverview {
+    width: 100%;
+    max-width: 1540px;
+    margin: 0 auto;
+}
+
+.adminOverview__primaryGrid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 0.95fr) minmax(0, 1.05fr);
+
+    gap: 18px;
+
+    margin-top: 18px;
+}
+
+.adminOverview__secondaryGrid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr) minmax(360px, 0.7fr);
+
+    gap: 18px;
+
+    margin-top: 18px;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| GLOBAL PANEL
+|--------------------------------------------------------------------------
+*/
+
+.adminOverviewPanel {
+    background: #ffffff;
+
+    border:
+        1px solid #e8edf4;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 4px 18px rgba(22, 43, 72, 0.035);
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| STATES
+|--------------------------------------------------------------------------
+*/
+
+.adminOverviewState {
+    min-height: 520px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-direction: column;
+
+    gap: 13px;
+
+    color: #7f8b9f;
+
+    font-size: 12px;
+}
+
+.adminOverviewState__spinner {
+    width: 30px;
+    height: 30px;
+
+    border:
+        3px solid #e6ebf3;
+
+    border-top-color:
+        #3569ee;
+
+    border-radius: 50%;
+
+    animation:
+        adminOverviewSpin 0.75s linear infinite;
+}
+
+@keyframes adminOverviewSpin {
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+.adminOverviewState--error {
+    min-height: 300px;
+
+    flex-direction: row;
+
+    justify-content: flex-start;
+
+    padding: 30px;
+
+    background: #ffffff;
+
+    border:
+        1px solid #f0d9db;
+
+    border-radius: 16px;
+}
+
+.adminOverviewState__icon {
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background: #fff1f2;
+
+    color: #c94f58;
+}
+
+.adminOverviewState__icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.adminOverviewState--error h3 {
+    margin: 0;
+
+    color: #26344b;
+
+    font-size: 14px;
+}
+
+.adminOverviewState--error p {
+    margin: 5px 0 0;
+
+    color: #8b96a8;
+
+    font-size: 11px;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| RESPONSIVE
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 1180px) {
+
+    .adminOverview__primaryGrid,
+    .adminOverview__secondaryGrid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 640px) {
+
+    .adminOverview__primaryGrid,
+    .adminOverview__secondaryGrid {
+        gap: 14px;
+
+        margin-top: 14px;
+    }
+
+}
+
+
+.adminOverviewState--error button {
+    margin-top: 10px;
+
+    padding: 8px 12px;
+
+    border: 1px solid #d9e0eb;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #3569ee;
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    font-weight: 650;
+
+    cursor: pointer;
+}
+
+.adminOverviewState--error button:hover {
+    background: #f7f9fc;
+}

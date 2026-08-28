@@ -1,0 +1,546 @@
+.adminApplicationDetails {
+
+    width: 100%;
+
+    max-width: 1380px;
+
+    margin: 0 auto;
+
+    padding:
+        34px 40px 50px;
+
+    box-sizing: border-box;
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| BACK
+|--------------------------------------------------------------------------
+*/
+
+.adminApplicationDetails__back {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-bottom: 20px;
+
+    padding: 0;
+
+    border: 0;
+
+    background: transparent;
+
+    color: #718097;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+}
+
+
+.adminApplicationDetails__back svg {
+
+    width: 17px;
+
+    height: 17px;
+
+}
+
+
+.adminApplicationDetails__back:hover {
+
+    color: #3569ee;
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| MAIN GRID
+|--------------------------------------------------------------------------
+*/
+
+.adminApplicationDetails__grid {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.65fr) minmax(270px, 0.75fr);
+
+    gap: 18px;
+
+    margin-top: 16px;
+
+}
+
+
+.adminApplicationDetails__main {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+
+}
+
+
+.adminApplicationDetails__sidebar {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| TAB PLACEHOLDER
+|--------------------------------------------------------------------------
+*/
+
+.adminApplicationDetails__tabPlaceholder {
+
+    min-height: 300px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-direction: column;
+
+    padding: 40px;
+
+    border:
+        1px solid #e3e8ef;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    text-align: center;
+
+}
+
+
+.adminApplicationDetails__tabPlaceholder span {
+
+    color: #3569ee;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.14em;
+
+}
+
+
+.adminApplicationDetails__tabPlaceholder h2 {
+
+    margin:
+        10px 0 7px;
+
+    color: #172033;
+
+    font-size: 19px;
+
+}
+
+
+.adminApplicationDetails__tabPlaceholder p {
+
+    max-width: 400px;
+
+    margin: 0;
+
+    color: #8995a7;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| PAGE STATES
+|--------------------------------------------------------------------------
+*/
+
+.adminApplicationDetailsState {
+
+    min-height: 70vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    background: #f6f8fb;
+
+}
+
+
+.adminApplicationDetailsState p {
+
+    margin: 0;
+
+    color: #7b8799;
+
+    font-size: 12px;
+
+}
+
+
+.adminApplicationDetailsState__spinner {
+
+    width: 25px;
+
+    height: 25px;
+
+    border:
+        2px solid #e4e9f0;
+
+    border-top-color:
+        #3569ee;
+
+    border-radius: 50%;
+
+    animation:
+        adminDetailsSpinner 0.8s linear infinite;
+
+}
+
+
+@keyframes adminDetailsSpinner {
+
+    to {
+
+        transform:
+            rotate(360deg);
+
+    }
+
+}
+
+
+.adminApplicationDetailsState__error {
+
+    width: 100%;
+
+    max-width: 420px;
+
+    padding: 30px;
+
+    border:
+        1px solid #e3e8ef;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    text-align: center;
+
+}
+
+
+.adminApplicationDetailsState__error>span {
+
+    color: #3569ee;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.14em;
+
+}
+
+
+.adminApplicationDetailsState__error h2 {
+
+    margin:
+        10px 0 8px;
+
+    color: #172033;
+
+    font-size: 18px;
+
+}
+
+
+.adminApplicationDetailsState__error p {
+
+    margin: 0;
+
+    color: #7c8799;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+
+}
+
+
+.adminApplicationDetailsState__error button {
+
+    margin-top: 18px;
+
+    padding:
+        10px 16px;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    background: #3569ee;
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| RESPONSIVE
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 1100px) {
+
+    .adminApplicationDetails {
+
+        padding:
+            28px 24px 40px;
+
+    }
+
+
+    .adminApplicationDetails__grid {
+
+        grid-template-columns:
+            minmax(0, 1.5fr) minmax(250px, 0.8fr);
+
+    }
+
+}
+
+
+@media (max-width: 800px) {
+
+    .adminApplicationDetails {
+
+        padding:
+            24px 18px 35px;
+
+    }
+
+
+    .adminApplicationDetails__grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .adminApplicationDetails__sidebar {
+
+        order: -1;
+
+    }
+
+}
+
+
+@media (max-width: 520px) {
+
+    .adminApplicationDetails {
+
+        padding:
+            20px 14px 30px;
+
+    }
+
+
+    .adminApplicationDetails__back {
+
+        margin-bottom: 15px;
+
+    }
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| TOP BAR
+|--------------------------------------------------------------------------
+*/
+
+.adminApplicationDetails__topBar {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-bottom: 14px;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| BACK BUTTON
+|--------------------------------------------------------------------------
+*/
+
+.adminApplicationDetails__back {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    border: 0;
+
+    background: transparent;
+
+    color: #68768b;
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    font-weight: 650;
+
+    cursor: pointer;
+
+    padding: 4px 0;
+}
+
+.adminApplicationDetails__back:hover {
+    color: #3569ee;
+}
+
+.adminApplicationDetails__back svg {
+    width: 15px;
+
+    height: 15px;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| REFRESH BUTTON
+|--------------------------------------------------------------------------
+*/
+
+.adminApplicationDetails__refresh {
+    width: 34px;
+
+    height: 34px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: 1px solid #e3e8ef;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #68768b;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.adminApplicationDetails__refresh:hover {
+    border-color: #cfd8e5;
+
+    background: #f8fafc;
+
+    color: #3569ee;
+}
+
+.adminApplicationDetails__refresh:disabled {
+    opacity: 0.6;
+
+    cursor: not-allowed;
+}
+
+.adminApplicationDetails__refresh svg {
+    width: 15px;
+
+    height: 15px;
+}
+
+.adminApplicationDetails__refresh .is-spinning {
+    animation: applicationDetailsRefreshSpin 0.8s linear infinite;
+}
+
+
+@keyframes applicationDetailsRefreshSpin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| MOBILE
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 520px) {
+
+    .adminApplicationDetails__topBar {
+        margin-bottom: 10px;
+    }
+
+}

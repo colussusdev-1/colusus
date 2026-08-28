@@ -1,0 +1,142 @@
+.applicationTable {
+    width: 100%;
+}
+
+
+.applicationTable__scroll {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+
+.applicationTable table {
+    width: 100%;
+
+    min-width: 900px;
+
+    border-collapse: collapse;
+
+    table-layout: fixed;
+}
+
+
+.applicationTable th {
+    height: 43px;
+
+    padding:
+        0 14px;
+
+    border-bottom:
+        1px solid #e9edf3;
+
+    background: #fbfcfe;
+
+    color: #8b95a6;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.03em;
+
+    text-align: left;
+
+    white-space: nowrap;
+}
+
+
+.applicationTable th:nth-child(1) {
+    width: 13%;
+}
+
+.applicationTable th:nth-child(2) {
+    width: 16%;
+}
+
+.applicationTable th:nth-child(3) {
+    width: 12%;
+}
+
+.applicationTable th:nth-child(4) {
+    width: 16%;
+}
+
+.applicationTable th:nth-child(5) {
+    width: 13%;
+}
+
+.applicationTable th:nth-child(6) {
+    width: 10%;
+}
+
+.applicationTable th:nth-child(7) {
+    width: 15%;
+}
+
+.applicationTable th:nth-child(8) {
+    width: 5%;
+}
+
+
+.applicationTable__empty {
+    min-height: 260px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-direction: column;
+
+    gap: 6px;
+
+    padding: 30px;
+
+    text-align: center;
+}
+
+
+.applicationTable__emptyIcon {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-bottom: 5px;
+
+    border-radius: 11px;
+
+    background: #f1f4f8;
+
+    color: #8994a5;
+}
+
+
+.applicationTable__emptyIcon svg {
+    width: 18px;
+    height: 18px;
+}
+
+
+.applicationTable__empty h3 {
+    margin: 0;
+
+    color: #26344a;
+
+    font-size: 13px;
+}
+
+
+.applicationTable__empty p {
+    margin: 0;
+
+    color: #8b95a6;
+
+    font-size: 10px;
+}

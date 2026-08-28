@@ -1,0 +1,164 @@
+.needsAttention {
+    padding: 22px;
+}
+
+.needsAttention__header {
+    margin-bottom: 12px;
+}
+
+.needsAttention__label {
+    color: #c88a1a;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.13em;
+}
+
+.needsAttention h2 {
+    margin: 6px 0 0;
+
+    color: #172033;
+
+    font-size: 15px;
+
+    font-weight: 700;
+}
+
+.needsAttention__header p {
+    margin: 5px 0 0;
+
+    color: #8a95a7;
+
+    font-size: 9px;
+}
+
+.needsAttention__list {
+    display: flex;
+
+    flex-direction: column;
+}
+
+.attentionItem {
+    width: 100%;
+
+    min-height: 70px;
+
+    padding: 11px 0;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    border: 0;
+
+    border-top:
+        1px solid #eef1f5;
+
+    background: transparent;
+
+    font-family: inherit;
+
+    cursor: pointer;
+
+    text-align: left;
+}
+
+.attentionItem:first-child {
+    border-top: 0;
+}
+
+.attentionItem__icon {
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+}
+
+.attentionItem__icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.attentionItem__icon--orange {
+    background: #fff5df;
+
+    color: #d89115;
+}
+
+.attentionItem__icon--purple {
+    background: #f2edff;
+
+    color: #7758ce;
+}
+
+.attentionItem__content {
+    flex: 1;
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+.attentionItem__content strong {
+    color: #29364c;
+
+    font-size: 10px;
+
+    font-weight: 650;
+}
+
+.attentionItem__content span {
+    margin-top: 4px;
+
+    color: #909aaa;
+
+    font-size: 9px;
+}
+
+.attentionItem__arrow {
+    width: 29px;
+    height: 29px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+
+    color: #9aa4b4;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.attentionItem__arrow svg {
+    width: 15px;
+    height: 15px;
+}
+
+.attentionItem:hover .attentionItem__arrow {
+    background: #f1f4f9;
+
+    color: #3869dd;
+
+    transform:
+        translateX(2px);
+}

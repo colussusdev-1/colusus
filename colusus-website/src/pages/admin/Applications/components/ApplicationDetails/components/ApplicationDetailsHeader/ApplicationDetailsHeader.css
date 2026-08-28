@@ -1,0 +1,532 @@
+/*
+|--------------------------------------------------------------------------
+| APPLICATION DETAILS HEADER
+|--------------------------------------------------------------------------
+*/
+
+.applicationDetailsHeader {
+    width: 100%;
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 28px;
+
+    padding: 26px 28px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #e3e8ef;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 7px 24px rgba(15,
+            23,
+            42,
+            0.025);
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| MAIN CONTENT
+|--------------------------------------------------------------------------
+*/
+
+.applicationDetailsHeader__main {
+    min-width: 0;
+
+    flex: 1;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| EYEBROW
+|--------------------------------------------------------------------------
+*/
+
+.applicationDetailsHeader__eyebrow {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 8px;
+
+    color: #3569ee;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    line-height: 1;
+
+    letter-spacing: 0.14em;
+
+    text-transform: uppercase;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| APPLICATION REFERENCE
+|--------------------------------------------------------------------------
+*/
+
+.applicationDetailsHeader__eyebrow strong {
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 4px 7px;
+
+    border-radius: 5px;
+
+    background: #f1f4f8;
+
+    color: #7b8799;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    letter-spacing: 0;
+
+    text-transform: none;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| CLIENT NAME
+|--------------------------------------------------------------------------
+*/
+
+.applicationDetailsHeader h1 {
+    margin: 0;
+
+    color: #172033;
+
+    font-size: 27px;
+
+    line-height: 1.15;
+
+    font-weight: 750;
+
+    letter-spacing: -0.02em;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| APPLICATION META
+|--------------------------------------------------------------------------
+*/
+
+.applicationDetailsHeader__meta {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 10px;
+
+    color: #718097;
+
+    font-size: 11px;
+
+    line-height: 1.4;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| META ITEM
+|--------------------------------------------------------------------------
+*/
+
+.applicationDetailsHeader__meta span {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    min-width: 0;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| META ICON
+|--------------------------------------------------------------------------
+*/
+
+.applicationDetailsHeader__meta svg {
+    width: 14px;
+
+    height: 14px;
+
+    flex-shrink: 0;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| META DIVIDER
+|--------------------------------------------------------------------------
+*/
+
+.applicationDetailsHeader__meta i {
+    width: 3px;
+
+    height: 3px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #aeb7c5;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| ACTION AREA
+|--------------------------------------------------------------------------
+*/
+
+.applicationDetailsHeader__actions {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    flex-shrink: 0;
+
+    min-width: 0;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| STATUS
+|--------------------------------------------------------------------------
+*/
+
+.applicationDetailsHeader__status {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    min-height: 42px;
+
+    padding: 0 15px;
+
+    box-sizing: border-box;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    white-space: nowrap;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| STATUS DOT
+|--------------------------------------------------------------------------
+*/
+
+.applicationDetailsHeader__status i {
+    width: 7px;
+
+    height: 7px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: currentColor;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| SUBMITTED
+|--------------------------------------------------------------------------
+*/
+
+.applicationDetailsHeader__status--submitted {
+    background: #eef3ff;
+
+    color: #3569ee;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| UNDER REVIEW
+|--------------------------------------------------------------------------
+*/
+
+.applicationDetailsHeader__status--review {
+    background: #fff7e7;
+
+    color: #bd7d0d;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| DOCUMENT REQUEST
+|--------------------------------------------------------------------------
+*/
+
+.applicationDetailsHeader__status--document {
+    background: #fff7e7;
+
+    color: #bd7d0d;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| PROCESSING
+|--------------------------------------------------------------------------
+*/
+
+.applicationDetailsHeader__status--processing {
+    background: #eef3ff;
+
+    color: #3569ee;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| APPROVED
+|--------------------------------------------------------------------------
+*/
+
+.applicationDetailsHeader__status--approved {
+    background: #eaf8f2;
+
+    color: #268f6b;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| REJECTED
+|--------------------------------------------------------------------------
+*/
+
+.applicationDetailsHeader__status--rejected {
+    background: #fff0f1;
+
+    color: #c64f58;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| DEFAULT
+|--------------------------------------------------------------------------
+*/
+
+.applicationDetailsHeader__status--default {
+    background: #f0f3f7;
+
+    color: #68768b;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| ACTIONS — APPLICATION ACTIONS COMPONENT
+|--------------------------------------------------------------------------
+|
+| The actual Edit Application button and dropdown are rendered
+| by ApplicationActions.
+|
+| These rules make sure the component sits correctly inside
+| the header without trying to style its internal controls.
+|
+|--------------------------------------------------------------------------
+*/
+
+.applicationDetailsHeader__actions .applicationActions {
+    display: flex;
+
+    align-items: center;
+
+    flex-shrink: 0;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| RESPONSIVE — TABLET
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 950px) {
+
+    .applicationDetailsHeader {
+        gap: 20px;
+    }
+
+
+    .applicationDetailsHeader__actions {
+        gap: 8px;
+    }
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| RESPONSIVE — MOBILE
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 850px) {
+
+    .applicationDetailsHeader {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 20px;
+    }
+
+
+    .applicationDetailsHeader__main {
+
+        width: 100%;
+    }
+
+
+    .applicationDetailsHeader__actions {
+
+        width: 100%;
+
+        justify-content: flex-start;
+
+        flex-wrap: wrap;
+    }
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| RESPONSIVE — SMALL MOBILE
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 520px) {
+
+    .applicationDetailsHeader {
+
+        padding: 20px;
+
+        border-radius: 12px;
+    }
+
+
+    .applicationDetailsHeader__eyebrow {
+
+        font-size: 8px;
+
+        gap: 7px;
+    }
+
+
+    .applicationDetailsHeader h1 {
+
+        font-size: 23px;
+    }
+
+
+    .applicationDetailsHeader__meta {
+
+        flex-wrap: wrap;
+
+        gap: 8px;
+
+        margin-top: 9px;
+
+        font-size: 10px;
+    }
+
+
+    .applicationDetailsHeader__actions {
+
+        width: 100%;
+
+        align-items: stretch;
+
+        justify-content: flex-start;
+
+        gap: 8px;
+    }
+
+
+    .applicationDetailsHeader__status {
+
+        min-height: 40px;
+
+        padding: 0 13px;
+    }
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| VERY SMALL MOBILE
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 380px) {
+
+    .applicationDetailsHeader__actions {
+
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+
+    .applicationDetailsHeader__status {
+
+        width: fit-content;
+    }
+
+}

@@ -1,0 +1,825 @@
+/* ============================================================
+   DOCUMENT VIEWER PAGE
+============================================================ */
+
+.document-viewer-page {
+    min-height: 100vh;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    background: #f5f8fb;
+    color: #142235;
+}
+
+
+/* ============================================================
+   MAIN CONTAINER
+============================================================ */
+
+.document-viewer-container {
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 1;
+
+    padding: 60px 0;
+}
+
+
+/* ============================================================
+   HEADER
+============================================================ */
+
+.document-viewer-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+
+    width: 100%;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    border-bottom: 1px solid #e6ebf0;
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+
+/* ============================================================
+   HEADER INNER
+============================================================ */
+
+.document-viewer-header-inner {
+    width: min(1280px, calc(100% - 40px));
+
+    min-height: 72px;
+
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns: auto minmax(0, 1fr) auto;
+
+    align-items: center;
+
+    gap: 24px;
+}
+
+
+/* ============================================================
+   BACK BUTTON
+============================================================ */
+
+.document-viewer-back {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    min-height: 38px;
+
+    padding: 0 12px;
+
+    border: 1px solid #e1e7ed;
+
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    color: #526274;
+
+    font-family: inherit;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.document-viewer-back svg {
+    width: 16px;
+    height: 16px;
+
+    flex-shrink: 0;
+}
+
+.document-viewer-back:hover {
+    background: #f5f8fb;
+
+    border-color: #d5dee7;
+
+    color: #123b66;
+
+    transform: translateY(-1px);
+}
+
+.document-viewer-back:active {
+    transform: translateY(0);
+}
+
+.document-viewer-back:focus {
+    outline: none;
+}
+
+.document-viewer-back:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.14);
+
+    outline-offset: 2px;
+}
+
+
+/* ============================================================
+   TITLE
+============================================================ */
+
+.document-viewer-title {
+    min-width: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+/* ============================================================
+   TITLE ICON
+============================================================ */
+
+.document-viewer-title-icon {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 11px;
+
+    background: #eef5ff;
+
+    color: #2563eb;
+}
+
+.document-viewer-title-icon svg {
+    width: 19px;
+    height: 19px;
+}
+
+
+/* ============================================================
+   TITLE COPY
+============================================================ */
+
+.document-viewer-title>div:last-child {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+.document-viewer-title strong {
+    display: block;
+
+    max-width: 100%;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+    color: #142235;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    line-height: 1.3;
+}
+
+.document-viewer-title span {
+    display: block;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+    color: #7b8795;
+
+    font-size: 11px;
+
+    line-height: 1.3;
+}
+
+
+/* ============================================================
+   DOWNLOAD BUTTON
+============================================================ */
+
+.document-viewer-download {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    min-height: 38px;
+
+    padding: 0 13px;
+
+    border: 1px solid #dce4ec;
+
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    color: #123b66;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 650;
+
+    line-height: 1;
+
+    text-decoration: none;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.document-viewer-download svg {
+    width: 16px;
+    height: 16px;
+
+    flex-shrink: 0;
+}
+
+.document-viewer-download:hover {
+    background: #f4f8fc;
+
+    border-color: #ccd8e3;
+
+    color: #0d2f53;
+
+    box-shadow: 0 5px 14px rgba(18, 59, 102, 0.08);
+
+    transform: translateY(-1px);
+}
+
+.document-viewer-download:active {
+    transform: translateY(0);
+}
+
+.document-viewer-download:focus {
+    outline: none;
+}
+
+.document-viewer-download:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.14);
+
+    outline-offset: 2px;
+}
+
+
+/* ============================================================
+   VIEWER CONTENT
+============================================================ */
+
+.document-viewer-content {
+    width: 100%;
+
+    flex: 1;
+
+    display: flex;
+
+    align-items: stretch;
+    justify-content: center;
+
+    padding: 28px;
+}
+
+
+/* ============================================================
+   VIEWER FRAME
+============================================================ */
+
+.document-viewer-frame {
+    width: min(1180px, 100%);
+
+    min-height: calc(100vh - 128px);
+
+    overflow: hidden;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #ffffff;
+
+    border: 1px solid #e1e7ed;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 12px 40px rgba(15, 35, 60, 0.07);
+}
+
+
+/* ============================================================
+   PDF VIEWER
+============================================================ */
+
+.document-viewer-pdf {
+    display: block;
+
+    width: 100%;
+
+    height: calc(100vh - 130px);
+
+    min-height: 650px;
+
+    border: 0;
+
+    background: #ffffff;
+}
+
+
+/* ============================================================
+   IMAGE VIEWER
+============================================================ */
+
+.document-viewer-image-wrapper {
+    width: 100%;
+
+    min-height: calc(100vh - 130px);
+
+    padding: 32px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: auto;
+
+    background: #f8fafc;
+}
+
+.document-viewer-image {
+    display: block;
+
+    max-width: 100%;
+    max-height: calc(100vh - 190px);
+
+    width: auto;
+    height: auto;
+
+    object-fit: contain;
+
+    border-radius: 8px;
+
+    box-shadow:
+        0 8px 30px rgba(15, 35, 60, 0.12);
+}
+
+
+/* ============================================================
+   UNSUPPORTED DOCUMENT
+============================================================ */
+
+.document-viewer-unsupported {
+    width: min(460px, calc(100% - 40px));
+
+    padding: 55px 30px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+}
+
+.document-viewer-unsupported>svg {
+    width: 48px;
+    height: 48px;
+
+    margin-bottom: 18px;
+
+    color: #2563eb;
+}
+
+.document-viewer-unsupported h2 {
+    margin: 0;
+
+    color: #142235;
+
+    font-size: 21px;
+
+    font-weight: 700;
+
+    line-height: 1.3;
+}
+
+.document-viewer-unsupported p {
+    max-width: 360px;
+
+    margin: 9px 0 22px;
+
+    color: #718096;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+
+/* ============================================================
+   STATE
+============================================================ */
+
+.document-viewer-state {
+    width: min(440px, 100%);
+
+    padding: 50px 30px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    background: #ffffff;
+
+    border: 1px solid #e3e9ef;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 12px 40px rgba(15, 35, 60, 0.06);
+}
+
+.document-viewer-state h2 {
+    margin: 20px 0 7px;
+
+    color: #142235;
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+    line-height: 1.3;
+}
+
+.document-viewer-state p {
+    margin: 0;
+
+    color: #718096;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+
+/* ============================================================
+   LOADING SPINNER
+============================================================ */
+
+.document-viewer-spinner {
+    width: 42px;
+    height: 42px;
+
+    border: 3px solid #e8eef4;
+
+    border-top-color: #2563eb;
+
+    border-radius: 50%;
+
+    animation: documentViewerSpin 0.8s linear infinite;
+}
+
+@keyframes documentViewerSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* ============================================================
+   ERROR ICON
+============================================================ */
+
+.document-viewer-error-icon {
+    width: 54px;
+    height: 54px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 15px;
+
+    background: #fff0f0;
+
+    color: #d64545;
+}
+
+.document-viewer-error-icon svg {
+    width: 26px;
+    height: 26px;
+}
+
+
+/* ============================================================
+   STATE BACK BUTTON
+============================================================ */
+
+.document-viewer-state .document-viewer-back {
+    margin-top: 24px;
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 900px) {
+
+    .document-viewer-header-inner {
+        width: min(100% - 28px, 1280px);
+
+        gap: 16px;
+    }
+
+    .document-viewer-content {
+        padding: 20px;
+    }
+
+    .document-viewer-frame {
+        min-height: calc(100vh - 112px);
+
+        border-radius: 14px;
+    }
+
+    .document-viewer-pdf {
+        height: calc(100vh - 112px);
+
+        min-height: 600px;
+    }
+
+    .document-viewer-image-wrapper {
+        min-height: calc(100vh - 112px);
+
+        padding: 24px;
+    }
+
+    .document-viewer-image {
+        max-height: calc(100vh - 165px);
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 700px) {
+
+    .document-viewer-header {
+        position: relative;
+    }
+
+
+    .document-viewer-header-inner {
+        width: 100%;
+
+        min-height: auto;
+
+        padding: 12px 14px;
+
+        grid-template-columns: auto minmax(0, 1fr) auto;
+
+        gap: 10px;
+    }
+
+
+    .document-viewer-back {
+        width: 36px;
+        height: 36px;
+
+        min-height: 36px;
+
+        padding: 0;
+
+        border-radius: 9px;
+    }
+
+    .document-viewer-back span {
+        display: none;
+    }
+
+
+    .document-viewer-title {
+        gap: 9px;
+    }
+
+
+    .document-viewer-title-icon {
+        width: 36px;
+        height: 36px;
+
+        border-radius: 10px;
+    }
+
+    .document-viewer-title-icon svg {
+        width: 17px;
+        height: 17px;
+    }
+
+
+    .document-viewer-title strong {
+        font-size: 12px;
+    }
+
+    .document-viewer-title span {
+        font-size: 10px;
+    }
+
+
+    .document-viewer-download {
+        width: 36px;
+        height: 36px;
+
+        min-height: 36px;
+
+        padding: 0;
+
+        border-radius: 9px;
+    }
+
+    .document-viewer-download span {
+        display: none;
+    }
+
+
+    .document-viewer-content {
+        padding: 12px;
+    }
+
+
+    .document-viewer-frame {
+        min-height: calc(100vh - 88px);
+
+        border-radius: 12px;
+    }
+
+
+    .document-viewer-pdf {
+        height: calc(100vh - 88px);
+
+        min-height: 520px;
+    }
+
+
+    .document-viewer-image-wrapper {
+        min-height: calc(100vh - 88px);
+
+        padding: 14px;
+    }
+
+
+    .document-viewer-image {
+        max-width: 100%;
+
+        max-height: calc(100vh - 120px);
+
+        border-radius: 6px;
+    }
+
+
+    .document-viewer-state {
+        width: calc(100% - 28px);
+
+        padding: 42px 22px;
+
+        border-radius: 15px;
+    }
+
+}
+
+
+/* ============================================================
+   SMALL MOBILE
+============================================================ */
+
+@media (max-width: 420px) {
+
+    .document-viewer-header-inner {
+        padding: 10px 11px;
+
+        gap: 8px;
+    }
+
+
+    .document-viewer-title-icon {
+        width: 33px;
+        height: 33px;
+    }
+
+
+    .document-viewer-title strong {
+        font-size: 11px;
+    }
+
+
+    .document-viewer-title span {
+        font-size: 9px;
+    }
+
+
+    .document-viewer-back,
+    .document-viewer-download {
+        width: 34px;
+        height: 34px;
+
+        min-height: 34px;
+    }
+
+
+    .document-viewer-content {
+        padding: 8px;
+    }
+
+
+    .document-viewer-frame {
+        border-radius: 10px;
+    }
+
+
+    .document-viewer-image-wrapper {
+        padding: 8px;
+    }
+
+
+    .document-viewer-state {
+        padding: 35px 18px;
+    }
+
+
+    .document-viewer-state h2 {
+        font-size: 18px;
+    }
+
+}

@@ -1,0 +1,220 @@
+.overviewHeader {
+    display: flex;
+
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 30px;
+
+    margin-bottom: 24px;
+}
+
+.overviewHeader__copy {
+    min-width: 0;
+}
+
+.overviewHeader__eyebrow {
+    display: inline-flex;
+
+    align-items: center;
+
+    margin-bottom: 9px;
+
+    color: #3869dd;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.13em;
+
+    text-transform: uppercase;
+}
+
+.overviewHeader__eyebrow::before {
+    content: "";
+
+    width: 18px;
+    height: 1px;
+
+    margin-right: 7px;
+
+    background: #3869dd;
+}
+
+.overviewHeader h1 {
+    margin: 0;
+
+    color: #172033;
+
+    font-size: clamp(25px, 2.4vw, 32px);
+
+    line-height: 1.15;
+
+    font-weight: 700;
+
+    letter-spacing: -0.04em;
+}
+
+.overviewHeader p {
+    margin: 8px 0 0;
+
+    color: #7d899c;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+.overviewHeader__meta {
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+}
+
+.overviewHeader__date {
+    height: 37px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 0 11px;
+
+    border:
+        1px solid #e4e9f0;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: #718097;
+
+    font-size: 9px;
+}
+
+.overviewHeader__date svg {
+    width: 15px;
+    height: 15px;
+
+    color: #63728a;
+}
+
+.overviewHeader__refresh {
+    height: 37px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 0 12px;
+
+    border:
+        1px solid #e4e9f0;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: #52627b;
+
+    font-family: inherit;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.overviewHeader__refresh:hover {
+    border-color: #cfd8e7;
+
+    background: #f8faff;
+
+    color: #3569ee;
+}
+
+.overviewHeader__refresh svg {
+    width: 14px;
+    height: 14px;
+}
+
+@media (max-width: 760px) {
+
+    .overviewHeader {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        margin-bottom: 18px;
+    }
+
+    .overviewHeader__meta {
+        width: 100%;
+    }
+
+    .overviewHeader__date {
+        flex: 1;
+    }
+
+}
+
+@media (max-width: 480px) {
+
+    .overviewHeader h1 {
+        font-size: 24px;
+    }
+
+    .overviewHeader__meta {
+        width: 100%;
+    }
+
+    .overviewHeader__date {
+        overflow: hidden;
+
+        white-space: nowrap;
+    }
+
+    .overviewHeader__date span {
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+    }
+
+}
+
+.overviewHeader__refresh.is-refreshing svg {
+    animation:
+        overviewRefreshSpin
+        0.8s
+        linear
+        infinite;
+}
+
+.overviewHeader__refresh:disabled {
+    cursor: wait;
+
+    opacity: 0.65;
+}
+
+@keyframes overviewRefreshSpin {
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}

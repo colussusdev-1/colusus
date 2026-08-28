@@ -1,0 +1,518 @@
+.applicationActions {
+    position: relative;
+
+    display: flex;
+
+    align-items: stretch;
+
+    gap: 8px;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| EDIT BUTTON
+|--------------------------------------------------------------------------
+*/
+
+.applicationActions__edit {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    min-height: 48px;
+
+    padding:
+        0 18px;
+
+    border: 0;
+
+    border-radius: 9px;
+
+    background: #3569ee;
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.applicationActions__edit svg {
+    width: 17px;
+    height: 17px;
+}
+
+
+.applicationActions__edit:hover:not(:disabled) {
+
+    background: #2d5edb;
+
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+        0 7px 18px rgba(53,
+            105,
+            238,
+            0.18);
+
+}
+
+
+.applicationActions__edit:disabled {
+    opacity: 0.65;
+
+    cursor: not-allowed;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| TOGGLE
+|--------------------------------------------------------------------------
+*/
+
+.applicationActions__toggle {
+    width: 48px;
+
+    min-height: 48px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border:
+        1px solid #dfe5ee;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: #748197;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+
+.applicationActions__toggle svg {
+    width: 18px;
+    height: 18px;
+}
+
+
+.applicationActions__toggle:hover:not(:disabled) {
+
+    border-color:
+        #cbd4e1;
+
+    background:
+        #f8faff;
+
+    color:
+        #3569ee;
+
+}
+
+
+.applicationActions__toggle:disabled {
+    opacity: 0.6;
+
+    cursor: not-allowed;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| MENU
+|--------------------------------------------------------------------------
+*/
+
+.applicationActions__menu {
+    position: absolute;
+
+    z-index: 50;
+
+    top:
+        calc(100% + 10px);
+
+    right: 0;
+
+    width: 340px;
+
+    overflow: hidden;
+
+    border:
+        1px solid #e4e9f1;
+
+    border-radius: 13px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 20px 45px rgba(15,
+            23,
+            42,
+            0.13);
+
+    animation:
+        applicationActionsMenuIn 0.18s ease both;
+}
+
+
+@keyframes applicationActionsMenuIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(-5px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| MENU HEADER
+|--------------------------------------------------------------------------
+*/
+
+.applicationActions__menuHeader {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+    padding:
+        16px 17px;
+
+    border-bottom:
+        1px solid #edf0f5;
+
+    background:
+        #fbfcfe;
+}
+
+
+.applicationActions__menuHeader span {
+
+    color:
+        #3569ee;
+
+    font-size:
+        9px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        0.13em;
+
+}
+
+
+.applicationActions__menuHeader strong {
+
+    color:
+        #172033;
+
+    font-size:
+        14px;
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| ERROR
+|--------------------------------------------------------------------------
+*/
+
+.applicationActions__error {
+
+    margin:
+        12px 14px 0;
+
+    padding:
+        10px 12px;
+
+    border:
+        1px solid #fecaca;
+
+    border-radius:
+        8px;
+
+    background:
+        #fff5f5;
+
+    color:
+        #b4232f;
+
+    font-size:
+        11px;
+
+    line-height:
+        1.5;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| OPTIONS
+|--------------------------------------------------------------------------
+*/
+
+.applicationActions__options {
+
+    padding:
+        7px;
+}
+
+
+.applicationActions__option {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    padding:
+        11px 10px;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    background:
+        transparent;
+
+    font-family: inherit;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        background 0.18s ease;
+}
+
+
+.applicationActions__option:hover:not(:disabled) {
+
+    background:
+        #f7f9fc;
+
+}
+
+
+.applicationActions__option--active {
+
+    background:
+        #f1f5ff;
+
+}
+
+
+.applicationActions__option:disabled {
+
+    cursor:
+        not-allowed;
+
+    opacity:
+        0.65;
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| INDICATOR
+|--------------------------------------------------------------------------
+*/
+
+.applicationActions__optionIndicator {
+
+    width: 27px;
+    height: 27px;
+
+    flex:
+        0 0 27px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border:
+        1px solid #dce3ed;
+
+    border-radius: 50%;
+
+    background:
+        #ffffff;
+
+    color:
+        #3569ee;
+}
+
+
+.applicationActions__option--active .applicationActions__optionIndicator {
+
+    border-color:
+        #3569ee;
+
+    background:
+        #3569ee;
+
+    color:
+        #ffffff;
+}
+
+
+.applicationActions__optionIndicator svg {
+
+    width: 15px;
+    height: 15px;
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| CONTENT
+|--------------------------------------------------------------------------
+*/
+
+.applicationActions__optionContent {
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+.applicationActions__optionContent strong {
+
+    color:
+        #26344a;
+
+    font-size:
+        12px;
+
+    font-weight:
+        700;
+}
+
+
+.applicationActions__optionContent small {
+
+    color:
+        #8a95a7;
+
+    font-size:
+        10px;
+
+    line-height:
+        1.4;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| MOBILE
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 600px) {
+
+    .applicationActions__edit {
+
+        min-height:
+            44px;
+
+        padding:
+            0 13px;
+
+    }
+
+
+    .applicationActions__toggle {
+
+        width:
+            44px;
+
+        min-height:
+            44px;
+
+    }
+
+
+    .applicationActions__menu {
+
+        position:
+            fixed;
+
+        top:
+            auto;
+
+        right:
+            16px;
+
+        left:
+            16px;
+
+        bottom:
+            16px;
+
+        width:
+            auto;
+
+        max-height:
+            calc(100vh - 32px);
+
+        overflow-y:
+            auto;
+
+    }
+
+}

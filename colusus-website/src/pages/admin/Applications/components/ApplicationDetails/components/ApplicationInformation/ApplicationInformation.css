@@ -1,0 +1,237 @@
+.applicationInformation {
+
+    overflow: hidden;
+
+    border:
+        1px solid #e3e8ef;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 7px 24px rgba(15, 23, 42, 0.025);
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| HEADER
+|--------------------------------------------------------------------------
+*/
+
+.applicationInformation__header {
+
+    padding:
+        22px 22px 16px;
+
+}
+
+
+.applicationInformation__header span {
+
+    color: #3569ee;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.14em;
+
+}
+
+
+.applicationInformation__header h2 {
+
+    margin:
+        7px 0 0;
+
+    color: #172033;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| GRID
+|--------------------------------------------------------------------------
+*/
+
+.applicationInformation__grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    border-top:
+        1px solid #e6ebf1;
+
+}
+
+
+.applicationInformation__item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    min-width: 0;
+
+    min-height: 78px;
+
+    padding:
+        13px 17px;
+
+    border-right:
+        1px solid #e6ebf1;
+
+    border-bottom:
+        1px solid #e6ebf1;
+
+}
+
+
+.applicationInformation__item:nth-child(2n) {
+
+    border-right: 0;
+
+}
+
+
+.applicationInformation__item:nth-last-child(-n + 2) {
+
+    border-bottom: 0;
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| ICON
+|--------------------------------------------------------------------------
+*/
+
+.applicationInformation__icon {
+
+    width: 34px;
+
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    background: #eef3ff;
+
+    color: #3569ee;
+
+}
+
+
+.applicationInformation__icon svg {
+
+    width: 16px;
+
+    height: 16px;
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| TEXT
+|--------------------------------------------------------------------------
+*/
+
+.applicationInformation__item>div:last-child {
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+}
+
+
+.applicationInformation__item span {
+
+    color: #8b97a9;
+
+    font-size: 9px;
+
+}
+
+
+.applicationInformation__item strong {
+
+    overflow: hidden;
+
+    color: #26344a;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    line-height: 1.3;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| MOBILE
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 560px) {
+
+    .applicationInformation__grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .applicationInformation__item {
+
+        border-right: 0;
+
+    }
+
+
+    .applicationInformation__item:nth-last-child(-n + 2) {
+
+        border-bottom:
+            1px solid #e6ebf1;
+
+    }
+
+
+    .applicationInformation__item:last-child {
+
+        border-bottom: 0;
+
+    }
+
+}

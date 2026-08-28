@@ -1,0 +1,204 @@
+.documentSummary {
+    padding: 22px;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| HEADER
+|--------------------------------------------------------------------------
+*/
+
+.documentSummary__header {
+    margin-bottom: 18px;
+}
+
+.documentSummary__title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.documentSummary__icon {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: #eaf8f3;
+    color: #23916d;
+}
+
+.documentSummary__icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.documentSummary__title>div:last-child {
+    display: flex;
+    flex-direction: column;
+}
+
+.documentSummary__title span {
+    color: #23916d;
+
+    font-size: 8px;
+    font-weight: 800;
+
+    letter-spacing: 0.13em;
+}
+
+.documentSummary h2 {
+    margin: 4px 0 0;
+
+    color: #172033;
+
+    font-size: 15px;
+    font-weight: 700;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| SUMMARY GRID
+|--------------------------------------------------------------------------
+*/
+
+.documentSummary__grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    overflow: hidden;
+
+    border:
+        1px solid #e9edf3;
+
+    border-radius: 11px;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| SUMMARY ITEM
+|--------------------------------------------------------------------------
+*/
+
+.documentSummary__item {
+    min-height: 83px;
+
+    padding: 15px;
+
+    border: 0;
+
+    border-right:
+        1px solid #e9edf3;
+
+    border-bottom:
+        1px solid #e9edf3;
+
+    background: #ffffff;
+
+    color: inherit;
+
+    font-family: inherit;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease;
+}
+
+.documentSummary__item:hover {
+    background: #fafcff;
+}
+
+.documentSummary__item:focus-visible {
+    outline: 2px solid #3569ee;
+
+    outline-offset: -2px;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| GRID BORDERS
+|--------------------------------------------------------------------------
+*/
+
+.documentSummary__item:nth-child(2n) {
+    border-right: 0;
+}
+
+.documentSummary__item:nth-last-child(-n + 2) {
+    border-bottom: 0;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| LABEL
+|--------------------------------------------------------------------------
+*/
+
+.documentSummary__item span {
+    color: #8c97a9;
+
+    font-size: 9px;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| VALUE
+|--------------------------------------------------------------------------
+*/
+
+.documentSummary__value {
+    display: block;
+
+    margin-top: 8px;
+
+    color: #26344a;
+
+    font-size: 22px;
+    line-height: 1;
+
+    font-weight: 700;
+
+    letter-spacing: -0.03em;
+}
+
+.documentSummary__value--pending {
+    color: #d18d16;
+}
+
+.documentSummary__value--approved {
+    color: #26936e;
+}
+
+.documentSummary__value--rejected {
+    color: #cb5159;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| MOBILE
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 520px) {
+
+    .documentSummary {
+        padding: 17px;
+    }
+
+}

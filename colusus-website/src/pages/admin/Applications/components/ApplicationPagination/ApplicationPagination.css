@@ -1,0 +1,137 @@
+.applicationPagination {
+    min-height: 58px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding:
+        0 15px;
+
+    border-top:
+        1px solid #edf0f4;
+}
+
+
+.applicationPagination__summary {
+    color: #8b95a6;
+
+    font-size: 9px;
+}
+
+
+.applicationPagination__summary strong {
+    color: #687489;
+
+    font-weight: 700;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| CONTROLS
+|--------------------------------------------------------------------------
+*/
+
+.applicationPagination__controls {
+    display: flex;
+
+    align-items: center;
+
+    gap: 3px;
+}
+
+
+.applicationPagination__controls button {
+    width: 27px;
+    height: 27px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 0;
+
+    border: 0;
+
+    border-radius: 6px;
+
+    background: transparent;
+
+    color: #718096;
+
+    font-family: inherit;
+
+    font-size: 9px;
+
+    cursor: pointer;
+}
+
+
+.applicationPagination__controls button:hover:not( :disabled) {
+    background: #f1f4f8;
+
+    color: #3569ee;
+}
+
+
+.applicationPagination__controls button.is-active {
+    background: #edf3ff;
+
+    color: #3569ee;
+
+    font-weight: 750;
+}
+
+
+.applicationPagination__controls button:disabled {
+    color: #c4cad3;
+
+    cursor: not-allowed;
+}
+
+
+.applicationPagination__controls svg {
+    width: 13px;
+    height: 13px;
+}
+
+
+.applicationPagination__ellipsis {
+    width: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: #9aa4b3;
+
+    font-size: 9px;
+}
+
+
+@media (max-width: 600px) {
+
+    .applicationPagination {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        padding:
+            13px 15px;
+
+    }
+
+    .applicationPagination__controls {
+        align-self: flex-end;
+    }
+
+}
