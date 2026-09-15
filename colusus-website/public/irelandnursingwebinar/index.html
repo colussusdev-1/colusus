@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colossus Migration & Tours - Ireland Nursing Webinar</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        cyan: {
+                            500: '#00B4D8',
+                            600: '#17A2B8',
+                            700: '#0096B4',
+                        },
+                        silver: {
+                            300: '#D0D5DF',
+                            400: '#B0C4DE',
+                            100: '#F0F4F8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --primary-cyan: #00B4D8;
+            --primary-cyan-hover: #17A2B8;
+            --silver-border: #D0D5DF;
+            --silver-light: #B0C4DE;
+            --off-white: #F8FAFC;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--off-white);
+            color: #1e293b;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        .chat-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .chat-scroll::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+        .chat-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 8px;
+        }
+        .chat-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Primary Button Styling Rule */
+        .btn-primary {
+            background-color: var(--primary-cyan);
+            color: #FFFFFF;
+            transition: all 0.2s ease-in-out;
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-cyan-hover);
+            transform: translateY(-1px);
+        }
+
+        /* Visual Accent - Global Pathways Background Pattern */
+        .pathways-bg {
+            background-image: radial-gradient(rgba(0, 180, 216, 0.08) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        /* Smooth Toast Animation */
+        @keyframes slideInUp {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .animate-slide-up {
+            animation: slideInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Toast Slide Left Animations (Pops out from left & returns back to left after 4 seconds) */
+        @keyframes slideInFromLeft {
+            0% {
+                transform: translateX(-150%);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutToLeft {
+            0% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-150%);
+                opacity: 0;
+            }
+        }
+
+        .toast-enter-left {
+            animation: slideInFromLeft 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .toast-exit-left {
+            animation: slideOutToLeft 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Beeping / Pulsing Animations */
+        .pulse-cyan {
+            box-shadow: 0 0 0 0 rgba(0, 180, 216, 0.7);
+            animation: pulse-cyan-anim 2s infinite ease-in-out;
+        }
+        @keyframes pulse-cyan-anim {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(0, 180, 216, 0.7);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 8px rgba(0, 180, 216, 0);
+            }
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(0, 180, 216, 0);
+            }
+        }
+
+        .pulse-red {
+            box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
+            animation: pulse-red-anim 2s infinite ease-in-out;
+        }
+        @keyframes pulse-red-anim {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 8px rgba(220, 38, 38, 0);
+            }
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+            }
+        }
+
+        .live-badge-beep {
+            animation: live-beep-anim 2s infinite ease-in-out;
+        }
+        @keyframes live-beep-anim {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(0.97);
+            }
+        }
+
+        /* Mobile Video Container Aspect Ratio */
+        .responsive-video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 0.75rem;
+            background-color: #000;
+        }
+        .responsive-video-container iframe,
+        .responsive-video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-[#00B4D8] selection:text-white relative pathways-bg">
+
+    <!-- FIXED POPUP TOAST (Pops out from Left Side, stays for 4s, returns to Left) -->
+    <div id="joinToast" class="fixed bottom-6 left-6 z-40 bg-[#0B192C] text-white px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-3 w-max max-w-[90vw] sm:max-w-md border border-[#1E293B] -translate-x-[150%] pointer-events-none">
+        <span class="w-2.5 h-2.5 rounded-full bg-red-600 pulse-red flex-shrink-0"></span>
+        <div class="flex flex-col">
+            <span id="toastNameLocation" class="font-bold text-[#FFD700]">KEMI – Ibadan</span>
+            <span class="text-white uppercase text-[11px] font-bold tracking-wider mt-0.5">JUST JOINED</span>
+        </div>
+    </div>
+
+    <!-- GLOBAL PATHWAY SVG WATERMARK BACKGROUND ACCENT -->
+    <div class="fixed inset-0 pointer-events-none z-0 opacity-20 overflow-hidden" aria-hidden="true">
+        <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid slice">
+            <!-- Globe Lines -->
+            <circle cx="500" cy="350" r="280" fill="none" stroke="#00B4D8" stroke-width="1.5" stroke-dasharray="6,6"/>
+            <ellipse cx="500" cy="350" rx="280" ry="120" fill="none" stroke="#B0C4DE" stroke-width="1.2"/>
+            <ellipse cx="500" cy="350" rx="120" ry="280" fill="none" stroke="#B0C4DE" stroke-width="1.2"/>
+            <line x1="220" y1="350" x2="780" y2="350" stroke="#00B4D8" stroke-width="1.5"/>
+            <!-- Pathway Arcs with Arrow Motifs -->
+            <path d="M 150 500 Q 500 150 850 500" fill="none" stroke="#00B4D8" stroke-width="2.5" stroke-dasharray="8,6"/>
+            <path d="M 100 250 Q 500 480 900 250" fill="none" stroke="#B0C4DE" stroke-width="2" stroke-dasharray="5,5"/>
+            <!-- Arrowheads -->
+            <polygon points="845,488 865,505 838,515" fill="#00B4D8"/>
+            <polygon points="890,238 910,255 882,265" fill="#17A2B8"/>
+        </svg>
+    </div>
+
+    <!-- HEADER TOP BANNER -->
+    <header id="topBanner" class="bg-[#00B4D8] text-white text-center py-5 px-4 shadow-md relative z-10 border-b-4 border-[#D0D5DF]">
+        <div class="max-w-6xl mx-auto space-y-1">
+            <h1 id="bannerHeadline1" class="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-wide text-white drop-shadow-sm">
+                MIGRATE TO IRELAND AS A NURSE IN 3 MONTHS
+            </h1>
+            <h2 id="bannerHeadline2" class="text-lg sm:text-xl md:text-2xl font-black text-white uppercase tracking-tight">
+                AND EARN €36K – €70K ANNUALLY
+            </h2>
+            <p id="bannerHeadline3" class="text-xs sm:text-sm font-medium text-slate-100 italic pt-1">
+                *Depending on qualifications, eligibility, role, and employment circumstances.
+            </p>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-7xl mx-auto w-full px-3 sm:px-6 lg:px-8 py-6 flex-grow relative z-10">
+
+        <!-- VIEW 1: 30-SECOND COUNTDOWN SCREEN -->
+        <section id="countdownView" class="max-w-3xl mx-auto my-4 bg-white rounded-2xl shadow-xl border border-[#D0D5DF] p-6 sm:p-10 text-center transition-all relative overflow-hidden">
+            <!-- Globe & Pathway Accent Overlay -->
+            <div class="absolute -right-12 -top-12 opacity-10 pointer-events-none">
+                <i class="fa-solid fa-earth-americas text-9xl text-[#00B4D8]"></i>
+            </div>
+
+            <div class="w-16 h-16 bg-[#00B4D8] text-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
+                <i class="fa-solid fa-clock text-2xl"></i>
+            </div>
+            
+            <div class="inline-block border-b-2 border-[#00B4D8] pb-1 mb-2">
+                <h3 id="welcomeGreeting" class="text-base sm:text-lg font-bold text-slate-800 uppercase tracking-wider">
+                    YOU'RE WELCOME
+                </h3>
+            </div>
+
+            <h2 id="countdownTitle" class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 uppercase tracking-tight mb-2">
+                YOUR WEBINAR SESSION BEGINS IN...
+            </h2>
+
+            <p class="text-sm sm:text-base text-slate-600 max-w-lg mx-auto mb-6">
+                Please remain on this page. Your live session starts immediately when the timer reaches zero.
+            </p>
+
+            <!-- Countdown Timer Card -->
+            <div class="bg-[#F0F4F8] text-slate-900 rounded-2xl p-6 max-w-sm mx-auto shadow-inner mb-4 border-2 border-[#D0D5DF]">
+                <div id="countdownTimerDisplay" class="text-5xl sm:text-6xl font-black text-[#00B4D8] tracking-wider font-mono">
+                    00:30
+                </div>
+                <div class="text-xs font-bold uppercase tracking-widest text-slate-500 mt-2">
+                    MINUTES : SECONDS
+                </div>
+            </div>
+
+            <!-- Skip Countdown Button -->
+            <div class="mb-6">
+                <button onclick="startWebinarSession()" class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#D0D5DF]/40 hover:bg-[#D0D5DF] text-slate-700 rounded-full text-xs sm:text-sm font-bold shadow-sm border border-[#D0D5DF] transition-all hover:scale-105">
+                    <i class="fa-solid fa-forward-step text-[#00B4D8]"></i> Skip Countdown &amp; Start Now
+                </button>
+            </div>
+
+            <!-- Join Webinar Button -->
+            <button onclick="startWebinarSession()" class="w-full max-w-md btn-primary font-extrabold text-base sm:text-lg py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transform transition hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 mx-auto">
+                <i class="fa-solid fa-circle-play text-xl"></i> JOIN WEBINAR SESSION HERE
+            </button>
+
+            <!-- Status Pill Footer -->
+            <div class="mt-6 inline-flex items-center gap-2 bg-[#F0F4F8] px-4 py-2 rounded-full text-xs font-medium text-slate-700 border border-[#D0D5DF]">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#00B4D8] animate-pulse"></span>
+                <span>Session ID: <strong id="sessionIdDisplay">SESS-948201</strong> • Reserved Seat Confirmed</span>
+            </div>
+        </section>
+
+        <!-- VIEW 2: LIVE WEBINAR PLAYER & CHAT INTERFACE -->
+        <section id="webinarView" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+            
+            <!-- LEFT COLUMN: VIDEO PLAYER & HOST BIO -->
+            <div class="lg:col-span-2 space-y-4">
+                
+                <!-- Video Container Card -->
+                <div class="bg-black rounded-2xl shadow-2xl relative overflow-hidden border border-[#D0D5DF]">
+                    
+                    <!-- Top Right Live Badge with Red Beeping Animation -->
+                    <div class="absolute top-4 right-4 z-20 bg-red-600 text-white text-xs font-extrabold uppercase px-3.5 py-1.5 rounded-md shadow-lg flex items-center gap-2 tracking-wider live-badge-beep">
+                        <span class="w-2.5 h-2.5 rounded-full bg-white pulse-red"></span>
+                        <span>LIVE STREAM</span>
+                    </div>
+
+                    <!-- Video Player Overlay (Initial Join Prompt) -->
+                    <div id="videoStartOverlay" class="absolute inset-0 z-10 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center text-white space-y-4">
+                        <div class="w-20 h-20 bg-[#00B4D8] text-white rounded-full flex items-center justify-center shadow-2xl cursor-pointer hover:scale-105 transition-transform" onclick="playWebinarVideo()">
+                            <i class="fa-solid fa-play text-3xl ml-1"></i>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-black uppercase tracking-tight">YOUR SESSION IS LIVE</h3>
+                        <p class="text-sm text-slate-300 max-w-md">Click below to initialize high-definition webinar video stream.</p>
+                        <button onclick="playWebinarVideo()" class="btn-primary font-extrabold text-base sm:text-lg py-3.5 px-8 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5">
+                            JOIN WEBINAR SESSION HERE
+                        </button>
+                    </div>
+
+                    <!-- Responsive Video Embedded Wrapper -->
+                    <div class="responsive-video-container">
+                        <iframe id="webinarVideoIframe" src="https://drive.google.com/file/d/17oHY3ivkYhU5o4R8Kd1qgwAyWejs0549/preview" allow="autoplay; fullscreen" frameborder="0" class="w-full h-full"></iframe>
+                    </div>
+                </div>
+
+                <!-- Live Audience Counter Strip with Red Beeping Light -->
+                <div class="bg-white rounded-xl p-3.5 shadow-sm border border-[#D0D5DF] flex items-center justify-between text-xs sm:text-sm font-semibold text-slate-700">
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-red-600 inline-block pulse-red"></span>
+                        <span id="liveViewerCountDisplay" class="font-extrabold text-slate-900">178</span>
+                        <span class="text-slate-800 uppercase font-bold tracking-tight">VIEWERS ARE LIVE</span>
+                    </div>
+                    <div class="text-slate-500 flex items-center gap-1.5 font-medium">
+                        <i class="fa-solid fa-compass text-[#00B4D8]"></i>
+                        <span class="hidden sm:inline">Global Opportunities Stream</span>
+                    </div>
+                </div>
+
+                <!-- HOST PROFILE CARD -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-[#D0D5DF] mt-6 relative overflow-hidden">
+                    <div class="absolute right-0 bottom-0 opacity-5 pointer-events-none p-4">
+                        <i class="fa-solid fa-route text-8xl text-[#00B4D8]"></i>
+                    </div>
+                    <div class="flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left relative z-10">
+                        <!-- Host Image with Anchor Link -->
+                        <a href="https://ibb.co/C3T49zDZ" target="_blank" rel="noopener noreferrer" class="flex-shrink-0 group">
+                            <img id="hostPhoto" src="https://i.ibb.co/PvfJWN0n/Colossus-Migration-Apostle-Anthony-Chiugo-Joshephat.png" alt="Colossus-Migration-Apostle-Anthony-Chiugo-Joshephat" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover border-4 border-[#00B4D8] shadow-md transition-transform group-hover:scale-105">
+                        </a>
+                        <div class="space-y-1">
+                            <span class="inline-flex items-center gap-1 text-xs font-extrabold uppercase tracking-widest text-[#00B4D8] bg-[#F0F4F8] px-3 py-1 rounded-md border border-[#D0D5DF]">
+                                <i class="fa-solid fa-plane-departure text-xs"></i> HOSTED BY
+                            </span>
+                            <h3 id="hostName" class="text-xl sm:text-2xl font-black text-slate-900 uppercase tracking-tight">
+                                ANTHONY CHIUGO JOSEPHAT
+                            </h3>
+                            <h4 id="hostTitle" class="text-xs sm:text-sm font-bold text-[#00B4D8] tracking-wider uppercase">
+                                CHIEF MIGRATION DIRECTOR, COLOSSUS MIGRATION
+                            </h4>
+                            <p id="hostSubtext" class="text-xs sm:text-sm text-slate-600 font-medium pt-1">
+                                Ireland Recruitment & Immigration Consultant
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN: LIVE COMMENTS STREAM -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-2xl shadow-xl border border-[#D0D5DF] overflow-hidden flex flex-col h-[520px] sm:h-[620px]">
+                    
+                    <!-- Chat Header -->
+                    <div class="bg-[#00B4D8] text-white p-4 flex items-center justify-between border-b border-[#D0D5DF]">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-comments text-white text-lg"></i>
+                            <h3 class="font-extrabold text-sm uppercase tracking-wider">LIVE COMMENTS STREAM</h3>
+                        </div>
+                        <span id="commentBadgeCount" class="text-[11px] font-bold bg-white text-[#00B4D8] px-2.5 py-1 rounded-full border border-white/40 transition-all">
+                            5 Messages
+                        </span>
+                    </div>
+
+                    <!-- Chat Scrollable Body -->
+                    <div id="chatMessagesContainer" class="flex-1 p-4 overflow-y-auto space-y-3.5 bg-[#F8FAFC] chat-scroll">
+                        <!-- Dynamic Comments Load Here -->
+                    </div>
+
+                    <!-- Chat Input Footer -->
+                    <div class="p-3 bg-white border-t border-[#D0D5DF]">
+                        <form onsubmit="handleUserSubmitComment(event)" class="flex gap-2">
+                            <input type="text" id="userCommentInput" placeholder="Ask a question or comment..." class="flex-1 px-4 py-2.5 text-xs sm:text-sm bg-[#F0F4F8] border border-[#D0D5DF] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00B4D8] focus:bg-white transition-all" required>
+                            <button type="submit" class="btn-primary p-2.5 px-4 rounded-xl shadow transition-colors flex items-center justify-center">
+                                <i class="fa-solid fa-paper-plane text-sm"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- FOOTER DISCLAIMER, CONTACT DETAILS & SOCIAL MEDIA LINKS -->
+    <footer class="bg-white border-t border-[#D0D5DF] py-8 px-4 mt-12 text-center text-xs text-slate-500 relative z-10">
+        <div class="max-w-4xl mx-auto space-y-5">
+            <div class="flex items-center justify-center gap-2 font-bold text-slate-800">
+                <i class="fa-solid fa-shield-halved text-[#00B4D8]"></i>
+                <span>COLOSSUS MIGRATION & TOURS OFFICIAL WEBINAR PLATFORM</span>
+            </div>
+            
+            <p class="leading-relaxed text-[11px] max-w-3xl mx-auto text-slate-500">
+                <strong>Webinar Disclaimer:</strong> This webinar provides educational information regarding international nursing registration and migration pathways to Ireland. Requirements, eligibility criteria, processing timelines, and employment outcomes vary according to individual nurse qualifications, language proficiency, documentation, and relevant official statutory authorities (such as NMBI and Irish Immigration).
+            </p>
+
+            <!-- 2-COLUMN TABLE WITH EMAIL AND BOLD PHONE NUMBER -->
+            <div class="pt-1 max-w-2xl mx-auto">
+                <table class="w-full text-xs sm:text-sm border border-[#D0D5DF] rounded-xl overflow-hidden bg-[#F0F4F8] shadow-sm mx-auto">
+                    <thead>
+                        <tr class="bg-[#00B4D8] text-white divide-x divide-white/20">
+                            <th class="py-2.5 px-4 text-center font-extrabold uppercase tracking-wider text-[11px] w-1/2">
+                                <i class="fa-solid fa-envelope text-white mr-1.5"></i> Support Email
+                            </th>
+                            <th class="py-2.5 px-4 text-center font-extrabold uppercase tracking-wider text-[11px] w-1/2">
+                                <i class="fa-solid fa-phone text-white mr-1.5"></i> Direct Helpline
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="divide-x divide-[#D0D5DF] bg-white">
+                            <td class="py-3 px-4 font-bold text-slate-800 text-center w-1/2">
+                                <a href="mailto:admin@colossusmigration.com" class="hover:text-[#00B4D8] transition-colors inline-flex items-center gap-1.5 font-bold">
+                                    <span>admin@colossusmigration.com</span>
+                                </a>
+                            </td>
+                            <td class="py-3 px-4 font-black text-slate-800 text-center w-1/2">
+                                <a href="tel:+2349169830624" class="hover:text-[#00B4D8] transition-colors inline-flex items-center gap-1.5 font-black text-sm sm:text-base">
+                                    <span>+2349169830624</span>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- SOCIAL MEDIA LINKS BLOCK -->
+            <div class="pt-4 border-t border-[#D0D5DF]">
+                <p class="text-xs font-extrabold text-slate-700 uppercase tracking-wider mb-3">
+                    Connect With Us On Social Media
+                </p>
+                <div class="flex flex-wrap justify-center items-center gap-2.5 sm:gap-3">
+                    <a href="https://www.linkedin.com/company/colossus-migration-tours/" target="_blank" rel="noopener noreferrer" title="LinkedIn" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-[#D0D5DF] hover:border-[#00B4D8] hover:text-[#00B4D8] text-slate-700 text-xs font-bold shadow-sm transition-all hover:-translate-y-0.5">
+                        <i class="fa-brands fa-linkedin text-sm text-[#00B4D8]"></i>
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="https://www.facebook.com/cmtimmigrateltd/" target="_blank" rel="noopener noreferrer" title="Facebook" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-[#D0D5DF] hover:border-[#00B4D8] hover:text-[#00B4D8] text-slate-700 text-xs font-bold shadow-sm transition-all hover:-translate-y-0.5">
+                        <i class="fa-brands fa-facebook text-sm text-[#00B4D8]"></i>
+                        <span>Facebook</span>
+                    </a>
+                    <a href="https://www.instagram.com/cmtimmigrate_ltd/" target="_blank" rel="noopener noreferrer" title="Instagram" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-[#D0D5DF] hover:border-[#00B4D8] hover:text-[#00B4D8] text-slate-700 text-xs font-bold shadow-sm transition-all hover:-translate-y-0.5">
+                        <i class="fa-brands fa-instagram text-sm text-[#00B4D8]"></i>
+                        <span>Instagram</span>
+                    </a>
+                    <a href="https://x.com/ColossusMG" target="_blank" rel="noopener noreferrer" title="X (Twitter)" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-[#D0D5DF] hover:border-[#00B4D8] hover:text-[#00B4D8] text-slate-700 text-xs font-bold shadow-sm transition-all hover:-translate-y-0.5">
+                        <i class="fa-brands fa-x-twitter text-sm text-[#00B4D8]"></i>
+                        <span>X</span>
+                    </a>
+                    <a href="https://www.youtube.com/@ColossusMigration" target="_blank" rel="noopener noreferrer" title="YouTube" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-[#D0D5DF] hover:border-[#00B4D8] hover:text-[#00B4D8] text-slate-700 text-xs font-bold shadow-sm transition-all hover:-translate-y-0.5">
+                        <i class="fa-brands fa-youtube text-sm text-[#00B4D8]"></i>
+                        <span>YouTube</span>
+                    </a>
+                </div>
+            </div>
+
+            <p class="text-[11px] text-slate-400 pt-2">
+                © 2026 Colossus Migration & Tours (CMT). All rights reserved. <i id="adminKeyBtn" class="fa-solid fa-key cursor-pointer ml-1 text-slate-400 hover:text-[#00B4D8]" onclick="openAdminAuthModal()" title="Admin Control Center"></i>
+            </p>
+        </div>
+    </footer>
+
+    <!-- END-OF-WEBINAR SPECIAL OPPORTUNITY MODAL (TIMED AT 2 MINUTES 13 SECONDS) -->
+    <div id="ctaModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 text-center shadow-2xl border-4 border-[#00B4D8] relative animate-slide-up">
+            
+            <button onclick="closeCtaModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold w-8 h-8 rounded-full bg-[#F0F4F8] flex items-center justify-center">
+                &times;
+            </button>
+
+            <div class="w-16 h-16 bg-[#F0F4F8] text-[#00B4D8] rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-[#00B4D8]">
+                <i class="fa-solid fa-graduation-cap text-2xl"></i>
+            </div>
+
+            <!-- Modal Title -->
+            <h3 id="ctaModalTitle" class="text-xl sm:text-2xl font-black text-slate-900 uppercase tracking-tight mb-3">
+                SPECIAL WEBINAR MIGRATION OPPORTUNITY
+            </h3>
+
+            <!-- Modal Body Text -->
+            <p id="ctaModalBody" class="text-sm sm:text-base text-slate-600 font-medium mb-6 leading-relaxed">
+                READY TO EXPLORE YOUR IRELAND NURSING OPTIONS? Schedule your private 1-on-1 eligibility evaluation and NMBI processing guide with Colossus Migration advisors.
+            </p>
+
+            <!-- Embedded WhatsApp Action Button -->
+            <a id="ctaModalWhatsappBtn" href="https://wa.me/2349169830624?text=Hello%20Colossus%20Migration,%20I%20just%20finished%20the%20webinar%20and%20I%20want%20to%20explore%20my%20options" target="_blank" class="block w-full btn-primary font-extrabold text-base sm:text-lg py-4 px-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-3">
+                <i class="fa-brands fa-whatsapp text-2xl"></i>
+                <span>YES! I WANT TO EXPLORE MY OPTIONS</span>
+            </a>
+
+            <p class="text-xs text-slate-400 mt-4">
+                Clicking opens official WhatsApp consultation link with Colossus Migration Advisors.
+            </p>
+        </div>
+    </div>
+
+    <!-- ADMIN LOGIN MODAL -->
+    <div id="adminAuthModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-[#D0D5DF] relative animate-slide-up">
+            <button onclick="closeAdminAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl font-bold">
+                &times;
+            </button>
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 bg-[#00B4D8] text-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-md">
+                    <i class="fa-solid fa-lock text-lg"></i>
+                </div>
+                <h3 class="text-lg font-black text-slate-900 uppercase tracking-wider">Admin Portal Access</h3>
+                <p class="text-xs text-slate-500">Enter credentials to access the Webinar Management Console</p>
+            </div>
+
+            <!-- Login Form -->
+            <form onsubmit="handleAdminLogin(event)" autocomplete="off" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Admin Email Address</label>
+                    <input type="email" id="adminLoginEmail" value="" placeholder="Enter your admin email" autocomplete="off" class="w-full px-3.5 py-2.5 text-xs sm:text-sm border border-[#D0D5DF] rounded-xl bg-[#F0F4F8] focus:bg-white focus:ring-2 focus:ring-[#00B4D8] outline-none" required>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Password</label>
+                    <input type="password" id="adminLoginPassword" value="" placeholder="Enter password" autocomplete="new-password" class="w-full px-3.5 py-2.5 text-xs sm:text-sm border border-[#D0D5DF] rounded-xl bg-[#F0F4F8] focus:bg-white focus:ring-2 focus:ring-[#00B4D8] outline-none" required>
+                </div>
+                <button type="submit" class="w-full py-3 btn-primary text-xs sm:text-sm font-extrabold rounded-xl shadow-lg transition-all">
+                    Access Console
+                </button>
+                <div class="flex items-center justify-between text-xs pt-2">
+                    <button type="button" onclick="showNotification('Password reset link will be sent to your registered admin email.', 'info')" class="text-[#00B4D8] font-semibold hover:underline">
+                        Forgot Password?
+                    </button>
+                    <button type="button" onclick="showNotification('Create New Admin feature will become active when connected to Supabase backend.', 'info')" class="text-[#00B4D8] font-bold hover:underline">
+                        Create New Admin
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- COMPREHENSIVE MANAGEMENT CONSOLE / DASHBOARD MODAL -->
+    <div id="adminDashboardModal" class="fixed inset-0 bg-black/85 z-50 hidden flex items-center justify-center p-2 sm:p-6 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-6xl w-full max-h-[95vh] flex flex-col shadow-2xl border border-[#D0D5DF]">
+            
+            <!-- Dashboard Top Bar -->
+            <div class="bg-[#00B4D8] text-white p-4 sm:p-5 rounded-t-2xl flex items-center justify-between border-b border-[#D0D5DF]">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-sliders text-white text-xl"></i>
+                    <div>
+                        <h2 class="font-extrabold text-base sm:text-lg uppercase tracking-wider">Colossus Management Console</h2>
+                        <p class="text-xs text-slate-100">Webinar Operations &amp; Real-time Control Center</p>
+                    </div>
+                </div>
+                <button onclick="closeAdminDashboard()" class="text-white hover:text-slate-200 text-2xl font-bold">
+                    &times;
+                </button>
+            </div>
+
+            <!-- Dashboard Navigation Tabs -->
+            <div class="flex border-b border-[#D0D5DF] bg-[#F0F4F8] px-3 pt-3 overflow-x-auto gap-1 text-xs">
+                <button onclick="switchAdminTab('tabDashboard')" id="tabDashboardBtn" class="px-3 py-2 font-bold border-b-2 border-[#00B4D8] text-[#00B4D8] bg-white rounded-t-lg flex-shrink-0">
+                    <i class="fa-solid fa-chart-pie mr-1"></i> Dashboard
+                </button>
+                <button onclick="switchAdminTab('tabWebinars')" id="tabWebinarsBtn" class="px-3 py-2 font-bold border-b-2 border-transparent text-slate-600 hover:text-[#00B4D8] flex-shrink-0">
+                    <i class="fa-solid fa-video mr-1"></i> Webinars
+                </button>
+                <button onclick="switchAdminTab('tabVideoMgmt')" id="tabVideoMgmtBtn" class="px-3 py-2 font-bold border-b-2 border-transparent text-slate-600 hover:text-[#00B4D8] flex-shrink-0">
+                    <i class="fa-solid fa-file-video mr-1"></i> Video Management
+                </button>
+                <button onclick="switchAdminTab('tabTimeline')" id="tabTimelineBtn" class="px-3 py-2 font-bold border-b-2 border-transparent text-slate-600 hover:text-[#00B4D8] flex-shrink-0">
+                    <i class="fa-solid fa-clock-rotate-left mr-1"></i> Timeline &amp; Events
+                </button>
+                <button onclick="switchAdminTab('tabComments')" id="tabCommentsBtn" class="px-3 py-2 font-bold border-b-2 border-transparent text-slate-600 hover:text-[#00B4D8] flex-shrink-0">
+                    <i class="fa-solid fa-comments mr-1"></i> Comments Stream
+                </button>
+                <button onclick="switchAdminTab('tabPopups')" id="tabPopupsBtn" class="px-3 py-2 font-bold border-b-2 border-transparent text-slate-600 hover:text-[#00B4D8] flex-shrink-0">
+                    <i class="fa-solid fa-window-restore mr-1"></i> Timed Popups
+                </button>
+                <button onclick="switchAdminTab('tabCta')" id="tabCtaBtn" class="px-3 py-2 font-bold border-b-2 border-transparent text-slate-600 hover:text-[#00B4D8] flex-shrink-0">
+                    <i class="fa-brands fa-whatsapp mr-1"></i> CTA Manager
+                </button>
+                <button onclick="switchAdminTab('tabLeads')" id="tabLeadsBtn" class="px-3 py-2 font-bold border-b-2 border-transparent text-slate-600 hover:text-[#00B4D8] flex-shrink-0">
+                    <i class="fa-solid fa-address-book mr-1"></i> Captured Leads
+                </button>
+                <button onclick="switchAdminTab('tabAnalytics')" id="tabAnalyticsBtn" class="px-3 py-2 font-bold border-b-2 border-transparent text-slate-600 hover:text-[#00B4D8] flex-shrink-0">
+                    <i class="fa-solid fa-chart-line mr-1"></i> Analytics &amp; Drop-off
+                </button>
+                <button onclick="switchAdminTab('tabBranding')" id="tabBrandingBtn" class="px-3 py-2 font-bold border-b-2 border-transparent text-slate-600 hover:text-[#00B4D8] flex-shrink-0">
+                    <i class="fa-solid fa-palette mr-1"></i> Branding &amp; Theme
+                </button>
+                <button onclick="switchAdminTab('tabSettings')" id="tabSettingsBtn" class="px-3 py-2 font-bold border-b-2 border-transparent text-slate-600 hover:text-[#00B4D8] flex-shrink-0">
+                    <i class="fa-solid fa-gear mr-1"></i> Settings &amp; Security
+                </button>
+            </div>
+
+            <!-- SECTION 1: DASHBOARD OVERVIEW -->
+            <div id="tabDashboard" class="admin-tab-page p-6 overflow-y-auto space-y-6 flex-1">
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                    <div class="bg-[#F8FAFC] p-4 rounded-xl border border-[#D0D5DF] text-center">
+                        <div class="text-xs font-bold text-slate-500 uppercase">Live Viewers</div>
+                        <div class="text-2xl font-black text-[#00B4D8] mt-1" id="dashViewersCount">178</div>
+                    </div>
+                    <div class="bg-[#F8FAFC] p-4 rounded-xl border border-[#D0D5DF] text-center">
+                        <div class="text-xs font-bold text-slate-500 uppercase">Active Comments</div>
+                        <div class="text-2xl font-black text-[#00B4D8] mt-1" id="dashCommentsCount">50</div>
+                    </div>
+                    <div class="bg-[#F8FAFC] p-4 rounded-xl border border-[#D0D5DF] text-center">
+                        <div class="text-xs font-bold text-slate-500 uppercase">Total Leads</div>
+                        <div class="text-2xl font-black text-[#00B4D8] mt-1" id="dashLeadsCount">1</div>
+                    </div>
+                    <div class="bg-[#F8FAFC] p-4 rounded-xl border border-[#D0D5DF] text-center">
+                        <div class="text-xs font-bold text-slate-500 uppercase">Video Status</div>
+                        <div class="text-xs font-bold text-[#00B4D8] bg-[#F0F4F8] border border-[#D0D5DF] px-2 py-1 rounded mt-2 inline-block">Active Stream</div>
+                    </div>
+                </div>
+
+                <div class="bg-[#F8FAFC] p-5 rounded-xl border border-[#D0D5DF]">
+                    <h3 class="text-sm font-extrabold uppercase text-slate-900 mb-2">Quick Live Control Panel</h3>
+                    <p class="text-xs text-slate-600 mb-4">Trigger live webinar events directly to all connected attendee screens.</p>
+                    <div class="flex flex-wrap gap-3">
+                        <button onclick="triggerEndWebinarCta()" class="px-4 py-2.5 btn-primary font-bold text-xs rounded-xl shadow">
+                            <i class="fa-solid fa-bullhorn mr-1"></i> Trigger Special Opportunity Popup Now
+                        </button>
+                        <button onclick="startWebinarSession()" class="px-4 py-2.5 btn-primary font-bold text-xs rounded-xl shadow">
+                            <i class="fa-solid fa-play mr-1"></i> Force Launch Live Stream
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 2: WEBINARS -->
+            <div id="tabWebinars" class="admin-tab-page hidden p-6 overflow-y-auto space-y-6 flex-1">
+                <div class="flex items-center justify-between border-b border-[#D0D5DF] pb-3">
+                    <div>
+                        <h3 class="text-sm font-extrabold uppercase text-slate-900">Webinar Presentations Manager</h3>
+                        <p class="text-xs text-slate-500">Configure active webinar session details</p>
+                    </div>
+                </div>
+                <div class="space-y-3 bg-[#F8FAFC] p-4 rounded-xl border border-[#D0D5DF]">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Active Webinar Title</label>
+                        <input type="text" id="adminWebinarTitleInput" class="w-full px-3 py-2 text-xs sm:text-sm border border-[#D0D5DF] rounded-lg bg-white">
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3: VIDEO MANAGEMENT -->
+            <div id="tabVideoMgmt" class="admin-tab-page hidden p-6 overflow-y-auto space-y-6 flex-1">
+                <div class="bg-[#F0F4F8] p-4 rounded-xl border border-[#D0D5DF] text-xs text-slate-800">
+                    <i class="fa-solid fa-circle-info text-[#00B4D8] mr-1"></i>
+                    <strong>Video Management:</strong> You can upload new video embed links or delete/remove the active live video webinar below.
+                </div>
+
+                <div class="bg-[#F8FAFC] p-5 rounded-xl border border-[#D0D5DF] space-y-4">
+                    <h3 class="text-sm font-extrabold uppercase text-slate-900">Upload / Add Live Video Link</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <input type="text" id="newWebinarTitle" placeholder="Webinar Video Title (e.g., Ireland Nurse Masterclass)" class="px-3.5 py-2.5 text-xs sm:text-sm border border-[#D0D5DF] rounded-xl bg-white">
+                        <input type="text" id="newWebinarVideoUrl" placeholder="Video Embed URL (Google Drive / MP4 / Youtube)" class="px-3.5 py-2.5 text-xs sm:text-sm border border-[#D0D5DF] rounded-xl bg-white">
+                    </div>
+                    <button onclick="createNewWebinar()" class="w-full py-3 btn-primary text-xs sm:text-sm font-extrabold rounded-xl shadow">
+                        <i class="fa-solid fa-cloud-arrow-up mr-1.5"></i> Save &amp; Upload Webinar Video
+                    </button>
+                </div>
+
+                <div>
+                    <h3 class="text-xs font-extrabold uppercase text-slate-600 tracking-wider mb-3">Live Video Webinars Library</h3>
+                    <div id="adminWebinarsList" class="space-y-3">
+                        <!-- Dynamic Stacked Webinars -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 4: TIMELINE & EVENTS -->
+            <div id="tabTimeline" class="admin-tab-page hidden p-6 overflow-y-auto space-y-4 flex-1">
+                <h3 class="text-sm font-extrabold uppercase text-slate-900 tracking-wider border-b border-[#D0D5DF] pb-2">Timeline &amp; Automated Triggers</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-[#F8FAFC] p-4 rounded-xl border border-[#D0D5DF]">
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Initial Countdown Timer (Seconds)</label>
+                        <input type="number" id="settingCountdownSeconds" value="30" class="w-full px-3 py-2 text-sm border border-[#D0D5DF] rounded bg-white">
+                    </div>
+                    <div class="bg-[#F8FAFC] p-4 rounded-xl border border-[#D0D5DF]">
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Timed Popup Trigger (Seconds after start)</label>
+                        <input type="number" id="settingCtaTriggerSec" value="133" class="w-full px-3 py-2 text-sm border border-[#D0D5DF] rounded bg-white">
+                        <p class="text-[11px] text-slate-500 mt-1">Configured for exactly 2 minutes and 13 seconds (133 seconds).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 5: COMMENTS STREAM -->
+            <div id="tabComments" class="admin-tab-page hidden p-6 overflow-y-auto space-y-4 flex-1">
+                <div class="flex items-center justify-between border-b border-[#D0D5DF] pb-2">
+                    <h3 class="text-sm font-extrabold uppercase text-slate-900 tracking-wider">Live Chat Comments Stream (<span id="adminCommentCount">50</span>)</h3>
+                    <button onclick="addBlankCommentRow()" class="px-3 py-1.5 text-xs btn-primary font-bold rounded-lg shadow">
+                        <i class="fa-solid fa-plus mr-1"></i> Add New Comment
+                    </button>
+                </div>
+                <div id="adminCommentsListContainer" class="space-y-3 max-h-[380px] overflow-y-auto pr-2">
+                    <!-- Dynamic Comments Editor Inputs -->
+                </div>
+            </div>
+
+            <!-- SECTION 6 & 7: TIMED POPUPS & CTA MANAGER -->
+            <div id="tabPopups" class="admin-tab-page hidden p-6 overflow-y-auto space-y-4 flex-1">
+                <h3 class="text-sm font-extrabold uppercase text-slate-900 tracking-wider border-b border-[#D0D5DF] pb-2">Timed Popups Configuration</h3>
+                <div class="bg-[#F8FAFC] p-4 rounded-xl border border-[#D0D5DF] space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-slate-800">2:13 Video Popup Trigger</span>
+                        <span class="text-xs bg-[#F0F4F8] border border-[#D0D5DF] text-[#00B4D8] px-2 py-0.5 rounded font-bold">Enabled (133 Seconds)</span>
+                    </div>
+                    <p class="text-xs text-slate-500">Automatically displays at 2 minutes and 13 seconds into the presentation.</p>
+                </div>
+            </div>
+
+            <div id="tabCta" class="admin-tab-page hidden p-6 overflow-y-auto space-y-4 flex-1">
+                <h3 class="text-sm font-extrabold uppercase text-slate-900 tracking-wider border-b border-[#D0D5DF] pb-2">CTA Manager &amp; WhatsApp Embed Integration</h3>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Special Opportunity Title</label>
+                        <input type="text" id="adminCtaTitle" class="w-full px-3 py-2 text-sm border border-[#D0D5DF] rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Special Opportunity Text Body</label>
+                        <textarea id="adminCtaBody" rows="3" class="w-full px-3 py-2 text-sm border border-[#D0D5DF] rounded-lg"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Embedded WhatsApp Action Button Link</label>
+                        <input type="text" id="adminCtaWhatsapp" placeholder="https://wa.me/2349169830624?text=..." class="w-full px-3 py-2 text-sm border border-[#D0D5DF] rounded-lg">
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 8: CAPTURED LEADS -->
+            <div id="tabLeads" class="admin-tab-page hidden p-6 overflow-y-auto flex-1">
+                <div class="flex items-center justify-between border-b border-[#D0D5DF] pb-3 mb-4">
+                    <div>
+                        <h3 class="text-sm font-extrabold uppercase text-slate-900">Captured Leads Directory</h3>
+                        <p class="text-xs text-slate-500">Includes Name, Email Address, and WhatsApp grouped by daily capture dates.</p>
+                    </div>
+                    <button onclick="exportSelectedLeadsCSV()" class="px-4 py-2.5 text-xs btn-primary font-extrabold rounded-lg shadow-md flex items-center gap-2 transition-all">
+                        <i class="fa-solid fa-file-csv"></i> Download Selected as CSV
+                    </button>
+                </div>
+                
+                <!-- Master Select All Checkbox -->
+                <div class="flex justify-between items-center bg-[#F8FAFC] p-3 rounded-xl border border-[#D0D5DF] mb-4 shadow-sm">
+                    <label class="flex items-center gap-2.5 cursor-pointer hover:opacity-80">
+                        <input type="checkbox" id="selectAllDates" onchange="toggleAllDateGroups(this)" class="w-4 h-4 text-[#00B4D8] rounded border-[#D0D5DF] focus:ring-[#00B4D8] transition">
+                        <span class="font-extrabold text-sm text-slate-800 uppercase tracking-wide">Select All Captured Dates</span>
+                    </label>
+                </div>
+
+                <!-- Dynamic Containers for Date Groups -->
+                <div id="adminLeadsContainer" class="space-y-5">
+                    <!-- Dynamic Leads Loaded Here -->
+                </div>
+            </div>
+
+            <!-- SECTION 9: ANALYTICS & DROP-OFF -->
+            <div id="tabAnalytics" class="admin-tab-page hidden p-6 overflow-y-auto space-y-4 flex-1">
+                <h3 class="text-sm font-extrabold uppercase text-slate-900 tracking-wider border-b border-[#D0D5DF] pb-2">Analytics &amp; Drop-off Reports</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-[#F8FAFC] p-4 rounded-xl border border-[#D0D5DF] text-center">
+                        <div class="text-2xl font-black text-slate-900">1,248</div>
+                        <div class="text-xs font-bold text-slate-500 uppercase mt-1">Total Registrants</div>
+                    </div>
+                    <div class="bg-[#F8FAFC] p-4 rounded-xl border border-[#D0D5DF] text-center">
+                        <div class="text-2xl font-black text-[#00B4D8]">892</div>
+                        <div class="text-xs font-bold text-slate-500 uppercase mt-1">Live Attendance</div>
+                    </div>
+                    <div class="bg-[#F8FAFC] p-4 rounded-xl border border-[#D0D5DF] text-center">
+                        <div class="text-2xl font-black text-[#00B4D8]">84.2%</div>
+                        <div class="text-xs font-bold text-slate-500 uppercase mt-1">Avg Video Retention</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 10: BRANDING & THEME -->
+            <div id="tabBranding" class="admin-tab-page hidden p-6 overflow-y-auto space-y-6 flex-1">
+                <div class="space-y-4">
+                    <h3 class="text-sm font-extrabold uppercase text-slate-900 tracking-wider border-b border-[#D0D5DF] pb-2">Top Banner Headings</h3>
+                    <div class="space-y-3">
+                        <input type="text" id="adminH1" class="w-full px-3 py-2 text-sm border border-[#D0D5DF] rounded-lg">
+                        <input type="text" id="adminH2" class="w-full px-3 py-2 text-sm border border-[#D0D5DF] rounded-lg">
+                        <input type="text" id="adminH3" class="w-full px-3 py-2 text-sm border border-[#D0D5DF] rounded-lg">
+                    </div>
+                </div>
+
+                <div class="space-y-4 pt-4 border-t border-[#D0D5DF]">
+                    <h3 class="text-sm font-extrabold uppercase text-slate-900 tracking-wider border-b border-[#D0D5DF] pb-2">Host Details</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="text" id="adminHostName" class="w-full px-3 py-2 text-sm border border-[#D0D5DF] rounded-lg" placeholder="Host Name">
+                        <input type="text" id="adminHostTitle" class="w-full px-3 py-2 text-sm border border-[#D0D5DF] rounded-lg" placeholder="Host Title">
+                        <input type="text" id="adminHostSubtext" class="w-full px-3 py-2 text-sm border border-[#D0D5DF] rounded-lg" placeholder="Host Subtext">
+                        <input type="text" id="adminHostPhoto" class="w-full px-3 py-2 text-sm border border-[#D0D5DF] rounded-lg" placeholder="Host Photo URL">
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 11 & 12: SETTINGS & SECURITY -->
+            <div id="tabSettings" class="admin-tab-page hidden p-6 overflow-y-auto space-y-4 flex-1">
+                <h3 class="text-sm font-extrabold uppercase text-slate-900 tracking-wider border-b border-[#D0D5DF] pb-2">Console Settings &amp; Security</h3>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Admin Account</label>
+                        <input type="text" value="admin@colossusmigration.com" disabled class="w-full px-3 py-2 text-sm border border-[#D0D5DF] rounded bg-[#F0F4F8] text-slate-600">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Portal Authentication Security</label>
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-[#F0F4F8] border border-[#D0D5DF] text-[#00B4D8]">
+                            <span class="w-2 h-2 mr-1.5 bg-[#00B4D8] rounded-full animate-pulse"></span> Credentials Secured &amp; System Operational
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Footer Controls -->
+            <div class="bg-[#F0F4F8] p-4 rounded-b-2xl flex items-center justify-between border-t border-[#D0D5DF]">
+                <button onclick="confirmResetDefaults()" class="text-xs font-semibold text-rose-600 hover:underline">
+                    Reset to Default Data
+                </button>
+                <div class="flex gap-2">
+                    <button onclick="closeAdminDashboard()" class="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-200 rounded-lg">
+                        Cancel
+                    </button>
+                    <button onclick="saveAdminSettings()" class="px-5 py-2 text-xs font-extrabold btn-primary rounded-lg shadow">
+                        Save &amp; Apply Changes
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- APPLICATION JAVASCRIPT LOGIC -->
+    <script>
+        const DEFAULT_HOST_PHOTO = "https://i.ibb.co/PvfJWN0n/Colossus-Migration-Apostle-Anthony-Chiugo-Joshephat.png";
+
+        const DEFAULT_COMMENTS = [
+            { name: "Nurse Yinka K.", location: "Osogbo", text: "Do I need to pass IELTS before applying or can I do it simultaneously?" },
+            { name: "Nurse Daniel F.", location: "Jos", text: "I'm a single mother of two, and this webinar gave me real hope today!" },
+            { name: "Nurse Mary A.", location: "Kano", text: "Is the NMBI registration process really doable within 3 months?" },
+            { name: "Nurse Grace O.", location: "Abeokuta", text: "God is making a way; Ireland has been my dream for 5 long years!" },
+            { name: "Nurse Emeka P.", location: "Enugu", text: "What happens if my nursing qualification isn't recognized by NMBI?" },
+            { name: "Nurse Chinyere", location: "Owerri", text: "I've been praying for a sign, and this webinar feels like my answer!" },
+            { name: "Nurse Blessing", location: "Port Harcourt", text: "Can I bring my family with me during the initial move?" },
+            { name: "Nurse Tunde S.", location: "Lagos", text: "Thank you Anthony! You're changing lives with this amazing opportunity!" },
+            { name: "Nurse Fatima B.", location: "Abuja", text: "Do I need a job offer before starting the visa application?" },
+            { name: "Nurse Joy M.", location: "Ibadan", text: "I'm 42 years old, proving it's never too late to chase your dreams!" },
+            { name: "Nurse Kelechi", location: "Umuahia", text: "How many years of experience do I need to qualify for this program?" },
+            { name: "Nurse Samuel T.", location: "Ilorin", text: "My mum always believed in me. She's smiling down from heaven today!" },
+            { name: "Nurse Ngozi A.", location: "Awka", text: "Is there an age limit for nurses migrating to Ireland?" },
+            { name: "Nurse Victor E.", location: "Benin City", text: "I cried watching this, finally, a clear path to a better future!" },
+            { name: "Nurse Rita N.", location: "Asaba", text: "What's the difference between RGN and RCN registration in Ireland?" },
+            { name: "Nurse Ifeoma C.", location: "Calabar", text: "Leaving Nigeria is scary, but staying is scarier. Let's go!" },
+            { name: "Nurse Solomon", location: "Kaduna", text: "Can I work part-time while waiting for my NMBI decision?" },
+            { name: "Nurse Victoria", location: "Makurdi", text: "To every nurse watching: You are qualified, capable, and worthy of this!" },
+            { name: "Nurse Abubakar", location: "Sokoto", text: "Do I need to retake any nursing exams in Ireland?" },
+            { name: "Nurse Patience", location: "Warri", text: "I've saved for 3 years just for this moment. No turning back!" },
+            { name: "Nurse Kemi R.", location: "Ado Ekiti", text: "Is €36,000 enough to live comfortably in Dublin with a family?" },
+            { name: "Nurse Chukwudi", location: "Onitsha", text: "My husband and I are both nurses, we're doing this together!" },
+            { name: "Nurse Helen D.", location: "Akure", text: "Do Irish hospitals pay overtime and night shift bonuses?" },
+            { name: "Nurse Usman K.", location: "Minna", text: "Thank you for not gatekeeping this information. You're a hero!" },
+            { name: "Nurse Sandra O.", location: "Lagos", text: "How much tax will I pay on a €50,000 nursing salary?" },
+            { name: "Nurse Christopher", location: "Enugu", text: "I'm the first in my family to leave the country, pray for me!" },
+            { name: "Nurse Edith M.", location: "Port Harcourt", text: "Are there relocation packages or sign-on bonuses available?" },
+            { name: "Nurse Andrew B.", location: "Lokoja", text: "I'm writing this in tears; this webinar just changed my entire life!" },
+            { name: "Nurse Josephine", location: "Uyo", text: "What's the cost of rent near major hospitals in Dublin?" },
+            { name: "Nurse Collins", location: "Aba", text: "See you in Ireland, colleagues! We've got this! 💚☘️" }
+        ];
+
+        /* Comprehensive List of Joined Persons (Rotates continuously through 100 entries) */
+        const JOINER_NAMES = [
+            "KEMI – Ibadan", "ESTHER – Lagos", "TUNDE – Abeokuta", "CHIDI – Enugu", "AMAKA – Port Harcourt",
+            "FATIMA – Abuja", "OPEYEMI – Ilorin", "BLESSING – Owerri", "NKECHI – Onitsha", "SOLOMON – Jos",
+            "YUSUFU – Kano", "GRACE – Calabar", "CHUKWUEMEKA – Aba", "VICTORIA – Uyo", "IFEOMA – Asaba",
+            "SADIQ – Kaduna", "PATIENCE – Warri", "SAMUEL – Akure", "REBECCA – Ado Ekiti", "JOY – Lokoja",
+            "TOBI – Ilorin", "DANIEL – Benin City", "MARY – Sokoto", "EMEKA – Minna", "KELECHI – Umuahia",
+            "ABUBAKAR – Katsina", "RITA – Bauchi", "CHRISTOPHER – Makurdi", "JOSEPHINE – Gusau", "COLLINS – Awka",
+            "YINKA – Osogbo", "HELEN – Akure", "USMAN – Yola", "SANDRA – Ikeja", "ANDREW – Birnin Kebbi",
+            "TITUS – Jalingo", "EUNICE – Lafia", "BASHIR – Maiduguri", "GLORIA – Yenagoa", "KENNETH – Abakaliki",
+            "FOLAKE – Ibadan", "EVELYN – Port Harcourt", "SIMON – Jos", "NURUDEEN – Ilorin", "CHIOMA – Enugu",
+            "GIDEON – Kaduna", "MERCY – Abuja", "PETER – Benin City", "FAITH – Asaba", "ADAMU – Kano",
+            "RUTH – Owerri", "PAUL – Abeokuta", "AGNES – Calabar", "GABRIEL – Warri", "CECELIA – Uyo",
+            "IBRAHIM – Sokoto", "VERONICA – Lokoja", "MOHAMMED – Minna", "DORCAS – Ado Ekiti", "FRANCIS – Onitsha",
+            "AISHA – Katsina", "STEPHEN – Osogbo", "LILIAN – Awka", "MUSA – Zaria", "JULIET – Lagos",
+            "BARNABAS – Makurdi", "CHARITY – Umuahia", "HARUNA – Bauchi", "ROSELINE – Akure", "INNOCENT – Enugu",
+            "SALISU – Kano", "BRIDGET – Port Harcourt", "SOLA – Abeokuta", "NGOZI – Aba", "HAMZA – Kaduna",
+            "LOVETH – Warri", "GODWIN – Benin City", "ZAINAB – Abuja", "KINGSLEY – Owerri", "AMINA – Ilorin",
+            "PHILIP – Jos", "JUSTINA – Calabar", "MUSTAPHA – Maiduguri", "PRISCILLA – Ibadan", "EMMANUEL – Asaba",
+            "HASSAN – Sokoto", "DEBORAH – Minna", "KENNEDY – Uyo", "SHADE – Ikeja", "ISAAC – Lokoja",
+            "SAMIAT – Osogbo", "BENJAMIN – Awka", "KADIRI – Auchi", "CYNTHIA – Abakaliki", "TIJANI – Ilorin",
+            "MIRACLE – Port Harcourt", "SUNDAY – Jos", "HALIMA – Kano", "EDWARD – Benin City", "RHODA – Abuja"
+        ];
+
+        let state = {
+            webinarTitle: "Ireland Nursing Migration Masterclass",
+            h1: "MIGRATE TO IRELAND AS A NURSE IN 3 MONTHS",
+            h2: "AND EARN €36K – €70K ANNUALLY",
+            h3: "*Depending on qualifications, eligibility, role, and employment circumstances.",
+            hostName: "ANTHONY CHIUGO JOSEPHAT",
+            hostTitle: "CHIEF MIGRATION DIRECTOR, COLOSSUS MIGRATION",
+            hostSubtext: "Ireland Recruitment & Immigration Consultant",
+            hostPhoto: DEFAULT_HOST_PHOTO,
+            ctaTitle: "SPECIAL WEBINAR MIGRATION OPPORTUNITY",
+            ctaBody: "READY TO EXPLORE YOUR IRELAND NURSING OPTIONS? Schedule your private 1-on-1 eligibility evaluation and NMBI processing guide with Colossus Migration advisors.",
+            ctaWhatsapp: "https://wa.me/2349169830624?text=Hello%20Colossus%20Migration,%20I%20just%20finished%20the%20webinar%20and%20I%20want%20to%20explore%20my%20options",
+            videoUrl: "https://drive.google.com/file/d/17oHY3ivkYhU5o4R8Kd1qgwAyWejs0549/preview",
+            comments: [...DEFAULT_COMMENTS],
+            leads: [
+                { 
+                    name: "Registered Visitor", 
+                    email: "visitor@colossus.com", 
+                    whatsapp: "+2349169830624", 
+                    time: "08:15 AM", 
+                    dateStr: new Date().toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }),
+                    status: "Attending" 
+                }
+            ],
+            savedWebinars: [
+                { id: "web-1", title: "Ireland Nursing Migration Masterclass", videoUrl: "https://drive.google.com/file/d/1pD-rwxeUVzNoQfFu6qfO-s1p4nQZkmhH/preview" }
+            ]
+        };
+
+        let liveViewerCount = Math.floor(Math.random() * 25) + 175;
+        let countdownTimer = 30;
+        let countdownInterval = null;
+        let viewerIncrementInterval = null;
+        let joinToastInterval = null;
+        let currentJoinerIndex = 0;
+        
+        let activeDisplayedComments = 0;
+        let commentStreamStarted = false;
+        
+        let popupTriggerTimeMs = (2 * 60 + 13) * 1000;
+        let ctaTimer = null;
+
+        document.addEventListener('DOMContentLoaded', initApp);
+        if (document.readyState === 'interactive' || document.readyState === 'complete') {
+            initApp();
+        }
+
+        function initApp() {
+            if (window.__cmtInitialized) return;
+            window.__cmtInitialized = true;
+
+            loadSavedState();
+            checkOptInUser();
+            initCountdown();
+            renderUI();
+            setupLiveViewerIncrements();
+            setupJoinToastRotation();
+            initCommentsStream();
+        }
+
+        function checkOptInUser() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const nameParam = urlParams.get('first_name') || urlParams.get('contact_first_name') || urlParams.get('name') || urlParams.get('fname');
+            const emailParam = urlParams.get('email') || urlParams.get('contact_email') || 'visitor@colossus.com';
+            const phoneParam = urlParams.get('phone') || urlParams.get('whatsapp') || '+2349169830624';
+
+            const greetingEl = document.getElementById('welcomeGreeting');
+            if (nameParam && nameParam.trim() !== '') {
+                const cleanName = nameParam.trim();
+                greetingEl.textContent = `YOU'RE WELCOME ${cleanName.toUpperCase()}`;
+                
+                const now = new Date();
+                const dateString = now.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+                const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                const newLead = { 
+                    name: cleanName, 
+                    email: emailParam, 
+                    whatsapp: phoneParam, 
+                    time: timeString, 
+                    dateStr: dateString, 
+                    status: 'Attending' 
+                };
+
+                if (!state.leads.some(l => l.name === cleanName)) {
+                    state.leads.push(newLead);
+                    saveState();
+                }
+            } else {
+                greetingEl.textContent = "YOU'RE WELCOME";
+            }
+        }
+
+        function initCountdown() {
+            clearInterval(countdownInterval);
+            countdownTimer = 30;
+            updateCountdownDisplay();
+
+            countdownInterval = setInterval(() => {
+                countdownTimer--;
+                updateCountdownDisplay();
+                if (countdownTimer <= 0) {
+                    clearInterval(countdownInterval);
+                    startWebinarSession();
+                }
+            }, 1000);
+        }
+
+        function updateCountdownDisplay() {
+            const display = document.getElementById('countdownTimerDisplay');
+            if (display) {
+                const secs = countdownTimer < 10 ? `0${countdownTimer}` : countdownTimer;
+                display.textContent = `00:${secs}`;
+            }
+        }
+
+        function startWebinarSession() {
+            clearInterval(countdownInterval);
+            document.getElementById('countdownView').classList.add('hidden');
+            document.getElementById('webinarView').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            scheduleCtaPopup();
+            startCommentStreamIntervals();
+        }
+
+        function playWebinarVideo() {
+            const overlay = document.getElementById('videoStartOverlay');
+            if (overlay) overlay.style.display = 'none';
+            scheduleCtaPopup();
+        }
+
+        function scheduleCtaPopup() {
+            if (ctaTimer) clearTimeout(ctaTimer);
+            ctaTimer = setTimeout(() => {
+                triggerEndWebinarCta();
+            }, popupTriggerTimeMs);
+        }
+
+        function setupLiveViewerIncrements() {
+            const el = document.getElementById('liveViewerCountDisplay');
+            if (el) el.textContent = liveViewerCount;
+            
+            viewerIncrementInterval = setInterval(() => {
+                const add = Math.random() > 0.5 ? 2 : 1;
+                liveViewerCount += add;
+                if (el) el.textContent = liveViewerCount;
+                const dashEl = document.getElementById('dashViewersCount');
+                if (dashEl) dashEl.textContent = liveViewerCount;
+            }, 12000);
+        }
+
+        /* Toast Popup Handler: Pops out from Left edge, stays for 4 seconds, returns to Left edge */
+        function setupJoinToastRotation() {
+            clearInterval(joinToastInterval);
+            triggerJoinToast();
+            joinToastInterval = setInterval(() => {
+                triggerJoinToast();
+            }, 7000); // Cycles every 7 seconds (4s visible + 3s pause)
+        }
+
+        function triggerJoinToast() {
+            const toastEl = document.getElementById('joinToast');
+            const nameEl = document.getElementById('toastNameLocation');
+            if (!toastEl || !nameEl) return;
+
+            // Set current attendee name & location
+            nameEl.textContent = JOINER_NAMES[currentJoinerIndex];
+
+            // Reset classes & animate popping out from left side
+            toastEl.classList.remove('toast-exit-left');
+            void toastEl.offsetWidth; // Force reflow to re-trigger smooth animation
+            toastEl.classList.add('toast-enter-left');
+
+            // After exactly 4 seconds, return back to the left side
+            setTimeout(() => {
+                toastEl.classList.remove('toast-enter-left');
+                toastEl.classList.add('toast-exit-left');
+            }, 4000);
+
+            // Increment index and repeat for all persons
+            currentJoinerIndex = (currentJoinerIndex + 1) % JOINER_NAMES.length;
+        }
+
+        function initCommentsStream() {
+            const container = document.getElementById('chatMessagesContainer');
+            if (!container) return;
+            container.innerHTML = '';
+            activeDisplayedComments = 0;
+
+            for (let i = 0; i < 5 && i < state.comments.length; i++) {
+                appendCommentToChat(state.comments[activeDisplayedComments]);
+                activeDisplayedComments++;
+            }
+            updateCommentBadge();
+        }
+
+        function startCommentStreamIntervals() {
+            if (commentStreamStarted) return;
+            commentStreamStarted = true;
+
+            setTimeout(() => {
+                dropComments(2);
+
+                const commentInterval = setInterval(() => {
+                    if (activeDisplayedComments >= state.comments.length) {
+                        clearInterval(commentInterval);
+                        return;
+                    }
+                    
+                    const dropCount = Math.random() < 0.5 ? 2 : 3;
+                    dropComments(dropCount);
+
+                    if (activeDisplayedComments >= state.comments.length) {
+                        clearInterval(commentInterval);
+                    }
+                }, 10000); 
+
+            }, 1500); 
+        }
+
+        function dropComments(count) {
+            for (let i = 0; i < count; i++) {
+                if (activeDisplayedComments < state.comments.length) {
+                    setTimeout(() => {
+                        if (activeDisplayedComments < state.comments.length) {
+                            appendCommentToChat(state.comments[activeDisplayedComments]);
+                            activeDisplayedComments++;
+                            updateCommentBadge();
+                        }
+                    }, i * 600); 
+                }
+            }
+        }
+
+        function updateCommentBadge() {
+            const badge = document.getElementById('commentBadgeCount');
+            const container = document.getElementById('chatMessagesContainer');
+            if (badge && container) {
+                badge.textContent = `${container.childElementCount} Messages`;
+            }
+        }
+
+        function appendCommentToChat(commentObj) {
+            const container = document.getElementById('chatMessagesContainer');
+            if (!container) return;
+
+            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const card = document.createElement('div');
+            card.className = "bg-white p-3.5 rounded-xl border border-[#D0D5DF] shadow-sm space-y-1.5 transition-all animate-slide-up";
+            
+            card.innerHTML = `
+                <div class="flex items-center justify-between">
+                    <span class="font-extrabold text-xs sm:text-sm text-slate-800">${escapeHtml(commentObj.name)}</span>
+                    <span class="text-[10px] font-semibold text-slate-400">${timeStr}</span>
+                </div>
+                <p class="text-xs sm:text-sm text-slate-700 leading-snug font-normal">${escapeHtml(commentObj.text)}</p>
+                <div class="pt-1 flex items-center">
+                    <span class="inline-flex items-center gap-1 text-[10px] font-bold text-[#00B4D8] bg-[#F0F4F8] px-2 py-0.5 rounded-full border border-[#D0D5DF]">
+                        <i class="fa-solid fa-location-dot text-[#00B4D8]"></i> ${escapeHtml(commentObj.location)}
+                    </span>
+                </div>
+            `;
+
+            container.appendChild(card);
+            container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
+        }
+
+        function handleUserSubmitComment(e) {
+            e.preventDefault();
+            const input = document.getElementById('userCommentInput');
+            if (!input || !input.value.trim()) return;
+
+            const userComment = {
+                name: "You (Attendee)",
+                location: "Live Session",
+                text: input.value.trim()
+            };
+
+            appendCommentToChat(userComment);
+            updateCommentBadge(); 
+            input.value = '';
+        }
+
+        function triggerEndWebinarCta() {
+            document.getElementById('ctaModal').classList.remove('hidden');
+        }
+
+        function closeCtaModal() {
+            document.getElementById('ctaModal').classList.add('hidden');
+        }
+
+        function openAdminAuthModal() {
+            document.getElementById('adminLoginEmail').value = '';
+            document.getElementById('adminLoginPassword').value = '';
+            document.getElementById('adminAuthModal').classList.remove('hidden');
+        }
+
+        function closeAdminAuthModal() {
+            document.getElementById('adminAuthModal').classList.add('hidden');
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('adminLoginEmail').value.trim();
+            const pass = document.getElementById('adminLoginPassword').value.trim();
+
+            if (email === 'admin@colossusmigration.com' && pass === 'Colossus@6202') {
+                closeAdminAuthModal();
+                openAdminDashboard();
+                showNotification('Welcome back! Admin Management Console Unlocked.', 'success');
+            } else {
+                showNotification('Invalid admin credentials. Please re-check email and password.', 'error');
+            }
+        }
+
+        function openAdminDashboard() {
+            populateAdminInputs();
+            document.getElementById('adminDashboardModal').classList.remove('hidden');
+        }
+
+        function closeAdminDashboard() {
+            document.getElementById('adminDashboardModal').classList.add('hidden');
+        }
+
+        function switchAdminTab(tabId) {
+            document.querySelectorAll('.admin-tab-page').forEach(el => el.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
+
+            const navBtns = [
+                'tabDashboardBtn', 'tabWebinarsBtn', 'tabVideoMgmtBtn', 'tabTimelineBtn', 
+                'tabCommentsBtn', 'tabPopupsBtn', 'tabCtaBtn', 'tabLeadsBtn', 
+                'tabAnalyticsBtn', 'tabBrandingBtn', 'tabSettingsBtn'
+            ];
+
+            navBtns.forEach(btnId => {
+                const btn = document.getElementById(btnId);
+                if (btn) btn.className = "px-3 py-2 font-bold border-b-2 border-transparent text-slate-600 hover:text-[#00B4D8] flex-shrink-0 text-xs";
+            });
+
+            const activeBtn = document.getElementById(tabId + 'Btn');
+            if (activeBtn) {
+                activeBtn.className = "px-3 py-2 font-bold border-b-2 border-[#00B4D8] text-[#00B4D8] bg-white rounded-t-lg flex-shrink-0 text-xs";
+            }
+        }
+
+        function populateAdminInputs() {
+            document.getElementById('adminH1').value = state.h1;
+            document.getElementById('adminH2').value = state.h2;
+            document.getElementById('adminH3').value = state.h3;
+
+            document.getElementById('adminHostName').value = state.hostName;
+            document.getElementById('adminHostTitle').value = state.hostTitle;
+            document.getElementById('adminHostSubtext').value = state.hostSubtext;
+            document.getElementById('adminHostPhoto').value = state.hostPhoto;
+
+            document.getElementById('adminCtaTitle').value = state.ctaTitle;
+            document.getElementById('adminCtaBody').value = state.ctaBody;
+            document.getElementById('adminCtaWhatsapp').value = state.ctaWhatsapp;
+
+            document.getElementById('adminWebinarTitleInput').value = state.webinarTitle;
+            document.getElementById('settingCtaTriggerSec').value = Math.round(popupTriggerTimeMs / 1000);
+
+            document.getElementById('dashLeadsCount').textContent = state.leads.length;
+            document.getElementById('dashCommentsCount').textContent = state.comments.length;
+
+            renderAdminCommentsEditor();
+            renderAdminWebinarsList();
+            renderAdminLeadsTable();
+        }
+
+        function renderAdminLeadsTable() {
+            const container = document.getElementById('adminLeadsContainer');
+            container.innerHTML = '';
+            
+            const selectAllCheck = document.getElementById('selectAllDates');
+            if (selectAllCheck) selectAllCheck.checked = false;
+
+            if (state.leads.length === 0) {
+                container.innerHTML = `<div class="p-6 text-center text-slate-500 bg-[#F8FAFC] rounded-xl border border-[#D0D5DF]">No lead registration data captured yet.</div>`;
+                return;
+            }
+
+            const groupedLeads = {};
+            state.leads.forEach(l => {
+                const dateKey = l.dateStr || 'Legacy / Previous Dates';
+                if (!groupedLeads[dateKey]) groupedLeads[dateKey] = [];
+                groupedLeads[dateKey].push(l);
+            });
+
+            Object.keys(groupedLeads).forEach(date => {
+                const leads = groupedLeads[date];
+                
+                const groupDiv = document.createElement('div');
+                groupDiv.className = "border border-[#D0D5DF] rounded-xl overflow-hidden bg-white shadow-sm transition-all";
+                
+                groupDiv.innerHTML = `
+                    <div class="bg-[#F0F4F8] p-3.5 flex items-center justify-between border-b border-[#D0D5DF]">
+                        <label class="flex items-center gap-3 cursor-pointer select-none">
+                            <input type="checkbox" class="date-group-checkbox w-4 h-4 text-[#00B4D8] rounded border-[#D0D5DF] focus:ring-[#00B4D8] transition" value="${escapeHtml(date)}">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-regular fa-calendar text-slate-500"></i>
+                                <span class="font-extrabold text-slate-800 text-sm tracking-wide uppercase">${escapeHtml(date)}</span>
+                            </div>
+                        </label>
+                        <span class="text-[11px] font-bold bg-white border border-[#D0D5DF] px-3 py-1 rounded-full text-slate-600 shadow-sm">${leads.length} CAPTURED</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-[#F8FAFC] text-slate-600 font-bold uppercase tracking-wider text-[10px]">
+                                <tr>
+                                    <th class="p-3 border-b border-[#D0D5DF]">Full Name</th>
+                                    <th class="p-3 border-b border-[#D0D5DF]">Email Address</th>
+                                    <th class="p-3 border-b border-[#D0D5DF]">WhatsApp Contact</th>
+                                    <th class="p-3 border-b border-[#D0D5DF]">Capture Time</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-[#D0D5DF]">
+                                ${leads.map(l => `
+                                    <tr class="hover:bg-[#F8FAFC] transition-colors">
+                                        <td class="p-3 font-bold text-slate-900">${escapeHtml(l.name)}</td>
+                                        <td class="p-3 text-slate-600">${escapeHtml(l.email)}</td>
+                                        <td class="p-3 text-slate-600 font-mono">${escapeHtml(l.whatsapp)}</td>
+                                        <td class="p-3 text-slate-400 font-semibold">${escapeHtml(l.time || l.date)}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                container.appendChild(groupDiv);
+            });
+            
+            document.querySelectorAll('.date-group-checkbox').forEach(cb => {
+                cb.addEventListener('change', () => {
+                    const allCbs = document.querySelectorAll('.date-group-checkbox');
+                    const allChecked = Array.from(allCbs).every(c => c.checked);
+                    if (selectAllCheck) selectAllCheck.checked = allChecked;
+                });
+            });
+        }
+
+        function toggleAllDateGroups(masterCheckbox) {
+            const checkboxes = document.querySelectorAll('.date-group-checkbox');
+            checkboxes.forEach(cb => cb.checked = masterCheckbox.checked);
+        }
+
+        function exportSelectedLeadsCSV() {
+            const checkboxes = document.querySelectorAll('.date-group-checkbox:checked');
+            if (checkboxes.length === 0) {
+                showNotification("Please select at least one daily group checkbox to download.", "error");
+                return;
+            }
+            
+            const selectedDates = Array.from(checkboxes).map(cb => cb.value);
+            const leadsToExport = state.leads.filter(l => selectedDates.includes(l.dateStr || 'Legacy / Previous Dates'));
+            
+            let csvContent = "data:text/csv;charset=utf-8,Full Name,Email Address,WhatsApp Number,Capture Date,Capture Time\n";
+            leadsToExport.forEach(l => {
+                csvContent += `"${l.name}","${l.email}","${l.whatsapp}","${l.dateStr || 'N/A'}","${l.time || l.date || 'N/A'}"\n`;
+            });
+            
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `Colossus_Leads_Filtered.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showNotification(`Successfully exported ${leadsToExport.length} filtered leads.`, "success");
+        }
+
+        function renderAdminCommentsEditor() {
+            const container = document.getElementById('adminCommentsListContainer');
+            document.getElementById('adminCommentCount').textContent = state.comments.length;
+            container.innerHTML = '';
+
+            state.comments.forEach((c, idx) => {
+                const row = document.createElement('div');
+                row.className = "bg-[#F0F4F8] p-3 rounded-xl flex flex-col sm:flex-row gap-2 items-center border border-[#D0D5DF]";
+                row.innerHTML = `
+                    <div class="w-full sm:w-1/4">
+                        <input type="text" value="${escapeHtml(c.name)}" onchange="updateCommentField(${idx}, 'name', this.value)" placeholder="Name" class="w-full px-2 py-1 text-xs border rounded bg-white">
+                    </div>
+                    <div class="w-full sm:w-1/4">
+                        <input type="text" value="${escapeHtml(c.location)}" onchange="updateCommentField(${idx}, 'location', this.value)" placeholder="Location" class="w-full px-2 py-1 text-xs border rounded bg-white">
+                    </div>
+                    <div class="w-full sm:w-2/4 flex gap-2">
+                        <input type="text" value="${escapeHtml(c.text)}" onchange="updateCommentField(${idx}, 'text', this.value)" placeholder="Comment" class="flex-1 px-2 py-1 text-xs border rounded bg-white">
+                        <button onclick="deleteCommentRow(${idx})" class="text-rose-600 hover:text-rose-800 p-1 text-xs"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function updateCommentField(index, field, val) {
+            if (state.comments[index]) {
+                state.comments[index][field] = val;
+            }
+        }
+
+        function addBlankCommentRow() {
+            state.comments.unshift({ name: "Nurse New Participant", location: "Lagos", text: "Excited to join this Ireland webinar session!" });
+            renderAdminCommentsEditor();
+        }
+
+        function deleteCommentRow(idx) {
+            state.comments.splice(idx, 1);
+            renderAdminCommentsEditor();
+        }
+
+        function createNewWebinar() {
+            const titleInput = document.getElementById('newWebinarTitle');
+            const videoUrlInput = document.getElementById('newWebinarVideoUrl');
+
+            if (!titleInput.value.trim()) {
+                showNotification("Please enter a webinar video title.", "error");
+                return;
+            }
+
+            let rawUrl = videoUrlInput.value.trim() || state.videoUrl;
+            if (rawUrl.includes('drive.google.com') && rawUrl.includes('/view')) {
+                rawUrl = rawUrl.replace('/view?usp=sharing', '/preview').replace('/view', '/preview');
+            }
+
+            const newWebinar = {
+                id: 'web-' + Date.now(),
+                title: titleInput.value.trim(),
+                videoUrl: rawUrl
+            };
+
+            state.savedWebinars.push(newWebinar);
+            state.webinarTitle = newWebinar.title;
+            state.videoUrl = newWebinar.videoUrl;
+
+            titleInput.value = '';
+            videoUrlInput.value = '';
+
+            saveState();
+            renderAdminWebinarsList();
+            renderUI();
+            showNotification("New Live Webinar Video Uploaded Successfully!", "success");
+        }
+
+        function renderAdminWebinarsList() {
+            const container = document.getElementById('adminWebinarsList');
+            container.innerHTML = '';
+
+            state.savedWebinars.forEach((web) => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-3.5 rounded-xl border border-[#D0D5DF] flex items-center justify-between gap-3 shadow-sm";
+                card.innerHTML = `
+                    <div class="space-y-0.5">
+                        <h4 class="font-bold text-xs text-slate-800">${escapeHtml(web.title)}</h4>
+                        <p class="text-[10px] text-slate-400 truncate max-w-xs">${escapeHtml(web.videoUrl)}</p>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <button onclick="previewWebinar('${web.id}')" class="px-3 py-1 text-[11px] font-bold btn-primary rounded-lg">
+                            Set Active
+                        </button>
+                        <button onclick="confirmDeleteWebinar('${web.id}')" class="px-3 py-1 text-[11px] font-bold bg-rose-100 text-rose-700 rounded-lg hover:bg-rose-200" title="Delete / Remove Live Video Webinar">
+                            <i class="fa-solid fa-trash mr-1"></i> Delete Video
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function previewWebinar(id) {
+            const found = state.savedWebinars.find(w => w.id === id);
+            if (found) {
+                state.webinarTitle = found.title;
+                state.videoUrl = found.videoUrl;
+                renderUI();
+                closeAdminDashboard();
+                startWebinarSession();
+            }
+        }
+
+        function confirmDeleteWebinar(id) {
+            customConfirm("Are you sure you want to delete / remove this live video webinar?", () => {
+                state.savedWebinars = state.savedWebinars.filter(w => w.id !== id);
+                if (state.savedWebinars.length > 0) {
+                    state.videoUrl = state.savedWebinars[0].videoUrl;
+                } else {
+                    state.videoUrl = "";
+                }
+                saveState();
+                renderAdminWebinarsList();
+                renderUI();
+                showNotification("Webinar video removed.", "info");
+            });
+        }
+
+        function saveAdminSettings() {
+            state.h1 = document.getElementById('adminH1').value;
+            state.h2 = document.getElementById('adminH2').value;
+            state.h3 = document.getElementById('adminH3').value;
+
+            state.hostName = document.getElementById('adminHostName').value;
+            state.hostTitle = document.getElementById('adminHostTitle').value;
+            state.hostSubtext = document.getElementById('adminHostSubtext').value;
+            state.hostPhoto = document.getElementById('adminHostPhoto').value;
+
+            state.ctaTitle = document.getElementById('adminCtaTitle').value;
+            state.ctaBody = document.getElementById('adminCtaBody').value;
+            state.ctaWhatsapp = document.getElementById('adminCtaWhatsapp').value;
+
+            state.webinarTitle = document.getElementById('adminWebinarTitleInput').value;
+
+            const triggerSec = parseInt(document.getElementById('settingCtaTriggerSec').value, 10);
+            if (!isNaN(triggerSec) && triggerSec > 0) {
+                popupTriggerTimeMs = triggerSec * 1000;
+            }
+
+            saveState();
+            renderUI();
+            
+            commentStreamStarted = false; 
+            initCommentsStream();
+
+            closeAdminDashboard();
+            showNotification("Management Console Settings Saved & Applied Successfully!", "success");
+        }
+
+        function renderUI() {
+            document.getElementById('bannerHeadline1').textContent = state.h1;
+            document.getElementById('bannerHeadline2').textContent = state.h2;
+            document.getElementById('bannerHeadline3').textContent = state.h3;
+
+            document.getElementById('hostName').textContent = state.hostName;
+            document.getElementById('hostTitle').textContent = state.hostTitle;
+            document.getElementById('hostSubtext').textContent = state.hostSubtext;
+            document.getElementById('hostPhoto').src = state.hostPhoto || DEFAULT_HOST_PHOTO;
+
+            document.getElementById('ctaModalTitle').textContent = state.ctaTitle;
+            document.getElementById('ctaModalBody').textContent = state.ctaBody;
+            document.getElementById('ctaModalWhatsappBtn').href = state.ctaWhatsapp;
+
+            const iframe = document.getElementById('webinarVideoIframe');
+            if (iframe && state.videoUrl) {
+                iframe.src = state.videoUrl;
+            }
+        }
+
+        function saveState() {
+            try {
+                localStorage.setItem('cmt_webinar_state', JSON.stringify(state));
+            } catch (e) {
+                console.error("Storage error", e);
+            }
+        }
+
+        function loadSavedState() {
+            try {
+                const saved = localStorage.getItem('cmt_webinar_state');
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    if (parsed && parsed.leads) {
+                        parsed.leads = parsed.leads.map(l => {
+                            if (!l.dateStr) {
+                                l.dateStr = 'Legacy / Previous Dates';
+                                l.time = l.date || 'N/A';
+                            }
+                            return l;
+                        });
+                    }
+                    if (!parsed.hostPhoto || parsed.hostPhoto.includes('Colossus-Boss-2.png') || parsed.hostPhoto.includes('DfJ1ZMLd')) {
+                        parsed.hostPhoto = DEFAULT_HOST_PHOTO;
+                    }
+                    state = { ...state, ...parsed };
+                }
+            } catch (e) {
+                console.error("Failed loading saved state", e);
+            }
+        }
+
+        function confirmResetDefaults() {
+            customConfirm("Reset all webinar settings and storage back to default values?", () => {
+                localStorage.removeItem('cmt_webinar_state');
+                location.reload();
+            });
+        }
+
+        function showNotification(msg, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `fixed bottom-6 right-6 z-[100] px-5 py-3 rounded-xl shadow-2xl text-xs sm:text-sm font-bold flex items-center gap-2 border animate-slide-up ${
+                type === 'error' ? 'bg-rose-900 text-white border-rose-700' :
+                type === 'success' ? 'bg-[#00B4D8] text-white border-[#D0D5DF]' :
+                'bg-slate-900 text-white border-[#D0D5DF]'
+            }`;
+            toast.innerHTML = `<i class="fa-solid ${type === 'error' ? 'fa-triangle-exclamation text-rose-400' : type === 'success' ? 'fa-circle-check text-white' : 'fa-circle-info text-[#00B4D8]'}"></i> <span>${escapeHtml(msg)}</span>`;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.remove();
+            }, 4000);
+        }
+
+        function customConfirm(message, onConfirm) {
+            const overlay = document.createElement('div');
+            overlay.className = "fixed inset-0 bg-black/80 z-[110] flex items-center justify-center p-4 animate-slide-up";
+            overlay.innerHTML = `
+                <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center space-y-4 shadow-2xl border border-[#D0D5DF]">
+                    <div class="w-12 h-12 bg-[#F0F4F8] text-[#00B4D8] rounded-full flex items-center justify-center mx-auto border border-[#D0D5DF]">
+                        <i class="fa-solid fa-triangle-exclamation text-xl"></i>
+                    </div>
+                    <p class="text-xs sm:text-sm font-bold text-slate-800">${escapeHtml(message)}</p>
+                    <div class="flex gap-2 pt-2">
+                        <button id="confirmCancelBtn" class="flex-1 py-2 bg-[#F0F4F8] hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl border border-[#D0D5DF]">Cancel</button>
+                        <button id="confirmOkBtn" class="flex-1 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl">Confirm</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+            overlay.querySelector('#confirmCancelBtn').onclick = () => overlay.remove();
+            overlay.querySelector('#confirmOkBtn').onclick = () => {
+                overlay.remove();
+                onConfirm();
+            };
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
