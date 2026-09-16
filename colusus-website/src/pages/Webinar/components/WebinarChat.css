@@ -1,0 +1,1292 @@
+/* =========================================================
+   WEBINAR CHAT
+========================================================= */
+
+.webinar-chat {
+    --chat-blue: #0056b3;
+    --chat-deep-blue: #063d78;
+    --chat-bright-blue: #65c5ff;
+    --chat-ink: #123b5d;
+    --chat-muted: #7a8b9d;
+    --chat-border: rgba(8, 61, 111, 0.1);
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+
+    /*
+     * FIXED CHAT HEIGHT
+     *
+     * The entire chat box stays this height.
+     * Messages scroll inside it.
+     */
+    height: 620px;
+    min-height: 620px;
+    max-height: 620px;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border: 1px solid var(--chat-border);
+    border-radius: 24px;
+
+    box-shadow:
+        0 25px 65px rgba(5, 45, 85, 0.09),
+        0 8px 25px rgba(5, 45, 85, 0.045);
+
+    isolation: isolate;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.webinar-chat-header {
+    position: relative;
+    z-index: 5;
+
+    flex: 0 0 82px;
+
+    height: 82px;
+    min-height: 82px;
+    max-height: 82px;
+
+    padding: 16px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #063d78 0%,
+            #07549c 58%,
+            #0a67ae 100%
+        );
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+    box-shadow:
+        0 8px 24px rgba(0, 52, 103, 0.12);
+}
+
+
+/* =========================================================
+   HEADER LIGHT
+========================================================= */
+
+.webinar-chat-header::after {
+    content: "";
+
+    position: absolute;
+
+    width: 190px;
+    height: 190px;
+
+    right: -85px;
+    top: -120px;
+
+    border-radius: 50%;
+
+    background: rgba(101, 197, 255, 0.12);
+
+    filter: blur(8px);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   HEADER LEFT
+========================================================= */
+
+.webinar-chat-header-left {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    min-width: 0;
+}
+
+
+/* =========================================================
+   CHAT ICON
+========================================================= */
+
+.webinar-chat-icon {
+    width: 43px;
+    height: 43px;
+
+    flex: 0 0 43px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.16);
+
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.16),
+            rgba(255, 255, 255, 0.055)
+        );
+
+    color: #ffffff;
+
+    font-size: 17px;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
+        0 10px 24px rgba(0, 0, 0, 0.12);
+
+    animation:
+        webinarChatIconReveal
+        0.7s
+        cubic-bezier(.22, 1, .36, 1)
+        both;
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.webinar-chat-title {
+    margin: 0 0 5px;
+
+    color: #ffffff;
+
+    font-size: 16px;
+    font-weight: 800;
+
+    line-height: 1.15;
+
+    letter-spacing: -0.025em;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.webinar-chat-status {
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    color: rgba(255, 255, 255, 0.65);
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 0.04em;
+
+    white-space: nowrap;
+}
+
+
+.webinar-chat-status-dot {
+    width: 6px;
+    height: 6px;
+
+    flex: 0 0 6px;
+
+    border-radius: 50%;
+
+    background: #42e8a4;
+
+    box-shadow:
+        0 0 0 4px rgba(66, 232, 164, 0.11),
+        0 0 15px rgba(66, 232, 164, 0.3);
+
+    animation:
+        webinarChatLivePulse
+        2s
+        ease-in-out
+        infinite;
+}
+
+
+/* =========================================================
+   LIVE BADGE
+========================================================= */
+
+.webinar-chat-live-badge {
+    position: relative;
+    z-index: 2;
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: 7px;
+
+    flex: 0 0 auto;
+
+    padding: 7px 10px;
+
+    border: 1px solid rgba(255, 255, 255, 0.13);
+
+    border-radius: 999px;
+
+    background: rgba(255, 255, 255, 0.075);
+
+    color: rgba(255, 255, 255, 0.9);
+
+    font-size: 7px;
+    font-weight: 900;
+
+    letter-spacing: 0.16em;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+
+.webinar-chat-live-badge-dot {
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: #ff5260;
+
+    box-shadow:
+        0 0 0 3px rgba(255, 82, 96, 0.1);
+
+    animation:
+        webinarChatLivePulse
+        1.8s
+        ease-in-out
+        infinite;
+}
+
+
+/* =========================================================
+   MESSAGE AREA
+========================================================= */
+
+.webinar-chat-messages {
+    position: relative;
+
+    /*
+     * THIS IS THE ONLY SCROLLING AREA.
+     */
+    flex: 1 1 auto;
+
+    min-height: 0;
+    max-height: none;
+
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 22px 18px 20px;
+
+    /*
+     * Older messages disappear above the viewport.
+     * They are still there and can be reached by
+     * scrolling upward.
+     */
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    scroll-padding-top: 20px;
+    scroll-padding-bottom: 20px;
+
+    background:
+        radial-gradient(
+            circle at 100% 0%,
+            rgba(101, 197, 255, 0.075),
+            transparent 34%
+        ),
+        radial-gradient(
+            circle at 0% 100%,
+            rgba(0, 86, 179, 0.035),
+            transparent 38%
+        ),
+        #f8fbfe;
+
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        rgba(0, 86, 179, 0.22)
+        transparent;
+
+    scroll-behavior: smooth;
+}
+
+
+/* =========================================================
+   WEBKIT SCROLLBAR
+========================================================= */
+
+.webinar-chat-messages::-webkit-scrollbar {
+    width: 5px;
+}
+
+
+.webinar-chat-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+
+.webinar-chat-messages::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+
+    background:
+        rgba(0, 86, 179, 0.18);
+}
+
+
+.webinar-chat-messages::-webkit-scrollbar-thumb:hover {
+    background:
+        rgba(0, 86, 179, 0.32);
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+.webinar-chat-message {
+    position: relative;
+
+    /*
+     * VERY IMPORTANT:
+     *
+     * Messages must never shrink.
+     * They continue accumulating vertically.
+     */
+    flex: 0 0 auto;
+
+    width: 100%;
+
+    margin: 0 0 14px;
+
+    padding: 13px 14px 14px;
+
+    border: 1px solid rgba(9, 66, 118, 0.075);
+
+    border-radius: 15px;
+
+    background:
+        rgba(255, 255, 255, 0.96);
+
+    box-shadow:
+        0 5px 18px rgba(7, 51, 91, 0.035);
+
+    animation:
+        webinarChatMessageReveal
+        0.55s
+        cubic-bezier(.22, 1, .36, 1)
+        both;
+
+    transform-origin: bottom left;
+}
+
+
+.webinar-chat-message:last-child {
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
+   MESSAGE TOP
+========================================================= */
+
+.webinar-chat-message-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-bottom: 7px;
+}
+
+
+/* =========================================================
+   MESSAGE NAME
+========================================================= */
+
+.webinar-chat-message-name {
+    min-width: 0;
+
+    overflow: hidden;
+
+    color: var(--chat-ink);
+
+    font-size: 10px;
+    font-weight: 850;
+
+    letter-spacing: 0.01em;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   MESSAGE TIME
+========================================================= */
+
+.webinar-chat-message-time {
+    flex: 0 0 auto;
+
+    color: #9aa9b8;
+
+    font-size: 8px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   MESSAGE TEXT
+========================================================= */
+
+.webinar-chat-message-text {
+    margin: 0;
+
+    color: #50677b;
+
+    font-size: 11px;
+    font-weight: 500;
+
+    line-height: 1.65;
+
+    word-break: break-word;
+}
+
+
+/* =========================================================
+   USER MESSAGE
+========================================================= */
+
+.webinar-chat-message-own {
+    border-color:
+        rgba(0, 86, 179, 0.14);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(0, 86, 179, 0.055),
+            rgba(101, 197, 255, 0.045)
+        );
+}
+
+
+.webinar-chat-message-own
+.webinar-chat-message-name {
+    color: var(--chat-blue);
+}
+
+
+.webinar-chat-message-own
+.webinar-chat-message-text {
+    color: #315976;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.webinar-chat-empty {
+    flex: 1 1 auto;
+
+    min-height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 45px 24px;
+
+    text-align: center;
+
+    animation:
+        webinarChatEmptyReveal
+        0.65s
+        cubic-bezier(.22, 1, .36, 1)
+        both;
+}
+
+
+.webinar-chat-empty-icon {
+    width: 58px;
+    height: 58px;
+
+    margin-bottom: 17px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(0, 86, 179, 0.1);
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(0, 86, 179, 0.08),
+            rgba(101, 197, 255, 0.08)
+        );
+
+    color: var(--chat-blue);
+
+    font-size: 20px;
+
+    box-shadow:
+        0 12px 30px rgba(0, 86, 179, 0.07);
+}
+
+
+.webinar-chat-empty p {
+    margin: 0 0 7px;
+
+    color: #244762;
+
+    font-size: 13px;
+    font-weight: 800;
+
+    letter-spacing: -0.01em;
+}
+
+
+.webinar-chat-empty span {
+    max-width: 220px;
+
+    color: #91a1b0;
+
+    font-size: 10px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.webinar-chat-footer {
+    position: relative;
+    z-index: 5;
+
+    flex: 0 0 91px;
+
+    height: 91px;
+    min-height: 91px;
+    max-height: 91px;
+
+    padding: 14px 15px 13px;
+
+    background: #ffffff;
+
+    border-top:
+        1px solid rgba(8, 61, 111, 0.08);
+
+    box-shadow:
+        0 -8px 25px rgba(7, 48, 84, 0.035);
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.webinar-chat-form {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+
+    padding: 5px;
+
+    border:
+        1px solid rgba(7, 65, 116, 0.11);
+
+    border-radius: 13px;
+
+    background: #f8fafc;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+}
+
+
+.webinar-chat-form:focus-within {
+    border-color:
+        rgba(0, 86, 179, 0.3);
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(0, 86, 179, 0.055);
+}
+
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+.webinar-chat-input {
+    min-width: 0;
+
+    flex: 1 1 auto;
+
+    height: 38px;
+
+    padding: 0 10px;
+
+    border: 0;
+
+    outline: none;
+
+    background: transparent;
+
+    color: #183b5b;
+
+    font-family: inherit;
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+
+.webinar-chat-input::placeholder {
+    color: #9aa9b7;
+
+    font-weight: 500;
+}
+
+
+.webinar-chat-input:focus::placeholder {
+    color: #b2bdc7;
+}
+
+
+/* =========================================================
+   SEND BUTTON
+========================================================= */
+
+.webinar-chat-send {
+    width: 38px;
+    height: 38px;
+
+    flex: 0 0 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0056b3,
+            #0872c8
+        );
+
+    color: #ffffff;
+
+    font-size: 11px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 7px 16px
+        rgba(0, 86, 179, 0.18);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+}
+
+
+.webinar-chat-send:hover:not(:disabled) {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 10px 22px
+        rgba(0, 86, 179, 0.23);
+}
+
+
+.webinar-chat-send:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+
+.webinar-chat-send:disabled {
+    opacity: 0.38;
+
+    cursor: not-allowed;
+
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   MODERATION NOTICE
+========================================================= */
+
+.webinar-chat-notice {
+    margin: 9px 3px 0;
+
+    color: #a0adba;
+
+    font-size: 8px;
+    font-weight: 600;
+
+    line-height: 1.5;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   MESSAGE ANIMATION
+========================================================= */
+
+@keyframes webinarChatMessageReveal {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translate3d(0, 16px, 0)
+            scale(0.985);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translate3d(0, 0, 0)
+            scale(1);
+    }
+
+}
+
+
+/* =========================================================
+   ICON ANIMATION
+========================================================= */
+
+@keyframes webinarChatIconReveal {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translate3d(-10px, 0, 0)
+            scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translate3d(0, 0, 0)
+            scale(1);
+    }
+
+}
+
+
+/* =========================================================
+   EMPTY STATE ANIMATION
+========================================================= */
+
+@keyframes webinarChatEmptyReveal {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   LIVE PULSE
+========================================================= */
+
+@keyframes webinarChatLivePulse {
+
+    0%,
+    100% {
+        opacity: 1;
+
+        transform:
+            scale(1);
+    }
+
+    50% {
+        opacity: 0.45;
+
+        transform:
+            scale(0.78);
+    }
+
+}
+
+
+/* =========================================================
+   LARGE DESKTOP
+========================================================= */
+
+@media (max-width: 1200px) {
+
+    .webinar-chat {
+        height: 580px;
+        min-height: 580px;
+        max-height: 580px;
+
+        border-radius: 22px;
+    }
+
+
+    .webinar-chat-header {
+        flex-basis: 76px;
+
+        height: 76px;
+        min-height: 76px;
+        max-height: 76px;
+
+        padding: 15px 17px;
+    }
+
+
+    .webinar-chat-messages {
+        padding: 19px 15px 18px;
+    }
+
+
+    .webinar-chat-footer {
+        flex-basis: 88px;
+
+        height: 88px;
+        min-height: 88px;
+        max-height: 88px;
+
+        padding: 13px;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .webinar-chat {
+        height: 540px;
+        min-height: 540px;
+        max-height: 540px;
+
+        border-radius: 20px;
+    }
+
+
+    .webinar-chat-header {
+        flex-basis: 72px;
+
+        height: 72px;
+        min-height: 72px;
+        max-height: 72px;
+
+        padding: 14px 16px;
+    }
+
+
+    .webinar-chat-icon {
+        width: 40px;
+        height: 40px;
+
+        flex-basis: 40px;
+
+        border-radius: 13px;
+
+        font-size: 16px;
+    }
+
+
+    .webinar-chat-title {
+        font-size: 15px;
+    }
+
+
+    .webinar-chat-status {
+        font-size: 8px;
+    }
+
+
+    .webinar-chat-live-badge {
+        padding: 6px 9px;
+
+        font-size: 6px;
+    }
+
+
+    .webinar-chat-messages {
+        padding: 18px 14px 17px;
+    }
+
+
+    .webinar-chat-message {
+        margin-bottom: 12px;
+
+        padding: 12px 13px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+    .webinar-chat {
+        height: 500px;
+        min-height: 500px;
+        max-height: 500px;
+
+        border-radius: 17px;
+    }
+
+
+    .webinar-chat-header {
+        flex-basis: 67px;
+
+        height: 67px;
+        min-height: 67px;
+        max-height: 67px;
+
+        padding: 12px 13px;
+
+        gap: 10px;
+    }
+
+
+    .webinar-chat-header-left {
+        gap: 10px;
+    }
+
+
+    .webinar-chat-icon {
+        width: 37px;
+        height: 37px;
+
+        flex-basis: 37px;
+
+        border-radius: 11px;
+
+        font-size: 14px;
+    }
+
+
+    .webinar-chat-title {
+        margin-bottom: 4px;
+
+        font-size: 14px;
+    }
+
+
+    .webinar-chat-status {
+        gap: 6px;
+
+        font-size: 7px;
+    }
+
+
+    .webinar-chat-status-dot {
+        width: 5px;
+        height: 5px;
+
+        flex-basis: 5px;
+    }
+
+
+    .webinar-chat-live-badge {
+        padding: 6px 8px;
+
+        gap: 5px;
+
+        font-size: 6px;
+    }
+
+
+    .webinar-chat-live-badge-dot {
+        width: 4px;
+        height: 4px;
+    }
+
+
+    .webinar-chat-messages {
+        padding: 16px 12px 15px;
+
+        scroll-padding-top: 16px;
+        scroll-padding-bottom: 16px;
+    }
+
+
+    .webinar-chat-message {
+        margin-bottom: 11px;
+
+        padding: 11px 12px;
+
+        border-radius: 13px;
+    }
+
+
+    .webinar-chat-message-top {
+        gap: 8px;
+
+        margin-bottom: 6px;
+    }
+
+
+    .webinar-chat-message-name {
+        font-size: 9px;
+    }
+
+
+    .webinar-chat-message-time {
+        font-size: 7px;
+    }
+
+
+    .webinar-chat-message-text {
+        font-size: 10px;
+
+        line-height: 1.6;
+    }
+
+
+    .webinar-chat-footer {
+        flex-basis: 86px;
+
+        height: 86px;
+        min-height: 86px;
+        max-height: 86px;
+
+        padding: 11px;
+    }
+
+
+    .webinar-chat-form {
+        padding: 4px;
+
+        border-radius: 12px;
+    }
+
+
+    .webinar-chat-input {
+        height: 36px;
+
+        padding: 0 9px;
+
+        font-size: 10px;
+    }
+
+
+    .webinar-chat-send {
+        width: 36px;
+        height: 36px;
+
+        flex-basis: 36px;
+
+        border-radius: 9px;
+
+        font-size: 10px;
+    }
+
+
+    .webinar-chat-notice {
+        margin-top: 8px;
+
+        font-size: 7px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .webinar-chat {
+        height: 460px;
+        min-height: 460px;
+        max-height: 460px;
+
+        border-radius: 15px;
+    }
+
+
+    .webinar-chat-header {
+        flex-basis: 62px;
+
+        height: 62px;
+        min-height: 62px;
+        max-height: 62px;
+
+        padding: 10px 11px;
+    }
+
+
+    .webinar-chat-icon {
+        width: 34px;
+        height: 34px;
+
+        flex-basis: 34px;
+
+        border-radius: 10px;
+
+        font-size: 13px;
+    }
+
+
+    .webinar-chat-title {
+        font-size: 13px;
+    }
+
+
+    .webinar-chat-status {
+        font-size: 6px;
+    }
+
+
+    .webinar-chat-live-badge {
+        padding: 5px 7px;
+
+        font-size: 5px;
+    }
+
+
+    .webinar-chat-messages {
+        padding: 14px 10px 13px;
+
+        scroll-padding-top: 14px;
+        scroll-padding-bottom: 14px;
+    }
+
+
+    .webinar-chat-message {
+        margin-bottom: 10px;
+
+        padding: 10px 11px;
+
+        border-radius: 12px;
+    }
+
+
+    .webinar-chat-message-name {
+        font-size: 8px;
+    }
+
+
+    .webinar-chat-message-time {
+        font-size: 6px;
+    }
+
+
+    .webinar-chat-message-text {
+        font-size: 9px;
+
+        line-height: 1.6;
+    }
+
+
+    .webinar-chat-footer {
+        flex-basis: 82px;
+
+        height: 82px;
+        min-height: 82px;
+        max-height: 82px;
+
+        padding: 9px;
+    }
+
+
+    .webinar-chat-input {
+        font-size: 9px;
+    }
+
+
+    .webinar-chat-send {
+        width: 34px;
+        height: 34px;
+
+        flex-basis: 34px;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .webinar-chat *,
+    .webinar-chat *::before,
+    .webinar-chat *::after {
+
+        animation-duration: 0.01ms !important;
+
+        animation-delay: 0ms !important;
+
+        animation-iteration-count: 1 !important;
+
+        transition-duration: 0.01ms !important;
+
+        scroll-behavior: auto !important;
+    }
+
+}

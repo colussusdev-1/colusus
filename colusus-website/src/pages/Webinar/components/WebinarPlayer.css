@@ -1,0 +1,2945 @@
+/* =========================================================
+   WEBINAR PLAYER
+========================================================= */
+
+.webinar-player {
+    --player-blue: #0056b3;
+    --player-deep-blue: #063d78;
+    --player-bright-blue: #65c5ff;
+    --player-green: #19b86b;
+    --player-red: #ef4444;
+    --player-text: #172033;
+
+    position: relative;
+
+    width: min(100%, 920px);
+    max-width: 920px;
+
+    margin: 0 auto;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border: 1px solid #e7edf4;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 18px 50px rgba(15, 35, 60, 0.12);
+
+    user-select: none;
+
+    isolation: isolate;
+}
+
+
+/* =========================================================
+   PLAYER TOPBAR
+========================================================= */
+
+.webinar-player-topbar {
+    position: relative;
+
+    z-index: 30;
+
+    width: 100%;
+
+    min-height: 52px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 22px;
+
+    background: #ffffff;
+
+    border: 0;
+
+    border-bottom: 1px solid #e7edf4;
+
+    box-shadow: none;
+
+    overflow: hidden;
+
+    pointer-events: auto;
+}
+
+
+/* =========================================================
+   TOPBAR LEFT / BRAND
+========================================================= */
+
+.webinar-player-topbar-left,
+.webinar-player-topbar-brand {
+    position: relative;
+
+    z-index: 2;
+
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+}
+
+
+/* =========================================================
+   TOPBAR LEFT
+========================================================= */
+
+.webinar-player-topbar-left {
+    gap: 12px;
+
+    min-width: 0;
+}
+
+
+/* =========================================================
+   LIVE STATUS
+========================================================= */
+
+.webinar-player-live-status {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color: #17834d;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+
+    white-space: nowrap;
+}
+
+
+.webinar-player-live-dot {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: var(--player-red);
+
+    font-size: 7px;
+
+    animation:
+        webinar-live-blink 1.2s ease-in-out infinite;
+}
+
+
+@keyframes webinar-live-blink {
+
+    0%,
+    100% {
+        opacity: 1;
+
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.35;
+
+        transform: scale(0.72);
+    }
+}
+
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.webinar-player-topbar-divider {
+    color: #b7c0cb;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   VIEWER COUNT
+========================================================= */
+
+.webinar-player-viewer-count {
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    color: #687384;
+
+    font-size: 10px;
+
+    white-space: nowrap;
+}
+
+
+.webinar-player-viewer-count strong {
+    color: #26364a;
+
+    font-size: 11px;
+
+    font-weight: 800;
+}
+
+
+.webinar-player-viewer-icon {
+    display: inline-flex;
+
+    color: #9aa7b5;
+
+    font-size: 5px;
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.webinar-player-topbar-brand {
+    justify-content: flex-end;
+
+    color: #16365a;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+
+    white-space: nowrap;
+
+    text-align: right;
+}
+
+
+/* =========================================================
+   VIDEO SCREEN
+========================================================= */
+
+.webinar-player-screen {
+    position: relative;
+
+    width: 100%;
+
+    aspect-ratio: 16 / 9;
+
+    overflow: hidden;
+
+    background: #08131f;
+
+    border-radius: 0 0 17px 17px;
+}
+
+
+/* =========================================================
+   VIDEO LAYER
+========================================================= */
+
+.webinar-player-video-layer {
+    position: absolute;
+
+    inset: 0;
+
+    overflow: hidden;
+
+    background: #08131f;
+}
+
+
+/* =========================================================
+   YOUTUBE IFRAME
+========================================================= */
+
+.webinar-player-iframe {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+    overflow: hidden;
+}
+
+
+.webinar-player-iframe iframe {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    border: 0;
+
+    display: block;
+}
+
+
+/* =========================================================
+   YOUTUBE TOP 64PX PROTECTION
+========================================================= */
+
+.webinar-player-youtube-shield {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    height: 64px;
+
+    background: transparent;
+
+    z-index: 8;
+
+    pointer-events: auto;
+
+    cursor: default;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.webinar-player-loading {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 12;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(4, 15, 27, 0.8),
+            rgba(4, 15, 27, 0.45)
+        );
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    pointer-events: none;
+}
+
+
+.webinar-player-loading-spinner {
+    width: 28px;
+
+    height: 28px;
+
+    border-radius: 50%;
+
+    border: 3px solid rgba(255, 255, 255, 0.25);
+
+    border-top-color: #ffffff;
+
+    animation:
+        webinar-player-spin 0.8s linear infinite;
+}
+
+
+@keyframes webinar-player-spin {
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* =========================================================
+   SOUND PROMPT
+========================================================= */
+
+.webinar-player-sound-prompt {
+    position: absolute;
+
+    left: 50%;
+
+    bottom: 76px;
+
+    transform: translateX(-50%);
+
+    z-index: 25;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    min-width: 235px;
+
+    padding: 11px 14px;
+
+    border: 1px solid rgba(255, 255, 255, 0.16);
+
+    border-radius: 12px;
+
+    background:
+        rgba(8, 19, 31, 0.92);
+
+    color: #ffffff;
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.3);
+
+    cursor: pointer;
+
+    text-align: left;
+
+    backdrop-filter: blur(10px);
+
+    -webkit-backdrop-filter: blur(10px);
+}
+
+
+.webinar-player-sound-prompt-icon {
+    width: 34px;
+
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    background: rgba(255, 255, 255, 0.1);
+
+    color: var(--player-bright-blue);
+}
+
+
+.webinar-player-sound-prompt-copy {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 2px;
+
+    flex: 1;
+}
+
+
+.webinar-player-sound-prompt-copy strong {
+    font-size: 12px;
+
+    font-weight: 800;
+}
+
+
+.webinar-player-sound-prompt-copy small {
+    color: rgba(255, 255, 255, 0.68);
+
+    font-size: 10px;
+}
+
+
+.webinar-player-sound-prompt-arrow {
+    color: #ffffff;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   JOIN NOTIFICATION
+========================================================= */
+
+.webinar-player-join-notification {
+    position: absolute;
+
+    left: 18px;
+
+    bottom: 78px;
+
+    z-index: 24;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 8px 12px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255, 255, 255, 0.96);
+
+    border: 1px solid rgba(255, 255, 255, 0.75);
+
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.18);
+
+    color: #26364a;
+
+    opacity: 0;
+
+    transform: translateY(8px);
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+.webinar-player-join-notification-visible {
+    opacity: 1;
+
+    transform: translateY(0);
+}
+
+
+.webinar-player-join-notification-dot {
+    display: inline-flex;
+
+    color: #22a864;
+
+    font-size: 6px;
+}
+
+
+.webinar-player-join-notification-copy {
+    display: flex;
+
+    align-items: center;
+
+    gap: 4px;
+
+    font-size: 10px;
+
+    white-space: nowrap;
+}
+
+
+.webinar-player-join-notification-copy strong {
+    font-size: 11px;
+
+    color: #172033;
+}
+
+
+/* =========================================================
+   LIVE CHAT
+   ---------------------------------------------------------
+   NORMAL:
+   LEFT SIDEBAR
+
+   MOBILE:
+   LEFT SIDEBAR
+
+   FULLSCREEN:
+   BOTTOM DRAWER
+========================================================= */
+
+.webinar-player-live-chat {
+    position: absolute;
+
+    left: 0;
+    right: auto;
+
+    top: 0;
+    bottom: 0;
+
+    z-index: 26;
+
+    width: 285px;
+
+    height: auto;
+
+    display: flex;
+
+    flex-direction: column;
+
+    overflow: hidden;
+
+    border-radius: 0 14px 14px 0;
+
+    border: 1px solid rgba(255, 255, 255, 0.16);
+
+    border-left: 0;
+
+    background:
+        rgba(7, 20, 34, 0.96);
+
+    color: #ffffff;
+
+    box-shadow:
+        12px 0 36px rgba(0, 0, 0, 0.28);
+
+    backdrop-filter: blur(12px);
+
+    -webkit-backdrop-filter: blur(12px);
+
+    animation:
+        webinar-chat-enter 0.25s ease-out;
+}
+
+
+.webinar-player-live-chat-open {
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+}
+
+
+@keyframes webinar-chat-enter {
+
+    from {
+        opacity: 0;
+
+        transform: translateX(-10px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateX(0);
+    }
+}
+
+
+/* =========================================================
+   FULLSCREEN CHAT
+========================================================= */
+
+.webinar-player-live-chat-fullscreen {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+
+    top: auto;
+    bottom: 0;
+
+    width: 100%;
+
+    height: min(360px, 48vh);
+
+    max-height: 48vh;
+
+    border-radius: 16px 16px 0 0;
+
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+
+    box-shadow:
+        0 -16px 42px rgba(0, 0, 0, 0.34);
+
+    animation:
+        webinar-chat-bottom-enter 0.25s ease-out;
+}
+
+
+@keyframes webinar-chat-bottom-enter {
+
+    from {
+        opacity: 0;
+
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================================
+   MOBILE CHAT
+   LEFT SIDEBAR
+========================================================= */
+
+.webinar-player-live-chat-mobile {
+    left: 0;
+    right: auto;
+
+    top: 0;
+    bottom: 0;
+
+    width: min(82%, 290px);
+
+    height: auto;
+
+    max-height: none;
+
+    border-radius: 0 12px 12px 0;
+
+    border-left: 0;
+
+    box-shadow:
+        10px 0 30px rgba(0, 0, 0, 0.28);
+}
+
+
+/* =========================================================
+   FULLSCREEN + MOBILE CHAT
+========================================================= */
+
+.webinar-player-fullscreen
+.webinar-player-live-chat-mobile.webinar-player-live-chat-fullscreen {
+    left: 0;
+    right: 0;
+
+    top: auto;
+    bottom: 0;
+
+    width: 100%;
+
+    height: min(360px, 48vh);
+
+    max-height: 48vh;
+
+    border-radius: 16px 16px 0 0;
+
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+
+    box-shadow:
+        0 -16px 42px rgba(0, 0, 0, 0.34);
+}
+
+
+/* =========================================================
+   CHAT HEADER
+========================================================= */
+
+.webinar-player-live-chat-header {
+    min-height: 46px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 10px 0 13px;
+
+    flex-shrink: 0;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+
+    background:
+        rgba(4, 15, 27, 0.7);
+}
+
+
+.webinar-player-live-chat-heading {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+}
+
+
+.webinar-player-live-chat-header-icon {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: #ffffff;
+
+    font-size: 11px;
+}
+
+
+.webinar-player-live-chat-title {
+    color: #ffffff;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.01em;
+}
+
+
+.webinar-player-live-chat-live-dot {
+    width: 6px;
+
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #21c875;
+
+    box-shadow:
+        0 0 0 3px rgba(33, 200, 117, 0.12);
+
+    animation:
+        webinar-live-blink 1.3s ease-in-out infinite;
+}
+
+
+.webinar-player-live-chat-toggle,
+.webinar-player-live-chat-mobile-close {
+    width: 29px;
+
+    height: 29px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 0;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    color: rgba(255, 255, 255, 0.75);
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+
+.webinar-player-live-chat-toggle:hover,
+.webinar-player-live-chat-mobile-close:hover {
+    background: rgba(255, 255, 255, 0.14);
+
+    color: #ffffff;
+}
+
+
+.webinar-player-live-chat-toggle-icon {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   CHAT MESSAGES
+========================================================= */
+
+.webinar-player-live-chat-messages {
+    flex: 1;
+
+    min-height: 0;
+
+    overflow-y: auto;
+
+    padding: 11px 11px 12px;
+
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        rgba(255, 255, 255, 0.18)
+        transparent;
+}
+
+
+.webinar-player-live-chat-messages::-webkit-scrollbar {
+    width: 4px;
+}
+
+
+.webinar-player-live-chat-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+
+.webinar-player-live-chat-messages::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.18);
+
+    border-radius: 999px;
+}
+
+
+/* =========================================================
+   CHAT MESSAGE
+========================================================= */
+
+.webinar-player-live-chat-message {
+    width: 100%;
+
+    margin-bottom: 9px;
+
+    animation:
+        webinar-message-enter 0.25s ease-out;
+}
+
+
+.webinar-player-live-chat-message:last-child {
+    margin-bottom: 0;
+}
+
+
+@keyframes webinar-message-enter {
+
+    from {
+        opacity: 0;
+
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateY(0);
+    }
+}
+
+
+.webinar-player-live-chat-message-line {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 7px;
+
+    line-height: 1.35;
+}
+
+
+.webinar-player-live-chat-message-line strong {
+    flex-shrink: 0;
+
+    color: rgba(255, 255, 255, 0.72);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+}
+
+
+.webinar-player-live-chat-message-line span {
+    min-width: 0;
+
+    color: #ffffff;
+
+    font-size: 10px;
+
+    font-weight: 500;
+
+    word-break: break-word;
+}
+
+
+.webinar-player-live-chat-message-own {
+    padding: 7px 8px;
+
+    border-radius: 9px;
+
+    background:
+        rgba(0, 86, 179, 0.28);
+
+    border: 1px solid rgba(101, 197, 255, 0.14);
+}
+
+
+.webinar-player-live-chat-message-own
+.webinar-player-live-chat-message-line
+strong {
+    color: #75c9ff;
+}
+
+
+/* =========================================================
+   EMPTY CHAT
+========================================================= */
+
+.webinar-player-live-chat-empty {
+    height: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 9px;
+
+    color: rgba(255, 255, 255, 0.46);
+
+    text-align: center;
+
+    font-size: 10px;
+}
+
+
+.webinar-player-live-chat-empty svg {
+    font-size: 18px;
+
+    opacity: 0.65;
+}
+
+
+/* =========================================================
+   CHAT FORM
+========================================================= */
+
+.webinar-player-live-chat-form {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 9px;
+
+    flex-shrink: 0;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+    background:
+        rgba(4, 15, 27, 0.75);
+}
+
+
+.webinar-player-live-chat-input {
+    min-width: 0;
+
+    flex: 1;
+
+    height: 32px;
+
+    padding: 0 10px;
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    border-radius: 8px;
+
+    outline: none;
+
+    background:
+        rgba(255, 255, 255, 0.07);
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 10px;
+}
+
+
+.webinar-player-live-chat-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+
+.webinar-player-live-chat-input:focus {
+    border-color:
+        rgba(101, 197, 255, 0.45);
+
+    background:
+        rgba(255, 255, 255, 0.09);
+}
+
+
+.webinar-player-live-chat-send {
+    width: 32px;
+
+    height: 32px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    padding: 0;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    background: var(--player-blue);
+
+    color: #ffffff;
+
+    cursor: pointer;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.webinar-player-live-chat-send:hover:not(:disabled) {
+    transform: translateY(-1px);
+}
+
+
+.webinar-player-live-chat-send:disabled {
+    opacity: 0.35;
+
+    cursor: default;
+}
+
+
+/* =========================================================
+   MINI CHAT BUTTON
+   ---------------------------------------------------------
+   ALL NORMAL MODES = RIGHT SIDE
+========================================================= */
+
+.webinar-player-live-chat-mini {
+    position: absolute;
+
+    left: auto;
+    right: 14px;
+
+    bottom: 78px;
+
+    z-index: 26;
+
+    min-height: 39px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 0 12px;
+
+    border: 1px solid rgba(215, 224, 233, 0.95);
+
+    border-radius: 999px;
+
+    background: #ffffff;
+
+    color: #1b3149;
+
+    box-shadow:
+        0 9px 26px rgba(0, 0, 0, 0.18);
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* =========================================================
+   DESKTOP MINI CHAT BUTTON
+========================================================= */
+
+.webinar-player-live-chat-mini-desktop {
+    left: auto;
+
+    right: 14px;
+}
+
+
+/* =========================================================
+   MINI CHAT HOVER
+========================================================= */
+
+.webinar-player-live-chat-mini:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 13px 30px rgba(0, 0, 0, 0.22);
+}
+
+
+.webinar-player-live-chat-mini > svg {
+    color: var(--player-blue);
+
+    font-size: 12px;
+}
+
+
+.webinar-player-live-chat-mini-dot {
+    width: 6px;
+
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #20bd6e;
+}
+
+
+/* =========================================================
+   FULLSCREEN MINI CHAT BUTTON
+   RIGHT SIDE
+========================================================= */
+
+.webinar-player-live-chat-mini-fullscreen {
+    left: auto;
+
+    right: 14px;
+
+    bottom: 78px;
+}
+
+
+/* =========================================================
+   MOBILE MINI CHAT BUTTON
+   RIGHT SIDE
+========================================================= */
+
+.webinar-player-live-chat-mini-mobile {
+    left: auto;
+
+    right: 8px;
+
+    bottom: 67px;
+}
+
+
+/* =========================================================
+   FULLSCREEN + MOBILE MINI BUTTON
+   RIGHT SIDE
+========================================================= */
+
+.webinar-player-fullscreen
+.webinar-player-live-chat-mini-mobile.webinar-player-live-chat-mini-fullscreen {
+    left: auto;
+
+    right: 10px;
+
+    bottom: 67px;
+}
+
+
+/* =========================================================
+   MOBILE CHAT REMINDER
+========================================================= */
+
+.webinar-player-mobile-chat-prompt {
+    position: absolute;
+
+    left: 14px;
+
+    right: 14px;
+
+    bottom: 66px;
+
+    z-index: 28;
+
+    display: grid;
+
+    grid-template-columns:
+        34px
+        minmax(0, 1fr)
+        auto
+        26px;
+
+    grid-template-rows:
+        auto
+        auto;
+
+    column-gap: 8px;
+
+    row-gap: 4px;
+
+    align-items: center;
+
+    padding: 10px 10px 8px;
+
+    border: 1px solid rgba(222, 231, 240, 0.95);
+
+    border-radius: 12px;
+
+    background: rgba(255, 255, 255, 0.98);
+
+    box-shadow:
+        0 10px 30px rgba(5, 27, 49, 0.22);
+
+    animation:
+        webinar-mobile-prompt-enter 0.3s ease-out;
+}
+
+
+@keyframes webinar-mobile-prompt-enter {
+
+    from {
+        opacity: 0;
+
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateY(0);
+    }
+}
+
+
+.webinar-player-mobile-chat-prompt-icon {
+    width: 34px;
+
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    grid-row: 1;
+
+    border-radius: 9px;
+
+    background: #eef6ff;
+
+    color: var(--player-blue);
+
+    font-size: 13px;
+}
+
+
+.webinar-player-mobile-chat-prompt-copy {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 2px;
+
+    grid-column: 2;
+}
+
+
+.webinar-player-mobile-chat-prompt-copy strong {
+    color: #172033;
+
+    font-size: 10px;
+
+    font-weight: 800;
+}
+
+
+.webinar-player-mobile-chat-prompt-copy span {
+    color: #687384;
+
+    font-size: 8px;
+
+    line-height: 1.3;
+}
+
+
+.webinar-player-mobile-chat-prompt-join {
+    min-height: 29px;
+
+    padding: 0 10px;
+
+    border: 0;
+
+    border-radius: 7px;
+
+    background: var(--player-blue);
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+
+.webinar-player-mobile-chat-prompt-close {
+    width: 26px;
+
+    height: 26px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 0;
+
+    border: 0;
+
+    border-radius: 7px;
+
+    background: #f2f5f8;
+
+    color: #6d7885;
+
+    cursor: pointer;
+
+    font-size: 9px;
+}
+
+
+.webinar-player-mobile-chat-prompt-dismiss {
+    grid-column: 2 / 5;
+
+    justify-self: start;
+
+    padding: 0;
+
+    border: 0;
+
+    background: transparent;
+
+    color: #87929e;
+
+    font-family: inherit;
+
+    font-size: 8px;
+
+    cursor: pointer;
+
+    text-decoration: underline;
+
+    text-underline-offset: 2px;
+}
+
+
+/* =========================================================
+   CONTROLS
+========================================================= */
+
+.webinar-player-controls {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    z-index: 20;
+
+    padding: 34px 14px 12px;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(3, 13, 23, 0.82),
+            rgba(3, 13, 23, 0)
+        );
+
+    opacity: 1;
+
+    transition:
+        opacity 0.25s ease;
+
+    pointer-events: auto;
+}
+
+
+.webinar-player-controls-hidden
+.webinar-player-controls {
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+
+.webinar-player-controls-visible
+.webinar-player-controls {
+    opacity: 1;
+}
+
+
+.webinar-player-controls-row {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 14px;
+}
+
+
+.webinar-player-controls-left,
+.webinar-player-controls-right {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+}
+
+
+/* =========================================================
+   CONTROL BUTTON
+========================================================= */
+
+.webinar-player-control-button {
+    width: 30px;
+
+    height: 30px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 0;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    background: rgba(0, 0, 0, 0.22);
+
+    color: #ffffff;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.webinar-player-control-button:hover:not(:disabled) {
+    background: rgba(0, 0, 0, 0.38);
+
+    transform: translateY(-1px);
+}
+
+
+.webinar-player-control-button:disabled {
+    opacity: 0.45;
+
+    cursor: default;
+}
+
+
+.webinar-player-control-button svg {
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   VOLUME
+========================================================= */
+
+.webinar-player-volume {
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+}
+
+
+.webinar-player-volume-input {
+    width: 58px;
+
+    height: 3px;
+
+    appearance: none;
+
+    -webkit-appearance: none;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255, 255, 255, 0.35);
+
+    cursor: pointer;
+}
+
+
+.webinar-player-volume-input::-webkit-slider-thumb {
+    appearance: none;
+
+    -webkit-appearance: none;
+
+    width: 9px;
+
+    height: 9px;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    cursor: pointer;
+}
+
+
+.webinar-player-volume-input::-moz-range-thumb {
+    width: 9px;
+
+    height: 9px;
+
+    border: 0;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   TIME
+========================================================= */
+
+.webinar-player-time {
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    color: rgba(255, 255, 255, 0.88);
+
+    font-size: 9px;
+
+    font-variant-numeric: tabular-nums;
+
+    white-space: nowrap;
+}
+
+
+.webinar-player-time span {
+    color: rgba(255, 255, 255, 0.42);
+}
+
+
+/* =========================================================
+   FULLSCREEN
+========================================================= */
+
+.webinar-player-fullscreen {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9999;
+
+    width: 100vw;
+
+    max-width: none;
+
+    height: 100vh;
+
+    margin: 0;
+
+    border: 0;
+
+    border-radius: 0;
+
+    background: #000000;
+}
+
+
+.webinar-player-fullscreen
+.webinar-player-screen {
+    height: calc(100vh - 52px);
+
+    aspect-ratio: auto;
+
+    border-radius: 0;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .webinar-player {
+        width: min(100%, 920px);
+
+        max-width: 920px;
+    }
+
+
+    .webinar-player-topbar {
+        min-height: 48px;
+
+        padding: 0 16px;
+    }
+
+
+    .webinar-player-live-chat {
+        width: 270px;
+    }
+
+
+    /* -----------------------------------------------------
+       TABLET CHAT BUTTON — RIGHT
+    ----------------------------------------------------- */
+
+    .webinar-player-live-chat-mini {
+        left: auto;
+
+        right: 12px;
+
+        bottom: 70px;
+    }
+
+
+    .webinar-player-live-chat-mini-desktop {
+        left: auto;
+
+        right: 12px;
+    }
+
+
+    .webinar-player-live-chat-mini-fullscreen {
+        left: auto;
+
+        right: 14px;
+
+        bottom: 70px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+    .webinar-player {
+        width: 100%;
+
+        max-width: 100%;
+
+        margin: 0;
+
+        border-radius: 12px;
+
+        box-shadow:
+            0 10px 28px rgba(15, 35, 60, 0.09);
+    }
+
+
+    /* -----------------------------------------------------
+       MOBILE TOPBAR
+    ----------------------------------------------------- */
+
+    .webinar-player-topbar {
+        min-height: 40px;
+
+        padding: 0 10px;
+    }
+
+
+    .webinar-player-topbar-left,
+    .webinar-player-topbar-brand {
+        height: 100%;
+
+        min-width: 0;
+    }
+
+
+    .webinar-player-topbar-left {
+        gap: 6px;
+
+        flex-shrink: 1;
+    }
+
+
+    .webinar-player-live-status {
+        gap: 4px;
+
+        font-size: 7px;
+
+        letter-spacing: 0.035em;
+    }
+
+
+    .webinar-player-live-dot {
+        font-size: 4px;
+    }
+
+
+    .webinar-player-topbar-divider {
+        font-size: 7px;
+    }
+
+
+    .webinar-player-viewer-count {
+        gap: 3px;
+
+        font-size: 6.5px;
+    }
+
+
+    .webinar-player-viewer-count strong {
+        font-size: 7.5px;
+    }
+
+
+    .webinar-player-viewer-icon {
+        font-size: 3px;
+    }
+
+
+    .webinar-player-topbar-brand {
+        flex-shrink: 1;
+
+        max-width: 115px;
+
+        overflow: hidden;
+
+        font-size: 6.5px;
+
+        letter-spacing: 0.035em;
+
+        text-overflow: ellipsis;
+    }
+
+
+    /* -----------------------------------------------------
+       MOBILE VIDEO
+    ----------------------------------------------------- */
+
+    .webinar-player-screen {
+        border-radius: 0 0 11px 11px;
+    }
+
+
+    .webinar-player-youtube-shield {
+        top: 0;
+
+        height: 64px;
+    }
+
+
+    /* -----------------------------------------------------
+       MOBILE JOIN NOTIFICATION
+    ----------------------------------------------------- */
+
+    .webinar-player-join-notification {
+        left: 8px;
+
+        bottom: 56px;
+
+        max-width: calc(100% - 16px);
+
+        padding: 6px 8px;
+
+        gap: 7px;
+
+        border-radius: 999px;
+    }
+
+
+    .webinar-player-join-notification-copy {
+        font-size: 7px;
+    }
+
+
+    .webinar-player-join-notification-copy strong {
+        font-size: 8px;
+    }
+
+
+    /* -----------------------------------------------------
+       MOBILE CHAT DRAWER
+       LEFT SIDEBAR
+    ----------------------------------------------------- */
+
+    .webinar-player-live-chat {
+        left: 0;
+
+        right: auto;
+
+        top: 0;
+
+        bottom: 0;
+
+        width: min(82%, 290px);
+
+        height: auto;
+
+        max-height: none;
+
+        border-radius: 0 10px 10px 0;
+
+        border-left: 0;
+
+        box-shadow:
+            10px 0 30px rgba(0, 0, 0, 0.28);
+    }
+
+
+    .webinar-player-live-chat-header {
+        min-height: 34px;
+
+        padding: 0 7px 0 9px;
+    }
+
+
+    .webinar-player-live-chat-heading {
+        gap: 5px;
+    }
+
+
+    .webinar-player-live-chat-header-icon {
+        font-size: 9px;
+    }
+
+
+    .webinar-player-live-chat-title {
+        font-size: 9px;
+    }
+
+
+    .webinar-player-live-chat-live-dot {
+        width: 5px;
+
+        height: 5px;
+    }
+
+
+    .webinar-player-live-chat-mobile-close,
+    .webinar-player-live-chat-toggle {
+        width: 25px;
+
+        height: 25px;
+
+        border-radius: 6px;
+
+        font-size: 8px;
+    }
+
+
+    .webinar-player-live-chat-messages {
+        padding: 7px 8px;
+    }
+
+
+    .webinar-player-live-chat-message {
+        margin-bottom: 6px;
+    }
+
+
+    .webinar-player-live-chat-message-line {
+        gap: 5px;
+
+        line-height: 1.28;
+    }
+
+
+    .webinar-player-live-chat-message-line strong {
+        font-size: 7.5px;
+    }
+
+
+    .webinar-player-live-chat-message-line span {
+        font-size: 7.5px;
+
+        line-height: 1.28;
+    }
+
+
+    .webinar-player-live-chat-message-own {
+        padding: 6px 7px;
+
+        border-radius: 7px;
+    }
+
+
+    .webinar-player-live-chat-form {
+        gap: 5px;
+
+        padding: 6px;
+    }
+
+
+    .webinar-player-live-chat-input {
+        height: 27px;
+
+        padding: 0 8px;
+
+        border-radius: 7px;
+
+        font-size: 8px;
+    }
+
+
+    .webinar-player-live-chat-send {
+        width: 27px;
+
+        height: 27px;
+
+        border-radius: 7px;
+
+        font-size: 8px;
+    }
+
+
+    /* -----------------------------------------------------
+       MOBILE CHAT BUTTON
+       RIGHT SIDE
+    ----------------------------------------------------- */
+
+    .webinar-player-live-chat-mini {
+        left: auto;
+
+        right: 8px;
+
+        bottom: 67px;
+
+        min-height: 32px;
+
+        padding: 0 9px;
+
+        gap: 5px;
+
+        border-radius: 999px;
+
+        font-size: 8px;
+    }
+
+
+    .webinar-player-live-chat-mini-mobile {
+        left: auto;
+
+        right: 8px;
+
+        bottom: 67px;
+    }
+
+
+    .webinar-player-live-chat-mini-desktop {
+        left: auto;
+
+        right: 8px;
+    }
+
+
+    .webinar-player-live-chat-mini > svg {
+        font-size: 10px;
+    }
+
+
+    .webinar-player-live-chat-mini-dot {
+        width: 5px;
+
+        height: 5px;
+    }
+
+
+    /* -----------------------------------------------------
+       MOBILE FULLSCREEN CHAT
+       BOTTOM DRAWER
+    ----------------------------------------------------- */
+
+    .webinar-player-fullscreen
+    .webinar-player-live-chat-mobile.webinar-player-live-chat-fullscreen {
+        left: 0;
+
+        right: 0;
+
+        top: auto;
+
+        bottom: 0;
+
+        width: 100%;
+
+        height: min(360px, 48vh);
+
+        max-height: 48vh;
+
+        border-radius: 16px 16px 0 0;
+
+        border-left: 0;
+
+        border-right: 0;
+
+        border-bottom: 0;
+    }
+
+
+    .webinar-player-fullscreen
+    .webinar-player-live-chat-fullscreen {
+        left: 0;
+
+        right: 0;
+
+        top: auto;
+
+        bottom: 0;
+
+        width: 100%;
+
+        height: min(360px, 48vh);
+
+        max-height: 48vh;
+
+        border-radius: 16px 16px 0 0;
+
+        border-left: 0;
+
+        border-right: 0;
+
+        border-bottom: 0;
+    }
+
+
+    /* -----------------------------------------------------
+       MOBILE FULLSCREEN MINI BUTTON
+       RIGHT SIDE
+    ----------------------------------------------------- */
+
+    .webinar-player-fullscreen
+    .webinar-player-live-chat-mini-mobile.webinar-player-live-chat-mini-fullscreen {
+        left: auto;
+
+        right: 10px;
+
+        bottom: 67px;
+    }
+
+
+    /* -----------------------------------------------------
+       MOBILE CHAT REMINDER
+    ----------------------------------------------------- */
+
+    .webinar-player-mobile-chat-prompt {
+        left: 8px;
+
+        right: 8px;
+
+        bottom: 47px;
+
+        padding: 7px;
+
+        grid-template-columns:
+            29px
+            minmax(0, 1fr)
+            auto
+            22px;
+
+        column-gap: 6px;
+
+        row-gap: 3px;
+
+        border-radius: 9px;
+    }
+
+
+    .webinar-player-mobile-chat-prompt-icon {
+        width: 29px;
+
+        height: 29px;
+
+        border-radius: 7px;
+
+        font-size: 11px;
+    }
+
+
+    .webinar-player-mobile-chat-prompt-copy {
+        gap: 1px;
+    }
+
+
+    .webinar-player-mobile-chat-prompt-copy strong {
+        font-size: 8px;
+    }
+
+
+    .webinar-player-mobile-chat-prompt-copy span {
+        font-size: 6.5px;
+
+        line-height: 1.25;
+    }
+
+
+    .webinar-player-mobile-chat-prompt-join {
+        min-height: 25px;
+
+        padding: 0 8px;
+
+        border-radius: 6px;
+
+        font-size: 7.5px;
+    }
+
+
+    .webinar-player-mobile-chat-prompt-close {
+        width: 22px;
+
+        height: 22px;
+
+        border-radius: 6px;
+
+        font-size: 7px;
+    }
+
+
+    .webinar-player-mobile-chat-prompt-dismiss {
+        font-size: 6.5px;
+    }
+
+
+    /* -----------------------------------------------------
+       MOBILE CONTROLS
+    ----------------------------------------------------- */
+
+    .webinar-player-controls {
+        padding:
+            24px
+            7px
+            6px;
+    }
+
+
+    .webinar-player-controls-row {
+        gap: 5px;
+    }
+
+
+    .webinar-player-controls-left,
+    .webinar-player-controls-right {
+        gap: 4px;
+    }
+
+
+    .webinar-player-control-button {
+        width: 25px;
+
+        height: 25px;
+
+        border-radius: 6px;
+    }
+
+
+    .webinar-player-control-button svg {
+        font-size: 8px;
+    }
+
+
+    .webinar-player-volume {
+        gap: 4px;
+    }
+
+
+    .webinar-player-volume-input {
+        width: 38px;
+
+        height: 2px;
+    }
+
+
+    .webinar-player-volume-input::-webkit-slider-thumb {
+        width: 8px;
+
+        height: 8px;
+    }
+
+
+    .webinar-player-volume-input::-moz-range-thumb {
+        width: 8px;
+
+        height: 8px;
+    }
+
+
+    .webinar-player-time {
+        font-size: 7px;
+
+        gap: 3px;
+    }
+
+
+    /* -----------------------------------------------------
+       MOBILE SOUND PROMPT
+    ----------------------------------------------------- */
+
+    .webinar-player-sound-prompt {
+        left: 8px;
+
+        right: 8px;
+
+        bottom: 55px;
+
+        width: auto;
+
+        min-width: 0;
+
+        transform: none;
+
+        gap: 8px;
+
+        padding: 8px 9px;
+
+        border-radius: 9px;
+    }
+
+
+    .webinar-player-sound-prompt-icon {
+        width: 27px;
+
+        height: 27px;
+
+        border-radius: 6px;
+
+        font-size: 10px;
+    }
+
+
+    .webinar-player-sound-prompt-copy {
+        gap: 1px;
+    }
+
+
+    .webinar-player-sound-prompt-copy strong {
+        font-size: 9px;
+    }
+
+
+    .webinar-player-sound-prompt-copy small {
+        font-size: 7px;
+    }
+
+
+    .webinar-player-sound-prompt-arrow {
+        font-size: 10px;
+    }
+
+
+    /* -----------------------------------------------------
+       FULLSCREEN MOBILE
+    ----------------------------------------------------- */
+
+    .webinar-player-fullscreen
+    .webinar-player-topbar {
+        min-height: 40px;
+    }
+
+
+    .webinar-player-fullscreen
+    .webinar-player-screen {
+        height: calc(100vh - 40px);
+    }
+
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .webinar-player {
+        border-radius: 10px;
+    }
+
+
+    .webinar-player-topbar {
+        min-height: 38px;
+
+        padding: 0 8px;
+    }
+
+
+    .webinar-player-topbar-left {
+        gap: 5px;
+    }
+
+
+    .webinar-player-topbar-brand {
+        max-width: 96px;
+
+        font-size: 6px;
+    }
+
+
+    .webinar-player-live-status {
+        font-size: 6.5px;
+    }
+
+
+    .webinar-player-live-dot {
+        font-size: 4px;
+    }
+
+
+    .webinar-player-topbar-divider {
+        font-size: 6px;
+    }
+
+
+    .webinar-player-viewer-count {
+        font-size: 5.5px;
+    }
+
+
+    .webinar-player-viewer-count strong {
+        font-size: 6.5px;
+    }
+
+
+    /* Keep protection exactly 64px. */
+
+    .webinar-player-youtube-shield {
+        height: 64px;
+    }
+
+
+    /* -----------------------------------------------------
+       SMALL PHONE CHAT — LEFT SIDEBAR
+    ----------------------------------------------------- */
+
+    .webinar-player-live-chat {
+        left: 0;
+
+        right: auto;
+
+        top: 0;
+
+        bottom: 0;
+
+        width: min(84%, 280px);
+
+        height: auto;
+
+        max-height: none;
+
+        border-radius: 0 9px 9px 0;
+    }
+
+
+    .webinar-player-live-chat-header {
+        min-height: 32px;
+
+        padding-left: 8px;
+    }
+
+
+    .webinar-player-live-chat-title {
+        font-size: 8px;
+    }
+
+
+    .webinar-player-live-chat-messages {
+        padding: 6px 7px;
+    }
+
+
+    .webinar-player-live-chat-message {
+        margin-bottom: 5px;
+    }
+
+
+    .webinar-player-live-chat-message-line {
+        gap: 4px;
+    }
+
+
+    .webinar-player-live-chat-message-line strong {
+        font-size: 7px;
+    }
+
+
+    .webinar-player-live-chat-message-line span {
+        font-size: 7px;
+    }
+
+
+    .webinar-player-live-chat-form {
+        padding: 5px;
+    }
+
+
+    .webinar-player-live-chat-input {
+        height: 25px;
+
+        font-size: 7.5px;
+    }
+
+
+    .webinar-player-live-chat-send {
+        width: 25px;
+
+        height: 25px;
+    }
+
+
+    /* -----------------------------------------------------
+       SMALL PHONE MINI CHAT — RIGHT
+    ----------------------------------------------------- */
+
+    .webinar-player-live-chat-mini {
+        left: auto;
+
+        right: 7px;
+
+        bottom: 61px;
+
+        min-height: 30px;
+
+        padding: 0 8px;
+
+        font-size: 7.5px;
+    }
+
+
+    .webinar-player-live-chat-mini-mobile {
+        left: auto;
+
+        right: 7px;
+
+        bottom: 61px;
+    }
+
+
+    .webinar-player-live-chat-mini-desktop {
+        left: auto;
+
+        right: 7px;
+    }
+
+
+    /* -----------------------------------------------------
+       SMALL PHONE FULLSCREEN CHAT
+    ----------------------------------------------------- */
+
+    .webinar-player-fullscreen
+    .webinar-player-live-chat-fullscreen {
+        left: 0;
+
+        right: 0;
+
+        top: auto;
+
+        bottom: 0;
+
+        width: 100%;
+
+        height: min(340px, 48vh);
+
+        max-height: 48vh;
+
+        border-radius: 14px 14px 0 0;
+    }
+
+
+    .webinar-player-fullscreen
+    .webinar-player-live-chat-mobile.webinar-player-live-chat-fullscreen {
+        left: 0;
+
+        right: 0;
+
+        top: auto;
+
+        bottom: 0;
+
+        width: 100%;
+
+        height: min(340px, 48vh);
+
+        max-height: 48vh;
+
+        border-radius: 14px 14px 0 0;
+    }
+
+
+    /* -----------------------------------------------------
+       SMALL PHONE FULLSCREEN MINI BUTTON
+       RIGHT
+    ----------------------------------------------------- */
+
+    .webinar-player-fullscreen
+    .webinar-player-live-chat-mini-fullscreen {
+        left: auto;
+
+        right: 8px;
+
+        bottom: 61px;
+    }
+
+
+    /* -----------------------------------------------------
+       SMALL PHONE REMINDER
+    ----------------------------------------------------- */
+
+    .webinar-player-mobile-chat-prompt {
+        left: 7px;
+
+        right: 7px;
+
+        bottom: 43px;
+
+        padding: 6px;
+
+        grid-template-columns:
+            27px
+            minmax(0, 1fr)
+            auto
+            21px;
+
+        column-gap: 5px;
+    }
+
+
+    .webinar-player-mobile-chat-prompt-icon {
+        width: 27px;
+
+        height: 27px;
+
+        border-radius: 6px;
+
+        font-size: 10px;
+    }
+
+
+    .webinar-player-mobile-chat-prompt-copy strong {
+        font-size: 7.5px;
+    }
+
+
+    .webinar-player-mobile-chat-prompt-copy span {
+        font-size: 6px;
+    }
+
+
+    .webinar-player-mobile-chat-prompt-join {
+        min-height: 23px;
+
+        padding: 0 7px;
+
+        font-size: 7px;
+    }
+
+
+    .webinar-player-mobile-chat-prompt-close {
+        width: 21px;
+
+        height: 21px;
+
+        font-size: 6.5px;
+    }
+
+
+    .webinar-player-mobile-chat-prompt-dismiss {
+        font-size: 6px;
+    }
+
+
+    /* -----------------------------------------------------
+       SMALL PHONE CONTROLS
+    ----------------------------------------------------- */
+
+    .webinar-player-controls {
+        padding:
+            22px
+            6px
+            5px;
+    }
+
+
+    .webinar-player-control-button {
+        width: 23px;
+
+        height: 23px;
+
+        border-radius: 5px;
+    }
+
+
+    .webinar-player-control-button svg {
+        font-size: 7px;
+    }
+
+
+    .webinar-player-volume-input {
+        width: 32px;
+    }
+
+
+    .webinar-player-time {
+        font-size: 6.5px;
+
+        gap: 3px;
+    }
+
+
+    /* -----------------------------------------------------
+       SMALL PHONE JOIN NOTIFICATION
+    ----------------------------------------------------- */
+
+    .webinar-player-join-notification {
+        left: 7px;
+
+        bottom: 51px;
+
+        padding: 5px 7px;
+
+        gap: 6px;
+    }
+
+
+    .webinar-player-join-notification-copy {
+        font-size: 6.5px;
+    }
+
+
+    .webinar-player-join-notification-copy strong {
+        font-size: 7.5px;
+    }
+
+
+    /* -----------------------------------------------------
+       SMALL PHONE SOUND PROMPT
+    ----------------------------------------------------- */
+
+    .webinar-player-sound-prompt {
+        left: 7px;
+
+        right: 7px;
+
+        bottom: 51px;
+
+        padding: 7px 8px;
+    }
+
+
+    .webinar-player-sound-prompt-icon {
+        width: 25px;
+
+        height: 25px;
+
+        font-size: 9px;
+    }
+
+
+    .webinar-player-sound-prompt-copy strong {
+        font-size: 8px;
+    }
+
+
+    .webinar-player-sound-prompt-copy small {
+        font-size: 6.5px;
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 360px) {
+
+    .webinar-player-topbar-brand {
+        max-width: 78px;
+
+        font-size: 5.5px;
+    }
+
+
+    .webinar-player-live-status {
+        font-size: 6px;
+    }
+
+
+    .webinar-player-viewer-count {
+        font-size: 5px;
+    }
+
+
+    .webinar-player-viewer-count strong {
+        font-size: 6px;
+    }
+
+
+    .webinar-player-topbar-divider {
+        display: none;
+    }
+
+
+    .webinar-player-controls-left,
+    .webinar-player-controls-right {
+        gap: 3px;
+    }
+
+
+    .webinar-player-control-button {
+        width: 22px;
+
+        height: 22px;
+    }
+
+
+    .webinar-player-volume-input {
+        width: 27px;
+    }
+
+
+    .webinar-player-time {
+        font-size: 6px;
+    }
+
+
+    /* -----------------------------------------------------
+       VERY SMALL PHONE CHAT BUTTON — RIGHT
+    ----------------------------------------------------- */
+
+    .webinar-player-live-chat-mini {
+        left: auto;
+
+        right: 6px;
+
+        bottom: 58px;
+
+        min-height: 28px;
+
+        padding: 0 7px;
+
+        font-size: 7px;
+    }
+
+
+    .webinar-player-live-chat-mini-mobile {
+        left: auto;
+
+        right: 6px;
+
+        bottom: 58px;
+    }
+
+
+    .webinar-player-live-chat-mini-desktop {
+        left: auto;
+
+        right: 6px;
+    }
+
+
+    /* Fullscreen mini button remains bottom-right. */
+
+    .webinar-player-fullscreen
+    .webinar-player-live-chat-mini-fullscreen {
+        left: auto;
+
+        right: 7px;
+
+        bottom: 58px;
+    }
+
+}
+
+
+/* =========================================================
+   TOUCH DEVICES
+========================================================= */
+
+@media (hover: none) and (pointer: coarse) {
+
+    .webinar-player-control-button:hover {
+        transform: none;
+
+        background: rgba(0, 0, 0, 0.22);
+    }
+
+
+    .webinar-player-live-chat-mini:hover {
+        transform: none;
+    }
+
+
+    .webinar-player-live-chat-toggle:hover,
+    .webinar-player-live-chat-mobile-close:hover {
+        background: rgba(255, 255, 255, 0.08);
+
+        color: rgba(255, 255, 255, 0.75);
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .webinar-player-live-dot,
+    .webinar-player-live-chat-live-dot,
+    .webinar-player-loading-spinner,
+    .webinar-player-live-chat-message,
+    .webinar-player-mobile-chat-prompt,
+    .webinar-player-live-chat {
+        animation: none;
+    }
+
+
+    .webinar-player-join-notification {
+        transition: none;
+    }
+
+}

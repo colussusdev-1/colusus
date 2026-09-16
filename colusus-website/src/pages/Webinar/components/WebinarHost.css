@@ -1,0 +1,444 @@
+
+/* =========================================================
+   COLOSSUS WEBINAR
+   HOST PROFILE
+========================================================= */
+
+.webinar-host {
+    position: relative;
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(300px, 0.9fr)
+        minmax(0, 1.1fr);
+
+    gap: 64px;
+
+    align-items: center;
+}
+
+
+/* =========================================================
+   PORTRAIT
+========================================================= */
+
+.webinar-host-portrait {
+    position: relative;
+
+    width: 100%;
+    max-width: 440px;
+
+    aspect-ratio: 0.88;
+
+    isolation: isolate;
+}
+
+
+.webinar-host-portrait-frame {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    border-radius: 24px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #edf6ff 0%,
+            #dcecff 45%,
+            #f8fbff 100%
+        );
+
+    border: 1px solid #d8e6f2;
+
+    box-shadow:
+        0 28px 70px rgba(7, 50, 91, 0.13);
+
+    z-index: 2;
+}
+
+
+.webinar-host-image {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center top;
+
+    transition:
+        transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+
+.webinar-host:hover .webinar-host-image {
+    transform: scale(1.025);
+}
+
+
+/* =========================================================
+   PORTRAIT ACCENT
+========================================================= */
+
+.webinar-host-portrait-accent {
+    position: absolute;
+
+    width: 74%;
+
+    height: 74%;
+
+    right: -18px;
+    bottom: -18px;
+
+    border-radius: 24px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(0, 86, 179, 0.12),
+            rgba(101, 197, 255, 0.28)
+        );
+
+    border: 1px solid rgba(0, 86, 179, 0.12);
+
+    z-index: 1;
+}
+
+
+/* =========================================================
+   PLACEHOLDER
+========================================================= */
+
+.webinar-host-image-placeholder {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #0056b3;
+
+    font-size: 58px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #edf6ff,
+            #dcecff
+        );
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.webinar-host-content {
+    min-width: 0;
+
+    max-width: 560px;
+}
+
+
+.webinar-host-content-top {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    margin-bottom: 20px;
+}
+
+
+.webinar-host-label {
+    flex-shrink: 0;
+
+    color: #0056b3;
+
+    font-size: 9px;
+    line-height: 1;
+
+    font-weight: 850;
+
+    letter-spacing: 0.16em;
+
+    text-transform: uppercase;
+}
+
+
+.webinar-host-line {
+    width: 42px;
+    height: 1px;
+
+    background: #bfd3e4;
+}
+
+
+/* =========================================================
+   NAME
+========================================================= */
+
+.webinar-host-name {
+    margin: 0;
+
+    color: #071a2f;
+
+    font-size: clamp(38px, 4vw, 62px);
+    line-height: 0.98;
+
+    font-weight: 760;
+
+    letter-spacing: -0.055em;
+}
+
+
+/* =========================================================
+   ROLE
+========================================================= */
+
+.webinar-host-role {
+    margin: 17px 0 0;
+
+    color: #0056b3;
+
+    font-size: 13px;
+    line-height: 1.5;
+
+    font-weight: 750;
+
+    letter-spacing: -0.01em;
+}
+
+
+/* =========================================================
+   BIO
+========================================================= */
+
+.webinar-host-bio {
+    max-width: 520px;
+
+    margin: 22px 0 0;
+
+    color: #667b8e;
+
+    font-size: 14px;
+    line-height: 1.85;
+
+    font-weight: 400;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.webinar-host-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+
+    max-width: 520px;
+
+    margin-top: 32px;
+
+    padding-top: 18px;
+
+    border-top: 1px solid #dce7f0;
+
+    color: #718598;
+
+    font-size: 8px;
+    line-height: 1;
+
+    font-weight: 800;
+
+    letter-spacing: 0.12em;
+
+    text-transform: uppercase;
+}
+
+
+.webinar-host-arrow {
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #d5e3ee;
+    border-radius: 50%;
+
+    color: #0056b3;
+
+    font-size: 10px;
+
+    transition:
+        background 220ms ease,
+        color 220ms ease,
+        transform 220ms ease;
+}
+
+
+.webinar-host:hover .webinar-host-arrow {
+    background: #0056b3;
+
+    color: #ffffff;
+
+    transform: translateX(3px);
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .webinar-host {
+        grid-template-columns:
+            minmax(260px, 0.85fr)
+            minmax(0, 1.15fr);
+
+        gap: 42px;
+    }
+
+    .webinar-host-portrait {
+        max-width: 360px;
+    }
+
+    .webinar-host-name {
+        font-size: clamp(34px, 5vw, 48px);
+    }
+
+    .webinar-host-bio {
+        font-size: 13px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .webinar-host {
+        grid-template-columns: 1fr;
+
+        gap: 34px;
+    }
+
+
+    .webinar-host-portrait {
+        width: 100%;
+
+        max-width: 420px;
+
+        aspect-ratio: 0.92;
+
+        margin: 0 auto;
+    }
+
+
+    .webinar-host-portrait-frame {
+        border-radius: 20px;
+    }
+
+
+    .webinar-host-portrait-accent {
+        right: -10px;
+        bottom: -10px;
+
+        border-radius: 20px;
+    }
+
+
+    .webinar-host-content {
+        max-width: none;
+    }
+
+
+    .webinar-host-name {
+        font-size: 40px;
+
+        line-height: 1;
+    }
+
+
+    .webinar-host-role {
+        margin-top: 13px;
+
+        font-size: 12px;
+    }
+
+
+    .webinar-host-bio {
+        margin-top: 17px;
+
+        font-size: 12px;
+
+        line-height: 1.75;
+    }
+
+
+    .webinar-host-footer {
+        margin-top: 26px;
+
+        max-width: none;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .webinar-host {
+        gap: 28px;
+    }
+
+
+    .webinar-host-portrait {
+        aspect-ratio: 0.9;
+    }
+
+
+    .webinar-host-name {
+        font-size: 34px;
+    }
+
+
+    .webinar-host-content-top {
+        margin-bottom: 16px;
+    }
+
+
+    .webinar-host-label {
+        font-size: 8px;
+    }
+
+
+    .webinar-host-line {
+        width: 30px;
+    }
+
+
+    .webinar-host-footer {
+        font-size: 7px;
+    }
+
+}

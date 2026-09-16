@@ -29,6 +29,16 @@ import Contact from "./pages/Contact/Contact";
 
 /*
 |--------------------------------------------------------------------------
+| WEBINAR
+|--------------------------------------------------------------------------
+*/
+
+import Webinar
+    from "./pages/Webinar/Webinar";
+
+
+/*
+|--------------------------------------------------------------------------
 | OPPORTUNITIES
 |--------------------------------------------------------------------------
 */
@@ -95,15 +105,32 @@ import Profile
 
 /*
 |--------------------------------------------------------------------------
-| ADMIN
+| OPERATIONS AUTHENTICATION
 |--------------------------------------------------------------------------
 */
 
 import AdminLogin
     from "./pages/admin/Auth/AdminLogin";
 
+
+/*
+|--------------------------------------------------------------------------
+| OPERATIONS LAYOUT
+|--------------------------------------------------------------------------
+|
+| Shared by ADMIN and STAFF.
+|
+*/
+
 import AdminLayout
     from "./pages/admin/layout/AdminLayout";
+
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN PAGES
+|--------------------------------------------------------------------------
+*/
 
 import AdminOverview
     from "./pages/admin/overview/AdminOverview";
@@ -117,10 +144,56 @@ import AdminApplicationDetails
 import AdminConsultations
     from "./pages/admin/consultations/AdminConsultations";
 
+import AdminClients
+    from "./pages/admin/clients/AdminClients";
+
+import AdminClientDetails
+    from "./pages/admin/clients/AdminClientDetails";
+
+import AdminDocuments
+    from "./pages/admin/documents/AdminDocuments";
+
+import AdminNotifications
+    from "./pages/admin/notifications/AdminNotifications";
+
 
 /*
 |--------------------------------------------------------------------------
-| AUTHENTICATION
+| STAFF
+|--------------------------------------------------------------------------
+|
+| Staff belongs inside:
+|
+| pages/admin/staff/
+|
+| Staff uses the shared AdminLayout.
+|
+| StaffRoutes is responsible for all Staff sub-routes:
+|
+| /admin/staff
+| /admin/staff/applications
+| /admin/staff/applications/:id
+| /admin/staff/profile
+|
+*/
+
+import StaffRoutes
+    from "./pages/admin/staff/staff.routes";
+
+
+/*
+|--------------------------------------------------------------------------
+| ROLE GUARD
+|--------------------------------------------------------------------------
+*/
+
+import AdminRoleRoute
+    from "./pages/admin/Auth/AdminRoleRoute";
+
+
+/*
+|--------------------------------------------------------------------------
+| CLIENT AUTHENTICATION
 |--------------------------------------------------------------------------
 */
 
@@ -219,10 +292,22 @@ function App() {
 
 
                 {/* ======================================================
-                    OPPORTUNITIES
-                ====================================================== */}
+                    WEBINAR
+                    ====================================================== */}
 
-                {/* Country opportunities page */}
+                <Route
+                    path="/irelandnursingwebinar"
+                    element={
+                        <Webinar />
+                    }
+                />
+
+
+                {/* ======================================================
+                    OPPORTUNITIES
+                    ====================================================== */}
+
+                {/* Country opportunity listing */}
 
                 <Route
                     path="/opportunities/:country"
@@ -236,7 +321,7 @@ function App() {
                 />
 
 
-                {/* Individual pathway page */}
+                {/* Individual opportunity / pathway */}
 
                 <Route
                     path="/opportunities/:country/:slug"
@@ -252,7 +337,7 @@ function App() {
 
                 {/* ======================================================
                     BLOG / SHOP / CONTACT
-                ====================================================== */}
+                    ====================================================== */}
 
                 <Route
                     path="/blog"
@@ -291,8 +376,8 @@ function App() {
 
 
                 {/* ======================================================
-                    MIGRATION ASSESSMENT
-                ====================================================== */}
+                    PUBLIC MIGRATION ASSESSMENT
+                    ====================================================== */}
 
                 <Route
                     path="/free-assessment"
@@ -305,6 +390,10 @@ function App() {
                     }
                 />
 
+
+                {/* ======================================================
+                    CONSULTATION
+                    ====================================================== */}
 
                 <Route
                     path="/consultation"
@@ -320,7 +409,7 @@ function App() {
 
                 {/* ======================================================
                     WEBMAIL
-                ====================================================== */}
+                    ====================================================== */}
 
                 <Route
                     path="/webmail"
@@ -332,7 +421,7 @@ function App() {
 
                 {/* ======================================================
                     CLIENT AUTHENTICATION
-                ====================================================== */}
+                    ====================================================== */}
 
                 <Route
                     path="/login"
@@ -351,8 +440,8 @@ function App() {
 
 
                 {/* ======================================================
-                    ADMIN AUTHENTICATION
-                ====================================================== */}
+                    SHARED OPERATIONS LOGIN
+                    ====================================================== */}
 
                 <Route
                     path="/admin/login"
@@ -363,53 +452,185 @@ function App() {
 
 
                 {/* ======================================================
-                    ADMIN PORTAL
+                    ADMIN OPERATIONS PORTAL
+                    ======================================================
+
+                    ADMIN ONLY.
+
+                    STAFF CANNOT ENTER THESE ROUTES.
+
+                    The AdminLayout is shared with Staff, but these
+                    routes are protected specifically for ADMIN users.
+
                 ====================================================== */}
 
                 <Route
-                    path="/admin"
                     element={
-                        <AdminLayout />
+                        <AdminRoleRoute
+                            allowedRoles={[
+                                "ADMIN",
+                            ]}
+                        />
                     }
                 >
 
                     <Route
-                        index
+                        path="/admin"
                         element={
-                            <AdminOverview />
+                            <AdminLayout />
                         }
-                    />
+                    >
 
+                        {/* ==================================================
+                            ADMIN OVERVIEW
+                        ================================================== */}
+
+                        <Route
+                            index
+                            element={
+                                <AdminOverview />
+                            }
+                        />
+
+
+                        {/* ==================================================
+                            APPLICATIONS
+                        ================================================== */}
+
+                        <Route
+                            path="applications"
+                            element={
+                                <AdminApplications />
+                            }
+                        />
+
+
+                        <Route
+                            path="applications/:id"
+                            element={
+                                <AdminApplicationDetails />
+                            }
+                        />
+
+
+                        {/* ==================================================
+                            CONSULTATIONS
+                        ================================================== */}
+
+                        <Route
+                            path="consultations"
+                            element={
+                                <AdminConsultations />
+                            }
+                        />
+
+
+                        {/* ==================================================
+                            CLIENTS
+                        ================================================== */}
+
+                        <Route
+                            path="clients"
+                            element={
+                                <AdminClients />
+                            }
+                        />
+
+
+                        <Route
+                            path="clients/:id"
+                            element={
+                                <AdminClientDetails />
+                            }
+                        />
+
+
+                        {/* ==================================================
+                            DOCUMENTS
+                        ================================================== */}
+
+                        <Route
+                            path="documents"
+                            element={
+                                <AdminDocuments />
+                            }
+                        />
+
+
+                        {/* ==================================================
+                            NOTIFICATIONS
+                        ================================================== */}
+
+                        <Route
+                            path="notifications"
+                            element={
+                                <AdminNotifications />
+                            }
+                        />
+
+                    </Route>
+
+                </Route>
+
+
+                {/* ======================================================
+                    STAFF OPERATIONS WORKSPACE
+                    ======================================================
+
+                    STAFF ONLY.
+
+                    Uses the shared:
+
+                        AdminLayout
+                        AdminSidebar
+                        AdminHeader
+
+                    StaffRoutes owns the Staff sub-navigation.
+
+                    Available:
+
+                        /admin/staff
+                        /admin/staff/applications
+
+                    Future:
+
+                        /admin/staff/applications/:id
+                        /admin/staff/profile
+
+                ====================================================== */}
+
+                <Route
+                    element={
+                        <AdminRoleRoute
+                            allowedRoles={[
+                                "STAFF",
+                            ]}
+                        />
+                    }
+                >
 
                     <Route
-                        path="applications"
+                        path="/admin"
                         element={
-                            <AdminApplications />
+                            <AdminLayout />
                         }
-                    />
+                    >
 
+                        <Route
+                            path="staff/*"
+                            element={
+                                <StaffRoutes />
+                            }
+                        />
 
-                    <Route
-                        path="applications/:id"
-                        element={
-                            <AdminApplicationDetails />
-                        }
-                    />
-
-
-                    <Route
-                        path="consultations"
-                        element={
-                            <AdminConsultations />
-                        }
-                    />
+                    </Route>
 
                 </Route>
 
 
                 {/* ======================================================
                     PROTECTED CLIENT PORTAL
-                ====================================================== */}
+                    ====================================================== */}
 
                 <Route
                     element={
@@ -424,6 +645,10 @@ function App() {
                         }
                     >
 
+                        {/* ==================================================
+                            CLIENT DASHBOARD
+                        ================================================== */}
+
                         <Route
                             index
                             element={
@@ -431,6 +656,10 @@ function App() {
                             }
                         />
 
+
+                        {/* ==================================================
+                            CLIENT APPLICATIONS
+                        ================================================== */}
 
                         <Route
                             path="applications"
@@ -456,6 +685,10 @@ function App() {
                         />
 
 
+                        {/* ==================================================
+                            CLIENT DOCUMENTS
+                        ================================================== */}
+
                         <Route
                             path="documents"
                             element={
@@ -472,6 +705,10 @@ function App() {
                         />
 
 
+                        {/* ==================================================
+                            CLIENT UPDATES
+                            ================================================== */}
+
                         <Route
                             path="updates"
                             element={
@@ -480,10 +717,26 @@ function App() {
                         />
 
 
+                        {/* ==================================================
+                            CLIENT PROFILE
+                            ================================================== */}
+
                         <Route
                             path="profile"
                             element={
                                 <Profile />
+                            }
+                        />
+
+
+                        {/* ==================================================
+                            CLIENT ELIGIBILITY ASSESSMENT
+                            ================================================== */}
+
+                        <Route
+                            path="assessment"
+                            element={
+                                <Assessment />
                             }
                         />
 

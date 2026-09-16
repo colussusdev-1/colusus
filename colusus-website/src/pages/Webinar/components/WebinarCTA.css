@@ -1,0 +1,556 @@
+
+/* =========================================================
+   COLOSSUS WEBINAR
+   CTA
+========================================================= */
+
+.webinar-cta {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    min-height: 360px;
+
+    display: flex;
+    align-items: center;
+
+    overflow: hidden;
+
+    isolation: isolate;
+}
+
+
+/* =========================================================
+   BACKGROUND DETAILS
+========================================================= */
+
+.webinar-cta-orbit {
+    position: absolute;
+
+    width: 620px;
+    height: 620px;
+
+    right: -250px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    border: 1px solid rgba(255, 255, 255, 0.13);
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 0 55px rgba(255, 255, 255, 0.025),
+        0 0 0 110px rgba(255, 255, 255, 0.018);
+
+    pointer-events: none;
+
+    z-index: -1;
+}
+
+
+.webinar-cta-glow {
+    position: absolute;
+
+    width: 520px;
+    height: 520px;
+
+    right: -130px;
+    top: -150px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(101, 197, 255, 0.28) 0%,
+            rgba(101, 197, 255, 0.08) 38%,
+            transparent 72%
+        );
+
+    filter: blur(4px);
+
+    pointer-events: none;
+
+    z-index: -1;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.webinar-cta-content {
+    position: relative;
+
+    width: min(650px, 100%);
+
+    padding: 64px 70px 62px;
+
+    z-index: 2;
+}
+
+
+/* =========================================================
+   EYEBROW
+========================================================= */
+
+.webinar-cta-eyebrow {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 19px;
+
+    color: rgba(255, 255, 255, 0.68);
+
+    font-size: 8px;
+    line-height: 1;
+
+    font-weight: 850;
+
+    letter-spacing: 0.16em;
+
+    text-transform: uppercase;
+}
+
+
+.webinar-cta-eyebrow-dot {
+    width: 7px;
+    height: 7px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 5px rgba(255, 255, 255, 0.10),
+        0 0 16px rgba(255, 255, 255, 0.55);
+
+    animation:
+        webinarCtaPulse 2.2s ease-in-out infinite;
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.webinar-cta-title {
+    max-width: 600px;
+
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: clamp(34px, 4vw, 58px);
+
+    line-height: 0.99;
+
+    font-weight: 760;
+
+    letter-spacing: -0.055em;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.webinar-cta-description {
+    max-width: 530px;
+
+    margin: 22px 0 0;
+
+    color: rgba(255, 255, 255, 0.73);
+
+    font-size: 14px;
+
+    line-height: 1.75;
+
+    font-weight: 400;
+}
+
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.webinar-cta-button {
+    width: fit-content;
+
+    min-width: 280px;
+
+    min-height: 64px;
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: 14px;
+
+    margin-top: 30px;
+
+    padding: 7px 9px 7px 8px;
+
+    border: 1px solid rgba(255, 255, 255, 0.20);
+
+    border-radius: 999px;
+
+    background: #ffffff;
+
+    color: #063d78;
+
+    text-decoration: none;
+
+    box-shadow:
+        0 14px 35px rgba(0, 25, 65, 0.20);
+
+    transition:
+        transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+        box-shadow 260ms ease,
+        background 260ms ease;
+}
+
+
+.webinar-cta-button:hover {
+    transform: translateY(-3px);
+
+    background: #f8fbff;
+
+    box-shadow:
+        0 20px 42px rgba(0, 25, 65, 0.27);
+}
+
+
+.webinar-cta-button:active {
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   BUTTON ICON
+========================================================= */
+
+.webinar-cta-button-icon {
+    width: 48px;
+    height: 48px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #25d366;
+
+    color: #ffffff;
+
+    font-size: 21px;
+
+    box-shadow:
+        0 5px 14px rgba(37, 211, 102, 0.22);
+}
+
+
+/* =========================================================
+   BUTTON COPY
+========================================================= */
+
+.webinar-cta-button-copy {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+
+    text-align: left;
+}
+
+
+.webinar-cta-button-copy small {
+    color: #8a9bad;
+
+    font-size: 7px;
+    line-height: 1;
+
+    font-weight: 850;
+
+    letter-spacing: 0.12em;
+}
+
+
+.webinar-cta-button-copy strong {
+    color: #063d78;
+
+    font-size: 12px;
+    line-height: 1.1;
+
+    font-weight: 800;
+
+    letter-spacing: -0.01em;
+}
+
+
+/* =========================================================
+   BUTTON ARROW
+========================================================= */
+
+.webinar-cta-button-arrow {
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    margin-left: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #edf6ff;
+
+    color: #0056b3;
+
+    font-size: 10px;
+
+    transition:
+        transform 240ms ease,
+        background 240ms ease;
+}
+
+
+.webinar-cta-button:hover .webinar-cta-button-arrow {
+    transform: translateX(3px);
+
+    background: #dceeff;
+}
+
+
+/* =========================================================
+   NOTE
+========================================================= */
+
+.webinar-cta-note {
+    max-width: 430px;
+
+    margin: 14px 0 0 4px;
+
+    color: rgba(255, 255, 255, 0.45);
+
+    font-size: 8px;
+
+    line-height: 1.5;
+
+    font-weight: 600;
+
+    letter-spacing: 0.025em;
+}
+
+
+/* =========================================================
+   ANIMATION
+========================================================= */
+
+@keyframes webinarCtaPulse {
+
+    0%,
+    100% {
+        opacity: 0.55;
+
+        transform: scale(0.9);
+    }
+
+    50% {
+        opacity: 1;
+
+        transform: scale(1);
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .webinar-cta {
+        min-height: 360px;
+    }
+
+
+    .webinar-cta-content {
+        padding: 58px 52px;
+    }
+
+
+    .webinar-cta-title {
+        font-size: clamp(34px, 5vw, 48px);
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 640px) {
+
+    .webinar-cta {
+        min-height: 330px;
+
+        align-items: flex-start;
+    }
+
+
+    .webinar-cta-content {
+        width: 100%;
+
+        padding: 52px 25px 46px;
+    }
+
+
+    .webinar-cta-eyebrow {
+        margin-bottom: 17px;
+
+        font-size: 7px;
+    }
+
+
+    .webinar-cta-title {
+        font-size: 35px;
+
+        line-height: 1.01;
+    }
+
+
+    .webinar-cta-description {
+        margin-top: 17px;
+
+        font-size: 12px;
+
+        line-height: 1.7;
+    }
+
+
+    .webinar-cta-button {
+        width: 100%;
+
+        min-width: 0;
+
+        min-height: 62px;
+
+        margin-top: 25px;
+    }
+
+
+    .webinar-cta-button-icon {
+        width: 46px;
+        height: 46px;
+
+        font-size: 19px;
+    }
+
+
+    .webinar-cta-button-copy strong {
+        font-size: 11px;
+    }
+
+
+    .webinar-cta-button-arrow {
+        width: 36px;
+        height: 36px;
+    }
+
+
+    .webinar-cta-note {
+        margin-top: 12px;
+
+        font-size: 7px;
+    }
+
+
+    .webinar-cta-orbit {
+        width: 430px;
+        height: 430px;
+
+        right: -270px;
+    }
+
+
+    .webinar-cta-glow {
+        width: 380px;
+        height: 380px;
+
+        right: -170px;
+        top: -100px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .webinar-cta-content {
+        padding: 46px 20px 40px;
+    }
+
+
+    .webinar-cta-title {
+        font-size: 31px;
+    }
+
+
+    .webinar-cta-description {
+        font-size: 11px;
+    }
+
+
+    .webinar-cta-button {
+        min-height: 58px;
+
+        gap: 10px;
+    }
+
+
+    .webinar-cta-button-icon {
+        width: 42px;
+        height: 42px;
+
+        font-size: 18px;
+    }
+
+
+    .webinar-cta-button-copy small {
+        font-size: 6px;
+    }
+
+
+    .webinar-cta-button-copy strong {
+        font-size: 10px;
+    }
+
+
+    .webinar-cta-button-arrow {
+        width: 32px;
+        height: 32px;
+
+        font-size: 9px;
+    }
+
+}
