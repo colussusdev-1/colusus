@@ -12,7 +12,7 @@ import "./ApplicationInformation.css";
 
 /*
 |--------------------------------------------------------------------------
-| FORMAT
+| FORMAT LABEL
 |--------------------------------------------------------------------------
 */
 
@@ -28,7 +28,8 @@ const formatLabel = (value) => {
     .toLowerCase()
     .replace(
       /\b\w/g,
-      (letter) => letter.toUpperCase()
+      (letter) =>
+        letter.toUpperCase()
     );
 
 };
@@ -36,7 +37,7 @@ const formatLabel = (value) => {
 
 /*
 |--------------------------------------------------------------------------
-| DATE
+| FORMAT DATE
 |--------------------------------------------------------------------------
 */
 
@@ -49,7 +50,6 @@ const formatDate = (date) => {
   const parsed =
     new Date(date);
 
-
   if (
     Number.isNaN(
       parsed.getTime()
@@ -57,7 +57,6 @@ const formatDate = (date) => {
   ) {
     return "—";
   }
-
 
   return new Intl.DateTimeFormat(
     "en-GB",
@@ -73,6 +72,161 @@ const formatDate = (date) => {
 
 /*
 |--------------------------------------------------------------------------
+| GET PERMANENT APPLICATION REFERENCE
+|--------------------------------------------------------------------------
+|
+| Every newly-created application receives:
+|
+| applicationReference
+|
+| Example:
+|
+| COL-68B3A91F4D2C8E7A1B5C9032
+|
+| This is the permanent human-facing application ID.
+|
+| _id is kept only as a fallback for legacy applications that
+| were created before applicationReference existed.
+|
+|--------------------------------------------------------------------------
+*/
+
+const getApplicationReference = (
+  application
+) => {
+
+  return (
+    application?.applicationReference ||
+
+    application?._id ||
+
+    "—"
+  );
+
+};
+
+
+/*
+|--------------------------------------------------------------------------
+| GET PROGRAM
+|--------------------------------------------------------------------------
+|
+| Prefer the opportunity snapshot because it represents the
+| opportunity selected when the application was created.
+|
+|--------------------------------------------------------------------------
+*/
+
+const getProgram = (
+  application
+) => {
+
+  return (
+    application
+      ?.opportunitySnapshot
+      ?.title ||
+
+    application
+      ?.opportunitySnapshot
+      ?.program ||
+
+    formatLabel(
+      application?.type
+    )
+  );
+
+};
+
+
+/*
+|--------------------------------------------------------------------------
+| GET DESTINATION COUNTRY
+|--------------------------------------------------------------------------
+*/
+
+const getDestinationCountry = (
+  application
+) => {
+
+  return (
+    application
+      ?.destinationCountry ||
+
+    application
+      ?.opportunitySnapshot
+      ?.countryName ||
+
+    "—"
+  );
+
+};
+
+
+/*
+|--------------------------------------------------------------------------
+| GET CURRENT STAGE
+|--------------------------------------------------------------------------
+*/
+
+const getCurrentStage = (
+  application
+) => {
+
+  return (
+    application?.currentStep ||
+
+    application?.status ||
+
+    "—"
+  );
+
+};
+
+
+/*
+|--------------------------------------------------------------------------
+| GET NOC
+|--------------------------------------------------------------------------
+|
+| NOC can exist in different application data sections
+| depending on how the application was completed.
+|
+|--------------------------------------------------------------------------
+*/
+
+const getNoc = (
+  application
+) => {
+
+  return (
+    application?.noc ||
+
+    application?.occupation ||
+
+    application
+      ?.answers
+      ?.noc ||
+
+    application
+      ?.answers
+      ?.NOC ||
+
+    application
+      ?.personalInformation
+      ?.noc ||
+
+    application
+      ?.personalInformation
+      ?.NOC ||
+
+    "—"
+  );
+
+};
+
+
+/*
+|--------------------------------------------------------------------------
 | COMPONENT
 |--------------------------------------------------------------------------
 */
@@ -81,26 +235,34 @@ const ApplicationInformation = ({
   application,
 }) => {
 
+  /*
+  |--------------------------------------------------------------------------
+  | RESOLVED APPLICATION DATA
+  |--------------------------------------------------------------------------
+  */
+
   const applicationReference =
-    application?.applicationReference ||
-    "—";
+    getApplicationReference(
+      application
+    );
 
 
-  const type =
-    formatLabel(
-      application?.type
+  const program =
+    getProgram(
+      application
     );
 
 
   const country =
-    application?.destinationCountry ||
-    "—";
+    getDestinationCountry(
+      application
+    );
 
 
   const currentStage =
-    application?.currentStep ||
-    application?.status ||
-    "—";
+    getCurrentStage(
+      application
+    );
 
 
   const updated =
@@ -111,16 +273,32 @@ const ApplicationInformation = ({
 
 
   const noc =
-    application?.noc ||
-    application?.occupation ||
-    "—";
+    getNoc(
+      application
+    );
 
+
+  /*
+  |--------------------------------------------------------------------------
+  | RENDER
+  |--------------------------------------------------------------------------
+  */
 
   return (
 
-    <section className="applicationInformation">
+    <section
+      className="applicationInformation"
+    >
 
-      <div className="applicationInformation__header">
+      {/* =========================================================
+          HEADER
+      ========================================================= */}
+
+      <div
+        className="
+          applicationInformation__header
+        "
+      >
 
         <span>
           APPLICATION
@@ -133,19 +311,36 @@ const ApplicationInformation = ({
       </div>
 
 
-      <div className="applicationInformation__grid">
+      {/* =========================================================
+          INFORMATION GRID
+      ========================================================= */}
 
-        {/* ==================================================
+      <div
+        className="
+          applicationInformation__grid
+        "
+      >
+
+        {/* =======================================================
             APPLICATION ID
-        ================================================== */}
+        ======================================================= */}
 
-        <div className="applicationInformation__item">
+        <div
+          className="
+            applicationInformation__item
+          "
+        >
 
-          <div className="applicationInformation__icon">
+          <div
+            className="
+              applicationInformation__icon
+            "
+          >
 
             <HiOutlineDocumentText />
 
           </div>
+
 
           <div>
 
@@ -153,7 +348,13 @@ const ApplicationInformation = ({
               Application ID
             </span>
 
-            <strong>
+            <strong
+              title={
+                applicationReference !== "—"
+                  ? applicationReference
+                  : undefined
+              }
+            >
               {applicationReference}
             </strong>
 
@@ -162,17 +363,26 @@ const ApplicationInformation = ({
         </div>
 
 
-        {/* ==================================================
+        {/* =======================================================
             PROGRAM
-        ================================================== */}
+        ======================================================= */}
 
-        <div className="applicationInformation__item">
+        <div
+          className="
+            applicationInformation__item
+          "
+        >
 
-          <div className="applicationInformation__icon">
+          <div
+            className="
+              applicationInformation__icon
+            "
+          >
 
             <HiOutlineDocumentText />
 
           </div>
+
 
           <div>
 
@@ -180,8 +390,14 @@ const ApplicationInformation = ({
               Program
             </span>
 
-            <strong>
-              {type}
+            <strong
+              title={
+                program !== "—"
+                  ? program
+                  : undefined
+              }
+            >
+              {program}
             </strong>
 
           </div>
@@ -189,17 +405,26 @@ const ApplicationInformation = ({
         </div>
 
 
-        {/* ==================================================
+        {/* =======================================================
             NOC
-        ================================================== */}
+        ======================================================= */}
 
-        <div className="applicationInformation__item">
+        <div
+          className="
+            applicationInformation__item
+          "
+        >
 
-          <div className="applicationInformation__icon">
+          <div
+            className="
+              applicationInformation__icon
+            "
+          >
 
             <HiOutlineGlobeAlt />
 
           </div>
+
 
           <div>
 
@@ -207,7 +432,13 @@ const ApplicationInformation = ({
               NOC
             </span>
 
-            <strong>
+            <strong
+              title={
+                noc !== "—"
+                  ? noc
+                  : undefined
+              }
+            >
               {noc}
             </strong>
 
@@ -216,17 +447,26 @@ const ApplicationInformation = ({
         </div>
 
 
-        {/* ==================================================
-            COUNTRY
-        ================================================== */}
+        {/* =======================================================
+            DESTINATION COUNTRY
+        ======================================================= */}
 
-        <div className="applicationInformation__item">
+        <div
+          className="
+            applicationInformation__item
+          "
+        >
 
-          <div className="applicationInformation__icon">
+          <div
+            className="
+              applicationInformation__icon
+            "
+          >
 
             <HiOutlineLocationMarker />
 
           </div>
+
 
           <div>
 
@@ -234,7 +474,13 @@ const ApplicationInformation = ({
               Destination Country
             </span>
 
-            <strong>
+            <strong
+              title={
+                country !== "—"
+                  ? country
+                  : undefined
+              }
+            >
               {country}
             </strong>
 
@@ -243,17 +489,26 @@ const ApplicationInformation = ({
         </div>
 
 
-        {/* ==================================================
+        {/* =======================================================
             CURRENT STAGE
-        ================================================== */}
+        ======================================================= */}
 
-        <div className="applicationInformation__item">
+        <div
+          className="
+            applicationInformation__item
+          "
+        >
 
-          <div className="applicationInformation__icon">
+          <div
+            className="
+              applicationInformation__icon
+            "
+          >
 
             <HiOutlineDocumentText />
 
           </div>
+
 
           <div>
 
@@ -261,8 +516,16 @@ const ApplicationInformation = ({
               Current Stage
             </span>
 
-            <strong>
-              {formatLabel(currentStage)}
+            <strong
+              title={
+                currentStage !== "—"
+                  ? formatLabel(currentStage)
+                  : undefined
+              }
+            >
+              {formatLabel(
+                currentStage
+              )}
             </strong>
 
           </div>
@@ -270,17 +533,26 @@ const ApplicationInformation = ({
         </div>
 
 
-        {/* ==================================================
-            UPDATED
-        ================================================== */}
+        {/* =======================================================
+            LAST UPDATED
+        ======================================================= */}
 
-        <div className="applicationInformation__item">
+        <div
+          className="
+            applicationInformation__item
+          "
+        >
 
-          <div className="applicationInformation__icon">
+          <div
+            className="
+              applicationInformation__icon
+            "
+          >
 
             <HiOutlineClock />
 
           </div>
+
 
           <div>
 

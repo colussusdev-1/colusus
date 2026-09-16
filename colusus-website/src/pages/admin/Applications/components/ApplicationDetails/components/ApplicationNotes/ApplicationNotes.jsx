@@ -627,7 +627,7 @@ const ApplicationNotes = ({
 
                                                 <span>
                                                     {author?.email ||
-                                                        "Colusus staff"}
+                                                        "colossus staff"}
                                                 </span>
 
                                             </div>

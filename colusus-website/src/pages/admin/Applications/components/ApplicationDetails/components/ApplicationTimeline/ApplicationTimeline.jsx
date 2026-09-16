@@ -254,10 +254,10 @@ const getActivityDescription = (
       return "A document was uploaded to the application.";
 
     case "DOCUMENT_REVIEW":
-      return "A document was reviewed by the Colusus team.";
+      return "A document was reviewed by the colossus team.";
 
     case "DOCUMENT_APPROVED":
-      return "A document was approved by the Colusus team.";
+      return "A document was approved by the colossus team.";
 
     case "DOCUMENT_REJECTED":
       return "A document was rejected during review.";

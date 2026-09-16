@@ -3,49 +3,51 @@ import React from "react";
 import {
   HiOutlineCalendar,
   HiOutlineGlobeAlt,
-  HiOutlineMail,
-  HiOutlineUser,
+  HiOutlineLocationMarker,
+  HiOutlineDocumentText,
+  HiOutlineClock,
 } from "react-icons/hi";
 
 import "./ApplicationOverview.css";
 
 
-const formatLabel = (
-  value
-) => {
+/*
+============================================================
+FORMAT LABEL
+============================================================
+*/
+
+const formatLabel = (value) => {
 
   if (!value) {
     return "—";
   }
 
-
   return value
+    .toString()
+    .replace(/_/g, " ")
     .toLowerCase()
     .replace(
-      /_/g,
-      " "
-    )
-    .replace(
       /\b\w/g,
-      (letter) =>
-        letter.toUpperCase()
+      (letter) => letter.toUpperCase()
     );
 
 };
 
 
-const formatDate = (
-  value
-) => {
+/*
+============================================================
+FORMAT DATE
+============================================================
+*/
+
+const formatDate = (value) => {
 
   if (!value) {
     return "—";
   }
 
-
-  const date =
-    new Date(value);
-
+  const date = new Date(value);
 
   if (
     Number.isNaN(
@@ -54,7 +56,6 @@ const formatDate = (
   ) {
     return "—";
   }
-
 
   return new Intl.DateTimeFormat(
     "en-GB",
@@ -68,94 +69,271 @@ const formatDate = (
 };
 
 
+/*
+============================================================
+GET APPLICATION ID
+============================================================
+*/
+
+const getApplicationId = (
+  application
+) => {
+
+  return (
+    application?.applicationReference ||
+    application?._id ||
+    "—"
+  );
+
+};
+
+
+/*
+============================================================
+GET PROGRAM
+============================================================
+|
+| Program should come from the selected opportunity snapshot.
+|
+| Fallbacks are included because older applications may not
+| have a complete opportunitySnapshot.
+|
+============================================================
+*/
+
+const getProgram = (
+  application
+) => {
+
+  return (
+    application
+      ?.opportunitySnapshot
+      ?.title ||
+
+    application
+      ?.opportunitySnapshot
+      ?.program ||
+
+    application
+      ?.program ||
+
+    formatLabel(
+      application?.type
+    )
+  );
+
+};
+
+
+/*
+============================================================
+GET NOC
+============================================================
+|
+| NOC may be stored in different application data sections
+| depending on how the application was completed.
+|
+============================================================
+*/
+
+const getNoc = (
+  application
+) => {
+
+  return (
+    application
+      ?.answers
+      ?.noc ||
+
+    application
+      ?.answers
+      ?.NOC ||
+
+    application
+      ?.personalInformation
+      ?.noc ||
+
+    application
+      ?.personalInformation
+      ?.NOC ||
+
+    application
+      ?.noc ||
+
+    "—"
+  );
+
+};
+
+
+/*
+============================================================
+GET CURRENT STAGE
+============================================================
+*/
+
+const getCurrentStage = (
+  application
+) => {
+
+  return (
+    application?.currentStep
+      ? formatLabel(
+        application.currentStep
+      )
+      : "—"
+  );
+
+};
+
+
+/*
+============================================================
+COMPONENT
+============================================================
+*/
+
 const ApplicationOverview = ({
   application,
 }) => {
 
-  const client =
-    application?.user;
+  /*
+  |--------------------------------------------------------------------------
+  | RESOLVED APPLICATION DATA
+  |--------------------------------------------------------------------------
+  */
 
+  const applicationId =
+    getApplicationId(
+      application
+    );
+
+
+  const program =
+    getProgram(
+      application
+    );
+
+
+  const noc =
+    getNoc(
+      application
+    );
+
+
+  const destinationCountry =
+    application
+      ?.destinationCountry ||
+    application
+      ?.opportunitySnapshot
+      ?.countryName ||
+    "—";
+
+
+  const currentStage =
+    getCurrentStage(
+      application
+    );
+
+
+  const lastUpdated =
+    formatDate(
+      application?.updatedAt
+    );
+
+
+  /*
+  |--------------------------------------------------------------------------
+  | INFORMATION ITEMS
+  |--------------------------------------------------------------------------
+  */
 
   const items = [
 
     {
-      label: "Client",
+      label: "Application ID",
 
       value:
-        client?.name ||
-        "Unknown client",
+        applicationId,
 
       icon:
-        HiOutlineUser,
+        HiOutlineDocumentText,
     },
 
     {
-      label: "Email",
+      label: "Program",
 
       value:
-        client?.email ||
-        "—",
+        program,
 
       icon:
-        HiOutlineMail,
+        HiOutlineDocumentText,
     },
 
     {
-      label: "Application Type",
+      label: "NOC",
 
       value:
-        formatLabel(
-          application?.type
-        ),
+        noc,
 
       icon:
         HiOutlineGlobeAlt,
     },
 
     {
-      label: "Destination",
+      label: "Destination Country",
 
       value:
-        application
-          ?.destinationCountry ||
-        "—",
+        destinationCountry,
 
       icon:
-        HiOutlineGlobeAlt,
+        HiOutlineLocationMarker,
     },
 
     {
-      label: "Started",
+      label: "Current Stage",
 
       value:
-        formatDate(
-          application?.createdAt
-        ),
+        currentStage,
 
       icon:
-        HiOutlineCalendar,
+        HiOutlineDocumentText,
     },
 
     {
       label: "Last Updated",
 
       value:
-        formatDate(
-          application?.updatedAt
-        ),
+        lastUpdated,
 
       icon:
-        HiOutlineCalendar,
+        HiOutlineClock,
     },
 
   ];
 
 
+  /*
+  |--------------------------------------------------------------------------
+  | RENDER
+  |--------------------------------------------------------------------------
+  */
+
   return (
 
-    <section className="applicationOverview">
+    <section
+      className="applicationOverview"
+    >
 
-      <div className="applicationOverview__header">
+      {/* =====================================================
+          HEADER
+      ===================================================== */}
+
+      <div
+        className="
+          applicationOverview__header
+        "
+      >
 
         <div>
 
@@ -164,7 +342,7 @@ const ApplicationOverview = ({
           </span>
 
           <h2>
-            Overview
+            Application Information
           </h2>
 
         </div>
@@ -172,7 +350,15 @@ const ApplicationOverview = ({
       </div>
 
 
-      <div className="applicationOverview__grid">
+      {/* =====================================================
+          INFORMATION GRID
+      ===================================================== */}
+
+      <div
+        className="
+          applicationOverview__grid
+        "
+      >
 
         {items.map(
           ({
@@ -182,24 +368,48 @@ const ApplicationOverview = ({
           }) => (
 
             <div
-              className="applicationOverview__item"
+              className="
+                applicationOverview__item
+              "
               key={label}
             >
 
-              <div className="applicationOverview__icon">
+              {/* =================================================
+                  ICON
+              ================================================= */}
+
+              <div
+                className="
+                  applicationOverview__icon
+                "
+              >
 
                 <Icon />
 
               </div>
 
 
-              <div className="applicationOverview__value">
+              {/* =================================================
+                  VALUE
+              ================================================= */}
+
+              <div
+                className="
+                  applicationOverview__value
+                "
+              >
 
                 <span>
                   {label}
                 </span>
 
-                <strong>
+                <strong
+                  title={
+                    value !== "—"
+                      ? value
+                      : undefined
+                  }
+                >
                   {value}
                 </strong>
 

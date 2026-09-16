@@ -15,6 +15,8 @@ ADMIN APPLICATION SERVICE
 | - Update application status
 | - Get application internal notes
 | - Add application internal notes
+| - Get assignable staff
+| - Assign / reassign application
 |
 | IMPORTANT:
 |
@@ -212,6 +214,74 @@ const addApplicationNote = async (applicationId, message) => {
 
 /*
 ============================================================
+GET ASSIGNABLE STAFF
+============================================================
+|
+| GET /api/v1/admin/staff
+|
+| Returns ADMIN and STAFF users that can be assigned
+| to applications.
+|
+============================================================
+*/
+
+const getAssignableStaff = async () => {
+  const { data } = await api.get("/admin/staff");
+
+  return data;
+};
+
+/*
+============================================================
+ASSIGN / REASSIGN APPLICATION
+============================================================
+|
+| PATCH /api/v1/admin/applications/:id/assignment
+|
+| Body:
+|
+| {
+|   staffId: "USER_OBJECT_ID"
+| }
+|
+| To remove an assignment:
+|
+| {
+|   staffId: null
+| }
+|
+============================================================
+*/
+
+const assignApplication = async (applicationId, staffId) => {
+  if (!applicationId) {
+    throw new Error("Application ID is required.");
+  }
+
+  /*
+  ----------------------------------------------------------
+  | STAFF ID
+  ----------------------------------------------------------
+  |
+  | staffId may intentionally be null when the application
+  | needs to be unassigned.
+  |
+  ----------------------------------------------------------
+  */
+
+  const { data } = await api.patch(
+    `/admin/applications/${applicationId}/assignment`,
+
+    {
+      staffId: staffId || null,
+    },
+  );
+
+  return data;
+};
+
+/*
+============================================================
 EXPORT
 ============================================================
 */
@@ -244,4 +314,12 @@ export default {
   getApplicationNotes,
 
   addApplicationNote,
+
+  /*
+  | Application assignment
+  */
+
+  getAssignableStaff,
+
+  assignApplication,
 };

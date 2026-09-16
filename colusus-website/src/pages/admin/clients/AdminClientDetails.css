@@ -1,0 +1,924 @@
+/*
+|--------------------------------------------------------------------------
+| CLIENT DETAILS
+|--------------------------------------------------------------------------
+*/
+
+.admin-client-details {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    color: #172033;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| BACK BUTTON
+|--------------------------------------------------------------------------
+*/
+
+.admin-client-details__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 20px;
+
+    padding: 8px 12px;
+
+    border: 0;
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: #61708a;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.admin-client-details__back:hover {
+    background: #eef2f8;
+    color: #172033;
+}
+
+.admin-client-details__back:active {
+    transform: scale(0.98);
+}
+
+.admin-client-details__back svg {
+    width: 17px;
+    height: 17px;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| CLIENT HERO
+|--------------------------------------------------------------------------
+*/
+
+.admin-client-details__hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+
+    padding: 28px 30px;
+
+    background: #ffffff;
+
+    border: 1px solid #e7ebf2;
+    border-radius: 16px;
+
+    box-shadow:
+        0 4px 18px rgba(20, 36, 66, 0.04);
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| IDENTITY
+|--------------------------------------------------------------------------
+*/
+
+.admin-client-details__identity {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+    gap: 17px;
+}
+
+.admin-client-details__avatar {
+    width: 64px;
+    height: 64px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #e8efff;
+    color: #3569ee;
+
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.admin-client-details__identity-text {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-client-details__name-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.admin-client-details__name-row h1 {
+    margin: 0;
+
+    color: #172033;
+
+    font-size: 24px;
+    line-height: 1.2;
+    font-weight: 700;
+
+    letter-spacing: -0.025em;
+}
+
+.admin-client-details__identity-text>p {
+    margin: 6px 0 0;
+
+    color: #64728a;
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.admin-client-details__joined {
+    margin-top: 6px;
+
+    color: #98a4b7;
+
+    font-size: 11px;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| STATUS
+|--------------------------------------------------------------------------
+*/
+
+.admin-client-details__status {
+    display: inline-flex;
+    align-items: center;
+
+    min-height: 24px;
+
+    padding: 0 9px;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+    line-height: 1;
+    font-weight: 700;
+}
+
+.admin-client-details__status--active {
+    background: #eaf8f0;
+    color: #16834b;
+}
+
+.admin-client-details__status--inactive {
+    background: #f1f3f6;
+    color: #748097;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| HERO STATS
+|--------------------------------------------------------------------------
+*/
+
+.admin-client-details__hero-stats {
+    display: flex;
+    align-items: stretch;
+
+    flex-shrink: 0;
+}
+
+.admin-client-details__hero-stats>div {
+    min-width: 105px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 4px 18px;
+
+    border-left: 1px solid #e8ecf2;
+}
+
+.admin-client-details__hero-stats>div:first-child {
+    border-left: 0;
+}
+
+.admin-client-details__hero-stats strong {
+    color: #172033;
+
+    font-size: 22px;
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+.admin-client-details__hero-stats span {
+    margin-top: 5px;
+
+    color: #8793a7;
+
+    font-size: 10px;
+    font-weight: 500;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| MAIN GRID
+|--------------------------------------------------------------------------
+*/
+
+.admin-client-details__grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.1fr) minmax(0, 0.9fr);
+
+    gap: 20px;
+
+    margin-top: 20px;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| CARD
+|--------------------------------------------------------------------------
+*/
+
+.admin-client-details__card {
+    min-width: 0;
+
+    padding: 24px;
+
+    background: #ffffff;
+
+    border: 1px solid #e7ebf2;
+    border-radius: 15px;
+
+    box-shadow:
+        0 3px 14px rgba(20, 36, 66, 0.035);
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| CARD HEADER
+|--------------------------------------------------------------------------
+*/
+
+.admin-client-details__card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    margin-bottom: 22px;
+}
+
+.admin-client-details__card-header span {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #8b97aa;
+
+    font-size: 9px;
+    line-height: 1.2;
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+}
+
+.admin-client-details__card-header h2 {
+    margin: 0;
+
+    color: #172033;
+
+    font-size: 16px;
+    line-height: 1.3;
+    font-weight: 700;
+
+    letter-spacing: -0.015em;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| INFORMATION GRID
+|--------------------------------------------------------------------------
+*/
+
+.admin-client-details__info-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 18px 24px;
+}
+
+.admin-client-details__info-item {
+    min-width: 0;
+
+    display: flex;
+    align-items: flex-start;
+
+    gap: 11px;
+}
+
+.admin-client-details__info-item>svg {
+    width: 18px;
+    height: 18px;
+
+    flex-shrink: 0;
+
+    margin-top: 2px;
+
+    color: #71809a;
+}
+
+.admin-client-details__info-item>div {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-client-details__info-item span {
+    color: #8b97aa;
+
+    font-size: 10px;
+    line-height: 1.3;
+    font-weight: 500;
+}
+
+.admin-client-details__info-item strong {
+    margin-top: 4px;
+
+    overflow: hidden;
+
+    color: #27334a;
+
+    font-size: 12px;
+    line-height: 1.45;
+    font-weight: 600;
+
+    text-overflow: ellipsis;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| ADDRESS
+|--------------------------------------------------------------------------
+*/
+
+.admin-client-details__address {
+    margin-top: 22px;
+    padding-top: 19px;
+
+    border-top: 1px solid #edf0f5;
+}
+
+.admin-client-details__address>span {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #8b97aa;
+
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.admin-client-details__address p {
+    margin: 0;
+
+    color: #3b465a;
+
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| LIST
+|--------------------------------------------------------------------------
+*/
+
+.admin-client-details__list {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| SCROLLABLE DATA LISTS
+|--------------------------------------------------------------------------
+|
+| Applications, documents and notifications are intentionally
+| contained inside their cards.
+|
+| This prevents a client with a large history from stretching
+| the entire admin page.
+|
+|--------------------------------------------------------------------------
+*/
+
+.admin-client-details__list {
+    max-height: 330px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    padding-right: 5px;
+
+    scrollbar-width: thin;
+    scrollbar-color: #cbd3e1 transparent;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| LIST SCROLLBAR
+|--------------------------------------------------------------------------
+*/
+
+.admin-client-details__list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.admin-client-details__list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.admin-client-details__list::-webkit-scrollbar-thumb {
+    background: #cbd3e1;
+
+    border-radius: 999px;
+}
+
+.admin-client-details__list::-webkit-scrollbar-thumb:hover {
+    background: #aeb9cb;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| LIST ITEM
+|--------------------------------------------------------------------------
+*/
+
+.admin-client-details__list-item {
+    width: 100%;
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 13px 4px;
+
+    border: 0;
+    border-bottom: 1px solid #edf0f5;
+
+    background: transparent;
+
+    color: inherit;
+
+    font-family: inherit;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        padding 0.2s ease;
+}
+
+.admin-client-details__list-item:last-child {
+    border-bottom: 0;
+}
+
+.admin-client-details__list-item:hover {
+    padding-left: 8px;
+    padding-right: 8px;
+
+    background: #f8faff;
+}
+
+div.admin-client-details__list-item {
+    cursor: default;
+}
+
+div.admin-client-details__list-item:hover {
+    padding-left: 4px;
+    padding-right: 4px;
+
+    background: transparent;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| LIST ICON
+|--------------------------------------------------------------------------
+*/
+
+.admin-client-details__list-icon {
+    width: 34px;
+    height: 34px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background: #f0f4fb;
+
+    color: #5271b9;
+}
+
+.admin-client-details__list-icon svg {
+    width: 17px;
+    height: 17px;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| LIST CONTENT
+|--------------------------------------------------------------------------
+*/
+
+.admin-client-details__list-content {
+    min-width: 0;
+
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-client-details__list-content strong {
+    overflow: hidden;
+
+    color: #27334a;
+
+    font-size: 12px;
+    line-height: 1.4;
+    font-weight: 600;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.admin-client-details__list-content span {
+    margin-top: 3px;
+
+    overflow: hidden;
+
+    color: #8b97aa;
+
+    font-size: 10px;
+    line-height: 1.4;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| LIST DATE
+|--------------------------------------------------------------------------
+*/
+
+.admin-client-details__list-date {
+    flex-shrink: 0;
+
+    color: #9aa5b6;
+
+    font-size: 10px;
+    font-weight: 500;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| EMPTY STATE
+|--------------------------------------------------------------------------
+*/
+
+.admin-client-details__empty {
+    min-height: 130px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    border: 1px dashed #dce2eb;
+    border-radius: 10px;
+
+    background: #fafbfd;
+
+    color: #9aa5b6;
+}
+
+.admin-client-details__empty svg {
+    width: 25px;
+    height: 25px;
+}
+
+.admin-client-details__empty span {
+    font-size: 11px;
+    font-weight: 500;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| LOADING STATE
+|--------------------------------------------------------------------------
+*/
+
+.admin-client-details__state {
+    min-height: 420px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    color: #8490a4;
+
+    font-size: 12px;
+}
+
+.admin-client-details__loader {
+    width: 26px;
+    height: 26px;
+
+    border: 3px solid #e5eaf2;
+    border-top-color: #3569ee;
+
+    border-radius: 50%;
+
+    animation:
+        admin-client-details-spin 0.8s linear infinite;
+}
+
+@keyframes admin-client-details-spin {
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| ERROR
+|--------------------------------------------------------------------------
+*/
+
+.admin-client-details__error {
+    padding: 40px;
+
+    background: #ffffff;
+
+    border: 1px solid #e7ebf2;
+    border-radius: 14px;
+
+    text-align: center;
+}
+
+.admin-client-details__error h2 {
+    margin: 0;
+
+    color: #263249;
+
+    font-size: 17px;
+}
+
+.admin-client-details__error p {
+    margin: 8px 0 0;
+
+    color: #8793a7;
+
+    font-size: 12px;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| LARGE TABLET
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 1100px) {
+
+    .admin-client-details__hero {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .admin-client-details__hero-stats {
+        width: 100%;
+    }
+
+    .admin-client-details__hero-stats>div {
+        flex: 1;
+
+        align-items: flex-start;
+
+        padding-left: 0;
+    }
+
+    .admin-client-details__grid {
+        grid-template-columns:
+            minmax(0, 1fr);
+    }
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| TABLET
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 900px) {
+
+    .admin-client-details__hero {
+        padding: 24px;
+    }
+
+    .admin-client-details__grid {
+        gap: 16px;
+    }
+
+    .admin-client-details__card {
+        padding: 20px;
+    }
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| MOBILE
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 640px) {
+
+    .admin-client-details__back {
+        margin-bottom: 14px;
+    }
+
+
+    .admin-client-details__hero {
+        padding: 20px;
+
+        border-radius: 13px;
+    }
+
+
+    .admin-client-details__identity {
+        align-items: flex-start;
+
+        gap: 12px;
+    }
+
+
+    .admin-client-details__avatar {
+        width: 52px;
+        height: 52px;
+
+        font-size: 18px;
+    }
+
+
+    .admin-client-details__name-row h1 {
+        font-size: 19px;
+    }
+
+
+    .admin-client-details__hero-stats {
+        overflow-x: auto;
+    }
+
+
+    .admin-client-details__hero-stats>div {
+        min-width: 90px;
+
+        padding: 4px 12px;
+    }
+
+
+    .admin-client-details__hero-stats strong {
+        font-size: 19px;
+    }
+
+
+    .admin-client-details__info-grid {
+        grid-template-columns:
+            minmax(0, 1fr);
+
+        gap: 16px;
+    }
+
+
+    .admin-client-details__card {
+        padding: 18px;
+
+        border-radius: 12px;
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | MOBILE DATA LISTS
+    |--------------------------------------------------------------------------
+    */
+
+    .admin-client-details__list {
+        max-height: 280px;
+    }
+
+
+    .admin-client-details__list-item {
+        gap: 9px;
+    }
+
+
+    .admin-client-details__list-date {
+        display: none;
+    }
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| SMALL MOBILE
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 420px) {
+
+    .admin-client-details__identity {
+        flex-direction: column;
+    }
+
+    .admin-client-details__name-row {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 6px;
+    }
+
+    .admin-client-details__hero-stats>div {
+        min-width: 80px;
+    }
+
+}

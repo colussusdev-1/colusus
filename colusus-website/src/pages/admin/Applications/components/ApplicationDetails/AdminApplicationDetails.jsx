@@ -5,6 +5,7 @@ import React, {
 } from "react";
 
 import {
+  useLocation,
   useNavigate,
   useParams,
 } from "react-router-dom";
@@ -82,10 +83,6 @@ import ApplicationActions
 |--------------------------------------------------------------------------
 | APPLICATION DOCUMENTS
 |--------------------------------------------------------------------------
-|
-| Existing working document module.
-|
-|--------------------------------------------------------------------------
 */
 
 import ApplicationDocuments
@@ -128,27 +125,19 @@ import "./AdminApplicationDetails.css";
 |
 | Main operational page for a single application.
 |
-| Structure:
+| Supports notification-driven navigation.
 |
-|   Back
+| Example:
 |
-|   Application Header
-|
-|   Application Tabs
-|
-|   Overview
-|       ├── Overall Progress
-|       ├── Application Information
-|       └── Assigned Staff
-|
-|   Documents
-|       └── Application Documents
-|
-|   Timeline
-|       └── Application Activity
-|
-|   Notes
-|       └── Internal Application Notes
+| Notification
+|     ↓
+| Application Details
+|     ↓
+| Documents tab
+|     ↓
+| Specific document
+|     ↓
+| Existing document previewer
 |
 |--------------------------------------------------------------------------
 */
@@ -156,6 +145,8 @@ import "./AdminApplicationDetails.css";
 const AdminApplicationDetails = () => {
 
   const navigate = useNavigate();
+
+  const location = useLocation();
 
   const {
     id,
@@ -224,16 +215,108 @@ const AdminApplicationDetails = () => {
 
   /*
   |--------------------------------------------------------------------------
-  | LOAD APPLICATION
+  | NOTIFICATION DOCUMENT TARGET
   |--------------------------------------------------------------------------
   |
-  | Used for:
+  | When this page is opened from a document notification:
   |
-  | - Initial page load
-  | - Manual refresh
-  | - Status updates
-  | - Timeline refresh
+  | {
+  |   openDocuments: true,
+  |   documentId: "..."
+  | }
   |
+  | We pass the document ID into ApplicationDocuments.
+  |
+  |--------------------------------------------------------------------------
+  */
+
+  const [
+    notificationDocumentId,
+    setNotificationDocumentId,
+  ] = useState(null);
+
+
+  /*
+  |--------------------------------------------------------------------------
+  | NOTIFICATION NAVIGATION STATE
+  |--------------------------------------------------------------------------
+  */
+
+  const [
+    openedFromNotification,
+    setOpenedFromNotification,
+  ] = useState(false);
+
+
+  /*
+  |--------------------------------------------------------------------------
+  | READ ROUTER STATE
+  |--------------------------------------------------------------------------
+  */
+
+  useEffect(() => {
+
+    const navigationState =
+      location?.state || {};
+
+
+    /*
+    ------------------------------------------------------------------------
+    | DOCUMENT NOTIFICATION
+    ------------------------------------------------------------------------
+    */
+
+    if (
+      navigationState.openDocuments
+    ) {
+
+      setActiveTab(
+        "documents",
+      );
+
+      setOpenedFromNotification(
+        true,
+      );
+
+    } else {
+
+      setOpenedFromNotification(
+        false,
+      );
+
+    }
+
+
+    /*
+    ------------------------------------------------------------------------
+    | DOCUMENT ID
+    ------------------------------------------------------------------------
+    */
+
+    if (
+      navigationState.documentId
+    ) {
+
+      setNotificationDocumentId(
+        navigationState.documentId,
+      );
+
+    } else {
+
+      setNotificationDocumentId(
+        null,
+      );
+
+    }
+
+  }, [
+    location?.state,
+  ]);
+
+
+  /*
+  |--------------------------------------------------------------------------
+  | LOAD APPLICATION
   |--------------------------------------------------------------------------
   */
 
@@ -373,17 +456,6 @@ const AdminApplicationDetails = () => {
   |--------------------------------------------------------------------------
   | APPLICATION UPDATED
   |--------------------------------------------------------------------------
-  |
-  | After a status update we reload the complete application.
-  |
-  | This ensures:
-  |
-  | - status is fresh
-  | - progress is fresh
-  | - activity is fresh
-  | - timeline is fresh
-  |
-  |--------------------------------------------------------------------------
   */
 
   const handleApplicationUpdated = async (
@@ -391,9 +463,9 @@ const AdminApplicationDetails = () => {
   ) => {
 
     /*
-    ------------------------------------------------------------
+    ------------------------------------------------------------------------
     | IMMEDIATE UI UPDATE
-    ------------------------------------------------------------
+    ------------------------------------------------------------------------
     */
 
     if (updatedApplication) {
@@ -406,9 +478,9 @@ const AdminApplicationDetails = () => {
 
 
     /*
-    ------------------------------------------------------------
+    ------------------------------------------------------------------------
     | REFRESH FROM BACKEND
-    ------------------------------------------------------------
+    ------------------------------------------------------------------------
     */
 
     await loadApplication();
@@ -440,6 +512,46 @@ const AdminApplicationDetails = () => {
   const handleRefresh = async () => {
 
     await loadApplication();
+
+  };
+
+
+  /*
+  |--------------------------------------------------------------------------
+  | TAB CHANGE
+  |--------------------------------------------------------------------------
+  */
+
+  const handleTabChange = (
+    tab,
+  ) => {
+
+    setActiveTab(
+      tab,
+    );
+
+
+    /*
+    ------------------------------------------------------------------------
+    | If the admin manually switches away from Documents, we no longer
+    | want a stale notification target hanging around.
+    |
+    ------------------------------------------------------------------------
+    */
+
+    if (
+      tab !== "documents"
+    ) {
+
+      setNotificationDocumentId(
+        null,
+      );
+
+      setOpenedFromNotification(
+        false,
+      );
+
+    }
 
   };
 
@@ -521,7 +633,9 @@ const AdminApplicationDetails = () => {
 
           <button
             type="button"
-            onClick={handleBack}
+            onClick={
+              handleBack
+            }
           >
 
             <HiOutlineArrowLeft />
@@ -569,7 +683,9 @@ const AdminApplicationDetails = () => {
           className="
             adminApplicationDetails__back
           "
-          onClick={handleBack}
+          onClick={
+            handleBack
+          }
         >
 
           <HiOutlineArrowLeft />
@@ -590,8 +706,12 @@ const AdminApplicationDetails = () => {
           className="
             adminApplicationDetails__refresh
           "
-          onClick={handleRefresh}
-          disabled={refreshing}
+          onClick={
+            handleRefresh
+          }
+          disabled={
+            refreshing
+          }
           aria-label="Refresh application"
           title="Refresh application"
         >
@@ -649,7 +769,7 @@ const AdminApplicationDetails = () => {
         }
 
         onChange={
-          setActiveTab
+          handleTabChange
         }
 
       />
@@ -678,16 +798,20 @@ const AdminApplicationDetails = () => {
           >
 
             <ApplicationProgress
+
               application={
                 application
               }
+
             />
 
 
             <ApplicationInformation
+
               application={
                 application
               }
+
             />
 
           </div>
@@ -704,9 +828,11 @@ const AdminApplicationDetails = () => {
           >
 
             <AssignedStaff
+
               application={
                 application
               }
+
             />
 
           </aside>
@@ -726,6 +852,31 @@ const AdminApplicationDetails = () => {
 
           application={
             application
+          }
+
+          /*
+          --------------------------------------------------------
+          | Notification target
+          --------------------------------------------------------
+          */
+
+          initialDocumentId={
+            notificationDocumentId
+          }
+
+
+          /*
+          --------------------------------------------------------
+          | Automatically open the document when this application
+          | was reached from a document notification.
+          --------------------------------------------------------
+          */
+
+          autoOpenDocument={
+            openedFromNotification &&
+            Boolean(
+              notificationDocumentId,
+            )
           }
 
         />

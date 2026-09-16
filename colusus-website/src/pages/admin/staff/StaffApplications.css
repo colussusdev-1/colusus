@@ -1,0 +1,1075 @@
+/* ============================================================
+   COLOSSUS
+   STAFF APPLICATION PIPELINE
+============================================================ */
+
+.staffApplications {
+    width: 100%;
+    max-width: 1680px;
+    margin: 0 auto;
+    padding: 28px 32px 36px;
+    box-sizing: border-box;
+    color: #172b49;
+}
+
+
+/* ============================================================
+   PAGE HEADER
+============================================================ */
+
+.staffApplications__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 28px;
+    margin-bottom: 22px;
+}
+
+.staffApplications__heading {
+    min-width: 0;
+}
+
+.staffApplications__eyebrow {
+    display: block;
+    margin-bottom: 7px;
+    color: #8795a8;
+    font-size: 9px;
+    line-height: 1;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+.staffApplications__heading h1 {
+    margin: 0;
+    color: #10213d;
+    font-size: 28px;
+    line-height: 1.15;
+    font-weight: 760;
+    letter-spacing: -0.035em;
+}
+
+.staffApplications__heading p {
+    margin: 7px 0 0;
+    color: #78879a;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+
+/* ============================================================
+   HEADER ACTIONS
+============================================================ */
+
+.staffApplications__headerActions {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.staffApplications__search {
+    width: 260px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 0 12px;
+    box-sizing: border-box;
+
+    border: 1px solid #dfe6ee;
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 2px 5px rgba(15, 23, 42, 0.02);
+
+    transition:
+        border-color 180ms ease,
+        box-shadow 180ms ease;
+}
+
+.staffApplications__search:focus-within {
+    border-color: #9ab5ec;
+
+    box-shadow:
+        0 0 0 3px rgba(40, 99, 236, 0.07);
+}
+
+.staffApplications__search svg {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 16px;
+    color: #91a0b2;
+}
+
+.staffApplications__search input {
+    width: 100%;
+    min-width: 0;
+
+    padding: 0;
+
+    border: 0;
+    outline: 0;
+
+    background: transparent;
+
+    color: #34445a;
+
+    font-family: inherit;
+    font-size: 10px;
+}
+
+.staffApplications__search input::placeholder {
+    color: #9aa7b7;
+}
+
+.staffApplications__refresh {
+    height: 40px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    padding: 0 14px;
+    box-sizing: border-box;
+
+    border: 1px solid #dfe6ee;
+    border-radius: 9px;
+
+    background: #ffffff;
+    color: #536176;
+
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background-color 180ms ease,
+        border-color 180ms ease,
+        color 180ms ease;
+}
+
+.staffApplications__refresh:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #334155;
+}
+
+.staffApplications__refresh:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.staffApplications__refresh svg {
+    width: 15px;
+    height: 15px;
+}
+
+
+/* ============================================================
+   ERROR
+============================================================ */
+
+.staffApplications__error {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 15px;
+    padding: 11px 13px;
+
+    border: 1px solid #efd6d6;
+    border-radius: 9px;
+
+    background: #fff8f8;
+    color: #a14e4e;
+
+    font-size: 10px;
+}
+
+.staffApplications__error strong {
+    font-weight: 750;
+}
+
+.staffApplications__error span {
+    flex: 1;
+    color: #a96a6a;
+}
+
+.staffApplications__error button {
+    border: 0;
+    background: transparent;
+
+    color: #8e4141;
+
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 750;
+
+    cursor: pointer;
+}
+
+
+/* ============================================================
+   WORKSPACE TABS
+============================================================ */
+
+.staffApplications__tabs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 17px;
+
+    overflow-x: auto;
+
+    scrollbar-width: none;
+}
+
+.staffApplications__tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.staffApplications__tabs button {
+    height: 38px;
+
+    flex: 0 0 auto;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    padding: 0 17px;
+
+    border: 1px solid #dfe5ed;
+    border-radius: 9px;
+
+    background: #ffffff;
+    color: #5c697b;
+
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background-color 180ms ease,
+        border-color 180ms ease,
+        color 180ms ease,
+        box-shadow 180ms ease;
+}
+
+.staffApplications__tabs button:hover {
+    border-color: #cbd5e1;
+    color: #334155;
+}
+
+.staffApplications__tabs button.is-active {
+    border-color: #2863ec;
+    background: #2863ec;
+    color: #ffffff;
+
+    box-shadow:
+        0 5px 14px rgba(40, 99, 236, 0.16);
+}
+
+
+/* ============================================================
+   TAB COUNT
+============================================================ */
+
+.staffApplications__tabCount {
+    min-width: 20px;
+    height: 20px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 5px;
+    box-sizing: border-box;
+
+    border-radius: 999px;
+
+    background: #f1f4f8;
+    color: #7b8899;
+
+    font-size: 8px;
+    font-weight: 800;
+
+    transition:
+        background-color 180ms ease,
+        color 180ms ease;
+}
+
+.staffApplications__tabs button.is-active
+.staffApplications__tabCount {
+    background: rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+}
+
+
+/* ============================================================
+   PIPELINE WORKSPACE
+============================================================ */
+
+.staffPipeline {
+    width: 100%;
+    overflow: hidden;
+
+    border: 1px solid #dfe6ee;
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 10px 35px rgba(15, 32, 55, 0.045);
+}
+
+
+/* ============================================================
+   PIPELINE HEADER
+============================================================ */
+
+.staffPipeline__header {
+    min-height: 78px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    padding: 18px 21px;
+    box-sizing: border-box;
+
+    border-bottom: 1px solid #edf0f4;
+
+    background: #ffffff;
+}
+
+.staffPipeline__eyebrow {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #8a98aa;
+
+    font-size: 8px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+.staffPipeline__header h2 {
+    margin: 0;
+
+    color: #172b49;
+
+    font-size: 17px;
+    line-height: 1.2;
+    font-weight: 750;
+
+    letter-spacing: -0.02em;
+}
+
+.staffPipeline__header p {
+    margin: 5px 0 0;
+
+    color: #8a97a8;
+
+    font-size: 9px;
+    line-height: 1.4;
+}
+
+.staffPipeline__summary {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+
+    padding-right: 3px;
+}
+
+.staffPipeline__summary strong {
+    color: #172b49;
+
+    font-size: 19px;
+    font-weight: 800;
+}
+
+.staffPipeline__summary span {
+    color: #8b98a9;
+
+    font-size: 9px;
+    font-weight: 600;
+}
+
+
+/* ============================================================
+   PIPELINE TOOLBAR
+============================================================ */
+
+.staffPipeline__toolbar {
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 14px;
+    box-sizing: border-box;
+
+    border-bottom: 1px solid #e9edf2;
+
+    background: #fafbfd;
+}
+
+.staffPipeline__toolbarInfo,
+.staffPipeline__toolbarStats {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    color: #7f8d9f;
+
+    font-size: 9px;
+    font-weight: 650;
+}
+
+.staffPipeline__liveDot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #35a66f;
+
+    box-shadow:
+        0 0 0 3px rgba(53, 166, 111, 0.09);
+}
+
+.staffPipeline__saving {
+    color: #2863ec;
+    font-weight: 700;
+}
+
+
+/* ============================================================
+   BOARD VIEWPORT
+============================================================ */
+
+.staffPipeline__viewport {
+    width: 100%;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    background: #f5f7f9;
+
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        #cbd5e1
+        #f1f5f9;
+}
+
+.staffPipeline__viewport::-webkit-scrollbar {
+    height: 8px;
+}
+
+.staffPipeline__viewport::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+.staffPipeline__viewport::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: #cbd5e1;
+}
+
+
+/* ============================================================
+   PIPELINE BOARD
+============================================================ */
+
+.staffPipeline__board {
+    min-width: 1190px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            5,
+            minmax(220px, 1fr)
+        );
+
+    background: #f5f7f9;
+}
+
+
+/* ============================================================
+   PIPELINE COLUMN
+============================================================ */
+
+.staffPipeline__column {
+    position: relative;
+
+    min-width: 0;
+    min-height: 570px;
+
+    display: flex;
+    flex-direction: column;
+
+    border-right: 1px solid #e0e6ed;
+
+    background: #f7f9fb;
+
+    transition:
+        background-color 180ms ease,
+        box-shadow 180ms ease;
+}
+
+.staffPipeline__column:last-child {
+    border-right: 0;
+}
+
+
+/* ============================================================
+   COLUMN HEADER
+============================================================ */
+
+.staffPipeline__columnHeader {
+    height: 54px;
+    flex: 0 0 54px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 11px;
+    box-sizing: border-box;
+
+    border-bottom: 1px solid rgba(15, 23, 42, 0.045);
+}
+
+.staffPipeline__columnName {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.staffPipeline__columnIcon {
+    width: 26px;
+    height: 26px;
+
+    flex: 0 0 26px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 7px;
+
+    background: rgba(255, 255, 255, 0.72);
+}
+
+.staffPipeline__columnIcon svg {
+    width: 14px;
+    height: 14px;
+}
+
+.staffPipeline__columnLabel {
+    min-width: 0;
+
+    overflow: hidden;
+
+    font-size: 9px;
+    line-height: 1.2;
+    font-weight: 800;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.staffPipeline__columnActions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.staffPipeline__count {
+    min-width: 22px;
+    height: 21px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 5px;
+    box-sizing: border-box;
+
+    border-radius: 999px;
+
+    background: rgba(255, 255, 255, 0.8);
+
+    color: currentColor;
+
+    font-size: 8px;
+    font-weight: 800;
+}
+
+.staffPipeline__columnMenu {
+    width: 24px;
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+    border-radius: 6px;
+
+    background: transparent;
+    color: currentColor;
+
+    opacity: 0.48;
+
+    cursor: pointer;
+}
+
+.staffPipeline__columnMenu:hover {
+    background: rgba(255, 255, 255, 0.72);
+    opacity: 1;
+}
+
+.staffPipeline__columnMenu svg {
+    width: 14px;
+    height: 14px;
+}
+
+
+/* ============================================================
+   COLUMN COLORS
+============================================================ */
+
+.staffPipeline__column--blue
+.staffPipeline__columnHeader {
+    background: #eaf2ff;
+    color: #2760d9;
+}
+
+.staffPipeline__column--yellow
+.staffPipeline__columnHeader {
+    background: #fff7d8;
+    color: #a66a00;
+}
+
+.staffPipeline__column--orange
+.staffPipeline__columnHeader {
+    background: #fff0df;
+    color: #c55400;
+}
+
+.staffPipeline__column--green
+.staffPipeline__columnHeader {
+    background: #e5f6eb;
+    color: #2b8758;
+}
+
+.staffPipeline__column--purple
+.staffPipeline__columnHeader {
+    background: #f2e8ff;
+    color: #7934c7;
+}
+
+
+/* ============================================================
+   COLUMN BODY
+============================================================ */
+
+.staffPipeline__columnBody {
+    flex: 1;
+    min-height: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+
+    padding: 10px;
+    box-sizing: border-box;
+
+    overflow-y: auto;
+
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        #d4dce6
+        transparent;
+}
+
+.staffPipeline__columnBody::-webkit-scrollbar {
+    width: 5px;
+}
+
+.staffPipeline__columnBody::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.staffPipeline__columnBody::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: #d4dce6;
+}
+
+
+/* ============================================================
+   CARD WRAPPER
+============================================================ */
+
+.staffPipeline__cardWrapper {
+    width: 100%;
+    min-width: 0;
+}
+
+.staffPipeline__cardWrapper.is-moving {
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+
+/* ============================================================
+   DRAG OVER
+============================================================ */
+
+.staffPipeline__column.is-drag-over {
+    background: #edf4ff;
+
+    box-shadow:
+        inset 0 0 0 2px rgba(40, 99, 236, 0.1);
+}
+
+.staffPipeline__column.is-drag-over
+.staffPipeline__columnBody {
+    background:
+        linear-gradient(
+            180deg,
+            rgba(40, 99, 236, 0.025),
+            transparent 45%
+        );
+}
+
+
+/* ============================================================
+   DROP INDICATOR
+============================================================ */
+
+.staffPipeline__dropIndicator {
+    position: absolute;
+
+    top: 61px;
+    left: 10px;
+    right: 10px;
+
+    z-index: 5;
+
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px dashed #8eafea;
+    border-radius: 8px;
+
+    background: rgba(255, 255, 255, 0.88);
+
+    color: #2863ec;
+
+    font-size: 8px;
+    font-weight: 750;
+
+    pointer-events: none;
+}
+
+
+/* ============================================================
+   EMPTY COLUMN
+============================================================ */
+
+.staffPipeline__empty {
+    flex: 1;
+    min-height: 330px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 25px 15px;
+    box-sizing: border-box;
+
+    text-align: center;
+}
+
+.staffPipeline__emptyIcon {
+    width: 43px;
+    height: 43px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 11px;
+
+    border: 1px dashed #cbd6e3;
+    border-radius: 50%;
+
+    background: #ffffff;
+    color: #9aa9bb;
+}
+
+.staffPipeline__emptyIcon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.staffPipeline__empty strong {
+    margin-bottom: 4px;
+
+    color: #627186;
+
+    font-size: 9px;
+    font-weight: 750;
+}
+
+.staffPipeline__empty span {
+    max-width: 140px;
+
+    color: #9aa7b7;
+
+    font-size: 8px;
+    line-height: 1.5;
+}
+
+
+/* ============================================================
+   PIPELINE FOOTER
+============================================================ */
+
+.staffPipeline__footer {
+    min-height: 46px;
+
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    padding: 0 14px;
+    box-sizing: border-box;
+
+    border-top: 1px solid #e5eaf0;
+
+    background: #ffffff;
+}
+
+.staffPipeline__footerSummary {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+
+    flex: 0 0 auto;
+}
+
+.staffPipeline__footerSummary strong {
+    color: #34445a;
+
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.staffPipeline__footerSummary span,
+.staffPipeline__footerHint {
+    color: #8d9aaa;
+
+    font-size: 8px;
+    font-weight: 600;
+}
+
+.staffPipeline__progress {
+    flex: 1;
+}
+
+.staffPipeline__progressTrack {
+    width: 100%;
+    height: 5px;
+
+    overflow: hidden;
+
+    border-radius: 999px;
+
+    background: #edf1f5;
+}
+
+.staffPipeline__progressBar {
+    height: 100%;
+
+    border-radius: inherit;
+
+    background: #2863ec;
+
+    transition: width 350ms ease;
+}
+
+.staffPipeline__footerHint {
+    flex: 0 0 auto;
+}
+
+
+/* ============================================================
+   LOADING
+============================================================ */
+
+.staffApplications__loading {
+    min-height: 500px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    color: #8795a8;
+
+    text-align: center;
+}
+
+.staffApplications__loading strong {
+    color: #536176;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.staffApplications__loading span {
+    color: #9aa7b7;
+
+    font-size: 9px;
+}
+
+.staffApplications__spinner {
+    width: 28px;
+    height: 28px;
+
+    margin-bottom: 5px;
+
+    border: 3px solid #e5ebf2;
+    border-top-color: #2863ec;
+
+    border-radius: 50%;
+
+    animation:
+        staffApplicationsSpin
+        0.75s
+        linear
+        infinite;
+}
+
+.is-spinning {
+    animation:
+        staffApplicationsSpin
+        0.75s
+        linear
+        infinite;
+}
+
+@keyframes staffApplicationsSpin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media (max-width: 1100px) {
+    .staffApplications {
+        padding: 24px 22px 32px;
+    }
+
+    .staffApplications__header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .staffApplications__headerActions {
+        width: 100%;
+    }
+
+    .staffApplications__search {
+        flex: 1;
+    }
+}
+
+
+@media (max-width: 700px) {
+    .staffApplications {
+        padding: 18px 12px 26px;
+    }
+
+    .staffApplications__heading h1 {
+        font-size: 23px;
+    }
+
+    .staffApplications__headerActions {
+        flex-wrap: wrap;
+    }
+
+    .staffApplications__search {
+        width: 100%;
+        flex-basis: 100%;
+    }
+
+    .staffApplications__refresh {
+        flex: 0 0 auto;
+    }
+
+    .staffApplications__tabs {
+        margin-bottom: 13px;
+    }
+
+    .staffApplications__tabs button {
+        height: 36px;
+        padding: 0 14px;
+    }
+
+    .staffApplications__tabCount {
+        min-width: 19px;
+        height: 19px;
+    }
+
+    .staffPipeline__header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .staffPipeline__summary {
+        padding: 0;
+    }
+
+    .staffPipeline__footerHint {
+        display: none;
+    }
+}

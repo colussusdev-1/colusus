@@ -1,6 +1,7 @@
 import {
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from "react";
 
@@ -129,6 +130,10 @@ COMPONENT
 
 const ApplicationDocuments = ({
   application,
+
+  initialDocumentId = null,
+
+  autoOpenDocument = false,
 }) => {
 
   /*
@@ -181,18 +186,27 @@ const ApplicationDocuments = ({
   ============================================================
   SELECTED DOCUMENT
   ============================================================
-  |
-  | This is the ONLY state needed to open the viewer.
-  |
-  | AdminDocumentViewer handles the actual overlay.
-  |
-  ============================================================
   */
 
   const [
     selectedDocument,
     setSelectedDocument,
   ] = useState(null);
+
+
+  /*
+  ============================================================
+  AUTO-OPEN TRACKER
+  ============================================================
+  |
+  | Prevents the same notification document from repeatedly
+  | reopening after normal component updates.
+  |
+  ============================================================
+  */
+
+  const autoOpenedDocumentRef =
+    useRef(null);
 
 
   /*
@@ -241,13 +255,71 @@ const ApplicationDocuments = ({
             response;
 
 
-          setDocuments(
+          const normalizedDocuments =
             Array.isArray(
               documentData,
             )
               ? documentData
-              : [],
+              : [];
+
+
+          setDocuments(
+            normalizedDocuments,
           );
+
+
+          /*
+          ------------------------------------------------------
+          AUTO OPEN DOCUMENT
+          ------------------------------------------------------
+          |
+          | If this page was reached from a notification,
+          | find the exact document and open the EXISTING
+          | AdminDocumentViewer.
+          |
+          ------------------------------------------------------
+          */
+
+          if (
+            autoOpenDocument &&
+            initialDocumentId &&
+            normalizedDocuments.length > 0 &&
+            autoOpenedDocumentRef.current !==
+            initialDocumentId
+          ) {
+
+            const targetDocument =
+              normalizedDocuments.find(
+                (document) =>
+                  String(
+                    document?._id,
+                  ) ===
+                  String(
+                    initialDocumentId,
+                  ),
+              );
+
+
+            if (targetDocument) {
+
+              setSelectedDocument(
+                targetDocument,
+              );
+
+
+              autoOpenedDocumentRef.current =
+                initialDocumentId;
+
+            } else {
+
+              console.warn(
+                "Notification document was not found in application documents:",
+                initialDocumentId,
+              );
+
+            }
+
+          }
 
         } catch (
         requestError
@@ -276,6 +348,8 @@ const ApplicationDocuments = ({
       },
       [
         applicationId,
+        autoOpenDocument,
+        initialDocumentId,
       ],
     );
 
@@ -292,6 +366,79 @@ const ApplicationDocuments = ({
 
   }, [
     loadDocuments,
+  ]);
+
+
+  /*
+  ============================================================
+  HANDLE DOCUMENT TARGET CHANGES
+  ============================================================
+  |
+  | Handles cases where the same ApplicationDocuments instance
+  | receives a different notification target.
+  |
+  ============================================================
+  */
+
+  useEffect(() => {
+
+    if (
+      !autoOpenDocument ||
+      !initialDocumentId ||
+      documents.length === 0
+    ) {
+
+      return;
+
+    }
+
+
+    if (
+      autoOpenedDocumentRef.current ===
+      initialDocumentId
+    ) {
+
+      return;
+
+    }
+
+
+    const targetDocument =
+      documents.find(
+        (document) =>
+          String(
+            document?._id,
+          ) ===
+          String(
+            initialDocumentId,
+          ),
+      );
+
+
+    if (!targetDocument) {
+
+      console.warn(
+        "Unable to locate requested notification document:",
+        initialDocumentId,
+      );
+
+      return;
+
+    }
+
+
+    setSelectedDocument(
+      targetDocument,
+    );
+
+
+    autoOpenedDocumentRef.current =
+      initialDocumentId;
+
+  }, [
+    documents,
+    autoOpenDocument,
+    initialDocumentId,
   ]);
 
 
@@ -385,13 +532,6 @@ const ApplicationDocuments = ({
   ============================================================
   HANDLE DOCUMENT UPDATE
   ============================================================
-  |
-  | When admin approves/rejects/marks under review:
-  |
-  | 1. Update the table
-  | 2. Update the viewer
-  |
-  ============================================================
   */
 
   const handleDocumentUpdated = (
@@ -469,11 +609,9 @@ const ApplicationDocuments = ({
             DOCUMENT MANAGEMENT
           </span>
 
-
           <h2>
             Application Documents
           </h2>
-
 
           <p>
             Review and manage documents submitted
@@ -502,7 +640,6 @@ const ApplicationDocuments = ({
             }
           />
 
-
           <span>
             Refresh
           </span>
@@ -523,7 +660,6 @@ const ApplicationDocuments = ({
           <div className="applicationDocuments__summary">
 
             <div>
-
               <span>
                 Total
               </span>
@@ -531,12 +667,10 @@ const ApplicationDocuments = ({
               <strong>
                 {totalDocuments}
               </strong>
-
             </div>
 
 
             <div>
-
               <span>
                 Approved
               </span>
@@ -544,12 +678,10 @@ const ApplicationDocuments = ({
               <strong className="is-approved">
                 {approvedDocuments}
               </strong>
-
             </div>
 
 
             <div>
-
               <span>
                 Pending Review
               </span>
@@ -557,12 +689,10 @@ const ApplicationDocuments = ({
               <strong className="is-pending">
                 {pendingDocuments}
               </strong>
-
             </div>
 
 
             <div>
-
               <span>
                 Needs Attention
               </span>
@@ -570,7 +700,6 @@ const ApplicationDocuments = ({
               <strong className="is-rejected">
                 {rejectedDocuments}
               </strong>
-
             </div>
 
           </div>
@@ -604,12 +733,7 @@ const ApplicationDocuments = ({
       {!loading &&
         error && (
 
-          <div
-            className="
-              applicationDocuments__state
-              applicationDocuments__state--error
-            "
-          >
+          <div className="applicationDocuments__state applicationDocuments__state--error">
 
             <HiOutlineDocumentText />
 
@@ -643,12 +767,7 @@ const ApplicationDocuments = ({
         !error &&
         documents.length === 0 && (
 
-          <div
-            className="
-              applicationDocuments__state
-              applicationDocuments__state--empty
-            "
-          >
+          <div className="applicationDocuments__state applicationDocuments__state--empty">
 
             <div className="applicationDocuments__emptyIcon">
 
@@ -656,11 +775,9 @@ const ApplicationDocuments = ({
 
             </div>
 
-
             <h3>
               No documents submitted
             </h3>
-
 
             <p>
               This application does not have any
@@ -744,10 +861,6 @@ const ApplicationDocuments = ({
                         }
                       >
 
-                        {/* ======================================
-                            DOCUMENT
-                        ====================================== */}
-
                         <td>
 
                           <div className="applicationDocuments__document">
@@ -758,27 +871,21 @@ const ApplicationDocuments = ({
 
                             </div>
 
-
                             <div>
 
                               <strong>
-
                                 {
                                   document?.name ||
                                   document?.originalFileName ||
                                   "Untitled document"
                                 }
-
                               </strong>
 
-
                               <span>
-
                                 {
                                   document?.originalFileName ||
                                   "Document file"
                                 }
-
                               </span>
 
                             </div>
@@ -787,10 +894,6 @@ const ApplicationDocuments = ({
 
                         </td>
 
-
-                        {/* ======================================
-                            TYPE
-                        ====================================== */}
 
                         <td>
 
@@ -804,10 +907,6 @@ const ApplicationDocuments = ({
 
                         </td>
 
-
-                        {/* ======================================
-                            STATUS
-                        ====================================== */}
 
                         <td>
 
@@ -830,10 +929,6 @@ const ApplicationDocuments = ({
                         </td>
 
 
-                        {/* ======================================
-                            SUBMITTED
-                        ====================================== */}
-
                         <td>
 
                           <span className="applicationDocuments__date">
@@ -846,10 +941,6 @@ const ApplicationDocuments = ({
 
                         </td>
 
-
-                        {/* ======================================
-                            REVIEWED BY
-                        ====================================== */}
 
                         <td>
 
@@ -868,10 +959,6 @@ const ApplicationDocuments = ({
 
                         </td>
 
-
-                        {/* ======================================
-                            ACTION
-                        ====================================== */}
 
                         <td>
 
@@ -913,18 +1000,7 @@ const ApplicationDocuments = ({
 
 
       {/* ======================================================
-          ADMIN DOCUMENT VIEWER
-      ======================================================
-
-          IMPORTANT:
-
-          DO NOT WRAP THIS COMPONENT.
-
-          AdminDocumentViewer already creates its own
-          full-screen overlay using React Portal.
-
-          It renders directly into document.body.
-
+          EXISTING DOCUMENT VIEWER
       ====================================================== */}
 
       {selectedDocument && (
