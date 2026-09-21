@@ -1,7 +1,39 @@
 import Document from "./document.model.js";
+
 import Application from "../applications/application.model.js";
+
+import User from "../users/user.model.js";
+
 import uploadToCloudinary from "../../utils/uploadToCloudinary.js";
-import notificationService from "../notifications/notification.service.js";
+
+/*
+============================================================
+colossus — DOCUMENT SERVICE
+============================================================
+
+Responsible for:
+
+- Document uploads
+- Cloudinary storage
+- Document retrieval
+- Client document updates
+- Staff document review
+- Application document progress
+- Application journey/status updates
+- Application activity
+
+IMPORTANT:
+
+Notification creation is intentionally NOT handled here.
+
+The notification infrastructure will later consume dedicated
+document/application events.
+
+This keeps the document workflow independent from the
+notification system.
+
+============================================================
+*/
 
 /*
 ============================================================
@@ -11,10 +43,15 @@ SUPPORTED DOCUMENT TYPES
 
 const DOCUMENT_TYPES = [
   "PASSPORT",
+
   "IDENTIFICATION",
+
   "ACADEMIC_CERTIFICATE",
+
   "FINANCIAL_DOCUMENT",
+
   "EMPLOYMENT_DOCUMENT",
+
   "OTHER",
 ];
 
@@ -25,7 +62,9 @@ APPLICATION STATUS
 */
 
 const STATUS_DRAFT = "DRAFT";
+
 const STATUS_IN_PROGRESS = "IN_PROGRESS";
+
 const STATUS_UNDER_REVIEW = "UNDER_REVIEW";
 
 /*
@@ -35,9 +74,13 @@ DOCUMENT STATUS
 */
 
 const DOCUMENT_STATUS_UPLOADED = "UPLOADED";
+
 const DOCUMENT_STATUS_UNDER_REVIEW = "UNDER_REVIEW";
+
 const DOCUMENT_STATUS_APPROVED = "APPROVED";
+
 const DOCUMENT_STATUS_REJECTED = "REJECTED";
+
 const DOCUMENT_STATUS_REUPLOAD = "REUPLOAD_REQUIRED";
 
 /*
@@ -119,34 +162,6 @@ const getRequiredDocumentDefinitions = (application) => {
 
 /*
 ============================================================
-SAFE NOTIFICATION
-============================================================
-
-Notifications are secondary to the core operation.
-
-If notification creation fails, document upload/status
-processing must still succeed.
-
-This prevents a notification problem from turning into:
-
-DOCUMENT UPLOAD → 500 ERROR
-
-============================================================
-*/
-
-const safeNotify = async (callback) => {
-  try {
-    await callback();
-  } catch (error) {
-    console.error(
-      "[NOTIFICATION] Failed to create notification:",
-      error?.message || error,
-    );
-  }
-};
-
-/*
-============================================================
 CALCULATE DOCUMENT PROGRESS
 ============================================================
 */
@@ -156,7 +171,8 @@ const calculateDocumentProgress = async (application) => {
 
   const uploadedDocuments = await Document.find({
     application: application._id,
-    user: application.user,
+
+    user: application.user?._id || application.user,
   }).sort({
     createdAt: 1,
   });
@@ -232,6 +248,7 @@ const calculateDocumentProgress = async (application) => {
   */
 
   const missing = [];
+
   const matchedDocuments = [];
 
   for (const requiredDocument of requiredDocuments) {
@@ -393,7 +410,16 @@ ADD APPLICATION ACTIVITY
 
 const addApplicationActivity = (
   application,
-  { type, title, description, metadata = {} },
+
+  {
+    type,
+
+    title,
+
+    description,
+
+    metadata = {},
+  },
 ) => {
   if (!application || !Array.isArray(application.activity)) {
     return;
@@ -416,11 +442,29 @@ const addApplicationActivity = (
 ============================================================
 UPDATE APPLICATION DOCUMENT PROGRESS
 ============================================================
+|
+| IMPORTANT:
+|
+| `updatedBy` is explicitly passed into this function.
+|
+| This prevents the previous `staffUserId is not defined`
+| runtime error.
+|
+| Notifications are intentionally NOT created here.
+|
+============================================================
 */
 
 const updateApplicationDocumentProgress = async (
   application,
-  { documentEvent = null, document = null } = {},
+
+  {
+    documentEvent = null,
+
+    document = null,
+
+    updatedBy = null,
+  } = {},
 ) => {
   const previousStatus = normalizeStatus(application.status);
 
@@ -429,18 +473,18 @@ const updateApplicationDocumentProgress = async (
   const previousStep = application.currentStep || "DOCUMENTS";
 
   /*
-    --------------------------------------------------------
-    CALCULATE CURRENT PROGRESS
-    --------------------------------------------------------
-    */
+  ----------------------------------------------------------
+  CALCULATE CURRENT PROGRESS
+  ----------------------------------------------------------
+  */
 
   const progress = await calculateDocumentProgress(application);
 
   /*
-    --------------------------------------------------------
-    DETERMINE APPLICATION STATUS
-    --------------------------------------------------------
-    */
+  ----------------------------------------------------------
+  DETERMINE APPLICATION STATUS
+  ----------------------------------------------------------
+  */
 
   let nextStatus = previousStatus;
 
@@ -457,20 +501,20 @@ const updateApplicationDocumentProgress = async (
   }
 
   /*
-    --------------------------------------------------------
-    DETERMINE APPLICATION STEP
-    --------------------------------------------------------
-    */
+  ----------------------------------------------------------
+  DETERMINE APPLICATION STEP
+  ----------------------------------------------------------
+  */
 
   const nextStep = progress.complete ? "REVIEW" : "DOCUMENTS";
 
   const nextStepIndex = progress.complete ? 1 : 0;
 
   /*
-    --------------------------------------------------------
-    APPLICATION STARTED
-    --------------------------------------------------------
-    */
+  ----------------------------------------------------------
+  APPLICATION STARTED
+  ----------------------------------------------------------
+  */
 
   if (previousStatus === STATUS_DRAFT && progress.uploaded > 0) {
     addApplicationActivity(application, {
@@ -485,15 +529,17 @@ const updateApplicationDocumentProgress = async (
         fromStatus: previousStatus,
 
         toStatus: STATUS_IN_PROGRESS,
+
+        updatedBy,
       },
     });
   }
 
   /*
-    --------------------------------------------------------
-    DOCUMENT ACTIVITY
-    --------------------------------------------------------
-    */
+  ----------------------------------------------------------
+  DOCUMENT ACTIVITY
+  ----------------------------------------------------------
+  */
 
   if (documentEvent && document) {
     const eventMap = {
@@ -506,7 +552,7 @@ const updateApplicationDocumentProgress = async (
       DOCUMENT_REVIEW: {
         title: "Document under review",
 
-        description: `${document.name} is currently being reviewed by the Colusus team.`,
+        description: `${document.name} is currently being reviewed by the colossus team.`,
       },
 
       DOCUMENT_APPROVED: {
@@ -548,16 +594,18 @@ const updateApplicationDocumentProgress = async (
           documentStatus: document.status,
 
           reviewNote: document.reviewNote || "",
+
+          updatedBy,
         },
       });
     }
   }
 
   /*
-    --------------------------------------------------------
-    ALL DOCUMENTS COMPLETED
-    --------------------------------------------------------
-    */
+  ----------------------------------------------------------
+  ALL DOCUMENTS COMPLETED
+  ----------------------------------------------------------
+  */
 
   const documentsJustCompleted =
     !previousComplete && progress.complete && progress.required > 0;
@@ -577,15 +625,17 @@ const updateApplicationDocumentProgress = async (
         uploaded: progress.uploaded,
 
         approved: progress.approved,
+
+        updatedBy,
       },
     });
   }
 
   /*
-    --------------------------------------------------------
-    APPLICATION MOVED TO REVIEW
-    --------------------------------------------------------
-    */
+  ----------------------------------------------------------
+  APPLICATION MOVED TO REVIEW
+  ----------------------------------------------------------
+  */
 
   const movedToReview =
     previousStatus !== STATUS_UNDER_REVIEW &&
@@ -598,7 +648,7 @@ const updateApplicationDocumentProgress = async (
       title: "Application moved to review",
 
       description:
-        "All required documents have been submitted. Your application is now ready for Colusus review.",
+        "All required documents have been submitted. Your application is now ready for colossus review.",
 
       metadata: {
         fromStatus: previousStatus,
@@ -608,15 +658,17 @@ const updateApplicationDocumentProgress = async (
         fromStep: previousStep,
 
         toStep: nextStep,
+
+        updatedBy,
       },
     });
   }
 
   /*
-    --------------------------------------------------------
-    SAVE APPLICATION
-    --------------------------------------------------------
-    */
+  ----------------------------------------------------------
+  SAVE APPLICATION
+  ----------------------------------------------------------
+  */
 
   application.status = nextStatus;
 
@@ -647,196 +699,29 @@ const updateApplicationDocumentProgress = async (
   await application.save();
 
   /*
-    ========================================================
-    NOTIFICATIONS
-    ========================================================
-    */
-
-  /*
-    --------------------------------------------------------
-    CLIENT DOCUMENT NOTIFICATION
-    --------------------------------------------------------
-    */
-
-  if (documentEvent === "DOCUMENT_APPROVED") {
-    await safeNotify(() =>
-      notificationService.createForApplicationOwner({
-        application,
-
-        title: "Document approved",
-
-        message: `${document.name} has been approved by the Colusus team.`,
-
-        type: "DOCUMENT_APPROVED",
-
-        metadata: {
-          documentId: document._id,
-
-          documentName: document.name,
-
-          documentType: document.type,
-        },
-      }),
-    );
-  }
-
-  /*
-    --------------------------------------------------------
-    CLIENT DOCUMENT REJECTED
-    --------------------------------------------------------
-    */
-
-  if (documentEvent === "DOCUMENT_REJECTED") {
-    await safeNotify(() =>
-      notificationService.createForApplicationOwner({
-        application,
-
-        title: "Document rejected",
-
-        message: `${document.name} was rejected. Please review the feedback and update the document.`,
-
-        type: "DOCUMENT_REJECTED",
-
-        metadata: {
-          documentId: document._id,
-
-          documentName: document.name,
-
-          documentType: document.type,
-
-          reviewNote: document.reviewNote || "",
-        },
-      }),
-    );
-  }
-
-  /*
-    --------------------------------------------------------
-    CLIENT RE-UPLOAD REQUIRED
-    --------------------------------------------------------
-    */
-
-  if (documentEvent === "DOCUMENT_REUPLOAD_REQUIRED") {
-    await safeNotify(() =>
-      notificationService.createForApplicationOwner({
-        application,
-
-        title: "Document re-upload required",
-
-        message: `${document.name} needs to be uploaded again before your application can continue.`,
-
-        type: "DOCUMENT_REUPLOAD",
-
-        metadata: {
-          documentId: document._id,
-
-          documentName: document.name,
-
-          documentType: document.type,
-
-          reviewNote: document.reviewNote || "",
-        },
-      }),
-    );
-  }
-
-  /*
-    --------------------------------------------------------
-    APPLICATION READY FOR REVIEW
-    --------------------------------------------------------
-    */
-
-  if (documentsJustCompleted) {
-    /*
-      CLIENT
-      */
-
-    await safeNotify(() =>
-      notificationService.createForApplicationOwner({
-        application,
-
-        title: "Documents completed",
-
-        message:
-          "All required documents have been submitted. Your application is now ready for review.",
-
-        type: "APPLICATION_UPDATE",
-
-        metadata: {
-          applicationId: application._id,
-
-          event: "DOCUMENTS_COMPLETED",
-        },
-      }),
-    );
-
-    /*
-      STAFF + ADMIN
-      */
-
-    await safeNotify(() =>
-      notificationService.createForRoles({
-        roles: ["ADMIN", "STAFF"],
-
-        title: "Application ready for review",
-
-        message:
-          "A client has completed all required documents and the application is ready for review.",
-
-        type: "APPLICATION_UPDATE",
-
-        metadata: {
-          applicationId: application._id,
-
-          clientId: application.user,
-
-          event: "DOCUMENTS_COMPLETED",
-        },
-      }),
-    );
-  }
-
-  /*
-    --------------------------------------------------------
-    APPLICATION MOVED TO REVIEW
-    --------------------------------------------------------
-    */
-
-  if (movedToReview) {
-    await safeNotify(() =>
-      notificationService.createForRoles({
-        roles: ["ADMIN", "STAFF"],
-
-        title: "Application moved to review",
-
-        message:
-          "A client application has completed its required documents and is ready for staff review.",
-
-        type: "APPLICATION_STATUS_CHANGED",
-
-        metadata: {
-          applicationId: application._id,
-
-          clientId: application.user,
-
-          fromStatus: previousStatus,
-
-          toStatus: nextStatus,
-        },
-      }),
-    );
-  }
-
-  /*
-    --------------------------------------------------------
-    RETURN
-    --------------------------------------------------------
-    */
+  ----------------------------------------------------------
+  RETURN
+  ----------------------------------------------------------
+  */
 
   return {
     application,
 
     progress,
+
+    event: {
+      type: documentEvent,
+
+      documentId: document?._id || null,
+
+      applicationId: application._id,
+
+      previousStatus,
+
+      nextStatus,
+
+      updatedBy,
+    },
   };
 };
 
@@ -846,7 +731,17 @@ CREATE / UPLOAD DOCUMENT
 ============================================================
 */
 
-const createDocument = async ({ userId, applicationId, name, type, file }) => {
+const createDocument = async ({
+  userId,
+
+  applicationId,
+
+  name,
+
+  type,
+
+  file,
+}) => {
   /*
   ----------------------------------------------------------
   VALIDATE FILE
@@ -913,7 +808,9 @@ const createDocument = async ({ userId, applicationId, name, type, file }) => {
     _id: applicationId,
 
     user: userId,
-  }).populate("opportunity");
+  })
+    .populate("opportunity")
+    .populate("user", "name email");
 
   if (!application) {
     const error = new Error("Application not found.");
@@ -948,7 +845,7 @@ const createDocument = async ({ userId, applicationId, name, type, file }) => {
   */
 
   const cloudinaryResult = await uploadToCloudinary(file.buffer, {
-    folder: `colusus/documents/${applicationId}`,
+    folder: `colossus/documents/${applicationId}`,
   });
 
   /*
@@ -980,48 +877,22 @@ const createDocument = async ({ userId, applicationId, name, type, file }) => {
   });
 
   /*
-  ==========================================================
-  NOTIFY OPERATIONS
-  ==========================================================
-  */
-
-  await safeNotify(() =>
-    notificationService.createForRoles({
-      roles: ["ADMIN", "STAFF"],
-
-      title: "New document uploaded",
-
-      message: `A client uploaded ${document.name} to an application.`,
-
-      type: "APPLICATION_UPDATE",
-
-      metadata: {
-        applicationId: application._id,
-
-        documentId: document._id,
-
-        clientId: application.user,
-
-        documentName: document.name,
-
-        documentType: document.type,
-
-        event: "DOCUMENT_UPLOADED",
-      },
-    }),
-  );
-
-  /*
   ----------------------------------------------------------
   UPDATE APPLICATION
   ----------------------------------------------------------
   */
 
-  const result = await updateApplicationDocumentProgress(application, {
-    documentEvent: "DOCUMENT_UPLOADED",
+  const result = await updateApplicationDocumentProgress(
+    application,
 
-    document,
-  });
+    {
+      documentEvent: "DOCUMENT_UPLOADED",
+
+      document,
+
+      updatedBy: userId,
+    },
+  );
 
   /*
   ----------------------------------------------------------
@@ -1060,7 +931,11 @@ GET APPLICATION DOCUMENTS
 ============================================================
 */
 
-const getApplicationDocuments = async (applicationId, userId) => {
+const getApplicationDocuments = async (
+  applicationId,
+
+  userId,
+) => {
   const application = await Application.findOne({
     _id: applicationId,
 
@@ -1090,7 +965,11 @@ GET SINGLE DOCUMENT
 ============================================================
 */
 
-const getDocumentById = async (documentId, userId) => {
+const getDocumentById = async (
+  documentId,
+
+  userId,
+) => {
   const document = await Document.findOne({
     _id: documentId,
 
@@ -1128,7 +1007,13 @@ CLIENT DOCUMENT UPDATE
 ============================================================
 */
 
-const updateDocumentStatus = async (documentId, userId, data = {}) => {
+const updateDocumentStatus = async (
+  documentId,
+
+  userId,
+
+  data = {},
+) => {
   const document = await Document.findOne({
     _id: documentId,
 
@@ -1140,20 +1025,30 @@ const updateDocumentStatus = async (documentId, userId, data = {}) => {
   }
 
   /*
-    --------------------------------------------------------
-    CLIENT CAN ONLY UPDATE NAME
-    --------------------------------------------------------
-    */
+  ----------------------------------------------------------
+  CLIENT CAN ONLY UPDATE NAME
+  ----------------------------------------------------------
+  */
 
   if (data.name !== undefined) {
-    document.name = String(data.name).trim();
+    const name = String(data.name).trim();
+
+    if (!name) {
+      const error = new Error("Document name cannot be empty.");
+
+      error.statusCode = 400;
+
+      throw error;
+    }
+
+    document.name = name;
   }
 
   /*
-    --------------------------------------------------------
-    BLOCK STATUS MANIPULATION
-    --------------------------------------------------------
-    */
+  ----------------------------------------------------------
+  BLOCK STATUS MANIPULATION
+  ----------------------------------------------------------
+  */
 
   if (data.status !== undefined) {
     const requestedStatus = normalizeStatus(data.status);
@@ -1162,7 +1057,7 @@ const updateDocumentStatus = async (documentId, userId, data = {}) => {
 
     if (requestedStatus !== currentStatus) {
       const error = new Error(
-        "Document review status can only be changed by the Colusus team.",
+        "Document review status can only be changed by the colossus team.",
       );
 
       error.statusCode = 403;
@@ -1174,19 +1069,27 @@ const updateDocumentStatus = async (documentId, userId, data = {}) => {
   await document.save();
 
   /*
-    --------------------------------------------------------
-    RECALCULATE APPLICATION
-    --------------------------------------------------------
-    */
+  ----------------------------------------------------------
+  RECALCULATE APPLICATION
+  ----------------------------------------------------------
+  */
 
   const application = await Application.findOne({
     _id: document.application,
 
     user: userId,
-  }).populate("opportunity");
+  })
+    .populate("opportunity")
+    .populate("user", "name email");
 
   if (application) {
-    await updateApplicationDocumentProgress(application);
+    await updateApplicationDocumentProgress(
+      application,
+
+      {
+        updatedBy: userId,
+      },
+    );
   }
 
   return document;
@@ -1200,7 +1103,9 @@ STAFF DOCUMENT STATUS UPDATE
 
 const updateDocumentStatusByStaff = async (
   documentId,
+
   data = {},
+
   staffUserId = null,
 ) => {
   const allowedStatuses = [
@@ -1217,6 +1122,12 @@ const updateDocumentStatusByStaff = async (
 
   const nextStatus = normalizeStatus(data.status);
 
+  /*
+  ----------------------------------------------------------
+  VALIDATE STATUS
+  ----------------------------------------------------------
+  */
+
   if (!allowedStatuses.includes(nextStatus)) {
     const error = new Error("Invalid document review status.");
 
@@ -1226,10 +1137,10 @@ const updateDocumentStatusByStaff = async (
   }
 
   /*
-    ----------------------------------------------------------
-    FIND DOCUMENT
-    ----------------------------------------------------------
-    */
+  ----------------------------------------------------------
+  FIND DOCUMENT
+  ----------------------------------------------------------
+  */
 
   const document = await Document.findById(documentId);
 
@@ -1242,18 +1153,18 @@ const updateDocumentStatusByStaff = async (
   }
 
   /*
-    ----------------------------------------------------------
-    PREVIOUS STATUS
-    ----------------------------------------------------------
-    */
+  ----------------------------------------------------------
+  PREVIOUS STATUS
+  ----------------------------------------------------------
+  */
 
   const previousStatus = normalizeStatus(document.status);
 
   /*
-    ----------------------------------------------------------
-    UPDATE DOCUMENT
-    ----------------------------------------------------------
-    */
+  ----------------------------------------------------------
+  UPDATE DOCUMENT
+  ----------------------------------------------------------
+  */
 
   document.status = nextStatus;
 
@@ -1275,14 +1186,14 @@ const updateDocumentStatusByStaff = async (
   await document.save();
 
   /*
-    ----------------------------------------------------------
-    FIND APPLICATION
-    ----------------------------------------------------------
-    */
+  ----------------------------------------------------------
+  FIND APPLICATION
+  ----------------------------------------------------------
+  */
 
-  const application = await Application.findById(document.application).populate(
-    "opportunity",
-  );
+  const application = await Application.findById(document.application)
+    .populate("opportunity")
+    .populate("user", "name email");
 
   if (!application) {
     return {
@@ -1295,10 +1206,10 @@ const updateDocumentStatusByStaff = async (
   }
 
   /*
-    ----------------------------------------------------------
-    MAP ACTIVITY
-    ----------------------------------------------------------
-    */
+  ----------------------------------------------------------
+  MAP ACTIVITY
+  ----------------------------------------------------------
+  */
 
   let activityType = null;
 
@@ -1324,217 +1235,60 @@ const updateDocumentStatusByStaff = async (
   }
 
   /*
-    ----------------------------------------------------------
-    UPDATE APPLICATION
-    ----------------------------------------------------------
-    */
+  ----------------------------------------------------------
+  UPDATE APPLICATION
+  ----------------------------------------------------------
+  */
 
-  const result = await updateApplicationDocumentProgress(application, {
-    documentEvent: activityType,
+  const result = await updateApplicationDocumentProgress(
+    application,
 
-    document,
-  });
+    {
+      documentEvent: activityType,
+
+      document,
+
+      updatedBy: staffUserId,
+    },
+  );
 
   /*
-    ----------------------------------------------------------
-    GENERIC STATUS CHANGE
-    ----------------------------------------------------------
-    */
+  ----------------------------------------------------------
+  GENERIC STATUS CHANGE
+  ----------------------------------------------------------
+  */
 
   if (previousStatus !== nextStatus && !activityType) {
-    addApplicationActivity(application, {
-      type: "STATUS_CHANGED",
+    addApplicationActivity(
+      application,
 
-      title: "Document status updated",
-
-      description: `${document.name} status was updated.`,
-
-      metadata: {
-        documentId: document._id,
-
-        previousStatus,
-
-        nextStatus,
-
-        reviewedBy: staffUserId,
-      },
-    });
-
-    await application.save();
-  }
-
-  /*
-    ==========================================================
-    STAFF → CLIENT NOTIFICATIONS
-    ==========================================================
-    */
-
-  /*
-    ----------------------------------------------------------
-    UNDER REVIEW
-    ----------------------------------------------------------
-    */
-
-  if (activityType === "DOCUMENT_REVIEW") {
-    await safeNotify(() =>
-      notificationService.createForApplicationOwner({
-        application,
-
-        title: "Document under review",
-
-        message: `${document.name} is now being reviewed by the Colusus team.`,
-
-        type: "APPLICATION_UPDATE",
-
-        metadata: {
-          documentId: document._id,
-
-          documentName: document.name,
-
-          documentType: document.type,
-
-          status: nextStatus,
-        },
-      }),
-    );
-  }
-
-  /*
-    ----------------------------------------------------------
-    APPROVED
-    ----------------------------------------------------------
-    */
-
-  if (activityType === "DOCUMENT_APPROVED") {
-    await safeNotify(() =>
-      notificationService.createForApplicationOwner({
-        application,
-
-        title: "Document approved",
-
-        message: `${document.name} has been approved.`,
-
-        type: "DOCUMENT_APPROVED",
-
-        metadata: {
-          documentId: document._id,
-
-          documentName: document.name,
-
-          documentType: document.type,
-
-          status: nextStatus,
-        },
-      }),
-    );
-  }
-
-  /*
-    ----------------------------------------------------------
-    REJECTED
-    ----------------------------------------------------------
-    */
-
-  if (activityType === "DOCUMENT_REJECTED") {
-    await safeNotify(() =>
-      notificationService.createForApplicationOwner({
-        application,
-
-        title: "Document rejected",
-
-        message: `${document.name} was rejected. Please review the feedback provided by the Colusus team.`,
-
-        type: "DOCUMENT_REJECTED",
-
-        metadata: {
-          documentId: document._id,
-
-          documentName: document.name,
-
-          documentType: document.type,
-
-          status: nextStatus,
-
-          reviewNote: document.reviewNote || "",
-        },
-      }),
-    );
-  }
-
-  /*
-    ----------------------------------------------------------
-    RE-UPLOAD REQUIRED
-    ----------------------------------------------------------
-    */
-
-  if (activityType === "DOCUMENT_REUPLOAD_REQUIRED") {
-    await safeNotify(() =>
-      notificationService.createForApplicationOwner({
-        application,
-
-        title: "Document re-upload required",
-
-        message: `${document.name} needs to be uploaded again before your application can continue.`,
-
-        type: "DOCUMENT_REUPLOAD",
-
-        metadata: {
-          documentId: document._id,
-
-          documentName: document.name,
-
-          documentType: document.type,
-
-          status: nextStatus,
-
-          reviewNote: document.reviewNote || "",
-        },
-      }),
-    );
-  }
-
-  /*
-    ----------------------------------------------------------
-    STAFF/ADMIN ACTIVITY
-    ----------------------------------------------------------
-    */
-
-  if (previousStatus !== nextStatus) {
-    await safeNotify(() =>
-      notificationService.createForRoles({
-        roles: ["ADMIN", "STAFF"],
+      {
+        type: "STATUS_CHANGED",
 
         title: "Document status updated",
 
-        message: `${document.name} was updated to ${nextStatus.replace(
-          /_/g,
-          " ",
-        )}.`,
-
-        type: "APPLICATION_UPDATE",
+        description: `${document.name} status was updated.`,
 
         metadata: {
-          applicationId: application._id,
-
           documentId: document._id,
-
-          clientId: application.user,
 
           previousStatus,
 
           nextStatus,
 
-          updatedBy: staffUserId,
+          reviewedBy: staffUserId,
         },
-      }),
+      },
     );
+
+    await application.save();
   }
 
   /*
-    ----------------------------------------------------------
-    RETURN
-    ----------------------------------------------------------
-    */
+  ----------------------------------------------------------
+  RETURN
+  ----------------------------------------------------------
+  */
 
   return {
     document,
@@ -1543,6 +1297,42 @@ const updateDocumentStatusByStaff = async (
 
     progress: result.progress,
   };
+};
+
+/*
+============================================================
+GET APPLICATION DOCUMENTS FOR ADMIN / STAFF
+============================================================
+*/
+
+const getApplicationDocumentsForStaff = async (applicationId) => {
+  /*
+    ----------------------------------------------------------
+    FIND APPLICATION
+    ----------------------------------------------------------
+    */
+
+  const application = await Application.findById(applicationId);
+
+  if (!application) {
+    const error = new Error("Application not found.");
+
+    error.statusCode = 404;
+
+    throw error;
+  }
+
+  /*
+    ----------------------------------------------------------
+    FIND DOCUMENTS
+    ----------------------------------------------------------
+    */
+
+  return Document.find({
+    application: applicationId,
+  }).sort({
+    createdAt: -1,
+  });
 };
 
 /*
@@ -1557,6 +1347,8 @@ export default {
   getUserDocuments,
 
   getApplicationDocuments,
+
+  getApplicationDocumentsForStaff,
 
   getDocumentById,
 

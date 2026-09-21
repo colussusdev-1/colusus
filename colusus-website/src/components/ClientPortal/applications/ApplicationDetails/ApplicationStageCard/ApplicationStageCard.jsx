@@ -108,11 +108,11 @@ const getStageDescription = (
 
 
   if (status === "REJECTED") {
-    return "This application requires attention from the Colusus team.";
+    return "This application requires attention from the colossus team.";
   }
 
 
-  return "Your application is currently being processed by the Colusus team.";
+  return "Your application is currently being processed by the colossus team.";
 };
 
 
@@ -381,7 +381,7 @@ const ApplicationStageCard = ({
           <HiOutlineInformationCircle />
 
           <span>
-            The Colusus team will provide
+            The colossus team will provide
             further information regarding
             this application.
           </span>

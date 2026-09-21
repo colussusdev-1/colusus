@@ -2,7 +2,7 @@ import updateService from "./update.service.js";
 
 /*
 ============================================================
-COLUSUS — UPDATE CONTROLLER
+colossus — UPDATE CONTROLLER
 ============================================================
 */
 

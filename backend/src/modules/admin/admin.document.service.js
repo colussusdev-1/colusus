@@ -1,21 +1,27 @@
 import Document from "../documents/document.model.js";
-import workflowService from "../workflows/workflow.service.js";
+
+import documentService from "../documents/document.service.js";
 
 /*
 |--------------------------------------------------------------------------
-| Get All Documents
+| GET ALL DOCUMENTS
+|--------------------------------------------------------------------------
+|
+| GET /api/v1/admin/documents
+|
+| Returns all documents across all client applications.
+|
 |--------------------------------------------------------------------------
 */
 
 const getAllDocuments = async () => {
   const documents = await Document.find()
-
     .populate("user", "name email")
-
-    .populate("application", "type destinationCountry status")
-
+    .populate(
+      "application",
+      "type destinationCountry status currentStep progress",
+    )
     .populate("reviewedBy", "name email")
-
     .sort({
       createdAt: -1,
     });
@@ -25,17 +31,54 @@ const getAllDocuments = async () => {
 
 /*
 |--------------------------------------------------------------------------
-| Get Single Document
+| GET DOCUMENTS FOR APPLICATION
+|--------------------------------------------------------------------------
+|
+| GET /api/v1/admin/documents/application/:applicationId
+|
+| Used by:
+|
+| Admin Application Details
+|        ↓
+| Documents tab
+|
+|--------------------------------------------------------------------------
+*/
+
+const getApplicationDocuments = async (applicationId) => {
+  const documents = await Document.find({
+    application: applicationId,
+  })
+    .populate("user", "name email")
+    .populate(
+      "application",
+      "type destinationCountry status currentStep progress",
+    )
+    .populate("reviewedBy", "name email")
+    .sort({
+      createdAt: -1,
+    });
+
+  return documents;
+};
+
+/*
+|--------------------------------------------------------------------------
+| GET SINGLE DOCUMENT
+|--------------------------------------------------------------------------
+|
+| GET /api/v1/admin/documents/:id
+|
 |--------------------------------------------------------------------------
 */
 
 const getDocumentById = async (documentId) => {
   const document = await Document.findById(documentId)
-
     .populate("user", "name email")
-
-    .populate("application", "type destinationCountry status")
-
+    .populate(
+      "application",
+      "type destinationCountry status currentStep progress",
+    )
     .populate("reviewedBy", "name email");
 
   return document;
@@ -43,82 +86,133 @@ const getDocumentById = async (documentId) => {
 
 /*
 |--------------------------------------------------------------------------
-| Update Document Status
+| UPDATE DOCUMENT STATUS
+|--------------------------------------------------------------------------
+|
+| Admin / Staff document review.
+|
+| IMPORTANT:
+|
+| We deliberately DO NOT update the Document model directly here.
+|
+| Instead we use:
+|
+| documentService.updateDocumentStatusByStaff()
+|
+| because that service already handles:
+|
+| - document status
+| - review note
+| - reviewer
+| - reviewedAt
+| - application document progress
+| - application status transitions
+| - application timeline activity
+| - client notifications
+| - staff/admin notifications
+|
 |--------------------------------------------------------------------------
 */
 
 const updateDocumentStatus = async (
   documentId,
-
   status,
-
-  reviewNote,
-
-  adminId,
+  reviewNote = "",
+  adminId = null,
 ) => {
-  const document = await Document.findByIdAndUpdate(
-    documentId,
+  /*
+  |--------------------------------------------------------------------------
+  | UPDATE THROUGH CENTRAL DOCUMENT SERVICE
+  |--------------------------------------------------------------------------
+  */
 
+  const result = await documentService.updateDocumentStatusByStaff(
+    documentId,
     {
       status,
 
       reviewNote,
-
-      reviewedBy: adminId,
-
-      reviewedAt: new Date(),
     },
-
-    {
-      new: true,
-
-      runValidators: true,
-    },
+    adminId,
   );
 
-  if (!document) {
+  /*
+  |--------------------------------------------------------------------------
+  | RETURN NULL IF DOCUMENT DOES NOT EXIST
+  |--------------------------------------------------------------------------
+  */
+
+  if (!result) {
     return null;
   }
 
   /*
   |--------------------------------------------------------------------------
-  | Trigger Workflow Automation
+  | POPULATE DOCUMENT
+  |--------------------------------------------------------------------------
+  |
+  | The document service returns the raw document.
+  |
+  | Populate it here so the Admin Portal receives the complete
+  | document structure.
+  |
   |--------------------------------------------------------------------------
   */
 
-  await workflowService.handleDocumentStatusChange({
-    userId: document.user,
+  const updatedDocument = await Document.findById(result.document._id)
+    .populate("user", "name email")
+    .populate(
+      "application",
+      "type destinationCountry status currentStep progress",
+    )
+    .populate("reviewedBy", "name email");
 
-    documentId: document._id,
+  /*
+  |--------------------------------------------------------------------------
+  | RETURN
+  |--------------------------------------------------------------------------
+  */
 
-    status: document.status,
-  });
-
-  return document;
+  return updatedDocument;
 };
 
 /*
 |--------------------------------------------------------------------------
-| Get Documents By Status
+| GET DOCUMENTS BY STATUS
+|--------------------------------------------------------------------------
+|
+| GET /api/v1/admin/documents/status/:status
+|
 |--------------------------------------------------------------------------
 */
 
 const getDocumentsByStatus = async (status) => {
   return await Document.find({
-    status,
+    status: String(status || "")
+      .trim()
+      .toUpperCase(),
   })
-
     .populate("user", "name email")
-
-    .populate("application", "type destinationCountry status")
-
+    .populate(
+      "application",
+      "type destinationCountry status currentStep progress",
+    )
+    .populate("reviewedBy", "name email")
     .sort({
       createdAt: -1,
     });
 };
 
+/*
+|--------------------------------------------------------------------------
+| EXPORT
+|--------------------------------------------------------------------------
+*/
+
 export default {
   getAllDocuments,
+
+  getApplicationDocuments,
 
   getDocumentById,
 

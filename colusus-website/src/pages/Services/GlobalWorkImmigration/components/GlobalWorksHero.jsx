@@ -29,7 +29,7 @@ const GlobalWorksHero = () => {
             >
 
                 <source
-                    src="https://res.cloudinary.com/hq1esbh0/video/upload/v1786377430/colusus.mp4"
+                    src="https://res.cloudinary.com/hq1esbh0/video/upload/v1786377430/colossus.mp4"
                     type="video/mp4"
                 />
 

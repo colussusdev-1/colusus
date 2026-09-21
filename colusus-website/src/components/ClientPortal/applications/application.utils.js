@@ -121,6 +121,6 @@ export const getStatusDescription = (status) => {
 
   return (
     descriptions[status] ||
-    "Your application is being managed by the Colusus team."
+    "Your application is being managed by the colossus team."
   );
 };

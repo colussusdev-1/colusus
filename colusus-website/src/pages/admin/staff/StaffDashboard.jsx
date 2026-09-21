@@ -1,3 +1,4 @@
+
 import React, {
     useCallback,
     useEffect,
@@ -15,6 +16,8 @@ import {
     HiOutlineCheckCircle,
     HiOutlineExclamationCircle,
     HiOutlineClipboardList,
+    HiOutlineCollection,
+    HiOutlineUserGroup,
 } from "react-icons/hi";
 
 import staffService from "./services/staff.service";
@@ -32,17 +35,141 @@ The dashboard only displays information returned by:
 
     GET /api/v1/staff/dashboard
 
-The backend already scopes this information to the
-authenticated Staff member.
+The backend scopes this information to the authenticated
+Staff member.
 
-Therefore this page never requests:
+WORKLOADS:
+
+1. Application workflow
+2. Document workflow
+3. Website FormSubmission workflow
+
+The frontend never requests:
 
     all applications
     all documents
     all clients
+    all form submissions
 
 It only works with the Staff member's assigned workload.
 
+Notifications are intentionally NOT handled here.
+============================================================
+*/
+
+/*
+============================================================
+FORMAT FORM SUBMISSION STATUS
+============================================================
+*/
+
+const formatStatus = (status = "") => {
+    return String(status || "NEW")
+        .replace(/_/g, " ")
+        .toLowerCase()
+        .replace(
+            /\b\w/g,
+            (character) => character.toUpperCase(),
+        );
+};
+
+/*
+============================================================
+GET FORM SUBMISSION ID
+============================================================
+*/
+
+const getFormSubmissionId = (submission) => {
+    return (
+        submission?._id ||
+        submission?.id ||
+        null
+    );
+};
+
+/*
+============================================================
+GET FORM SUBMISSION NAME
+============================================================
+*/
+
+const getSubmissionName = (submission) => {
+    const data = submission?.submissionData || {};
+
+    return (
+        data.name ||
+        data.fullName ||
+        data.full_name ||
+        data.applicantName ||
+        data.applicant_name ||
+        "Website Submission"
+    );
+};
+
+/*
+============================================================
+GET FORM SUBMISSION EMAIL
+============================================================
+*/
+
+const getSubmissionEmail = (submission) => {
+    const data = submission?.submissionData || {};
+
+    return (
+        data.email ||
+        data.emailAddress ||
+        data.email_address ||
+        ""
+    );
+};
+
+/*
+============================================================
+GET FORM SUBMISSION REFERENCE
+============================================================
+*/
+
+const getSubmissionReference = (submission) => {
+    return (
+        submission?.reference ||
+        submission?.submissionReference ||
+        submission?._id ||
+        "Submission"
+    );
+};
+
+/*
+============================================================
+GET FORM SUBMISSION FORM NAME
+============================================================
+*/
+
+const getSubmissionFormName = (submission) => {
+    return (
+        submission?.formName ||
+        submission?.formKey ||
+        "Website Form"
+    );
+};
+
+/*
+============================================================
+GET FORM SUBMISSION INITIAL
+============================================================
+*/
+
+const getSubmissionInitial = (submission) => {
+    const name = getSubmissionName(submission);
+
+    return String(name || "S")
+        .trim()
+        .charAt(0)
+        .toUpperCase();
+};
+
+/*
+============================================================
+STAFF DASHBOARD
 ============================================================
 */
 
@@ -74,9 +201,12 @@ const StaffDashboard = () => {
 
                 setError("");
 
-                const response = await staffService.getDashboard();
+                const response =
+                    await staffService.getDashboard();
 
-                setDashboard(response?.data || null);
+                setDashboard(
+                    response?.data || null,
+                );
             } catch (error) {
                 console.error(
                     "FAILED TO LOAD STAFF DASHBOARD:",
@@ -124,7 +254,9 @@ const StaffDashboard = () => {
     ============================================================
     */
 
-    const handleApplicationClick = (applicationId) => {
+    const handleApplicationClick = (
+        applicationId,
+    ) => {
         if (!applicationId) {
             return;
         }
@@ -140,7 +272,9 @@ const StaffDashboard = () => {
     ============================================================
     */
 
-    const handleViewApplications = (status = "") => {
+    const handleViewApplications = (
+        status = "",
+    ) => {
         if (status) {
             navigate(
                 `/admin/staff/applications?status=${status}`,
@@ -149,7 +283,52 @@ const StaffDashboard = () => {
             return;
         }
 
-        navigate("/admin/staff/applications");
+        navigate(
+            "/admin/staff/applications",
+        );
+    };
+
+    /*
+    ============================================================
+    OPEN FORM SUBMISSION
+    ============================================================
+    */
+
+    const handleFormSubmissionClick = (
+        submission,
+    ) => {
+        const submissionId =
+            getFormSubmissionId(submission);
+
+        if (!submissionId) {
+            return;
+        }
+
+        navigate(
+            `/admin/staff/form-submissions/${submissionId}`,
+        );
+    };
+
+    /*
+    ============================================================
+    VIEW FORM SUBMISSIONS
+    ============================================================
+    */
+
+    const handleViewFormSubmissions = (
+        status = "",
+    ) => {
+        if (status) {
+            navigate(
+                `/admin/staff/form-submissions?status=${status}`,
+            );
+
+            return;
+        }
+
+        navigate(
+            "/admin/staff/form-submissions",
+        );
     };
 
     /*
@@ -192,7 +371,9 @@ const StaffDashboard = () => {
 
                     <button
                         type="button"
-                        onClick={() => loadDashboard()}
+                        onClick={() =>
+                            loadDashboard()
+                        }
                     >
                         Try again
                     </button>
@@ -213,8 +394,14 @@ const StaffDashboard = () => {
     const documents =
         dashboard?.documents || {};
 
+    const formSubmissions =
+        dashboard?.formSubmissions || {};
+
     const recentApplications =
         dashboard?.recentApplications || [];
+
+    const recentFormSubmissions =
+        formSubmissions?.recent || [];
 
     /*
     ============================================================
@@ -226,8 +413,8 @@ const StaffDashboard = () => {
         <section className="staffDashboard">
 
             {/* ======================================================
-          HEADER
-      ====================================================== */}
+                HEADER
+            ====================================================== */}
 
             <header className="staffDashboard__header">
 
@@ -241,8 +428,9 @@ const StaffDashboard = () => {
                     </h1>
 
                     <p>
-                        Manage the applications and documents
-                        currently assigned to you.
+                        Manage the applications, documents
+                        and website enquiries currently
+                        assigned to you.
                     </p>
                 </div>
 
@@ -271,188 +459,417 @@ const StaffDashboard = () => {
 
 
             {/* ======================================================
-          STATISTICS
-      ====================================================== */}
+                APPLICATION STATISTICS
+            ====================================================== */}
 
-            <div className="staffDashboard__stats">
+            <section className="staffDashboardSection">
 
-                <button
-                    type="button"
-                    className="staffDashboardStat"
-                    onClick={() =>
-                        handleViewApplications()
-                    }
-                >
-                    <div className="staffDashboardStat__icon">
-                        <HiOutlineClipboardList />
-                    </div>
+                <div className="staffDashboardSection__header">
 
-                    <div className="staffDashboardStat__content">
+                    <div>
                         <span>
-                            Assigned Applications
+                            Application Workflow
                         </span>
 
-                        <strong>
-                            {applications.total || 0}
-                        </strong>
-
-                        <small>
-                            Your current workload
-                        </small>
-                    </div>
-                </button>
-
-
-                <button
-                    type="button"
-                    className="staffDashboardStat"
-                    onClick={() =>
-                        handleViewApplications("SUBMITTED")
-                    }
-                >
-                    <div className="staffDashboardStat__icon">
-                        <HiOutlineDocumentText />
+                        <h2>
+                            Application workload
+                        </h2>
                     </div>
 
-                    <div className="staffDashboardStat__content">
-                        <span>
-                            Submitted
-                        </span>
+                    <button
+                        type="button"
+                        onClick={() =>
+                            handleViewApplications()
+                        }
+                    >
+                        View all
 
-                        <strong>
-                            {applications.submitted || 0}
-                        </strong>
+                        <HiOutlineArrowRight />
+                    </button>
 
-                        <small>
-                            Awaiting processing
-                        </small>
-                    </div>
-                </button>
+                </div>
 
 
-                <button
-                    type="button"
-                    className="staffDashboardStat"
-                    onClick={() =>
-                        handleViewApplications(
-                            "UNDER_REVIEW",
-                        )
-                    }
-                >
-                    <div className="staffDashboardStat__icon">
-                        <HiOutlineClock />
-                    </div>
+                <div className="staffDashboard__stats">
 
-                    <div className="staffDashboardStat__content">
-                        <span>
-                            Under Review
-                        </span>
+                    <button
+                        type="button"
+                        className="staffDashboardStat"
+                        onClick={() =>
+                            handleViewApplications()
+                        }
+                    >
+                        <div className="staffDashboardStat__icon">
+                            <HiOutlineClipboardList />
+                        </div>
 
-                        <strong>
-                            {applications.underReview || 0}
-                        </strong>
+                        <div className="staffDashboardStat__content">
+                            <span>
+                                Assigned Applications
+                            </span>
 
-                        <small>
-                            Applications being reviewed
-                        </small>
-                    </div>
-                </button>
+                            <strong>
+                                {applications.total || 0}
+                            </strong>
 
-
-                <button
-                    type="button"
-                    className="staffDashboardStat"
-                    onClick={() =>
-                        handleViewApplications(
-                            "DOCUMENT_REQUEST",
-                        )
-                    }
-                >
-                    <div className="staffDashboardStat__icon">
-                        <HiOutlineExclamationCircle />
-                    </div>
-
-                    <div className="staffDashboardStat__content">
-                        <span>
-                            Document Requests
-                        </span>
-
-                        <strong>
-                            {applications.documentRequest || 0}
-                        </strong>
-
-                        <small>
-                            Waiting for client documents
-                        </small>
-                    </div>
-                </button>
+                            <small>
+                                Your current workload
+                            </small>
+                        </div>
+                    </button>
 
 
-                <button
-                    type="button"
-                    className="staffDashboardStat"
-                    onClick={() =>
-                        handleViewApplications("PROCESSING")
-                    }
-                >
-                    <div className="staffDashboardStat__icon">
-                        <HiOutlineRefresh />
-                    </div>
+                    <button
+                        type="button"
+                        className="staffDashboardStat"
+                        onClick={() =>
+                            handleViewApplications(
+                                "SUBMITTED",
+                            )
+                        }
+                    >
+                        <div className="staffDashboardStat__icon">
+                            <HiOutlineDocumentText />
+                        </div>
 
-                    <div className="staffDashboardStat__content">
-                        <span>
-                            Processing
-                        </span>
+                        <div className="staffDashboardStat__content">
+                            <span>
+                                Submitted
+                            </span>
 
-                        <strong>
-                            {applications.processing || 0}
-                        </strong>
+                            <strong>
+                                {applications.submitted || 0}
+                            </strong>
 
-                        <small>
-                            Currently processing
-                        </small>
-                    </div>
-                </button>
+                            <small>
+                                Awaiting processing
+                            </small>
+                        </div>
+                    </button>
 
 
-                <button
-                    type="button"
-                    className="staffDashboardStat"
-                    onClick={() =>
-                        handleViewApplications("APPROVED")
-                    }
-                >
-                    <div className="staffDashboardStat__icon">
-                        <HiOutlineCheckCircle />
-                    </div>
+                    <button
+                        type="button"
+                        className="staffDashboardStat"
+                        onClick={() =>
+                            handleViewApplications(
+                                "UNDER_REVIEW",
+                            )
+                        }
+                    >
+                        <div className="staffDashboardStat__icon">
+                            <HiOutlineClock />
+                        </div>
 
-                    <div className="staffDashboardStat__content">
-                        <span>
-                            Approved
-                        </span>
+                        <div className="staffDashboardStat__content">
+                            <span>
+                                Under Review
+                            </span>
 
-                        <strong>
-                            {applications.approved || 0}
-                        </strong>
+                            <strong>
+                                {applications.underReview || 0}
+                            </strong>
 
-                        <small>
-                            Successfully completed
-                        </small>
-                    </div>
-                </button>
+                            <small>
+                                Applications being reviewed
+                            </small>
+                        </div>
+                    </button>
 
-            </div>
+
+                    <button
+                        type="button"
+                        className="staffDashboardStat"
+                        onClick={() =>
+                            handleViewApplications(
+                                "DOCUMENT_REQUEST",
+                            )
+                        }
+                    >
+                        <div className="staffDashboardStat__icon">
+                            <HiOutlineExclamationCircle />
+                        </div>
+
+                        <div className="staffDashboardStat__content">
+                            <span>
+                                Document Requests
+                            </span>
+
+                            <strong>
+                                {applications.documentRequest ||
+                                    0}
+                            </strong>
+
+                            <small>
+                                Waiting for client documents
+                            </small>
+                        </div>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        className="staffDashboardStat"
+                        onClick={() =>
+                            handleViewApplications(
+                                "PROCESSING",
+                            )
+                        }
+                    >
+                        <div className="staffDashboardStat__icon">
+                            <HiOutlineRefresh />
+                        </div>
+
+                        <div className="staffDashboardStat__content">
+                            <span>
+                                Processing
+                            </span>
+
+                            <strong>
+                                {applications.processing || 0}
+                            </strong>
+
+                            <small>
+                                Currently processing
+                            </small>
+                        </div>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        className="staffDashboardStat"
+                        onClick={() =>
+                            handleViewApplications(
+                                "APPROVED",
+                            )
+                        }
+                    >
+                        <div className="staffDashboardStat__icon">
+                            <HiOutlineCheckCircle />
+                        </div>
+
+                        <div className="staffDashboardStat__content">
+                            <span>
+                                Approved
+                            </span>
+
+                            <strong>
+                                {applications.approved || 0}
+                            </strong>
+
+                            <small>
+                                Successfully completed
+                            </small>
+                        </div>
+                    </button>
+
+                </div>
+
+            </section>
 
 
             {/* ======================================================
-          MAIN GRID
-      ====================================================== */}
+                FORM SUBMISSION STATISTICS
+            ====================================================== */}
+
+            <section className="staffDashboardSection staffDashboardSection--forms">
+
+                <div className="staffDashboardSection__header">
+
+                    <div>
+                        <span>
+                            Website Enquiries
+                        </span>
+
+                        <h2>
+                            Form submissions
+                        </h2>
+                    </div>
+
+                    <button
+                        type="button"
+                        onClick={() =>
+                            handleViewFormSubmissions()
+                        }
+                    >
+                        View all
+
+                        <HiOutlineArrowRight />
+                    </button>
+
+                </div>
+
+
+                <div className="staffDashboard__formStats">
+
+                    <button
+                        type="button"
+                        className="staffDashboardFormStat"
+                        onClick={() =>
+                            handleViewFormSubmissions()
+                        }
+                    >
+                        <div className="staffDashboardFormStat__icon">
+                            <HiOutlineCollection />
+                        </div>
+
+                        <div>
+                            <span>
+                                Assigned
+                            </span>
+
+                            <strong>
+                                {formSubmissions.total ||
+                                    0}
+                            </strong>
+                        </div>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        className="staffDashboardFormStat"
+                        onClick={() =>
+                            handleViewFormSubmissions(
+                                "NEW",
+                            )
+                        }
+                    >
+                        <div className="staffDashboardFormStat__icon">
+                            <HiOutlineExclamationCircle />
+                        </div>
+
+                        <div>
+                            <span>
+                                New
+                            </span>
+
+                            <strong>
+                                {formSubmissions.new ||
+                                    0}
+                            </strong>
+                        </div>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        className="staffDashboardFormStat"
+                        onClick={() =>
+                            handleViewFormSubmissions(
+                                "REVIEWING",
+                            )
+                        }
+                    >
+                        <div className="staffDashboardFormStat__icon">
+                            <HiOutlineClock />
+                        </div>
+
+                        <div>
+                            <span>
+                                Reviewing
+                            </span>
+
+                            <strong>
+                                {formSubmissions.reviewing ||
+                                    0}
+                            </strong>
+                        </div>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        className="staffDashboardFormStat"
+                        onClick={() =>
+                            handleViewFormSubmissions(
+                                "CONTACTED",
+                            )
+                        }
+                    >
+                        <div className="staffDashboardFormStat__icon">
+                            <HiOutlineUserGroup />
+                        </div>
+
+                        <div>
+                            <span>
+                                Contacted
+                            </span>
+
+                            <strong>
+                                {formSubmissions.contacted ||
+                                    0}
+                            </strong>
+                        </div>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        className="staffDashboardFormStat"
+                        onClick={() =>
+                            handleViewFormSubmissions(
+                                "QUALIFIED",
+                            )
+                        }
+                    >
+                        <div className="staffDashboardFormStat__icon">
+                            <HiOutlineCheckCircle />
+                        </div>
+
+                        <div>
+                            <span>
+                                Qualified
+                            </span>
+
+                            <strong>
+                                {formSubmissions.qualified ||
+                                    0}
+                            </strong>
+                        </div>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        className="staffDashboardFormStat"
+                        onClick={() =>
+                            handleViewFormSubmissions(
+                                "CONVERTED",
+                            )
+                        }
+                    >
+                        <div className="staffDashboardFormStat__icon">
+                            <HiOutlineCheckCircle />
+                        </div>
+
+                        <div>
+                            <span>
+                                Converted
+                            </span>
+
+                            <strong>
+                                {formSubmissions.converted ||
+                                    0}
+                            </strong>
+                        </div>
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            {/* ======================================================
+                MAIN GRID
+            ====================================================== */}
 
             <div className="staffDashboard__grid">
 
                 {/* ====================================================
-            RECENT APPLICATIONS
-        ==================================================== */}
+                    RECENT APPLICATIONS
+                ==================================================== */}
 
                 <section className="staffDashboardPanel">
 
@@ -508,17 +925,10 @@ const StaffDashboard = () => {
                                         application?.user;
 
                                     const status =
-                                        String(
+                                        formatStatus(
                                             application?.status ||
                                             "DRAFT",
-                                        )
-                                            .replace(/_/g, " ")
-                                            .toLowerCase()
-                                            .replace(
-                                                /\b\w/g,
-                                                (character) =>
-                                                    character.toUpperCase(),
-                                            );
+                                        );
 
                                     return (
                                         <button
@@ -557,6 +967,7 @@ const StaffDashboard = () => {
                                             </div>
 
                                             <div className="staffApplicationRow__destination">
+
                                                 <span>
                                                     Destination
                                                 </span>
@@ -568,6 +979,7 @@ const StaffDashboard = () => {
                                                             ?.countryName ||
                                                         "—"}
                                                 </strong>
+
                                             </div>
 
                                             <div className="staffApplicationRow__status">
@@ -597,8 +1009,140 @@ const StaffDashboard = () => {
 
 
                 {/* ====================================================
-            ATTENTION PANEL
-        ==================================================== */}
+                    RECENT FORM SUBMISSIONS
+                ==================================================== */}
+
+                <section className="staffDashboardPanel staffDashboardPanel--forms">
+
+                    <div className="staffDashboardPanel__header">
+
+                        <div>
+                            <span>
+                                Website Enquiries
+                            </span>
+
+                            <h2>
+                                Recent Form Submissions
+                            </h2>
+                        </div>
+
+                        <button
+                            type="button"
+                            onClick={() =>
+                                handleViewFormSubmissions()
+                            }
+                        >
+                            View all
+
+                            <HiOutlineArrowRight />
+                        </button>
+
+                    </div>
+
+
+                    <div className="staffDashboardFormSubmissions">
+
+                        {recentFormSubmissions.length === 0 ? (
+                            <div className="staffDashboardEmpty">
+                                <HiOutlineCollection />
+
+                                <h3>
+                                    No form submissions assigned
+                                </h3>
+
+                                <p>
+                                    Website enquiries assigned to
+                                    you will appear here.
+                                </p>
+                            </div>
+                        ) : (
+                            recentFormSubmissions.map(
+                                (submission) => {
+
+                                    const submissionId =
+                                        getFormSubmissionId(
+                                            submission,
+                                        );
+
+                                    const submissionStatus =
+                                        String(
+                                            submission?.status ||
+                                            "NEW",
+                                        ).toLowerCase();
+
+                                    return (
+                                        <button
+                                            type="button"
+                                            key={submissionId}
+                                            className="staffFormSubmissionRow"
+                                            onClick={() =>
+                                                handleFormSubmissionClick(
+                                                    submission,
+                                                )
+                                            }
+                                        >
+
+                                            <div className="staffFormSubmissionRow__avatar">
+                                                {getSubmissionInitial(
+                                                    submission,
+                                                )}
+                                            </div>
+
+                                            <div className="staffFormSubmissionRow__main">
+
+                                                <strong>
+                                                    {getSubmissionName(
+                                                        submission,
+                                                    )}
+                                                </strong>
+
+                                                <span>
+                                                    {getSubmissionFormName(
+                                                        submission,
+                                                    )}
+                                                </span>
+
+                                                {getSubmissionEmail(
+                                                    submission,
+                                                ) && (
+                                                        <small>
+                                                            {getSubmissionEmail(
+                                                                submission,
+                                                            )}
+                                                        </small>
+                                                    )}
+
+                                            </div>
+
+                                            <div className="staffFormSubmissionRow__status">
+
+                                                <span
+                                                    className={`staffFormStatus staffFormStatus--${submissionStatus}`}
+                                                >
+                                                    {formatStatus(
+                                                        submission?.status ||
+                                                        "NEW",
+                                                    )}
+                                                </span>
+
+                                            </div>
+
+                                            <HiOutlineArrowRight className="staffFormSubmissionRow__arrow" />
+
+                                        </button>
+                                    );
+                                },
+                            )
+                        )}
+
+                    </div>
+
+                </section>
+
+
+                {/* ====================================================
+                    ATTENTION PANEL
+                ==================================================== */}
 
                 <section className="staffDashboardPanel staffDashboardPanel--attention">
 
@@ -700,7 +1244,7 @@ const StaffDashboard = () => {
 
                             <div>
                                 <strong>
-                                    New submissions
+                                    New application submissions
                                 </strong>
 
                                 <span>
@@ -740,6 +1284,71 @@ const StaffDashboard = () => {
                                     {documents.pendingReview === 1
                                         ? ""
                                         : "s"}
+                                </span>
+                            </div>
+
+                            <HiOutlineArrowRight />
+                        </button>
+
+
+                        <button
+                            type="button"
+                            className="staffAttentionItem"
+                            onClick={() =>
+                                handleViewFormSubmissions(
+                                    "NEW",
+                                )
+                            }
+                        >
+                            <div className="staffAttentionItem__icon">
+                                <HiOutlineCollection />
+                            </div>
+
+                            <div>
+                                <strong>
+                                    New website enquiries
+                                </strong>
+
+                                <span>
+                                    {formSubmissions.new ||
+                                        0}{" "}
+                                    new form submission
+                                    {formSubmissions.new === 1
+                                        ? ""
+                                        : "s"}
+                                </span>
+                            </div>
+
+                            <HiOutlineArrowRight />
+                        </button>
+
+
+                        <button
+                            type="button"
+                            className="staffAttentionItem"
+                            onClick={() =>
+                                handleViewFormSubmissions(
+                                    "REVIEWING",
+                                )
+                            }
+                        >
+                            <div className="staffAttentionItem__icon">
+                                <HiOutlineClock />
+                            </div>
+
+                            <div>
+                                <strong>
+                                    Form submissions under review
+                                </strong>
+
+                                <span>
+                                    {formSubmissions.reviewing ||
+                                        0}{" "}
+                                    submission
+                                    {formSubmissions.reviewing ===
+                                        1
+                                        ? ""
+                                        : "s"} being reviewed
                                 </span>
                             </div>
 

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { HiOutlineArrowRight, HiOutlineShieldCheck } from "react-icons/hi";
 
 const SecurityStrip = () => (
-  <section className="colusus-security-strip">
+  <section className="colossus-security-strip">
     <div className="security-icon">
       <HiOutlineShieldCheck />
     </div>

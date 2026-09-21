@@ -33,7 +33,7 @@ const MobileMenu = ({
 
                     <img
                         src={logo}
-                        alt="Colusus"
+                        alt="colossus"
                     />
 
                     <button

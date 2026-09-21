@@ -1,18 +1,18 @@
 import worldMapBg from "../../../assets/images/world-map-bg.png";
-import journeyGlobe from "../../../assets/images/colusus-journey-globe.png";
-import documentReview from "../../../assets/images/colusus-document-review.png";
+import journeyGlobe from "../../../assets/images/colossus-journey-globe.png";
+import documentReview from "../../../assets/images/colossus-document-review.png";
 import australiaSydney from "../../../assets/images/australia-sydney.png";
-import worldNetwork from "../../../assets/images/colusus-world-network.png";
+import worldNetwork from "../../../assets/images/colossus-world-network.png";
 
 export const DashboardBackground = () => (
   <>
     <div
-      className="colusus-dashboard-background"
+      className="colossus-dashboard-background"
       style={{ backgroundImage: `url(${worldMapBg})` }}
     />
 
-    <div className="colusus-dashboard-glow glow-one" />
-    <div className="colusus-dashboard-glow glow-two" />
+    <div className="colossus-dashboard-glow glow-one" />
+    <div className="colossus-dashboard-glow glow-two" />
   </>
 );
 

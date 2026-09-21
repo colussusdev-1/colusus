@@ -14,8 +14,8 @@ import {
 import documentService from "../../services/document.service";
 import applicationService from "../../services/application.service";
 
-import DocumentCard from "../../components/ClientPortal/Documents/DocumentCard";
-import DocumentUpload from "../../components/ClientPortal/Documents/DocumentUpload";
+import DocumentCard from "../../components/ClientPortal/dashboard/Documents/DocumentCard";
+import DocumentUpload from "../../components/ClientPortal/dashboard/Documents/DocumentUpload";
 
 import "./Documents.css";
 
@@ -248,7 +248,7 @@ const Documents = () => {
   |
   | We NEVER navigate directly to document.fileUrl.
   |
-  | The client stays inside the Colusus portal.
+  | The client stays inside the colossus portal.
   |
   ========================================================
   */
@@ -722,7 +722,7 @@ const Documents = () => {
               </strong>
 
               <p>
-                Documents uploaded to Colusus are securely
+                Documents uploaded to colossus are securely
                 associated with your migration application
                 and are only accessible to authorised members
                 of the migration team.

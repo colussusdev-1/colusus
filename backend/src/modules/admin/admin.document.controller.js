@@ -2,15 +2,18 @@ import adminDocumentService from "./admin.document.service.js";
 
 /*
 |--------------------------------------------------------------------------
-| Get All Documents
+| GET ALL DOCUMENTS
 |--------------------------------------------------------------------------
+|
+| GET /api/v1/admin/documents
+|
 */
 
 export const getAllDocuments = async (req, res, next) => {
   try {
     const documents = await adminDocumentService.getAllDocuments();
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
 
       data: documents,
@@ -22,8 +25,50 @@ export const getAllDocuments = async (req, res, next) => {
 
 /*
 |--------------------------------------------------------------------------
-| Get Single Document
+| GET DOCUMENTS FOR APPLICATION
 |--------------------------------------------------------------------------
+|
+| GET /api/v1/admin/documents/application/:applicationId
+|
+| Used by:
+|
+| Admin Application Details
+| → Documents tab
+|
+*/
+
+export const getApplicationDocuments = async (req, res, next) => {
+  try {
+    const { applicationId } = req.params;
+
+    if (!applicationId) {
+      return res.status(400).json({
+        success: false,
+
+        message: "Application ID is required",
+      });
+    }
+
+    const documents =
+      await adminDocumentService.getApplicationDocuments(applicationId);
+
+    return res.status(200).json({
+      success: true,
+
+      data: documents,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/*
+|--------------------------------------------------------------------------
+| GET SINGLE DOCUMENT
+|--------------------------------------------------------------------------
+|
+| GET /api/v1/admin/documents/:id
+|
 */
 
 export const getDocumentById = async (req, res, next) => {
@@ -38,7 +83,7 @@ export const getDocumentById = async (req, res, next) => {
       });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
 
       data: document,
@@ -50,23 +95,32 @@ export const getDocumentById = async (req, res, next) => {
 
 /*
 |--------------------------------------------------------------------------
-| Update Document Status
+| UPDATE DOCUMENT STATUS
 |--------------------------------------------------------------------------
+|
+| PATCH /api/v1/admin/documents/:id/status
+|
 */
 
 export const updateDocumentStatus = async (req, res, next) => {
   try {
-    const {
-      status,
-
-      reviewNote,
-    } = req.body;
+    const { status, reviewNote } = req.body;
 
     if (!status) {
       return res.status(400).json({
         success: false,
 
         message: "Document status is required",
+      });
+    }
+
+    const adminId = req.user?.id;
+
+    if (!adminId) {
+      return res.status(401).json({
+        success: false,
+
+        message: "Authenticated administrator not found",
       });
     }
 
@@ -77,7 +131,7 @@ export const updateDocumentStatus = async (req, res, next) => {
 
       reviewNote,
 
-      req.user.id,
+      adminId,
     );
 
     if (!document) {
@@ -88,7 +142,7 @@ export const updateDocumentStatus = async (req, res, next) => {
       });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
 
       message: "Document status updated successfully",
@@ -102,17 +156,28 @@ export const updateDocumentStatus = async (req, res, next) => {
 
 /*
 |--------------------------------------------------------------------------
-| Get Documents By Status
+| GET DOCUMENTS BY STATUS
 |--------------------------------------------------------------------------
+|
+| GET /api/v1/admin/documents/status/:status
+|
 */
 
 export const getDocumentsByStatus = async (req, res, next) => {
   try {
-    const documents = await adminDocumentService.getDocumentsByStatus(
-      req.params.status,
-    );
+    const { status } = req.params;
 
-    res.status(200).json({
+    if (!status) {
+      return res.status(400).json({
+        success: false,
+
+        message: "Document status is required",
+      });
+    }
+
+    const documents = await adminDocumentService.getDocumentsByStatus(status);
+
+    return res.status(200).json({
       success: true,
 
       data: documents,
@@ -120,4 +185,22 @@ export const getDocumentsByStatus = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+/*
+|--------------------------------------------------------------------------
+| EXPORT
+|--------------------------------------------------------------------------
+*/
+
+export default {
+  getAllDocuments,
+
+  getApplicationDocuments,
+
+  getDocumentById,
+
+  updateDocumentStatus,
+
+  getDocumentsByStatus,
 };

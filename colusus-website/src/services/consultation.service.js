@@ -15,7 +15,7 @@ const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api/v1";
 */
 
 const getToken = () => {
-  return localStorage.getItem("colusus_token");
+  return localStorage.getItem("colossus_token");
 };
 
 /*

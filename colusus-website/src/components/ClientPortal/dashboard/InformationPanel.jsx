@@ -5,7 +5,7 @@ import worldMapBg from "../../../assets/images/world-map-bg.png";
 import { NetworkVisual } from "./dashboard.visuals";
 
 const InformationPanel = ({ application }) => (
-  <div className="colusus-panel information-panel">
+  <div className="colossus-panel information-panel">
     <div
       className="information-panel-map"
       style={{ backgroundImage: `url(${worldMapBg})` }}

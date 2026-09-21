@@ -1,12 +1,14 @@
+import mongoose from "mongoose";
+
 import Notification from "./notification.model.js";
 import User from "../users/user.model.js";
 
 /*
 ============================================================
-COLUSUS — NOTIFICATION SERVICE
+colossus — NOTIFICATION SERVICE
 ============================================================
 
-Central notification service for the entire Colusus ecosystem.
+Central notification service for the entire colossus ecosystem.
 
 SUPPORTED RECIPIENTS:
 
@@ -15,28 +17,26 @@ ADMIN
 STAFF
 DEVELOPER
 
-This service is intended to be used internally by:
+This service is responsible for:
 
-- Applications
-- Documents
-- Client profiles
-- Payments
-- Bookings
-- Admin operations
-- System events
+- Creating notifications
+- Targeting users
+- Targeting roles
+- Creating application-owner notifications
+- Retrieving notifications
+- Managing read state
+- Deleting notifications
 
 IMPORTANT:
 
-Controllers should NOT be responsible for deciding who receives
-system notifications.
+Controllers should NOT decide who receives system
+notifications.
 
-Instead:
+Feature services should call this service.
 
-feature service
-      ↓
-notification.service
-      ↓
-notification database
+The recipient's role is used to determine the notification
+AUDIENCE automatically.
+
 ============================================================
 */
 
@@ -50,23 +50,147 @@ const SUPPORTED_ROLES = ["CLIENT", "ADMIN", "DEVELOPER", "STAFF"];
 
 /*
 ============================================================
+SUPPORTED AUDIENCES
+============================================================
+*/
+
+const SUPPORTED_AUDIENCES = ["CLIENT", "ADMIN", "DEVELOPER", "STAFF"];
+
+/*
+============================================================
 SUPPORTED NOTIFICATION TYPES
 ============================================================
 */
 
 const NOTIFICATION_TYPES = [
-  "APPLICATION_UPDATE",
+  /*
+  ----------------------------------------------------------
+  APPLICATION
+  ----------------------------------------------------------
+  */
+
+  "APPLICATION_CREATED",
+
+  "APPLICATION_UPDATED",
 
   "APPLICATION_STATUS_CHANGED",
+
+  "APPLICATION_SUBMITTED",
+
+  "APPLICATION_APPROVED",
+
+  "APPLICATION_REJECTED",
+
+  /*
+  ----------------------------------------------------------
+  DOCUMENT
+  ----------------------------------------------------------
+  */
+
+  "DOCUMENT_UPLOADED",
+
+  "DOCUMENT_UPDATED",
 
   "DOCUMENT_APPROVED",
 
   "DOCUMENT_REJECTED",
 
-  "DOCUMENT_REUPLOAD",
+  "DOCUMENT_REUPLOAD_REQUIRED",
+
+  /*
+  ----------------------------------------------------------
+  PROFILE
+  ----------------------------------------------------------
+  */
+
+  "PROFILE_UPDATED",
+
+  "PROFILE_COMPLETED",
+
+  /*
+  ----------------------------------------------------------
+  PAYMENT
+  ----------------------------------------------------------
+  */
+
+  "PAYMENT_CREATED",
+
+  "PAYMENT_RECEIVED",
+
+  "PAYMENT_PENDING",
+
+  "PAYMENT_FAILED",
+
+  "PAYMENT_REFUNDED",
+
+  /*
+  ----------------------------------------------------------
+  BOOKING
+  ----------------------------------------------------------
+  */
+
+  "BOOKING_CREATED",
+
+  "BOOKING_UPDATED",
+
+  "BOOKING_CANCELLED",
+
+  "BOOKING_CONFIRMED",
+
+  /*
+  ----------------------------------------------------------
+  ADMIN / STAFF
+  ----------------------------------------------------------
+  */
+
+  "ADMIN_ACTION",
+
+  "STAFF_ACTION",
+
+  /*
+  ----------------------------------------------------------
+  SYSTEM
+  ----------------------------------------------------------
+  */
+
+  "MESSAGE_RECEIVED",
+
+  "SYSTEM",
 
   "GENERAL",
 ];
+
+/*
+============================================================
+SUPPORTED ENTITY TYPES
+============================================================
+*/
+
+const SUPPORTED_ENTITY_TYPES = [
+  "APPLICATION",
+
+  "DOCUMENT",
+
+  "PROFILE",
+
+  "PAYMENT",
+
+  "BOOKING",
+
+  "USER",
+
+  "SYSTEM",
+
+  "NONE",
+];
+
+/*
+============================================================
+SUPPORTED PRIORITIES
+============================================================
+*/
+
+const SUPPORTED_PRIORITIES = ["LOW", "NORMAL", "HIGH", "URGENT"];
 
 /*
 ============================================================
@@ -78,6 +202,52 @@ const normalizeRole = (role) => {
   return String(role || "")
     .trim()
     .toUpperCase();
+};
+
+/*
+============================================================
+NORMALIZE AUDIENCE
+============================================================
+*/
+
+const normalizeAudience = (audience) => {
+  const normalized = String(audience || "")
+    .trim()
+    .toUpperCase();
+
+  if (SUPPORTED_AUDIENCES.includes(normalized)) {
+    return normalized;
+  }
+
+  return null;
+};
+
+/*
+============================================================
+ROLE → AUDIENCE
+============================================================
+|
+| The current colossus architecture uses the user's role as
+| the source of truth for notification audience.
+|
+| Example:
+|
+|     CLIENT    → CLIENT
+|     ADMIN     → ADMIN
+|     STAFF     → STAFF
+|     DEVELOPER → DEVELOPER
+|
+============================================================
+*/
+
+const audienceFromRole = (role) => {
+  const normalizedRole = normalizeRole(role);
+
+  if (SUPPORTED_ROLES.includes(normalizedRole)) {
+    return normalizedRole;
+  }
+
+  return null;
 };
 
 /*
@@ -100,6 +270,42 @@ const normalizeNotificationType = (type) => {
 
 /*
 ============================================================
+NORMALIZE ENTITY TYPE
+============================================================
+*/
+
+const normalizeEntityType = (entityType) => {
+  const normalized = String(entityType || "")
+    .trim()
+    .toUpperCase();
+
+  if (SUPPORTED_ENTITY_TYPES.includes(normalized)) {
+    return normalized;
+  }
+
+  return "NONE";
+};
+
+/*
+============================================================
+NORMALIZE PRIORITY
+============================================================
+*/
+
+const normalizePriority = (priority) => {
+  const normalized = String(priority || "")
+    .trim()
+    .toUpperCase();
+
+  if (SUPPORTED_PRIORITIES.includes(normalized)) {
+    return normalized;
+  }
+
+  return "NORMAL";
+};
+
+/*
+============================================================
 VALIDATE USER ID
 ============================================================
 */
@@ -113,7 +319,33 @@ const validateUserId = (userId) => {
     throw error;
   }
 
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    const error = new Error("Invalid notification recipient.");
+
+    error.statusCode = 400;
+
+    throw error;
+  }
+
   return userId;
+};
+
+/*
+============================================================
+VALIDATE ACTOR ID
+============================================================
+*/
+
+const normalizeActorId = (actorId) => {
+  if (!actorId) {
+    return null;
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(actorId)) {
+    return null;
+  }
+
+  return actorId;
 };
 
 /*
@@ -134,10 +366,21 @@ const normalizeMetadata = (metadata = {}) => {
 ============================================================
 BUILD NOTIFICATION DATA
 ============================================================
+|
+| Audience must be supplied here.
+|
+| The public creation helpers normally determine the audience
+| automatically from the recipient User record.
+|
+============================================================
 */
 
 const buildNotificationData = ({
   userId,
+
+  audience,
+
+  actorId = null,
 
   title,
 
@@ -145,9 +388,37 @@ const buildNotificationData = ({
 
   type = "GENERAL",
 
+  entityType = "NONE",
+
+  entityId = null,
+
   metadata = {},
+
+  priority = "NORMAL",
 }) => {
   validateUserId(userId);
+
+  /*
+  ----------------------------------------------------------
+  AUDIENCE
+  ----------------------------------------------------------
+  */
+
+  const normalizedAudience = normalizeAudience(audience);
+
+  if (!normalizedAudience) {
+    const error = new Error("Notification audience is required.");
+
+    error.statusCode = 400;
+
+    throw error;
+  }
+
+  /*
+  ----------------------------------------------------------
+  TITLE
+  ----------------------------------------------------------
+  */
 
   if (!title || String(title).trim() === "") {
     const error = new Error("Notification title is required.");
@@ -157,6 +428,12 @@ const buildNotificationData = ({
     throw error;
   }
 
+  /*
+  ----------------------------------------------------------
+  MESSAGE
+  ----------------------------------------------------------
+  */
+
   if (!message || String(message).trim() === "") {
     const error = new Error("Notification message is required.");
 
@@ -165,8 +442,38 @@ const buildNotificationData = ({
     throw error;
   }
 
+  /*
+  ----------------------------------------------------------
+  ENTITY ID
+  ----------------------------------------------------------
+  */
+
+  let normalizedEntityId = null;
+
+  if (entityId) {
+    if (!mongoose.Types.ObjectId.isValid(entityId)) {
+      const error = new Error("Invalid notification entity ID.");
+
+      error.statusCode = 400;
+
+      throw error;
+    }
+
+    normalizedEntityId = entityId;
+  }
+
+  /*
+  ----------------------------------------------------------
+  RETURN NORMALIZED DATA
+  ----------------------------------------------------------
+  */
+
   return {
     user: userId,
+
+    audience: normalizedAudience,
+
+    actor: normalizeActorId(actorId),
 
     title: String(title).trim(),
 
@@ -174,7 +481,13 @@ const buildNotificationData = ({
 
     type: normalizeNotificationType(type),
 
+    entityType: normalizeEntityType(entityType),
+
+    entityId: normalizedEntityId,
+
     metadata: normalizeMetadata(metadata),
+
+    priority: normalizePriority(priority),
   };
 };
 
@@ -182,28 +495,24 @@ const buildNotificationData = ({
 ============================================================
 CREATE NOTIFICATION
 ============================================================
-
-Low-level internal notification creator.
-
-This should normally be called by other services.
-
-Example:
-
-notificationService.createNotification({
-    userId,
-    title: "Document approved",
-    message: "Your passport has been approved.",
-    type: "DOCUMENT_APPROVED",
-    metadata: {
-        applicationId,
-        documentId,
-    },
-});
+|
+| Low-level internal notification creator.
+|
+| This method requires an audience because it is the lowest
+| level creation function.
+|
+| Most application code should use createForUser(),
+| createForUsers() or createForRoles().
+|
 ============================================================
 */
 
 const createNotification = async ({
   userId,
+
+  audience,
+
+  actorId = null,
 
   title,
 
@@ -211,10 +520,20 @@ const createNotification = async ({
 
   type = "GENERAL",
 
+  entityType = "NONE",
+
+  entityId = null,
+
   metadata = {},
+
+  priority = "NORMAL",
 }) => {
   const notificationData = buildNotificationData({
     userId,
+
+    audience,
+
+    actorId,
 
     title,
 
@@ -222,28 +541,35 @@ const createNotification = async ({
 
     type,
 
+    entityType,
+
+    entityId,
+
     metadata,
+
+    priority,
   });
 
-  const notification = await Notification.create(notificationData);
-
-  return notification;
+  return Notification.create(notificationData);
 };
 
 /*
 ============================================================
 CREATE NOTIFICATION FOR USER
 ============================================================
-
-Checks that the recipient exists and is active.
-
-This is the preferred method when the recipient is already
-known.
+|
+| Checks that the recipient exists and is active.
+|
+| Audience is automatically derived from the recipient's
+| current role.
+|
 ============================================================
 */
 
 const createForUser = async ({
   userId,
+
+  actorId = null,
 
   title,
 
@@ -251,7 +577,13 @@ const createForUser = async ({
 
   type = "GENERAL",
 
+  entityType = "NONE",
+
+  entityId = null,
+
   metadata = {},
+
+  priority = "NORMAL",
 }) => {
   validateUserId(userId);
 
@@ -265,8 +597,24 @@ const createForUser = async ({
     return null;
   }
 
+  const audience = audienceFromRole(user.role);
+
+  if (!audience) {
+    const error = new Error(
+      `Unsupported notification recipient role: ${user.role}`,
+    );
+
+    error.statusCode = 400;
+
+    throw error;
+  }
+
   return createNotification({
     userId: user._id,
+
+    audience,
+
+    actorId,
 
     title,
 
@@ -274,7 +622,13 @@ const createForUser = async ({
 
     type,
 
+    entityType,
+
+    entityId,
+
     metadata,
+
+    priority,
   });
 };
 
@@ -282,17 +636,24 @@ const createForUser = async ({
 ============================================================
 CREATE NOTIFICATIONS FOR MULTIPLE USERS
 ============================================================
-
-Useful when:
-
-- Multiple staff members need an alert
-- Multiple administrators need an alert
-- A system event affects multiple users
+|
+| Audience is determined individually for every recipient.
+|
+| This is important because a list may contain:
+|
+|     CLIENT
+|     ADMIN
+|     STAFF
+|
+| at the same time.
+|
 ============================================================
 */
 
 const createForUsers = async ({
   userIds = [],
+
+  actorId = null,
 
   title,
 
@@ -300,7 +661,13 @@ const createForUsers = async ({
 
   type = "GENERAL",
 
+  entityType = "NONE",
+
+  entityId = null,
+
   metadata = {},
+
+  priority = "NORMAL",
 }) => {
   if (!Array.isArray(userIds) || !userIds.length) {
     return [];
@@ -322,13 +689,27 @@ const createForUsers = async ({
 
   /*
   ----------------------------------------------------------
+  VALIDATE USER IDS
+  ----------------------------------------------------------
+  */
+
+  const validUserIds = uniqueUserIds.filter((id) =>
+    mongoose.Types.ObjectId.isValid(id),
+  );
+
+  if (!validUserIds.length) {
+    return [];
+  }
+
+  /*
+  ----------------------------------------------------------
   FIND ACTIVE USERS
   ----------------------------------------------------------
   */
 
   const users = await User.find({
     _id: {
-      $in: uniqueUserIds,
+      $in: validUserIds,
     },
 
     isActive: true,
@@ -344,25 +725,55 @@ const createForUsers = async ({
   ----------------------------------------------------------
   */
 
-  const notifications = users.map((user) =>
-    buildNotificationData({
-      userId: user._id,
+  const notifications = [];
 
-      title,
+  for (const user of users) {
+    const audience = audienceFromRole(user.role);
 
-      message,
+    /*
+    --------------------------------------------------------
+    SKIP USERS WITH UNSUPPORTED ROLES
+    --------------------------------------------------------
+    */
 
-      type,
+    if (!audience) {
+      continue;
+    }
 
-      metadata,
-    }),
-  );
+    notifications.push(
+      buildNotificationData({
+        userId: user._id,
+
+        audience,
+
+        actorId,
+
+        title,
+
+        message,
+
+        type,
+
+        entityType,
+
+        entityId,
+
+        metadata,
+
+        priority,
+      }),
+    );
+  }
 
   /*
   ----------------------------------------------------------
   INSERT
   ----------------------------------------------------------
   */
+
+  if (!notifications.length) {
+    return [];
+  }
 
   return Notification.insertMany(notifications);
 };
@@ -371,28 +782,24 @@ const createForUsers = async ({
 ============================================================
 CREATE NOTIFICATIONS FOR ROLES
 ============================================================
-
-Example:
-
-createForRoles({
-    roles: ["ADMIN", "STAFF"],
-    title: "New document uploaded",
-    message: "A client uploaded a passport.",
-    type: "APPLICATION_UPDATE",
-    metadata: {
-        applicationId,
-        documentId,
-    }
-});
-
-This sends the notification to every active ADMIN
-and STAFF account.
-
+|
+| Example:
+|
+| createForRoles({
+|   roles: ["ADMIN", "STAFF"],
+|   ...
+| })
+|
+| Every active user with one of those roles receives an
+| individual notification.
+|
 ============================================================
 */
 
 const createForRoles = async ({
   roles = [],
+
+  actorId = null,
 
   title,
 
@@ -400,7 +807,13 @@ const createForRoles = async ({
 
   type = "GENERAL",
 
+  entityType = "NONE",
+
+  entityId = null,
+
   metadata = {},
+
+  priority = "NORMAL",
 }) => {
   if (!Array.isArray(roles) || !roles.length) {
     return [];
@@ -446,19 +859,43 @@ const createForRoles = async ({
   ----------------------------------------------------------
   */
 
-  const notifications = users.map((user) =>
-    buildNotificationData({
-      userId: user._id,
+  const notifications = [];
 
-      title,
+  for (const user of users) {
+    const audience = audienceFromRole(user.role);
 
-      message,
+    if (!audience) {
+      continue;
+    }
 
-      type,
+    notifications.push(
+      buildNotificationData({
+        userId: user._id,
 
-      metadata,
-    }),
-  );
+        audience,
+
+        actorId,
+
+        title,
+
+        message,
+
+        type,
+
+        entityType,
+
+        entityId,
+
+        metadata,
+
+        priority,
+      }),
+    );
+  }
+
+  if (!notifications.length) {
+    return [];
+  }
 
   return Notification.insertMany(notifications);
 };
@@ -467,29 +904,37 @@ const createForRoles = async ({
 ============================================================
 CREATE NOTIFICATION FOR APPLICATION OWNER
 ============================================================
-
-This is the preferred helper for:
-
-- Document approved
-- Document rejected
-- Re-upload required
-- Application status changed
-- Application processing
-- Application approved
-- Application rejected
+|
+| Used for:
+|
+| - Document approved
+| - Document rejected
+| - Re-upload required
+| - Application status changed
+| - Application approved
+| - Application rejected
+|
 ============================================================
 */
 
 const createForApplicationOwner = async ({
   application,
 
+  actorId = null,
+
   title,
 
   message,
 
-  type = "APPLICATION_UPDATE",
+  type = "APPLICATION_STATUS_CHANGED",
+
+  entityType = "APPLICATION",
+
+  entityId = null,
 
   metadata = {},
+
+  priority = "NORMAL",
 }) => {
   if (!application) {
     return null;
@@ -504,17 +949,25 @@ const createForApplicationOwner = async ({
   return createForUser({
     userId,
 
+    actorId,
+
     title,
 
     message,
 
     type,
 
+    entityType,
+
+    entityId: entityId || application._id,
+
     metadata: {
       applicationId: application._id,
 
       ...normalizeMetadata(metadata),
     },
+
+    priority,
   });
 };
 
@@ -522,13 +975,15 @@ const createForApplicationOwner = async ({
 ============================================================
 GET USER NOTIFICATIONS
 ============================================================
-
-Supports pagination.
-
-Default:
-
-page = 1
-limit = 30
+|
+| Recipient-facing inbox.
+|
+| IMPORTANT:
+|
+| The query is ALWAYS scoped to the authenticated user's ID.
+|
+| Audience is intentionally not trusted from the frontend.
+|
 ============================================================
 */
 
@@ -561,11 +1016,13 @@ const getUserNotifications = async (
 
   const [notifications, total, unreadCount] = await Promise.all([
     Notification.find(query)
+      .populate("actor", "name email role")
       .sort({
         createdAt: -1,
       })
       .skip(skip)
-      .limit(parsedLimit),
+      .limit(parsedLimit)
+      .lean(),
 
     Notification.countDocuments(query),
 
@@ -613,6 +1070,11 @@ const getUnreadCount = async (userId) => {
 ============================================================
 MARK NOTIFICATION AS READ
 ============================================================
+|
+| A notification can ONLY be modified when it belongs to
+| the authenticated user.
+|
+============================================================
 */
 
 const markNotificationAsRead = async (
@@ -621,6 +1083,10 @@ const markNotificationAsRead = async (
   userId,
 ) => {
   validateUserId(userId);
+
+  if (!mongoose.Types.ObjectId.isValid(notificationId)) {
+    return null;
+  }
 
   const notification = await Notification.findOneAndUpdate(
     {
@@ -632,6 +1098,8 @@ const markNotificationAsRead = async (
     {
       $set: {
         read: true,
+
+        readAt: new Date(),
       },
     },
 
@@ -662,6 +1130,8 @@ const markAllAsRead = async (userId) => {
     {
       $set: {
         read: true,
+
+        readAt: new Date(),
       },
     },
   );
@@ -686,21 +1156,20 @@ const deleteNotification = async (
 ) => {
   validateUserId(userId);
 
-  const notification = await Notification.findOneAndDelete({
+  if (!mongoose.Types.ObjectId.isValid(notificationId)) {
+    return null;
+  }
+
+  return Notification.findOneAndDelete({
     _id: notificationId,
 
     user: userId,
   });
-
-  return notification;
 };
 
 /*
 ============================================================
 DELETE ALL USER NOTIFICATIONS
-============================================================
-
-Useful later for notification cleanup/settings.
 ============================================================
 */
 
@@ -726,13 +1195,13 @@ EXPORT
 
 export default {
   /*
-  Internal creation
+  ----------------------------------------------------------
+  CREATION
+  ----------------------------------------------------------
   */
+
   createNotification,
 
-  /*
-  Targeting helpers
-  */
   createForUser,
 
   createForUsers,
@@ -742,22 +1211,31 @@ export default {
   createForApplicationOwner,
 
   /*
-  Retrieval
+  ----------------------------------------------------------
+  RETRIEVAL
+  ----------------------------------------------------------
   */
+
   getUserNotifications,
 
   getUnreadCount,
 
   /*
-  Read state
+  ----------------------------------------------------------
+  READ STATE
+  ----------------------------------------------------------
   */
+
   markNotificationAsRead,
 
   markAllAsRead,
 
   /*
-  Deletion
+  ----------------------------------------------------------
+  DELETION
+  ----------------------------------------------------------
   */
+
   deleteNotification,
 
   deleteAllUserNotifications,

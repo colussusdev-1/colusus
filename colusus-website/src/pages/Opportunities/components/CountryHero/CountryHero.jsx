@@ -204,7 +204,7 @@ const CountryHero = ({ country }) => {
             <div className="country-hero__intel-label">
 
               <span>
-                COLUSUS SIGNAL
+                colossus SIGNAL
               </span>
 
               <HiOutlineSparkles />

@@ -1,0 +1,1111 @@
+.admin-form-submission-details {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 28px 30px 48px;
+    color: #172033;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.submission-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #e8ebf0;
+}
+
+.submission-header-main {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    gap: 14px;
+}
+
+.submission-back-button {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e3e7ed;
+    border-radius: 10px;
+    background: #fff;
+    color: #596579;
+    cursor: pointer;
+    transition:
+        background 0.18s ease,
+        border-color 0.18s ease,
+        color 0.18s ease;
+}
+
+.submission-back-button:hover {
+    background: #f7f9fb;
+    border-color: #d5dae2;
+    color: #172033;
+}
+
+.submission-applicant-avatar {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: #edf4ff;
+    color: #0056b3;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.submission-header-copy {
+    min-width: 0;
+}
+
+.submission-header-topline {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 3px;
+    color: #7c8797;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.submission-header-dot {
+    color: #b6bdc8;
+}
+
+.submission-header-copy h1 {
+    margin: 0;
+    color: #121a29;
+    font-size: 25px;
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+}
+
+.submission-header-contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 6px;
+}
+
+.submission-header-contact a {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    max-width: 100%;
+    color: #637083;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.submission-header-contact a:hover {
+    color: #0056b3;
+}
+
+.submission-header-contact svg {
+    flex: 0 0 auto;
+    font-size: 14px;
+}
+
+.submission-header-side {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 0 0 auto;
+}
+
+.submission-reference {
+    color: #98a1ae;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.submission-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    min-height: 25px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    font-size: 10px;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+
+.submission-status-new {
+    background: #edf4ff;
+    color: #0757a6;
+}
+
+.submission-status-reviewing {
+    background: #f1efff;
+    color: #5b4bc4;
+}
+
+.submission-status-contacted {
+    background: #fff5e7;
+    color: #a66308;
+}
+
+.submission-status-qualified {
+    background: #eaf8f0;
+    color: #16804b;
+}
+
+.submission-status-converted {
+    background: #e5f7f1;
+    color: #087c64;
+}
+
+.submission-status-closed {
+    background: #eef0f3;
+    color: #606b7a;
+}
+
+/* =========================================================
+   META STRIP
+   ========================================================= */
+
+.submission-meta-strip {
+    display: grid;
+    grid-template-columns: 1.4fr 0.8fr 1.3fr 0.55fr;
+    border-bottom: 1px solid #e8ebf0;
+}
+
+.submission-meta-item {
+    min-width: 0;
+    padding: 15px 20px 16px 0;
+}
+
+.submission-meta-item+.submission-meta-item {
+    padding-left: 20px;
+    border-left: 1px solid #edf0f4;
+}
+
+.submission-meta-item span {
+    display: block;
+    margin-bottom: 5px;
+    color: #8b95a3;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+}
+
+.submission-meta-item strong {
+    display: block;
+    overflow: hidden;
+    color: #344054;
+    font-size: 12px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* =========================================================
+   WORKSPACE
+   ========================================================= */
+
+.submission-workspace {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: 26px;
+    padding: 26px 0;
+    border-bottom: 1px solid #e8ebf0;
+}
+
+.submission-section {
+    min-width: 0;
+}
+
+.submission-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-width: 0;
+    margin-bottom: 17px;
+}
+
+.submission-section-heading-wide {
+    margin-bottom: 18px;
+}
+
+.submission-section-kicker {
+    display: block;
+    margin-bottom: 3px;
+    color: #9aa3af;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+
+.submission-section-heading h2 {
+    margin: 0;
+    color: #1d2738;
+    font-size: 15px;
+    line-height: 1.25;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.submission-section-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 25px;
+    height: 23px;
+    padding: 0 7px;
+    border-radius: 7px;
+    background: #f3f5f8;
+    color: #6c7787;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+/* =========================================================
+   APPLICANT
+   ========================================================= */
+
+.submission-contact-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid #edf0f4;
+    border-left: 1px solid #edf0f4;
+}
+
+.submission-contact-block {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    gap: 10px;
+    min-height: 62px;
+    padding: 11px 13px;
+    border-right: 1px solid #edf0f4;
+    border-bottom: 1px solid #edf0f4;
+}
+
+.submission-contact-icon {
+    width: 29px;
+    height: 29px;
+    flex: 0 0 29px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: #f4f6f9;
+    color: #657184;
+    font-size: 15px;
+}
+
+.submission-contact-block>div:last-child {
+    min-width: 0;
+}
+
+.submission-contact-block span {
+    display: block;
+    margin-bottom: 3px;
+    color: #929baa;
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.submission-contact-block strong,
+.submission-contact-block a {
+    display: block;
+    overflow: hidden;
+    color: #293548;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.35;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.submission-contact-block a:hover {
+    color: #0056b3;
+}
+
+/* =========================================================
+   WORKFLOW
+   ========================================================= */
+
+.submission-workflow-section {
+    min-width: 0;
+}
+
+.submission-workflow-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 10px;
+}
+
+.submission-control {
+    min-width: 0;
+}
+
+.submission-control label {
+    display: block;
+    margin: 0 0 6px;
+    color: #7f8998;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.submission-control select {
+    width: 100%;
+    min-height: 40px;
+    padding: 0 31px 0 11px;
+    border: 1px solid #dfe4ea;
+    border-radius: 9px;
+    outline: none;
+    background: #fff;
+    color: #273448;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        border-color 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.submission-control select:focus {
+    border-color: #78aee0;
+    box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.08);
+}
+
+.submission-control select:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+.submission-control-error {
+    display: block;
+    margin-top: 5px;
+    color: #b42318;
+    font-size: 10px;
+}
+
+.submission-primary-button {
+    min-height: 40px;
+    padding: 0 14px;
+    border: 1px solid #0056b3;
+    border-radius: 9px;
+    background: #0056b3;
+    color: #fff;
+    font: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+        background 0.18s ease,
+        transform 0.18s ease;
+}
+
+.submission-primary-button:hover:not(:disabled) {
+    background: #004991;
+}
+
+.submission-primary-button:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.submission-primary-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.submission-inline-message {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #16804b;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.submission-inline-message svg {
+    font-size: 13px;
+}
+
+/* =========================================================
+   INFORMATION
+   ========================================================= */
+
+.submission-information-section {
+    padding: 26px 0;
+    border-bottom: 1px solid #e8ebf0;
+}
+
+.submission-fields-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid #edf0f4;
+    border-left: 1px solid #edf0f4;
+}
+
+.submission-field {
+    min-width: 0;
+    min-height: 68px;
+    padding: 11px 13px;
+    border-right: 1px solid #edf0f4;
+    border-bottom: 1px solid #edf0f4;
+}
+
+.submission-field span {
+    display: block;
+    margin-bottom: 5px;
+    color: #929baa;
+    font-size: 9px;
+    font-weight: 600;
+    line-height: 1.25;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.submission-field strong {
+    display: -webkit-box;
+    overflow: hidden;
+    color: #2a3547;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.4;
+    word-break: break-word;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+.submission-empty-state {
+    padding: 20px;
+    border: 1px dashed #dfe4ea;
+    border-radius: 9px;
+    color: #8b95a3;
+    font-size: 12px;
+    text-align: center;
+}
+
+/* =========================================================
+   LOWER GRID
+   ========================================================= */
+
+.submission-lower-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+    gap: 34px;
+    padding: 26px 0;
+    border-bottom: 1px solid #e8ebf0;
+}
+
+/* =========================================================
+   DOCUMENTS
+   ========================================================= */
+
+.submission-documents-list {
+    border-top: 1px solid #edf0f4;
+}
+
+.submission-document {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    gap: 11px;
+    min-height: 61px;
+    padding: 9px 0;
+    border-bottom: 1px solid #edf0f4;
+}
+
+.submission-document-icon {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    background: #f1f5fa;
+    color: #5d6d82;
+    font-size: 16px;
+}
+
+.submission-document-info {
+    min-width: 0;
+    flex: 1;
+}
+
+.submission-document-info strong {
+    display: block;
+    overflow: hidden;
+    color: #293548;
+    font-size: 12px;
+    font-weight: 650;
+    line-height: 1.35;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.submission-document-info span {
+    display: block;
+    margin-top: 3px;
+    color: #969fac;
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.submission-document-open {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    flex: 0 0 auto;
+    padding: 6px 0 6px 8px;
+    border: 0;
+    background: transparent;
+    color: #0056b3;
+    font: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.submission-document-open:hover {
+    color: #003f84;
+}
+
+.submission-document-open svg {
+    font-size: 14px;
+}
+
+.submission-document-unavailable {
+    flex: 0 0 auto;
+    color: #a0a8b4;
+    font-size: 10px;
+}
+
+/* =========================================================
+   NOTES
+   ========================================================= */
+
+.submission-note-composer {
+    padding-bottom: 18px;
+    border-bottom: 1px solid #edf0f4;
+}
+
+.submission-note-composer textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 11px 12px;
+    border: 1px solid #dfe4ea;
+    border-radius: 9px;
+    outline: none;
+    resize: vertical;
+    background: #fff;
+    color: #293548;
+    font: inherit;
+    font-size: 12px;
+    line-height: 1.5;
+    transition:
+        border-color 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.submission-note-composer textarea::placeholder {
+    color: #a0a8b4;
+}
+
+.submission-note-composer textarea:focus {
+    border-color: #78aee0;
+    box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.07);
+}
+
+.submission-note-composer-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.submission-note-composer-footer span {
+    color: #969fac;
+    font-size: 10px;
+}
+
+.submission-note-message {
+    margin-top: 7px;
+    color: #16804b;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.submission-notes-list {
+    margin-top: 18px;
+}
+
+.submission-note {
+    display: flex;
+    gap: 10px;
+    padding: 0 0 16px;
+}
+
+.submission-note+.submission-note {
+    padding-top: 16px;
+    border-top: 1px solid #edf0f4;
+}
+
+.submission-note-marker {
+    width: 29px;
+    height: 29px;
+    flex: 0 0 29px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #f0f4f8;
+    color: #667387;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.submission-note-body {
+    min-width: 0;
+    flex: 1;
+}
+
+.submission-note-body p {
+    margin: 1px 0 7px;
+    color: #3d4859;
+    font-size: 12px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.submission-note-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.submission-note-meta strong {
+    color: #697587;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.submission-note-meta span {
+    color: #a0a8b4;
+    font-size: 9px;
+}
+
+.submission-empty-notes {
+    margin-top: 18px;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.submission-details-footer {
+    padding-top: 20px;
+}
+
+.submission-details-footer-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #687587;
+    font-size: 11px;
+    font-weight: 650;
+    text-decoration: none;
+}
+
+.submission-details-footer-link:hover {
+    color: #0056b3;
+}
+
+.submission-details-footer-link svg {
+    font-size: 14px;
+}
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+.submission-details-loading {
+    padding: 40px 0;
+}
+
+.submission-loading-line,
+.submission-loading-grid>div {
+    background: linear-gradient(90deg,
+            #f1f3f6 25%,
+            #e8ebef 50%,
+            #f1f3f6 75%);
+    background-size: 200% 100%;
+    animation: submissionSkeleton 1.5s infinite;
+    border-radius: 8px;
+}
+
+.submission-loading-title {
+    width: 240px;
+    height: 28px;
+    margin-bottom: 10px;
+}
+
+.submission-details-loading>.submission-loading-line:not(.submission-loading-title) {
+    width: 360px;
+    height: 13px;
+    margin-bottom: 30px;
+}
+
+.submission-loading-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.submission-loading-grid>div {
+    height: 100px;
+}
+
+@keyframes submissionSkeleton {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.submission-details-error {
+    max-width: 460px;
+    margin: 70px auto;
+    padding: 34px;
+    text-align: center;
+}
+
+.submission-error-icon {
+    width: 46px;
+    height: 46px;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #f2f4f7;
+    color: #667085;
+    font-size: 21px;
+}
+
+.submission-details-error h2 {
+    margin: 0 0 7px;
+    color: #1d2738;
+    font-size: 18px;
+}
+
+.submission-details-error p {
+    margin: 0 0 20px;
+    color: #7c8797;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.submission-details-back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 38px;
+    padding: 0 13px;
+    border: 1px solid #dfe4ea;
+    border-radius: 9px;
+    background: #fff;
+    color: #435064;
+    font: inherit;
+    font-size: 11px;
+    font-weight: 650;
+    cursor: pointer;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1000px) {
+    .submission-fields-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .submission-lower-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .submission-documents-section {
+        padding-bottom: 26px;
+        border-bottom: 1px solid #edf0f4;
+    }
+
+    .submission-notes-section {
+        padding-top: 26px;
+    }
+}
+
+@media (max-width: 820px) {
+    .admin-form-submission-details {
+        padding: 22px 20px 40px;
+    }
+
+    .submission-workspace {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .submission-workflow-section {
+        padding-top: 1px;
+    }
+
+    .submission-fields-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .submission-meta-strip {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .submission-meta-item:nth-child(3) {
+        border-left: 0;
+        padding-left: 0;
+    }
+
+    .submission-meta-item:nth-child(n + 3) {
+        border-top: 1px solid #edf0f4;
+    }
+}
+
+@media (max-width: 620px) {
+    .admin-form-submission-details {
+        padding: 16px 15px 32px;
+    }
+
+    .submission-page-header {
+        align-items: flex-start;
+        gap: 14px;
+        padding-bottom: 18px;
+    }
+
+    .submission-header-main {
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .submission-back-button {
+        width: 34px;
+        height: 34px;
+        flex-basis: 34px;
+        border-radius: 9px;
+    }
+
+    .submission-applicant-avatar {
+        width: 40px;
+        height: 40px;
+        flex-basis: 40px;
+        border-radius: 11px;
+        font-size: 12px;
+    }
+
+    .submission-header-copy h1 {
+        font-size: 19px;
+    }
+
+    .submission-header-topline {
+        font-size: 9px;
+    }
+
+    .submission-header-contact {
+        display: block;
+        margin-top: 5px;
+    }
+
+    .submission-header-contact a {
+        margin-top: 3px;
+        font-size: 10px;
+    }
+
+    .submission-header-side {
+        align-items: flex-end;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .submission-reference {
+        display: none;
+    }
+
+    .submission-meta-strip {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .submission-meta-item {
+        padding: 12px 10px 12px 0;
+    }
+
+    .submission-meta-item+.submission-meta-item {
+        padding-left: 10px;
+    }
+
+    .submission-meta-item strong {
+        font-size: 10px;
+    }
+
+    .submission-meta-item span {
+        font-size: 8px;
+    }
+
+    .submission-workspace {
+        padding: 20px 0;
+    }
+
+    .submission-contact-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .submission-contact-block {
+        min-height: 56px;
+    }
+
+    .submission-workflow-row {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .submission-workflow-row .submission-primary-button {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+
+    .submission-fields-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .submission-information-section {
+        padding: 20px 0;
+    }
+
+    .submission-field {
+        min-height: 64px;
+        padding: 10px;
+    }
+
+    .submission-field strong {
+        font-size: 11px;
+    }
+
+    .submission-section-heading {
+        margin-bottom: 13px;
+    }
+
+    .submission-section-heading h2 {
+        font-size: 14px;
+    }
+
+    .submission-document {
+        min-height: 58px;
+    }
+
+    .submission-document-info strong {
+        font-size: 11px;
+    }
+
+    .submission-document-open {
+        padding-left: 5px;
+    }
+
+    .submission-lower-grid {
+        padding: 20px 0;
+    }
+
+    .submission-note-composer-footer {
+        align-items: flex-start;
+    }
+
+    .submission-note-composer-footer .submission-primary-button {
+        min-height: 36px;
+        padding: 0 11px;
+    }
+}
+
+@media (max-width: 420px) {
+    .submission-page-header {
+        flex-wrap: wrap;
+    }
+
+    .submission-header-side {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding-left: 84px;
+        margin-top: -7px;
+    }
+
+    .submission-meta-strip {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .submission-fields-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .submission-field {
+        min-height: auto;
+        padding: 11px 10px;
+    }
+
+    .submission-field strong {
+        display: block;
+        -webkit-line-clamp: unset;
+    }
+
+    .submission-workflow-row {
+        grid-template-columns: 1fr;
+    }
+
+    .submission-workflow-row .submission-primary-button {
+        grid-column: auto;
+    }
+
+    .submission-contact-block {
+        padding: 10px;
+    }
+}

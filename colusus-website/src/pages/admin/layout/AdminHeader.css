@@ -147,3 +147,46 @@
         height: 32px;
     }
 }
+
+
+/*
+|--------------------------------------------------------------------------
+| TEMPORARY NOT AVAILABLE NOTICE
+|--------------------------------------------------------------------------
+*/
+
+.admin-header-notice {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 24px;
+    z-index: 20;
+
+    padding: 8px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+
+    background: #ffffff;
+    color: #334155;
+
+    box-shadow:
+        0 8px 24px rgba(15, 23, 42, 0.1);
+
+    font-size: 11px;
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    animation: adminHeaderNoticeIn 0.16s ease-out;
+}
+
+@keyframes adminHeaderNoticeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

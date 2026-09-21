@@ -10,7 +10,7 @@ const uploadToCloudinary = (fileBuffer, options = {}) => {
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
-        folder: options.folder || "colusus/documents",
+        folder: options.folder || "colossus/documents",
 
         resource_type: "auto",
       },

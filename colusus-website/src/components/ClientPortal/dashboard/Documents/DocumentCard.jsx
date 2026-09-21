@@ -383,7 +383,7 @@ const DocumentCard = ({
                 | We no longer use an <a> tag pointing directly
                 | to Cloudinary.
                 |
-                | This keeps the user inside the Colusus portal.
+                | This keeps the user inside the colossus portal.
                 |
                 ================================================= */}
 

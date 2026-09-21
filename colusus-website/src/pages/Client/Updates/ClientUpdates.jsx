@@ -608,7 +608,7 @@ const ClientUpdates = () => {
                 <div className="updates-header-copy">
 
                     <span className="updates-eyebrow">
-                        COLUSUS UPDATES
+                        colossus UPDATES
                     </span>
 
                     <h1>
@@ -873,7 +873,7 @@ const ClientUpdates = () => {
                         {activeFilter ===
                             "UNREAD"
                             ? "You have no unread notifications right now."
-                            : "Updates from your Colusus application journey will appear here."}
+                            : "Updates from your colossus application journey will appear here."}
                     </p>
 
                 </section>

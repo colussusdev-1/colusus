@@ -288,7 +288,7 @@ const OpportunityPreviewProcess = ({
                     </strong>
 
                     <p>
-                        Colusus will guide you through the required
+                        colossus will guide you through the required
                         documents and keep your application information
                         organised as you progress.
                     </p>

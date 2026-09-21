@@ -2,14 +2,29 @@ import mongoose from "mongoose";
 
 /*
 ============================================================
-COLUSUS — NOTIFICATION MODEL
+colossus — NOTIFICATION MODEL
 ============================================================
 |
-| Platform-wide notification infrastructure.
+| Central notification infrastructure for the entire
+| colossus platform.
 |
-| Notifications are always associated with a recipient user.
+| A notification always belongs to a specific USER.
 |
-| Clients, admins and staff can all receive notifications.
+| The AUDIENCE field identifies the operational area that
+| the recipient belongs to:
+|
+|     CLIENT
+|     ADMIN
+|     STAFF
+|     DEVELOPER
+|
+| This allows the same notification collection to safely
+| support both:
+|
+|     Client notification inbox
+|     Admin / staff notification inbox
+|
+| without creating separate notification collections.
 |
 ============================================================
 */
@@ -17,9 +32,13 @@ COLUSUS — NOTIFICATION MODEL
 const notificationSchema = new mongoose.Schema(
   {
     /*
-    ----------------------------------------------------------
+    ============================================================
     RECIPIENT
-    ----------------------------------------------------------
+    ============================================================
+    |
+    | The exact user who should receive the notification.
+    |
+    ============================================================
     */
 
     user: {
@@ -33,21 +52,64 @@ const notificationSchema = new mongoose.Schema(
     },
 
     /*
-    ----------------------------------------------------------
+    ============================================================
+    AUDIENCE
+    ============================================================
+    |
+    | Identifies which operational audience the notification
+    | belongs to.
+    |
+    | IMPORTANT:
+    |
+    | This is NOT the actual recipient.
+    |
+    | `user` identifies the recipient.
+    |
+    | `audience` identifies the recipient's platform area.
+    |
+    | Example:
+    |
+    |     user    = client user ID
+    | |   audience = CLIENT
+    |
+    |     user    = admin user ID
+    | |   audience = ADMIN
+    |
+    ============================================================
+    */
+
+    audience: {
+      type: String,
+
+      required: true,
+
+      uppercase: true,
+
+      trim: true,
+
+      enum: ["CLIENT", "ADMIN", "STAFF", "DEVELOPER"],
+
+      index: true,
+    },
+
+    /*
+    ============================================================
     ACTOR
-    ----------------------------------------------------------
+    ============================================================
     |
     | The user/system that caused the notification.
     |
     | Example:
     |
-    | Admin changes application status
-    | actor = admin user
+    | Admin changes application status:
     |
-    | System-generated event
-    | actor = null
+    |     actor = admin user
     |
-    ----------------------------------------------------------
+    | System-generated notification:
+    |
+    |     actor = null
+    |
+    ============================================================
     */
 
     actor: {
@@ -56,12 +118,14 @@ const notificationSchema = new mongoose.Schema(
       ref: "User",
 
       default: null,
+
+      index: true,
     },
 
     /*
-    ----------------------------------------------------------
+    ============================================================
     TYPE
-    ----------------------------------------------------------
+    ============================================================
     */
 
     type: {
@@ -75,7 +139,9 @@ const notificationSchema = new mongoose.Schema(
 
       enum: [
         /*
+        --------------------------------------------------------
         APPLICATION
+        --------------------------------------------------------
         */
 
         "APPLICATION_CREATED",
@@ -91,7 +157,9 @@ const notificationSchema = new mongoose.Schema(
         "APPLICATION_REJECTED",
 
         /*
+        --------------------------------------------------------
         DOCUMENT
+        --------------------------------------------------------
         */
 
         "DOCUMENT_UPLOADED",
@@ -105,7 +173,9 @@ const notificationSchema = new mongoose.Schema(
         "DOCUMENT_REUPLOAD_REQUIRED",
 
         /*
+        --------------------------------------------------------
         PROFILE
+        --------------------------------------------------------
         */
 
         "PROFILE_UPDATED",
@@ -113,7 +183,9 @@ const notificationSchema = new mongoose.Schema(
         "PROFILE_COMPLETED",
 
         /*
+        --------------------------------------------------------
         PAYMENT
+        --------------------------------------------------------
         */
 
         "PAYMENT_CREATED",
@@ -127,7 +199,9 @@ const notificationSchema = new mongoose.Schema(
         "PAYMENT_REFUNDED",
 
         /*
+        --------------------------------------------------------
         BOOKING
+        --------------------------------------------------------
         */
 
         "BOOKING_CREATED",
@@ -139,7 +213,9 @@ const notificationSchema = new mongoose.Schema(
         "BOOKING_CONFIRMED",
 
         /*
+        --------------------------------------------------------
         ADMIN / STAFF
+        --------------------------------------------------------
         */
 
         "ADMIN_ACTION",
@@ -147,7 +223,9 @@ const notificationSchema = new mongoose.Schema(
         "STAFF_ACTION",
 
         /*
+        --------------------------------------------------------
         SYSTEM
+        --------------------------------------------------------
         */
 
         "MESSAGE_RECEIVED",
@@ -161,9 +239,9 @@ const notificationSchema = new mongoose.Schema(
     },
 
     /*
-    ----------------------------------------------------------
+    ============================================================
     TITLE
-    ----------------------------------------------------------
+    ============================================================
     */
 
     title: {
@@ -177,9 +255,9 @@ const notificationSchema = new mongoose.Schema(
     },
 
     /*
-    ----------------------------------------------------------
+    ============================================================
     MESSAGE
-    ----------------------------------------------------------
+    ============================================================
     */
 
     message: {
@@ -193,13 +271,13 @@ const notificationSchema = new mongoose.Schema(
     },
 
     /*
-    ----------------------------------------------------------
+    ============================================================
     ENTITY TYPE
-    ----------------------------------------------------------
+    ============================================================
     |
-    | Identifies what the notification is about.
+    | Identifies the primary platform entity involved.
     |
-    ----------------------------------------------------------
+    ============================================================
     */
 
     entityType: {
@@ -229,9 +307,20 @@ const notificationSchema = new mongoose.Schema(
     },
 
     /*
-    ----------------------------------------------------------
+    ============================================================
     ENTITY ID
-    ----------------------------------------------------------
+    ============================================================
+    |
+    | ID of the entity the notification relates to.
+    |
+    | Examples:
+    |
+    | application ID
+    | document ID
+    | payment ID
+    | booking ID
+    |
+    ============================================================
     */
 
     entityId: {
@@ -243,11 +332,12 @@ const notificationSchema = new mongoose.Schema(
     },
 
     /*
-    ----------------------------------------------------------
+    ============================================================
     METADATA
-    ----------------------------------------------------------
+    ============================================================
     |
-    | Extra information needed by the frontend.
+    | Additional structured information required by the
+    | frontend or internal workflows.
     |
     | Example:
     |
@@ -258,7 +348,7 @@ const notificationSchema = new mongoose.Schema(
     |   newStatus: "UNDER_REVIEW"
     | }
     |
-    ----------------------------------------------------------
+    ============================================================
     */
 
     metadata: {
@@ -268,13 +358,17 @@ const notificationSchema = new mongoose.Schema(
     },
 
     /*
-    ----------------------------------------------------------
+    ============================================================
     PRIORITY
-    ----------------------------------------------------------
+    ============================================================
     */
 
     priority: {
       type: String,
+
+      uppercase: true,
+
+      trim: true,
 
       enum: ["LOW", "NORMAL", "HIGH", "URGENT"],
 
@@ -284,9 +378,9 @@ const notificationSchema = new mongoose.Schema(
     },
 
     /*
-    ----------------------------------------------------------
+    ============================================================
     READ STATE
-    ----------------------------------------------------------
+    ============================================================
     */
 
     read: {
@@ -298,9 +392,13 @@ const notificationSchema = new mongoose.Schema(
     },
 
     /*
-    ----------------------------------------------------------
+    ============================================================
     READ AT
-    ----------------------------------------------------------
+    ============================================================
+    |
+    | Timestamp showing when the notification was read.
+    |
+    ============================================================
     */
 
     readAt: {
@@ -310,13 +408,19 @@ const notificationSchema = new mongoose.Schema(
     },
 
     /*
-    ----------------------------------------------------------
+    ============================================================
     OPTIONAL EXPIRATION
-    ----------------------------------------------------------
+    ============================================================
     |
-    | Allows old temporary notifications to expire.
+    | Used for temporary/system notifications that should
+    | eventually disappear.
     |
-    ----------------------------------------------------------
+    | NOTE:
+    |
+    | MongoDB TTL behavior can be enabled later if we decide
+    | expired notifications should automatically be deleted.
+    |
+    ============================================================
     */
 
     expiresAt: {
@@ -330,6 +434,14 @@ const notificationSchema = new mongoose.Schema(
 
   {
     timestamps: true,
+
+    /*
+    ----------------------------------------------------------
+    SCHEMA OPTIONS
+    ----------------------------------------------------------
+    */
+
+    versionKey: false,
   },
 );
 
@@ -337,6 +449,25 @@ const notificationSchema = new mongoose.Schema(
 ============================================================
 INDEXES
 ============================================================
+|
+| These indexes are designed around the actual notification
+| queries the platform will perform.
+|
+============================================================
+*/
+
+/*
+------------------------------------------------------------
+USER INBOX
+------------------------------------------------------------
+|
+| Used by:
+|
+| GET /notifications
+|
+| Returns the recipient's newest notifications first.
+|
+------------------------------------------------------------
 */
 
 notificationSchema.index({
@@ -345,6 +476,20 @@ notificationSchema.index({
   createdAt: -1,
 });
 
+/*
+------------------------------------------------------------
+USER + READ STATE
+------------------------------------------------------------
+|
+| Used by:
+|
+| unread notifications
+| unread count
+| notification inbox filtering
+|
+------------------------------------------------------------
+*/
+
 notificationSchema.index({
   user: 1,
 
@@ -352,6 +497,16 @@ notificationSchema.index({
 
   createdAt: -1,
 });
+
+/*
+------------------------------------------------------------
+USER + TYPE
+------------------------------------------------------------
+|
+| Useful for future notification filtering.
+|
+------------------------------------------------------------
+*/
 
 notificationSchema.index({
   user: 1,
@@ -362,11 +517,107 @@ notificationSchema.index({
 });
 
 /*
+------------------------------------------------------------
+AUDIENCE + READ STATE
+------------------------------------------------------------
+|
+| Useful for admin/staff operational inbox queries.
+|
+------------------------------------------------------------
+*/
+
+notificationSchema.index({
+  audience: 1,
+
+  read: 1,
+
+  createdAt: -1,
+});
+
+/*
+------------------------------------------------------------
+AUDIENCE + USER + CREATED
+------------------------------------------------------------
+|
+| Makes recipient-scoped operational inbox queries explicit.
+|
+------------------------------------------------------------
+*/
+
+notificationSchema.index({
+  audience: 1,
+
+  user: 1,
+
+  createdAt: -1,
+});
+
+/*
+------------------------------------------------------------
+EXPIRATION
+------------------------------------------------------------
+|
+| Partial TTL index:
+|
+| Only notifications with an expiresAt value are eligible
+| for automatic expiration.
+|
+| Notifications without expiresAt remain permanent.
+|
+------------------------------------------------------------
+*/
+
+notificationSchema.index(
+  {
+    expiresAt: 1,
+  },
+  {
+    expireAfterSeconds: 0,
+
+    partialFilterExpression: {
+      expiresAt: {
+        $type: "date",
+      },
+    },
+  },
+);
+
+/*
+============================================================
+READ STATE CONSISTENCY
+============================================================
+|
+| Keep `read` and `readAt` synchronized when documents are
+| saved through Mongoose.
+|
+| This hook is intentionally synchronous.
+|
+| There is no asynchronous operation here, so Mongoose does
+| not need a `next` callback.
+|
+============================================================
+*/
+
+notificationSchema.pre("save", function () {
+  if (this.isModified("read")) {
+    if (this.read) {
+      if (!this.readAt) {
+        this.readAt = new Date();
+      }
+    } else {
+      this.readAt = null;
+    }
+  }
+});
+
+/*
 ============================================================
 MODEL
 ============================================================
 */
 
-const Notification = mongoose.model("Notification", notificationSchema);
+const Notification =
+  mongoose.models.Notification ||
+  mongoose.model("Notification", notificationSchema);
 
 export default Notification;

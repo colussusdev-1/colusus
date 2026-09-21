@@ -28,6 +28,8 @@ import bulgaria from "./data/bulgaria";
 
 import romania from "./data/romania";
 
+import ireland from "./data/ireland";
+
 const countries = [
   canada,
 
@@ -56,6 +58,8 @@ const countries = [
   norway,
 
   bulgaria,
+
+  ireland,
 
   romania,
 ];

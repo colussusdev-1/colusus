@@ -660,7 +660,7 @@ const DocumentUpload = ({
                         </strong>
 
                         <p>
-                            Documents uploaded to Colusus are securely
+                            Documents uploaded to colossus are securely
                             associated with your migration application.
                         </p>
 

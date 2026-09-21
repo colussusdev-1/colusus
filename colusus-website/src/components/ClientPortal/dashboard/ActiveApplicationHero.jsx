@@ -95,7 +95,7 @@ const ActiveApplicationHero = ({
 
   return (
 
-    <section className="colusus-application-hero">
+    <section className="colossus-application-hero">
 
 
       {/* =====================================================

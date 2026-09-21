@@ -1,0 +1,795 @@
+/* ============================================================
+   RECOMMENDED OPPORTUNITIES
+   ============================================================ */
+
+.recommended-opportunities {
+    width: 100%;
+    margin-top: 32px;
+}
+
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.recommended-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 20px;
+}
+
+.recommended-header>div:first-child {
+    min-width: 0;
+}
+
+.recommended-header .section-eyebrow {
+    display: inline-block;
+    margin-bottom: 7px;
+    color: #0056b3;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: 0.12em;
+}
+
+.recommended-header h2 {
+    margin: 0;
+    color: #111827;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+}
+
+.recommended-header p {
+    max-width: 620px;
+    margin: 7px 0 0;
+    color: #6b7280;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+
+/* ============================================================
+   REFRESH BUTTON
+   ============================================================ */
+
+.recommended-refresh-button {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid #dfe5ec;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #4b5563;
+    font-size: 18px;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.recommended-refresh-button:hover {
+    border-color: #b9cce2;
+    background: #f5f9fd;
+    color: #0056b3;
+}
+
+.recommended-refresh-button:active {
+    transform: rotate(25deg);
+}
+
+.recommended-refresh-button:focus-visible {
+    outline: 3px solid rgba(0, 86, 179, 0.15);
+    outline-offset: 2px;
+}
+
+
+/* ============================================================
+   GRID
+   ============================================================ */
+
+.recommended-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+
+/* ============================================================
+   CARD
+   ============================================================ */
+
+.recommended-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 330px;
+    overflow: hidden;
+    border: 1px solid #e3e8ee;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.recommended-card:hover {
+    border-color: #cdd9e6;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.07);
+    transform: translateY(-2px);
+}
+
+
+/* ============================================================
+   CARD TOP
+   ============================================================ */
+
+.recommended-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 17px 18px 14px;
+    border-bottom: 1px solid #eef1f4;
+}
+
+.recommended-country {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    gap: 10px;
+}
+
+.recommended-flag {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 34px;
+    height: 34px;
+    overflow: hidden;
+    border: 1px solid #e2e7ed;
+    border-radius: 50%;
+    background: #f5f7fa;
+    color: #64748b;
+    font-size: 17px;
+}
+
+.recommended-flag img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.recommended-country>div:last-child {
+    min-width: 0;
+}
+
+.recommended-country span {
+    display: block;
+    margin-bottom: 2px;
+    color: #9ca3af;
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: 0.1em;
+}
+
+.recommended-country strong {
+    display: block;
+    overflow: hidden;
+    color: #273444;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.35;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* ============================================================
+   FEATURED BADGE
+   ============================================================ */
+
+.recommended-featured {
+    flex: 0 0 auto;
+    padding: 5px 8px;
+    border: 1px solid #d9e8f7;
+    border-radius: 6px;
+    background: #f3f8fd;
+    color: #0056b3;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+
+/* ============================================================
+   CARD CONTENT
+   ============================================================ */
+
+.recommended-card-content {
+    flex: 1;
+    padding: 17px 18px 12px;
+}
+
+.recommended-category {
+    display: inline-block;
+    margin-bottom: 8px;
+    color: #0056b3;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.recommended-card-content h3 {
+    margin: 0;
+    color: #172033;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+}
+
+.recommended-card-content p {
+    display: -webkit-box;
+    overflow: hidden;
+    margin: 9px 0 0;
+    color: #687384;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.65;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+}
+
+
+/* ============================================================
+   CARD FACTS
+   ============================================================ */
+
+.recommended-card-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    padding: 0 18px 15px;
+}
+
+.recommended-card-facts span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 8px;
+    border: 1px solid #edf0f3;
+    border-radius: 6px;
+    background: #f8fafc;
+    color: #596579;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.recommended-card-facts svg {
+    flex: 0 0 auto;
+    color: #0056b3;
+    font-size: 13px;
+}
+
+
+/* ============================================================
+   CARD ACTION
+   ============================================================ */
+
+.recommended-card-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    margin-top: auto;
+    padding: 13px 18px;
+    border: 0;
+    border-top: 1px solid #edf0f3;
+    background: #ffffff;
+    color: #0056b3;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.4;
+    text-align: left;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.recommended-card-link svg {
+    flex: 0 0 auto;
+    font-size: 16px;
+    transition: transform 0.2s ease;
+}
+
+.recommended-card-link:hover {
+    background: #f7faff;
+    color: #00458f;
+}
+
+.recommended-card-link:hover svg {
+    transform: translateX(3px);
+}
+
+.recommended-card-link:focus-visible {
+    outline: 3px solid rgba(0, 86, 179, 0.15);
+    outline-offset: -3px;
+}
+
+
+/* ============================================================
+   ELIGIBILITY STRIP
+   ============================================================ */
+
+.recommended-eligibility {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-top: 18px;
+    padding: 18px 20px;
+    border: 1px solid #dce8f4;
+    border-radius: 12px;
+    background: #f6faff;
+}
+
+.recommended-eligibility-copy {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    gap: 13px;
+}
+
+.recommended-eligibility-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: #e7f1fb;
+    color: #0056b3;
+    font-size: 19px;
+}
+
+.recommended-eligibility-copy>div:last-child {
+    min-width: 0;
+}
+
+.recommended-eligibility-copy strong {
+    display: block;
+    margin-bottom: 3px;
+    color: #1f2937;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.recommended-eligibility-copy span {
+    display: block;
+    color: #667085;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.recommended-eligibility-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    gap: 8px;
+    min-height: 40px;
+    padding: 9px 15px;
+    border: 1px solid #0056b3;
+    border-radius: 8px;
+    background: #0056b3;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.4;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.recommended-eligibility-button:hover {
+    border-color: #00458f;
+    background: #00458f;
+}
+
+.recommended-eligibility-button:focus-visible {
+    outline: 3px solid rgba(0, 86, 179, 0.18);
+    outline-offset: 2px;
+}
+
+.recommended-eligibility-button svg {
+    font-size: 15px;
+}
+
+
+/* ============================================================
+   LOADING
+   ============================================================ */
+
+.recommended-loading-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.recommended-skeleton {
+    height: 330px;
+    border: 1px solid #e5e9ee;
+    border-radius: 14px;
+    background:
+        linear-gradient(90deg,
+            #f4f6f8 0%,
+            #fafbfc 50%,
+            #f4f6f8 100%);
+    background-size: 200% 100%;
+    animation: recommendedSkeletonPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes recommendedSkeletonPulse {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+
+.recommended-empty {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-height: 110px;
+    padding: 20px;
+    border: 1px solid #e4e9ee;
+    border-radius: 12px;
+    background: #ffffff;
+}
+
+.recommended-empty>svg {
+    flex: 0 0 auto;
+    width: 30px;
+    height: 30px;
+    color: #7b8797;
+    font-size: 30px;
+}
+
+.recommended-empty>div {
+    min-width: 0;
+}
+
+.recommended-empty strong {
+    display: block;
+    margin-bottom: 4px;
+    color: #273444;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.recommended-empty span {
+    display: block;
+    color: #6b7280;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media (max-width: 1100px) {
+
+    .recommended-grid,
+    .recommended-loading-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .recommended-card:last-child {
+        grid-column: span 2;
+    }
+
+}
+
+
+/* ============================================================
+   TABLET / SMALL LAPTOP
+   ============================================================ */
+
+@media (max-width: 850px) {
+
+    .recommended-header {
+        align-items: flex-start;
+    }
+
+    .recommended-header h2 {
+        font-size: 22px;
+    }
+
+    .recommended-eligibility {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .recommended-eligibility-button {
+        width: 100%;
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 640px) {
+
+    .recommended-opportunities {
+        margin-top: 26px;
+    }
+
+
+    .recommended-header {
+        align-items: flex-start;
+        gap: 14px;
+        margin-bottom: 16px;
+    }
+
+
+    .recommended-header h2 {
+        font-size: 20px;
+    }
+
+
+    .recommended-header p {
+        margin-top: 6px;
+        font-size: 13px;
+        line-height: 1.55;
+    }
+
+
+    .recommended-refresh-button {
+        width: 38px;
+        height: 38px;
+        border-radius: 9px;
+    }
+
+
+    .recommended-grid,
+    .recommended-loading-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+
+    .recommended-card:last-child {
+        grid-column: auto;
+    }
+
+
+    .recommended-card {
+        min-height: 0;
+    }
+
+
+    .recommended-card-top {
+        padding: 15px 16px 13px;
+    }
+
+
+    .recommended-card-content {
+        padding: 16px 16px 11px;
+    }
+
+
+    .recommended-card-content h3 {
+        font-size: 17px;
+    }
+
+
+    .recommended-card-content p {
+        font-size: 13px;
+        -webkit-line-clamp: 4;
+    }
+
+
+    .recommended-card-facts {
+        padding: 0 16px 14px;
+    }
+
+
+    .recommended-card-link {
+        min-height: 48px;
+        padding: 13px 16px;
+    }
+
+
+    .recommended-eligibility {
+        margin-top: 14px;
+        padding: 16px;
+    }
+
+
+    .recommended-eligibility-copy {
+        align-items: flex-start;
+    }
+
+
+    .recommended-eligibility-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+
+    .recommended-eligibility-copy strong {
+        font-size: 13px;
+    }
+
+
+    .recommended-eligibility-copy span {
+        font-size: 12px;
+    }
+
+
+    .recommended-skeleton {
+        height: 300px;
+    }
+
+
+    .recommended-empty {
+        align-items: flex-start;
+        flex-direction: column;
+        min-height: 0;
+    }
+
+}
+
+
+/* ============================================================
+   SMALL MOBILE
+   ============================================================ */
+
+@media (max-width: 420px) {
+
+    .recommended-header h2 {
+        font-size: 19px;
+    }
+
+
+    .recommended-header p {
+        font-size: 12px;
+    }
+
+
+    .recommended-card-top {
+        padding: 14px;
+    }
+
+
+    .recommended-card-content {
+        padding: 15px 14px 10px;
+    }
+
+
+    .recommended-card-facts {
+        padding: 0 14px 13px;
+    }
+
+
+    .recommended-card-link {
+        padding: 13px 14px;
+    }
+
+
+    .recommended-featured {
+        font-size: 9px;
+    }
+
+
+    .recommended-eligibility {
+        padding: 14px;
+    }
+
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .recommended-card,
+    .recommended-card-link,
+    .recommended-card-link svg,
+    .recommended-refresh-button,
+    .recommended-eligibility-button {
+        transition: none;
+    }
+
+
+    .recommended-skeleton {
+        animation: none;
+    }
+
+}
+
+.recommended-process {
+    margin-top: 15px;
+    padding-top: 12px;
+    border-top: 1px solid #edf0f3;
+}
+
+.recommended-process-label {
+    display: block;
+    margin-bottom: 5px;
+    color: #9ca3af;
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: 0.1em;
+}
+
+.recommended-process-value {
+    display: -webkit-box;
+    overflow: hidden;
+    color: #526071;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.5;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+
+@media (max-width: 640px) {
+    .recommended-process {
+        margin-top: 13px;
+        padding-top: 11px;
+    }
+
+    .recommended-process-value {
+        font-size: 11px;
+        line-height: 1.5;
+        -webkit-line-clamp: 3;
+    }
+}
+

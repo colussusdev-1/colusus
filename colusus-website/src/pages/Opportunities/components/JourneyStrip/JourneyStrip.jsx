@@ -30,7 +30,7 @@ const JourneyStrip = ({ country }) => {
 
                         <HiOutlineSparkles />
 
-                        Your Colusus journey
+                        Your colossus journey
 
                     </span>
 
@@ -47,7 +47,7 @@ const JourneyStrip = ({ country }) => {
 
                         You don't have to figure everything
                         out yourself. Explore your options or
-                        let Colusus help point you in the right
+                        let colossus help point you in the right
                         direction.
 
                     </p>

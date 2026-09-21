@@ -2,27 +2,50 @@ import documentService from "./document.service.js";
 
 /*
 ============================================================
+colossus — DOCUMENT CONTROLLER
+============================================================
+
+The controller is responsible for:
+
+- Reading authenticated user information
+- Reading request parameters/body/files
+- Calling documentService
+- Returning HTTP responses
+
+Business logic remains inside document.service.js.
+
+NOTIFICATION EVENTS ARE INTENTIONALLY NOT CREATED HERE.
+
+Notifications will be connected later through the dedicated
+colossus notification event system.
+============================================================
+*/
+
+/*
+============================================================
 CREATE / UPLOAD DOCUMENT
 ============================================================
-|
-| POST /api/v1/documents
-|
-| The upload service now returns:
-|
-| {
-|   document,
-|   application,
-|   progress
-| }
-|
-| This allows the client portal to immediately update:
-|
-| - document list
-| - document progress
-| - application status
-| - journey step
-| - application activity
-|
+
+POST /api/v1/documents
+
+Body:
+
+application
+name
+type
+
+File:
+
+file
+
+Returns:
+
+{
+  document,
+  application,
+  progress
+}
+
 ============================================================
 */
 
@@ -90,18 +113,27 @@ export const createDocument = async (req, res, next) => {
 ============================================================
 GET ALL CLIENT DOCUMENTS
 ============================================================
-|
-| GET /api/v1/documents
-|
-| Returns every document belonging to the
-| authenticated client.
-|
+
+GET /api/v1/documents
+
+Returns every document belonging to the authenticated user.
+
 ============================================================
 */
 
 export const getDocuments = async (req, res, next) => {
   try {
-    const documents = await documentService.getUserDocuments(req.user.id);
+    const userId = req.user?.id;
+
+    if (!userId) {
+      const error = new Error("Authenticated user not found.");
+
+      error.statusCode = 401;
+
+      throw error;
+    }
+
+    const documents = await documentService.getUserDocuments(userId);
 
     return res.status(200).json({
       success: true,
@@ -117,22 +149,33 @@ export const getDocuments = async (req, res, next) => {
 ============================================================
 GET APPLICATION DOCUMENTS
 ============================================================
-|
-| GET /api/v1/documents/application/:applicationId
-|
-| Returns documents belonging to one application.
-|
+
+GET /api/v1/documents/application/:applicationId
+
+Returns documents belonging to the authenticated user's
+application.
+
 ============================================================
 */
 
 export const getApplicationDocuments = async (req, res, next) => {
   try {
+    const userId = req.user?.id;
+
+    if (!userId) {
+      const error = new Error("Authenticated user not found.");
+
+      error.statusCode = 401;
+
+      throw error;
+    }
+
     const { applicationId } = req.params;
 
     const documents = await documentService.getApplicationDocuments(
       applicationId,
 
-      req.user.id,
+      userId,
     );
 
     return res.status(200).json({
@@ -149,20 +192,28 @@ export const getApplicationDocuments = async (req, res, next) => {
 ============================================================
 GET SINGLE DOCUMENT
 ============================================================
-|
-| GET /api/v1/documents/:id
-|
-| Used by the client document viewer.
-|
+
+GET /api/v1/documents/:id
+
 ============================================================
 */
 
 export const getDocument = async (req, res, next) => {
   try {
+    const userId = req.user?.id;
+
+    if (!userId) {
+      const error = new Error("Authenticated user not found.");
+
+      error.statusCode = 401;
+
+      throw error;
+    }
+
     const document = await documentService.getDocumentById(
       req.params.id,
 
-      req.user.id,
+      userId,
     );
 
     return res.status(200).json({
@@ -179,36 +230,43 @@ export const getDocument = async (req, res, next) => {
 ============================================================
 UPDATE CLIENT DOCUMENT
 ============================================================
-|
-| PATCH /api/v1/documents/:id
-|
-| IMPORTANT:
-|
-| The client cannot manipulate review statuses.
-|
-| The service only permits client-safe updates such as
-| changing the document name.
-|
-| Review statuses are controlled by the staff workflow.
-|
+
+PATCH /api/v1/documents/:id
+
+Clients may update client-safe fields such as:
+
+- name
+
+Clients cannot change review statuses.
+
 ============================================================
 */
 
 export const updateDocumentStatus = async (req, res, next) => {
   try {
+    const userId = req.user?.id;
+
+    if (!userId) {
+      const error = new Error("Authenticated user not found.");
+
+      error.statusCode = 401;
+
+      throw error;
+    }
+
     const document = await documentService.updateDocumentStatus(
       req.params.id,
 
-      req.user.id,
+      userId,
 
       req.body,
     );
 
     /*
-      --------------------------------------------------------
-      DOCUMENT NOT FOUND
-      --------------------------------------------------------
-      */
+    ----------------------------------------------------------
+    DOCUMENT NOT FOUND
+    ----------------------------------------------------------
+    */
 
     if (!document) {
       return res.status(404).json({
@@ -219,10 +277,10 @@ export const updateDocumentStatus = async (req, res, next) => {
     }
 
     /*
-      --------------------------------------------------------
-      SUCCESS
-      --------------------------------------------------------
-      */
+    ----------------------------------------------------------
+    SUCCESS
+    ----------------------------------------------------------
+    */
 
     return res.status(200).json({
       success: true,
@@ -240,44 +298,56 @@ export const updateDocumentStatus = async (req, res, next) => {
 ============================================================
 STAFF DOCUMENT REVIEW
 ============================================================
-|
-| This controller is ready for the admin/staff route.
-|
-| It uses the service method that:
-|
-| - updates document status
-| - records reviewer
-| - records review time
-| - records review note
-| - creates application activity
-| - recalculates document progress
-| - updates application journey/status
-|
-| Example body:
-|
-| {
-|   status: "APPROVED",
-|   reviewNote: "Document verified successfully."
-| }
-|
+
+PATCH /api/v1/admin/documents/:id/status
+
+Body:
+
+{
+  status: "APPROVED",
+  reviewNote: "Document verified successfully."
+}
+
+The service handles:
+
+- document status
+- reviewer
+- review time
+- review note
+- application activity
+- document progress
+- application journey/status
+
+Notifications are intentionally handled separately later.
+
 ============================================================
 */
 
 export const updateDocumentStatusByStaff = async (req, res, next) => {
   try {
+    const staffUserId = req.user?.id;
+
+    if (!staffUserId) {
+      const error = new Error("Authenticated staff user not found.");
+
+      error.statusCode = 401;
+
+      throw error;
+    }
+
     const result = await documentService.updateDocumentStatusByStaff(
       req.params.id,
 
       req.body,
 
-      req.user?.id,
+      staffUserId,
     );
 
     /*
-      --------------------------------------------------------
-      SUCCESS
-      --------------------------------------------------------
-      */
+    ----------------------------------------------------------
+    SUCCESS
+    ----------------------------------------------------------
+    */
 
     return res.status(200).json({
       success: true,
@@ -291,6 +361,39 @@ export const updateDocumentStatusByStaff = async (req, res, next) => {
 
         progress: result.progress,
       },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/*
+============================================================
+GET APPLICATION DOCUMENTS FOR ADMIN / STAFF
+============================================================
+
+GET /api/v1/admin/applications/:applicationId/documents
+
+============================================================
+*/
+
+export const getApplicationDocumentsForStaff = async (
+  req,
+
+  res,
+
+  next,
+) => {
+  try {
+    const { applicationId } = req.params;
+
+    const documents =
+      await documentService.getApplicationDocumentsForStaff(applicationId);
+
+    return res.status(200).json({
+      success: true,
+
+      data: documents,
     });
   } catch (error) {
     next(error);
@@ -315,4 +418,6 @@ export default {
   updateDocumentStatus,
 
   updateDocumentStatusByStaff,
+
+  getApplicationDocumentsForStaff,
 };

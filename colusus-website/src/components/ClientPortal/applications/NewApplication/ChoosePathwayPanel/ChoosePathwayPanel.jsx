@@ -173,7 +173,7 @@ const ChoosePathwayPanel = ({
 
                         <p>
                             Explore migration opportunities
-                            available through Colusus.
+                            available through colossus.
                         </p>
 
                     </div>

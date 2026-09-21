@@ -10,15 +10,73 @@ import {
 
 import "./Hero.css";
 
+/* =====================================================
+COUNTRY FLAG ASSETS
+
+Flags are stored inside src/assets/flags/
+===================================================== */
+
+import canadaFlag from "../../../../assets/flags/canada.png";
+import unitedKingdomFlag from "../../../../assets/flags/united-kingdom.png";
+import australiaFlag from "../../../../assets/flags/australia.png";
+import franceFlag from "../../../../assets/flags/france.png";
+import unitedStatesFlag from "../../../../assets/flags/usa.png";
+import irelandFlag from "../../../../assets/flags/ireland.png";
+import germanyFlag from "../../../../assets/flags/germany.png";
+import netherlandsFlag from "../../../../assets/flags/netherlands.png";
 
 const Hero = () => {
+
+    /* =====================================================
+       COUNTRIES
+    ===================================================== */
+
+    const countries = [
+        {
+            name: "Canada",
+            flag: canadaFlag,
+            position: "top"
+        },
+        {
+            name: "United Kingdom",
+            flag: unitedKingdomFlag,
+            position: "upper-left"
+        },
+        {
+            name: "Australia",
+            flag: australiaFlag,
+            position: "upper-right"
+        },
+        {
+            name: "France",
+            flag: franceFlag,
+            position: "left"
+        },
+        {
+            name: "United States",
+            flag: unitedStatesFlag,
+            position: "right"
+        },
+        {
+            name: "Ireland",
+            flag: irelandFlag,
+            position: "lower-left"
+        },
+        {
+            name: "Germany",
+            flag: germanyFlag,
+            position: "lower-right"
+        },
+        {
+            name: "Netherlands",
+            flag: netherlandsFlag,
+            position: "bottom"
+        }
+    ];
 
 
     /* =====================================================
        SCROLL TO COUNTRIES
-
-       Navigates to the Countries section without
-       changing the browser URL or adding a hash.
     ===================================================== */
 
     const handleExplorePathways = () => {
@@ -47,8 +105,8 @@ const Hero = () => {
 
 
             {/* =====================================================
-                VIDEO BACKGROUND
-            ===================================================== */}
+            VIDEO BACKGROUND
+        ===================================================== */}
 
             <div
                 className="hero-video"
@@ -74,8 +132,8 @@ const Hero = () => {
 
 
             {/* =====================================================
-                CINEMATIC OVERLAY
-            ===================================================== */}
+            CINEMATIC OVERLAY
+        ===================================================== */}
 
             <div
                 className="hero-overlay"
@@ -84,8 +142,8 @@ const Hero = () => {
 
 
             {/* =====================================================
-                BACKGROUND DETAILS
-            ===================================================== */}
+            BACKGROUND DETAILS
+        ===================================================== */}
 
             <div
                 className="hero-background-details"
@@ -102,8 +160,8 @@ const Hero = () => {
 
 
             {/* =====================================================
-                HERO INNER
-            ===================================================== */}
+            HERO INNER
+        ===================================================== */}
 
             <div className="hero-inner">
 
@@ -111,19 +169,17 @@ const Hero = () => {
 
 
                     {/* =================================================
-                        LEFT CONTENT
-                    ================================================= */}
+                    LEFT CONTENT
+                ================================================= */}
 
                     <div className="hero-content">
 
 
                         {/* =============================================
-                            EYEBROW
-                        ============================================= */}
+                        EYEBROW
+                    ============================================= */}
 
                         <div className="hero-eyebrow hero-reveal hero-delay-1">
-
-                            <span className="hero-eyebrow-line" />
 
                             <span className="hero-eyebrow-brand">
                                 CM&amp;T
@@ -137,8 +193,8 @@ const Hero = () => {
 
 
                         {/* =============================================
-                            TITLE
-                        ============================================= */}
+                        TITLE
+                    ============================================= */}
 
                         <h1 className="hero-title hero-reveal hero-delay-2">
 
@@ -158,8 +214,8 @@ const Hero = () => {
 
 
                         {/* =============================================
-                            DESCRIPTION
-                        ============================================= */}
+                        DESCRIPTION
+                    ============================================= */}
 
                         <p className="hero-description hero-reveal hero-delay-3">
 
@@ -172,15 +228,10 @@ const Hero = () => {
 
 
                         {/* =============================================
-                            ACTIONS
-                        ============================================= */}
+                        ACTIONS
+                    ============================================= */}
 
                         <div className="hero-actions hero-reveal hero-delay-4">
-
-
-                            {/* -----------------------------------------
-                                PRIMARY CTA
-                            ----------------------------------------- */}
 
                             <Link
                                 to="/free-assessment"
@@ -196,18 +247,6 @@ const Hero = () => {
                             </Link>
 
 
-                            {/* -----------------------------------------
-                                EXPLORE PATHWAYS
-
-                                IMPORTANT:
-
-                                This is intentionally a button instead
-                                of an anchor.
-
-                                It scrolls to Countries without adding
-                                #countries to the browser URL.
-                            ----------------------------------------- */}
-
                             <button
                                 type="button"
                                 className="hero-secondary-btn"
@@ -222,22 +261,19 @@ const Hero = () => {
 
                             </button>
 
-
                         </div>
 
 
                         {/* =================================================
-                            SOCIAL PROOF
-                        ================================================= */}
+                        SOCIAL PROOF
+                    ================================================= */}
 
                         <div className="hero-social hero-reveal hero-delay-5">
 
 
-                            {/* -----------------------------------------
-                                TEMPORARY CM&T AVATAR FALLBACK
-
-                                Replace with profile images later.
-                            ----------------------------------------- */}
+                            {/* =========================================
+                            AVATAR GROUP
+                        ========================================= */}
 
                             <div className="hero-avatar-group">
 
@@ -260,9 +296,9 @@ const Hero = () => {
                             </div>
 
 
-                            {/* -----------------------------------------
-                                RATING
-                            ----------------------------------------- */}
+                            {/* =========================================
+                            RATING
+                        ========================================= */}
 
                             <div className="hero-rating">
 
@@ -287,16 +323,16 @@ const Hero = () => {
                             </div>
 
 
-                            {/* -----------------------------------------
-                                TRUST DIVIDER
-                            ----------------------------------------- */}
+                            {/* =========================================
+                            TRUST DIVIDER
+                        ========================================= */}
 
                             <div className="hero-trust-divider" />
 
 
-                            {/* -----------------------------------------
-                                TRUSTED GUIDANCE
-                            ----------------------------------------- */}
+                            {/* =========================================
+                            LICENSED / TRUSTED
+                        ========================================= */}
 
                             <div className="hero-licensed">
 
@@ -328,91 +364,183 @@ const Hero = () => {
 
 
                     {/* =================================================
-                        RIGHT VISUAL
-                    ================================================= */}
+                    RIGHT VISUAL
+                ================================================= */}
 
                     <div className="hero-visual hero-reveal hero-delay-3">
+
 
                         <div className="hero-visual-stage">
 
 
                             {/* =========================================
-                                ORBITAL SYSTEM
-                            ========================================= */}
+                            OUTER ORBITAL SYSTEM
+                        ========================================= */}
 
                             <div
-                                className="hero-orbits"
+                                className="hero-orbit-system"
                                 aria-hidden="true"
                             >
 
-                                <span className="hero-orbit hero-orbit-one">
+                                <span
+                                    className="hero-orbit-ring hero-orbit-ring-one"
+                                />
 
-                                    <i />
+                                <span
+                                    className="hero-orbit-ring hero-orbit-ring-two"
+                                />
 
-                                </span>
+                                <span
+                                    className="hero-orbit-ring hero-orbit-ring-three"
+                                />
 
-
-                                <span className="hero-orbit hero-orbit-two">
-
-                                    <i />
-
-                                </span>
-
-
-                                <span className="hero-orbit hero-orbit-three">
-
-                                    <i />
-
-                                </span>
-
-
-                                <span className="hero-orbit-glow" />
-
-                            </div>
-
-
-                            {/* =========================================
-                                ORBITING LIGHTS
-                            ========================================= */}
-
-                            <span
-                                className="hero-orbit-point hero-orbit-point-one"
-                                aria-hidden="true"
-                            />
-
-
-                            <span
-                                className="hero-orbit-point hero-orbit-point-two"
-                                aria-hidden="true"
-                            />
-
-
-                            <span
-                                className="hero-orbit-point hero-orbit-point-three"
-                                aria-hidden="true"
-                            />
-
-
-                            {/* =========================================
-                                HERO ARTWORK
-                            ========================================= */}
-
-                            <div className="hero-artwork">
-
-                                <img
-                                    src="/images/cmt-hero-right-visual-reference.png"
-                                    alt="CM&T global migration destinations"
+                                <span
+                                    className="hero-orbit-glow"
                                 />
 
                             </div>
 
 
                             {/* =========================================
-                                BASE LIGHT
-                            ========================================= */}
+                            ORBIT LIGHT NODES
+                        ========================================= */}
+
+                            <span
+                                className="hero-orbit-node hero-orbit-node-one"
+                                aria-hidden="true"
+                            />
+
+                            <span
+                                className="hero-orbit-node hero-orbit-node-two"
+                                aria-hidden="true"
+                            />
+
+                            <span
+                                className="hero-orbit-node hero-orbit-node-three"
+                                aria-hidden="true"
+                            />
+
+                            <span
+                                className="hero-orbit-node hero-orbit-node-four"
+                                aria-hidden="true"
+                            />
+
+
+                            {/* =========================================
+                            COUNTRY ORBIT
+
+                            IMPORTANT:
+
+                            The outer orbit rotates clockwise.
+
+                            The country content has its own
+                            opposite rotation so the flags and
+                            country names remain completely
+                            upright and readable.
+                        ========================================= */}
+
+                            <div
+                                className="hero-country-orbit"
+                                aria-label="Countries available"
+                            >
+
+                                {countries.map((country, index) => (
+
+                                    <div
+                                        className={`hero-country hero-country-${country.position}`}
+                                        key={country.name}
+                                        style={{
+                                            "--country-index": index
+                                        }}
+                                    >
+
+
+                                        {/* =================================
+                                        COUNTRY CONTENT
+
+                                        This is what stays level.
+
+                                        Flag + country name move together
+                                        around the orbit but never rotate
+                                        visually.
+                                    ================================= */}
+
+                                        <div className="hero-country-content">
+
+
+                                            {/* =============================
+                                            FLAG
+                                        ============================= */}
+
+                                            <div className="hero-country-flag">
+
+                                                <img
+                                                    src={country.flag}
+                                                    alt={`${country.name} flag`}
+                                                    loading="lazy"
+                                                />
+
+                                            </div>
+
+
+                                            {/* =============================
+                                            COUNTRY NAME
+                                        ============================= */}
+
+                                            <span className="hero-country-name">
+                                                {country.name}
+                                            </span>
+
+
+                                        </div>
+
+
+                                        {/* =================================
+                                        CONNECTOR
+                                    ================================= */}
+
+                                        <div
+                                            className="hero-country-connector"
+                                            aria-hidden="true"
+                                        />
+
+                                    </div>
+
+                                ))}
+
+                            </div>
+
+
+                            {/* =========================================
+                            HERO ARTWORK
+                        ========================================= */}
+
+                            <div className="hero-artwork">
+
+                                <img
+                                    src="/images/cmt-hero-right-visual-reference.png"
+                                    alt="Airplane representing global migration and international opportunities"
+                                />
+
+                            </div>
+
+
+                            {/* =========================================
+                            BASE LIGHT
+                        ========================================= */}
 
                             <span
                                 className="hero-base-light"
+                                aria-hidden="true"
+                            />
+
+
+                            {/* =========================================
+                            CENTER HUD GLOW
+                        ========================================= */}
+
+                            <span
+                                className="hero-center-glow"
                                 aria-hidden="true"
                             />
 
@@ -420,8 +548,8 @@ const Hero = () => {
 
 
                         {/* =============================================
-                            VISUAL LABEL
-                        ============================================= */}
+                        VISUAL LABEL
+                    ============================================= */}
 
                         <div className="hero-visual-label">
 
@@ -457,7 +585,7 @@ const Hero = () => {
 
     );
 
-};
 
+};
 
 export default Hero;

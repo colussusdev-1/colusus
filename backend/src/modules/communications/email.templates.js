@@ -27,7 +27,7 @@ export const bookingConfirmationTemplate = ({
 
         <p>
           Thank you for booking a consultation with
-          <strong>Colusus Migration</strong>.
+          <strong>colossus Migration</strong>.
         </p>
 
         <table style="width:100%;border-collapse:collapse;margin:30px 0;">
@@ -56,7 +56,7 @@ export const bookingConfirmationTemplate = ({
         <hr>
 
         <small>
-          Colusus Migration
+          colossus Migration
         </small>
 
       </div>
@@ -106,7 +106,7 @@ export const paymentReceiptTemplate = ({ fullName, amount, reference }) => ({
         </table>
 
         <p>
-          Thank you for choosing Colusus Migration.
+          Thank you for choosing colossus Migration.
         </p>
 
       </div>

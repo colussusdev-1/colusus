@@ -25,7 +25,7 @@ const ApplicationHistory = ({
 
 
   return (
-    <section className="colusus-panel applications-panel">
+    <section className="colossus-panel applications-panel">
 
       {/* PANEL HEADER */}
       <div className="panel-heading">

@@ -1,4 +1,6 @@
-import { useMemo, useState } from "react";
+import {
+    useMemo,
+} from "react";
 
 import {
     useNavigate,
@@ -8,7 +10,6 @@ import {
 
 import {
     HiOutlineArrowLeft,
-    HiOutlineArrowRight,
     HiOutlineCheckCircle,
     HiOutlineDocumentText,
     HiOutlineBriefcase,
@@ -21,23 +22,14 @@ import {
     HiOutlineUserGroup,
 } from "react-icons/hi";
 
-import countries from "../../Home/sections/Countries/countriesData";
-import normalizeOpportunities from "../utils/normalizeOpportunities";
+import countries
+    from "../../Home/sections/Countries/countriesData";
 
 import "./OpportunityDetails.css";
 
 
 /* ============================================================
    COUNTRY FLAG
-   ------------------------------------------------------------
-   Country data already contains the imported image:
-
-   import ukFlag from ".../united-kingdom.png";
-
-   flag: ukFlag
-
-   Therefore we simply use that imported asset as the
-   image source. We NEVER render the path as text.
 ============================================================ */
 
 const CountryFlag = ({
@@ -45,7 +37,6 @@ const CountryFlag = ({
     countryName,
     className = "",
 }) => {
-
     if (!flag) {
         return null;
     }
@@ -54,9 +45,22 @@ const CountryFlag = ({
         <img
             src={flag}
             alt={`${countryName} flag`}
-            className={`country-flag-image ${className}`}
+            className={`opportunity-details__country-flag ${className}`}
         />
     );
+};
+
+
+/* ============================================================
+   NORMALIZATION
+============================================================ */
+
+const normalize = (value) => {
+    return String(value || "")
+        .trim()
+        .toLowerCase()
+        .replace(/[_-]+/g, " ")
+        .replace(/\s+/g, " ");
 };
 
 
@@ -65,7 +69,6 @@ const CountryFlag = ({
 ============================================================ */
 
 const OpportunityDetails = () => {
-
     const navigate = useNavigate();
 
     const {
@@ -75,48 +78,22 @@ const OpportunityDetails = () => {
 
 
     /* ========================================================
-       ACTIVE TAB
-    ======================================================== */
-
-    const [activeTab, setActiveTab] = useState(
-        "overview"
-    );
-
-
-    /* ========================================================
        COUNTRY
     ======================================================== */
 
     const selectedCountry = useMemo(() => {
-
         if (!country) {
             return null;
         }
 
-        return countries.find(
-            (item) =>
-                item?.slug?.toLowerCase() ===
-                country.toLowerCase()
-        ) || null;
-
-    }, [country]);
-
-
-    /* ========================================================
-       OPPORTUNITIES
-    ======================================================== */
-
-    const opportunities = useMemo(() => {
-
-        if (!selectedCountry) {
-            return [];
-        }
-
-        return normalizeOpportunities(
-            selectedCountry
+        return (
+            countries.find(
+                (item) =>
+                    normalize(item?.slug) ===
+                    normalize(country),
+            ) || null
         );
-
-    }, [selectedCountry]);
+    }, [country]);
 
 
     /* ========================================================
@@ -124,236 +101,46 @@ const OpportunityDetails = () => {
     ======================================================== */
 
     const selectedOpportunity = useMemo(() => {
-
         if (
+            !selectedCountry ||
             !slug ||
-            opportunities.length === 0
+            !Array.isArray(
+                selectedCountry.opportunities,
+            )
         ) {
             return null;
         }
 
-        const normalizedSlug = decodeURIComponent(
-            slug
-        )
-            .trim()
-            .toLowerCase();
+        const normalizedSlug =
+            normalize(
+                decodeURIComponent(slug),
+            );
 
-
-        return opportunities.find(
-            (item) =>
-                String(item?.slug || "")
-                    .trim()
-                    .toLowerCase() ===
-                normalizedSlug
-        ) || null;
-
+        return (
+            selectedCountry.opportunities.find(
+                (opportunity) =>
+                    normalize(
+                        opportunity?.slug,
+                    ) === normalizedSlug,
+            ) || null
+        );
     }, [
-        opportunities,
+        selectedCountry,
         slug,
     ]);
 
 
     /* ========================================================
-       TABS
-    ======================================================== */
-
-    const tabs = useMemo(() => {
-
-        if (!selectedOpportunity) {
-            return [];
-        }
-
-        const result = [
-            {
-                id: "overview",
-                label: "Overview",
-                icon: HiOutlineInformationCircle,
-            },
-
-            {
-                id: "positions",
-                label: "Jobs",
-                icon: HiOutlineBriefcase,
-                show:
-                    Array.isArray(
-                        selectedOpportunity.positions
-                    ) &&
-                    selectedOpportunity.positions.length > 0,
-            },
-
-            {
-                id: "eligibility",
-                label: "Eligibility",
-                icon: HiOutlineShieldCheck,
-                show:
-                    Array.isArray(
-                        selectedOpportunity.requirements
-                    ) &&
-                    selectedOpportunity.requirements.length > 0,
-            },
-
-            {
-                id: "documents",
-                label: "Documents",
-                icon: HiOutlineDocumentText,
-                show:
-                    Array.isArray(
-                        selectedOpportunity.documents
-                    ) &&
-                    selectedOpportunity.documents.length > 0,
-            },
-
-            {
-                id: "process",
-                label: "Process",
-                icon: HiOutlineClock,
-                show:
-                    Array.isArray(
-                        selectedOpportunity.steps
-                    ) &&
-                    selectedOpportunity.steps.length > 0,
-            },
-
-            {
-                id: "pricing",
-                label: "Pricing",
-                icon: HiOutlineCurrencyDollar,
-                show: true,
-            },
-        ];
-
-        return result.filter(
-            (tab) => tab.show !== false
-        );
-
-    }, [selectedOpportunity]);
-
-
-    /* ========================================================
-       SAFE TAB
-    ======================================================== */
-
-    const safeActiveTab = tabs.some(
-        (tab) =>
-            tab.id === activeTab
-    )
-        ? activeTab
-        : "overview";
-
-
-    /* ========================================================
-       CURRENT TAB INDEX
-    ======================================================== */
-
-    const currentTabIndex = tabs.findIndex(
-        (tab) =>
-            tab.id === safeActiveTab
-    );
-
-
-    /* ========================================================
-       TAB NAVIGATION
-    ======================================================== */
-
-    const goToTab = (tabId) => {
-
-        if (!tabId) {
-            return;
-        }
-
-        setActiveTab(tabId);
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-        });
-
-    };
-
-
-    const goNext = () => {
-
-        if (
-            currentTabIndex < 0 ||
-            currentTabIndex >= tabs.length - 1
-        ) {
-            return;
-        }
-
-        const nextTab =
-            tabs[currentTabIndex + 1];
-
-        if (nextTab) {
-            goToTab(nextTab.id);
-        }
-
-    };
-
-
-    const goPrevious = () => {
-
-        if (
-            currentTabIndex <= 0
-        ) {
-            return;
-        }
-
-        const previousTab =
-            tabs[currentTabIndex - 1];
-
-        if (previousTab) {
-            goToTab(previousTab.id);
-        }
-
-    };
-
-
-    /* ========================================================
-       CONTACT AGENT
-    ======================================================== */
-
-    const handleContactAgent = () => {
-
-        navigate("/contact");
-
-    };
-
-
-    /* ========================================================
-       BACK TO COUNTRY
-    ======================================================== */
-
-    const handleBackToCountry = () => {
-
-        if (!selectedCountry) {
-
-            navigate(
-                "/opportunities"
-            );
-
-            return;
-
-        }
-
-        navigate(
-            `/opportunities/${selectedCountry.slug}`
-        );
-
-    };
-
-
-    /* ========================================================
-       COUNTRY NOT FOUND
+       COUNTRY ERROR
     ======================================================== */
 
     if (!selectedCountry) {
-
         return (
             <main className="opportunity-details opportunity-details--error">
 
                 <div className="opportunity-details__error">
 
-                    <span className="error-eyebrow">
+                    <span className="opportunity-details__error-eyebrow">
                         Global Opportunities
                     </span>
 
@@ -368,39 +155,52 @@ const OpportunityDetails = () => {
 
                     <button
                         type="button"
-                        onClick={() =>
-                            navigate("/opportunities")
-                        }
+                        onClick={() => navigate(-1)}
                     >
                         <HiOutlineArrowLeft />
 
-                        Back to opportunities
+                        <span>
+                            Back
+                        </span>
                     </button>
 
                 </div>
 
             </main>
         );
-
     }
 
 
     /* ========================================================
-       OPPORTUNITY NOT FOUND
+       BACK TO COUNTRY
+    ======================================================== */
+
+    const handleBackToCountry = () => {
+        navigate(
+            `/opportunities/${selectedCountry.slug}`,
+        );
+    };
+
+
+    /* ========================================================
+       OPPORTUNITY ERROR
     ======================================================== */
 
     if (!selectedOpportunity) {
-
         return (
             <main className="opportunity-details opportunity-details--error">
 
                 <div className="opportunity-details__error">
 
-                    <div className="error-country">
+                    <div className="opportunity-details__error-country">
 
                         <CountryFlag
-                            flag={selectedCountry.flag}
-                            countryName={selectedCountry.name}
+                            flag={
+                                selectedCountry.flag
+                            }
+                            countryName={
+                                selectedCountry.name
+                            }
                         />
 
                         <span>
@@ -409,8 +209,8 @@ const OpportunityDetails = () => {
 
                     </div>
 
-                    <span className="error-eyebrow">
-                        Opportunity
+                    <span className="opportunity-details__error-eyebrow">
+                        Migration pathway
                     </span>
 
                     <h1>
@@ -418,24 +218,28 @@ const OpportunityDetails = () => {
                     </h1>
 
                     <p>
-                        The migration pathway you're
-                        looking for could not be found.
+                        The migration pathway
+                        you're looking for
+                        could not be found.
                     </p>
 
                     <button
                         type="button"
-                        onClick={handleBackToCountry}
+                        onClick={
+                            handleBackToCountry
+                        }
                     >
                         <HiOutlineArrowLeft />
 
-                        Back to pathways
+                        <span>
+                            Back to pathways
+                        </span>
                     </button>
 
                 </div>
 
             </main>
         );
-
     }
 
 
@@ -447,7 +251,8 @@ const OpportunityDetails = () => {
         title,
         image,
         category,
-        location,
+        location:
+        opportunityLocation,
         type,
         duration,
         salary,
@@ -465,326 +270,113 @@ const OpportunityDetails = () => {
     } = selectedOpportunity;
 
 
+    /* ========================================================
+       HERO IMAGE
+    ======================================================== */
+
     const heroImage =
         image ||
         selectedCountry.image;
 
 
+    /* ========================================================
+       PRICING
+    ======================================================== */
+
     const hasPublishedPricing =
-        Boolean(pricing?.total);
+        Boolean(
+            pricing?.total,
+        );
 
 
     /* ========================================================
-       OVERVIEW
+       APPLICATION FLOW
     ======================================================== */
 
-    const renderOverview = () => {
+    const handleContinueWithPathway = () => {
+        if (!selectedOpportunity) {
+            return;
+        }
 
-        const featureItems =
-            highlights.length > 0
-                ? highlights
-                : benefits;
+        const applicationPath =
+            "/portal/applications/new";
 
+        const opportunityId =
+            selectedOpportunity?._id ||
+            selectedOpportunity?.id ||
+            selectedOpportunity?.legacyId ||
+            null;
 
-        return (
-            <div className="opportunity-tab-content">
+        const applicationState = {
+            opportunity:
+                selectedOpportunity,
 
-                <div className="opportunity-content-grid">
+            opportunityId,
 
-                    <section className="opportunity-section">
+            opportunitySlug:
+                selectedOpportunity?.slug ||
+                slug ||
+                null,
 
-                        <div className="section-heading">
+            countrySlug:
+                selectedCountry?.slug ||
+                country ||
+                null,
 
-                            <span>
-                                01
-                            </span>
-
-                            <div>
-
-                                <small>
-                                    Pathway overview
-                                </small>
-
-                                <h2>
-                                    What this pathway offers
-                                </h2>
-
-                            </div>
-
-                        </div>
-
-                        <p className="opportunity-copy">
-                            {description}
-                        </p>
-
-                    </section>
+            source:
+                "opportunity-details",
+        };
 
 
-                    <section className="opportunity-section">
-
-                        <div className="section-heading">
-
-                            <span>
-                                02
-                            </span>
-
-                            <div>
-
-                                <small>
-                                    Key advantages
-                                </small>
-
-                                <h2>
-                                    Why this pathway
-                                </h2>
-
-                            </div>
-
-                        </div>
+        try {
+            sessionStorage.setItem(
+                "colossus_pending_application",
+                JSON.stringify(
+                    applicationState,
+                ),
+            );
+        } catch (storageError) {
+            console.warn(
+                "Unable to preserve pending application:",
+                storageError,
+            );
+        }
 
 
-                        {featureItems.length > 0 && (
-
-                            <div className="check-list">
-
-                                {featureItems.map(
-                                    (item, index) => (
-
-                                        <div
-                                            className="check-item"
-                                            key={`${item}-${index}`}
-                                        >
-
-                                            <HiOutlineCheckCircle />
-
-                                            <span>
-                                                {item}
-                                            </span>
-
-                                        </div>
-
-                                    )
-                                )}
-
-                            </div>
-
-                        )}
-
-                    </section>
-
-                </div>
+        const token =
+            localStorage.getItem(
+                "colusus_token",
+            );
 
 
-                {terms.length > 0 && (
+        if (token) {
+            navigate(
+                applicationPath,
+                {
+                    state:
+                        applicationState,
+                },
+            );
 
-                    <section className="terms-strip">
+            return;
+        }
 
-                        <HiOutlineInformationCircle />
 
-                        <div>
+        navigate(
+            "/login",
+            {
+                state: {
+                    returnTo:
+                        applicationPath,
 
-                            <strong>
-                                Important pathway terms
-                            </strong>
+                    returnState:
+                        applicationState,
 
-                            <ul>
-
-                                {terms.map(
-                                    (term, index) => (
-
-                                        <li key={index}>
-                                            {term}
-                                        </li>
-
-                                    )
-                                )}
-
-                            </ul>
-
-                        </div>
-
-                    </section>
-
-                )}
-
-            </div>
+                    source:
+                        "opportunity-details",
+                },
+            },
         );
-
-    };
-
-
-    /* ========================================================
-       POSITIONS
-    ======================================================== */
-
-    const renderPositions = () => {
-
-        return (
-            <div className="opportunity-tab-content">
-
-                <div className="tab-introduction">
-
-                    <span>
-                        Available opportunities
-                    </span>
-
-                    <h2>
-                        Roles & employment areas
-                    </h2>
-
-                    <p>
-                        Review the positions associated
-                        with this migration pathway.
-                    </p>
-
-                </div>
-
-
-                <div className="positions-list">
-
-                    {positions.map(
-                        (position, index) => {
-
-                            const positionTitle =
-                                position?.title ||
-                                position?.sector ||
-                                "Employment opportunity";
-
-                            const positionCategory =
-                                position?.category ||
-                                position?.sector ||
-                                "Employment";
-
-
-                            return (
-                                <article
-                                    className="position-row"
-                                    key={
-                                        position?.id ||
-                                        `${positionTitle}-${index}`
-                                    }
-                                >
-
-                                    <div className="position-number">
-
-                                        {String(index + 1).padStart(
-                                            2,
-                                            "0"
-                                        )}
-
-                                    </div>
-
-
-                                    <div className="position-main">
-
-                                        <span>
-                                            {positionCategory}
-                                        </span>
-
-                                        <h3>
-                                            {positionTitle}
-                                        </h3>
-
-                                        {position?.description && (
-
-                                            <p>
-                                                {
-                                                    position.description
-                                                }
-                                            </p>
-
-                                        )}
-
-
-                                        {position?.roles?.length > 0 && (
-
-                                            <div className="role-tags">
-
-                                                {position.roles.map(
-                                                    (
-                                                        role,
-                                                        roleIndex
-                                                    ) => (
-
-                                                        <span
-                                                            key={
-                                                                roleIndex
-                                                            }
-                                                        >
-                                                            {role}
-                                                        </span>
-
-                                                    )
-                                                )}
-
-                                            </div>
-
-                                        )}
-
-
-                                        {position?.responsibilities?.length > 0 && (
-
-                                            <div className="position-responsibilities">
-
-                                                {position.responsibilities.map(
-                                                    (
-                                                        responsibility,
-                                                        responsibilityIndex
-                                                    ) => (
-
-                                                        <div
-                                                            key={
-                                                                responsibilityIndex
-                                                            }
-                                                        >
-
-                                                            <HiOutlineCheckCircle />
-
-                                                            <span>
-                                                                {
-                                                                    responsibility
-                                                                }
-                                                            </span>
-
-                                                        </div>
-
-                                                    )
-                                                )}
-
-                                            </div>
-
-                                        )}
-
-
-                                        {position?.specialCondition && (
-
-                                            <div className="position-condition">
-
-                                                <HiOutlineInformationCircle />
-
-                                                <span>
-                                                    {
-                                                        position.specialCondition
-                                                    }
-                                                </span>
-
-                                            </div>
-
-                                        )}
-
-                                    </div>
-
-                                </article>
-                            );
-
-                        }
-                    )}
-
-                </div>
-
-            </div>
-        );
-
     };
 
 
@@ -792,471 +384,69 @@ const OpportunityDetails = () => {
        ELIGIBILITY
     ======================================================== */
 
-    const renderEligibility = () => {
+    const handleCheckEligibility = () => {
+        navigate(
+            "/free-assessment",
+            {
+                state: {
+                    opportunity:
+                        selectedOpportunity,
 
-        return (
-            <div className="opportunity-tab-content">
+                    opportunityId:
+                        selectedOpportunity?._id ||
+                        selectedOpportunity?.id ||
+                        selectedOpportunity?.legacyId ||
+                        null,
 
-                <div className="tab-introduction">
+                    countrySlug:
+                        selectedCountry?.slug ||
+                        country ||
+                        null,
 
-                    <span>
-                        Before you apply
-                    </span>
+                    opportunitySlug:
+                        selectedOpportunity?.slug ||
+                        slug ||
+                        null,
 
-                    <h2>
-                        Eligibility requirements
-                    </h2>
-
-                    <p>
-                        Review the basic requirements for
-                        this pathway before starting.
-                    </p>
-
-                </div>
-
-
-                <div className="requirements-grid">
-
-                    {requirements.map(
-                        (requirement, index) => (
-
-                            <div
-                                className="requirement-item"
-                                key={index}
-                            >
-
-                                <span>
-                                    {String(index + 1).padStart(
-                                        2,
-                                        "0"
-                                    )}
-                                </span>
-
-                                <p>
-                                    {requirement}
-                                </p>
-
-                            </div>
-
-                        )
-                    )}
-
-                </div>
-
-
-                {benefits.length > 0 && (
-
-                    <section className="benefits-section">
-
-                        <div className="section-heading">
-
-                            <span>
-                                +
-                            </span>
-
-                            <div>
-
-                                <small>
-                                    Included benefits
-                                </small>
-
-                                <h2>
-                                    What comes with the pathway
-                                </h2>
-
-                            </div>
-
-                        </div>
-
-
-                        <div className="check-list">
-
-                            {benefits.map(
-                                (benefit, index) => (
-
-                                    <div
-                                        className="check-item"
-                                        key={index}
-                                    >
-
-                                        <HiOutlineCheckCircle />
-
-                                        <span>
-                                            {benefit}
-                                        </span>
-
-                                    </div>
-
-                                )
-                            )}
-
-                        </div>
-
-                    </section>
-
-                )}
-
-            </div>
+                    source:
+                        "opportunity-details",
+                },
+            },
         );
-
     };
 
 
     /* ========================================================
-       DOCUMENTS
+       CONTACT AGENT
     ======================================================== */
 
-    const renderDocuments = () => {
+    const handleContactAgent = () => {
+        navigate(
+            "/contact",
+            {
+                state: {
+                    opportunity:
+                        selectedOpportunity,
 
-        return (
-            <div className="opportunity-tab-content">
+                    country:
+                        selectedCountry,
 
-                <div className="tab-introduction">
-
-                    <span>
-                        Application preparation
-                    </span>
-
-                    <h2>
-                        Documents you'll need
-                    </h2>
-
-                    <p>
-                        Have these documents ready before
-                        beginning your application.
-                    </p>
-
-                </div>
-
-
-                <div className="documents-list">
-
-                    {documents.map(
-                        (document, index) => (
-
-                            <div
-                                className="document-row"
-                                key={index}
-                            >
-
-                                <div className="document-icon">
-
-                                    <HiOutlineDocumentText />
-
-                                </div>
-
-
-                                <div>
-
-                                    <strong>
-                                        {document}
-                                    </strong>
-
-                                    <span>
-                                        Required for pathway processing
-                                    </span>
-
-                                </div>
-
-
-                                <span className="document-number">
-
-                                    {String(index + 1).padStart(
-                                        2,
-                                        "0"
-                                    )}
-
-                                </span>
-
-                            </div>
-
-                        )
-                    )}
-
-                </div>
-
-            </div>
+                    source:
+                        "opportunity-details",
+                },
+            },
         );
-
     };
 
 
     /* ========================================================
-       PROCESS
+       FEATURE ITEMS
     ======================================================== */
 
-    const renderProcess = () => {
-
-        return (
-            <div className="opportunity-tab-content">
-
-                <div className="tab-introduction">
-
-                    <span>
-                        Your journey
-                    </span>
-
-                    <h2>
-                        How the pathway works
-                    </h2>
-
-                    <p>
-                        Follow the major stages from
-                        eligibility through relocation.
-                    </p>
-
-                </div>
-
-
-                <div className="process-list">
-
-                    {steps.map(
-                        (step, index) => (
-
-                            <article
-                                className="process-row"
-                                key={index}
-                            >
-
-                                <div className="process-marker">
-
-                                    <span>
-                                        {String(index + 1).padStart(
-                                            2,
-                                            "0"
-                                        )}
-                                    </span>
-
-                                </div>
-
-
-                                <div className="process-line" />
-
-
-                                <div className="process-content">
-
-                                    <span>
-                                        Stage {index + 1}
-                                    </span>
-
-                                    <h3>
-                                        {step.title}
-                                    </h3>
-
-                                    <p>
-                                        {step.description}
-                                    </p>
-
-                                </div>
-
-                            </article>
-
-                        )
-                    )}
-
-                </div>
-
-            </div>
-        );
-
-    };
-
-
-    /* ========================================================
-       PRICING
-    ======================================================== */
-
-    const renderPricing = () => {
-
-        return (
-            <div className="opportunity-tab-content">
-
-                <div className="tab-introduction">
-
-                    <span>
-                        Investment
-                    </span>
-
-                    <h2>
-                        Pricing & payment structure
-                    </h2>
-
-                    <p>
-                        Review the pathway cost and payment
-                        stages before contacting our team.
-                    </p>
-
-                </div>
-
-
-                {hasPublishedPricing ? (
-
-                    <div className="pricing-layout">
-
-                        <section className="price-card">
-
-                            <span>
-                                Total pathway fee
-                            </span>
-
-                            <strong>
-                                {pricing.total}
-                            </strong>
-
-                            <small>
-                                {pricing.currency || "NGN"}
-                            </small>
-
-
-                            <button
-                                type="button"
-                                onClick={handleContactAgent}
-                            >
-
-                                Contact an agent
-
-                                <HiOutlineArrowRight />
-
-                            </button>
-
-                        </section>
-
-
-                        {paymentPlan.length > 0 && (
-
-                            <section className="payment-plan">
-
-                                <div className="payment-plan__heading">
-
-                                    <span>
-                                        Payment structure
-                                    </span>
-
-                                    <small>
-                                        {paymentPlan.length} stages
-                                    </small>
-
-                                </div>
-
-
-                                {paymentPlan.map(
-                                    (payment, index) => (
-
-                                        <div
-                                            className="payment-row"
-                                            key={index}
-                                        >
-
-                                            <div>
-
-                                                <span>
-                                                    Stage {index + 1}
-                                                </span>
-
-                                                <strong>
-                                                    {payment.stage}
-                                                </strong>
-
-                                            </div>
-
-
-                                            <b>
-                                                {payment.amount}
-                                            </b>
-
-                                        </div>
-
-                                    )
-                                )}
-
-                            </section>
-
-                        )}
-
-                    </div>
-
-                ) : (
-
-                    <div className="pricing-contact">
-
-                        <div className="pricing-contact__icon">
-
-                            <HiOutlineUserGroup />
-
-                        </div>
-
-
-                        <div>
-
-                            <span>
-                                Pricing available on request
-                            </span>
-
-                            <h3>
-                                Speak with a migration agent
-                            </h3>
-
-                            <p>
-                                This pathway does not currently
-                                have a published price. Contact
-                                our team to confirm the current
-                                cost and payment structure.
-                            </p>
-
-                        </div>
-
-
-                        <button
-                            type="button"
-                            onClick={handleContactAgent}
-                        >
-
-                            Contact an agent
-
-                            <HiOutlineArrowRight />
-
-                        </button>
-
-                    </div>
-
-                )}
-
-            </div>
-        );
-
-    };
-
-
-    /* ========================================================
-       TAB CONTENT
-    ======================================================== */
-
-    const renderTabContent = () => {
-
-        switch (safeActiveTab) {
-
-            case "positions":
-                return renderPositions();
-
-            case "eligibility":
-                return renderEligibility();
-
-            case "documents":
-                return renderDocuments();
-
-            case "process":
-                return renderProcess();
-
-            case "pricing":
-                return renderPricing();
-
-            case "overview":
-            default:
-                return renderOverview();
-
-        }
-
-    };
+    const featureItems =
+        highlights.length > 0
+            ? highlights
+            : benefits;
 
 
     /* ========================================================
@@ -1264,8 +454,8 @@ const OpportunityDetails = () => {
     ======================================================== */
 
     return (
-
         <main className="opportunity-details">
+
 
             {/* ==================================================
                 TOP BAR
@@ -1275,21 +465,39 @@ const OpportunityDetails = () => {
 
                 <Link
                     to={`/opportunities/${selectedCountry.slug}`}
-                    className="back-link"
+                    className="opportunity-details__back-link"
                 >
-
                     <HiOutlineArrowLeft />
 
                     <span>
-                        Back to {selectedCountry.name}
+                        Back to{" "}
+                        {selectedCountry.name}
                     </span>
-
                 </Link>
 
 
-                <span className="topbar-label">
-                    Migration pathway
-                </span>
+                <div className="opportunity-details__topbar-meta">
+
+                    <CountryFlag
+                        flag={
+                            selectedCountry.flag
+                        }
+                        countryName={
+                            selectedCountry.name
+                        }
+                    />
+
+                    <span>
+                        {selectedCountry.name}
+                    </span>
+
+                    <i />
+
+                    <span>
+                        Migration pathway
+                    </span>
+
+                </div>
 
             </div>
 
@@ -1300,22 +508,24 @@ const OpportunityDetails = () => {
 
             <section className="opportunity-details__hero">
 
-                <div className="hero-image">
+                <div className="opportunity-details__hero-image">
 
                     {heroImage ? (
-
                         <img
                             src={heroImage}
                             alt={title}
+                            className="opportunity-details__hero-image-element"
                         />
-
                     ) : (
-
-                        <div className="hero-image__fallback">
+                        <div className="opportunity-details__hero-image-fallback">
 
                             <CountryFlag
-                                flag={selectedCountry.flag}
-                                countryName={selectedCountry.name}
+                                flag={
+                                    selectedCountry.flag
+                                }
+                                countryName={
+                                    selectedCountry.name
+                                }
                             />
 
                             <span>
@@ -1323,21 +533,22 @@ const OpportunityDetails = () => {
                             </span>
 
                         </div>
-
                     )}
 
                 </div>
 
 
-                <div className="hero-content">
+                <div className="opportunity-details__hero-content">
 
-                    {/* BREADCRUMB */}
-
-                    <div className="hero-breadcrumb">
+                    <div className="opportunity-details__hero-breadcrumb">
 
                         <CountryFlag
-                            flag={selectedCountry.flag}
-                            countryName={selectedCountry.name}
+                            flag={
+                                selectedCountry.flag
+                            }
+                            countryName={
+                                selectedCountry.name
+                            }
                         />
 
                         <span>
@@ -1347,18 +558,20 @@ const OpportunityDetails = () => {
                         <HiOutlineChevronRight />
 
                         <span>
-                            {category || "Opportunity"}
+                            {category ||
+                                "Opportunity"}
                         </span>
 
                     </div>
 
 
-                    <div className="hero-title-row">
+                    <div className="opportunity-details__hero-title-row">
 
-                        <div className="hero-title-content">
+                        <div className="opportunity-details__hero-title-content">
 
-                            <span className="hero-eyebrow">
-                                {type || "Migration pathway"}
+                            <span className="opportunity-details__hero-eyebrow">
+                                {type ||
+                                    "Migration pathway"}
                             </span>
 
                             <h1>
@@ -1366,23 +579,37 @@ const OpportunityDetails = () => {
                             </h1>
 
                             <p>
-                                {description}
+                                {description ||
+                                    "Explore this migration pathway and understand the requirements, process and next steps."}
                             </p>
 
                         </div>
 
 
-                        <button
-                            className="hero-apply"
-                            type="button"
-                            onClick={handleContactAgent}
-                        >
+                        <div className="opportunity-details__hero-actions">
 
-                            Contact an agent
+                            <button
+                                className="opportunity-details__hero-apply"
+                                type="button"
+                                onClick={
+                                    handleContinueWithPathway
+                                }
+                            >
+                                Continue with pathway
+                            </button>
 
-                            <HiOutlineArrowRight />
 
-                        </button>
+                            <button
+                                className="opportunity-details__hero-eligibility"
+                                type="button"
+                                onClick={
+                                    handleCheckEligibility
+                                }
+                            >
+                                Check eligibility
+                            </button>
+
+                        </div>
 
                     </div>
 
@@ -1395,64 +622,84 @@ const OpportunityDetails = () => {
                 QUICK FACTS
             ================================================== */}
 
-            <section className="quick-facts">
+            <section className="opportunity-details__quick-facts">
 
-                <div className="quick-fact">
+                <div className="opportunity-details__quick-fact">
 
                     <HiOutlineLocationMarker />
 
-                    <span>
-                        Location
-                    </span>
+                    <div>
 
-                    <strong>
-                        {location || selectedCountry.name}
-                    </strong>
+                        <span>
+                            Location
+                        </span>
+
+                        <strong>
+                            {opportunityLocation ||
+                                selectedCountry.name}
+                        </strong>
+
+                    </div>
 
                 </div>
 
 
-                <div className="quick-fact">
+                <div className="opportunity-details__quick-fact">
 
                     <HiOutlineClock />
 
-                    <span>
-                        Processing
-                    </span>
+                    <div>
 
-                    <strong>
-                        {duration || "Varies"}
-                    </strong>
+                        <span>
+                            Processing
+                        </span>
+
+                        <strong>
+                            {duration ||
+                                "Varies"}
+                        </strong>
+
+                    </div>
 
                 </div>
 
 
-                <div className="quick-fact">
+                <div className="opportunity-details__quick-fact">
 
                     <HiOutlineCurrencyDollar />
 
-                    <span>
-                        Salary
-                    </span>
+                    <div>
 
-                    <strong>
-                        {salary || "Varies"}
-                    </strong>
+                        <span>
+                            Salary
+                        </span>
+
+                        <strong>
+                            {salary ||
+                                "Varies"}
+                        </strong>
+
+                    </div>
 
                 </div>
 
 
-                <div className="quick-fact">
+                <div className="opportunity-details__quick-fact">
 
                     <HiOutlineBriefcase />
 
-                    <span>
-                        Demand
-                    </span>
+                    <div>
 
-                    <strong>
-                        {demand || "Available"}
-                    </strong>
+                        <span>
+                            Demand
+                        </span>
+
+                        <strong>
+                            {demand ||
+                                "Available"}
+                        </strong>
+
+                    </div>
 
                 </div>
 
@@ -1460,145 +707,915 @@ const OpportunityDetails = () => {
 
 
             {/* ==================================================
-                TABS
+                PAGE BODY
             ================================================== */}
 
-            <nav
-                className="opportunity-tabs"
-                aria-label="Opportunity details"
-            >
-
-                {tabs.map((tab) => {
-
-                    const Icon = tab.icon;
-
-                    const isActive =
-                        safeActiveTab === tab.id;
+            <div className="opportunity-details__body">
 
 
-                    return (
-                        <button
-                            type="button"
-                            key={tab.id}
-                            className={
-                                isActive
-                                    ? "active"
-                                    : ""
-                            }
-                            aria-current={
-                                isActive
-                                    ? "page"
-                                    : undefined
-                            }
-                            onClick={() =>
-                                goToTab(tab.id)
-                            }
-                        >
+                {/* ==================================================
+                    OVERVIEW
+                ================================================== */}
 
-                            <Icon />
+                <section className="opportunity-details__overview-section">
+
+                    <div className="opportunity-details__section-heading">
+
+                        <span>
+                            01
+                        </span>
+
+                        <div>
+
+                            <small>
+                                Pathway overview
+                            </small>
+
+                            <h2>
+                                Understand the opportunity
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <div className="opportunity-details__overview-grid">
+
+                        <div className="opportunity-details__overview-main">
+
+                            <p className="opportunity-details__copy">
+                                {description ||
+                                    "Explore this migration pathway and understand the main requirements, process and next steps."}
+                            </p>
+
+                        </div>
+
+
+                        {featureItems.length > 0 && (
+
+                            <div className="opportunity-details__overview-benefits">
+
+                                <div className="opportunity-details__mini-heading">
+
+                                    <span>
+                                        Why this pathway
+                                    </span>
+
+                                    <HiOutlineCheckCircle />
+
+                                </div>
+
+
+                                <div className="opportunity-details__check-list">
+
+                                    {featureItems.map(
+                                        (
+                                            item,
+                                            index,
+                                        ) => (
+
+                                            <div
+                                                className="opportunity-details__check-item"
+                                                key={`${item}-${index}`}
+                                            >
+
+                                                <HiOutlineCheckCircle />
+
+                                                <span>
+                                                    {item}
+                                                </span>
+
+                                            </div>
+
+                                        ),
+                                    )}
+
+                                </div>
+
+                            </div>
+
+                        )}
+
+                    </div>
+
+
+                    {terms.length > 0 && (
+
+                        <div className="opportunity-details__terms-strip">
+
+                            <HiOutlineInformationCircle />
+
+                            <div>
+
+                                <strong>
+                                    Important pathway terms
+                                </strong>
+
+                                <ul>
+
+                                    {terms.map(
+                                        (
+                                            term,
+                                            index,
+                                        ) => (
+
+                                            <li
+                                                key={
+                                                    index
+                                                }
+                                            >
+                                                {term}
+                                            </li>
+
+                                        ),
+                                    )}
+
+                                </ul>
+
+                            </div>
+
+                        </div>
+
+                    )}
+
+                </section>
+
+
+                {/* ==================================================
+                    POSITIONS
+                ================================================== */}
+
+                {positions.length > 0 && (
+
+                    <section className="opportunity-details__positions-section">
+
+                        <div className="opportunity-details__section-heading">
 
                             <span>
-                                {tab.label}
+                                02
                             </span>
 
-                        </button>
-                    );
+                            <div>
 
-                })}
+                                <small>
+                                    Available opportunities
+                                </small>
 
-            </nav>
+                                <h2>
+                                    Jobs & employment areas
+                                </h2>
 
+                            </div>
 
-            {/* ==================================================
-                CONTENT
-            ================================================== */}
-
-            <section className="opportunity-details__body">
-
-                {renderTabContent()}
-
-            </section>
+                        </div>
 
 
-            {/* ==================================================
-                FOOTER NAVIGATION
-            ================================================== */}
-
-            <footer className="opportunity-details__footer">
-
-                <button
-                    type="button"
-                    onClick={goPrevious}
-                    disabled={
-                        currentTabIndex <= 0
-                    }
-                >
-
-                    <HiOutlineArrowLeft />
-
-                    <span>
-                        Previous
-                    </span>
-
-                </button>
+                        <p className="opportunity-details__section-lead">
+                            Review the positions associated
+                            with this migration pathway.
+                        </p>
 
 
-                <div className="tab-progress">
+                        <div className="opportunity-details__positions-list">
 
-                    <span>
-                        {currentTabIndex + 1}
-                    </span>
+                            {positions.map(
+                                (
+                                    position,
+                                    index,
+                                ) => {
 
-                    <i>
-                        /
-                    </i>
+                                    const positionTitle =
+                                        position?.title ||
+                                        position?.sector ||
+                                        "Employment opportunity";
 
-                    <span>
-                        {tabs.length}
-                    </span>
+                                    const positionCategory =
+                                        position?.category ||
+                                        position?.sector ||
+                                        "Employment";
 
-                </div>
+                                    return (
+
+                                        <article
+                                            className="opportunity-details__position-row"
+                                            key={
+                                                position?.id ||
+                                                `${positionTitle}-${index}`
+                                            }
+                                        >
+
+                                            <div className="opportunity-details__position-number">
+                                                {String(
+                                                    index + 1,
+                                                ).padStart(
+                                                    2,
+                                                    "0",
+                                                )}
+                                            </div>
 
 
-                {currentTabIndex <
-                    tabs.length - 1 ? (
+                                            <div className="opportunity-details__position-main">
 
-                    <button
-                        type="button"
-                        onClick={goNext}
-                    >
+                                                <div className="opportunity-details__position-heading">
 
-                        <span>
-                            Next
-                        </span>
+                                                    <div>
 
-                        <HiOutlineArrowRight />
+                                                        <span>
+                                                            {
+                                                                positionCategory
+                                                            }
+                                                        </span>
 
-                    </button>
+                                                        <h3>
+                                                            {
+                                                                positionTitle
+                                                            }
+                                                        </h3>
 
-                ) : (
+                                                    </div>
 
-                    <button
-                        type="button"
-                        className="footer-apply"
-                        onClick={handleContactAgent}
-                    >
+                                                </div>
 
-                        <span>
-                            Contact an agent
-                        </span>
 
-                        <HiOutlineArrowRight />
+                                                {position?.description && (
 
-                    </button>
+                                                    <p className="opportunity-details__position-description">
+                                                        {
+                                                            position.description
+                                                        }
+                                                    </p>
+
+                                                )}
+
+
+                                                {position?.roles?.length > 0 && (
+
+                                                    <div className="opportunity-details__role-tags">
+
+                                                        {position.roles.map(
+                                                            (
+                                                                role,
+                                                                roleIndex,
+                                                            ) => (
+
+                                                                <span
+                                                                    key={
+                                                                        roleIndex
+                                                                    }
+                                                                >
+                                                                    {role}
+                                                                </span>
+
+                                                            ),
+                                                        )}
+
+                                                    </div>
+
+                                                )}
+
+
+                                                {position?.responsibilities?.length > 0 && (
+
+                                                    <div className="opportunity-details__position-responsibilities">
+
+                                                        {position.responsibilities.map(
+                                                            (
+                                                                responsibility,
+                                                                responsibilityIndex,
+                                                            ) => (
+
+                                                                <div
+                                                                    key={
+                                                                        responsibilityIndex
+                                                                    }
+                                                                >
+
+                                                                    <HiOutlineCheckCircle />
+
+                                                                    <span>
+                                                                        {
+                                                                            responsibility
+                                                                        }
+                                                                    </span>
+
+                                                                </div>
+
+                                                            ),
+                                                        )}
+
+                                                    </div>
+
+                                                )}
+
+
+                                                {position?.specialCondition && (
+
+                                                    <div className="opportunity-details__position-condition">
+
+                                                        <HiOutlineInformationCircle />
+
+                                                        <span>
+                                                            {
+                                                                position.specialCondition
+                                                            }
+                                                        </span>
+
+                                                    </div>
+
+                                                )}
+
+                                            </div>
+
+                                        </article>
+
+                                    );
+                                },
+                            )}
+
+                        </div>
+
+                    </section>
 
                 )}
 
-            </footer>
+
+                {/* ==================================================
+                    ELIGIBILITY
+                ================================================== */}
+
+                {requirements.length > 0 && (
+
+                    <section className="opportunity-details__eligibility-section">
+
+                        <div className="opportunity-details__section-heading">
+
+                            <span>
+                                03
+                            </span>
+
+                            <div>
+
+                                <small>
+                                    Before you apply
+                                </small>
+
+                                <h2>
+                                    Eligibility requirements
+                                </h2>
+
+                            </div>
+
+                        </div>
+
+
+                        <p className="opportunity-details__section-lead">
+                            Review the basic requirements
+                            for this pathway before starting.
+                        </p>
+
+
+                        <div className="opportunity-details__requirements-grid">
+
+                            {requirements.map(
+                                (
+                                    requirement,
+                                    index,
+                                ) => (
+
+                                    <div
+                                        className="opportunity-details__requirement-item"
+                                        key={index}
+                                    >
+
+                                        <span>
+                                            {String(
+                                                index + 1,
+                                            ).padStart(
+                                                2,
+                                                "0",
+                                            )}
+                                        </span>
+
+                                        <p>
+                                            {requirement}
+                                        </p>
+
+                                    </div>
+
+                                ),
+                            )}
+
+                        </div>
+
+
+                        {benefits.length > 0 && (
+
+                            <div className="opportunity-details__benefits-section">
+
+                                <div className="opportunity-details__mini-heading">
+
+                                    <span>
+                                        Included benefits
+                                    </span>
+
+                                    <HiOutlineShieldCheck />
+
+                                </div>
+
+
+                                <div className="opportunity-details__check-list">
+
+                                    {benefits.map(
+                                        (
+                                            benefit,
+                                            index,
+                                        ) => (
+
+                                            <div
+                                                className="opportunity-details__check-item"
+                                                key={index}
+                                            >
+
+                                                <HiOutlineCheckCircle />
+
+                                                <span>
+                                                    {benefit}
+                                                </span>
+
+                                            </div>
+
+                                        ),
+                                    )}
+
+                                </div>
+
+                            </div>
+
+                        )}
+
+                    </section>
+
+                )}
+
+
+                {/* ==================================================
+                    DOCUMENTS
+                ================================================== */}
+
+                {documents.length > 0 && (
+
+                    <section className="opportunity-details__documents-section">
+
+                        <div className="opportunity-details__section-heading">
+
+                            <span>
+                                04
+                            </span>
+
+                            <div>
+
+                                <small>
+                                    Application preparation
+                                </small>
+
+                                <h2>
+                                    Documents you'll need
+                                </h2>
+
+                            </div>
+
+                        </div>
+
+
+                        <p className="opportunity-details__section-lead">
+                            Prepare the following documents
+                            before beginning your application.
+                        </p>
+
+
+                        <div className="opportunity-details__documents-list">
+
+                            {documents.map(
+                                (
+                                    document,
+                                    index,
+                                ) => (
+
+                                    <div
+                                        className="opportunity-details__document-row"
+                                        key={index}
+                                    >
+
+                                        <div className="opportunity-details__document-number">
+                                            {String(
+                                                index + 1,
+                                            ).padStart(
+                                                2,
+                                                "0",
+                                            )}
+                                        </div>
+
+
+                                        <div className="opportunity-details__document-icon">
+
+                                            <HiOutlineDocumentText />
+
+                                        </div>
+
+
+                                        <div className="opportunity-details__document-content">
+
+                                            <strong>
+                                                {document}
+                                            </strong>
+
+                                            <span>
+                                                Required for pathway processing
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                ),
+                            )}
+
+                        </div>
+
+                    </section>
+
+                )}
+
+
+                {/* ==================================================
+                    PROCESS
+                ================================================== */}
+
+                {steps.length > 0 && (
+
+                    <section className="opportunity-details__process-section">
+
+                        <div className="opportunity-details__section-heading">
+
+                            <span>
+                                05
+                            </span>
+
+                            <div>
+
+                                <small>
+                                    Your journey
+                                </small>
+
+                                <h2>
+                                    Migration process
+                                </h2>
+
+                            </div>
+
+                        </div>
+
+
+                        <p className="opportunity-details__section-lead">
+                            The major stages from eligibility
+                            through the final decision.
+                        </p>
+
+
+                        <div className="opportunity-details__process-list">
+
+                            {steps.map(
+                                (
+                                    step,
+                                    index,
+                                ) => {
+
+                                    const stepTitle =
+                                        typeof step ===
+                                        "string"
+                                            ? step
+                                            : (
+                                                step?.title ||
+                                                step?.name ||
+                                                `Stage ${index + 1}`
+                                            );
+
+                                    const stepDescription =
+                                        typeof step ===
+                                        "string"
+                                            ? ""
+                                            : (
+                                                step?.description ||
+                                                ""
+                                            );
+
+                                    return (
+
+                                        <article
+                                            className="opportunity-details__process-row"
+                                            key={`${stepTitle}-${index}`}
+                                        >
+
+                                            <div className="opportunity-details__process-marker">
+
+                                                <span>
+                                                    {String(
+                                                        index + 1,
+                                                    ).padStart(
+                                                        2,
+                                                        "0",
+                                                    )}
+                                                </span>
+
+                                            </div>
+
+
+                                            <div className="opportunity-details__process-line" />
+
+
+                                            <div className="opportunity-details__process-content">
+
+                                                <span>
+                                                    Stage{" "}
+                                                    {index + 1}
+                                                </span>
+
+                                                <h3>
+                                                    {
+                                                        stepTitle
+                                                    }
+                                                </h3>
+
+                                                {stepDescription && (
+
+                                                    <p>
+                                                        {
+                                                            stepDescription
+                                                        }
+                                                    </p>
+
+                                                )}
+
+                                            </div>
+
+                                        </article>
+
+                                    );
+                                },
+                            )}
+
+                        </div>
+
+                    </section>
+
+                )}
+
+
+                {/* ==================================================
+                    PRICING
+                ================================================== */}
+
+                <section className="opportunity-details__pricing-section">
+
+                    <div className="opportunity-details__section-heading">
+
+                        <span>
+                            06
+                        </span>
+
+                        <div>
+
+                            <small>
+                                Investment
+                            </small>
+
+                            <h2>
+                                Pricing & payment
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <p className="opportunity-details__section-lead">
+                        Review the pathway cost and payment
+                        stages before continuing.
+                    </p>
+
+
+                    {hasPublishedPricing ? (
+
+                        <div className="opportunity-details__pricing-layout">
+
+
+                            <section className="opportunity-details__price-card">
+
+                                <div>
+
+                                    <span>
+                                        Total pathway fee
+                                    </span>
+
+                                    <strong>
+                                        {pricing.total}
+                                    </strong>
+
+                                    <small>
+                                        {pricing.currency ||
+                                            "NGN"}
+                                    </small>
+
+                                </div>
+
+
+                                <button
+                                    type="button"
+                                    onClick={
+                                        handleContinueWithPathway
+                                    }
+                                >
+                                    Continue with pathway
+                                </button>
+
+                            </section>
+
+
+                            {paymentPlan.length > 0 && (
+
+                                <section className="opportunity-details__payment-plan">
+
+                                    <div className="opportunity-details__payment-plan-heading">
+
+                                        <div>
+
+                                            <span>
+                                                Payment structure
+                                            </span>
+
+                                            <strong>
+                                                Split payment available
+                                            </strong>
+
+                                        </div>
+
+                                        <small>
+                                            {
+                                                paymentPlan.length
+                                            }{" "}
+                                            stages
+                                        </small>
+
+                                    </div>
+
+
+                                    {paymentPlan.map(
+                                        (
+                                            payment,
+                                            index,
+                                        ) => (
+
+                                            <div
+                                                className="opportunity-details__payment-row"
+                                                key={index}
+                                            >
+
+                                                <div>
+
+                                                    <span>
+                                                        Stage{" "}
+                                                        {index + 1}
+                                                    </span>
+
+                                                    <strong>
+                                                        {
+                                                            payment.stage
+                                                        }
+                                                    </strong>
+
+                                                </div>
+
+                                                <b>
+                                                    {
+                                                        payment.amount
+                                                    }
+                                                </b>
+
+                                            </div>
+
+                                        ),
+                                    )}
+
+                                </section>
+
+                            )}
+
+                        </div>
+
+                    ) : (
+
+                        <div className="opportunity-details__pricing-contact">
+
+                            <div className="opportunity-details__pricing-contact-icon">
+                                <HiOutlineUserGroup />
+                            </div>
+
+
+                            <div>
+
+                                <span>
+                                    Pricing available on request
+                                </span>
+
+                                <h3>
+                                    Speak with our team
+                                </h3>
+
+                                <p>
+                                    You can begin your pathway
+                                    application and our team can
+                                    confirm the current cost and
+                                    payment structure.
+                                </p>
+
+                            </div>
+
+
+                            <button
+                                type="button"
+                                onClick={
+                                    handleContactAgent
+                                }
+                            >
+                                Contact an agent
+                            </button>
+
+                        </div>
+
+                    )}
+
+                </section>
+
+
+                {/* ==================================================
+                    FINAL CTA
+                ================================================== */}
+
+                <section className="opportunity-details__final-cta">
+
+                    <div>
+
+                        <span>
+                            Ready to move forward?
+                        </span>
+
+                        <h2>
+                            Start your{" "}
+                            {title} pathway
+                        </h2>
+
+                        <p>
+                            Continue with this pathway
+                            to begin your application.
+                            We'll preserve this pathway
+                            while you sign in.
+                        </p>
+
+                    </div>
+
+
+                    <div className="opportunity-details__final-actions">
+
+                        <button
+                            type="button"
+                            onClick={
+                                handleCheckEligibility
+                            }
+                            className="opportunity-details__final-secondary-action"
+                        >
+                            Check eligibility
+                        </button>
+
+
+                        <button
+                            type="button"
+                            onClick={
+                                handleContinueWithPathway
+                            }
+                            className="opportunity-details__final-primary-action"
+                        >
+                            Continue with pathway
+                        </button>
+
+                    </div>
+
+                </section>
+
+            </div>
 
         </main>
     );
-
 };
 
 

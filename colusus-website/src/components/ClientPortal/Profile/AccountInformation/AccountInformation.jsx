@@ -31,7 +31,7 @@ const AccountInformation = ({ user }) => {
           </h2>
 
           <p>
-            These details are connected to your Colusus
+            These details are connected to your colossus
             account and cannot be changed here.
           </p>
 

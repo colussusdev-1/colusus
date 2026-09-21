@@ -14,7 +14,7 @@ ATTACH AUTH TOKEN
 
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("colusus_token");
+    const token = localStorage.getItem("colossus_token");
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;

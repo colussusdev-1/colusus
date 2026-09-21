@@ -18,7 +18,7 @@ const NextStepPanel = ({
     application.status === "DOCUMENT_REQUEST";
 
   return (
-    <div className="colusus-panel next-step-panel">
+    <div className="colossus-panel next-step-panel">
       <div className="panel-heading">
         <div>
           <span>NEXT STEP</span>

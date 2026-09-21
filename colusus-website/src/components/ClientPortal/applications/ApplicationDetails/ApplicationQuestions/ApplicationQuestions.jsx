@@ -434,7 +434,7 @@ const ApplicationQuestions = ({
         <span>
           These responses are part of your
           submitted application and may be
-          reviewed by the Colusus team.
+          reviewed by the colossus team.
         </span>
 
       </div>

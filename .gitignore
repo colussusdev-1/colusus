@@ -13,7 +13,7 @@ backend/logs/
 backend/node_modules/
 
 # Frontend
-colusus-website/node_modules/
+colossus-website/node_modules/
 
 # Build files
 dist/

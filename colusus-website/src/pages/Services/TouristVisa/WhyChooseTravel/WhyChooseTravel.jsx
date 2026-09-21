@@ -203,7 +203,7 @@ const WhyChooseTravel = () => {
 
             <i />
 
-            WHY CHOOSE COLUSUS
+            WHY CHOOSE colossus
 
           </span>
 

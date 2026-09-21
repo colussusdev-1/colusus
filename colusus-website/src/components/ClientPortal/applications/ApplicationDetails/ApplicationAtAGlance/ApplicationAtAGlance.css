@@ -1,0 +1,190 @@
+.application-glance {
+    margin-top: 18px;
+
+    padding: 22px;
+
+    background: #ffffff;
+
+    border: 1px solid #dfe8f1;
+    border-radius: 18px;
+
+    box-shadow: 0 7px 22px rgba(20, 48, 82, 0.035);
+}
+
+
+/* ============================================================
+   HEADER
+============================================================ */
+
+.application-glance-header {
+    margin-bottom: 17px;
+}
+
+
+.application-glance-header span {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+
+    color: #7890a8;
+}
+
+
+.application-glance-header h2 {
+    margin: 0;
+
+    font-size: 18px;
+    line-height: 1.3;
+
+    color: #102f4f;
+}
+
+
+/* ============================================================
+   GRID
+============================================================ */
+
+.application-glance-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+
+    border: 1px solid #e3ebf3;
+    border-radius: 13px;
+
+    overflow: hidden;
+}
+
+
+/* ============================================================
+   CARD
+============================================================ */
+
+.application-glance-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    min-width: 0;
+
+    padding: 17px;
+
+    border-right: 1px solid #e3ebf3;
+}
+
+
+.application-glance-card:last-child {
+    border-right: 0;
+}
+
+
+.application-glance-card-icon {
+    flex: 0 0 38px;
+
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: #edf5fc;
+    color: #1769a7;
+}
+
+
+.application-glance-card-icon svg {
+    width: 19px;
+    height: 19px;
+}
+
+
+.application-glance-card>div:last-child {
+    min-width: 0;
+}
+
+
+.application-glance-card span {
+    display: block;
+
+    margin-bottom: 4px;
+
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.11em;
+
+    color: #8296aa;
+}
+
+
+.application-glance-card strong {
+    display: block;
+
+    overflow: hidden;
+
+    font-size: 14px;
+    line-height: 1.3;
+
+    color: #153957;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.application-glance-card-next {
+    background: #f8fbfe;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media (max-width: 1000px) {
+
+    .application-glance-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+
+    .application-glance-card:nth-child(2) {
+        border-right: 0;
+    }
+
+
+    .application-glance-card:nth-child(-n + 2) {
+        border-bottom: 1px solid #e3ebf3;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .application-glance {
+        padding: 17px;
+    }
+
+
+    .application-glance-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .application-glance-card {
+        border-right: 0;
+        border-bottom: 1px solid #e3ebf3;
+    }
+
+
+    .application-glance-card:last-child {
+        border-bottom: 0;
+    }
+
+}

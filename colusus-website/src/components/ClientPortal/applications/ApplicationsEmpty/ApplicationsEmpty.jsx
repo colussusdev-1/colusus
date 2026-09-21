@@ -52,7 +52,7 @@ const ApplicationsEmpty = () => {
                     You don't have any applications yet.
                     Explore available opportunities and
                     start your first migration journey with
-                    Colusus.
+                    colossus.
                 </p>
 
 

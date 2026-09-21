@@ -1,3 +1,4 @@
+
 import {
     useEffect,
     useState,
@@ -18,7 +19,7 @@ import {
 
 import "./PortalSidebar.css";
 
-import colususLogo from "../../../assets/logo.png";
+import colossusLogo from "../../../assets/logo.png";
 
 
 const PortalSidebar = () => {
@@ -51,6 +52,7 @@ const PortalSidebar = () => {
             label: "Updates",
             path: "/portal/updates",
             icon: HiOutlineBell,
+            disabled: true,
         },
 
         {
@@ -78,7 +80,7 @@ const PortalSidebar = () => {
 
 
         window.addEventListener(
-            "colusus:open-mobile-menu",
+            "colossus:open-mobile-menu",
             handleOpenMobileMenu,
         );
 
@@ -86,7 +88,7 @@ const PortalSidebar = () => {
         return () => {
 
             window.removeEventListener(
-                "colusus:open-mobile-menu",
+                "colossus:open-mobile-menu",
                 handleOpenMobileMenu,
             );
 
@@ -197,7 +199,7 @@ const PortalSidebar = () => {
 
         window.dispatchEvent(
             new CustomEvent(
-                "colusus:user-updated",
+                "colossus:user-updated",
             ),
         );
 
@@ -262,13 +264,13 @@ const PortalSidebar = () => {
                     <NavLink
                         to="/portal"
                         className="portal-sidebar__brand-link"
-                        aria-label="Colusus Client Portal"
+                        aria-label="colossus Client Portal"
                         onClick={handleNavigation}
                     >
 
                         <img
-                            src={colususLogo}
-                            alt="Colusus"
+                            src={colossusLogo}
+                            alt="colossus"
                             className="portal-sidebar__logo"
                         />
 
@@ -310,6 +312,36 @@ const PortalSidebar = () => {
                     {navigation.map((item) => {
 
                         const Icon = item.icon;
+
+
+                        if (item.disabled) {
+
+                            return (
+
+                                <div
+                                    key={item.path}
+                                    className="portal-sidebar__link portal-sidebar__link--disabled"
+                                    aria-disabled="true"
+                                >
+
+                                    <Icon
+                                        className="portal-sidebar__icon"
+                                        aria-hidden="true"
+                                    />
+
+                                    <span>
+                                        {item.label}
+                                    </span>
+
+                                    <small>
+                                        Not available
+                                    </small>
+
+                                </div>
+
+                            );
+
+                        }
 
 
                         return (
@@ -356,15 +388,9 @@ const PortalSidebar = () => {
                         HELP
                     ================================================= */}
 
-                    <NavLink
-                        to="/portal/help"
-                        onClick={handleNavigation}
-                        className={({ isActive }) =>
-                            `portal-sidebar__link ${isActive
-                                ? "active"
-                                : ""
-                            }`
-                        }
+                    <div
+                        className="portal-sidebar__link portal-sidebar__link--disabled"
+                        aria-disabled="true"
                     >
 
                         <HiOutlineQuestionMarkCircle
@@ -376,7 +402,11 @@ const PortalSidebar = () => {
                             Help & Support
                         </span>
 
-                    </NavLink>
+                        <small>
+                            Not available
+                        </small>
+
+                    </div>
 
 
                     {/* =================================================

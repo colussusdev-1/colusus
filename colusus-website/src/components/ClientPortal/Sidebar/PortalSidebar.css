@@ -1,5 +1,5 @@
 /* ============================================================
-   COLUSUS CLIENT PORTAL
+   colossus CLIENT PORTAL
    SIDEBAR
 ============================================================ */
 
@@ -797,4 +797,18 @@ body.portal-mobile-menu-open {
 
     }
 
+}
+
+.portal-sidebar__link--disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+    position: relative;
+}
+
+.portal-sidebar__link--disabled small {
+    margin-left: auto;
+    font-size: 9px;
+    font-weight: 600;
+    color: #94a3b8;
+    white-space: nowrap;
 }

@@ -544,7 +544,7 @@ const OpportunityPreviewPricing = ({
                         </strong>
 
                         <p>
-                            Your Colusus team will provide
+                            Your colossus team will provide
                             the applicable pathway costs
                             before payment is required.
                         </p>

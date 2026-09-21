@@ -1,3 +1,4 @@
+
 import {
     useEffect,
     useMemo,
@@ -22,7 +23,7 @@ import "./PortalTopbar.css";
 
 /*
 ============================================================
-COLUSUS — CLIENT PORTAL TOPBAR
+colossus — CLIENT PORTAL TOPBAR
 ============================================================
 
 USER SOURCE
@@ -79,7 +80,7 @@ const PortalTopbar = () => {
         } catch (error) {
 
             console.error(
-                "COLUSUS — FAILED TO READ STORED USER:",
+                "colossus — FAILED TO READ STORED USER:",
                 error,
             );
 
@@ -135,7 +136,7 @@ const PortalTopbar = () => {
                     } catch (error) {
 
                         console.error(
-                            "COLUSUS — INVALID STORED USER:",
+                            "colossus — INVALID STORED USER:",
                             error,
                         );
 
@@ -171,7 +172,7 @@ const PortalTopbar = () => {
                 ) {
 
                     console.log(
-                        "[COLUSUS TOPBAR] Backend user:",
+                        "[colossus TOPBAR] Backend user:",
                         backendUser,
                     );
 
@@ -197,7 +198,7 @@ const PortalTopbar = () => {
                     } catch (error) {
 
                         console.warn(
-                            "COLUSUS — FAILED TO SYNC USER:",
+                            "colossus — FAILED TO SYNC USER:",
                             error,
                         );
 
@@ -219,7 +220,7 @@ const PortalTopbar = () => {
                 */
 
                 console.warn(
-                    "COLUSUS TOPBAR — PROFILE REQUEST FAILED:",
+                    "colossus TOPBAR — PROFILE REQUEST FAILED:",
                     error,
                 );
 
@@ -263,7 +264,7 @@ const PortalTopbar = () => {
             } catch (error) {
 
                 console.error(
-                    "COLUSUS — FAILED TO UPDATE USER:",
+                    "colossus — FAILED TO UPDATE USER:",
                     error,
                 );
 
@@ -292,7 +293,7 @@ const PortalTopbar = () => {
 
 
         window.addEventListener(
-            "colusus:user-updated",
+            "colossus:user-updated",
             handleUserUpdate,
         );
 
@@ -309,7 +310,7 @@ const PortalTopbar = () => {
 
 
             window.removeEventListener(
-                "colusus:user-updated",
+                "colossus:user-updated",
                 handleUserUpdate,
             );
 
@@ -486,19 +487,6 @@ const PortalTopbar = () => {
 
     /*
     ============================================================
-    NOTIFICATIONS
-    ============================================================
-    */
-
-    const handleNotifications = () => {
-
-        navigate("/portal/updates");
-
-    };
-
-
-    /*
-    ============================================================
     MOBILE MENU
     ============================================================
     */
@@ -507,7 +495,7 @@ const PortalTopbar = () => {
 
         window.dispatchEvent(
             new CustomEvent(
-                "colusus:open-mobile-menu",
+                "colossus:open-mobile-menu",
             ),
         );
 
@@ -574,9 +562,11 @@ const PortalTopbar = () => {
                     className="
                         portal-topbar__icon-btn
                         portal-topbar__notification
+                        portal-topbar__notification--disabled
                     "
-                    aria-label="Open notifications and updates"
-                    onClick={handleNotifications}
+                    aria-label="Notifications not available"
+                    aria-disabled="true"
+                    disabled
                 >
 
                     <HiOutlineBell />
@@ -616,7 +606,9 @@ const PortalTopbar = () => {
                         className="portal-topbar__avatar"
                         aria-hidden="true"
                     >
+
                         {userInitials}
+
                     </div>
 
 
@@ -628,9 +620,11 @@ const PortalTopbar = () => {
 
 
                         {accountEmail && (
+
                             <span>
                                 {accountEmail}
                             </span>
+
                         )}
 
                     </div>

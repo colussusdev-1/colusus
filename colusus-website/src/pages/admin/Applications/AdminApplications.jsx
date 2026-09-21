@@ -1,3 +1,4 @@
+
 import React, {
   useCallback,
   useEffect,
@@ -25,79 +26,31 @@ import ApplicationTable
 import ApplicationPagination
   from "./components/ApplicationPagination/ApplicationPagination";
 
+import ApplicationPipeline
+  from "./components/ApplicationPipeline/ApplicationPipeline";
+
 import "./AdminApplications.css";
 
 
 const ITEMS_PER_PAGE = 7;
 
 
-/*
-|--------------------------------------------------------------------------
-| APPLICATION REFERENCE
-|--------------------------------------------------------------------------
-|
-| The backend may eventually provide:
-|
-|   applicationNumber
-|
-| Until then we create a stable readable reference from
-| the application's position in the complete backend result.
-|
-| Example:
-|
-|   Application 1
-|   Application 2
-|   Application 3
-|
-| IMPORTANT:
-|
-| We do this BEFORE filtering/pagination so the reference
-| does not change when the admin searches or filters.
-|
-|--------------------------------------------------------------------------
-*/
-
 const createApplicationReference = (
   application,
   index,
 ) => {
 
-  /*
-  |--------------------------------------------------------------------------
-  | FUTURE BACKEND APPLICATION NUMBER
-  |--------------------------------------------------------------------------
-  */
-
-  if (
-    application?.applicationNumber
-  ) {
-
+  if (application?.applicationNumber) {
     return application.applicationNumber;
-
   }
 
-
-  /*
-  |--------------------------------------------------------------------------
-  | TEMPORARY FRONTEND REFERENCE
-  |--------------------------------------------------------------------------
-  */
-
   return `Application ${index + 1}`;
-
 };
 
-
-/*
-|--------------------------------------------------------------------------
-| ADMIN APPLICATIONS
-|--------------------------------------------------------------------------
-*/
 
 const AdminApplications = () => {
 
   const navigate = useNavigate();
-
 
   const [
     searchParams,
@@ -106,9 +59,21 @@ const AdminApplications = () => {
 
 
   /*
-  |--------------------------------------------------------------------------
-  | APPLICATION DATA
-  |--------------------------------------------------------------------------
+  ============================================================
+  VIEW
+  ============================================================
+  */
+
+  const [
+    view,
+    setView,
+  ] = useState("table");
+
+
+  /*
+  ============================================================
+  DATA
+  ============================================================
   */
 
   const [
@@ -116,24 +81,10 @@ const AdminApplications = () => {
     setApplications,
   ] = useState([]);
 
-
-  /*
-  |--------------------------------------------------------------------------
-  | LOADING
-  |--------------------------------------------------------------------------
-  */
-
   const [
     loading,
     setLoading,
   ] = useState(true);
-
-
-  /*
-  |--------------------------------------------------------------------------
-  | ERROR
-  |--------------------------------------------------------------------------
-  */
 
   const [
     error,
@@ -142,9 +93,9 @@ const AdminApplications = () => {
 
 
   /*
-  |--------------------------------------------------------------------------
-  | SEARCH
-  |--------------------------------------------------------------------------
+  ============================================================
+  FILTERS
+  ============================================================
   */
 
   const [
@@ -152,38 +103,23 @@ const AdminApplications = () => {
     setSearch,
   ] = useState("");
 
-
-  /*
-  |--------------------------------------------------------------------------
-  | STAGE FILTER
-  |--------------------------------------------------------------------------
-  */
-
   const [
     stage,
     setStage,
   ] = useState("ALL");
 
-
-  /*
-  |--------------------------------------------------------------------------
-  | STATUS FILTER
-  |--------------------------------------------------------------------------
-  */
-
   const [
     status,
     setStatus,
   ] = useState(
-    searchParams.get("status") ||
-    "ALL",
+    searchParams.get("status") || "ALL",
   );
 
 
   /*
-  |--------------------------------------------------------------------------
-  | PAGINATION
-  |--------------------------------------------------------------------------
+  ============================================================
+  PAGINATION
+  ============================================================
   */
 
   const [
@@ -193,9 +129,9 @@ const AdminApplications = () => {
 
 
   /*
-  |--------------------------------------------------------------------------
-  | LOAD APPLICATIONS
-  |--------------------------------------------------------------------------
+  ============================================================
+  LOAD APPLICATIONS
+  ============================================================
   */
 
   const loadApplications = useCallback(
@@ -204,103 +140,53 @@ const AdminApplications = () => {
       try {
 
         setLoading(true);
-
         setError("");
-
-
-        /*
-        --------------------------------------------------------------
-        | REQUEST
-        --------------------------------------------------------------
-        */
 
         const response =
           await applicationsService
             .getAllApplications();
 
 
-        /*
-        --------------------------------------------------------------
-        | NORMALIZE RESPONSE
-        --------------------------------------------------------------
-        |
-        | Expected:
-        |
-        | {
-        |   success: true,
-        |   data: [...]
-        | }
-        |
-        --------------------------------------------------------------
-        */
+        const rawApplications =
+          Array.isArray(response)
+            ? response
+            : Array.isArray(response?.data)
+              ? response.data
+              : Array.isArray(response?.applications)
+                ? response.applications
+                : Array.isArray(response?.data?.applications)
+                  ? response.data.applications
+                  : [];
 
-        const fetchedApplications =
-          Array.isArray(
-            response?.data,
-          )
-            ? response.data
-            : [];
-
-
-        /*
-        --------------------------------------------------------------
-        | ADD READABLE APPLICATION REFERENCE
-        --------------------------------------------------------------
-        |
-        | This is temporary until the backend exposes
-        | applicationNumber.
-        |
-        --------------------------------------------------------------
-        */
 
         const normalizedApplications =
-          fetchedApplications.map(
-            (
-              application,
-              index,
-            ) => {
+          rawApplications.map(
+            (application, index) => ({
+              ...application,
 
-              return {
-
-                ...application,
-
-                applicationReference:
-                  createApplicationReference(
-                    application,
-                    index,
-                  ),
-
-              };
-
-            },
+              applicationReference:
+                createApplicationReference(
+                  application,
+                  index,
+                ),
+            }),
           );
 
-
-        /*
-        --------------------------------------------------------------
-        | SAVE
-        --------------------------------------------------------------
-        */
 
         setApplications(
           normalizedApplications,
         );
 
-      } catch (
-      requestError
-      ) {
+      } catch (requestError) {
 
         console.error(
-          "FAILED TO LOAD APPLICATIONS:",
+          "Failed to load admin applications:",
           requestError,
         );
 
-
         setError(
-          requestError
-            ?.response
-            ?.data
-            ?.message ||
+          requestError?.response?.data?.message ||
+          requestError?.message ||
           "Unable to load applications.",
         );
 
@@ -315,231 +201,175 @@ const AdminApplications = () => {
   );
 
 
-  /*
-  |--------------------------------------------------------------------------
-  | INITIAL LOAD
-  |--------------------------------------------------------------------------
-  */
-
   useEffect(() => {
 
     loadApplications();
 
-  }, [
-    loadApplications,
-  ]);
+  }, [loadApplications]);
 
 
   /*
-  |--------------------------------------------------------------------------
-  | SYNC STATUS WITH URL
-  |--------------------------------------------------------------------------
+  ============================================================
+  URL STATUS SYNC
+  ============================================================
   */
 
   useEffect(() => {
 
     const urlStatus =
-      searchParams.get("status");
+      searchParams.get("status") || "ALL";
 
+    if (urlStatus !== status) {
 
-    setStatus(
-      urlStatus ||
-      "ALL",
-    );
+      setStatus(urlStatus);
 
-
-    setCurrentPage(1);
+    }
 
   }, [
     searchParams,
+    status,
   ]);
 
 
   /*
-  |--------------------------------------------------------------------------
-  | BUILD AVAILABLE STAGES
-  |--------------------------------------------------------------------------
+  ============================================================
+  STAGE OPTIONS
+  ============================================================
   */
 
-  const stages = useMemo(() => {
+  const stages = useMemo(
+    () => {
 
-    const values =
-      applications
-        .map(
-          (application) =>
-            application?.currentStep,
-        )
-        .filter(Boolean);
+      const uniqueStages =
+        new Set();
 
-
-    return [
-      ...new Set(values),
-    ];
-
-  }, [
-    applications,
-  ]);
-
-
-  /*
-  |--------------------------------------------------------------------------
-  | FILTER APPLICATIONS
-  |--------------------------------------------------------------------------
-  */
-
-  const filteredApplications =
-    useMemo(() => {
-
-      const normalizedSearch =
-        search
-          .trim()
-          .toLowerCase();
-
-
-      return applications.filter(
+      applications.forEach(
         (application) => {
 
-          /*
-          ------------------------------------------------------------
-          | CLIENT
-          ------------------------------------------------------------
-          */
+          if (
+            application?.currentStep
+          ) {
 
-          const clientName =
-            application?.user?.name ||
-            "";
+            uniqueStages.add(
+              application.currentStep,
+            );
 
-
-          const clientEmail =
-            application?.user?.email ||
-            "";
-
-
-          /*
-          ------------------------------------------------------------
-          | COUNTRY
-          ------------------------------------------------------------
-          */
-
-          const country =
-            application?.destinationCountry ||
-            "";
-
-
-          /*
-          ------------------------------------------------------------
-          | INTERNAL ID
-          ------------------------------------------------------------
-          */
-
-          const applicationId =
-            application?._id ||
-            "";
-
-
-          /*
-          ------------------------------------------------------------
-          | READABLE REFERENCE
-          ------------------------------------------------------------
-          */
-
-          const applicationReference =
-            application
-              ?.applicationReference ||
-            "";
-
-
-          /*
-          ------------------------------------------------------------
-          | SEARCH MATCH
-          ------------------------------------------------------------
-          */
-
-          const matchesSearch =
-            !normalizedSearch ||
-
-            clientName
-              .toLowerCase()
-              .includes(
-                normalizedSearch,
-              ) ||
-
-            clientEmail
-              .toLowerCase()
-              .includes(
-                normalizedSearch,
-              ) ||
-
-            country
-              .toLowerCase()
-              .includes(
-                normalizedSearch,
-              ) ||
-
-            applicationId
-              .toLowerCase()
-              .includes(
-                normalizedSearch,
-              ) ||
-
-            applicationReference
-              .toLowerCase()
-              .includes(
-                normalizedSearch,
-              );
-
-
-          /*
-          ------------------------------------------------------------
-          | STAGE MATCH
-          ------------------------------------------------------------
-          */
-
-          const matchesStage =
-            stage === "ALL" ||
-            application?.currentStep ===
-            stage;
-
-
-          /*
-          ------------------------------------------------------------
-          | STATUS MATCH
-          ------------------------------------------------------------
-          */
-
-          const matchesStatus =
-            status === "ALL" ||
-            application?.status ===
-            status;
-
-
-          /*
-          ------------------------------------------------------------
-          | FINAL MATCH
-          ------------------------------------------------------------
-          */
-
-          return (
-            matchesSearch &&
-            matchesStage &&
-            matchesStatus
-          );
+          }
 
         },
       );
 
-    }, [
-      applications,
-      search,
-      stage,
-      status,
-    ]);
+
+      return Array.from(
+        uniqueStages,
+      ).sort();
+
+    },
+    [applications],
+  );
 
 
   /*
-  |--------------------------------------------------------------------------
-  | TOTAL PAGES
-  |--------------------------------------------------------------------------
+  ============================================================
+  FILTERED APPLICATIONS
+  ============================================================
+  */
+
+  const filteredApplications =
+    useMemo(
+      () => {
+
+        const normalizedSearch =
+          search
+            .trim()
+            .toLowerCase();
+
+
+        return applications.filter(
+          (application) => {
+
+            /*
+            --------------------------------------------------
+            SEARCH
+            --------------------------------------------------
+            */
+
+            const searchableValues = [
+
+              application?.user?.name,
+
+              application?.user?.email,
+
+              application?.destinationCountry,
+
+              application?._id,
+
+              application?.applicationReference,
+
+              application?.applicationNumber,
+
+            ];
+
+
+            const matchesSearch =
+              !normalizedSearch ||
+              searchableValues.some(
+                (value) =>
+                  String(value || "")
+                    .toLowerCase()
+                    .includes(
+                      normalizedSearch,
+                    ),
+              );
+
+
+            /*
+            --------------------------------------------------
+            STAGE
+            --------------------------------------------------
+            */
+
+            const matchesStage =
+              stage === "ALL" ||
+              application?.currentStep ===
+              stage;
+
+
+            /*
+            --------------------------------------------------
+            STATUS
+            --------------------------------------------------
+            */
+
+            const matchesStatus =
+              status === "ALL" ||
+              application?.status ===
+              status;
+
+
+            return (
+              matchesSearch &&
+              matchesStage &&
+              matchesStatus
+            );
+
+          },
+        );
+
+      },
+      [
+        applications,
+        search,
+        stage,
+        status,
+      ],
+    );
+
+
+  /*
+  ============================================================
+  TABLE PAGINATION
+  ============================================================
   */
 
   const totalPages =
@@ -552,38 +382,35 @@ const AdminApplications = () => {
     );
 
 
-  /*
-  |--------------------------------------------------------------------------
-  | PAGINATED APPLICATIONS
-  |--------------------------------------------------------------------------
-  */
-
   const paginatedApplications =
-    useMemo(() => {
+    useMemo(
+      () => {
 
-      const start =
-        (
-          currentPage - 1
-        ) *
-        ITEMS_PER_PAGE;
+        const start =
+          (currentPage - 1) *
+          ITEMS_PER_PAGE;
 
+        const end =
+          start +
+          ITEMS_PER_PAGE;
 
-      return filteredApplications.slice(
-        start,
-        start +
-        ITEMS_PER_PAGE,
-      );
+        return filteredApplications.slice(
+          start,
+          end,
+        );
 
-    }, [
-      filteredApplications,
-      currentPage,
-    ]);
+      },
+      [
+        filteredApplications,
+        currentPage,
+      ],
+    );
 
 
   /*
-  |--------------------------------------------------------------------------
-  | RESET PAGE WHEN FILTERS CHANGE
-  |--------------------------------------------------------------------------
+  ============================================================
+  RESET PAGE WHEN FILTERS CHANGE
+  ============================================================
   */
 
   useEffect(() => {
@@ -598,207 +425,185 @@ const AdminApplications = () => {
 
 
   /*
-  |--------------------------------------------------------------------------
-  | STATUS CHANGE
-  |--------------------------------------------------------------------------
+  ============================================================
+  STATUS FILTER
+  ============================================================
   */
 
-  const handleStatusChange = (
-    value,
-  ) => {
+  const handleStatusChange =
+    useCallback(
+      (nextStatus) => {
 
-    setStatus(value);
+        setStatus(nextStatus);
 
-    setCurrentPage(1);
-
-
-    /*
-    --------------------------------------------------------------
-    | CLEAR URL STATUS
-    --------------------------------------------------------------
-    */
-
-    if (
-      value === "ALL"
-    ) {
-
-      setSearchParams({});
-
-      return;
-
-    }
+        setCurrentPage(1);
 
 
-    /*
-    --------------------------------------------------------------
-    | STORE STATUS IN URL
-    --------------------------------------------------------------
-    */
+        if (nextStatus === "ALL") {
 
-    setSearchParams({
-      status: value,
-    });
+          const nextParams =
+            new URLSearchParams(
+              searchParams,
+            );
 
-  };
+          nextParams.delete("status");
 
+          setSearchParams(
+            nextParams,
+          );
 
-  /*
-  |--------------------------------------------------------------------------
-  | OPEN APPLICATION
-  |--------------------------------------------------------------------------
-  */
-
-  const handleApplicationClick = (
-    applicationId,
-  ) => {
-
-    if (!applicationId) {
-      return;
-    }
+          return;
+        }
 
 
-    navigate(
-      `/admin/applications/${applicationId}`,
+        setSearchParams(
+          {
+            status: nextStatus,
+          },
+        );
+
+      },
+      [
+        searchParams,
+        setSearchParams,
+      ],
     );
 
-  };
-
 
   /*
-  |--------------------------------------------------------------------------
-  | PAGE CHANGE
-  |--------------------------------------------------------------------------
+  ============================================================
+  APPLICATION CLICK
+  ============================================================
   */
 
-  const handlePageChange = (
-    page,
-  ) => {
+  const handleApplicationClick =
+    useCallback(
+      (applicationId) => {
 
-    if (
-      page < 1 ||
-      page > totalPages
-    ) {
+        if (!applicationId) {
+          return;
+        }
 
-      return;
+        navigate(
+          `/admin/applications/${applicationId}`,
+        );
 
-    }
-
-
-    setCurrentPage(page);
-
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-
-  };
-
-
-  /*
-  |--------------------------------------------------------------------------
-  | CLEAR FILTERS
-  |--------------------------------------------------------------------------
-  */
-
-  const handleClearFilters = () => {
-
-    setSearch("");
-
-    setStage("ALL");
-
-    setStatus("ALL");
-
-    setCurrentPage(1);
-
-    setSearchParams({});
-
-  };
-
-
-  /*
-  |--------------------------------------------------------------------------
-  | RETRY
-  |--------------------------------------------------------------------------
-  */
-
-  const handleRetry = () => {
-
-    loadApplications();
-
-  };
-
-
-  /*
-  |--------------------------------------------------------------------------
-  | LOADING
-  |--------------------------------------------------------------------------
-  */
-
-  if (loading) {
-
-    return (
-
-      <main
-        className="
-          adminApplicationsState
-        "
-      >
-
-        <div
-          className="
-            adminApplicationsState__spinner
-          "
-        />
-
-        <p>
-          Loading applications...
-        </p>
-
-      </main>
-
+      },
+      [navigate],
     );
 
-  }
+
+  /*
+  ============================================================
+  CLEAR FILTERS
+  ============================================================
+  */
+
+  const handleClearFilters =
+    useCallback(
+      () => {
+
+        setSearch("");
+        setStage("");
+        setStage("ALL");
+        setStatus("ALL");
+        setCurrentPage(1);
+
+        setSearchParams({});
+
+      },
+      [setSearchParams],
+    );
+
+
+  const hasActiveFilters =
+    Boolean(
+      search.trim() ||
+      stage !== "ALL" ||
+      status !== "ALL",
+    );
 
 
   /*
-  |--------------------------------------------------------------------------
-  | ERROR
-  |--------------------------------------------------------------------------
+  ============================================================
+  RETRY
+  ============================================================
   */
 
-  if (error) {
+  const handleRetry =
+    useCallback(
+      () => {
 
-    return (
+        loadApplications();
 
-      <main
-        className="
-          adminApplicationsState
-          adminApplicationsState--error
-        "
-      >
-
-        <div
-          className="
-            adminApplicationsState__content
-          "
-        >
-
-          <span>
-            APPLICATIONS
-          </span>
+      },
+      [loadApplications],
+    );
 
 
-          <h2>
+  /*
+  ============================================================
+  RENDER
+  ============================================================
+  */
+
+  return (
+
+    <div className="adminApplications">
+
+      <ApplicationsHeader
+        total={applications.length}
+        view={view}
+        onViewChange={setView}
+      />
+
+
+      <ApplicationFilters
+        search={search}
+        onSearchChange={setSearch}
+
+        stage={stage}
+        stages={stages}
+        onStageChange={setStage}
+
+        status={status}
+        onStatusChange={
+          handleStatusChange
+        }
+
+        onClear={
+          handleClearFilters
+        }
+
+        hasActiveFilters={
+          hasActiveFilters
+        }
+      />
+
+
+      {loading ? (
+
+        <div className="adminApplications__state">
+
+          <div className="adminApplications__spinner" />
+
+          <p>
+            Loading applications...
+          </p>
+
+        </div>
+
+      ) : error ? (
+
+        <div className="adminApplications__state adminApplications__state--error">
+
+          <h3>
             Unable to load applications
-          </h2>
-
+          </h3>
 
           <p>
             {error}
           </p>
-
 
           <button
             type="button"
@@ -809,179 +614,55 @@ const AdminApplications = () => {
 
         </div>
 
-      </main>
+      ) : view === "pipeline" ? (
 
-    );
-
-  }
-
-
-  /*
-  |--------------------------------------------------------------------------
-  | RESULT INFORMATION
-  |--------------------------------------------------------------------------
-  */
-
-  const totalResults =
-    filteredApplications.length;
-
-
-  const startResult =
-    totalResults === 0
-      ? 0
-      : (
-        (
-          currentPage - 1
-        ) *
-        ITEMS_PER_PAGE
-      ) + 1;
-
-
-  const endResult =
-    Math.min(
-      currentPage *
-      ITEMS_PER_PAGE,
-      totalResults,
-    );
-
-
-  /*
-  |--------------------------------------------------------------------------
-  | RENDER
-  |--------------------------------------------------------------------------
-  */
-
-  return (
-
-    <main
-      className="
-        adminApplications
-      "
-    >
-
-
-      {/* =========================================================
-          HEADER
-      ========================================================= */}
-
-      <ApplicationsHeader
-        total={
-          applications.length
-        }
-      />
-
-
-      {/* =========================================================
-          FILTERS
-      ========================================================= */}
-
-      <ApplicationFilters
-
-        search={
-          search
-        }
-
-        onSearchChange={
-          setSearch
-        }
-
-
-        stage={
-          stage
-        }
-
-        stages={
-          stages
-        }
-
-        onStageChange={
-          setStage
-        }
-
-
-        status={
-          status
-        }
-
-        onStatusChange={
-          handleStatusChange
-        }
-
-
-        onClear={
-          handleClearFilters
-        }
-
-
-        hasActiveFilters={
-          Boolean(
-            search ||
-            stage !== "ALL" ||
-            status !== "ALL",
-          )
-        }
-
-      />
-
-
-      {/* =========================================================
-          APPLICATION TABLE
-      ========================================================= */}
-
-      <section
-        className="
-          adminApplications__tablePanel
-        "
-      >
-
-        <ApplicationTable
-
+        <ApplicationPipeline
           applications={
-            paginatedApplications
+            filteredApplications
           }
-
           onApplicationClick={
             handleApplicationClick
           }
-
+          onApplicationsChange={
+            setApplications
+          }
         />
 
+      ) : (
 
-        {/* =======================================================
-            PAGINATION
-        ======================================================= */}
+        <>
 
-        <ApplicationPagination
+          <section className="adminApplications__tableSection">
 
-          currentPage={
-            currentPage
-          }
+            <ApplicationTable
+              applications={
+                paginatedApplications
+              }
+              onApplicationClick={
+                handleApplicationClick
+              }
+            />
 
-          totalPages={
-            totalPages
-          }
+          </section>
 
-          totalResults={
-            totalResults
-          }
 
-          startResult={
-            startResult
-          }
+          <ApplicationPagination
+            currentPage={
+              currentPage
+            }
+            totalPages={
+              totalPages
+            }
+            onPageChange={
+              setCurrentPage
+            }
+          />
 
-          endResult={
-            endResult
-          }
+        </>
 
-          onPageChange={
-            handlePageChange
-          }
+      )}
 
-        />
-
-      </section>
-
-    </main>
+    </div>
 
   );
 

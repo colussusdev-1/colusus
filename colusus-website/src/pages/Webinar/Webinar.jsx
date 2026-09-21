@@ -14,6 +14,7 @@ function Webinar() {
     const webinar = webinarMockData;
 
 
+
     return (
 
         <div className="webinar-page">
@@ -169,6 +170,5 @@ function Webinar() {
     );
 
 }
-
 
 export default Webinar;

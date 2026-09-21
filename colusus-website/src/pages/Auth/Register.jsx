@@ -1,5 +1,10 @@
+
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {
+    Link,
+    useLocation,
+    useNavigate,
+} from "react-router-dom";
 
 import {
     HiOutlineArrowRight,
@@ -20,6 +25,7 @@ import "./Register.css";
 const Register = () => {
 
     const navigate = useNavigate();
+    const location = useLocation();
 
 
     const [form, setForm] = useState({
@@ -35,9 +41,26 @@ const Register = () => {
     });
 
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] =
+        useState(false);
 
-    const [error, setError] = useState("");
+    const [error, setError] =
+        useState("");
+
+
+    /* ============================================================
+       PRESERVE PENDING PATHWAY
+       ------------------------------------------------------------
+       If the user arrived here from an opportunity page through
+       Login/Register, these values tell us where to continue
+       after the account is created.
+    ============================================================ */
+
+    const returnTo =
+        location.state?.returnTo || null;
+
+    const returnState =
+        location.state?.returnState || null;
 
 
     /* ============================================================
@@ -59,6 +82,51 @@ const Register = () => {
             [name]: value,
 
         }));
+
+    };
+
+
+    /* ============================================================
+       AFTER REGISTRATION
+    ============================================================ */
+
+    const handlePostRegistrationRedirect = () => {
+
+        /*
+         * User came from a specific migration pathway.
+         *
+         * Continue directly to the application flow while
+         * preserving the selected opportunity.
+         */
+
+        if (
+            returnTo &&
+            returnState
+        ) {
+
+            navigate(
+                returnTo,
+                {
+                    state: returnState,
+                    replace: true,
+                },
+            );
+
+            return;
+
+        }
+
+
+        /*
+         * Normal registration with no pending pathway.
+         */
+
+        navigate(
+            "/portal",
+            {
+                replace: true,
+            },
+        );
 
     };
 
@@ -86,7 +154,7 @@ const Register = () => {
         ) {
 
             setError(
-                "Please complete all fields."
+                "Please complete all fields.",
             );
 
             return;
@@ -98,10 +166,12 @@ const Register = () => {
            PASSWORD LENGTH
         -------------------------------------------------------- */
 
-        if (form.password.length < 6) {
+        if (
+            form.password.length < 6
+        ) {
 
             setError(
-                "Password must be at least 6 characters."
+                "Password must be at least 6 characters.",
             );
 
             return;
@@ -119,7 +189,7 @@ const Register = () => {
         ) {
 
             setError(
-                "Passwords do not match."
+                "Passwords do not match.",
             );
 
             return;
@@ -163,7 +233,7 @@ const Register = () => {
                 authService.logout();
 
                 setError(
-                    "Unable to create a client account."
+                    "Unable to create a client account.",
                 );
 
                 return;
@@ -175,7 +245,7 @@ const Register = () => {
                SUCCESS
             ---------------------------------------------------- */
 
-            navigate("/portal");
+            handlePostRegistrationRedirect();
 
 
         } catch (error) {
@@ -184,7 +254,7 @@ const Register = () => {
 
                 error.response?.data?.message ||
 
-                "Unable to create your account. Please try again."
+                "Unable to create your account. Please try again.",
 
             );
 
@@ -442,12 +512,43 @@ const Register = () => {
 
                             <p>
 
-                                Set up your secure client account
-                                and start your migration journey.
+                                {returnTo
+                                    ? "Create your account to continue with your selected migration pathway."
+                                    : "Set up your secure client account and start your migration journey."
+                                }
 
                             </p>
 
                         </header>
+
+
+                        {/* =================================================
+                            PATHWAY NOTICE
+                        ================================================= */}
+
+                        {returnTo && (
+
+                            <div className="auth-pathway-notice">
+
+                                <HiOutlineCheckCircle />
+
+                                <div>
+
+                                    <strong>
+                                        Your pathway is saved
+                                    </strong>
+
+                                    <span>
+                                        After creating your account,
+                                        you'll continue directly to
+                                        your application.
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        )}
 
 
                         {/* =================================================
@@ -503,6 +604,7 @@ const Register = () => {
                                         onChange={handleChange}
                                         placeholder="Enter your full name"
                                         autoComplete="name"
+                                        autoFocus
                                     />
 
                                 </div>
@@ -617,7 +719,9 @@ const Register = () => {
 
                                     {loading
                                         ? "Creating account..."
-                                        : "Create Account"
+                                        : returnTo
+                                            ? "Create Account & Continue"
+                                            : "Create Account"
                                     }
 
                                 </span>
@@ -646,7 +750,13 @@ const Register = () => {
                             </span>
 
 
-                            <Link to="/login">
+                            <Link
+                                to="/login"
+                                state={{
+                                    returnTo,
+                                    returnState,
+                                }}
+                            >
                                 Sign in
                             </Link>
 

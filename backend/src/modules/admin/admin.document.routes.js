@@ -1,17 +1,12 @@
 import express from "express";
 
 import authenticate from "../../middleware/auth.middleware.js";
+
 import { allowRoles } from "../../middleware/role.middleware.js";
 
 import {
-  getDashboardStats,
-  getAllApplications,
-  getApplicationById,
-  updateApplicationStatus,
-} from "./admin.controller.js";
-
-import {
   getAllDocuments,
+  getApplicationDocuments,
   getDocumentById,
   updateDocumentStatus,
   getDocumentsByStatus,
@@ -21,64 +16,16 @@ const router = express.Router();
 
 /*
 |--------------------------------------------------------------------------
-| Dashboard
+| GET ALL ADMIN DOCUMENTS
+|--------------------------------------------------------------------------
+|
+| GET /api/v1/admin/documents
+|
 |--------------------------------------------------------------------------
 */
 
 router.get(
-  "/dashboard",
-
-  authenticate,
-
-  allowRoles("ADMIN", "STAFF"),
-
-  getDashboardStats,
-);
-
-/*
-|--------------------------------------------------------------------------
-| Application Management
-|--------------------------------------------------------------------------
-*/
-
-router.get(
-  "/applications",
-
-  authenticate,
-
-  allowRoles("ADMIN", "STAFF"),
-
-  getAllApplications,
-);
-
-router.get(
-  "/applications/:id",
-
-  authenticate,
-
-  allowRoles("ADMIN", "STAFF"),
-
-  getApplicationById,
-);
-
-router.patch(
-  "/applications/:id/status",
-
-  authenticate,
-
-  allowRoles("ADMIN", "STAFF"),
-
-  updateApplicationStatus,
-);
-
-/*
-|--------------------------------------------------------------------------
-| Document Management
-|--------------------------------------------------------------------------
-*/
-
-router.get(
-  "/documents",
+  "/",
 
   authenticate,
 
@@ -87,8 +34,64 @@ router.get(
   getAllDocuments,
 );
 
+/*
+|--------------------------------------------------------------------------
+| GET APPLICATION DOCUMENTS
+|--------------------------------------------------------------------------
+|
+| GET /api/v1/admin/documents/application/:applicationId
+|
+| Used by the Application Details Documents tab.
+|
+|--------------------------------------------------------------------------
+*/
+
 router.get(
-  "/documents/:id",
+  "/application/:applicationId",
+
+  authenticate,
+
+  allowRoles("ADMIN", "STAFF"),
+
+  getApplicationDocuments,
+);
+
+/*
+|--------------------------------------------------------------------------
+| GET DOCUMENTS BY STATUS
+|--------------------------------------------------------------------------
+|
+| GET /api/v1/admin/documents/status/:status
+|
+| Example:
+|
+| /api/v1/admin/documents/status/APPROVED
+|
+|--------------------------------------------------------------------------
+*/
+
+router.get(
+  "/status/:status",
+
+  authenticate,
+
+  allowRoles("ADMIN", "STAFF"),
+
+  getDocumentsByStatus,
+);
+
+/*
+|--------------------------------------------------------------------------
+| GET SINGLE DOCUMENT
+|--------------------------------------------------------------------------
+|
+| GET /api/v1/admin/documents/:id
+|
+|--------------------------------------------------------------------------
+*/
+
+router.get(
+  "/:id",
 
   authenticate,
 
@@ -97,34 +100,31 @@ router.get(
   getDocumentById,
 );
 
+/*
+|--------------------------------------------------------------------------
+| UPDATE DOCUMENT STATUS
+|--------------------------------------------------------------------------
+|
+| PATCH /api/v1/admin/documents/:id/status
+|
+| Body:
+|
+| {
+|   "status": "APPROVED",
+|   "reviewNote": "Document verified successfully."
+| }
+|
+|--------------------------------------------------------------------------
+*/
+
 router.patch(
-  "/documents/:id/status",
+  "/:id/status",
 
   authenticate,
 
   allowRoles("ADMIN", "STAFF"),
 
   updateDocumentStatus,
-);
-
-/*
-|--------------------------------------------------------------------------
-| Filter Documents By Status
-|--------------------------------------------------------------------------
-|
-| Example:
-| /api/v1/admin/documents/status/APPROVED
-|
-*/
-
-router.get(
-  "/documents/status/:status",
-
-  authenticate,
-
-  allowRoles("ADMIN", "STAFF"),
-
-  getDocumentsByStatus,
 );
 
 export default router;

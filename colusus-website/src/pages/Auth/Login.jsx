@@ -1,5 +1,10 @@
+
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
 import authService from "../../services/authService";
 
@@ -9,10 +14,6 @@ import "./Login.css";
 // ------------------------------------------------------------
 // COMPANY LOGO
 // ------------------------------------------------------------
-// Change this path if your actual Colusus logo lives elsewhere.
-// If the logo is in /public, you can simply use:
-// const LOGO = "/logo.png";
-// ------------------------------------------------------------
 
 const LOGO = "/logo.png";
 
@@ -20,6 +21,7 @@ const LOGO = "/logo.png";
 const Login = () => {
 
   const navigate = useNavigate();
+  const location = useLocation();
 
 
   const [form, setForm] = useState({
@@ -35,6 +37,21 @@ const Login = () => {
   const [error, setError] =
     useState("");
 
+
+  // ============================================================
+  // PRESERVE THE PATHWAY THE USER WAS TRYING TO CONTINUE WITH
+  // ============================================================
+
+  const returnTo =
+    location.state?.returnTo || null;
+
+  const returnState =
+    location.state?.returnState || null;
+
+
+  // ============================================================
+  // FORM CHANGE
+  // ============================================================
 
   const handleChange = (event) => {
 
@@ -52,6 +69,56 @@ const Login = () => {
   };
 
 
+  // ============================================================
+  // AFTER LOGIN
+  // ============================================================
+
+  const handlePostLoginRedirect = () => {
+
+    /*
+     * If the user came from an opportunity pathway,
+     * continue directly to the application flow.
+     *
+     * The selected pathway is preserved in React Router
+     * state and is therefore available to NewApplication.
+     */
+
+    if (
+      returnTo &&
+      returnState
+    ) {
+
+      navigate(
+        returnTo,
+        {
+          state: returnState,
+          replace: true,
+        },
+      );
+
+      return;
+
+    }
+
+
+    /*
+     * Normal login with no pending pathway.
+     */
+
+    navigate(
+      "/portal",
+      {
+        replace: true,
+      },
+    );
+
+  };
+
+
+  // ============================================================
+  // SUBMIT
+  // ============================================================
+
   const handleSubmit = async (event) => {
 
     event.preventDefault();
@@ -65,7 +132,7 @@ const Login = () => {
     ) {
 
       setError(
-        "Please enter your email and password."
+        "Please enter your email and password.",
       );
 
       return;
@@ -81,9 +148,13 @@ const Login = () => {
       const result =
         await authService.login(
           form.email,
-          form.password
+          form.password,
         );
 
+
+      // ========================================================
+      // CLIENT PORTAL ONLY
+      // ========================================================
 
       if (
         result.user?.role !==
@@ -93,7 +164,7 @@ const Login = () => {
         authService.logout();
 
         setError(
-          "This portal is for clients only."
+          "This portal is for clients only.",
         );
 
         return;
@@ -101,13 +172,18 @@ const Login = () => {
       }
 
 
-      navigate("/portal");
+      // ========================================================
+      // CONTINUE TO ORIGINAL DESTINATION
+      // ========================================================
+
+      handlePostLoginRedirect();
+
 
     } catch (error) {
 
       setError(
         error.response?.data?.message ||
-        "Unable to sign in. Please check your credentials."
+        "Unable to sign in. Please check your credentials.",
       );
 
     } finally {
@@ -134,13 +210,14 @@ const Login = () => {
 
 
           {/* BRAND */}
+
           <div className="login-brand">
 
             <div className="login-brand-logo">
 
               <img
                 src={LOGO}
-                alt="Colusus"
+                alt="colossus"
               />
 
             </div>
@@ -148,7 +225,7 @@ const Login = () => {
             <div className="login-brand-name">
 
               <strong>
-                COLUSUS
+                colossus
               </strong>
 
               <span>
@@ -161,6 +238,7 @@ const Login = () => {
 
 
           {/* WELCOME CONTENT */}
+
           <div className="login-welcome-content">
 
             <span className="login-eyebrow">
@@ -176,7 +254,7 @@ const Login = () => {
 
 
             <p>
-              Welcome back to Colusus. Sign in to
+              Welcome back to colossus. Sign in to
               continue your migration journey, keep
               your documents organized and stay
               up to date with your application.
@@ -184,7 +262,9 @@ const Login = () => {
 
 
             {/* JOURNEY POINTS */}
+
             <div className="login-journey-list">
+
 
               <div className="login-journey-item">
 
@@ -193,6 +273,7 @@ const Login = () => {
                 </span>
 
                 <div>
+
                   <strong>
                     Manage your application
                   </strong>
@@ -200,6 +281,7 @@ const Login = () => {
                   <span>
                     Follow your progress from one place.
                   </span>
+
                 </div>
 
               </div>
@@ -212,6 +294,7 @@ const Login = () => {
                 </span>
 
                 <div>
+
                   <strong>
                     Keep documents organized
                   </strong>
@@ -219,6 +302,7 @@ const Login = () => {
                   <span>
                     Upload and track everything securely.
                   </span>
+
                 </div>
 
               </div>
@@ -231,6 +315,7 @@ const Login = () => {
                 </span>
 
                 <div>
+
                   <strong>
                     Stay informed
                   </strong>
@@ -243,12 +328,14 @@ const Login = () => {
 
               </div>
 
+
             </div>
 
           </div>
 
 
           {/* BOTTOM TRUST */}
+
           <div className="login-welcome-footer">
 
             <div className="login-security-icon">
@@ -263,7 +350,7 @@ const Login = () => {
 
               <span>
                 Your account and application information
-                are protected within the Colusus platform.
+                are protected within the colossus platform.
               </span>
 
             </div>
@@ -274,7 +361,6 @@ const Login = () => {
         </section>
 
 
-
         {/* =====================================================
             RIGHT — LOGIN FORM
         ===================================================== */}
@@ -283,6 +369,7 @@ const Login = () => {
 
 
           {/* FORM HEADER */}
+
           <div className="login-form-header">
 
             <span>
@@ -294,14 +381,17 @@ const Login = () => {
             </h2>
 
             <p>
-              Continue where you left off.
-              Your migration journey is waiting for you.
+              {returnTo
+                ? "Sign in to continue with your selected migration pathway."
+                : "Continue where you left off. Your migration journey is waiting for you."
+              }
             </p>
 
           </div>
 
 
           {/* FORM */}
+
           <form
             className="login-form"
             onSubmit={handleSubmit}
@@ -309,6 +399,7 @@ const Login = () => {
 
 
             {/* ERROR */}
+
             {error && (
 
               <div
@@ -330,6 +421,7 @@ const Login = () => {
 
 
             {/* EMAIL */}
+
             <div className="form-group">
 
               <label htmlFor="email">
@@ -351,6 +443,7 @@ const Login = () => {
 
 
             {/* PASSWORD */}
+
             <div className="form-group">
 
               <div className="form-label-row">
@@ -376,6 +469,7 @@ const Login = () => {
 
 
             {/* SUBMIT */}
+
             <button
               type="submit"
               className="login-submit"
@@ -385,14 +479,18 @@ const Login = () => {
               <span>
                 {loading
                   ? "Signing in..."
-                  : "Sign In"
+                  : returnTo
+                    ? "Continue to application"
+                    : "Sign In"
                 }
               </span>
 
               {!loading && (
+
                 <span className="login-submit-arrow">
                   →
                 </span>
+
               )}
 
             </button>
@@ -402,27 +500,31 @@ const Login = () => {
 
 
           {/* REGISTER */}
+
           <div className="login-register">
 
             <span>
-              New to Colusus?
+              New to colossus?
             </span>
 
             <Link to="/register">
               Create an account
+
               <span>
                 →
               </span>
+
             </Link>
 
           </div>
 
 
           {/* FORM FOOTER */}
+
           <div className="login-form-footer">
 
             <span>
-              © {new Date().getFullYear()} Colusus
+              © {new Date().getFullYear()} colossus
             </span>
 
             <span className="login-footer-dot" />

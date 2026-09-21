@@ -1,4 +1,5 @@
-import React from "react";
+
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -10,7 +11,6 @@ import {
 import authService from "../../../services/authService";
 
 import "./AdminHeader.css";
-
 
 /*
 |--------------------------------------------------------------------------
@@ -27,11 +27,10 @@ import "./AdminHeader.css";
 |--------------------------------------------------------------------------
 */
 
-
 const AdminHeader = () => {
-
   const navigate = useNavigate();
 
+  const [notice, setNotice] = useState("");
 
   /*
   |--------------------------------------------------------------------------
@@ -41,16 +40,13 @@ const AdminHeader = () => {
 
   const user = authService.getCurrentUser();
 
-
   const role = String(
     user?.role || ""
   )
     .trim()
     .toUpperCase();
 
-
   const isStaff = role === "STAFF";
-
 
   /*
   |--------------------------------------------------------------------------
@@ -62,12 +58,10 @@ const AdminHeader = () => {
     user?.name ||
     (isStaff ? "Staff" : "Admin");
 
-
   const displayRole =
     isStaff
       ? "Staff Member"
       : "Administrator";
-
 
   /*
   |--------------------------------------------------------------------------
@@ -84,43 +78,45 @@ const AdminHeader = () => {
     )
     .join("");
 
-
   /*
   |--------------------------------------------------------------------------
-  | NOTIFICATIONS
-  |--------------------------------------------------------------------------
-  |
-  | Notification functionality is intentionally not being rebuilt here.
-  |
-  | The notification system will be handled separately later.
-  |
+  | TEMPORARY NOT AVAILABLE MESSAGE
   |--------------------------------------------------------------------------
   */
 
+  const showNotice = (message) => {
+    setNotice(message);
+  };
+
+  useEffect(() => {
+    if (!notice) {
+      return undefined;
+    }
+
+    const timer = setTimeout(() => {
+      setNotice("");
+    }, 1800);
+
+    return () => clearTimeout(timer);
+  }, [notice]);
+
+  /*
+  |--------------------------------------------------------------------------
+  | UNAVAILABLE ACTIONS
+  |--------------------------------------------------------------------------
+  */
+
+  const handleSearch = () => {
+    showNotice("Search not available");
+  };
 
   const handleNotifications = () => {
-
-    navigate(
-      isStaff
-        ? "/admin/staff"
-        : "/admin/notifications"
-    );
-
+    showNotice("Notifications not available");
   };
-
-
-  /*
-  |--------------------------------------------------------------------------
-  | PROFILE
-  |--------------------------------------------------------------------------
-  */
 
   const handleProfile = () => {
-
-    navigate("/admin/profile");
-
+    showNotice("Profile not available");
   };
-
 
   /*
   |--------------------------------------------------------------------------
@@ -129,9 +125,7 @@ const AdminHeader = () => {
   */
 
   return (
-
     <header className="admin-header">
-
 
       {/* ============================================================
                 LEFT
@@ -160,7 +154,6 @@ const AdminHeader = () => {
 
       <div className="admin-header-right">
 
-
         {/* ========================================================
                     SEARCH
                 ======================================================== */}
@@ -169,10 +162,9 @@ const AdminHeader = () => {
           type="button"
           className="admin-header-icon-button"
           aria-label="Search"
+          onClick={handleSearch}
         >
-
           <HiOutlineSearch />
-
         </button>
 
 
@@ -189,11 +181,12 @@ const AdminHeader = () => {
           aria-label="Notifications"
           onClick={handleNotifications}
         >
-
           <HiOutlineBell />
 
-          <span className="admin-notification-dot" />
-
+          <span
+            className="admin-notification-dot"
+            aria-hidden="true"
+          />
         </button>
 
 
@@ -209,9 +202,7 @@ const AdminHeader = () => {
         >
 
           <div className="admin-header-avatar">
-
             {avatar || "U"}
-
           </div>
 
 
@@ -236,11 +227,24 @@ const AdminHeader = () => {
 
       </div>
 
+
+      {/* ============================================================
+                TEMPORARY NOTICE
+            ============================================================ */}
+
+      {notice && (
+        <div
+          className="admin-header-notice"
+          role="status"
+          aria-live="polite"
+        >
+          {notice}
+        </div>
+      )}
+
     </header>
-
   );
-
 };
 
-
 export default AdminHeader;
+

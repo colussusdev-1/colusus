@@ -1,0 +1,314 @@
+.application-action-panel {
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr) auto;
+    gap: 20px;
+    align-items: center;
+
+    padding: 24px 26px;
+
+    margin-top: 26px;
+
+    border: 1px solid;
+    border-radius: 18px;
+
+    box-shadow: 0 8px 24px rgba(20, 48, 82, 0.05);
+}
+
+
+/* ============================================================
+   ICON
+============================================================ */
+
+.application-action-panel-icon {
+    width: 52px;
+    height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+
+    font-size: 25px;
+}
+
+
+.application-action-panel-icon svg {
+    width: 25px;
+    height: 25px;
+}
+
+
+/* ============================================================
+   CONTENT
+============================================================ */
+
+.application-action-panel-content {
+    min-width: 0;
+}
+
+
+.application-action-panel-eyebrow {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+
+.application-action-panel h2 {
+    margin: 0;
+
+    font-size: 21px;
+    line-height: 1.25;
+    font-weight: 750;
+}
+
+
+.application-action-panel p {
+    margin: 7px 0 0;
+
+    max-width: 760px;
+
+    font-size: 14px;
+    line-height: 1.65;
+}
+
+
+/* ============================================================
+   MISSING DOCUMENTS
+============================================================ */
+
+.application-action-panel-documents {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+
+    margin-top: 13px;
+}
+
+
+.application-action-panel-documents span {
+    display: inline-flex;
+    align-items: center;
+
+    min-height: 28px;
+
+    padding: 5px 10px;
+
+    border-radius: 7px;
+
+    font-size: 12px;
+    font-weight: 650;
+}
+
+
+/* ============================================================
+   BUTTON
+============================================================ */
+
+.application-action-panel-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    min-height: 44px;
+
+    padding: 0 17px;
+
+    border: 0;
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font: inherit;
+    font-size: 13px;
+    font-weight: 750;
+
+    white-space: nowrap;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.application-action-panel-button:hover {
+    transform: translateY(-1px);
+}
+
+
+.application-action-panel-button svg {
+    width: 17px;
+    height: 17px;
+}
+
+
+/* ============================================================
+   ACTION
+============================================================ */
+
+.application-action-panel-action {
+    background: #fff8ec;
+    border-color: #f0d9ac;
+}
+
+
+.application-action-panel-action .application-action-panel-icon {
+    color: #b86b00;
+    background: #fff0d0;
+}
+
+
+.application-action-panel-action .application-action-panel-eyebrow {
+    color: #ad6908;
+}
+
+
+.application-action-panel-action .application-action-panel-documents span {
+    background: #fff0d0;
+    color: #80500c;
+}
+
+
+.application-action-panel-action .application-action-panel-button {
+    background: #123f68;
+    color: #ffffff;
+
+    box-shadow: 0 6px 16px rgba(18, 63, 104, 0.18);
+}
+
+
+/* ============================================================
+   SUCCESS
+============================================================ */
+
+.application-action-panel-success {
+    background: #f2fbf7;
+    border-color: #ccebdd;
+}
+
+
+.application-action-panel-success .application-action-panel-icon {
+    color: #15835a;
+    background: #def5ea;
+}
+
+
+.application-action-panel-success .application-action-panel-eyebrow {
+    color: #15835a;
+}
+
+
+.application-action-panel-success .application-action-panel-button {
+    background: #123f68;
+    color: #ffffff;
+}
+
+
+/* ============================================================
+   WAITING
+============================================================ */
+
+.application-action-panel-waiting {
+    background: #f5f9fd;
+    border-color: #dce8f3;
+}
+
+
+.application-action-panel-waiting .application-action-panel-icon {
+    color: #216da8;
+    background: #e5f1fb;
+}
+
+
+.application-action-panel-waiting .application-action-panel-eyebrow {
+    color: #216da8;
+}
+
+
+/* ============================================================
+   INFO
+============================================================ */
+
+.application-action-panel-info {
+    background: #f5f9fd;
+    border-color: #dce8f3;
+}
+
+
+.application-action-panel-info .application-action-panel-icon {
+    color: #216da8;
+    background: #e5f1fb;
+}
+
+
+.application-action-panel-info .application-action-panel-eyebrow {
+    color: #216da8;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media (max-width: 760px) {
+
+    .application-action-panel {
+        grid-template-columns: 44px minmax(0, 1fr);
+
+        padding: 20px;
+    }
+
+
+    .application-action-panel-icon {
+        width: 44px;
+        height: 44px;
+
+        border-radius: 12px;
+    }
+
+
+    .application-action-panel-icon svg {
+        width: 21px;
+        height: 21px;
+    }
+
+
+    .application-action-panel h2 {
+        font-size: 18px;
+    }
+
+
+    .application-action-panel p {
+        font-size: 13px;
+    }
+
+
+    .application-action-panel-button {
+        grid-column: 1 / -1;
+
+        width: 100%;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .application-action-panel {
+        gap: 14px;
+        padding: 17px;
+    }
+
+
+    .application-action-panel-documents span {
+        font-size: 11px;
+    }
+
+}

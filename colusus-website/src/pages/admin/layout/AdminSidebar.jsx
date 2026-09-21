@@ -1,3 +1,4 @@
+
 import React from "react";
 
 import {
@@ -18,6 +19,7 @@ import {
     HiOutlineChatAlt2,
     HiOutlineBriefcase,
     HiOutlineViewBoards,
+    HiOutlineCollection,
 } from "react-icons/hi";
 
 import authService from "../../../services/authService";
@@ -61,6 +63,12 @@ const adminNavigation = [
     },
 
     {
+        label: "Forms",
+        path: "/admin/forms",
+        icon: HiOutlineCollection,
+    },
+
+    {
         label: "Consultations",
         path: "/admin/consultations",
         icon: HiOutlineChatAlt2,
@@ -70,6 +78,7 @@ const adminNavigation = [
         label: "Notifications",
         path: "/admin/notifications",
         icon: HiOutlineBell,
+        disabled: true,
     },
 
     {
@@ -82,6 +91,7 @@ const adminNavigation = [
         label: "Activity",
         path: "/admin/activity",
         icon: HiOutlineClock,
+        disabled: true,
     },
 
 ];
@@ -94,10 +104,6 @@ const adminNavigation = [
 |
 | Staff gets its own operational navigation while continuing to use
 | the shared AdminSidebar component.
-|
-| IMPORTANT:
-|
-| We are only exposing routes that actually exist.
 |
 */
 
@@ -115,6 +121,13 @@ const staffNavigation = [
         path: "/admin/staff/applications",
         icon: HiOutlineViewBoards,
         type: "pipeline",
+    },
+
+    {
+        label: "Website Enquiries",
+        path: "/admin/staff/form-submissions",
+        icon: HiOutlineCollection,
+        type: "form-submissions",
     },
 
 ];
@@ -226,21 +239,6 @@ const AdminSidebar = () => {
     |--------------------------------------------------------------------------
     | STAFF ACTIVE STATE
     |--------------------------------------------------------------------------
-    |
-    | We don't want "My Workspace" to stay highlighted when the user
-    | is actually working inside the Application Pipeline.
-    |
-    | Instead:
-    |
-    | /admin/staff
-    |        → My Workspace
-    |
-    | /admin/staff/applications
-    |        → Application Pipeline
-    |
-    | /admin/staff/applications/:id
-    |        → Application Pipeline
-    |
     */
 
     const isStaffNavigationActive = (
@@ -271,9 +269,24 @@ const AdminSidebar = () => {
 
             return (
                 location.pathname ===
-                    "/admin/staff/applications" ||
+                "/admin/staff/applications" ||
                 location.pathname.startsWith(
                     "/admin/staff/applications/",
+                )
+            );
+        }
+
+
+        if (
+            item.type ===
+            "form-submissions"
+        ) {
+
+            return (
+                location.pathname ===
+                "/admin/staff/form-submissions" ||
+                location.pathname.startsWith(
+                    "/admin/staff/form-submissions/",
                 )
             );
         }
@@ -362,6 +375,49 @@ const AdminSidebar = () => {
 
                             /*
                             ------------------------------------------------
+                            DISABLED ADMIN NAVIGATION
+                            ------------------------------------------------
+                            */
+
+                            if (
+                                !isStaff &&
+                                item.disabled
+                            ) {
+
+                                return (
+
+                                    <div
+                                        key={
+                                            item.label
+                                        }
+                                        className="
+                                            admin-nav-item
+                                            admin-nav-item-disabled
+                                        "
+                                        aria-disabled="true"
+                                    >
+
+                                        <Icon className="admin-nav-icon" />
+
+                                        <span>
+                                            {
+                                                item.label
+                                            }
+                                        </span>
+
+                                        <small>
+                                            Not available
+                                        </small>
+
+                                    </div>
+
+                                );
+
+                            }
+
+
+                            /*
+                            ------------------------------------------------
                             STAFF
                             ------------------------------------------------
                             */
@@ -410,10 +466,10 @@ const AdminSidebar = () => {
 
                                         {item.type ===
                                             "pipeline" && (
-                                            <span className="admin-nav-arrow">
-                                                →
-                                            </span>
-                                        )}
+                                                <span className="admin-nav-arrow">
+                                                    →
+                                                </span>
+                                            )}
 
                                     </NavLink>
 
@@ -446,10 +502,9 @@ const AdminSidebar = () => {
                                     }) =>
                                         `
                                         admin-nav-item
-                                        ${
-                                            isActive
-                                                ? "admin-nav-item-active"
-                                                : ""
+                                        ${isActive
+                                            ? "admin-nav-item-active"
+                                            : ""
                                         }
                                         `
                                     }
@@ -486,45 +541,91 @@ const AdminSidebar = () => {
                     USER PROFILE
                 ======================================================== */}
 
-                <NavLink
-                    to={
-                        isStaff
-                            ? "/admin/staff"
-                            : "/admin/profile"
-                    }
-                    className="admin-profile-link"
-                >
+                {isStaff ? (
 
-                    <div className="admin-avatar">
-                        {
-                            avatar ||
-                            "U"
-                        }
+                    <NavLink
+                        to="/admin/staff"
+                        className="admin-profile-link"
+                    >
+
+                        <div className="admin-avatar">
+                            {
+                                avatar ||
+                                "U"
+                            }
+                        </div>
+
+
+                        <div className="admin-profile-info">
+
+                            <strong>
+                                {
+                                    displayName
+                                }
+                            </strong>
+
+                            <span>
+                                {
+                                    displayRole
+                                }
+                            </span>
+
+                        </div>
+
+
+                        <HiOutlineUserCircle
+                            className="admin-profile-icon"
+                        />
+
+                    </NavLink>
+
+                ) : (
+
+                    <div
+                        className="
+                            admin-profile-link
+                            admin-profile-link-disabled
+                        "
+                        aria-disabled="true"
+                    >
+
+                        <div className="admin-avatar">
+                            {
+                                avatar ||
+                                "U"
+                            }
+                        </div>
+
+
+                        <div className="admin-profile-info">
+
+                            <strong>
+                                {
+                                    displayName
+                                }
+                            </strong>
+
+                            <span>
+                                {
+                                    displayRole
+                                }
+                            </span>
+
+                        </div>
+
+
+                        <HiOutlineUserCircle
+                            className="admin-profile-icon"
+                        />
+
+
+                        <small>
+                            Not available
+                        </small>
+
                     </div>
 
-
-                    <div className="admin-profile-info">
-
-                        <strong>
-                            {
-                                displayName
-                            }
-                        </strong>
-
-                        <span>
-                            {
-                                displayRole
-                            }
-                        </span>
-
-                    </div>
-
-
-                    <HiOutlineUserCircle
-                        className="admin-profile-icon"
-                    />
-
-                </NavLink>
+                )}
 
 
                 {/* ========================================================
@@ -553,6 +654,7 @@ const AdminSidebar = () => {
         </aside>
 
     );
+
 };
 
 

@@ -915,7 +915,7 @@ export const getNextAction = (application) => {
       title: "Application submitted",
 
       description:
-        "Your application has been successfully submitted to Colusus.",
+        "Your application has been successfully submitted to colossus.",
 
       type: "SUBMITTED",
 
@@ -933,7 +933,7 @@ export const getNextAction = (application) => {
     return {
       title: "Application under review",
 
-      description: "The Colusus team is currently reviewing your application.",
+      description: "The colossus team is currently reviewing your application.",
 
       type: "REVIEW",
 
@@ -952,7 +952,7 @@ export const getNextAction = (application) => {
       title: "Application processing",
 
       description:
-        "Your application is currently being processed by the Colusus team.",
+        "Your application is currently being processed by the colossus team.",
 
       type: "PROCESSING",
 
@@ -990,7 +990,7 @@ export const getNextAction = (application) => {
       title: "Application decision",
 
       description:
-        "Your application has reached a final decision. Review the latest information from Colusus.",
+        "Your application has reached a final decision. Review the latest information from colossus.",
 
       type: "COMPLETED",
 

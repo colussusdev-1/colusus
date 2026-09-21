@@ -269,7 +269,7 @@ const buildFallbackActivity = (application) => {
       title: "Application submitted",
 
       description:
-        "Your application has been submitted to Colusus.",
+        "Your application has been submitted to colossus.",
 
       createdAt:
         application.updatedAt ||
@@ -292,7 +292,7 @@ const buildFallbackActivity = (application) => {
       title: "Application under review",
 
       description:
-        "Your application is currently being reviewed by the Colusus team.",
+        "Your application is currently being reviewed by the colossus team.",
 
       createdAt:
         application.updatedAt ||
@@ -315,7 +315,7 @@ const buildFallbackActivity = (application) => {
       title: "Additional documents requested",
 
       description:
-        "Colusus has requested additional documents for your application.",
+        "colossus has requested additional documents for your application.",
 
       createdAt:
         application.updatedAt ||
@@ -338,7 +338,7 @@ const buildFallbackActivity = (application) => {
       title: "Application processing",
 
       description:
-        "Your application is currently being processed by the Colusus team.",
+        "Your application is currently being processed by the colossus team.",
 
       createdAt:
         application.updatedAt ||
@@ -384,7 +384,7 @@ const buildFallbackActivity = (application) => {
       title: "Application requires attention",
 
       description:
-        "Your application requires attention. Please review the latest information from Colusus.",
+        "Your application requires attention. Please review the latest information from colossus.",
 
       createdAt:
         application.updatedAt ||

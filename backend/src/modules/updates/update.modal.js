@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 /*
 ============================================================
-COLUSUS — UPDATE MODEL
+colossus — UPDATE MODEL
 ============================================================
 */
 

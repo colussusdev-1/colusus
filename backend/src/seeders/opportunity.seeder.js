@@ -13,6 +13,7 @@ import croatia from "./data/croatia.js";
 import finland from "./data/finland.js";
 import germany from "./data/germany.js";
 import hungary from "./data/hungary.js";
+import ireland from "./data/ireland.js";
 import latvia from "./data/latvia.js";
 import lithuania from "./data/lithuania.js";
 import norway from "./data/norway.js";
@@ -36,6 +37,7 @@ const countries = [
   finland,
   germany,
   hungary,
+  ireland,
   latvia,
   lithuania,
   norway,
@@ -209,10 +211,10 @@ const buildRequiredDocuments = (opportunity) => {
         `Required Document ${index + 1}`;
 
       /*
-        |--------------------------------------------------------------------------
-        | Respect a valid explicit type.
-        |--------------------------------------------------------------------------
-        */
+      |--------------------------------------------------------------------------
+      | Respect a valid explicit type.
+      |--------------------------------------------------------------------------
+      */
 
       const validTypes = [
         "PASSPORT",

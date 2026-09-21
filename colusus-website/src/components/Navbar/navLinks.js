@@ -1,74 +1,63 @@
 const navLinks = [
+  {
+    name: "Home",
+    path: "/",
+  },
 
-    {
-        name: "Home",
-        path: "/",
-    },
+  {
+    name: "About Us",
+    path: "/about",
+  },
 
+  {
+    name: "Services",
 
-    {
-        name: "About Us",
-        path: "/about",
-    },
+    dropdown: [
+      {
+        name: "Canada Migration",
+        path: "/services/canada-migration",
+      },
 
+      {
+        name: "Global Works & Immigration Pathway",
+        path: "/services/global-works",
+      },
 
-    {
-        name: "Services",
+      {
+        name: "Ireland Nursing & Healthcare",
+        path: "/services/ireland-nursing",
+      },
 
-        dropdown: [
+      {
+        name: "Tourist Visa",
+        path: "/services/tourist-visa",
+      },
+    ],
+  },
+  {
+    name: "Blog",
+    path: "/blog",
+  },
 
-            {
-                name: "Canada Migration",
-                path: "/services/canada-migration",
-            },
+  // {
+  //     name: "Overseas Job Matching",
+  //     path: "/overseas-job-matching",
+  // },
 
+  // {
+  //     name: "Offshore Company",
+  //     path: "/offshore-company",
+  // },
 
-            {
-                name: "Global Works & Immigration Pathway",
-                path: "/services/global-works",
-            },
+  // {
+  //     name: "Shop",
+  //     path: "/shop",
+  // },
 
-
-            {
-                name: "Tourist Visa",
-                path: "/services/tourist-visa",
-            }
-
-        ],
-
-    },
-
-
-    // {
-    //     name: "Overseas Job Matching",
-    //     path: "/overseas-job-matching",
-    // },
-
-
-    // {
-    //     name: "Offshore Company",
-    //     path: "/offshore-company",
-    // },
-
-
-    // {
-    //     name: "Blog",
-    //     path: "/blog",
-    // },
-
-
-    // {
-    //     name: "Shop",
-    //     path: "/shop",
-    // },
-
-
-    {
-        name: "Contact",
-        path: "/contact",
-    },
-
+  {
+    name: "Contact",
+    path: "/contact",
+  },
 ];
-
 
 export default navLinks;

@@ -22,6 +22,15 @@ import documentService
 import ApplicationDetailsHeader
     from "../../components/ClientPortal/applications/ApplicationDetails/ApplicationDetailsHeader/ApplicationDetailsHeader";
 
+import ApplicationActionPanel
+    from "../../components/ClientPortal/applications/ApplicationDetails/ApplicationActionPanel/ApplicationActionPanel";
+
+import ApplicationAtAGlance
+    from "../../components/ClientPortal/applications/ApplicationDetails/ApplicationAtAGlance/ApplicationAtAGlance";
+
+import ApplicationInsight
+    from "../../components/ClientPortal/applications/ApplicationDetails/ApplicationInsight/ApplicationInsight";
+
 import ApplicationJourney
     from "../../components/ClientPortal/applications/ApplicationDetails/ApplicationJourney/ApplicationJourney";
 
@@ -105,9 +114,9 @@ const ApplicationDetails = () => {
     /* =========================================================
        ACTIVITY REFRESH STATE
     =========================================================
-    
-    Used by the ApplicationActivity refresh button.
-    
+
+       Used by the ApplicationActivity refresh button.
+
     ========================================================= */
 
     const [refreshingActivity, setRefreshingActivity] =
@@ -219,24 +228,21 @@ const ApplicationDetails = () => {
     /* =========================================================
        REFRESH APPLICATION
     =========================================================
-    
-    This is called by the refresh button inside
-    ApplicationActivity.
-    
-    It refreshes BOTH:
-    
-    1. Application
-       - status
-       - progress
-       - activity
-       - updatedAt
-       - workflow
-    
-    2. Documents
-       - uploaded documents
-       - document statuses
-       - document changes
-    
+
+       Refreshes BOTH:
+
+       1. Application
+          - status
+          - progress
+          - activity
+          - updatedAt
+          - workflow
+
+       2. Documents
+          - uploaded documents
+          - document statuses
+          - document changes
+
     ========================================================= */
 
     const refreshApplication = async () => {
@@ -370,6 +376,107 @@ const ApplicationDetails = () => {
             };
 
         });
+
+    };
+
+
+    /* =========================================================
+       APPLICATION ACTION
+    =========================================================
+
+       Handles the action selected from the new
+       ApplicationActionPanel.
+
+       The action panel does not own navigation.
+       This parent page controls where the user goes.
+
+    ========================================================= */
+
+    const handleApplicationAction = (
+        action,
+    ) => {
+
+        /* -----------------------------------------------------
+           DOCUMENT ACTION
+        ----------------------------------------------------- */
+
+        if (action === "documents") {
+
+            const completionElement =
+                document.getElementById(
+                    "application-completion",
+                );
+
+
+            if (completionElement) {
+
+                completionElement.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                });
+
+            }
+
+            return;
+
+        }
+
+
+        /* -----------------------------------------------------
+           APPLICATION ACTION
+        ----------------------------------------------------- */
+
+        if (action === "application") {
+
+            const completionElement =
+                document.getElementById(
+                    "application-completion",
+                );
+
+
+            if (completionElement) {
+
+                completionElement.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                });
+
+            }
+
+            return;
+
+        }
+
+
+        /* -----------------------------------------------------
+           ACTIVITY ACTION
+        -----------------------------------------------------
+
+           Scroll to the activity panel when the action panel
+           is asking the client to review an application update.
+
+        ----------------------------------------------------- */
+
+        if (action === "activity") {
+
+            const activityElement =
+                document.querySelector(
+                    ".application-activity",
+                );
+
+
+            if (activityElement) {
+
+                activityElement.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                });
+
+            }
+
+            return;
+
+        }
 
     };
 
@@ -539,9 +646,9 @@ const ApplicationDetails = () => {
     /* =========================================================
        VIEW DOCUMENT
     =========================================================
-    
-    The client navigates to our internal DocumentViewer.
-    
+
+       The client navigates to our internal DocumentViewer.
+
     ========================================================= */
 
     const handleDocumentView = (
@@ -694,6 +801,51 @@ const ApplicationDetails = () => {
 
 
                 {/* =================================================
+                    IMMEDIATE ACTION
+                ================================================= */}
+
+                <ApplicationActionPanel
+                    application={
+                        application
+                    }
+
+                    documents={
+                        documents
+                    }
+
+                    onAction={
+                        handleApplicationAction
+                    }
+                />
+
+
+                {/* =================================================
+                    APPLICATION AT A GLANCE
+                ================================================= */}
+
+                <ApplicationAtAGlance
+                    application={
+                        application
+                    }
+
+                    documents={
+                        documents
+                    }
+                />
+
+
+                {/* =================================================
+                    CLIENT INSIGHT
+                ================================================= */}
+
+                <ApplicationInsight
+                    application={
+                        application
+                    }
+                />
+
+
+                {/* =================================================
                     APPLICATION JOURNEY
                 ================================================= */}
 
@@ -720,6 +872,8 @@ const ApplicationDetails = () => {
                 ================================================= */}
 
                 <ApplicationCompletion
+
+                    id="application-completion"
 
                     application={
                         application

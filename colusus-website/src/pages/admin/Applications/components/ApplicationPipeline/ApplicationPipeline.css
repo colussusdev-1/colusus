@@ -1,0 +1,575 @@
+.applicationPipeline {
+    width: 100%;
+    min-width: 0;
+}
+
+
+/*
+============================================================
+HEADER
+============================================================
+*/
+
+.applicationPipeline__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 18px;
+}
+
+.applicationPipeline__eyebrow {
+    display: block;
+    margin-bottom: 6px;
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.applicationPipeline__header h2 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.applicationPipeline__header p {
+    margin: 5px 0 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.applicationPipeline__summary {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 8px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #ffffff;
+    white-space: nowrap;
+}
+
+.applicationPipeline__summary strong {
+    color: #0f172a;
+    font-size: 15px;
+}
+
+.applicationPipeline__summary span {
+    color: #64748b;
+    font-size: 12px;
+}
+
+
+/*
+============================================================
+TOOLBAR
+============================================================
+*/
+
+.applicationPipeline__toolbar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 30px;
+    margin-bottom: 10px;
+}
+
+.applicationPipeline__live {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.applicationPipeline__live>span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #22c55e;
+}
+
+.applicationPipeline__saving {
+    color: #64748b;
+    font-size: 11px;
+}
+
+
+/*
+============================================================
+BOARD
+============================================================
+*/
+
+.applicationPipeline__board {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(220px, 1fr));
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+}
+
+
+/*
+============================================================
+COLUMN
+============================================================
+*/
+
+.applicationPipeline__column {
+    display: flex;
+    flex-direction: column;
+    min-width: 220px;
+    min-height: 420px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #f8fafc;
+    transition:
+        border-color 160ms ease,
+        background 160ms ease;
+}
+
+.applicationPipeline__column--dropActive {
+    border-color: #93c5fd;
+    background: #eff6ff;
+}
+
+
+/*
+============================================================
+COLUMN HEADER
+============================================================
+*/
+
+.applicationPipeline__columnHeader {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 13px 13px 11px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.applicationPipeline__columnTitle {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    min-width: 0;
+}
+
+.applicationPipeline__columnIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    font-size: 15px;
+}
+
+.applicationPipeline__column--blue .applicationPipeline__columnIcon {
+    color: #2563eb;
+    background: #dbeafe;
+}
+
+.applicationPipeline__column--yellow .applicationPipeline__columnIcon {
+    color: #b45309;
+    background: #fef3c7;
+}
+
+.applicationPipeline__column--orange .applicationPipeline__columnIcon {
+    color: #c2410c;
+    background: #ffedd5;
+}
+
+.applicationPipeline__column--green .applicationPipeline__columnIcon {
+    color: #15803d;
+    background: #dcfce7;
+}
+
+.applicationPipeline__column--purple .applicationPipeline__columnIcon {
+    color: #7e22ce;
+    background: #f3e8ff;
+}
+
+.applicationPipeline__columnTitle h3 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.applicationPipeline__columnTitle p {
+    margin: 3px 0 0;
+    color: #94a3b8;
+    font-size: 10px;
+    line-height: 1.35;
+}
+
+.applicationPipeline__count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    min-width: 24px;
+    height: 22px;
+    padding: 0 6px;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #475569;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+
+/*
+============================================================
+CARDS AREA
+============================================================
+*/
+
+.applicationPipeline__cards {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 100px;
+    padding: 9px;
+}
+
+
+/*
+============================================================
+APPLICATION CARD
+============================================================
+*/
+
+.applicationPipeline__card {
+    position: relative;
+    padding: 11px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #ffffff;
+    cursor: grab;
+    transition:
+        border-color 150ms ease,
+        box-shadow 150ms ease,
+        opacity 150ms ease,
+        transform 150ms ease;
+}
+
+.applicationPipeline__card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+.applicationPipeline__card:active {
+    cursor: grabbing;
+}
+
+.applicationPipeline__card--dragging {
+    opacity: 0.45;
+    transform: rotate(1deg);
+}
+
+.applicationPipeline__card--saving {
+    cursor: wait;
+    opacity: 0.65;
+}
+
+
+/*
+============================================================
+CARD TOP
+============================================================
+*/
+
+.applicationPipeline__cardTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.applicationPipeline__reference {
+    overflow: hidden;
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.applicationPipeline__status {
+    flex: 0 0 auto;
+    padding: 3px 6px;
+    border-radius: 5px;
+    background: #f1f5f9;
+    color: #64748b;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+
+/*
+============================================================
+IDENTITY
+============================================================
+*/
+
+.applicationPipeline__identity {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-width: 0;
+}
+
+.applicationPipeline__avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 31px;
+    height: 31px;
+    border-radius: 50%;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.applicationPipeline__identityCopy {
+    min-width: 0;
+}
+
+.applicationPipeline__identityCopy h4 {
+    overflow: hidden;
+    margin: 0;
+    color: #0f172a;
+    font-size: 12px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.applicationPipeline__identityCopy p {
+    overflow: hidden;
+    margin: 2px 0 0;
+    color: #94a3b8;
+    font-size: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/*
+============================================================
+META
+============================================================
+*/
+
+.applicationPipeline__meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 11px;
+    padding-top: 9px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.applicationPipeline__meta div,
+.applicationPipeline__stage {
+    min-width: 0;
+}
+
+.applicationPipeline__meta span,
+.applicationPipeline__stage span {
+    display: block;
+    margin-bottom: 3px;
+    color: #94a3b8;
+    font-size: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.applicationPipeline__meta strong,
+.applicationPipeline__stage strong {
+    display: block;
+    overflow: hidden;
+    color: #475569;
+    font-size: 10px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.applicationPipeline__stage {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #f1f5f9;
+}
+
+
+/*
+============================================================
+EMPTY COLUMN
+============================================================
+*/
+
+.applicationPipeline__emptyColumn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 75px;
+    border: 1px dashed #dbe3ec;
+    border-radius: 7px;
+    color: #94a3b8;
+    font-size: 10px;
+}
+
+
+/*
+============================================================
+SAVING
+============================================================
+*/
+
+.applicationPipeline__savingOverlay {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    padding: 4px 7px;
+    border: 1px solid #dbeafe;
+    border-radius: 5px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 9px;
+    font-weight: 600;
+}
+
+
+/*
+============================================================
+COLUMN FOOTER
+============================================================
+*/
+
+.applicationPipeline__columnFooter {
+    padding: 9px 11px;
+    border-top: 1px solid #e2e8f0;
+    color: #94a3b8;
+    font-size: 9px;
+}
+
+
+/*
+============================================================
+RESPONSIVE
+============================================================
+*/
+
+@media (max-width: 1200px) {
+
+    .applicationPipeline__board {
+        grid-template-columns:
+            repeat(5, minmax(240px, 1fr));
+    }
+
+}
+
+
+@media (max-width: 768px) {
+
+    .applicationPipeline__header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .applicationPipeline__summary {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .applicationPipeline__board {
+        grid-template-columns:
+            repeat(5, minmax(255px, 1fr));
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .applicationPipeline__header h2 {
+        font-size: 20px;
+    }
+
+    .applicationPipeline__board {
+        grid-template-columns:
+            repeat(5, minmax(240px, 1fr));
+    }
+
+}
+
+.applicationPipeline__pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 36px;
+    padding: 8px 12px;
+    border-top: 1px solid #edf1f6;
+    border-bottom: 1px solid #edf1f6;
+}
+
+.applicationPipeline__pagination button {
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #64748b;
+    cursor: pointer;
+    transition:
+        background 150ms ease,
+        border-color 150ms ease,
+        color 150ms ease;
+}
+
+.applicationPipeline__pagination button:hover:not(:disabled) {
+    border-color: #cbd5e1;
+    background: #f8fafc;
+    color: #0056b3;
+}
+
+.applicationPipeline__pagination button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.applicationPipeline__pagination button svg {
+    width: 14px;
+    height: 14px;
+}
+
+.applicationPipeline__pagination span {
+    min-width: 42px;
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 600;
+    text-align: center;
+}

@@ -1,4 +1,4 @@
-# Colusus Client Dashboard — Componentized
+# colossus Client Dashboard — Componentized
 
 Replace the existing `src/pages/Client/ClientDashboard.jsx` with the provided page file.
 

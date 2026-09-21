@@ -1,3 +1,4 @@
+
 import React from "react";
 
 import {
@@ -9,15 +10,19 @@ import {
 import StaffDashboard from "./StaffDashboard";
 import StaffApplications from "./StaffApplications";
 import StaffApplicationDetail from "./StaffApplicationDetail";
+import StaffFormSubmissions from "./StaffFormSubmissions";
+import StaffFormSubmissionDetail from "./StaffFormSubmissionDetail";
 
 const StaffRoutes = () => {
     return (
         <Routes>
+            {/* Staff Dashboard */}
             <Route
                 index
                 element={<StaffDashboard />}
             />
 
+            {/* Applications */}
             <Route
                 path="applications"
                 element={<StaffApplications />}
@@ -28,6 +33,18 @@ const StaffRoutes = () => {
                 element={<StaffApplicationDetail />}
             />
 
+            {/* Website Form Submissions */}
+            <Route
+                path="form-submissions"
+                element={<StaffFormSubmissions />}
+            />
+
+            <Route
+                path="form-submissions/:id"
+                element={<StaffFormSubmissionDetail />}
+            />
+
+            {/* Fallback */}
             <Route
                 path="*"
                 element={

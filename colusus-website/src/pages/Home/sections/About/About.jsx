@@ -14,8 +14,8 @@ import {
 
 import "./Home-about.css";
 
-
 const About = () => {
+
 
     const sectionRef = useRef(null);
 
@@ -67,7 +67,6 @@ const About = () => {
     }, []);
 
 
-
     return (
 
         <section
@@ -78,9 +77,10 @@ const About = () => {
                 }`}
         >
 
+
             {/* =====================================================
-                BACKGROUND ATMOSPHERE
-            ===================================================== */}
+            BACKGROUND ATMOSPHERE
+        ===================================================== */}
 
             <div
                 className="home-about__background"
@@ -100,13 +100,12 @@ const About = () => {
             </div>
 
 
-
             <div className="home-about__inner">
 
 
                 {/* =================================================
-                    HEADER
-                ================================================= */}
+                HEADER
+            ================================================= */}
 
                 <header className="home-about__header">
 
@@ -118,8 +117,6 @@ const About = () => {
                             <HiOutlineGlobeAlt />
 
                         </span>
-
-                        <span className="home-about__eyebrow-line"></span>
 
                         <span>
                             ABOUT COLOSSUS
@@ -146,15 +143,15 @@ const About = () => {
 
 
                 {/* =================================================
-                    MAIN EXPERIENCE
-                ================================================= */}
+                MAIN EXPERIENCE
+            ================================================= */}
 
                 <div className="home-about__experience">
 
 
                     {/* =================================================
-                        LEFT VISUAL
-                    ================================================= */}
+                    LEFT VISUAL
+                ================================================= */}
 
                     <div className="home-about__visual home-about__visual--left">
 
@@ -208,8 +205,8 @@ const About = () => {
 
 
                     {/* =================================================
-                        CENTER CONTENT
-                    ================================================= */}
+                    CENTER CONTENT
+                ================================================= */}
 
                     <div className="home-about__center">
 
@@ -221,8 +218,8 @@ const About = () => {
 
 
                         {/* =============================================
-                            ORBITAL DECORATION
-                        ============================================= */}
+                        ORBITAL DECORATION
+                    ============================================= */}
 
                         <div
                             className="home-about__orbit"
@@ -331,8 +328,8 @@ const About = () => {
 
 
                     {/* =================================================
-                        RIGHT VISUAL
-                    ================================================= */}
+                    RIGHT VISUAL
+                ================================================= */}
 
                     <div className="home-about__visual home-about__visual--right">
 
@@ -389,8 +386,8 @@ const About = () => {
 
 
                 {/* =================================================
-                    VALUE BAR
-                ================================================= */}
+                VALUE BAR
+            ================================================= */}
 
                 <div className="home-about__footer">
 
@@ -497,7 +494,7 @@ const About = () => {
 
     );
 
-};
 
+};
 
 export default About;

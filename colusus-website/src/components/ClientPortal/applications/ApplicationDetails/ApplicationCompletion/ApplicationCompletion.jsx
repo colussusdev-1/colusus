@@ -271,6 +271,12 @@ const normalizeDocumentName = (value) => {
 
 
 const getRequiredDocumentName = (document) => {
+
+    /*
+     * Required documents can be stored either
+     * as strings or configuration objects.
+     */
+
     if (typeof document === "string") {
         return document;
     }
@@ -287,6 +293,7 @@ const getRequiredDocumentName = (document) => {
 
 
 const getRequiredDocumentType = (document) => {
+
     if (typeof document === "string") {
         return "OTHER";
     }
@@ -321,6 +328,7 @@ const findUploadedDocument = (
     uploadedDocuments,
     usedDocuments,
 ) => {
+
     const requiredType =
         String(
             getRequiredDocumentType(
@@ -339,12 +347,15 @@ const findUploadedDocument = (
         requiredType &&
         requiredType !== "OTHER"
     ) {
+
         const typeMatch =
             uploadedDocuments.find(
                 (uploadedDocument) => {
+
                     const uploadedId =
                         uploadedDocument?._id ||
                         uploadedDocument?.id;
+
 
                     if (
                         uploadedId &&
@@ -355,6 +366,7 @@ const findUploadedDocument = (
                         return false;
                     }
 
+
                     const uploadedType =
                         String(
                             uploadedDocument?.type ||
@@ -364,26 +376,36 @@ const findUploadedDocument = (
                             .trim()
                             .toUpperCase();
 
+
                     return (
                         uploadedType ===
                         requiredType
                     );
+
                 },
             );
 
+
         if (typeMatch) {
+
             const uploadedId =
                 typeMatch?._id ||
                 typeMatch?.id;
 
+
             if (uploadedId) {
+
                 usedDocuments.add(
                     String(uploadedId),
                 );
+
             }
 
+
             return typeMatch;
+
         }
+
     }
 
 
@@ -398,6 +420,7 @@ const findUploadedDocument = (
             ),
         );
 
+
     if (!requiredName) {
         return null;
     }
@@ -406,9 +429,11 @@ const findUploadedDocument = (
     const nameMatch =
         uploadedDocuments.find(
             (uploadedDocument) => {
+
                 const uploadedId =
                     uploadedDocument?._id ||
                     uploadedDocument?.id;
+
 
                 if (
                     uploadedId &&
@@ -419,6 +444,7 @@ const findUploadedDocument = (
                     return false;
                 }
 
+
                 const uploadedName =
                     normalizeDocumentName(
                         getUploadedDocumentName(
@@ -426,30 +452,39 @@ const findUploadedDocument = (
                         ),
                     );
 
+
                 if (!uploadedName) {
                     return false;
                 }
+
 
                 return (
                     uploadedName === requiredName ||
                     uploadedName.includes(requiredName) ||
                     requiredName.includes(uploadedName)
                 );
+
             },
         );
 
 
     if (nameMatch) {
+
         const uploadedId =
             nameMatch?._id ||
             nameMatch?.id;
 
+
         if (uploadedId) {
+
             usedDocuments.add(
                 String(uploadedId),
             );
+
         }
+
     }
+
 
     return nameMatch || null;
 };
@@ -463,15 +498,18 @@ const buildDocumentChecklist = (
     application,
     documents,
 ) => {
+
     const requiredDocuments =
         getRequiredDocuments(
             application,
         );
 
+
     const uploadedDocuments =
         Array.isArray(documents)
             ? documents
             : [];
+
 
     const usedDocuments =
         new Set();
@@ -482,6 +520,7 @@ const buildDocumentChecklist = (
             requiredDocument,
             index,
         ) => {
+
             const uploadedDocument =
                 findUploadedDocument(
                     requiredDocument,
@@ -489,21 +528,31 @@ const buildDocumentChecklist = (
                     usedDocuments,
                 );
 
+
             const name =
                 getRequiredDocumentName(
                     requiredDocument,
                 );
+
 
             const type =
                 getRequiredDocumentType(
                     requiredDocument,
                 );
 
+
             const id =
-                requiredDocument?.key ||
-                requiredDocument?.id ||
-                requiredDocument?._id ||
+                (
+                    typeof requiredDocument === "object"
+                        ? (
+                            requiredDocument?.key ||
+                            requiredDocument?.id ||
+                            requiredDocument?._id
+                        )
+                        : null
+                ) ||
                 `${type}-${name}-${index}`;
+
 
             const description =
                 typeof requiredDocument === "object"
@@ -513,6 +562,7 @@ const buildDocumentChecklist = (
                         ""
                     )
                     : "";
+
 
             return {
                 id,
@@ -524,6 +574,7 @@ const buildDocumentChecklist = (
                 uploaded:
                     Boolean(uploadedDocument),
             };
+
         },
     );
 };
@@ -536,8 +587,10 @@ const buildDocumentChecklist = (
 const getBackendDocumentProgress = (
     application,
 ) => {
+
     const progress =
         application?.documentProgress;
+
 
     if (
         !progress ||
@@ -546,7 +599,9 @@ const getBackendDocumentProgress = (
         return null;
     }
 
+
     return {
+
         required:
             Number(progress.required) || 0,
 
@@ -572,6 +627,7 @@ const getBackendDocumentProgress = (
 
         complete:
             Boolean(progress.complete),
+
     };
 };
 
@@ -590,6 +646,7 @@ const ApplicationCompletion = ({
     onUpload,
     onView,
 }) => {
+
     const fileInputRefs =
         useRef({});
 
@@ -618,6 +675,7 @@ const ApplicationCompletion = ({
             application.status,
         );
 
+
     const statusMeta =
         getStatusMeta(
             applicationStatus,
@@ -631,23 +689,30 @@ const ApplicationCompletion = ({
     const isDraft =
         applicationStatus === "DRAFT";
 
+
     const isInProgress =
         applicationStatus === "IN_PROGRESS";
+
 
     const isSubmitted =
         applicationStatus === "SUBMITTED";
 
+
     const isUnderReview =
         applicationStatus === "UNDER_REVIEW";
+
 
     const isDocumentRequest =
         applicationStatus === "DOCUMENT_REQUEST";
 
+
     const isProcessing =
         applicationStatus === "PROCESSING";
 
+
     const isApproved =
         applicationStatus === "APPROVED";
+
 
     const isRejected =
         applicationStatus === "REJECTED";
@@ -675,6 +740,7 @@ const ApplicationCompletion = ({
             application,
         );
 
+
     const documentChecklist =
         buildDocumentChecklist(
             application,
@@ -684,6 +750,7 @@ const ApplicationCompletion = ({
 
     const localRequired =
         documentChecklist.length;
+
 
     const localUploaded =
         documentChecklist.filter(
@@ -776,6 +843,7 @@ const ApplicationCompletion = ({
             currentStep,
         );
 
+
     const CurrentIcon =
         currentMeta.icon;
 
@@ -813,6 +881,7 @@ const ApplicationCompletion = ({
     const persistApplicationUpdate = (
         update,
     ) => {
+
         if (
             typeof onApplicationUpdate !==
             "function"
@@ -820,7 +889,11 @@ const ApplicationCompletion = ({
             return;
         }
 
-        onApplicationUpdate(update);
+
+        onApplicationUpdate(
+            update,
+        );
+
     };
 
 
@@ -831,9 +904,11 @@ const ApplicationCompletion = ({
     const handleStepClick = (
         index,
     ) => {
+
         if (workflowLocked) {
             return;
         }
+
 
         if (
             index >
@@ -842,13 +917,17 @@ const ApplicationCompletion = ({
             return;
         }
 
+
         persistApplicationUpdate({
+
             currentStepIndex:
                 index,
 
             currentStep:
                 finalSteps[index],
+
         });
+
     };
 
 
@@ -857,6 +936,7 @@ const ApplicationCompletion = ({
     ============================================================ */
 
     const handlePrevious = () => {
+
         if (
             workflowLocked ||
             currentStepIndex <= 0
@@ -864,10 +944,13 @@ const ApplicationCompletion = ({
             return;
         }
 
+
         const previousIndex =
             currentStepIndex - 1;
 
+
         persistApplicationUpdate({
+
             currentStepIndex:
                 previousIndex,
 
@@ -875,7 +958,9 @@ const ApplicationCompletion = ({
                 finalSteps[
                 previousIndex
                 ],
+
         });
+
     };
 
 
@@ -884,9 +969,11 @@ const ApplicationCompletion = ({
     ============================================================ */
 
     const handleContinue = () => {
+
         if (workflowLocked) {
             return;
         }
+
 
         if (
             currentStepIndex >=
@@ -895,6 +982,7 @@ const ApplicationCompletion = ({
             return;
         }
 
+
         if (
             currentStep === "DOCUMENTS" &&
             !documentsComplete
@@ -902,10 +990,13 @@ const ApplicationCompletion = ({
             return;
         }
 
+
         const nextIndex =
             currentStepIndex + 1;
 
+
         persistApplicationUpdate({
+
             status: "IN_PROGRESS",
 
             currentStepIndex:
@@ -913,7 +1004,9 @@ const ApplicationCompletion = ({
 
             currentStep:
                 finalSteps[nextIndex],
+
         });
+
     };
 
 
@@ -923,9 +1016,13 @@ const ApplicationCompletion = ({
 
     const handlePersonalInformationSave =
         (personalInformation) => {
+
             persistApplicationUpdate({
+
                 personalInformation,
+
             });
+
         };
 
 
@@ -937,14 +1034,18 @@ const ApplicationCompletion = ({
         document,
         event,
     ) => {
+
         const file =
             event.target.files?.[0];
 
+
         event.target.value = "";
+
 
         if (!file) {
             return;
         }
+
 
         if (
             typeof onUpload !==
@@ -953,10 +1054,12 @@ const ApplicationCompletion = ({
             return;
         }
 
+
         onUpload(
             document.requiredDocument,
             file,
         );
+
     };
 
 
@@ -996,6 +1099,7 @@ const ApplicationCompletion = ({
     ============================================================ */
 
     const renderDocumentsStep = () => (
+
         <div className="application-completion-step-content">
 
             <div className="application-completion-section-heading">
@@ -1007,9 +1111,11 @@ const ApplicationCompletion = ({
                     ).padStart(2, "0")}
                 </span>
 
+
                 <h3>
                     Required Documents
                 </h3>
+
 
                 <p>
                     Upload the documents required
@@ -1029,9 +1135,11 @@ const ApplicationCompletion = ({
                             DOCUMENTS
                         </span>
 
+
                         <h4>
                             Required documents
                         </h4>
+
 
                         <p>
                             Keep your application documents
@@ -1044,12 +1152,15 @@ const ApplicationCompletion = ({
                     <div className="application-completion-document-summary">
 
                         <strong>
+
                             {uploadedRequiredDocuments}
 
                             <span>
                                 /{totalRequiredDocuments}
                             </span>
+
                         </strong>
+
 
                         <small>
                             COMPLETE
@@ -1067,6 +1178,7 @@ const ApplicationCompletion = ({
                         <span>
                             Document readiness
                         </span>
+
 
                         <strong>
                             {documentProgress}%
@@ -1090,13 +1202,18 @@ const ApplicationCompletion = ({
                     <small>
 
                         {documentsLoading
+
                             ? "Loading your documents..."
+
                             : missingRequiredDocuments > 0
+
                                 ? `${missingRequiredDocuments} document${missingRequiredDocuments === 1
                                     ? ""
                                     : "s"
                                 } remaining.`
+
                                 : "All required documents are complete."
+
                         }
 
                     </small>
@@ -1105,28 +1222,34 @@ const ApplicationCompletion = ({
 
 
                 {documentError && (
+
                     <div className="application-completion-document-error">
 
                         <HiOutlineInformationCircle />
+
 
                         <span>
                             {documentError}
                         </span>
 
                     </div>
+
                 )}
 
 
                 {documentsLoading ? (
+
                     <div className="application-completion-document-loading">
 
                         <div className="application-completion-document-spinner" />
+
 
                         <div>
 
                             <strong>
                                 Loading documents
                             </strong>
+
 
                             <p>
                                 Checking your application
@@ -1136,7 +1259,9 @@ const ApplicationCompletion = ({
                         </div>
 
                     </div>
+
                 ) : totalRequiredDocuments === 0 ? (
+
                     <div className="application-completion-document-empty">
 
                         <div className="application-completion-document-empty-icon">
@@ -1145,11 +1270,13 @@ const ApplicationCompletion = ({
 
                         </div>
 
+
                         <div>
 
                             <strong>
                                 No document requirements
                             </strong>
+
 
                             <p>
                                 Document requirements for this
@@ -1159,13 +1286,17 @@ const ApplicationCompletion = ({
                         </div>
 
                     </div>
+
                 ) : (
+
                     <div className="application-completion-document-list">
 
                         {documentChecklist.map(
                             (document) => {
+
                                 const documentId =
                                     document.id;
+
 
                                 const uploading =
                                     uploadingDocumentId !== null &&
@@ -1174,7 +1305,9 @@ const ApplicationCompletion = ({
                                     ) ===
                                     String(documentId);
 
+
                                 return (
+
                                     <div
                                         key={documentId}
                                         className={[
@@ -1195,9 +1328,13 @@ const ApplicationCompletion = ({
                                         <div className="application-completion-document-icon">
 
                                             {document.uploaded ? (
+
                                                 <HiOutlineCheckCircle />
+
                                             ) : (
+
                                                 <HiOutlineDocumentText />
+
                                             )}
 
                                         </div>
@@ -1211,6 +1348,7 @@ const ApplicationCompletion = ({
                                                     {document.name}
                                                 </strong>
 
+
                                                 <span
                                                     className={[
                                                         "application-completion-document-status",
@@ -1222,21 +1360,26 @@ const ApplicationCompletion = ({
                                                         .filter(Boolean)
                                                         .join(" ")}
                                                 >
+
                                                     {document.uploaded
                                                         ? "UPLOADED"
                                                         : "REQUIRED"}
+
                                                 </span>
 
                                             </div>
 
 
                                             <p>
+
                                                 {document.description ||
+
                                                     (
                                                         document.uploaded
                                                             ? "Ready for review"
                                                             : "Required to continue your application"
                                                     )}
+
                                             </p>
 
                                         </div>
@@ -1245,6 +1388,7 @@ const ApplicationCompletion = ({
                                         <div className="application-completion-document-action">
 
                                             {document.uploaded ? (
+
                                                 <button
                                                     type="button"
                                                     className="application-completion-document-view"
@@ -1254,26 +1398,38 @@ const ApplicationCompletion = ({
                                                         )
                                                     }
                                                 >
+
                                                     <HiOutlineEye />
+
 
                                                     <span>
                                                         View
                                                     </span>
+
                                                 </button>
+
                                             ) : (
+
                                                 <>
+
                                                     <input
                                                         ref={(element) => {
+
                                                             fileInputRefs.current[
                                                                 documentId
                                                             ] = element;
+
                                                         }}
+
                                                         type="file"
+
                                                         accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"
+
                                                         style={{
                                                             display:
                                                                 "none",
                                                         }}
+
                                                         onChange={(
                                                             event,
                                                         ) =>
@@ -1282,7 +1438,9 @@ const ApplicationCompletion = ({
                                                                 event,
                                                             )
                                                         }
+
                                                     />
+
 
                                                     <button
                                                         type="button"
@@ -1296,40 +1454,58 @@ const ApplicationCompletion = ({
                                                             ]?.click()
                                                         }
                                                     >
+
                                                         {uploading ? (
+
                                                             <>
+
                                                                 <span className="application-completion-document-button-spinner" />
+
 
                                                                 <span>
                                                                     Uploading...
                                                                 </span>
+
                                                             </>
+
                                                         ) : (
+
                                                             <>
+
                                                                 <HiOutlineUpload />
+
 
                                                                 <span>
                                                                     Upload
                                                                 </span>
+
                                                             </>
+
                                                         )}
+
                                                     </button>
+
                                                 </>
+
                                             )}
 
                                         </div>
 
                                     </div>
+
                                 );
+
                             },
                         )}
 
                     </div>
+
                 )}
 
 
                 {!documentsLoading &&
                     missingRequiredDocuments > 0 && (
+
                         <div className="application-completion-document-notice">
 
                             <div className="application-completion-document-notice-icon">
@@ -1338,16 +1514,22 @@ const ApplicationCompletion = ({
 
                             </div>
 
+
                             <div>
 
                                 <strong>
+
                                     Your application needs{" "}
+
                                     {missingRequiredDocuments}{" "}
+
                                     document
                                     {missingRequiredDocuments === 1
                                         ? ""
                                         : "s"}
+
                                 </strong>
+
 
                                 <p>
                                     Upload the remaining required
@@ -1358,12 +1540,14 @@ const ApplicationCompletion = ({
                             </div>
 
                         </div>
+
                     )}
 
 
                 {!documentsLoading &&
                     totalRequiredDocuments > 0 &&
                     documentsComplete && (
+
                         <div className="application-completion-document-complete">
 
                             <div className="application-completion-document-complete-icon">
@@ -1372,11 +1556,13 @@ const ApplicationCompletion = ({
 
                             </div>
 
+
                             <div>
 
                                 <strong>
                                     Document checklist complete
                                 </strong>
+
 
                                 <p>
                                     All required documents have been
@@ -1387,11 +1573,13 @@ const ApplicationCompletion = ({
                             </div>
 
                         </div>
+
                     )}
 
             </div>
 
         </div>
+
     );
 
 
@@ -1400,6 +1588,7 @@ const ApplicationCompletion = ({
     ============================================================ */
 
     const renderReviewStep = () => (
+
         <div className="application-completion-step-content">
 
             <div className="application-completion-section-heading">
@@ -1411,9 +1600,11 @@ const ApplicationCompletion = ({
                     ).padStart(2, "0")}
                 </span>
 
+
                 <h3>
                     Review Your Application
                 </h3>
+
 
                 <p>
                     Review the information below
@@ -1432,11 +1623,13 @@ const ApplicationCompletion = ({
                         <HiOutlineUser />
                     </div>
 
+
                     <div>
 
                         <span>
                             APPLICANT
                         </span>
+
 
                         <strong>
                             {applicantName}
@@ -1453,11 +1646,13 @@ const ApplicationCompletion = ({
                         <HiOutlineDocumentText />
                     </div>
 
+
                     <div>
 
                         <span>
                             DESTINATION
                         </span>
+
 
                         <strong>
                             {destinationCountry}
@@ -1474,11 +1669,13 @@ const ApplicationCompletion = ({
                         <HiOutlineDocumentText />
                     </div>
 
+
                     <div>
 
                         <span>
                             APPLICATION TYPE
                         </span>
+
 
                         <strong>
                             {applicationType}
@@ -1495,11 +1692,13 @@ const ApplicationCompletion = ({
                         <HiOutlineCheckCircle />
                     </div>
 
+
                     <div>
 
                         <span>
                             OPPORTUNITY
                         </span>
+
 
                         <strong>
                             {opportunityTitle}
@@ -1522,16 +1721,20 @@ const ApplicationCompletion = ({
                             DOCUMENT CHECKLIST
                         </span>
 
+
                         <h4>
                             Required documents
                         </h4>
 
                     </div>
 
+
                     <strong>
+
                         {uploadedRequiredDocuments}
                         /
                         {totalRequiredDocuments}
+
                     </strong>
 
                 </div>
@@ -1540,9 +1743,11 @@ const ApplicationCompletion = ({
                 <div className="application-completion-review-document-list">
 
                     {documentChecklist.length === 0 ? (
+
                         <div className="application-completion-review-empty">
 
                             <HiOutlineInformationCircle />
+
 
                             <span>
                                 No document requirements
@@ -1551,9 +1756,12 @@ const ApplicationCompletion = ({
                             </span>
 
                         </div>
+
                     ) : (
+
                         documentChecklist.map(
                             (document) => (
+
                                 <div
                                     key={document.id}
                                     className={[
@@ -1570,26 +1778,36 @@ const ApplicationCompletion = ({
                                     <div>
 
                                         {document.uploaded ? (
+
                                             <HiOutlineCheckCircle />
+
                                         ) : (
+
                                             <HiOutlineDocumentText />
+
                                         )}
 
                                     </div>
+
 
                                     <span>
                                         {document.name}
                                     </span>
 
+
                                     <strong>
+
                                         {document.uploaded
                                             ? "Uploaded"
                                             : "Missing"}
+
                                     </strong>
 
                                 </div>
+
                             ),
                         )
+
                     )}
 
                 </div>
@@ -1601,18 +1819,26 @@ const ApplicationCompletion = ({
 
                 <HiOutlineInformationCircle />
 
+
                 <div>
 
                     <strong>
+
                         {documentsComplete
                             ? "Ready for review"
                             : "Documents still required"}
+
                     </strong>
 
+
                     <p>
+
                         {documentsComplete
+
                             ? "All required documents have been supplied. Your application can proceed through the review workflow."
+
                             : "Complete the missing documents before the application can move into review."}
+
                     </p>
 
                 </div>
@@ -1620,6 +1846,7 @@ const ApplicationCompletion = ({
             </div>
 
         </div>
+
     );
 
 
@@ -1628,25 +1855,34 @@ const ApplicationCompletion = ({
     ============================================================ */
 
     const renderCurrentStep = () => {
+
         switch (currentStep) {
 
             case "PERSONAL_INFORMATION":
+
                 return (
+
                     <PersonalInformationForm
+
                         application={
                             application
                         }
+
                         onSave={
                             handlePersonalInformationSave
                         }
+
                     />
+
                 );
 
 
             case "QUESTIONS":
 
             case "APPLICATION_QUESTIONS":
+
                 return (
+
                     <div className="application-completion-step-content">
 
                         <div className="application-completion-section-heading">
@@ -1658,9 +1894,11 @@ const ApplicationCompletion = ({
                                 ).padStart(2, "0")}
                             </span>
 
+
                             <h3>
                                 Application Questions
                             </h3>
+
 
                             <p>
                                 Answer the questions specific
@@ -1678,11 +1916,13 @@ const ApplicationCompletion = ({
 
                             </div>
 
+
                             <div>
 
                                 <strong>
                                     Pathway questions
                                 </strong>
+
 
                                 <p>
                                     Your pathway-specific
@@ -1695,19 +1935,24 @@ const ApplicationCompletion = ({
                         </div>
 
                     </div>
+
                 );
 
 
             case "DOCUMENTS":
+
                 return renderDocumentsStep();
 
 
             case "REVIEW":
+
                 return renderReviewStep();
 
 
             case "SUBMIT":
+
                 return (
+
                     <div className="application-completion-step-content">
 
                         <div className="application-completion-section-heading">
@@ -1719,9 +1964,11 @@ const ApplicationCompletion = ({
                                 ).padStart(2, "0")}
                             </span>
 
+
                             <h3>
                                 Submit Application
                             </h3>
+
 
                             <p>
                                 Your application is ready
@@ -1739,11 +1986,13 @@ const ApplicationCompletion = ({
 
                             </div>
 
+
                             <div>
 
                                 <strong>
                                     Ready for submission
                                 </strong>
+
 
                                 <p>
                                     Submission controls will be
@@ -1756,11 +2005,14 @@ const ApplicationCompletion = ({
                         </div>
 
                     </div>
+
                 );
 
 
             default:
+
                 return (
+
                     <div className="application-completion-step-content">
 
                         <div className="application-completion-section-heading">
@@ -1772,9 +2024,11 @@ const ApplicationCompletion = ({
                                 ).padStart(2, "0")}
                             </span>
 
+
                             <h3>
                                 {currentMeta.label}
                             </h3>
+
 
                             <p>
                                 {currentMeta.description}
@@ -1783,8 +2037,11 @@ const ApplicationCompletion = ({
                         </div>
 
                     </div>
+
                 );
+
         }
+
     };
 
 
@@ -1793,7 +2050,10 @@ const ApplicationCompletion = ({
     ============================================================ */
 
     return (
+
         <section
+            id="application-completion"
+
             className={[
                 "application-completion",
 
@@ -1837,9 +2097,11 @@ const ApplicationCompletion = ({
                         COMPLETE YOUR APPLICATION
                     </span>
 
+
                     <h2>
                         Complete your application
                     </h2>
+
 
                     <p>
                         Work through each step below.
@@ -1853,15 +2115,19 @@ const ApplicationCompletion = ({
                 <div className="application-completion-progress-summary">
 
                     <strong>
+
                         {Math.min(
                             currentStepIndex + 1,
                             finalSteps.length,
                         )}
+
                     </strong>
+
 
                     <span>
                         of {finalSteps.length}
                     </span>
+
 
                     <small>
                         STEPS
@@ -1910,6 +2176,7 @@ const ApplicationCompletion = ({
                             APPLICATION STEPS
                         </span>
 
+
                         <strong>
                             {currentMeta.label}
                         </strong>
@@ -1924,21 +2191,26 @@ const ApplicationCompletion = ({
                                 step,
                                 index,
                             ) => {
+
                                 const meta =
                                     getStepMeta(
                                         step,
                                     );
 
+
                                 const StepIcon =
                                     meta.icon;
+
 
                                 const completed =
                                     index <
                                     currentStepIndex;
 
+
                                 const active =
                                     index ===
                                     currentStepIndex;
+
 
                                 const locked =
                                     index >
@@ -1947,6 +2219,7 @@ const ApplicationCompletion = ({
 
 
                                 return (
+
                                     <li
                                         key={`${step}-${index}`}
                                         className={[
@@ -1984,9 +2257,13 @@ const ApplicationCompletion = ({
                                             <span className="application-completion-step-marker">
 
                                                 {completed ? (
+
                                                     <HiOutlineCheckCircle />
+
                                                 ) : (
+
                                                     <StepIcon />
+
                                                 )}
 
                                             </span>
@@ -1998,6 +2275,7 @@ const ApplicationCompletion = ({
                                                     {meta.label}
                                                 </strong>
 
+
                                                 <small>
                                                     {meta.description}
                                                 </small>
@@ -2007,7 +2285,9 @@ const ApplicationCompletion = ({
                                         </button>
 
                                     </li>
+
                                 );
+
                             },
                         )}
 
@@ -2030,6 +2310,7 @@ const ApplicationCompletion = ({
 
                         </div>
 
+
                         <div>
 
                             <span>
@@ -2038,6 +2319,7 @@ const ApplicationCompletion = ({
                                     currentStepIndex + 1,
                                 ).padStart(2, "0")}
                             </span>
+
 
                             <h3>
                                 {currentMeta.label}
@@ -2060,6 +2342,7 @@ const ApplicationCompletion = ({
                     ================================================= */}
 
                     {!workflowLocked && (
+
                         <div className="application-completion-actions">
 
                             <button
@@ -2074,6 +2357,7 @@ const ApplicationCompletion = ({
                             >
 
                                 <HiOutlineArrowLeft />
+
 
                                 <span>
                                     Back
@@ -2099,22 +2383,26 @@ const ApplicationCompletion = ({
 
                                     {currentStepIndex >=
                                         finalSteps.length - 1
+
                                         ? "Complete"
 
                                         : currentStep ===
                                             "DOCUMENTS" &&
                                             !documentsComplete
+
                                             ? "Complete documents first"
 
                                             : "Continue"}
 
                                 </span>
 
+
                                 <HiOutlineArrowRight />
 
                             </button>
 
                         </div>
+
                     )}
 
                 </div>
@@ -2122,7 +2410,9 @@ const ApplicationCompletion = ({
             </div>
 
         </section>
+
     );
+
 };
 
 

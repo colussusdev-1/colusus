@@ -2,7 +2,7 @@ import Update from "./update.model.js";
 
 /*
 ============================================================
-COLUSUS — UPDATE SERVICE
+colossus — UPDATE SERVICE
 ============================================================
 */
 

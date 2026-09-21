@@ -214,7 +214,7 @@
    This is now a BUTTON instead of an <a>.
 
    We intentionally reset the browser's native button styling
-   because this action opens the internal Colusus document
+   because this action opens the internal colossus document
    viewer rather than directly opening the Cloudinary URL.
 */
 

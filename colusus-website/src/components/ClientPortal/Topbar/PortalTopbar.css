@@ -1,5 +1,5 @@
 /* ============================================================
-   COLUSUS — CLIENT PORTAL
+   colossus — CLIENT PORTAL
    PREMIUM TOPBAR
 ============================================================ */
 
@@ -747,4 +747,9 @@
         transition: none;
     }
 
+}
+
+.portal-topbar__notification--disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
 }

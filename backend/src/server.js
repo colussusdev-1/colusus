@@ -16,7 +16,6 @@ const startServer = async () => {
         CLOUDINARY CONNECTION TEST
         ========================================================
         */
-
     await testCloudinary();
 
     /*
@@ -24,17 +23,14 @@ const startServer = async () => {
         START API
         ========================================================
         */
-
-    app.listen(config.port, () => {
+    app.listen(config.port, "0.0.0.0", () => {
       logger.info(
-        `COLUSUS API STARTED | Environment: ${config.nodeEnv} | Port: ${config.port}`,
+        `colossus API STARTED | Environment: ${config.nodeEnv} | Port: ${config.port} | Host: 0.0.0.0`
       );
     });
   } catch (error) {
     logger.error("Server Startup Failed");
-
     logger.error(error.message);
-
     process.exit(1);
   }
 };

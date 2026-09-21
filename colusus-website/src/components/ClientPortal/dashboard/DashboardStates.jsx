@@ -14,7 +14,7 @@ import "./DashboardStates.css";
 
 /*
 ============================================================
-COLUSUS CLIENT DASHBOARD
+colossus CLIENT DASHBOARD
 DASHBOARD ALERT
 ============================================================
 */
@@ -34,7 +34,7 @@ export const DashboardAlert = ({ message }) => (
 
 /*
 ============================================================
-COLUSUS CLIENT DASHBOARD
+colossus CLIENT DASHBOARD
 LOADING STATE
 ============================================================
 */
@@ -57,7 +57,7 @@ export const DashboardLoading = () => (
 
 /*
 ============================================================
-COLUSUS CLIENT DASHBOARD
+colossus CLIENT DASHBOARD
 EMPTY / GET STARTED STATE
 ============================================================
 */

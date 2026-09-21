@@ -1,6 +1,6 @@
 /*
 ============================================================
-COLUSUS — CLIENT DASHBOARD CONSTANTS
+colossus — CLIENT DASHBOARD CONSTANTS
 ============================================================
 
 The dashboard is an OVERVIEW.
@@ -70,14 +70,14 @@ export const STATUS_CONFIG = {
 
     className: "submitted",
 
-    description: "Your application has been submitted to Colusus.",
+    description: "Your application has been submitted to colossus.",
 
     stage: 2,
 
     nextTitle: "Application review",
 
     nextDescription:
-      "Your application has been received and is awaiting review by the Colusus team.",
+      "Your application has been received and is awaiting review by the colossus team.",
 
     clientControlled: false,
 
@@ -89,14 +89,14 @@ export const STATUS_CONFIG = {
 
     className: "review",
 
-    description: "Your application is currently being reviewed by Colusus.",
+    description: "Your application is currently being reviewed by colossus.",
 
     stage: 3,
 
     nextTitle: "Application review",
 
     nextDescription:
-      "The Colusus team is reviewing the information and documents attached to your application.",
+      "The colossus team is reviewing the information and documents attached to your application.",
 
     clientControlled: false,
 
@@ -133,7 +133,7 @@ export const STATUS_CONFIG = {
 
     nextTitle: "Application processing",
 
-    nextDescription: "Your application is being processed by the Colusus team.",
+    nextDescription: "Your application is being processed by the colossus team.",
 
     clientControlled: false,
 
@@ -171,7 +171,7 @@ export const STATUS_CONFIG = {
     nextTitle: "Application decision",
 
     nextDescription:
-      "Please review the latest information provided by your Colusus team.",
+      "Please review the latest information provided by your colossus team.",
 
     clientControlled: false,
 
@@ -246,7 +246,7 @@ export const JOURNEY_STAGES = [
 
     shortLabel: "Submitted",
 
-    description: "Your application has been submitted to Colusus.",
+    description: "Your application has been submitted to colossus.",
 
     index: 2,
 
@@ -262,7 +262,7 @@ export const JOURNEY_STAGES = [
 
     shortLabel: "Under Review",
 
-    description: "The Colusus team is reviewing your application.",
+    description: "The colossus team is reviewing your application.",
 
     index: 3,
 

@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
 
         success: true,
 
-        message: "Colusus API is running.",
+        message: "colossus API is running.",
 
         environment: process.env.NODE_ENV,
 

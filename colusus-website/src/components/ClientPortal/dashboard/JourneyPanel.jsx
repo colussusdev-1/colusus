@@ -71,7 +71,7 @@ const JourneyPanel = ({
   const currentDescription =
     activeStage?.description ||
     status?.description ||
-    "Your application journey is progressing through Colusus.";
+    "Your application journey is progressing through colossus.";
 
 
   /* =========================================================
@@ -80,7 +80,7 @@ const JourneyPanel = ({
 
   return (
 
-    <section className="colusus-panel journey-panel">
+    <section className="colossus-panel journey-panel">
 
 
       {/* =====================================================
@@ -122,7 +122,7 @@ const JourneyPanel = ({
       <p className="panel-description">
 
         Track your application's progress
-        through the Colusus journey.
+        through the colossus journey.
 
       </p>
 
