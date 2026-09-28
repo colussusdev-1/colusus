@@ -108,22 +108,11 @@ const founder = {
    EXECUTIVE LEADERSHIP
 ========================================================= */
 
-const leadership = [
+// const leadership = [
 
-    {
-        name: "Esther Adeoje",
 
-        role: "Executive Strategist",
 
-        tag: "Strategy & Growth",
-
-        desc:
-            "Developing strategic initiatives that strengthen organizational growth, customer experience and international expansion.",
-
-        image: esther,
-    },
-
-];
+// ];
 
 
 /* =========================================================
@@ -145,18 +134,6 @@ const operations = [
         image: stanley,
     },
 
-    {
-        name: "Nnamdi Chinedu C.",
-
-        role: "Head of Operations & Migration",
-
-        tag: "Migration",
-
-        desc:
-            "Managing migration workflows while ensuring every client receives a smooth and transparent journey.",
-
-        image: nnamdi,
-    },
 
 ];
 
@@ -792,11 +769,11 @@ const AboutTeam = () => {
                     GROUPS
                 ================================================= */}
 
-                <TeamGroup
+                {/* <TeamGroup
                     title="Executive Leadership"
                     data={leadership}
                     number={1}
-                />
+                /> */}
 
 
                 <TeamGroup
