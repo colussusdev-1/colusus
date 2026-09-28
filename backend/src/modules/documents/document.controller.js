@@ -402,6 +402,74 @@ export const getApplicationDocumentsForStaff = async (
 
 /*
 ============================================================
+VIEW / STREAM DOCUMENT
+============================================================
+
+GET /api/v1/documents/:id/view
+
+Streams the document from Cloudinary through the backend.
+
+This prevents the frontend from directly opening the
+Cloudinary raw URL and allows PDFs to render inline.
+
+============================================================
+*/
+
+export const viewDocument = async (req, res, next) => {
+  try {
+    const userId = req.user?.id;
+
+    if (!userId) {
+      const error = new Error("Authenticated user not found.");
+
+      error.statusCode = 401;
+
+      throw error;
+    }
+
+    const result = await documentService.getDocumentStream(
+      req.params.id,
+      userId,
+    );
+
+    /*
+    ----------------------------------------------------------
+    RESPONSE HEADERS
+    ----------------------------------------------------------
+    */
+
+    res.setHeader(
+      "Content-Type",
+      result.contentType || "application/octet-stream",
+    );
+
+    res.setHeader(
+      "Content-Disposition",
+      `inline; filename="${result.document.originalFileName || result.document.name || "document"}"`,
+    );
+
+    if (result.contentLength) {
+      res.setHeader("Content-Length", result.contentLength);
+    }
+
+    /*
+    ----------------------------------------------------------
+    STREAM CLOUDINARY FILE
+    ----------------------------------------------------------
+    */
+
+    result.stream.on("error", (error) => {
+      next(error);
+    });
+
+    result.stream.pipe(res);
+  } catch (error) {
+    next(error);
+  }
+};
+
+/*
+============================================================
 EXPORT
 ============================================================
 */
@@ -414,6 +482,8 @@ export default {
   getApplicationDocuments,
 
   getDocument,
+
+  viewDocument,
 
   updateDocumentStatus,
 

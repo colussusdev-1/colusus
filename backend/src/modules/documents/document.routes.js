@@ -5,6 +5,7 @@ import {
   getDocuments,
   getApplicationDocuments,
   getDocument,
+  viewDocument,
   updateDocumentStatus,
 } from "./document.controller.js";
 
@@ -36,7 +37,6 @@ const router = express.Router();
 | - creates the document
 | - recalculates document progress
 | - updates application journey state
-| - creates relevant notifications
 |
 |--------------------------------------------------------------------------
 */
@@ -75,9 +75,6 @@ router.get("/", authenticate, getDocuments);
 |
 |   application.user === req.user.id
 |
-| Therefore this endpoint must NOT be used by the admin portal
-| to retrieve another client's documents.
-|
 |--------------------------------------------------------------------------
 */
 
@@ -89,15 +86,41 @@ router.get(
 
 /*
 |--------------------------------------------------------------------------
+| VIEW / STREAM DOCUMENT
+|--------------------------------------------------------------------------
+|
+| GET /api/v1/documents/:id/view
+|
+| Streams the document through the backend.
+|
+| The backend:
+|
+| - authenticates the client
+| - verifies document ownership
+| - retrieves the Cloudinary file
+| - streams it to the browser
+| - sets Content-Disposition to inline
+|
+| This allows PDFs to render inside the browser instead of
+| forcing the Cloudinary raw asset to download.
+|
+| IMPORTANT:
+|
+| This route MUST appear before /:id.
+|
+|--------------------------------------------------------------------------
+*/
+
+router.get("/:id/view", authenticate, viewDocument);
+
+/*
+|--------------------------------------------------------------------------
 | GET SINGLE DOCUMENT
 |--------------------------------------------------------------------------
 |
 | GET /api/v1/documents/:id
 |
-| Used by the Client Portal document viewer.
-|
-| The document service verifies that the document belongs
-| to the authenticated client before returning it.
+| Returns document metadata.
 |
 |--------------------------------------------------------------------------
 */
@@ -114,10 +137,6 @@ router.get("/:id", authenticate, getDocument);
 | This endpoint is client-scoped.
 |
 | The client cannot change review statuses.
-|
-| Allowed client-side changes are handled by the service.
-|
-| Staff/admin document review uses a separate endpoint.
 |
 |--------------------------------------------------------------------------
 */

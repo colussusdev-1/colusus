@@ -37,6 +37,9 @@ const DocumentViewer = () => {
     const [document, setDocument] =
         useState(null);
 
+    const [previewUrl, setPreviewUrl] =
+        useState("");
+
     const [loading, setLoading] =
         useState(true);
 
@@ -45,10 +48,12 @@ const DocumentViewer = () => {
 
 
     /* =========================================================
-       LOAD DOCUMENT
+       LOAD DOCUMENT + PREVIEW
     ========================================================= */
 
     useEffect(() => {
+
+        let objectUrl = null;
 
         const loadDocument = async () => {
 
@@ -58,11 +63,14 @@ const DocumentViewer = () => {
 
                 setError("");
 
+                setDocument(null);
 
-                /*
-                 * This will use the backend document-view
-                 * endpoint once we wire it up.
-                 */
+                setPreviewUrl("");
+
+
+                /* -------------------------------------------------
+                   LOAD DOCUMENT METADATA
+                ------------------------------------------------- */
 
                 const data =
                     await documentService.getDocument(
@@ -71,6 +79,41 @@ const DocumentViewer = () => {
 
 
                 setDocument(data);
+
+
+                /* -------------------------------------------------
+                   LOAD DOCUMENT PREVIEW
+                -------------------------------------------------
+                   
+                   The preview request goes through the authenticated
+                   backend endpoint:
+
+                   GET /documents/:id/view
+
+                   Axios returns the Cloudinary PDF as a Blob.
+                ------------------------------------------------- */
+
+                const blob =
+                    await documentService.getDocumentPreview(
+                        documentId,
+                    );
+
+
+                if (!blob) {
+                    throw new Error(
+                        "The document preview is empty.",
+                    );
+                }
+
+
+                /* -------------------------------------------------
+                   CREATE TEMPORARY BROWSER URL
+                ------------------------------------------------- */
+
+                objectUrl =
+                    URL.createObjectURL(blob);
+
+                setPreviewUrl(objectUrl);
 
             } catch (error) {
 
@@ -82,6 +125,7 @@ const DocumentViewer = () => {
 
                 setError(
                     error?.response?.data?.message ||
+                    error?.message ||
                     "Unable to load this document.",
                 );
 
@@ -107,6 +151,23 @@ const DocumentViewer = () => {
             setLoading(false);
 
         }
+
+
+        /* =========================================================
+           CLEANUP
+        ========================================================= */
+
+        return () => {
+
+            if (objectUrl) {
+
+                URL.revokeObjectURL(
+                    objectUrl,
+                );
+
+            }
+
+        };
 
     }, [documentId]);
 
@@ -237,8 +298,8 @@ const DocumentViewer = () => {
 
 
             {/* =====================================================
-          HEADER
-      ===================================================== */}
+                HEADER
+            ===================================================== */}
 
             <header className="document-viewer-header">
 
@@ -314,18 +375,22 @@ const DocumentViewer = () => {
 
 
             {/* =====================================================
-          VIEWER
-      ===================================================== */}
+                VIEWER
+            ===================================================== */}
 
             <section className="document-viewer-content">
 
                 <div className="document-viewer-frame">
 
 
-                    {isPdf && (
+                    {/* =================================================
+                        PDF
+                    ================================================= */}
+
+                    {isPdf && previewUrl && (
 
                         <iframe
-                            src={document.fileUrl}
+                            src={previewUrl}
                             title={fileName}
                             className="document-viewer-pdf"
                         />
@@ -333,7 +398,11 @@ const DocumentViewer = () => {
                     )}
 
 
-                    {isImage && (
+                    {/* =================================================
+                        IMAGE
+                    ================================================= */}
+
+                    {isImage && document.fileUrl && (
 
                         <div className="document-viewer-image-wrapper">
 
@@ -347,6 +416,10 @@ const DocumentViewer = () => {
 
                     )}
 
+
+                    {/* =================================================
+                        PREVIEW UNAVAILABLE
+                    ================================================= */}
 
                     {!isPdf &&
                         !isImage && (
@@ -385,6 +458,50 @@ const DocumentViewer = () => {
                             </div>
 
                         )}
+
+
+                    {/* =================================================
+                        PDF PREVIEW FAILED
+                    ================================================= */}
+
+                    {isPdf && !previewUrl && (
+
+                        <div className="document-viewer-unsupported">
+
+                            <HiOutlineDocumentText />
+
+                            <h2>
+                                Preview unavailable
+                            </h2>
+
+                            <p>
+                                The document could not be rendered.
+                                Please download it instead.
+                            </p>
+
+
+                            {document.fileUrl && (
+
+                                <a
+                                    href={document.fileUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="document-viewer-download"
+                                >
+
+                                    <HiOutlineDownload />
+
+                                    <HiOutlineDownload />
+
+                                    Download document
+
+                                </a>
+
+                            )}
+
+                        </div>
+
+                    )}
 
                 </div>
 

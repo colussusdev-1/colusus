@@ -1,3 +1,5 @@
+import https from "https";
+
 import Document from "./document.model.js";
 
 import Application from "../applications/application.model.js";
@@ -21,6 +23,7 @@ Responsible for:
 - Application document progress
 - Application journey/status updates
 - Application activity
+- Secure document preview streaming
 
 IMPORTANT:
 
@@ -442,16 +445,16 @@ const addApplicationActivity = (
 ============================================================
 UPDATE APPLICATION DOCUMENT PROGRESS
 ============================================================
-|
-| IMPORTANT:
-|
-| `updatedBy` is explicitly passed into this function.
-|
-| This prevents the previous `staffUserId is not defined`
-| runtime error.
-|
-| Notifications are intentionally NOT created here.
-|
+
+IMPORTANT:
+
+`updatedBy` is explicitly passed into this function.
+
+This prevents the previous `staffUserId is not defined`
+runtime error.
+
+Notifications are intentionally NOT created here.
+
 ============================================================
 */
 
@@ -1003,6 +1006,158 @@ const getDocumentById = async (
 
 /*
 ============================================================
+GET DOCUMENT STREAM
+============================================================
+
+Purpose:
+
+The frontend must NOT render the Cloudinary raw URL
+directly.
+
+Cloudinary stores the uploaded PDF correctly as a raw asset,
+but the browser may treat that raw asset as a downloadable
+resource instead of rendering it inline.
+
+This method:
+
+1. Verifies the authenticated user owns the document.
+2. Verifies the document belongs to one of the user's
+   applications.
+3. Verifies the document has a stored Cloudinary URL.
+4. Fetches the file from Cloudinary.
+5. Returns the remote response stream to the controller.
+
+The controller will then send the stream to the browser with
+the correct `Content-Type` and `Content-Disposition: inline`
+headers.
+
+============================================================
+*/
+
+const getDocumentStream = async (
+  documentId,
+
+  userId,
+) => {
+  /*
+  ----------------------------------------------------------
+  FIND DOCUMENT
+  ----------------------------------------------------------
+  */
+
+  const document = await Document.findOne({
+    _id: documentId,
+
+    user: userId,
+  });
+
+  if (!document) {
+    const error = new Error("Document not found.");
+
+    error.statusCode = 404;
+
+    throw error;
+  }
+
+  /*
+  ----------------------------------------------------------
+  VERIFY APPLICATION OWNERSHIP
+  ----------------------------------------------------------
+  */
+
+  const application = await Application.findOne({
+    _id: document.application,
+
+    user: userId,
+  });
+
+  if (!application) {
+    const error = new Error("Document application not found.");
+
+    error.statusCode = 404;
+
+    throw error;
+  }
+
+  /*
+  ----------------------------------------------------------
+  VERIFY FILE URL
+  ----------------------------------------------------------
+  */
+
+  if (!document.fileUrl) {
+    const error = new Error("Document file is unavailable.");
+
+    error.statusCode = 404;
+
+    throw error;
+  }
+
+  /*
+  ----------------------------------------------------------
+  FETCH FILE FROM CLOUDINARY
+  ----------------------------------------------------------
+  */
+
+  return new Promise((resolve, reject) => {
+    const request = https.get(document.fileUrl, (cloudinaryResponse) => {
+      /*
+        ----------------------------------------------------
+        HANDLE NON-SUCCESS RESPONSE
+        ----------------------------------------------------
+        */
+
+      if (cloudinaryResponse.statusCode !== 200) {
+        cloudinaryResponse.resume();
+
+        const error = new Error(
+          `Unable to retrieve document from storage. HTTP ${cloudinaryResponse.statusCode}.`,
+        );
+
+        error.statusCode = 502;
+
+        reject(error);
+
+        return;
+      }
+
+      /*
+        ----------------------------------------------------
+        RETURN STREAM INFORMATION
+        ----------------------------------------------------
+        */
+
+      resolve({
+        document,
+
+        stream: cloudinaryResponse,
+
+        contentType:
+          document.mimeType ||
+          cloudinaryResponse.headers["content-type"] ||
+          "application/octet-stream",
+
+        contentLength:
+          cloudinaryResponse.headers["content-length"] ||
+          document.fileSize ||
+          undefined,
+      });
+    });
+
+    /*
+    ----------------------------------------------------------
+    CLOUDINARY REQUEST ERROR
+    ----------------------------------------------------------
+    */
+
+    request.on("error", (error) => {
+      reject(error);
+    });
+  });
+};
+
+/*
+============================================================
 CLIENT DOCUMENT UPDATE
 ============================================================
 */
@@ -1351,6 +1506,8 @@ export default {
   getApplicationDocumentsForStaff,
 
   getDocumentById,
+
+  getDocumentStream,
 
   updateDocumentStatus,
 

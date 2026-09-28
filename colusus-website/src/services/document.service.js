@@ -41,11 +41,7 @@ GET SINGLE DOCUMENT
 |
 | GET /api/v1/documents/:id
 |
-| The backend verifies:
-|
-| - authenticated user
-| - document ownership
-| - application ownership
+| Returns document metadata.
 |
 ============================================================
 */
@@ -54,6 +50,30 @@ const getDocument = async (documentId) => {
   const { data } = await api.get(`/documents/${documentId}`);
 
   return data.data;
+};
+
+/*
+============================================================
+GET DOCUMENT PREVIEW
+============================================================
+|
+| GET /api/v1/documents/:id/view
+|
+| The backend authenticates the client, verifies ownership,
+| retrieves the Cloudinary raw asset, and streams it back.
+|
+| Axios receives the response as a Blob so the frontend can
+| create a temporary browser URL for the PDF viewer.
+|
+============================================================
+*/
+
+const getDocumentPreview = async (documentId) => {
+  const response = await api.get(`/documents/${documentId}/view`, {
+    responseType: "blob",
+  });
+
+  return response.data;
 };
 
 /*
@@ -109,6 +129,8 @@ export default {
   getApplicationDocuments,
 
   getDocument,
+
+  getDocumentPreview,
 
   createDocument,
 
