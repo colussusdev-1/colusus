@@ -14,6 +14,7 @@ ADMIN DOCUMENT SERVICE
 | GET   /api/v1/admin/documents/application/:applicationId
 | GET   /api/v1/admin/documents/:id
 | GET   /api/v1/admin/documents/status/:status
+| GET   /api/v1/admin/documents/:id/view
 | PATCH /api/v1/admin/documents/:id/status
 |
 ============================================================
@@ -23,31 +24,17 @@ ADMIN DOCUMENT SERVICE
 ============================================================
 GET ALL DOCUMENTS
 ============================================================
-|
-| GET /api/v1/admin/documents
-|
-============================================================
 */
 
 const getAllDocuments = async () => {
-  const { data } = await api.get("/admin/documents");
+  const response = await api.get("/admin/documents");
 
-  return data;
+  return response.data?.data || [];
 };
 
 /*
 ============================================================
 GET APPLICATION DOCUMENTS
-============================================================
-|
-| GET /api/v1/admin/documents/application/:applicationId
-|
-| Used by:
-|
-| Admin Application Details
-|        ↓
-| Documents
-|
 ============================================================
 */
 
@@ -56,20 +43,16 @@ const getApplicationDocuments = async (applicationId) => {
     throw new Error("Application ID is required.");
   }
 
-  const { data } = await api.get(
+  const response = await api.get(
     `/admin/documents/application/${applicationId}`,
   );
 
-  return data;
+  return response.data?.data || [];
 };
 
 /*
 ============================================================
 GET SINGLE DOCUMENT
-============================================================
-|
-| GET /api/v1/admin/documents/:id
-|
 ============================================================
 */
 
@@ -78,18 +61,42 @@ const getDocumentById = async (documentId) => {
     throw new Error("Document ID is required.");
   }
 
-  const { data } = await api.get(`/admin/documents/${documentId}`);
+  const response = await api.get(`/admin/documents/${documentId}`);
 
-  return data;
+  return response.data?.data || null;
+};
+
+/*
+============================================================
+GET DOCUMENT PREVIEW
+============================================================
+|
+| GET /api/v1/admin/documents/:id/view
+|
+| The backend retrieves the Cloudinary file and streams it
+| back to the browser.
+|
+| The frontend receives the response as a Blob so the
+| browser does NOT navigate directly to Cloudinary.
+|
+============================================================
+*/
+
+const getDocumentPreview = async (documentId) => {
+  if (!documentId) {
+    throw new Error("Document ID is required.");
+  }
+
+  const response = await api.get(`/admin/documents/${documentId}/view`, {
+    responseType: "blob",
+  });
+
+  return response.data;
 };
 
 /*
 ============================================================
 GET DOCUMENTS BY STATUS
-============================================================
-|
-| GET /api/v1/admin/documents/status/:status
-|
 ============================================================
 */
 
@@ -98,25 +105,14 @@ const getDocumentsByStatus = async (status) => {
     throw new Error("Document status is required.");
   }
 
-  const { data } = await api.get(`/admin/documents/status/${status}`);
+  const response = await api.get(`/admin/documents/status/${status}`);
 
-  return data;
+  return response.data?.data || [];
 };
 
 /*
 ============================================================
 UPDATE DOCUMENT STATUS
-============================================================
-|
-| PATCH /api/v1/admin/documents/:id/status
-|
-| Body:
-|
-| {
-|   status: "APPROVED",
-|   reviewNote: "Document verified successfully."
-| }
-|
 ============================================================
 */
 
@@ -129,12 +125,12 @@ const updateDocumentStatus = async (documentId, status, reviewNote = "") => {
     throw new Error("Document status is required.");
   }
 
-  const { data } = await api.patch(`/admin/documents/${documentId}/status`, {
+  const response = await api.patch(`/admin/documents/${documentId}/status`, {
     status,
     reviewNote,
   });
 
-  return data;
+  return response.data?.data || null;
 };
 
 /*
@@ -145,12 +141,9 @@ EXPORT
 
 export default {
   getAllDocuments,
-
   getApplicationDocuments,
-
   getDocumentById,
-
+  getDocumentPreview,
   getDocumentsByStatus,
-
   updateDocumentStatus,
 };

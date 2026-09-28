@@ -16,7 +16,7 @@ import {
     HiOutlineX,
 } from "react-icons/hi";
 
-import adminDocumentService
+import documentsService
     from "../../admin.document.service";
 
 import "./AdminDocumentViewer.css";
@@ -175,22 +175,71 @@ const formatDate = (
 
 /*
 ============================================================
-ADMIN DOCUMENT VIEWER
+GET PREVIEW MIME TYPE
 ============================================================
-|
-| Full-screen admin document review overlay.
-|
-| IMPORTANT:
-|
-| The incoming prop is called "document".
-|
-| We rename it to "documentData" so the browser's global
-| document object remains available for:
-|
-| - document.body
-| - document.addEventListener()
-| - document.removeEventListener()
-|
+*/
+
+const getPreviewMimeType = (
+    documentData,
+    blob,
+) => {
+
+    const originalFileName =
+        documentData?.originalFileName ||
+        documentData?.name ||
+        documentData?.documentName ||
+        "";
+
+    const extension =
+        String(originalFileName)
+            .split("?")[0]
+            .split("#")[0]
+            .split(".")
+            .pop()
+            .toLowerCase();
+
+    const mimeTypes = {
+        pdf: "application/pdf",
+
+        jpg: "image/jpeg",
+        jpeg: "image/jpeg",
+        png: "image/png",
+        webp: "image/webp",
+        gif: "image/gif",
+    };
+
+
+    if (
+        mimeTypes[extension]
+    ) {
+        return mimeTypes[extension];
+    }
+
+
+    if (
+        blob?.type &&
+        blob.type !==
+        "application/octet-stream"
+    ) {
+        return blob.type;
+    }
+
+
+    if (
+        documentData?.mimeType
+    ) {
+        return documentData.mimeType;
+    }
+
+
+    return "application/octet-stream";
+
+};
+
+
+/*
+============================================================
+ADMIN DOCUMENT VIEWER
 ============================================================
 */
 
@@ -200,11 +249,10 @@ const AdminDocumentViewer = ({
     onUpdated,
 }) => {
 
-
     /*
-    ============================================================
+    ========================================================
     LOCAL DOCUMENT
-    ============================================================
+    ========================================================
     */
 
     const [
@@ -216,9 +264,57 @@ const AdminDocumentViewer = ({
 
 
     /*
-    ============================================================
+    ========================================================
+    PREVIEW URL
+    ========================================================
+    */
+
+    const [
+        previewUrl,
+        setPreviewUrl,
+    ] = useState("");
+
+
+    /*
+    ========================================================
+    PREVIEW LOADING
+    ========================================================
+    */
+
+    const [
+        previewLoading,
+        setPreviewLoading,
+    ] = useState(false);
+
+
+    /*
+    ========================================================
+    PREVIEW ERROR
+    ========================================================
+    */
+
+    const [
+        previewError,
+        setPreviewError,
+    ] = useState("");
+
+
+    /*
+    ========================================================
+    PREVIEW MIME
+    ========================================================
+    */
+
+    const [
+        previewMimeType,
+        setPreviewMimeType,
+    ] = useState("");
+
+
+    /*
+    ========================================================
     REVIEW NOTE
-    ============================================================
+    ========================================================
     */
 
     const [
@@ -230,9 +326,9 @@ const AdminDocumentViewer = ({
 
 
     /*
-    ============================================================
+    ========================================================
     SAVING
-    ============================================================
+    ========================================================
     */
 
     const [
@@ -242,9 +338,9 @@ const AdminDocumentViewer = ({
 
 
     /*
-    ============================================================
-    ERROR
-    ============================================================
+    ========================================================
+    GENERAL ERROR
+    ========================================================
     */
 
     const [
@@ -254,9 +350,9 @@ const AdminDocumentViewer = ({
 
 
     /*
-    ============================================================
+    ========================================================
     SYNC DOCUMENT
-    ============================================================
+    ========================================================
     */
 
     useEffect(() => {
@@ -265,13 +361,13 @@ const AdminDocumentViewer = ({
             documentData || null,
         );
 
-
         setReviewNote(
             documentData?.reviewNote || "",
         );
 
-
         setError("");
+
+        setPreviewError("");
 
     }, [
         documentData,
@@ -279,9 +375,199 @@ const AdminDocumentViewer = ({
 
 
     /*
-    ============================================================
+    ========================================================
+    LOAD DOCUMENT PREVIEW
+    ========================================================
+    */
+
+    useEffect(() => {
+
+        let cancelled = false;
+
+        let objectUrl = "";
+
+        const loadPreview = async () => {
+
+            if (
+                !currentDocument?._id
+            ) {
+                return;
+            }
+
+
+            try {
+
+                setPreviewLoading(true);
+
+                setPreviewError("");
+
+                setPreviewUrl("");
+
+                setPreviewMimeType("");
+
+
+                /*
+                ------------------------------------------------
+                FETCH THROUGH AUTHENTICATED ADMIN API
+                ------------------------------------------------
+                */
+
+                const blob =
+                    await documentsService
+                        .getDocumentPreview(
+                            currentDocument._id,
+                        );
+
+
+                if (
+                    cancelled
+                ) {
+                    return;
+                }
+
+
+                if (
+                    !(blob instanceof Blob)
+                ) {
+                    throw new Error(
+                        "The server did not return a valid document file.",
+                    );
+                }
+
+
+                if (
+                    blob.size <= 0
+                ) {
+                    throw new Error(
+                        "The document file is empty.",
+                    );
+                }
+
+
+                /*
+                ------------------------------------------------
+                DETERMINE MIME TYPE
+                ------------------------------------------------
+                */
+
+                const mimeType =
+                    getPreviewMimeType(
+                        currentDocument,
+                        blob,
+                    );
+
+
+                /*
+                ------------------------------------------------
+                NORMALIZE BLOB
+                ------------------------------------------------
+                */
+
+                const previewBlob =
+                    blob.type === mimeType
+                        ? blob
+                        : new Blob(
+                            [blob],
+                            {
+                                type: mimeType,
+                            },
+                        );
+
+
+                /*
+                ------------------------------------------------
+                CREATE LOCAL OBJECT URL
+                ------------------------------------------------
+                */
+
+                objectUrl =
+                    URL.createObjectURL(
+                        previewBlob,
+                    );
+
+
+                setPreviewMimeType(
+                    mimeType,
+                );
+
+                setPreviewUrl(
+                    objectUrl,
+                );
+
+            } catch (
+            requestError
+            ) {
+
+                if (
+                    cancelled
+                ) {
+                    return;
+                }
+
+
+                console.error(
+                    "FAILED TO LOAD ADMIN DOCUMENT PREVIEW:",
+                    requestError,
+                );
+
+
+                setPreviewError(
+                    requestError
+                        ?.response
+                        ?.data
+                        ?.message ||
+                    requestError?.message ||
+                    "Unable to load document preview.",
+                );
+
+            } finally {
+
+                if (
+                    !cancelled
+                ) {
+                    setPreviewLoading(
+                        false,
+                    );
+                }
+
+            }
+
+        };
+
+
+        loadPreview();
+
+
+        /*
+        ------------------------------------------------
+        CLEANUP
+        ------------------------------------------------
+        */
+
+        return () => {
+
+            cancelled = true;
+
+
+            if (
+                objectUrl
+            ) {
+                URL.revokeObjectURL(
+                    objectUrl,
+                );
+            }
+
+        };
+
+    }, [
+        currentDocument?._id,
+    ]);
+
+
+    /*
+    ========================================================
     ESCAPE KEY
-    ============================================================
+    ========================================================
     */
 
     useEffect(() => {
@@ -293,9 +579,7 @@ const AdminDocumentViewer = ({
             if (
                 event.key === "Escape"
             ) {
-
                 onClose?.();
-
             }
 
         };
@@ -322,9 +606,9 @@ const AdminDocumentViewer = ({
 
 
     /*
-    ============================================================
+    ========================================================
     LOCK BODY SCROLL
-    ============================================================
+    ========================================================
     */
 
     useEffect(() => {
@@ -348,12 +632,14 @@ const AdminDocumentViewer = ({
 
 
     /*
-    ============================================================
+    ========================================================
     NO DOCUMENT
-    ============================================================
+    ========================================================
     */
 
-    if (!currentDocument) {
+    if (
+        !currentDocument
+    ) {
 
         return createPortal(
 
@@ -418,15 +704,16 @@ const AdminDocumentViewer = ({
             </div>,
 
             document.body,
+
         );
 
     }
 
 
     /*
-    ============================================================
+    ========================================================
     DOCUMENT INFORMATION
-    ============================================================
+    ========================================================
     */
 
     const fileName =
@@ -438,22 +725,6 @@ const AdminDocumentViewer = ({
     const documentName =
         currentDocument?.name ||
         "Application document";
-
-
-    const mimeType =
-        currentDocument?.mimeType ||
-        "";
-
-
-    const isPdf =
-        mimeType ===
-        "application/pdf";
-
-
-    const isImage =
-        mimeType.startsWith(
-            "image/",
-        );
 
 
     const fileSize =
@@ -468,15 +739,26 @@ const AdminDocumentViewer = ({
 
 
     /*
-    ============================================================
+    ========================================================
+    PREVIEW TYPE
+    ========================================================
+    */
+
+    const isPdf =
+        previewMimeType ===
+        "application/pdf";
+
+
+    const isImage =
+        previewMimeType.startsWith(
+            "image/",
+        );
+
+
+    /*
+    ========================================================
     UPDATE DOCUMENT STATUS
-    ============================================================
-    |
-    | Uses the ADMIN DOCUMENT SERVICE.
-    |
-    | NOT the application service.
-    |
-    ============================================================
+    ========================================================
     */
 
     const handleStatusUpdate = async (
@@ -496,12 +778,6 @@ const AdminDocumentViewer = ({
         }
 
 
-        /*
-        --------------------------------------------------------
-        DO NOTHING IF STATUS IS ALREADY THE SAME
-        --------------------------------------------------------
-        */
-
         if (
             nextStatus ===
             currentDocument?.status
@@ -519,14 +795,8 @@ const AdminDocumentViewer = ({
             setError("");
 
 
-            /*
-            ----------------------------------------------------
-            UPDATE THROUGH ADMIN DOCUMENT SERVICE
-            ----------------------------------------------------
-            */
-
             const response =
-                await adminDocumentService
+                await documentsService
                     .updateDocumentStatus(
                         currentDocument._id,
                         nextStatus,
@@ -534,36 +804,15 @@ const AdminDocumentViewer = ({
                     );
 
 
-            /*
-            ----------------------------------------------------
-            NORMALIZE RESPONSE
-            ----------------------------------------------------
-            |
-            | Backend:
-            |
-            | {
-            |   success: true,
-            |   message: "...",
-            |   data: document
-            | | }
-            |
-            ----------------------------------------------------
-            */
-
             const updatedDocument =
                 response?.data ||
                 response;
 
 
-            /*
-            ----------------------------------------------------
-            SAFETY CHECK
-            ----------------------------------------------------
-            */
-
             if (
                 !updatedDocument ||
-                typeof updatedDocument !== "object"
+                typeof updatedDocument !==
+                "object"
             ) {
 
                 throw new Error(
@@ -573,22 +822,10 @@ const AdminDocumentViewer = ({
             }
 
 
-            /*
-            ----------------------------------------------------
-            UPDATE VIEWER
-            ----------------------------------------------------
-            */
-
             setCurrentDocument(
                 updatedDocument,
             );
 
-
-            /*
-            ----------------------------------------------------
-            UPDATE REVIEW NOTE
-            ----------------------------------------------------
-            */
 
             setReviewNote(
                 updatedDocument?.reviewNote ||
@@ -596,12 +833,6 @@ const AdminDocumentViewer = ({
                 "",
             );
 
-
-            /*
-            ----------------------------------------------------
-            UPDATE PARENT TABLE
-            ----------------------------------------------------
-            */
 
             if (
                 onUpdated
@@ -642,9 +873,61 @@ const AdminDocumentViewer = ({
 
 
     /*
-    ============================================================
+    ========================================================
+    DOWNLOAD DOCUMENT
+    ========================================================
+    */
+
+    const downloadDocument = () => {
+
+        if (
+            !previewUrl ||
+            !currentDocument
+        ) {
+            return;
+        }
+
+
+        const anchor =
+            window.document.createElement(
+                "a",
+            );
+
+
+        anchor.href =
+            previewUrl;
+
+
+        anchor.download =
+            currentDocument?.originalFileName ||
+            currentDocument?.name ||
+            currentDocument?.documentName ||
+            "document";
+
+
+        anchor.style.display =
+            "none";
+
+
+        window.document.body.appendChild(
+            anchor,
+        );
+
+
+        anchor.click();
+
+
+        window.document.body.removeChild(
+            anchor,
+        );
+
+    };
+
+
+    /*
+    ========================================================
     CLOSE WHEN CLICKING BACKDROP
-    ============================================================
+    ========================================================
     */
 
     const handleBackdropClick = (
@@ -664,9 +947,9 @@ const AdminDocumentViewer = ({
 
 
     /*
-    ============================================================
+    ========================================================
     VIEWER
-    ============================================================
+    ========================================================
     */
 
     const viewer = (
@@ -746,27 +1029,25 @@ const AdminDocumentViewer = ({
                             DOWNLOAD
                         ========================================== */}
 
-                        {currentDocument?.fileUrl && (
+                        <button
+                            type="button"
+                            className="adminDocumentViewer__download"
+                            onClick={
+                                downloadDocument
+                            }
+                            disabled={
+                                !previewUrl ||
+                                previewLoading
+                            }
+                        >
 
-                            <a
-                                href={
-                                    currentDocument.fileUrl
-                                }
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="adminDocumentViewer__download"
-                                download
-                            >
+                            <HiOutlineDownload />
 
-                                <HiOutlineDownload />
+                            <span>
+                                Download
+                            </span>
 
-                                <span>
-                                    Download
-                                </span>
-
-                            </a>
-
-                        )}
+                        </button>
 
                     </div>
 
@@ -790,15 +1071,86 @@ const AdminDocumentViewer = ({
 
 
                             {/* ==========================================
+                                LOADING
+                            ========================================== */}
+
+                            {previewLoading && (
+
+                                <div className="adminDocumentViewer__state">
+
+                                    <div className="adminDocumentViewer__errorIcon">
+
+                                        <HiOutlineDocumentText />
+
+                                    </div>
+
+
+                                    <span className="adminDocumentViewer__eyebrow">
+                                        DOCUMENT
+                                    </span>
+
+
+                                    <h2>
+                                        Loading document…
+                                    </h2>
+
+
+                                    <p>
+                                        Retrieving the document securely.
+                                    </p>
+
+                                </div>
+
+                            )}
+
+
+                            {/* ==========================================
+                                PREVIEW ERROR
+                            ========================================== */}
+
+                            {!previewLoading &&
+                                previewError && (
+
+                                    <div className="adminDocumentViewer__state">
+
+                                        <div className="adminDocumentViewer__errorIcon">
+
+                                            <HiOutlineExclamationCircle />
+
+                                        </div>
+
+
+                                        <span className="adminDocumentViewer__eyebrow">
+                                            DOCUMENT
+                                        </span>
+
+
+                                        <h2>
+                                            Preview unavailable
+                                        </h2>
+
+
+                                        <p>
+                                            {previewError}
+                                        </p>
+
+                                    </div>
+
+                                )}
+
+
+                            {/* ==========================================
                                 PDF
                             ========================================== */}
 
-                            {isPdf &&
-                                currentDocument?.fileUrl && (
+                            {!previewLoading &&
+                                !previewError &&
+                                isPdf &&
+                                previewUrl && (
 
                                     <iframe
                                         src={
-                                            currentDocument.fileUrl
+                                            previewUrl
                                         }
                                         title={
                                             fileName
@@ -813,14 +1165,16 @@ const AdminDocumentViewer = ({
                                 IMAGE
                             ========================================== */}
 
-                            {isImage &&
-                                currentDocument?.fileUrl && (
+                            {!previewLoading &&
+                                !previewError &&
+                                isImage &&
+                                previewUrl && (
 
                                     <div className="adminDocumentViewer__imageWrapper">
 
                                         <img
                                             src={
-                                                currentDocument.fileUrl
+                                                previewUrl
                                             }
                                             alt={
                                                 fileName
@@ -837,7 +1191,9 @@ const AdminDocumentViewer = ({
                                 UNSUPPORTED FILE
                             ========================================== */}
 
-                            {!isPdf &&
+                            {!previewLoading &&
+                                !previewError &&
+                                !isPdf &&
                                 !isImage && (
 
                                     <div className="adminDocumentViewer__unsupported">
@@ -856,24 +1212,22 @@ const AdminDocumentViewer = ({
                                         </p>
 
 
-                                        {currentDocument?.fileUrl && (
+                                        <button
+                                            type="button"
+                                            className="adminDocumentViewer__download"
+                                            onClick={
+                                                downloadDocument
+                                            }
+                                            disabled={
+                                                !previewUrl
+                                            }
+                                        >
 
-                                            <a
-                                                href={
-                                                    currentDocument.fileUrl
-                                                }
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="adminDocumentViewer__download"
-                                            >
+                                            <HiOutlineDownload />
 
-                                                <HiOutlineDownload />
+                                            Download document
 
-                                                Download document
-
-                                            </a>
-
-                                        )}
+                                        </button>
 
                                     </div>
 
@@ -1146,9 +1500,9 @@ const AdminDocumentViewer = ({
 
 
     /*
-    ============================================================
+    ========================================================
     RENDER THROUGH PORTAL
-    ============================================================
+    ========================================================
     */
 
     return createPortal(

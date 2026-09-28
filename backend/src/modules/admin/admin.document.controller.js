@@ -95,6 +95,69 @@ export const getDocumentById = async (req, res, next) => {
 
 /*
 |--------------------------------------------------------------------------
+| VIEW DOCUMENT
+|--------------------------------------------------------------------------
+|
+| GET /api/v1/admin/documents/:id/view
+|
+| Used by:
+|
+| Admin Documents
+| → Preview / View Document
+|
+| The backend retrieves the Cloudinary raw file and streams it
+| through the authenticated admin endpoint.
+|
+*/
+
+export const viewDocument = async (req, res, next) => {
+  try {
+    const result = await adminDocumentService.getDocumentStream(req.params.id);
+
+    if (!result?.stream) {
+      const error = new Error("Document stream is unavailable.");
+
+      error.statusCode = 404;
+
+      throw error;
+    }
+
+    const fileName =
+      result.document?.originalFileName ||
+      result.document?.name ||
+      result.document?.documentName ||
+      "document";
+
+    const safeFileName = String(fileName).replace(/"/g, "");
+
+    res.setHeader(
+      "Content-Type",
+      result.contentType || "application/octet-stream",
+    );
+
+    res.setHeader("Content-Disposition", `inline; filename="${safeFileName}"`);
+
+    if (result.contentLength) {
+      res.setHeader("Content-Length", result.contentLength);
+    }
+
+    result.stream.on("error", (error) => {
+      if (res.headersSent) {
+        res.destroy(error);
+        return;
+      }
+
+      next(error);
+    });
+
+    result.stream.pipe(res);
+  } catch (error) {
+    next(error);
+  }
+};
+
+/*
+|--------------------------------------------------------------------------
 | UPDATE DOCUMENT STATUS
 |--------------------------------------------------------------------------
 |
@@ -199,6 +262,8 @@ export default {
   getApplicationDocuments,
 
   getDocumentById,
+
+  viewDocument,
 
   updateDocumentStatus,
 

@@ -1,13 +1,13 @@
 import express from "express";
 
 import authenticate from "../../middleware/auth.middleware.js";
-
 import { allowRoles } from "../../middleware/role.middleware.js";
 
 import {
   getAllDocuments,
   getApplicationDocuments,
   getDocumentById,
+  viewDocument,
   updateDocumentStatus,
   getDocumentsByStatus,
 } from "./admin.document.controller.js";
@@ -15,115 +15,67 @@ import {
 const router = express.Router();
 
 /*
-|--------------------------------------------------------------------------
-| GET ALL ADMIN DOCUMENTS
-|--------------------------------------------------------------------------
-|
-| GET /api/v1/admin/documents
-|
-|--------------------------------------------------------------------------
+============================================================
+ADMIN DOCUMENTS
+============================================================
 */
-
-router.get(
-  "/",
-
-  authenticate,
-
-  allowRoles("ADMIN", "STAFF"),
-
-  getAllDocuments,
-);
 
 /*
-|--------------------------------------------------------------------------
-| GET APPLICATION DOCUMENTS
-|--------------------------------------------------------------------------
-|
-| GET /api/v1/admin/documents/application/:applicationId
-|
-| Used by the Application Details Documents tab.
-|
-|--------------------------------------------------------------------------
+GET ALL DOCUMENTS
+GET /api/v1/admin/documents
 */
+router.get("/", authenticate, allowRoles("ADMIN", "STAFF"), getAllDocuments);
 
+/*
+GET APPLICATION DOCUMENTS
+GET /api/v1/admin/documents/application/:applicationId
+*/
 router.get(
   "/application/:applicationId",
-
   authenticate,
-
   allowRoles("ADMIN", "STAFF"),
-
   getApplicationDocuments,
 );
 
 /*
-|--------------------------------------------------------------------------
-| GET DOCUMENTS BY STATUS
-|--------------------------------------------------------------------------
-|
-| GET /api/v1/admin/documents/status/:status
-|
-| Example:
-|
-| /api/v1/admin/documents/status/APPROVED
-|
-|--------------------------------------------------------------------------
+GET DOCUMENTS BY STATUS
+GET /api/v1/admin/documents/status/:status
 */
-
 router.get(
   "/status/:status",
-
   authenticate,
-
   allowRoles("ADMIN", "STAFF"),
-
   getDocumentsByStatus,
 );
 
 /*
-|--------------------------------------------------------------------------
-| GET SINGLE DOCUMENT
-|--------------------------------------------------------------------------
-|
-| GET /api/v1/admin/documents/:id
-|
-|--------------------------------------------------------------------------
+VIEW / PREVIEW DOCUMENT
+GET /api/v1/admin/documents/:id/view
+
+IMPORTANT:
+This route MUST come before "/:id".
 */
-
 router.get(
-  "/:id",
-
+  "/:id/view",
   authenticate,
-
   allowRoles("ADMIN", "STAFF"),
-
-  getDocumentById,
+  viewDocument,
 );
 
 /*
-|--------------------------------------------------------------------------
-| UPDATE DOCUMENT STATUS
-|--------------------------------------------------------------------------
-|
-| PATCH /api/v1/admin/documents/:id/status
-|
-| Body:
-|
-| {
-|   "status": "APPROVED",
-|   "reviewNote": "Document verified successfully."
-| }
-|
-|--------------------------------------------------------------------------
+GET SINGLE DOCUMENT
+GET /api/v1/admin/documents/:id
 */
+router.get("/:id", authenticate, allowRoles("ADMIN", "STAFF"), getDocumentById);
 
+/*
+UPDATE DOCUMENT STATUS
+PATCH /api/v1/admin/documents/:id/status
+*/
 router.patch(
   "/:id/status",
-
   authenticate,
-
   allowRoles("ADMIN", "STAFF"),
-
   updateDocumentStatus,
 );
 
