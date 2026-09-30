@@ -1,12 +1,11 @@
 import express from "express";
 
 import authenticate from "../../middleware/auth.middleware.js";
-
 import { allowRoles } from "../../middleware/role.middleware.js";
 
 import clientRoutes from "./admin.client.routes.js";
-
 import adminNotificationRoutes from "../admin-notifications/admin-notification.routes.js";
+import adminOpportunityRoutes from "./admin.opportunity.routes.js";
 
 import {
   getDashboardStats,
@@ -29,7 +28,6 @@ import {
 
 const router = express.Router();
 
-
 /*
 |--------------------------------------------------------------------------
 | ADMIN DASHBOARD
@@ -47,13 +45,11 @@ router.get(
   getDashboardStats,
 );
 
-
 /*
 |--------------------------------------------------------------------------
 | ADMIN STAFF / ASSIGNMENT
 |--------------------------------------------------------------------------
 */
-
 
 /*
 |--------------------------------------------------------------------------
@@ -79,13 +75,11 @@ router.get(
   getAssignableStaff,
 );
 
-
 /*
 |--------------------------------------------------------------------------
 | ADMIN APPLICATION MANAGEMENT
 |--------------------------------------------------------------------------
 */
-
 
 /*
 |--------------------------------------------------------------------------
@@ -104,7 +98,6 @@ router.get(
   getAllApplications,
 );
 
-
 /*
 |--------------------------------------------------------------------------
 | APPLICATION NOTES
@@ -120,7 +113,6 @@ router.get(
 |
 |--------------------------------------------------------------------------
 */
-
 
 /*
 |--------------------------------------------------------------------------
@@ -138,7 +130,6 @@ router.get(
   allowRoles("ADMIN", "STAFF"),
   getApplicationNotes,
 );
-
 
 /*
 |--------------------------------------------------------------------------
@@ -162,7 +153,6 @@ router.post(
   allowRoles("ADMIN", "STAFF"),
   addApplicationNote,
 );
-
 
 /*
 |--------------------------------------------------------------------------
@@ -193,7 +183,6 @@ router.patch(
   assignApplication,
 );
 
-
 /*
 |--------------------------------------------------------------------------
 | GET SINGLE APPLICATION
@@ -210,7 +199,6 @@ router.get(
   allowRoles("ADMIN", "STAFF"),
   getApplicationById,
 );
-
 
 /*
 |--------------------------------------------------------------------------
@@ -236,7 +224,6 @@ router.patch(
   updateApplicationStatus,
 );
 
-
 /*
 |--------------------------------------------------------------------------
 | ADMIN DOCUMENT MANAGEMENT
@@ -256,7 +243,6 @@ router.patch(
 |--------------------------------------------------------------------------
 */
 
-
 /*
 |--------------------------------------------------------------------------
 | GET ALL DOCUMENTS
@@ -273,7 +259,6 @@ router.get(
   allowRoles("ADMIN", "STAFF"),
   getAllDocuments,
 );
-
 
 /*
 |--------------------------------------------------------------------------
@@ -296,7 +281,6 @@ router.get(
   allowRoles("ADMIN", "STAFF"),
   getApplicationDocuments,
 );
-
 
 /*
 |--------------------------------------------------------------------------
@@ -325,7 +309,6 @@ router.get(
   getDocumentsByStatus,
 );
 
-
 /*
 |--------------------------------------------------------------------------
 | GET SINGLE DOCUMENT
@@ -342,7 +325,6 @@ router.get(
   allowRoles("ADMIN", "STAFF"),
   getDocumentById,
 );
-
 
 /*
 |--------------------------------------------------------------------------
@@ -368,7 +350,6 @@ router.patch(
   updateDocumentStatus,
 );
 
-
 /*
 |--------------------------------------------------------------------------
 | ADMIN NOTIFICATIONS
@@ -376,23 +357,10 @@ router.patch(
 |
 | /api/v1/admin/notifications/...
 |
-| IMPORTANT:
-|
 | The notification router handles its own:
 |
 | - Authentication
 | - ADMIN authorization
-|
-| Therefore we mount the router directly here.
-|
-| Supported endpoints:
-|
-| GET    /api/v1/admin/notifications
-| GET    /api/v1/admin/notifications/unread-count
-| PATCH  /api/v1/admin/notifications/read-all
-| PATCH  /api/v1/admin/notifications/:id/read
-| DELETE /api/v1/admin/notifications
-| DELETE /api/v1/admin/notifications/:id
 |
 |--------------------------------------------------------------------------
 */
@@ -401,7 +369,6 @@ router.use(
   "/notifications",
   adminNotificationRoutes,
 );
-
 
 /*
 |--------------------------------------------------------------------------
@@ -418,6 +385,32 @@ router.use(
   clientRoutes,
 );
 
+/*
+|--------------------------------------------------------------------------
+| ADMIN OPPORTUNITY MANAGEMENT
+|--------------------------------------------------------------------------
+|
+| /api/v1/admin/opportunities/...
+|
+| Supported endpoints:
+|
+| GET    /api/v1/admin/opportunities
+| POST   /api/v1/admin/opportunities
+| GET    /api/v1/admin/opportunities/:id
+| PATCH  /api/v1/admin/opportunities/:id
+| PATCH  /api/v1/admin/opportunities/:id/active
+| PATCH  /api/v1/admin/opportunities/:id/featured
+| DELETE /api/v1/admin/opportunities/:id
+|
+|--------------------------------------------------------------------------
+*/
+
+router.use(
+  "/opportunities",
+  authenticate,
+  allowRoles("ADMIN"),
+  adminOpportunityRoutes,
+);
 
 /*
 |--------------------------------------------------------------------------

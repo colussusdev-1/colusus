@@ -1,5 +1,6 @@
 import {
-    useMemo,
+    useEffect,
+    useState,
 } from "react";
 
 import {
@@ -22,8 +23,8 @@ import {
     HiOutlineUserGroup,
 } from "react-icons/hi";
 
-import countries
-    from "../../Home/sections/Countries/countriesData";
+import opportunityService
+    from "../../../services/opportunity.service";
 
 import "./OpportunityDetails.css";
 
@@ -37,9 +38,11 @@ const CountryFlag = ({
     countryName,
     className = "",
 }) => {
+
     if (!flag) {
         return null;
     }
+
 
     return (
         <img
@@ -55,12 +58,23 @@ const CountryFlag = ({
    NORMALIZATION
 ============================================================ */
 
-const normalize = (value) => {
-    return String(value || "")
+const normalize = (
+    value,
+) => {
+
+    return String(
+        value || "",
+    )
         .trim()
         .toLowerCase()
-        .replace(/[_-]+/g, " ")
-        .replace(/\s+/g, " ");
+        .replace(
+            /[_-]+/g,
+            " ",
+        )
+        .replace(
+            /\s+/g,
+            " ",
+        );
 };
 
 
@@ -69,6 +83,7 @@ const normalize = (value) => {
 ============================================================ */
 
 const OpportunityDetails = () => {
+
     const navigate = useNavigate();
 
     const {
@@ -78,65 +93,387 @@ const OpportunityDetails = () => {
 
 
     /* ========================================================
-       COUNTRY
+       STATE
     ======================================================== */
 
-    const selectedCountry = useMemo(() => {
-        if (!country) {
-            return null;
-        }
+    const [
+        selectedCountry,
+        setSelectedCountry,
+    ] = useState(null);
 
-        return (
-            countries.find(
-                (item) =>
-                    normalize(item?.slug) ===
-                    normalize(country),
-            ) || null
-        );
-    }, [country]);
+
+    const [
+        selectedOpportunity,
+        setSelectedOpportunity,
+    ] = useState(null);
+
+
+    const [
+        loading,
+        setLoading,
+    ] = useState(true);
+
+
+    const [
+        error,
+        setError,
+    ] = useState("");
 
 
     /* ========================================================
-       SELECTED OPPORTUNITY
+       LOAD COUNTRY + OPPORTUNITY
     ======================================================== */
 
-    const selectedOpportunity = useMemo(() => {
-        if (
-            !selectedCountry ||
-            !slug ||
-            !Array.isArray(
-                selectedCountry.opportunities,
-            )
-        ) {
-            return null;
-        }
+    useEffect(() => {
 
-        const normalizedSlug =
-            normalize(
-                decodeURIComponent(slug),
-            );
+        let mounted = true;
 
-        return (
-            selectedCountry.opportunities.find(
-                (opportunity) =>
+
+        const loadOpportunity = async () => {
+
+            try {
+
+                setLoading(true);
+                setError("");
+
+                setSelectedCountry(null);
+                setSelectedOpportunity(null);
+
+
+                /* ==================================================
+                   VALIDATE ROUTE
+                ================================================== */
+
+                if (
+                    !country ||
+                    !slug
+                ) {
+
+                    if (!mounted) {
+                        return;
+                    }
+
+                    setError(
+                        "OPPORTUNITY_NOT_FOUND",
+                    );
+
+                    setLoading(false);
+
+                    return;
+                }
+
+
+                /* ==================================================
+                   LOAD COUNTRY DIRECTORY
+                ==================================================
+
+                   MongoDB:
+
+                   GET /opportunities/countries
+
+                ================================================== */
+
+                const countries =
+                    await opportunityService.getCountries();
+
+
+                if (!mounted) {
+                    return;
+                }
+
+
+                const normalizedCountry =
                     normalize(
-                        opportunity?.slug,
-                    ) === normalizedSlug,
-            ) || null
-        );
+                        country,
+                    );
+
+
+                const foundCountry =
+                    countries.find(
+                        (item) =>
+                            normalize(
+                                item?.slug,
+                            ) ===
+                            normalizedCountry,
+                    );
+
+
+                /* ==================================================
+                   COUNTRY NOT FOUND
+                ================================================== */
+
+                if (!foundCountry) {
+
+                    setError(
+                        "COUNTRY_NOT_FOUND",
+                    );
+
+                    return;
+                }
+
+
+                setSelectedCountry(
+                    foundCountry,
+                );
+
+
+                /* ==================================================
+                   LOAD EXACT OPPORTUNITY
+                ==================================================
+
+                   MongoDB:
+
+                   GET
+                   /opportunities/:country/:slug
+
+                ================================================== */
+
+                const foundOpportunity =
+                    await opportunityService.getOpportunity(
+                        foundCountry.slug,
+                        decodeURIComponent(
+                            slug,
+                        ),
+                    );
+
+
+                if (!mounted) {
+                    return;
+                }
+
+
+                /* ==================================================
+                   OPPORTUNITY NOT FOUND
+                ================================================== */
+
+                if (!foundOpportunity) {
+
+                    setError(
+                        "OPPORTUNITY_NOT_FOUND",
+                    );
+
+                    return;
+                }
+
+
+                /* ==================================================
+                   MERGE COUNTRY FALLBACK DATA
+                ==================================================
+
+                   Opportunity records already contain country
+                   information, but country-level fields remain
+                   available as fallbacks.
+
+                ================================================== */
+
+                const normalizedOpportunity = {
+
+                    ...foundOpportunity,
+
+                    country:
+                        foundOpportunity.country ||
+                        foundOpportunity.countryName ||
+                        foundCountry.name,
+
+                    countryName:
+                        foundOpportunity.countryName ||
+                        foundCountry.name,
+
+                    countrySlug:
+                        foundOpportunity.countrySlug ||
+                        foundCountry.slug,
+
+                    countryFlag:
+                        foundOpportunity.countryFlag ||
+                        foundCountry.flag ||
+                        "",
+
+                    image:
+                        foundOpportunity.image ||
+                        foundCountry.image ||
+                        "",
+
+                    location:
+                        foundOpportunity.location ||
+                        foundCountry.name,
+
+                    duration:
+                        foundOpportunity.duration ||
+                        foundCountry.duration ||
+                        foundCountry.processingTime ||
+                        "Varies",
+
+                    visa:
+                        foundOpportunity.visa ||
+                        foundCountry.visa ||
+                        "Varies",
+
+                    applicants:
+                        foundOpportunity.applicants ||
+                        foundCountry.applicants ||
+                        "",
+
+                };
+
+
+                setSelectedOpportunity(
+                    normalizedOpportunity,
+                );
+
+
+            } catch (loadError) {
+
+                console.error(
+                    "Failed to load opportunity details:",
+                    loadError,
+                );
+
+
+                if (!mounted) {
+                    return;
+                }
+
+
+                setSelectedCountry(null);
+                setSelectedOpportunity(null);
+
+                setError(
+                    "LOAD_FAILED",
+                );
+
+            } finally {
+
+                if (mounted) {
+                    setLoading(false);
+                }
+
+            }
+
+        };
+
+
+        loadOpportunity();
+
+
+        return () => {
+
+            mounted = false;
+
+        };
+
     }, [
-        selectedCountry,
+        country,
         slug,
     ]);
+
+
+    /* ========================================================
+       LOADING
+    ======================================================== */
+
+    if (loading) {
+
+        return (
+
+            <main
+                className="
+                    opportunity-details
+                    opportunity-details--loading
+                "
+            >
+
+                <div className="opportunity-details__error">
+
+                    <span className="opportunity-details__error-eyebrow">
+                        Global Opportunities
+                    </span>
+
+                    <h1>
+                        Loading pathway...
+                    </h1>
+
+                    <p>
+                        We're loading the opportunity
+                        details.
+                    </p>
+
+                </div>
+
+            </main>
+
+        );
+
+    }
+
+
+    /* ========================================================
+       LOAD ERROR
+    ======================================================== */
+
+    if (error === "LOAD_FAILED") {
+
+        return (
+
+            <main
+                className="
+                    opportunity-details
+                    opportunity-details--error
+                "
+            >
+
+                <div className="opportunity-details__error">
+
+                    <span className="opportunity-details__error-eyebrow">
+                        Global Opportunities
+                    </span>
+
+                    <h1>
+                        Unable to load pathway
+                    </h1>
+
+                    <p>
+                        We couldn't load this migration
+                        pathway right now. Please refresh
+                        the page and try again.
+                    </p>
+
+                    <button
+                        type="button"
+                        onClick={() =>
+                            window.location.reload()
+                        }
+                    >
+                        <span>
+                            Try again
+                        </span>
+                    </button>
+
+                </div>
+
+            </main>
+
+        );
+
+    }
 
 
     /* ========================================================
        COUNTRY ERROR
     ======================================================== */
 
-    if (!selectedCountry) {
+    if (
+        error === "COUNTRY_NOT_FOUND" ||
+        !selectedCountry
+    ) {
+
         return (
-            <main className="opportunity-details opportunity-details--error">
+
+            <main
+                className="
+                    opportunity-details
+                    opportunity-details--error
+                "
+            >
 
                 <div className="opportunity-details__error">
 
@@ -155,40 +492,44 @@ const OpportunityDetails = () => {
 
                     <button
                         type="button"
-                        onClick={() => navigate(-1)}
+                        onClick={() =>
+                            navigate(-1)
+                        }
                     >
                         <HiOutlineArrowLeft />
 
                         <span>
                             Back
                         </span>
+
                     </button>
 
                 </div>
 
             </main>
+
         );
+
     }
-
-
-    /* ========================================================
-       BACK TO COUNTRY
-    ======================================================== */
-
-    const handleBackToCountry = () => {
-        navigate(
-            `/opportunities/${selectedCountry.slug}`,
-        );
-    };
 
 
     /* ========================================================
        OPPORTUNITY ERROR
     ======================================================== */
 
-    if (!selectedOpportunity) {
+    if (
+        error === "OPPORTUNITY_NOT_FOUND" ||
+        !selectedOpportunity
+    ) {
+
         return (
-            <main className="opportunity-details opportunity-details--error">
+
+            <main
+                className="
+                    opportunity-details
+                    opportunity-details--error
+                "
+            >
 
                 <div className="opportunity-details__error">
 
@@ -204,7 +545,9 @@ const OpportunityDetails = () => {
                         />
 
                         <span>
-                            {selectedCountry.name}
+                            {
+                                selectedCountry.name
+                            }
                         </span>
 
                     </div>
@@ -225,8 +568,10 @@ const OpportunityDetails = () => {
 
                     <button
                         type="button"
-                        onClick={
-                            handleBackToCountry
+                        onClick={() =>
+                            navigate(
+                                `/opportunities/${selectedCountry.slug}`,
+                            )
                         }
                     >
                         <HiOutlineArrowLeft />
@@ -234,12 +579,15 @@ const OpportunityDetails = () => {
                         <span>
                             Back to pathways
                         </span>
+
                     </button>
 
                 </div>
 
             </main>
+
         );
+
     }
 
 
@@ -294,12 +642,15 @@ const OpportunityDetails = () => {
     ======================================================== */
 
     const handleContinueWithPathway = () => {
+
         if (!selectedOpportunity) {
             return;
         }
 
+
         const applicationPath =
             "/portal/applications/new";
+
 
         const opportunityId =
             selectedOpportunity?._id ||
@@ -307,7 +658,9 @@ const OpportunityDetails = () => {
             selectedOpportunity?.legacyId ||
             null;
 
+
         const applicationState = {
+
             opportunity:
                 selectedOpportunity,
 
@@ -325,21 +678,26 @@ const OpportunityDetails = () => {
 
             source:
                 "opportunity-details",
+
         };
 
 
         try {
+
             sessionStorage.setItem(
                 "colossus_pending_application",
                 JSON.stringify(
                     applicationState,
                 ),
             );
+
         } catch (storageError) {
+
             console.warn(
                 "Unable to preserve pending application:",
                 storageError,
             );
+
         }
 
 
@@ -350,6 +708,7 @@ const OpportunityDetails = () => {
 
 
         if (token) {
+
             navigate(
                 applicationPath,
                 {
@@ -366,6 +725,7 @@ const OpportunityDetails = () => {
             "/login",
             {
                 state: {
+
                     returnTo:
                         applicationPath,
 
@@ -374,9 +734,11 @@ const OpportunityDetails = () => {
 
                     source:
                         "opportunity-details",
+
                 },
             },
         );
+
     };
 
 
@@ -385,10 +747,12 @@ const OpportunityDetails = () => {
     ======================================================== */
 
     const handleCheckEligibility = () => {
+
         navigate(
             "/free-assessment",
             {
                 state: {
+
                     opportunity:
                         selectedOpportunity,
 
@@ -410,9 +774,11 @@ const OpportunityDetails = () => {
 
                     source:
                         "opportunity-details",
+
                 },
             },
         );
+
     };
 
 
@@ -421,10 +787,12 @@ const OpportunityDetails = () => {
     ======================================================== */
 
     const handleContactAgent = () => {
+
         navigate(
             "/contact",
             {
                 state: {
+
                     opportunity:
                         selectedOpportunity,
 
@@ -433,9 +801,11 @@ const OpportunityDetails = () => {
 
                     source:
                         "opportunity-details",
+
                 },
             },
         );
+
     };
 
 
@@ -454,6 +824,7 @@ const OpportunityDetails = () => {
     ======================================================== */
 
     return (
+
         <main className="opportunity-details">
 
 
@@ -467,12 +838,14 @@ const OpportunityDetails = () => {
                     to={`/opportunities/${selectedCountry.slug}`}
                     className="opportunity-details__back-link"
                 >
+
                     <HiOutlineArrowLeft />
 
                     <span>
                         Back to{" "}
                         {selectedCountry.name}
                     </span>
+
                 </Link>
 
 
@@ -511,12 +884,15 @@ const OpportunityDetails = () => {
                 <div className="opportunity-details__hero-image">
 
                     {heroImage ? (
+
                         <img
                             src={heroImage}
                             alt={title}
                             className="opportunity-details__hero-image-element"
                         />
+
                     ) : (
+
                         <div className="opportunity-details__hero-image-fallback">
 
                             <CountryFlag
@@ -533,6 +909,7 @@ const OpportunityDetails = () => {
                             </span>
 
                         </div>
+
                     )}
 
                 </div>
@@ -821,9 +1198,7 @@ const OpportunityDetails = () => {
                                         ) => (
 
                                             <li
-                                                key={
-                                                    index
-                                                }
+                                                key={index}
                                             >
                                                 {term}
                                             </li>
@@ -894,6 +1269,7 @@ const OpportunityDetails = () => {
                                         position?.category ||
                                         position?.sector ||
                                         "Employment";
+
 
                                     return (
 
@@ -1030,6 +1406,7 @@ const OpportunityDetails = () => {
                                         </article>
 
                                     );
+
                                 },
                             )}
 
@@ -1293,7 +1670,7 @@ const OpportunityDetails = () => {
 
                                     const stepTitle =
                                         typeof step ===
-                                        "string"
+                                            "string"
                                             ? step
                                             : (
                                                 step?.title ||
@@ -1303,12 +1680,13 @@ const OpportunityDetails = () => {
 
                                     const stepDescription =
                                         typeof step ===
-                                        "string"
+                                            "string"
                                             ? ""
                                             : (
                                                 step?.description ||
                                                 ""
                                             );
+
 
                                     return (
 
@@ -1362,6 +1740,7 @@ const OpportunityDetails = () => {
                                         </article>
 
                                     );
+
                                 },
                             )}
 
@@ -1408,7 +1787,6 @@ const OpportunityDetails = () => {
                     {hasPublishedPricing ? (
 
                         <div className="opportunity-details__pricing-layout">
-
 
                             <section className="opportunity-details__price-card">
 
@@ -1518,7 +1896,9 @@ const OpportunityDetails = () => {
                         <div className="opportunity-details__pricing-contact">
 
                             <div className="opportunity-details__pricing-contact-icon">
+
                                 <HiOutlineUserGroup />
+
                             </div>
 
 
@@ -1615,7 +1995,9 @@ const OpportunityDetails = () => {
             </div>
 
         </main>
+
     );
+
 };
 
 
