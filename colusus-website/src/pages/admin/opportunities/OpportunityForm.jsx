@@ -1,3 +1,4 @@
+
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
@@ -52,7 +53,9 @@ const slugify = (value = "") =>
         .replace(/-{2,}/g, "-");
 
 const getOptionValue = (option) =>
-    typeof option === "string" ? option : option?.value || "";
+    typeof option === "string"
+        ? option
+        : option?.value || "";
 
 const getOptionLabel = (option) =>
     typeof option === "string"
@@ -113,10 +116,12 @@ const OpportunityForm = () => {
         return countries
             .map((country) => ({
                 id: country.id,
+
                 name:
                     country.name ||
                     country.countryName ||
                     "",
+
                 slug:
                     country.slug ||
                     slugify(
@@ -124,10 +129,12 @@ const OpportunityForm = () => {
                         country.countryName ||
                         "",
                     ),
+
                 flag:
                     country.flag ||
                     country.countryFlag ||
                     "",
+
                 image:
                     country.image ||
                     country.countryImage ||
@@ -147,6 +154,7 @@ const OpportunityForm = () => {
 
         const loadOpportunity = async () => {
             if (!id) {
+                setForm({ ...emptyForm });
                 setLoading(false);
                 return;
             }
@@ -154,6 +162,7 @@ const OpportunityForm = () => {
             try {
                 setLoading(true);
                 setError("");
+                setSuccess("");
 
                 const response =
                     await opportunitiesService.getOpportunityById(id);
@@ -231,7 +240,11 @@ const OpportunityForm = () => {
                 countryName: "",
                 countrySlug: "",
                 countryFlag: "",
+                countryImage: "",
             }));
+
+            setError("");
+            setSuccess("");
 
             return;
         }
@@ -258,6 +271,13 @@ const OpportunityForm = () => {
     |--------------------------------------------------------------------------
     | TITLE
     |--------------------------------------------------------------------------
+    |
+    | CREATE:
+    | Generate the slug automatically.
+    |
+    | EDIT:
+    | Preserve the slug already returned by the backend.
+    |
     */
 
     const handleTitleChange = (event) => {
@@ -266,7 +286,12 @@ const OpportunityForm = () => {
         setForm((current) => ({
             ...current,
             title,
-            slug: slugify(title),
+
+            ...(isEditMode
+                ? {}
+                : {
+                    slug: slugify(title),
+                }),
         }));
 
         setError("");
@@ -326,57 +351,64 @@ const OpportunityForm = () => {
     |--------------------------------------------------------------------------
     */
 
-    const buildPayload = () => ({
-        countryId:
-            form.countryId !== ""
-                ? Number(form.countryId)
-                : undefined,
+    const buildPayload = () => {
+        const payload = {
+            countryName:
+                form.countryName.trim(),
 
-        countryName:
-            form.countryName.trim(),
+            countrySlug:
+                form.countrySlug.trim(),
 
-        countrySlug:
-            form.countrySlug.trim(),
+            countryFlag:
+                form.countryFlag || "",
 
-        countryFlag:
-            form.countryFlag || "",
+            countryImage:
+                form.countryImage || "",
 
-        countryImage:
-            form.countryImage || "",
+            title:
+                form.title.trim(),
 
-        title:
-            form.title.trim(),
+            slug:
+                form.slug.trim(),
 
-        slug:
-            form.slug.trim(),
+            image:
+                form.image || "",
 
-        image:
-            form.image || "",
+            category:
+                form.category.trim(),
 
-        category:
-            form.category.trim(),
+            type:
+                form.type.trim(),
 
-        type:
-            form.type.trim(),
+            location:
+                form.location.trim(),
 
-        location:
-            form.location.trim(),
+            duration:
+                form.duration.trim(),
 
-        duration:
-            form.duration.trim(),
+            salary:
+                form.salary.trim(),
 
-        salary:
-            form.salary.trim(),
+            description:
+                form.description.trim(),
 
-        description:
-            form.description.trim(),
+            active:
+                Boolean(form.active),
 
-        active:
-            Boolean(form.active),
+            featured:
+                Boolean(form.featured),
+        };
 
-        featured:
-            Boolean(form.featured),
-    });
+        if (form.countryId !== "") {
+            const countryId = Number(form.countryId);
+
+            if (Number.isFinite(countryId)) {
+                payload.countryId = countryId;
+            }
+        }
+
+        return payload;
+    };
 
     /*
     |--------------------------------------------------------------------------
@@ -386,18 +418,6 @@ const OpportunityForm = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        /*
-        |--------------------------------------------------------------------------
-        | TEMP DEBUG
-        |--------------------------------------------------------------------------
-        */
-
-        console.log("OPPORTUNITY FORM SUBMIT", {
-            id,
-            isEditMode,
-            pathname: window.location.pathname,
-        });
 
         if (saving) {
             return;
@@ -414,6 +434,16 @@ const OpportunityForm = () => {
             setSaving(true);
 
             const payload = buildPayload();
+
+            console.log(
+                "OPPORTUNITY FORM SUBMIT",
+                {
+                    id,
+                    isEditMode,
+                    pathname: window.location.pathname,
+                    payload,
+                },
+            );
 
             if (isEditMode) {
                 await opportunitiesService.updateOpportunity(
@@ -456,11 +486,13 @@ const OpportunityForm = () => {
         return (
             <div className="opportunity-form-page">
                 <div className="opportunity-form-loading">
+
                     <div className="opportunity-form-loading__spinner" />
 
                     <span>
                         Loading opportunity...
                     </span>
+
                 </div>
             </div>
         );
@@ -680,9 +712,7 @@ const OpportunityForm = () => {
 
                                 <ImagePicker
                                     label="Country image"
-                                    value={
-                                        form.countryImage
-                                    }
+                                    value={form.countryImage}
                                     onChange={(value) =>
                                         updateField(
                                             "countryImage",
@@ -1011,9 +1041,7 @@ const OpportunityForm = () => {
                                     <textarea
                                         id="description"
                                         className="field__input field__textarea"
-                                        value={
-                                            form.description
-                                        }
+                                        value={form.description}
                                         onChange={(event) =>
                                             updateField(
                                                 "description",
