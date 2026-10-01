@@ -22,6 +22,37 @@ export const getAllOpportunities = async (req, res, next) => {
 
 /*
 |--------------------------------------------------------------------------
+| GET DESTINATIONS
+|--------------------------------------------------------------------------
+|
+| Returns the existing destinations derived from Opportunity records.
+|
+| This is used by the New Offer builder so the user can select an
+| existing destination instead of manually entering country metadata.
+|
+| Example:
+|
+| GET /api/v1/admin/opportunities/destinations
+|
+|--------------------------------------------------------------------------
+*/
+
+export const getDestinations = async (req, res, next) => {
+  try {
+    const destinations = await adminOpportunityService.getDestinations();
+
+    return res.status(200).json({
+      success: true,
+      count: destinations.length,
+      data: destinations,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/*
+|--------------------------------------------------------------------------
 | GET SINGLE OPPORTUNITY
 |--------------------------------------------------------------------------
 */
@@ -219,6 +250,7 @@ export const deactivateOpportunity = async (req, res, next) => {
 
 export default {
   getAllOpportunities,
+  getDestinations,
   getOpportunityById,
   createOpportunity,
   updateOpportunity,

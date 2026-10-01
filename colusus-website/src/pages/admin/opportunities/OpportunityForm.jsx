@@ -1,4 +1,3 @@
-
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
@@ -7,12 +6,13 @@ import {
     HiOutlineChevronDown,
     HiOutlineGlobeAlt,
     HiOutlineLockClosed,
+    HiOutlineMapPin,
+    HiOutlineSparkles,
 } from "react-icons/hi2";
 
 import opportunitiesService from "./opportunities.service";
 import ImagePicker from "./components/ImagePicker";
 
-import countries from "../../../data/countries";
 import {
     OPPORTUNITY_TYPE_OPTIONS,
     DURATION_OPTIONS,
@@ -21,12 +21,27 @@ import {
 
 import "./opportunity-form.css";
 
+/*
+|--------------------------------------------------------------------------
+| DEFAULT FORM
+|--------------------------------------------------------------------------
+*/
+
 const emptyForm = {
     countryName: "",
     countrySlug: "",
     countryId: "",
     countryFlag: "",
     countryImage: "",
+
+    applicants: "",
+    countryCategories: [],
+    countryVisa: "",
+    countryDuration: "",
+    countryProcessingTime: "",
+    countryDescription: "",
+    opportunityScore: "",
+    successRate: "",
 
     title: "",
     slug: "",
@@ -42,6 +57,12 @@ const emptyForm = {
     active: true,
     featured: false,
 };
+
+/*
+|--------------------------------------------------------------------------
+| HELPERS
+|--------------------------------------------------------------------------
+*/
 
 const slugify = (value = "") =>
     String(value)
@@ -62,6 +83,108 @@ const getOptionLabel = (option) =>
         ? option
         : option?.label || option?.value || "";
 
+const getResponseItems = (response) => {
+    if (Array.isArray(response)) {
+        return response;
+    }
+
+    if (Array.isArray(response?.data)) {
+        return response.data;
+    }
+
+    if (Array.isArray(response?.destinations)) {
+        return response.destinations;
+    }
+
+    if (Array.isArray(response?.data?.destinations)) {
+        return response.data.destinations;
+    }
+
+    return [];
+};
+
+const getOpportunityFromResponse = (response) => {
+    if (!response) {
+        return null;
+    }
+
+    if (response?.data && !Array.isArray(response.data)) {
+        return response.data;
+    }
+
+    return response;
+};
+
+const normalizeDestination = (destination) => ({
+    countryId: destination?.countryId ?? "",
+
+    countryName:
+        destination?.countryName ||
+        destination?.name ||
+        "",
+
+    countrySlug:
+        destination?.countrySlug ||
+        destination?.slug ||
+        slugify(
+            destination?.countryName ||
+            destination?.name ||
+            "",
+        ),
+
+    countryFlag:
+        destination?.countryFlag ||
+        destination?.flag ||
+        "",
+
+    countryImage:
+        destination?.countryImage ||
+        destination?.image ||
+        "",
+
+    applicants: destination?.applicants || "",
+
+    countryCategories: Array.isArray(
+        destination?.countryCategories,
+    )
+        ? destination.countryCategories
+        : [],
+
+    countryVisa:
+        destination?.countryVisa || "",
+
+    countryDuration:
+        destination?.countryDuration || "",
+
+    countryProcessingTime:
+        destination?.countryProcessingTime || "",
+
+    countryDescription:
+        destination?.countryDescription || "",
+
+    opportunityScore:
+        destination?.opportunityScore || "",
+
+    successRate:
+        destination?.successRate || "",
+
+    offerCount: Number(
+        destination?.offerCount || 0,
+    ),
+
+    activeOfferCount: Number(
+        destination?.activeOfferCount || 0,
+    ),
+
+    inactiveOfferCount: Number(
+        destination?.inactiveOfferCount || 0,
+    ),
+
+    featuredOfferCount: Number(
+        destination?.featuredOfferCount || 0,
+    ),
+});
+
 const normalizeFormData = (data) => {
     if (!data) {
         return { ...emptyForm };
@@ -73,6 +196,31 @@ const normalizeFormData = (data) => {
         countryId: data.countryId ?? "",
         countryFlag: data.countryFlag || "",
         countryImage: data.countryImage || "",
+
+        applicants: data.applicants || "",
+
+        countryCategories:
+            Array.isArray(data.countryCategories)
+                ? data.countryCategories
+                : [],
+
+        countryVisa:
+            data.countryVisa || "",
+
+        countryDuration:
+            data.countryDuration || "",
+
+        countryProcessingTime:
+            data.countryProcessingTime || "",
+
+        countryDescription:
+            data.countryDescription || "",
+
+        opportunityScore:
+            data.opportunityScore || "",
+
+        successRate:
+            data.successRate || "",
 
         title: data.title || "",
         slug: data.slug || "",
@@ -90,57 +238,85 @@ const normalizeFormData = (data) => {
     };
 };
 
+/*
+|--------------------------------------------------------------------------
+| COMPONENT
+|--------------------------------------------------------------------------
+*/
+
 const OpportunityForm = () => {
     const navigate = useNavigate();
     const { id } = useParams();
 
     const isEditMode = Boolean(id);
 
-    const [form, setForm] = useState({ ...emptyForm });
-    const [loading, setLoading] = useState(isEditMode);
-    const [saving, setSaving] = useState(false);
-    const [error, setError] = useState("");
-    const [success, setSuccess] = useState("");
+    const [form, setForm] = useState({
+        ...emptyForm,
+    });
+
+    const [destinations, setDestinations] = useState([]);
+
+    const [destinationsLoading, setDestinationsLoading] =
+        useState(true);
+
+    const [loading, setLoading] =
+        useState(isEditMode);
+
+    const [saving, setSaving] =
+        useState(false);
+
+    const [error, setError] =
+        useState("");
+
+    const [success, setSuccess] =
+        useState("");
 
     /*
     |--------------------------------------------------------------------------
-    | COUNTRY OPTIONS
+    | LOAD DESTINATIONS
     |--------------------------------------------------------------------------
     */
 
-    const countryOptions = useMemo(() => {
-        if (!Array.isArray(countries)) {
-            return [];
-        }
+    useEffect(() => {
+        let mounted = true;
 
-        return countries
-            .map((country) => ({
-                id: country.id,
+        const loadDestinations = async () => {
+            try {
+                setDestinationsLoading(true);
 
-                name:
-                    country.name ||
-                    country.countryName ||
-                    "",
+                const response =
+                    await opportunitiesService.getDestinations();
 
-                slug:
-                    country.slug ||
-                    slugify(
-                        country.name ||
-                        country.countryName ||
-                        "",
-                    ),
+                const items = getResponseItems(response)
+                    .map(normalizeDestination)
+                    .filter(
+                        (destination) =>
+                            destination.countryName,
+                    );
 
-                flag:
-                    country.flag ||
-                    country.countryFlag ||
-                    "",
+                if (mounted) {
+                    setDestinations(items);
+                }
+            } catch (loadError) {
+                if (mounted) {
+                    setError(
+                        loadError?.response?.data?.message ||
+                        loadError?.message ||
+                        "Unable to load destinations.",
+                    );
+                }
+            } finally {
+                if (mounted) {
+                    setDestinationsLoading(false);
+                }
+            }
+        };
 
-                image:
-                    country.image ||
-                    country.countryImage ||
-                    "",
-            }))
-            .filter((country) => country.name);
+        loadDestinations();
+
+        return () => {
+            mounted = false;
+        };
     }, []);
 
     /*
@@ -165,11 +341,12 @@ const OpportunityForm = () => {
                 setSuccess("");
 
                 const response =
-                    await opportunitiesService.getOpportunityById(id);
+                    await opportunitiesService.getOpportunityById(
+                        id,
+                    );
 
                 const opportunity =
-                    response?.data ||
-                    response;
+                    getOpportunityFromResponse(response);
 
                 if (!mounted) {
                     return;
@@ -204,6 +381,32 @@ const OpportunityForm = () => {
 
     /*
     |--------------------------------------------------------------------------
+    | SELECTED DESTINATION
+    |--------------------------------------------------------------------------
+    */
+
+    const selectedDestination = useMemo(() => {
+        if (!form.countryId && !form.countrySlug) {
+            return null;
+        }
+
+        return (
+            destinations.find(
+                (destination) =>
+                    String(destination.countryId) ===
+                    String(form.countryId) ||
+                    destination.countrySlug ===
+                    form.countrySlug,
+            ) || null
+        );
+    }, [
+        destinations,
+        form.countryId,
+        form.countrySlug,
+    ]);
+
+    /*
+    |--------------------------------------------------------------------------
     | FIELD UPDATE
     |--------------------------------------------------------------------------
     */
@@ -220,27 +423,37 @@ const OpportunityForm = () => {
 
     /*
     |--------------------------------------------------------------------------
-    | CREATE MODE — COUNTRY CHANGE
+    | DESTINATION CHANGE
     |--------------------------------------------------------------------------
     */
 
-    const handleCountryChange = (event) => {
-        const countryId = event.target.value;
+    const handleDestinationChange = (event) => {
+        const value = event.target.value;
 
-        const selectedCountry = countryOptions.find(
-            (country) =>
-                String(country.id) ===
-                String(countryId),
+        const destination = destinations.find(
+            (item) =>
+                String(item.countryId) ===
+                String(value),
         );
 
-        if (!selectedCountry) {
+        if (!destination) {
             setForm((current) => ({
                 ...current,
+
                 countryId: "",
                 countryName: "",
                 countrySlug: "",
                 countryFlag: "",
                 countryImage: "",
+
+                applicants: "",
+                countryCategories: [],
+                countryVisa: "",
+                countryDuration: "",
+                countryProcessingTime: "",
+                countryDescription: "",
+                opportunityScore: "",
+                successRate: "",
             }));
 
             setError("");
@@ -252,15 +465,34 @@ const OpportunityForm = () => {
         setForm((current) => ({
             ...current,
 
-            countryId: selectedCountry.id,
-            countryName: selectedCountry.name,
-            countrySlug: selectedCountry.slug,
-            countryFlag: selectedCountry.flag,
+            countryId: destination.countryId,
+            countryName: destination.countryName,
+            countrySlug: destination.countrySlug,
+            countryFlag: destination.countryFlag,
+            countryImage: destination.countryImage,
 
-            countryImage:
-                current.countryImage ||
-                selectedCountry.image ||
-                "",
+            applicants: destination.applicants,
+
+            countryCategories:
+                destination.countryCategories,
+
+            countryVisa:
+                destination.countryVisa,
+
+            countryDuration:
+                destination.countryDuration,
+
+            countryProcessingTime:
+                destination.countryProcessingTime,
+
+            countryDescription:
+                destination.countryDescription,
+
+            opportunityScore:
+                destination.opportunityScore,
+
+            successRate:
+                destination.successRate,
         }));
 
         setError("");
@@ -271,13 +503,6 @@ const OpportunityForm = () => {
     |--------------------------------------------------------------------------
     | TITLE
     |--------------------------------------------------------------------------
-    |
-    | CREATE:
-    | Generate the slug automatically.
-    |
-    | EDIT:
-    | Preserve the slug already returned by the backend.
-    |
     */
 
     const handleTitleChange = (event) => {
@@ -285,6 +510,7 @@ const OpportunityForm = () => {
 
         setForm((current) => ({
             ...current,
+
             title,
 
             ...(isEditMode
@@ -305,18 +531,36 @@ const OpportunityForm = () => {
     */
 
     const validateForm = () => {
+        if (!form.countryId) {
+            setError(
+                "Select a destination before creating the offer.",
+            );
+
+            return false;
+        }
+
+        if (!form.countrySlug) {
+            setError(
+                "The selected destination does not have a valid slug.",
+            );
+
+            return false;
+        }
+
         const requiredFields = [
-            ["countryName", "Country"],
-            ["title", "Opportunity title"],
+            ["title", "Offer title"],
             ["category", "Category"],
             ["type", "Type"],
             ["description", "Description"],
         ];
 
-        const missingField = requiredFields.find(
-            ([field]) =>
-                !String(form[field] || "").trim(),
-        );
+        const missingField =
+            requiredFields.find(
+                ([field]) =>
+                    !String(
+                        form[field] || "",
+                    ).trim(),
+            );
 
         if (missingField) {
             setError(
@@ -326,17 +570,9 @@ const OpportunityForm = () => {
             return false;
         }
 
-        if (!form.countrySlug) {
-            setError(
-                "A valid country slug could not be determined.",
-            );
-
-            return false;
-        }
-
         if (!form.slug) {
             setError(
-                "A valid opportunity slug could not be generated.",
+                "A valid offer URL could not be generated.",
             );
 
             return false;
@@ -351,64 +587,54 @@ const OpportunityForm = () => {
     |--------------------------------------------------------------------------
     */
 
-    const buildPayload = () => {
-        const payload = {
-            countryName:
-                form.countryName.trim(),
+    const buildPayload = () => ({
+        countryId: Number(form.countryId),
 
-            countrySlug:
-                form.countrySlug.trim(),
+        countryName:
+            form.countryName.trim(),
 
-            countryFlag:
-                form.countryFlag || "",
+        countrySlug:
+            form.countrySlug.trim(),
 
-            countryImage:
-                form.countryImage || "",
+        countryFlag:
+            form.countryFlag || "",
 
-            title:
-                form.title.trim(),
+        countryImage:
+            form.countryImage || "",
 
-            slug:
-                form.slug.trim(),
+        title:
+            form.title.trim(),
 
-            image:
-                form.image || "",
+        slug:
+            form.slug.trim(),
 
-            category:
-                form.category.trim(),
+        image:
+            form.image || "",
 
-            type:
-                form.type.trim(),
+        category:
+            form.category.trim(),
 
-            location:
-                form.location.trim(),
+        type:
+            form.type.trim(),
 
-            duration:
-                form.duration.trim(),
+        location:
+            form.location.trim(),
 
-            salary:
-                form.salary.trim(),
+        duration:
+            form.duration.trim(),
 
-            description:
-                form.description.trim(),
+        salary:
+            form.salary.trim(),
 
-            active:
-                Boolean(form.active),
+        description:
+            form.description.trim(),
 
-            featured:
-                Boolean(form.featured),
-        };
+        active:
+            Boolean(form.active),
 
-        if (form.countryId !== "") {
-            const countryId = Number(form.countryId);
-
-            if (Number.isFinite(countryId)) {
-                payload.countryId = countryId;
-            }
-        }
-
-        return payload;
-    };
+        featured:
+            Boolean(form.featured),
+    });
 
     /*
     |--------------------------------------------------------------------------
@@ -433,17 +659,8 @@ const OpportunityForm = () => {
         try {
             setSaving(true);
 
-            const payload = buildPayload();
-
-            console.log(
-                "OPPORTUNITY FORM SUBMIT",
-                {
-                    id,
-                    isEditMode,
-                    pathname: window.location.pathname,
-                    payload,
-                },
-            );
+            const payload =
+                buildPayload();
 
             if (isEditMode) {
                 await opportunitiesService.updateOpportunity(
@@ -458,18 +675,20 @@ const OpportunityForm = () => {
 
             setSuccess(
                 isEditMode
-                    ? "Opportunity updated successfully."
-                    : "Opportunity created successfully.",
+                    ? "Offer updated successfully."
+                    : "Offer created successfully.",
             );
 
             setTimeout(() => {
-                navigate("/admin/opportunities");
-            }, 600);
+                navigate(
+                    "/admin/opportunities",
+                );
+            }, 700);
         } catch (submitError) {
             setError(
                 submitError?.response?.data?.message ||
                 submitError?.message ||
-                "Unable to save this opportunity.",
+                "Unable to save this offer.",
             );
         } finally {
             setSaving(false);
@@ -486,13 +705,17 @@ const OpportunityForm = () => {
         return (
             <div className="opportunity-form-page">
                 <div className="opportunity-form-loading">
-
                     <div className="opportunity-form-loading__spinner" />
 
-                    <span>
-                        Loading opportunity...
-                    </span>
+                    <div>
+                        <strong>
+                            Loading offer
+                        </strong>
 
+                        <span>
+                            Preparing the offer builder...
+                        </span>
+                    </div>
                 </div>
             </div>
         );
@@ -506,12 +729,11 @@ const OpportunityForm = () => {
 
     return (
         <div className="opportunity-form-page">
-
             <div className="opportunity-form-container">
 
-                {/* ==========================================================
-                    PAGE HEADER
-                ========================================================== */}
+                {/* ========================================================
+                    TOP NAVIGATION
+                ======================================================== */}
 
                 <header className="opportunity-form-header">
 
@@ -524,91 +746,177 @@ const OpportunityForm = () => {
                             <HiOutlineArrowLeft />
 
                             <span>
-                                Opportunities
+                                Back to offers
                             </span>
                         </Link>
 
-                        <span className="opportunity-form-mode">
-                            {isEditMode
-                                ? "Editing"
-                                : "New opportunity"}
-                        </span>
+                        <div className="opportunity-form-header__status">
 
-                    </div>
+                            <span
+                                className={`opportunity-form-status-dot ${form.active
+                                        ? "is-active"
+                                        : "is-inactive"
+                                    }`}
+                            />
 
-                    <div className="opportunity-form-heading">
-
-                        <div>
-
-                            <h1>
-                                {isEditMode
-                                    ? "Edit opportunity"
-                                    : "Create opportunity"}
-                            </h1>
-
-                            <p>
-                                {isEditMode
-                                    ? "Update the information and media for this migration opportunity."
-                                    : "Add the essential information and media for a new migration opportunity."}
-                            </p>
+                            <span>
+                                {form.active
+                                    ? "Published"
+                                    : "Draft"}
+                            </span>
 
                         </div>
 
                     </div>
 
+                    {/* ====================================================
+                        HERO
+                    ==================================================== */}
+
+                    <div className="opportunity-form-heading">
+
+                        <div className="opportunity-form-heading__main">
+
+                            <div className="opportunity-form-eyebrow">
+                                <HiOutlineSparkles />
+
+                                <span>
+                                    OFFER BUILDER
+                                </span>
+                            </div>
+
+                            <h1>
+                                {isEditMode
+                                    ? "Edit offer"
+                                    : "Create a new offer"}
+                            </h1>
+
+                            <p>
+                                {isEditMode
+                                    ? "Manage the destination, offer details, media and visibility of this opportunity."
+                                    : "Create a structured migration opportunity from one of your existing destinations."}
+                            </p>
+
+                        </div>
+
+                        {selectedDestination && (
+                            <div className="opportunity-form-heading__destination">
+
+                                <span>
+                                    DESTINATION
+                                </span>
+
+                                <div>
+                                    <strong>
+                                        {selectedDestination.countryFlag && (
+                                            <span>
+                                                {
+                                                    selectedDestination.countryFlag
+                                                }
+                                            </span>
+                                        )}
+
+                                        {
+                                            selectedDestination.countryName
+                                        }
+                                    </strong>
+
+                                    <small>
+                                        /
+                                        {
+                                            selectedDestination.countrySlug
+                                        }
+                                    </small>
+                                </div>
+
+                            </div>
+                        )}
+
+                    </div>
+
                 </header>
 
-                {/* ==========================================================
+                {/* ========================================================
                     ALERTS
-                ========================================================== */}
+                ======================================================== */}
 
                 {error && (
                     <div className="opportunity-form-alert opportunity-form-alert--error">
-                        {error}
+
+                        <span className="opportunity-form-alert__mark">
+                            !
+                        </span>
+
+                        <div>
+                            <strong>
+                                Something needs attention
+                            </strong>
+
+                            <span>
+                                {error}
+                            </span>
+                        </div>
+
                     </div>
                 )}
 
                 {success && (
                     <div className="opportunity-form-alert opportunity-form-alert--success">
 
-                        <HiOutlineCheck />
-
-                        <span>
-                            {success}
+                        <span className="opportunity-form-alert__mark">
+                            <HiOutlineCheck />
                         </span>
+
+                        <div>
+                            <strong>
+                                Saved successfully
+                            </strong>
+
+                            <span>
+                                {success}
+                            </span>
+                        </div>
 
                     </div>
                 )}
 
-                {/* ==========================================================
+                {/* ========================================================
                     FORM
-                ========================================================== */}
+                ======================================================== */}
 
                 <form
                     className="opportunity-form"
                     onSubmit={handleSubmit}
                 >
 
-                    {/* ======================================================
-                        COUNTRY
-                    ====================================================== */}
+                    {/* ====================================================
+                        01 — DESTINATION
+                    ==================================================== */}
 
-                    <section className="form-card">
+                    <section className="form-card form-card--destination">
 
                         <div className="form-card__header">
 
-                            <div className="form-card__index">
-                                01
+                            <div className="form-card__number">
+                                <span>
+                                    01
+                                </span>
                             </div>
 
-                            <div>
+                            <div className="form-card__heading">
+
+                                <div className="form-card__eyebrow">
+                                    DESTINATION
+                                </div>
 
                                 <h2>
-                                    Country
+                                    Where is this offer?
                                 </h2>
 
                                 <p>
-                                    The country this opportunity belongs to.
+                                    Start with an existing destination.
+                                    Its country profile will be inherited
+                                    by this offer.
                                 </p>
 
                             </div>
@@ -617,111 +925,323 @@ const OpportunityForm = () => {
 
                         <div className="form-card__body">
 
-                            {isEditMode ? (
-                                <div className="existing-country">
+                            <div className="destination-builder">
 
-                                    <div className="existing-country__icon">
+                                <div className="destination-builder__select">
 
-                                        {form.countryFlag ? (
-                                            <span>
-                                                {form.countryFlag}
+                                    <div className="field">
+
+                                        <div className="field__top">
+
+                                            <label
+                                                htmlFor="destination"
+                                                className="field__label"
+                                            >
+                                                Destination
+                                            </label>
+
+                                            <span className="field__required">
+                                                Required
                                             </span>
-                                        ) : (
-                                            <HiOutlineGlobeAlt />
+
+                                        </div>
+
+                                        <div className="select-wrapper">
+
+                                            <select
+                                                id="destination"
+                                                className="field__input"
+                                                value={
+                                                    form.countryId
+                                                }
+                                                onChange={
+                                                    handleDestinationChange
+                                                }
+                                                disabled={
+                                                    saving ||
+                                                    destinationsLoading ||
+                                                    isEditMode
+                                                }
+                                            >
+
+                                                <option value="">
+                                                    {destinationsLoading
+                                                        ? "Loading destinations..."
+                                                        : "Select a destination"}
+                                                </option>
+
+                                                {destinations.map(
+                                                    (
+                                                        destination,
+                                                    ) => (
+                                                        <option
+                                                            key={`${destination.countrySlug}-${destination.countryId}`}
+                                                            value={
+                                                                destination.countryId
+                                                            }
+                                                        >
+                                                            {destination.countryFlag
+                                                                ? `${destination.countryFlag} `
+                                                                : ""}
+                                                            {
+                                                                destination.countryName
+                                                            }
+                                                        </option>
+                                                    ),
+                                                )}
+
+                                            </select>
+
+                                            <HiOutlineChevronDown />
+
+                                        </div>
+
+                                        {isEditMode && (
+                                            <div className="field__locked">
+
+                                                <HiOutlineLockClosed />
+
+                                                <span>
+                                                    Destination is locked
+                                                    after an offer has been
+                                                    created.
+                                                </span>
+
+                                            </div>
                                         )}
 
                                     </div>
 
-                                    <div className="existing-country__content">
-
-                                        <div className="existing-country__name">
-                                            {form.countryName ||
-                                                "Country"}
-                                        </div>
-
-                                        <div className="existing-country__slug">
-                                            {form.countrySlug ||
-                                                "country"}
-                                        </div>
-
-                                    </div>
-
-                                    <div className="existing-country__locked">
-
-                                        <HiOutlineLockClosed />
-
-                                        <span>
-                                            Existing
-                                        </span>
-
-                                    </div>
-
                                 </div>
-                            ) : (
-                                <div className="field">
 
-                                    <label
-                                        htmlFor="country"
-                                        className="field__label"
-                                    >
-                                        Country
+                                {selectedDestination ? (
+                                    <div className="destination-profile">
 
-                                        <span className="required">
-                                            *
-                                        </span>
+                                        <div className="destination-profile__top">
 
-                                    </label>
+                                            <div className="destination-profile__identity">
 
-                                    <div className="select-wrapper">
+                                                <div className="destination-profile__flag">
 
-                                        <select
-                                            id="country"
-                                            className="field__input"
-                                            value={form.countryId}
-                                            onChange={
-                                                handleCountryChange
+                                                    {selectedDestination.countryFlag ? (
+                                                        selectedDestination.countryFlag
+                                                    ) : (
+                                                        <HiOutlineGlobeAlt />
+                                                    )}
+
+                                                </div>
+
+                                                <div>
+
+                                                    <span>
+                                                        SELECTED DESTINATION
+                                                    </span>
+
+                                                    <strong>
+                                                        {
+                                                            selectedDestination.countryName
+                                                        }
+                                                    </strong>
+
+                                                    <small>
+                                                        /
+                                                        {
+                                                            selectedDestination.countrySlug
+                                                        }
+                                                    </small>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div className="destination-profile__count">
+
+                                                <strong>
+                                                    {
+                                                        selectedDestination.offerCount
+                                                    }
+                                                </strong>
+
+                                                <span>
+                                                    Existing offers
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div className="destination-profile__stats">
+
+                                            <div className="destination-stat">
+
+                                                <span>
+                                                    Published
+                                                </span>
+
+                                                <strong>
+                                                    {
+                                                        selectedDestination.activeOfferCount
+                                                    }
+                                                </strong>
+
+                                            </div>
+
+                                            <div className="destination-stat">
+
+                                                <span>
+                                                    Inactive
+                                                </span>
+
+                                                <strong>
+                                                    {
+                                                        selectedDestination.inactiveOfferCount
+                                                    }
+                                                </strong>
+
+                                            </div>
+
+                                            <div className="destination-stat">
+
+                                                <span>
+                                                    Featured
+                                                </span>
+
+                                                <strong>
+                                                    {
+                                                        selectedDestination.featuredOfferCount
+                                                    }
+                                                </strong>
+
+                                            </div>
+
+                                            <div className="destination-stat">
+
+                                                <span>
+                                                    Processing
+                                                </span>
+
+                                                <strong>
+                                                    {
+                                                        selectedDestination.countryProcessingTime ||
+                                                        "—"
+                                                    }
+                                                </strong>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div className="destination-profile__details">
+
+                                            <div>
+
+                                                <span>
+                                                    Visa
+                                                </span>
+
+                                                <strong>
+                                                    {
+                                                        selectedDestination.countryVisa ||
+                                                        "Not specified"
+                                                    }
+                                                </strong>
+
+                                            </div>
+
+                                            <div>
+
+                                                <span>
+                                                    Typical duration
+                                                </span>
+
+                                                <strong>
+                                                    {
+                                                        selectedDestination.countryDuration ||
+                                                        "Not specified"
+                                                    }
+                                                </strong>
+
+                                            </div>
+
+                                            <div>
+
+                                                <span>
+                                                    Applicants
+                                                </span>
+
+                                                <strong>
+                                                    {
+                                                        selectedDestination.applicants ||
+                                                        "Not specified"
+                                                    }
+                                                </strong>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                ) : (
+                                    <div className="destination-placeholder">
+
+                                        <div className="destination-placeholder__icon">
+                                            <HiOutlineMapPin />
+                                        </div>
+
+                                        <div>
+
+                                            <strong>
+                                                Choose a destination
+                                            </strong>
+
+                                            <span>
+                                                Your existing destination
+                                                profiles will appear here.
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+                                )}
+
+                                {selectedDestination && (
+                                    <div className="destination-media">
+
+                                        <div className="destination-media__heading">
+
+                                            <div>
+                                                <span>
+                                                    DESTINATION MEDIA
+                                                </span>
+
+                                                <strong>
+                                                    Country profile image
+                                                </strong>
+                                            </div>
+
+                                            <small>
+                                                Shared at destination level
+                                            </small>
+
+                                        </div>
+
+                                        <ImagePicker
+                                            label="Destination image"
+                                            value={
+                                                form.countryImage
                                             }
-                                            disabled={saving}
-                                        >
-
-                                            <option value="">
-                                                Select a country
-                                            </option>
-
-                                            {countryOptions.map(
-                                                (country) => (
-                                                    <option
-                                                        key={country.id}
-                                                        value={country.id}
-                                                    >
-                                                        {country.name}
-                                                    </option>
-                                                ),
-                                            )}
-
-                                        </select>
-
-                                        <HiOutlineChevronDown />
+                                            onChange={(value) =>
+                                                updateField(
+                                                    "countryImage",
+                                                    value,
+                                                )
+                                            }
+                                            hint="This image represents the destination in country-level catalogue areas."
+                                            aspect="landscape"
+                                        />
 
                                     </div>
-
-                                </div>
-                            )}
-
-                            <div className="form-media-block">
-
-                                <ImagePicker
-                                    label="Country image"
-                                    value={form.countryImage}
-                                    onChange={(value) =>
-                                        updateField(
-                                            "countryImage",
-                                            value,
-                                        )
-                                    }
-                                    hint="Used on country cards and country-level displays."
-                                    aspect="landscape"
-                                />
+                                )}
 
                             </div>
 
@@ -729,26 +1249,33 @@ const OpportunityForm = () => {
 
                     </section>
 
-                    {/* ======================================================
-                        OPPORTUNITY
-                    ====================================================== */}
+                    {/* ====================================================
+                        02 — OFFER DETAILS
+                    ==================================================== */}
 
                     <section className="form-card">
 
                         <div className="form-card__header">
 
-                            <div className="form-card__index">
-                                02
+                            <div className="form-card__number">
+                                <span>
+                                    02
+                                </span>
                             </div>
 
-                            <div>
+                            <div className="form-card__heading">
+
+                                <div className="form-card__eyebrow">
+                                    OFFER DETAILS
+                                </div>
 
                                 <h2>
-                                    Opportunity
+                                    Define the opportunity
                                 </h2>
 
                                 <p>
-                                    The core information visitors will see.
+                                    These are the details applicants will
+                                    actually see when they open this offer.
                                 </p>
 
                             </div>
@@ -759,24 +1286,29 @@ const OpportunityForm = () => {
 
                             <div className="form-grid">
 
+                                {/* TITLE */}
+
                                 <div className="field form-grid__full">
 
-                                    <label
-                                        htmlFor="title"
-                                        className="field__label"
-                                    >
-                                        Opportunity title
+                                    <div className="field__top">
 
-                                        <span className="required">
-                                            *
+                                        <label
+                                            htmlFor="title"
+                                            className="field__label"
+                                        >
+                                            Offer title
+                                        </label>
+
+                                        <span className="field__required">
+                                            Required
                                         </span>
 
-                                    </label>
+                                    </div>
 
                                     <input
                                         id="title"
                                         type="text"
-                                        className="field__input"
+                                        className="field__input field__input--large"
                                         value={form.title}
                                         onChange={
                                             handleTitleChange
@@ -786,46 +1318,69 @@ const OpportunityForm = () => {
                                     />
 
                                     {form.slug && (
-                                        <div className="field__meta">
+                                        <div className="public-url">
 
-                                            <span>
-                                                URL
-                                            </span>
+                                            <div className="public-url__label">
+                                                PUBLIC URL
+                                            </div>
 
-                                            <code>
-                                                /opportunities/
-                                                {form.countrySlug}/
-                                                {form.slug}
-                                            </code>
+                                            <div className="public-url__value">
+
+                                                <span>
+                                                    /opportunities/
+                                                    {
+                                                        form.countrySlug
+                                                    }
+                                                    /
+                                                </span>
+
+                                                <strong>
+                                                    {
+                                                        form.slug
+                                                    }
+                                                </strong>
+
+                                            </div>
 
                                         </div>
                                     )}
 
                                 </div>
 
+                                {/* CATEGORY */}
+
                                 <div className="field">
 
-                                    <label
-                                        htmlFor="category"
-                                        className="field__label"
-                                    >
-                                        Category
+                                    <div className="field__top">
 
-                                        <span className="required">
-                                            *
+                                        <label
+                                            htmlFor="category"
+                                            className="field__label"
+                                        >
+                                            Category
+                                        </label>
+
+                                        <span className="field__required">
+                                            Required
                                         </span>
 
-                                    </label>
+                                    </div>
 
                                     <input
                                         id="category"
                                         type="text"
                                         className="field__input"
-                                        value={form.category}
-                                        onChange={(event) =>
+                                        value={
+                                            form.category
+                                        }
+                                        onChange={(
+                                            event,
+                                        ) =>
                                             updateField(
                                                 "category",
-                                                event.target.value,
+                                                event
+                                                    .target
+                                                    .value,
                                             )
                                         }
                                         placeholder="e.g. Nursing"
@@ -834,30 +1389,41 @@ const OpportunityForm = () => {
 
                                 </div>
 
+                                {/* TYPE */}
+
                                 <div className="field">
 
-                                    <label
-                                        htmlFor="type"
-                                        className="field__label"
-                                    >
-                                        Type
+                                    <div className="field__top">
 
-                                        <span className="required">
-                                            *
+                                        <label
+                                            htmlFor="type"
+                                            className="field__label"
+                                        >
+                                            Opportunity type
+                                        </label>
+
+                                        <span className="field__required">
+                                            Required
                                         </span>
 
-                                    </label>
+                                    </div>
 
                                     <div className="select-wrapper">
 
                                         <select
                                             id="type"
                                             className="field__input"
-                                            value={form.type}
-                                            onChange={(event) =>
+                                            value={
+                                                form.type
+                                            }
+                                            onChange={(
+                                                event,
+                                            ) =>
                                                 updateField(
                                                     "type",
-                                                    event.target.value,
+                                                    event
+                                                        .target
+                                                        .value,
                                                 )
                                             }
                                             disabled={saving}
@@ -868,7 +1434,9 @@ const OpportunityForm = () => {
                                             </option>
 
                                             {OPPORTUNITY_TYPE_OPTIONS.map(
-                                                (option) => (
+                                                (
+                                                    option,
+                                                ) => (
                                                     <option
                                                         key={getOptionValue(
                                                             option,
@@ -892,25 +1460,37 @@ const OpportunityForm = () => {
 
                                 </div>
 
+                                {/* LOCATION */}
+
                                 <div className="field">
 
-                                    <label
-                                        htmlFor="location"
-                                        className="field__label"
-                                    >
-                                        Location
-                                    </label>
+                                    <div className="field__top">
+
+                                        <label
+                                            htmlFor="location"
+                                            className="field__label"
+                                        >
+                                            Location
+                                        </label>
+
+                                    </div>
 
                                     <div className="select-wrapper">
 
                                         <select
                                             id="location"
                                             className="field__input"
-                                            value={form.location}
-                                            onChange={(event) =>
+                                            value={
+                                                form.location
+                                            }
+                                            onChange={(
+                                                event,
+                                            ) =>
                                                 updateField(
                                                     "location",
-                                                    event.target.value,
+                                                    event
+                                                        .target
+                                                        .value,
                                                 )
                                             }
                                             disabled={saving}
@@ -921,7 +1501,9 @@ const OpportunityForm = () => {
                                             </option>
 
                                             {LOCATION_OPTIONS.map(
-                                                (option) => (
+                                                (
+                                                    option,
+                                                ) => (
                                                     <option
                                                         key={getOptionValue(
                                                             option,
@@ -945,25 +1527,37 @@ const OpportunityForm = () => {
 
                                 </div>
 
+                                {/* DURATION */}
+
                                 <div className="field">
 
-                                    <label
-                                        htmlFor="duration"
-                                        className="field__label"
-                                    >
-                                        Duration
-                                    </label>
+                                    <div className="field__top">
+
+                                        <label
+                                            htmlFor="duration"
+                                            className="field__label"
+                                        >
+                                            Duration
+                                        </label>
+
+                                    </div>
 
                                     <div className="select-wrapper">
 
                                         <select
                                             id="duration"
                                             className="field__input"
-                                            value={form.duration}
-                                            onChange={(event) =>
+                                            value={
+                                                form.duration
+                                            }
+                                            onChange={(
+                                                event,
+                                            ) =>
                                                 updateField(
                                                     "duration",
-                                                    event.target.value,
+                                                    event
+                                                        .target
+                                                        .value,
                                                 )
                                             }
                                             disabled={saving}
@@ -974,7 +1568,9 @@ const OpportunityForm = () => {
                                             </option>
 
                                             {DURATION_OPTIONS.map(
-                                                (option) => (
+                                                (
+                                                    option,
+                                                ) => (
                                                     <option
                                                         key={getOptionValue(
                                                             option,
@@ -998,24 +1594,36 @@ const OpportunityForm = () => {
 
                                 </div>
 
+                                {/* SALARY */}
+
                                 <div className="field form-grid__full">
 
-                                    <label
-                                        htmlFor="salary"
-                                        className="field__label"
-                                    >
-                                        Salary
-                                    </label>
+                                    <div className="field__top">
+
+                                        <label
+                                            htmlFor="salary"
+                                            className="field__label"
+                                        >
+                                            Salary / compensation
+                                        </label>
+
+                                    </div>
 
                                     <input
                                         id="salary"
                                         type="text"
                                         className="field__input"
-                                        value={form.salary}
-                                        onChange={(event) =>
+                                        value={
+                                            form.salary
+                                        }
+                                        onChange={(
+                                            event,
+                                        ) =>
                                             updateField(
                                                 "salary",
-                                                event.target.value,
+                                                event
+                                                    .target
+                                                    .value,
                                             )
                                         }
                                         placeholder="e.g. €37,000 – €98,000 per year"
@@ -1024,37 +1632,62 @@ const OpportunityForm = () => {
 
                                 </div>
 
+                                {/* DESCRIPTION */}
+
                                 <div className="field form-grid__full">
 
-                                    <label
-                                        htmlFor="description"
-                                        className="field__label"
-                                    >
-                                        Description
+                                    <div className="field__top">
 
-                                        <span className="required">
-                                            *
+                                        <label
+                                            htmlFor="description"
+                                            className="field__label"
+                                        >
+                                            Opportunity description
+                                        </label>
+
+                                        <span className="field__required">
+                                            Required
                                         </span>
 
-                                    </label>
+                                    </div>
 
                                     <textarea
                                         id="description"
                                         className="field__input field__textarea"
-                                        value={form.description}
-                                        onChange={(event) =>
+                                        value={
+                                            form.description
+                                        }
+                                        onChange={(
+                                            event,
+                                        ) =>
                                             updateField(
                                                 "description",
-                                                event.target.value,
+                                                event
+                                                    .target
+                                                    .value,
                                             )
                                         }
-                                        placeholder="Describe this migration opportunity..."
-                                        rows={7}
+                                        placeholder="Explain the opportunity clearly. Include what the applicant is being offered, who it is for, and what they can expect."
+                                        rows={8}
                                         disabled={saving}
                                     />
 
-                                    <div className="field__counter">
-                                        {form.description.length} characters
+                                    <div className="field__footer">
+
+                                        <span>
+                                            Keep this practical,
+                                            specific and applicant-focused.
+                                        </span>
+
+                                        <strong>
+                                            {
+                                                form
+                                                    .description
+                                                    .length
+                                            }{" "}
+                                            characters
+                                        </strong>
+
                                     </div>
 
                                 </div>
@@ -1065,26 +1698,33 @@ const OpportunityForm = () => {
 
                     </section>
 
-                    {/* ======================================================
-                        OPPORTUNITY IMAGE
-                    ====================================================== */}
+                    {/* ====================================================
+                        03 — MEDIA
+                    ==================================================== */}
 
                     <section className="form-card">
 
                         <div className="form-card__header">
 
-                            <div className="form-card__index">
-                                03
+                            <div className="form-card__number">
+                                <span>
+                                    03
+                                </span>
                             </div>
 
-                            <div>
+                            <div className="form-card__heading">
+
+                                <div className="form-card__eyebrow">
+                                    MEDIA
+                                </div>
 
                                 <h2>
-                                    Opportunity image
+                                    Give the offer a visual identity
                                 </h2>
 
                                 <p>
-                                    The primary visual for this migration opportunity.
+                                    This image represents the specific
+                                    opportunity, not the destination.
                                 </p>
 
                             </div>
@@ -1093,8 +1733,29 @@ const OpportunityForm = () => {
 
                         <div className="form-card__body">
 
+                            <div className="offer-media-intro">
+
+                                <div className="offer-media-intro__icon">
+                                    <HiOutlineGlobeAlt />
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        Offer artwork
+                                    </strong>
+
+                                    <span>
+                                        Used across offer cards and
+                                        the public opportunity page.
+                                    </span>
+
+                                </div>
+
+                            </div>
+
                             <ImagePicker
-                                label="Opportunity image"
+                                label="Offer image"
                                 value={form.image}
                                 onChange={(value) =>
                                     updateField(
@@ -1102,7 +1763,7 @@ const OpportunityForm = () => {
                                         value,
                                     )
                                 }
-                                hint="Used on opportunity cards and the opportunity details page."
+                                hint="Use a strong, relevant image that represents this specific migration opportunity."
                                 aspect="landscape"
                             />
 
@@ -1110,26 +1771,33 @@ const OpportunityForm = () => {
 
                     </section>
 
-                    {/* ======================================================
-                        PUBLISHING
-                    ====================================================== */}
+                    {/* ====================================================
+                        04 — VISIBILITY
+                    ==================================================== */}
 
                     <section className="form-card">
 
                         <div className="form-card__header">
 
-                            <div className="form-card__index">
-                                04
+                            <div className="form-card__number">
+                                <span>
+                                    04
+                                </span>
                             </div>
 
-                            <div>
+                            <div className="form-card__heading">
+
+                                <div className="form-card__eyebrow">
+                                    VISIBILITY
+                                </div>
 
                                 <h2>
-                                    Publishing
+                                    Decide how this offer appears
                                 </h2>
 
                                 <p>
-                                    Control how this opportunity appears publicly.
+                                    Publishing controls can be changed
+                                    without changing the offer itself.
                                 </p>
 
                             </div>
@@ -1138,66 +1806,117 @@ const OpportunityForm = () => {
 
                         <div className="form-card__body">
 
-                            <div className="publishing-list">
+                            <div className="visibility-panel">
 
-                                <label className="publish-toggle">
+                                <label className="visibility-option">
 
                                     <input
                                         type="checkbox"
-                                        checked={form.active}
-                                        onChange={(event) =>
+                                        checked={
+                                            form.active
+                                        }
+                                        onChange={(
+                                            event,
+                                        ) =>
                                             updateField(
                                                 "active",
-                                                event.target.checked,
+                                                event
+                                                    .target
+                                                    .checked,
                                             )
                                         }
-                                        disabled={saving}
+                                        disabled={
+                                            saving
+                                        }
                                     />
 
-                                    <span className="publish-toggle__switch">
+                                    <span className="visibility-option__indicator">
                                         <span />
                                     </span>
 
-                                    <span className="publish-toggle__content">
+                                    <span className="visibility-option__content">
 
-                                        <strong>
-                                            Active
-                                        </strong>
+                                        <span className="visibility-option__title">
+
+                                            <strong>
+                                                Published
+                                            </strong>
+
+                                            <em
+                                                className={
+                                                    form.active
+                                                        ? "is-on"
+                                                        : ""
+                                                }
+                                            >
+                                                {form.active
+                                                    ? "LIVE"
+                                                    : "HIDDEN"}
+                                            </em>
+
+                                        </span>
 
                                         <small>
-                                            Make this opportunity visible on the public website.
+                                            Make this offer visible
+                                            on the public website.
                                         </small>
 
                                     </span>
 
                                 </label>
 
-                                <label className="publish-toggle">
+                                <label className="visibility-option">
 
                                     <input
                                         type="checkbox"
-                                        checked={form.featured}
-                                        onChange={(event) =>
+                                        checked={
+                                            form.featured
+                                        }
+                                        onChange={(
+                                            event,
+                                        ) =>
                                             updateField(
                                                 "featured",
-                                                event.target.checked,
+                                                event
+                                                    .target
+                                                    .checked,
                                             )
                                         }
-                                        disabled={saving}
+                                        disabled={
+                                            saving
+                                        }
                                     />
 
-                                    <span className="publish-toggle__switch">
+                                    <span className="visibility-option__indicator">
                                         <span />
                                     </span>
 
-                                    <span className="publish-toggle__content">
+                                    <span className="visibility-option__content">
 
-                                        <strong>
-                                            Featured
-                                        </strong>
+                                        <span className="visibility-option__title">
+
+                                            <strong>
+                                                Featured offer
+                                            </strong>
+
+                                            <em
+                                                className={
+                                                    form.featured
+                                                        ? "is-on"
+                                                        : ""
+                                                }
+                                            >
+                                                {form.featured
+                                                    ? "FEATURED"
+                                                    : "STANDARD"}
+                                            </em>
+
+                                        </span>
 
                                         <small>
-                                            Mark this opportunity as featured.
+                                            Allow this offer to
+                                            appear in featured
+                                            catalogue placements.
                                         </small>
 
                                     </span>
@@ -1210,48 +1929,78 @@ const OpportunityForm = () => {
 
                     </section>
 
-                    {/* ======================================================
-                        ACTIONS
-                    ====================================================== */}
+                    {/* ====================================================
+                        ACTION BAR
+                    ==================================================== */}
 
                     <div className="form-actions">
 
-                        <Link
-                            to="/admin/opportunities"
-                            className="form-actions__cancel"
-                        >
-                            Cancel
-                        </Link>
+                        <div className="form-actions__context">
 
-                        <button
-                            type="submit"
-                            className="form-actions__submit"
-                            disabled={saving}
-                        >
+                            <span>
+                                {isEditMode
+                                    ? "Editing existing offer"
+                                    : "Creating a new offer"}
+                            </span>
 
-                            {saving ? (
-                                <>
-                                    <span className="button-spinner" />
-                                    Saving...
-                                </>
-                            ) : (
-                                <>
-                                    <HiOutlineCheck />
-
-                                    {isEditMode
-                                        ? "Save changes"
-                                        : "Create opportunity"}
-                                </>
+                            {selectedDestination && (
+                                <strong>
+                                    {selectedDestination.countryFlag}{" "}
+                                    {
+                                        selectedDestination.countryName
+                                    }
+                                </strong>
                             )}
 
-                        </button>
+                        </div>
+
+                        <div className="form-actions__buttons">
+
+                            <Link
+                                to="/admin/opportunities"
+                                className="form-actions__cancel"
+                            >
+                                Cancel
+                            </Link>
+
+                            <button
+                                type="submit"
+                                className="form-actions__submit"
+                                disabled={
+                                    saving ||
+                                    destinationsLoading
+                                }
+                            >
+
+                                {saving ? (
+                                    <>
+                                        <span className="button-spinner" />
+
+                                        <span>
+                                            Saving changes...
+                                        </span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <HiOutlineCheck />
+
+                                        <span>
+                                            {isEditMode
+                                                ? "Save changes"
+                                                : "Create offer"}
+                                        </span>
+                                    </>
+                                )}
+
+                            </button>
+
+                        </div>
 
                     </div>
 
                 </form>
 
             </div>
-
         </div>
     );
 };

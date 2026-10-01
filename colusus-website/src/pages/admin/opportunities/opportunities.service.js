@@ -8,21 +8,36 @@ import api from "../../../services/api";
 
 const getAllOpportunities = async () => {
   const { data } = await api.get("/admin/opportunities");
+
   return data;
 };
 
 const getOpportunityById = async (id) => {
   const { data } = await api.get(`/admin/opportunities/${id}`);
+
   return data;
 };
 
 const createOpportunity = async (payload) => {
   const { data } = await api.post("/admin/opportunities", payload);
+
   return data;
 };
 
 const updateOpportunity = async (id, payload) => {
   const { data } = await api.patch(`/admin/opportunities/${id}`, payload);
+
+  return data;
+};
+
+/*
+|--------------------------------------------------------------------------
+| DESTINATIONS
+|--------------------------------------------------------------------------
+*/
+
+const getDestinations = async () => {
+  const { data } = await api.get("/admin/opportunities/destinations");
 
   return data;
 };
@@ -76,6 +91,7 @@ const deactivateOpportunity = async (id) => {
 export default {
   getAllOpportunities,
   getOpportunityById,
+  getDestinations,
   createOpportunity,
   updateOpportunity,
   setOpportunityActive,
