@@ -25,9 +25,17 @@ import TouristVisa
 import IrelandNursing
     from "./pages/Services/Ireland-nursing/IrelandNursing";
 
-import Blog from "./pages/Blog/Blog";
-import Shop from "./pages/Shop/Shop";
-import Contact from "./pages/Contact/Contact";
+import Blog
+    from "./pages/Blog/Blog";
+
+import BlogPost
+    from "./pages/BlogPost/BlogPost";
+
+import Shop
+    from "./pages/Shop/Shop";
+
+import Contact
+    from "./pages/Contact/Contact";
 
 import Webinar
     from "./pages/Webinar/Webinar";
@@ -119,6 +127,18 @@ import AdminFormSubmissionDocumentViewer
 import AdminNotifications
     from "./pages/admin/notifications/AdminNotifications";
 
+import AdminOpportunities
+    from "./pages/admin/opportunities/AdminOpportunities";
+
+import OpportunityForm
+    from "./pages/admin/opportunities/OpportunityForm";
+
+import AdminBlog
+    from "./pages/admin/blog/AdminBlog";
+
+import AdminBlogEditor
+    from "./pages/admin/blog/AdminBlogEditor";
+
 import StaffRoutes
     from "./pages/admin/staff/staff.routes";
 
@@ -131,519 +151,643 @@ import Login
 import Register
     from "./pages/Auth/Register";
 
+
 function App() {
-    return (<BrowserRouter> <ScrollToTop />
+
+    return (
+
+        <BrowserRouter>
+
+            <ScrollToTop />
+
+            <Routes>
 
 
-        <Routes>
-
-            {/* ======================================================
-            PUBLIC WEBSITE
-        ====================================================== */}
-
-            <Route
-                path="/"
-                element={
-                    <>
-                        <Navbar />
-                        <Home />
-                        <Footer />
-                    </>
-                }
-            />
-
-            <Route
-                path="/about"
-                element={
-                    <>
-                        <Navbar />
-                        <About />
-                        <Footer />
-                    </>
-                }
-            />
-
-            <Route
-                path="/services"
-                element={
-                    <>
-                        <Navbar />
-                        <Services />
-                        <Footer />
-                    </>
-                }
-            />
-
-            <Route
-                path="/services/canada-migration"
-                element={
-                    <>
-                        <Navbar />
-                        <CanadaMigration />
-                        <Footer />
-                    </>
-                }
-            />
-
-            <Route
-                path="/services/global-works"
-                element={
-                    <>
-                        <Navbar />
-                        <GlobalWorkImmigration />
-                        <Footer />
-                    </>
-                }
-            />
-
-            <Route
-                path="/services/tourist-visa"
-                element={
-                    <>
-                        <Navbar />
-                        <TouristVisa />
-                        <Footer />
-                    </>
-                }
-            />
-
-            <Route
-                path="/services/ireland-nursing"
-                element={
-                    <>
-                        <Navbar />
-                        <IrelandNursing />
-                        <Footer />
-                    </>
-                }
-            />
-
-            {/* ======================================================
-            WEBINAR
-        ====================================================== */}
-
-            <Route
-                path="/irelandnursingwebinar"
-                element={
-                    <Webinar />
-                }
-            />
-
-            {/* ======================================================
-            OPPORTUNITIES
-        ====================================================== */}
-
-            <Route
-                path="/opportunities/:country"
-                element={
-                    <>
-                        <Navbar />
-                        <Opportunities />
-                        <Footer />
-                    </>
-                }
-            />
-
-            <Route
-                path="/opportunities/:country/:slug"
-                element={
-                    <>
-                        <Navbar />
-                        <OpportunityDetails />
-                        <Footer />
-                    </>
-                }
-            />
-
-            {/* ======================================================
-            BLOG / SHOP / CONTACT
-        ====================================================== */}
-
-            <Route
-                path="/blog"
-                element={
-                    <>
-                        <Navbar />
-                        <Blog />
-                        <Footer />
-                    </>
-                }
-            />
-
-            <Route
-                path="/shop"
-                element={
-                    <>
-                        <Navbar />
-                        <Shop />
-                        <Footer />
-                    </>
-                }
-            />
-
-            <Route
-                path="/contact"
-                element={
-                    <>
-                        <Navbar />
-                        <Contact />
-                        <Footer />
-                    </>
-                }
-            />
-
-            {/* ======================================================
-            PUBLIC MIGRATION ASSESSMENT
-        ====================================================== */}
-
-            <Route
-                path="/free-assessment"
-                element={
-                    <>
-                        <Navbar />
-                        <Assessment />
-                        <Footer />
-                    </>
-                }
-            />
-
-            {/* ======================================================
-            CONSULTATION
-        ====================================================== */}
-
-            <Route
-                path="/consultation"
-                element={
-                    <>
-                        <Navbar />
-                        <ConsultationBooking />
-                        <Footer />
-                    </>
-                }
-            />
-
-            {/* ======================================================
-            WEBMAIL
-        ====================================================== */}
-
-            <Route
-                path="/webmail"
-                element={
-                    <Webmailer />
-                }
-            />
-
-            {/* ======================================================
-            CLIENT AUTHENTICATION
-        ====================================================== */}
-
-            <Route
-                path="/login"
-                element={
-                    <Login />
-                }
-            />
-
-            <Route
-                path="/register"
-                element={
-                    <Register />
-                }
-            />
-
-            {/* ======================================================
-            SHARED OPERATIONS LOGIN
-        ====================================================== */}
-
-            <Route
-                path="/admin/login"
-                element={
-                    <AdminLogin />
-                }
-            />
-
-            {/* ======================================================
-            ADMIN OPERATIONS PORTAL
-        ====================================================== */}
-
-            <Route
-                element={
-                    <AdminRoleRoute
-                        allowedRoles={[
-                            "ADMIN",
-                        ]}
-                    />
-                }
-            >
+                {/* ======================================================
+                    PUBLIC WEBSITE
+                ====================================================== */}
 
                 <Route
-                    path="/admin"
+                    path="/"
                     element={
-                        <AdminLayout />
+                        <>
+                            <Navbar />
+                            <Home />
+                            <Footer />
+                        </>
                     }
-                >
+                />
 
-                    {/* ==================================================
-                    ADMIN OVERVIEW
-                ================================================== */}
-
-                    <Route
-                        index
-                        element={
-                            <AdminOverview />
-                        }
-                    />
-
-                    {/* ==================================================
-                    APPLICATIONS
-                ================================================== */}
-
-                    <Route
-                        path="applications"
-                        element={
-                            <AdminApplications />
-                        }
-                    />
-
-                    <Route
-                        path="applications/:id"
-                        element={
-                            <AdminApplicationDetails />
-                        }
-                    />
-
-                    {/* ==================================================
-                    CONSULTATIONS
-                ================================================== */}
-
-                    <Route
-                        path="consultations"
-                        element={
-                            <AdminConsultations />
-                        }
-                    />
-
-                    {/* ==================================================
-                    CLIENTS
-                ================================================== */}
-
-                    <Route
-                        path="clients"
-                        element={
-                            <AdminClients />
-                        }
-                    />
-
-                    <Route
-                        path="clients/:id"
-                        element={
-                            <AdminClientDetails />
-                        }
-                    />
-
-                    {/* ==================================================
-                    DOCUMENTS
-                ================================================== */}
-
-                    <Route
-                        path="documents"
-                        element={
-                            <AdminDocuments />
-                        }
-                    />
-
-                    {/* ==================================================
-                    PUBLIC FORM SUBMISSIONS
-                ================================================== */}
-
-                    <Route
-                        path="forms"
-                        element={
-                            <AdminForms />
-                        }
-                    />
-
-                    <Route
-                        path="forms/:formKey"
-                        element={
-                            <AdminFormSubmissions />
-                        }
-                    />
-
-                    <Route
-                        path="forms/:formKey/:submissionId"
-                        element={
-                            <AdminFormSubmissionDetails />
-                        }
-                    />
-
-                    <Route
-                        path="forms/:formKey/:submissionId/documents/:documentId"
-                        element={
-                            <AdminFormSubmissionDocumentViewer />
-                        }
-                    />
-
-                    {/* ==================================================
-                    NOTIFICATIONS
-                ================================================== */}
-
-                    <Route
-                        path="notifications"
-                        element={
-                            <AdminNotifications />
-                        }
-                    />
-
-                </Route>
-
-            </Route>
-
-            {/* ======================================================
-            STAFF OPERATIONS WORKSPACE
-        ====================================================== */}
-
-            <Route
-                element={
-                    <AdminRoleRoute
-                        allowedRoles={[
-                            "STAFF",
-                        ]}
-                    />
-                }
-            >
 
                 <Route
-                    path="/admin"
+                    path="/about"
                     element={
-                        <AdminLayout />
+                        <>
+                            <Navbar />
+                            <About />
+                            <Footer />
+                        </>
                     }
-                >
+                />
 
-                    <Route
-                        path="staff/*"
-                        element={
-                            <StaffRoutes />
-                        }
-                    />
-
-                </Route>
-
-            </Route>
-
-            {/* ======================================================
-            PROTECTED CLIENT PORTAL
-        ====================================================== */}
-
-            <Route
-                element={
-                    <ProtectedRoute />
-                }
-            >
 
                 <Route
-                    path="/portal"
+                    path="/services"
                     element={
-                        <PortalLayout />
+                        <>
+                            <Navbar />
+                            <Services />
+                            <Footer />
+                        </>
                     }
-                >
+                />
 
-                    {/* ==================================================
-                    CLIENT DASHBOARD
-                ================================================== */}
 
-                    <Route
-                        index
-                        element={
-                            <ClientDashboard />
-                        }
-                    />
+                <Route
+                    path="/services/canada-migration"
+                    element={
+                        <>
+                            <Navbar />
+                            <CanadaMigration />
+                            <Footer />
+                        </>
+                    }
+                />
 
-                    {/* ==================================================
-                    CLIENT APPLICATIONS
-                ================================================== */}
 
-                    <Route
-                        path="applications"
-                        element={
-                            <Applications />
-                        }
-                    />
+                <Route
+                    path="/services/global-works"
+                    element={
+                        <>
+                            <Navbar />
+                            <GlobalWorkImmigration />
+                            <Footer />
+                        </>
+                    }
+                />
 
-                    <Route
-                        path="applications/new"
-                        element={
-                            <NewApplication />
-                        }
-                    />
 
-                    <Route
-                        path="applications/:id"
-                        element={
-                            <ApplicationDetail />
-                        }
-                    />
+                <Route
+                    path="/services/tourist-visa"
+                    element={
+                        <>
+                            <Navbar />
+                            <TouristVisa />
+                            <Footer />
+                        </>
+                    }
+                />
 
-                    {/* ==================================================
-                    CLIENT DOCUMENTS
-                ================================================== */}
 
-                    <Route
-                        path="documents"
-                        element={
-                            <Documents />
-                        }
-                    />
+                <Route
+                    path="/services/ireland-nursing"
+                    element={
+                        <>
+                            <Navbar />
+                            <IrelandNursing />
+                            <Footer />
+                        </>
+                    }
+                />
 
-                    <Route
-                        path="documents/:documentId/view"
-                        element={
-                            <DocumentViewer />
-                        }
-                    />
 
-                    {/* ==================================================
-                    CLIENT UPDATES
-                ================================================== */}
+                {/* ======================================================
+                    WEBINAR
+                ====================================================== */}
 
-                    <Route
-                        path="updates"
-                        element={
-                            <ClientUpdates />
-                        }
-                    />
+                <Route
+                    path="/irelandnursingwebinar"
+                    element={
+                        <Webinar />
+                    }
+                />
 
-                    {/* ==================================================
-                    CLIENT PROFILE
-                ================================================== */}
 
-                    <Route
-                        path="profile"
-                        element={
-                            <Profile />
-                        }
-                    />
+                {/* ======================================================
+                    OPPORTUNITIES
+                ====================================================== */}
 
-                    {/* ==================================================
-                    CLIENT ELIGIBILITY ASSESSMENT
-                ================================================== */}
+                <Route
+                    path="/opportunities/:country"
+                    element={
+                        <>
+                            <Navbar />
+                            <Opportunities />
+                            <Footer />
+                        </>
+                    }
+                />
 
-                    <Route
-                        path="assessment"
-                        element={
+
+                <Route
+                    path="/opportunities/:country/:slug"
+                    element={
+                        <>
+                            <Navbar />
+                            <OpportunityDetails />
+                            <Footer />
+                        </>
+                    }
+                />
+
+
+                {/* ======================================================
+                    BLOG
+                ====================================================== */}
+
+                <Route
+                    path="/blog"
+                    element={
+                        <>
+                            <Navbar />
+                            <Blog />
+                            <Footer />
+                        </>
+                    }
+                />
+
+
+                <Route
+                    path="/blog/:slug"
+                    element={
+                        <>
+                            <Navbar />
+                            <BlogPost />
+                            <Footer />
+                        </>
+                    }
+                />
+
+
+                {/* ======================================================
+                    SHOP
+                ====================================================== */}
+
+                <Route
+                    path="/shop"
+                    element={
+                        <>
+                            <Navbar />
+                            <Shop />
+                            <Footer />
+                        </>
+                    }
+                />
+
+
+                {/* ======================================================
+                    CONTACT
+                ====================================================== */}
+
+                <Route
+                    path="/contact"
+                    element={
+                        <>
+                            <Navbar />
+                            <Contact />
+                            <Footer />
+                        </>
+                    }
+                />
+
+
+                {/* ======================================================
+                    PUBLIC MIGRATION ASSESSMENT
+                ====================================================== */}
+
+                <Route
+                    path="/free-assessment"
+                    element={
+                        <>
+                            <Navbar />
                             <Assessment />
+                            <Footer />
+                        </>
+                    }
+                />
+
+
+                {/* ======================================================
+                    CONSULTATION
+                ====================================================== */}
+
+                <Route
+                    path="/consultation"
+                    element={
+                        <>
+                            <Navbar />
+                            <ConsultationBooking />
+                            <Footer />
+                        </>
+                    }
+                />
+
+
+                {/* ======================================================
+                    WEBMAIL
+                ====================================================== */}
+
+                <Route
+                    path="/webmail"
+                    element={
+                        <Webmailer />
+                    }
+                />
+
+
+                {/* ======================================================
+                    CLIENT AUTHENTICATION
+                ====================================================== */}
+
+                <Route
+                    path="/login"
+                    element={
+                        <Login />
+                    }
+                />
+
+
+                <Route
+                    path="/register"
+                    element={
+                        <Register />
+                    }
+                />
+
+
+                {/* ======================================================
+                    SHARED OPERATIONS LOGIN
+                ====================================================== */}
+
+                <Route
+                    path="/admin/login"
+                    element={
+                        <AdminLogin />
+                    }
+                />
+
+
+                {/* ======================================================
+                    ADMIN OPERATIONS PORTAL
+                ====================================================== */}
+
+                <Route
+                    element={
+                        <AdminRoleRoute
+                            allowedRoles={[
+                                "ADMIN",
+                            ]}
+                        />
+                    }
+                >
+
+                    <Route
+                        path="/admin"
+                        element={
+                            <AdminLayout />
                         }
-                    />
+                    >
+
+
+                        {/* ==================================================
+                            ADMIN OVERVIEW
+                        ================================================== */}
+
+                        <Route
+                            index
+                            element={
+                                <AdminOverview />
+                            }
+                        />
+
+
+                        {/* ==================================================
+                            APPLICATIONS
+                        ================================================== */}
+
+                        <Route
+                            path="applications"
+                            element={
+                                <AdminApplications />
+                            }
+                        />
+
+
+                        <Route
+                            path="applications/:id"
+                            element={
+                                <AdminApplicationDetails />
+                            }
+                        />
+
+
+                        {/* ==================================================
+                            OPPORTUNITIES
+                        ================================================== */}
+
+                        <Route
+                            path="opportunities"
+                            element={
+                                <AdminOpportunities />
+                            }
+                        />
+
+
+                        <Route
+                            path="opportunities/new"
+                            element={
+                                <OpportunityForm />
+                            }
+                        />
+
+
+                        <Route
+                            path="opportunities/:id/edit"
+                            element={
+                                <OpportunityForm />
+                            }
+                        />
+
+
+                        {/* ==================================================
+                            CONSULTATIONS
+                        ================================================== */}
+
+                        <Route
+                            path="consultations"
+                            element={
+                                <AdminConsultations />
+                            }
+                        />
+
+
+                        {/* ==================================================
+                            CLIENTS
+                        ================================================== */}
+
+                        <Route
+                            path="clients"
+                            element={
+                                <AdminClients />
+                            }
+                        />
+
+
+                        <Route
+                            path="clients/:id"
+                            element={
+                                <AdminClientDetails />
+                            }
+                        />
+
+
+                        {/* ==================================================
+                            DOCUMENTS
+                        ================================================== */}
+
+                        <Route
+                            path="documents"
+                            element={
+                                <AdminDocuments />
+                            }
+                        />
+
+
+                        {/* ==================================================
+                            PUBLIC FORM SUBMISSIONS
+                        ================================================== */}
+
+                        <Route
+                            path="forms"
+                            element={
+                                <AdminForms />
+                            }
+                        />
+
+
+                        <Route
+                            path="forms/:formKey"
+                            element={
+                                <AdminFormSubmissions />
+                            }
+                        />
+
+
+                        <Route
+                            path="forms/:formKey/:submissionId"
+                            element={
+                                <AdminFormSubmissionDetails />
+                            }
+                        />
+
+
+                        <Route
+                            path="forms/:formKey/:submissionId/documents/:documentId"
+                            element={
+                                <AdminFormSubmissionDocumentViewer />
+                            }
+                        />
+/
+
+                        {/* ==================================================
+                            BLOG
+                        ================================================== */}
+
+                        <Route
+                            path="blog"
+                            element={
+                                <AdminBlog />
+                            }
+                        />
+
+
+                        <Route
+                            path="blog/new"
+                            element={
+                                <AdminBlogEditor />
+                            }
+                        />
+
+
+                        <Route
+                            path="blog/:id/edit"
+                            element={
+                                <AdminBlogEditor />
+                            }
+                        />
+
+
+                        {/* ==================================================
+                            NOTIFICATIONS
+                        ================================================== */}
+
+                        <Route
+                            path="notifications"
+                            element={
+                                <AdminNotifications />
+                            }
+                        />
+
+                    </Route>
 
                 </Route>
 
-            </Route>
 
-        </Routes>
-    </BrowserRouter>
+                {/* ======================================================
+                    STAFF OPERATIONS WORKSPACE
+                ====================================================== */}
+
+                <Route
+                    element={
+                        <AdminRoleRoute
+                            allowedRoles={[
+                                "STAFF",
+                            ]}
+                        />
+                    }
+                >
+
+                    <Route
+                        path="/admin"
+                        element={
+                            <AdminLayout />
+                        }
+                    >
+
+                        <Route
+                            path="staff/*"
+                            element={
+                                <StaffRoutes />
+                            }
+                        />
+
+                    </Route>
+
+                </Route>
+
+
+                {/* ======================================================
+                    PROTECTED CLIENT PORTAL
+                ====================================================== */}
+
+                <Route
+                    element={
+                        <ProtectedRoute />
+                    }
+                >
+
+                    <Route
+                        path="/portal"
+                        element={
+                            <PortalLayout />
+                        }
+                    >
+
+
+                        {/* ==================================================
+                            CLIENT DASHBOARD
+                        ================================================== */}
+
+                        <Route
+                            index
+                            element={
+                                <ClientDashboard />
+                            }
+                        />
+
+
+                        {/* ==================================================
+                            CLIENT APPLICATIONS
+                        ================================================== */}
+
+                        <Route
+                            path="applications"
+                            element={
+                                <Applications />
+                            }
+                        />
+
+
+                        <Route
+                            path="applications/new"
+                            element={
+                                <NewApplication />
+                            }
+                        />
+
+
+                        <Route
+                            path="applications/:id"
+                            element={
+                                <ApplicationDetail />
+                            }
+                        />
+
+
+                        {/* ==================================================
+                            CLIENT DOCUMENTS
+                        ================================================== */}
+
+                        <Route
+                            path="documents"
+                            element={
+                                <Documents />
+                            }
+                        />
+
+
+                        <Route
+                            path="documents/:documentId/view"
+                            element={
+                                <DocumentViewer />
+                            }
+                        />
+
+
+                        {/* ==================================================
+                            CLIENT UPDATES
+                        ================================================== */}
+
+                        <Route
+                            path="updates"
+                            element={
+                                <ClientUpdates />
+                            }
+                        />
+
+
+                        {/* ==================================================
+                            CLIENT PROFILE
+                        ================================================== */}
+
+                        <Route
+                            path="profile"
+                            element={
+                                <Profile />
+                            }
+                        />
+
+
+                        {/* ==================================================
+                            CLIENT ELIGIBILITY ASSESSMENT
+                        ================================================== */}
+
+                        <Route
+                            path="assessment"
+                            element={
+                                <Assessment />
+                            }
+                        />
+
+                    </Route>
+
+                </Route>
+
+            </Routes>
+
+        </BrowserRouter>
     );
-
-
 }
+
 
 export default App;
