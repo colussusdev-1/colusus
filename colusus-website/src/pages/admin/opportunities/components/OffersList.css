@@ -1,0 +1,534 @@
+/* =========================================================
+   OFFERS LIST
+========================================================= */
+
+.offers-list {
+    width: 100%;
+    min-width: 0;
+    margin-top: 14px;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.offers-list__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 12px;
+}
+
+.offers-list__identity {
+    min-width: 0;
+}
+
+.offers-list__eyebrow {
+    display: block;
+    margin-bottom: 4px;
+    color: #8a96a3;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    line-height: 1;
+}
+
+.offers-list__title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.offers-list__title {
+    margin: 0;
+    color: #17212b;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+}
+
+.offers-list__count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 20px;
+    padding: 0 7px;
+    border: 1px solid #e3e8ed;
+    border-radius: 6px;
+    background: #f8fafc;
+    color: #697582;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+/* =========================================================
+   VIEW SWITCHER
+========================================================= */
+
+.offers-list__controls {
+    flex-shrink: 0;
+}
+
+.offers-list__view-switcher {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px;
+    border: 1px solid #e3e8ed;
+    border-radius: 8px;
+    background: #f8fafc;
+}
+
+.offers-list__view-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    min-width: 58px;
+    height: 28px;
+    padding: 0 9px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: #7c8792;
+    cursor: pointer;
+    font: inherit;
+    font-size: 10px;
+    font-weight: 600;
+    transition:
+        background 160ms ease,
+        color 160ms ease,
+        box-shadow 160ms ease;
+}
+
+.offers-list__view-button svg {
+    width: 12px;
+    height: 12px;
+    stroke-width: 2;
+}
+
+.offers-list__view-button:hover {
+    color: #40505f;
+}
+
+.offers-list__view-button--active {
+    background: #ffffff;
+    color: #315f88;
+    box-shadow: 0 1px 3px rgba(25, 42, 56, 0.08);
+}
+
+/* =========================================================
+   KANBAN TOOLBAR
+========================================================= */
+
+.offers-list__kanban-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 12px;
+    padding: 9px 11px;
+    border: 1px solid #e5e9ed;
+    border-radius: 9px;
+    background: #fafbfc;
+}
+
+.offers-list__kanban-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #737f8b;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.offers-list__kanban-label svg {
+    width: 12px;
+    height: 12px;
+}
+
+.offers-list__kanban-groups {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.offers-list__kanban-group {
+    height: 27px;
+    padding: 0 9px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    background: transparent;
+    color: #78838e;
+    cursor: pointer;
+    font: inherit;
+    font-size: 10px;
+    font-weight: 600;
+    transition:
+        background 160ms ease,
+        border-color 160ms ease,
+        color 160ms ease;
+}
+
+.offers-list__kanban-group:hover {
+    color: #41515f;
+    background: #f1f4f7;
+}
+
+.offers-list__kanban-group--active {
+    border-color: #dce5ed;
+    background: #ffffff;
+    color: #315f88;
+}
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.offers-list__empty {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-height: 100px;
+    padding: 20px;
+    border: 1px dashed #dce2e7;
+    border-radius: 10px;
+    background: #fafbfc;
+}
+
+.offers-list__empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    border: 1px solid #e3e8ed;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #81909d;
+}
+
+.offers-list__empty-icon svg {
+    width: 15px;
+    height: 15px;
+}
+
+.offers-list__empty strong {
+    display: block;
+    margin-bottom: 3px;
+    color: #34414d;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.offers-list__empty span {
+    display: block;
+    color: #8a95a0;
+    font-size: 10px;
+    line-height: 1.45;
+}
+
+/* =========================================================
+   GRID VIEW
+========================================================= */
+
+.offers-list__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    width: 100%;
+    min-width: 0;
+}
+
+/* =========================================================
+   LIST VIEW
+========================================================= */
+
+.offers-list__list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    width: 100%;
+    min-width: 0;
+}
+
+/*
+   List cards are intentionally tighter than grid cards.
+   The actual card layout is controlled by OfferCard.css.
+*/
+
+.offers-list__list>* {
+    width: 100%;
+    min-width: 0;
+}
+
+/* =========================================================
+   KANBAN
+========================================================= */
+
+.offers-list__kanban {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scrollbar-width: thin;
+    scrollbar-color: #d6dde3 transparent;
+}
+
+.offers-list__kanban-column {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 292px;
+    min-width: 292px;
+    max-width: 292px;
+    min-height: 300px;
+    overflow: hidden;
+    border: 1px solid #e3e7eb;
+    border-radius: 10px;
+    background: #f8fafb;
+}
+
+.offers-list__kanban-column-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    min-height: 61px;
+    padding: 11px 12px;
+    border-bottom: 1px solid;
+}
+
+.offers-list__kanban-column-label {
+    display: block;
+    margin-bottom: 3px;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    line-height: 1;
+}
+
+.offers-list__kanban-column-header h4 {
+    margin: 0;
+    overflow: hidden;
+    color: #27333e;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.offers-list__kanban-column-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 23px;
+    height: 21px;
+    padding: 0 6px;
+    border: 1px solid rgba(80, 90, 100, 0.1);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.72);
+    color: #697580;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.offers-list__kanban-column-body {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-height: 238px;
+    max-height: 590px;
+    overflow-y: auto;
+    padding: 8px;
+    scrollbar-width: thin;
+    scrollbar-color: #d6dde3 transparent;
+}
+
+/* =========================================================
+   KANBAN CARD WIDTH
+========================================================= */
+
+.offers-list__kanban-column-body>* {
+    width: 100%;
+    min-width: 0;
+}
+
+/* =========================================================
+   SCROLLBARS
+========================================================= */
+
+.offers-list__kanban::-webkit-scrollbar,
+.offers-list__kanban-column-body::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+.offers-list__kanban::-webkit-scrollbar-track,
+.offers-list__kanban-column-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.offers-list__kanban::-webkit-scrollbar-thumb,
+.offers-list__kanban-column-body::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: #d6dde3;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1180px) {
+    .offers-list__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .offers-list__kanban-column {
+        flex-basis: 280px;
+        min-width: 280px;
+        max-width: 280px;
+    }
+}
+
+/* =========================================================
+   SMALL TABLET
+========================================================= */
+
+@media (max-width: 760px) {
+    .offers-list {
+        margin-top: 10px;
+    }
+
+    .offers-list__header {
+        align-items: center;
+        gap: 10px;
+    }
+
+    .offers-list__title {
+        font-size: 15px;
+    }
+
+    .offers-list__view-button {
+        min-width: 31px;
+        width: 31px;
+        padding: 0;
+    }
+
+    .offers-list__view-button span {
+        display: none;
+    }
+
+    .offers-list__view-button svg {
+        width: 13px;
+        height: 13px;
+    }
+
+    .offers-list__grid {
+        gap: 8px;
+    }
+
+    .offers-list__kanban-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 7px;
+    }
+
+    .offers-list__kanban-groups {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 1px;
+    }
+
+    .offers-list__kanban-group {
+        flex: 0 0 auto;
+    }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 560px) {
+    .offers-list__header {
+        margin-bottom: 9px;
+    }
+
+    .offers-list__eyebrow {
+        font-size: 8px;
+    }
+
+    .offers-list__title {
+        font-size: 14px;
+    }
+
+    .offers-list__count {
+        min-width: 20px;
+        height: 18px;
+        padding: 0 6px;
+        font-size: 9px;
+    }
+
+    .offers-list__view-switcher {
+        padding: 2px;
+    }
+
+    .offers-list__view-button {
+        height: 27px;
+        width: 29px;
+    }
+
+    .offers-list__grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .offers-list__list {
+        gap: 6px;
+    }
+
+    .offers-list__kanban {
+        gap: 8px;
+        margin-right: -2px;
+    }
+
+    .offers-list__kanban-column {
+        flex-basis: 275px;
+        min-width: 275px;
+        max-width: 275px;
+    }
+
+    .offers-list__kanban-column-body {
+        max-height: 520px;
+    }
+}
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+    .offers-list__header {
+        align-items: flex-start;
+    }
+
+    .offers-list__controls {
+        margin-top: 1px;
+    }
+
+    .offers-list__kanban-toolbar {
+        padding: 8px;
+    }
+
+    .offers-list__kanban-column {
+        flex-basis: 260px;
+        min-width: 260px;
+        max-width: 260px;
+    }
+}

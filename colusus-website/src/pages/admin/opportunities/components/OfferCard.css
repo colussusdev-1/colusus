@@ -1,0 +1,1096 @@
+/* ==================================================
+   OFFER CARD
+================================================== */
+
+.offer-card {
+    --offer-accent-surface: #f1f6fb;
+    --offer-accent-border: #dce8f3;
+    --offer-accent: #4c78a4;
+
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+
+    background: #ffffff;
+    border: 1px solid #e7ebf0;
+    border-radius: 12px;
+
+    color: #18212b;
+
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease,
+        transform 160ms ease;
+}
+
+.offer-card:hover {
+    border-color: #d8e0e8;
+}
+
+
+/* ==================================================
+   SHARED IMAGE
+================================================== */
+
+.offer-card__image {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    border: 1px solid var(--offer-accent-border);
+    border-radius: 10px;
+
+    background: var(--offer-accent-surface);
+    color: var(--offer-accent);
+
+    box-sizing: border-box;
+}
+
+.offer-card__image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+
+    object-fit: cover;
+}
+
+
+/* ==================================================
+   SHARED COUNTRY / CATEGORY
+================================================== */
+
+.offer-card__country {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    min-width: 0;
+
+    color: #647180;
+
+    font-size: 10px;
+    line-height: 1.3;
+    font-weight: 600;
+}
+
+.offer-card__country>span {
+    min-width: 0;
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.offer-card__separator {
+    flex: 0 0 auto;
+
+    color: #b6bec7;
+}
+
+
+/* ==================================================
+   SHARED TITLE
+================================================== */
+
+.offer-card__title {
+    margin: 0;
+
+    color: #18212b;
+
+    font-size: 14px;
+    line-height: 1.35;
+    font-weight: 700;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* ==================================================
+   SHARED DETAILS
+================================================== */
+
+.offer-card__details {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    min-width: 0;
+}
+
+.offer-card__detail {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+
+    min-width: 0;
+
+    color: #75808c;
+
+    font-size: 10px;
+    line-height: 1.3;
+    font-weight: 500;
+}
+
+.offer-card__detail svg {
+    flex: 0 0 auto;
+
+    width: 12px;
+    height: 12px;
+
+    color: #8a96a3;
+}
+
+.offer-card__detail span {
+    min-width: 0;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* ==================================================
+   BADGES
+================================================== */
+
+.offer-card__badges {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+
+    min-width: 0;
+}
+
+.offer-card__status,
+.offer-card__featured,
+.offer-card__attention {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+
+    min-height: 23px;
+    padding: 0 8px;
+
+    border-radius: 6px;
+
+    font-size: 9px;
+    line-height: 1;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+.offer-card__status {
+    border: 1px solid #e1e6eb;
+    background: #f8fafb;
+    color: #65717d;
+}
+
+.offer-card__status--active {
+    border-color: #d9e8df;
+    background: #f3f8f5;
+    color: #4e715d;
+}
+
+.offer-card__status--inactive {
+    border-color: #eadedf;
+    background: #faf5f5;
+    color: #8a6268;
+}
+
+.offer-card__status-dot {
+    width: 5px;
+    height: 5px;
+    flex: 0 0 5px;
+
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.offer-card__featured {
+    border: 1px solid #e9e1c9;
+    background: #faf8f0;
+    color: #876f35;
+}
+
+.offer-card__featured svg {
+    width: 10px;
+    height: 10px;
+}
+
+.offer-card__attention {
+    border: 1px solid #e6d8b9;
+    background: #faf6eb;
+    color: #8a6c2f;
+}
+
+.offer-card__attention--changes {
+    border-color: #e7d8dd;
+    background: #faf5f6;
+    color: #895f69;
+}
+
+
+/* ==================================================
+   SHARED MENU
+================================================== */
+
+.offer-card__menu {
+    position: relative;
+
+    flex: 0 0 auto;
+
+    z-index: 30;
+}
+
+.offer-card__menu-trigger {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: 1px solid #e1e6eb;
+    border-radius: 7px;
+
+    background: #ffffff;
+    color: #65717d;
+
+    cursor: pointer;
+
+    transition:
+        border-color 140ms ease,
+        background 140ms ease,
+        color 140ms ease;
+}
+
+.offer-card__menu-trigger:hover,
+.offer-card__menu-trigger:focus-visible {
+    border-color: #cbd5df;
+    background: #f7f9fb;
+    color: #344250;
+    outline: none;
+}
+
+.offer-card__menu-trigger svg {
+    width: 15px;
+    height: 15px;
+}
+
+
+/*
+ * Dropdown
+ *
+ * The menu panel is intentionally above the card and
+ * neighboring cards. Parent cards also receive a higher
+ * z-index while hovered/focused in list mode.
+ */
+
+.offer-card__menu-panel {
+    position: absolute;
+
+    top: calc(100% + 7px);
+    right: 0;
+
+    width: 188px;
+
+    padding: 6px;
+
+    border: 1px solid #e1e6eb;
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 12px 28px rgba(23, 32, 42, 0.10),
+        0 2px 6px rgba(23, 32, 42, 0.05);
+
+    z-index: 9999;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transform: translateY(-4px);
+
+    transition:
+        opacity 130ms ease,
+        visibility 130ms ease,
+        transform 130ms ease;
+}
+
+.offer-card__menu:hover .offer-card__menu-panel,
+.offer-card__menu:focus-within .offer-card__menu-panel {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.offer-card__menu-heading {
+    padding: 7px 8px 6px;
+
+    color: #8a95a1;
+
+    font-size: 8px;
+    line-height: 1;
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.offer-card__menu-panel button {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    min-height: 32px;
+
+    padding: 0 8px;
+
+    border: 0;
+    border-radius: 6px;
+
+    background: transparent;
+    color: #465360;
+
+    font: inherit;
+    font-size: 10px;
+    font-weight: 600;
+
+    text-align: left;
+
+    cursor: pointer;
+}
+
+.offer-card__menu-panel button:hover,
+.offer-card__menu-panel button:focus-visible {
+    background: #f5f7f9;
+    color: #202c37;
+    outline: none;
+}
+
+.offer-card__menu-panel button svg {
+    width: 13px;
+    height: 13px;
+    flex: 0 0 auto;
+}
+
+.offer-card__menu-panel button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.offer-card__menu-panel .offer-card__menu-danger {
+    margin-top: 3px;
+
+    border-top: 1px solid #eef1f4;
+    border-radius: 0 0 6px 6px;
+
+    color: #8b5d64;
+}
+
+.offer-card__menu-panel .offer-card__menu-danger:hover {
+    background: #fbf5f6;
+    color: #7d4d55;
+}
+
+
+/* ==================================================
+   SHARED ACTIONS
+================================================== */
+
+.offer-card__edit,
+.offer-card__view {
+    min-height: 30px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    padding: 0 10px;
+
+    border-radius: 7px;
+
+    font: inherit;
+    font-size: 9px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        border-color 140ms ease,
+        background 140ms ease,
+        color 140ms ease;
+}
+
+.offer-card__edit {
+    border: 1px solid #e0e5ea;
+    background: #ffffff;
+    color: #56636f;
+}
+
+.offer-card__edit:hover {
+    border-color: #cfd7df;
+    background: #f7f9fb;
+    color: #273540;
+}
+
+.offer-card__view {
+    border: 1px solid #dbe4ec;
+    background: #f5f8fb;
+    color: #456b8e;
+}
+
+.offer-card__view:hover {
+    border-color: #cbd9e5;
+    background: #edf3f8;
+    color: #365c7d;
+}
+
+.offer-card__edit svg,
+.offer-card__view svg {
+    width: 12px;
+    height: 12px;
+}
+
+
+/* ==================================================
+   GRID VARIANT
+================================================== */
+
+.offer-card--grid {
+    min-height: 218px;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: visible;
+}
+
+.offer-card--grid .offer-card__grid-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    padding: 14px 14px 0;
+}
+
+.offer-card--grid .offer-card__grid-head-right {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+
+    gap: 6px;
+
+    min-width: 0;
+}
+
+.offer-card--grid .offer-card__grid-body {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+
+    min-width: 0;
+
+    padding: 12px 14px 14px;
+}
+
+.offer-card--grid .offer-card__title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.offer-card--grid .offer-card__salary {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+
+    padding-top: 4px;
+
+    border-top: 1px solid #eef1f4;
+}
+
+.offer-card--grid .offer-card__salary span {
+    color: #8a95a1;
+
+    font-size: 9px;
+    font-weight: 600;
+}
+
+.offer-card--grid .offer-card__salary strong {
+    min-width: 0;
+
+    color: #364653;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    text-align: right;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.offer-card--grid .offer-card__grid-footer {
+    margin-top: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    padding: 11px 14px;
+
+    border-top: 1px solid #eef1f4;
+}
+
+.offer-card__footer-state {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    min-width: 0;
+
+    color: #78838e;
+
+    font-size: 9px;
+    font-weight: 600;
+}
+
+.offer-card__live-dot,
+.offer-card__offline-dot {
+    width: 17px;
+    height: 17px;
+    flex: 0 0 17px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+}
+
+.offer-card__live-dot {
+    background: #eef7f1;
+    color: #4f765d;
+}
+
+.offer-card__offline-dot {
+    background: #f8eeee;
+    color: #8a6268;
+}
+
+.offer-card__live-dot svg,
+.offer-card__offline-dot svg {
+    width: 9px;
+    height: 9px;
+}
+
+.offer-card__actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    flex: 0 0 auto;
+}
+
+
+/* ==================================================
+   LIST VARIANT
+================================================== */
+
+.offer-card--list {
+    min-height: 104px;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(280px, 1fr) minmax(145px, 0.45fr) minmax(210px, 0.7fr) auto;
+
+    align-items: stretch;
+
+    overflow: visible;
+
+    /*
+     * Critical:
+     * every list card can rise above the cards around it.
+     */
+    z-index: 1;
+}
+
+/*
+ * Critical dropdown fix.
+ *
+ * Hovering or keyboard-focusing ANY part of the list card
+ * raises the whole card above neighboring list cards.
+ */
+.offers-list__list>.offer-card--list:hover,
+.offers-list__list>.offer-card--list:focus-within {
+    z-index: 100;
+    border-color: #d4dde5;
+
+    box-shadow:
+        0 8px 22px rgba(24, 33, 43, 0.06);
+}
+
+/*
+ * Keep the menu/action column above all internal content.
+ */
+.offer-card--list .offer-card__list-actions {
+    position: relative;
+
+    z-index: 200;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 6px;
+
+    min-width: max-content;
+
+    padding: 14px 14px 14px 10px;
+}
+
+.offer-card--list .offer-card__list-actions .offer-card__menu {
+    position: relative;
+    z-index: 300;
+}
+
+.offer-card--list .offer-card__list-actions .offer-card__menu-panel {
+    z-index: 9999;
+}
+
+
+/* Main offer information */
+
+.offer-card--list .offer-card__list-main {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 14px;
+}
+
+.offer-card--list .offer-card__list-content {
+    min-width: 0;
+}
+
+.offer-card--list .offer-card__list-heading {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.offer-card--list .offer-card__title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+
+/* Salary column */
+
+.offer-card--list .offer-card__list-salary {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    gap: 5px;
+
+    padding: 14px 16px;
+
+    border-left: 1px solid #eef1f4;
+}
+
+.offer-card--list .offer-card__list-salary>span {
+    color: #909aa4;
+
+    font-size: 8px;
+    line-height: 1;
+
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.offer-card--list .offer-card__list-salary strong {
+    min-width: 0;
+
+    color: #3b4a57;
+
+    font-size: 10px;
+    line-height: 1.35;
+    font-weight: 700;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* Status column */
+
+.offer-card--list .offer-card__list-status {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+
+    padding: 14px 12px;
+
+    border-left: 1px solid #eef1f4;
+}
+
+.offer-card--list .offer-card__list-status .offer-card__badges {
+    width: 100%;
+}
+
+
+/* Action buttons */
+
+.offer-card--list .offer-card__list-actions .offer-card__edit,
+.offer-card--list .offer-card__list-actions .offer-card__view {
+    flex: 0 0 auto;
+}
+
+
+/* ==================================================
+   KANBAN VARIANT
+================================================== */
+
+.offer-card--kanban {
+    min-height: 250px;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: visible;
+}
+
+.offer-card--kanban .offer-card__kanban-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    padding: 14px 14px 0;
+}
+
+.offer-card--kanban .offer-card__kanban-head-right {
+    position: relative;
+
+    display: flex;
+    justify-content: flex-end;
+
+    z-index: 50;
+}
+
+.offer-card--kanban .offer-card__kanban-body {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+
+    min-width: 0;
+
+    padding: 12px 14px 14px;
+}
+
+.offer-card--kanban .offer-card__title {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.offer-card__kanban-salary {
+    margin-top: auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    padding-top: 10px;
+
+    border-top: 1px solid #eef1f4;
+}
+
+.offer-card__kanban-salary span {
+    color: #909aa4;
+
+    font-size: 8px;
+    line-height: 1;
+
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.offer-card__kanban-salary strong {
+    color: #3b4a57;
+
+    font-size: 10px;
+    line-height: 1.35;
+    font-weight: 700;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.offer-card--kanban .offer-card__kanban-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 8px;
+
+    min-width: 0;
+
+    padding: 10px 14px;
+
+    border-top: 1px solid #eef1f4;
+}
+
+.offer-card--kanban .offer-card__kanban-footer .offer-card__badges {
+    min-width: 0;
+}
+
+
+/* ==================================================
+   INACTIVE
+================================================== */
+
+.offer-card--inactive {
+    background: #fcfcfd;
+}
+
+.offer-card--inactive .offer-card__title {
+    color: #66727d;
+}
+
+.offer-card--inactive .offer-card__image {
+    opacity: 0.82;
+}
+
+
+/* ==================================================
+   ATTENTION
+================================================== */
+
+.offer-card--attention {
+    border-color: #e7e1d3;
+}
+
+.offer-card--attention:hover {
+    border-color: #d9cfb8;
+}
+
+
+/* ==================================================
+   RESPONSIVE — LIST
+================================================== */
+
+@media (max-width: 1080px) {
+    .offer-card--list {
+        grid-template-columns:
+            minmax(240px, 1fr) minmax(125px, 0.4fr) minmax(190px, 0.65fr) auto;
+    }
+
+    .offer-card--list .offer-card__list-main {
+        gap: 10px;
+    }
+
+    .offer-card--list .offer-card__list-actions {
+        padding-left: 8px;
+        padding-right: 10px;
+    }
+}
+
+
+@media (max-width: 900px) {
+    .offer-card--list {
+        grid-template-columns:
+            minmax(240px, 1fr) minmax(130px, 0.4fr) auto;
+    }
+
+    .offer-card--list .offer-card__list-status {
+        border-left: 1px solid #eef1f4;
+    }
+
+    .offer-card--list .offer-card__list-actions {
+        grid-column: 1 / -1;
+
+        justify-content: flex-end;
+
+        min-height: 48px;
+
+        padding: 9px 12px;
+
+        border-top: 1px solid #eef1f4;
+    }
+}
+
+
+@media (max-width: 680px) {
+    .offer-card--list {
+        display: grid;
+
+        grid-template-columns: minmax(0, 1fr) auto;
+
+        min-height: 0;
+    }
+
+    .offer-card--list .offer-card__list-main {
+        grid-column: 1 / -1;
+
+        padding: 14px;
+    }
+
+    .offer-card--list .offer-card__list-salary {
+        grid-column: 1;
+
+        border-left: 0;
+        border-top: 1px solid #eef1f4;
+
+        padding: 11px 14px;
+    }
+
+    .offer-card--list .offer-card__list-status {
+        grid-column: 2;
+
+        border-left: 1px solid #eef1f4;
+        border-top: 1px solid #eef1f4;
+
+        padding: 11px 12px;
+    }
+
+    .offer-card--list .offer-card__list-actions {
+        grid-column: 1 / -1;
+
+        justify-content: flex-start;
+    }
+}
+
+
+/* ==================================================
+   RESPONSIVE — GRID / KANBAN
+================================================== */
+
+@media (max-width: 620px) {
+    .offer-card--grid {
+        min-height: 205px;
+    }
+
+    .offer-card--grid .offer-card__grid-head {
+        padding: 12px 12px 0;
+    }
+
+    .offer-card--grid .offer-card__grid-body {
+        padding: 10px 12px 12px;
+    }
+
+    .offer-card--grid .offer-card__grid-footer {
+        padding: 9px 12px;
+    }
+
+    .offer-card--kanban {
+        min-height: 240px;
+    }
+
+    .offer-card--kanban .offer-card__kanban-head {
+        padding: 12px 12px 0;
+    }
+
+    .offer-card--kanban .offer-card__kanban-body {
+        padding: 10px 12px 12px;
+    }
+
+    .offer-card--kanban .offer-card__kanban-footer {
+        padding: 9px 12px;
+    }
+}
+
+
+@media (max-width: 460px) {
+    .offer-card__menu-panel {
+        right: -4px;
+
+        width: 174px;
+    }
+
+    .offer-card__title {
+        font-size: 13px;
+    }
+
+    .offer-card__details {
+        gap: 7px;
+    }
+
+    .offer-card__detail {
+        font-size: 9px;
+    }
+
+    .offer-card--list .offer-card__list-main {
+        gap: 9px;
+        padding: 12px;
+    }
+
+    .offer-card--list .offer-card__list-salary {
+        padding: 10px 12px;
+    }
+
+    .offer-card--list .offer-card__list-status {
+        padding: 10px;
+    }
+
+    .offer-card--list .offer-card__list-actions {
+        padding: 8px 10px;
+    }
+}
+
+
+/* ==================================================
+   REDUCED MOTION
+================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .offer-card,
+    .offer-card__menu-panel,
+    .offer-card__menu-trigger,
+    .offer-card__edit,
+    .offer-card__view {
+        transition: none;
+    }
+}

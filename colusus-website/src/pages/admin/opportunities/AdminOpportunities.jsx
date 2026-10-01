@@ -1,326 +1,713 @@
 import {
+    useCallback,
     useEffect,
     useMemo,
     useState,
 } from "react";
-
-import {
-    Link,
-    useNavigate,
-} from "react-router-dom";
-
-import {
-    HiOutlineAdjustments,
-    HiOutlineCheckCircle,
-    HiOutlineClock,
-    HiOutlineExclamationCircle,
-    HiOutlineEye,
-    HiOutlineFilter,
-    HiOutlinePlus,
-    HiOutlineRefresh,
-    HiOutlineSearch,
-    HiOutlineStar,
-    HiOutlineXCircle,
-    HiPencil,
-    HiStar,
-} from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 
 import opportunitiesService from "./opportunities.service";
 import "./opportunities.css";
 
+// Components
+import OffersHeader from "./components/OffersHeader";
+import OffersStats from "./components/OffersStats";
+import OffersAttention from "./components/OffersAttention";
+import OffersDestinations from "./components/OffersDestinations";
+import OffersFeatured from "./components/OffersFeatured";
+import OffersRecent from "./components/OffersRecent";
+import OffersToolbar from "./components/OffersToolbar";
+import OffersList from "./components/OffersList";
+import OffersEmptyState from "./components/OffersEmptyState";
 
-const getResponseData = (response) => {
-    if (Array.isArray(response)) {
-        return response;
-    }
-
-    if (Array.isArray(response?.data)) {
-        return response.data;
-    }
-
-    if (Array.isArray(response?.data?.opportunities)) {
-        return response.data.opportunities;
-    }
-
-    if (Array.isArray(response?.opportunities)) {
-        return response.opportunities;
-    }
-
-    return [];
-};
-
-
-const getOpportunityId = (opportunity) => {
-    return (
-        opportunity?._id ||
-        opportunity?.id ||
-        opportunity?.legacyId
-    );
-};
-
-
-const getCountryName = (opportunity) => {
-    return (
-        opportunity?.countryName ||
-        opportunity?.country?.name ||
-        "—"
-    );
-};
-
-
-const formatSalary = (salary) => {
-    if (!salary) {
-        return "—";
-    }
-
-    if (typeof salary === "string") {
-        return salary;
-    }
-
-    if (typeof salary === "number") {
-        return salary.toLocaleString();
-    }
-
-    if (typeof salary === "object") {
-        if (salary.display) {
-            return salary.display;
-        }
-
-        if (salary.amount) {
-            return `${salary.currency || ""}${Number(
-                salary.amount
-            ).toLocaleString()}`;
-        }
-
-        if (salary.min || salary.max) {
-            const currency =
-                salary.currency || "";
-
-            const min = salary.min
-                ? `${currency}${Number(
-                    salary.min
-                ).toLocaleString()}`
-                : "";
-
-            const max = salary.max
-                ? `${currency}${Number(
-                    salary.max
-                ).toLocaleString()}`
-                : "";
-
-            if (min && max) {
-                return `${min} - ${max}`;
-            }
-
-            return min || max || "—";
-        }
-    }
-
-    return "—";
-};
-
+// Helpers
+import {
+    getCountryName,
+    getOpportunityCategory,
+    getOpportunityId,
+    getOpportunityLocation,
+    getOpportunityTitle,
+    getOpportunityType,
+    getPublicOpportunityPath,
+    getResponseData,
+} from "./utils/offer.helpers";
 
 function AdminOpportunities() {
     const navigate = useNavigate();
 
-    const [opportunities, setOpportunities] =
-        useState([]);
+    const [opportunities, setOpportunities] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
 
-    const [loading, setLoading] =
-        useState(true);
+    const [actionLoading, setActionLoading] = useState("");
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
 
-    const [refreshing, setRefreshing] =
-        useState(false);
+    const [search, setSearch] = useState("");
+    const [statusFilter, setStatusFilter] = useState("ALL");
+    const [countryFilter, setCountryFilter] = useState("ALL");
+    const [categoryFilter, setCategoryFilter] = useState("ALL");
 
-    const [actionLoading, setActionLoading] =
-        useState("");
+    // --------------------------------------------------
+    // LOAD OFFERS
+    // --------------------------------------------------
 
-    const [error, setError] =
-        useState("");
+    const loadOpportunities = useCallback(
+        async (isRefresh = false) => {
+            try {
+                if (isRefresh) {
+                    setRefreshing(true);
+                } else {
+                    setLoading(true);
+                }
 
-    const [success, setSuccess] =
-        useState("");
+                setError("");
 
-    const [search, setSearch] =
-        useState("");
+                const response =
+                    await opportunitiesService.getAllOpportunities();
 
-    const [statusFilter, setStatusFilter] =
-        useState("ALL");
+                const data = getResponseData(response);
 
-    const [countryFilter, setCountryFilter] =
-        useState("ALL");
+                setOpportunities(data);
+            } catch (err) {
+                console.error(
+                    "Failed to load opportunities:",
+                    err
+                );
 
-    const [categoryFilter, setCategoryFilter] =
-        useState("ALL");
-
-
-    const loadOpportunities = async ({
-        silent = false,
-    } = {}) => {
-        try {
-            if (silent) {
-                setRefreshing(true);
-            } else {
-                setLoading(true);
+                setError(
+                    err?.response?.data?.message ||
+                    err?.message ||
+                    "Unable to load offers."
+                );
+            } finally {
+                setLoading(false);
+                setRefreshing(false);
             }
-
-            setError("");
-
-            const response =
-                await opportunitiesService.getAllOpportunities();
-
-            setOpportunities(
-                getResponseData(response)
-            );
-        } catch (err) {
-            console.error(
-                "Failed to load opportunities:",
-                err
-            );
-
-            setError(
-                err?.response?.data?.message ||
-                err?.message ||
-                "Unable to load opportunities."
-            );
-        } finally {
-            setLoading(false);
-            setRefreshing(false);
-        }
-    };
-
+        },
+        []
+    );
 
     useEffect(() => {
         loadOpportunities();
+    }, [loadOpportunities]);
+
+    // --------------------------------------------------
+    // FEEDBACK
+    // --------------------------------------------------
+
+    const clearFeedback = useCallback(() => {
+        setError("");
+        setSuccess("");
     }, []);
 
+    // --------------------------------------------------
+    // HEADER ACTIONS
+    // --------------------------------------------------
 
-    useEffect(() => {
-        if (!success) {
-            return undefined;
-        }
+    const handleRefresh = useCallback(
+        async () => {
+            clearFeedback();
+            await loadOpportunities(true);
+        },
+        [
+            clearFeedback,
+            loadOpportunities,
+        ]
+    );
 
-        const timer = setTimeout(() => {
-            setSuccess("");
-        }, 4000);
+    const handleCreate = useCallback(() => {
+        navigate("/admin/opportunities/new");
+    }, [navigate]);
 
-        return () => clearTimeout(timer);
-    }, [success]);
+    // --------------------------------------------------
+    // OFFER NAVIGATION
+    // --------------------------------------------------
 
+    const handleEdit = useCallback(
+        (opportunity) => {
+            const id =
+                getOpportunityId(
+                    opportunity
+                );
+
+            if (!id) {
+                return;
+            }
+
+            navigate(
+                `/admin/opportunities/${id}/edit`
+            );
+        },
+        [navigate]
+    );
+
+    /*
+     * Opens the existing public opportunity page
+     * in the same browser tab.
+     *
+     * Public route:
+     * /opportunities/:country/:slug
+     */
+    const handleView = useCallback(
+        (opportunity) => {
+            const path =
+                getPublicOpportunityPath(
+                    opportunity
+                );
+
+            if (!path) {
+                setError(
+                    "This offer does not have a valid public URL."
+                );
+
+                return;
+            }
+
+            navigate(path);
+        },
+        [navigate]
+    );
+
+    const handleDestinationView = useCallback(
+        (destination) => {
+            if (!destination?.name) {
+                return;
+            }
+
+            setSearch("");
+            setStatusFilter("ALL");
+            setCountryFilter(destination.name);
+            setCategoryFilter("ALL");
+
+            window.setTimeout(() => {
+                const catalogue =
+                    document.querySelector(
+                        ".admin-offers__catalogue"
+                    );
+
+                catalogue?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                });
+            }, 100);
+        },
+        []
+    );
+
+    // --------------------------------------------------
+    // OFFER STATUS
+    // --------------------------------------------------
+
+    const handleToggleActive = useCallback(
+        async (opportunity) => {
+            const id =
+                getOpportunityId(
+                    opportunity
+                );
+
+            if (!id) {
+                return;
+            }
+
+            const nextActive =
+                opportunity?.active === false;
+
+            try {
+                clearFeedback();
+
+                setActionLoading(
+                    `active:${id}`
+                );
+
+                await opportunitiesService.setOpportunityActive(
+                    id,
+                    nextActive
+                );
+
+                setOpportunities(
+                    (current) =>
+                        current.map(
+                            (item) => {
+                                const itemId =
+                                    getOpportunityId(
+                                        item
+                                    );
+
+                                if (
+                                    itemId !==
+                                    id
+                                ) {
+                                    return item;
+                                }
+
+                                return {
+                                    ...item,
+                                    active:
+                                        nextActive,
+                                };
+                            }
+                        )
+                );
+
+                setSuccess(
+                    nextActive
+                        ? "Offer published successfully."
+                        : "Offer moved to inactive."
+                );
+            } catch (err) {
+                console.error(
+                    "Failed to update offer status:",
+                    err
+                );
+
+                setError(
+                    err?.response?.data
+                        ?.message ||
+                    err?.message ||
+                    "Unable to update offer status."
+                );
+            } finally {
+                setActionLoading("");
+            }
+        },
+        [clearFeedback]
+    );
+
+    // --------------------------------------------------
+    // FEATURED STATUS
+    // --------------------------------------------------
+
+    const handleToggleFeatured = useCallback(
+        async (opportunity) => {
+            const id =
+                getOpportunityId(
+                    opportunity
+                );
+
+            if (!id) {
+                return;
+            }
+
+            const nextFeatured =
+                opportunity?.featured !== true;
+
+            try {
+                clearFeedback();
+
+                setActionLoading(
+                    `featured:${id}`
+                );
+
+                await opportunitiesService.setOpportunityFeatured(
+                    id,
+                    nextFeatured
+                );
+
+                setOpportunities(
+                    (current) =>
+                        current.map(
+                            (item) => {
+                                const itemId =
+                                    getOpportunityId(
+                                        item
+                                    );
+
+                                if (
+                                    itemId !==
+                                    id
+                                ) {
+                                    return item;
+                                }
+
+                                return {
+                                    ...item,
+                                    featured:
+                                        nextFeatured,
+                                };
+                            }
+                        )
+                );
+
+                setSuccess(
+                    nextFeatured
+                        ? "Offer added to featured."
+                        : "Offer removed from featured."
+                );
+            } catch (err) {
+                console.error(
+                    "Failed to update featured status:",
+                    err
+                );
+
+                setError(
+                    err?.response?.data
+                        ?.message ||
+                    err?.message ||
+                    "Unable to update featured status."
+                );
+            } finally {
+                setActionLoading("");
+            }
+        },
+        [clearFeedback]
+    );
+
+    // --------------------------------------------------
+    // DEACTIVATE
+    // --------------------------------------------------
+
+    const handleDeactivate = useCallback(
+        async (opportunity) => {
+            const id =
+                getOpportunityId(
+                    opportunity
+                );
+
+            if (!id) {
+                return;
+            }
+
+            try {
+                clearFeedback();
+
+                setActionLoading(
+                    `deactivate:${id}`
+                );
+
+                await opportunitiesService.deactivateOpportunity(
+                    id
+                );
+
+                setOpportunities(
+                    (current) =>
+                        current.map(
+                            (item) => {
+                                const itemId =
+                                    getOpportunityId(
+                                        item
+                                    );
+
+                                if (
+                                    itemId !==
+                                    id
+                                ) {
+                                    return item;
+                                }
+
+                                return {
+                                    ...item,
+                                    active: false,
+                                };
+                            }
+                        )
+                );
+
+                setSuccess(
+                    "Offer deactivated successfully."
+                );
+            } catch (err) {
+                console.error(
+                    "Failed to deactivate offer:",
+                    err
+                );
+
+                setError(
+                    err?.response?.data
+                        ?.message ||
+                    err?.message ||
+                    "Unable to deactivate offer."
+                );
+            } finally {
+                setActionLoading("");
+            }
+        },
+        [clearFeedback]
+    );
+
+    // --------------------------------------------------
+    // FILTERS
+    // --------------------------------------------------
+
+    const handleClearFilters = useCallback(
+        () => {
+            setSearch("");
+            setStatusFilter("ALL");
+            setCountryFilter("ALL");
+            setCategoryFilter("ALL");
+        },
+        []
+    );
+
+    // --------------------------------------------------
+    // STATS
+    // --------------------------------------------------
 
     const stats = useMemo(() => {
         const total =
             opportunities.length;
 
-        const active =
+        const published =
             opportunities.filter(
-                (item) =>
-                    item?.active !== false
+                (opportunity) =>
+                    opportunity?.active !== false
             ).length;
 
         const inactive =
             opportunities.filter(
-                (item) =>
-                    item?.active === false
+                (opportunity) =>
+                    opportunity?.active === false
             ).length;
 
         const featured =
             opportunities.filter(
-                (item) =>
-                    item?.featured === true
+                (opportunity) =>
+                    opportunity?.featured === true
             ).length;
 
         return {
             total,
-            active,
+            published,
             inactive,
             featured,
         };
     }, [opportunities]);
 
+    // --------------------------------------------------
+    // FILTER OPTIONS
+    // --------------------------------------------------
 
     const countries = useMemo(() => {
-        return [
-            ...new Set(
-                opportunities
-                    .map(getCountryName)
-                    .filter(
-                        (country) =>
-                            country !== "—"
+        const values =
+            opportunities
+                .map((opportunity) =>
+                    getCountryName(
+                        opportunity
                     )
-            ),
-        ].sort();
-    }, [opportunities]);
+                )
+                .filter(
+                    (country) =>
+                        country &&
+                        country !== "—"
+                );
 
+        return [
+            ...new Set(values),
+        ].sort((a, b) =>
+            a.localeCompare(b)
+        );
+    }, [opportunities]);
 
     const categories = useMemo(() => {
-        return [
-            ...new Set(
-                opportunities
-                    .map(
-                        (item) =>
-                            item?.category
+        const values =
+            opportunities
+                .map((opportunity) =>
+                    getOpportunityCategory(
+                        opportunity
                     )
-                    .filter(Boolean)
-            ),
-        ].sort();
+                )
+                .filter(
+                    (category) =>
+                        category &&
+                        category !==
+                        "Uncategorized"
+                );
+
+        return [
+            ...new Set(values),
+        ].sort((a, b) =>
+            a.localeCompare(b)
+        );
     }, [opportunities]);
 
+    // --------------------------------------------------
+    // DESTINATIONS
+    // --------------------------------------------------
 
-    const filteredOpportunities = useMemo(() => {
-        const query =
-            search.trim().toLowerCase();
+    const destinations = useMemo(() => {
+        const destinationMap =
+            new Map();
 
-        return opportunities.filter(
+        opportunities.forEach(
             (opportunity) => {
-                const country =
+                const name =
                     getCountryName(
                         opportunity
                     );
 
-                const searchableText = [
-                    opportunity?.title,
-                    opportunity?.slug,
-                    country,
-                    opportunity?.category,
-                    opportunity?.type,
-                    opportunity?.location,
-                ]
-                    .filter(Boolean)
-                    .join(" ")
-                    .toLowerCase();
+                if (
+                    !name ||
+                    name === "—"
+                ) {
+                    return;
+                }
+
+                if (
+                    !destinationMap.has(
+                        name
+                    )
+                ) {
+                    destinationMap.set(
+                        name,
+                        {
+                            name,
+                            total: 0,
+                            published: 0,
+                            featured: 0,
+                        }
+                    );
+                }
+
+                const destination =
+                    destinationMap.get(
+                        name
+                    );
+
+                destination.total += 1;
+
+                if (
+                    opportunity?.active !==
+                    false
+                ) {
+                    destination.published += 1;
+                }
+
+                if (
+                    opportunity?.featured ===
+                    true
+                ) {
+                    destination.featured += 1;
+                }
+            }
+        );
+
+        return [
+            ...destinationMap.values(),
+        ].sort((a, b) => {
+            if (
+                b.total !==
+                a.total
+            ) {
+                return (
+                    b.total -
+                    a.total
+                );
+            }
+
+            return a.name.localeCompare(
+                b.name
+            );
+        });
+    }, [opportunities]);
+
+    // --------------------------------------------------
+    // FEATURED / ATTENTION / RECENT
+    // --------------------------------------------------
+
+    const featuredOffers = useMemo(
+        () =>
+            opportunities.filter(
+                (opportunity) =>
+                    opportunity?.featured ===
+                    true
+            ),
+        [opportunities]
+    );
+
+    const attentionOffers = useMemo(
+        () =>
+            opportunities.filter(
+                (opportunity) =>
+                    opportunity?.active ===
+                    false
+            ),
+        [opportunities]
+    );
+
+    const recentOffers = useMemo(
+        () =>
+            opportunities.slice(0, 6),
+        [opportunities]
+    );
+
+    // --------------------------------------------------
+    // CATALOGUE FILTERING
+    // --------------------------------------------------
+
+    const filteredOffers = useMemo(() => {
+        const normalizedSearch =
+            search
+                .trim()
+                .toLowerCase();
+
+        return opportunities.filter(
+            (opportunity) => {
+                const title =
+                    getOpportunityTitle(
+                        opportunity
+                    ).toLowerCase();
+
+                const country =
+                    getCountryName(
+                        opportunity
+                    ).toLowerCase();
+
+                const category =
+                    getOpportunityCategory(
+                        opportunity
+                    ).toLowerCase();
+
+                const type =
+                    getOpportunityType(
+                        opportunity
+                    ).toLowerCase();
+
+                const location =
+                    getOpportunityLocation(
+                        opportunity
+                    ).toLowerCase();
 
                 const matchesSearch =
-                    !query ||
-                    searchableText.includes(
-                        query
+                    !normalizedSearch ||
+                    title.includes(
+                        normalizedSearch
+                    ) ||
+                    country.includes(
+                        normalizedSearch
+                    ) ||
+                    category.includes(
+                        normalizedSearch
+                    ) ||
+                    type.includes(
+                        normalizedSearch
+                    ) ||
+                    location.includes(
+                        normalizedSearch
                     );
 
                 const matchesStatus =
-                    statusFilter === "ALL" ||
+                    statusFilter ===
+                    "ALL" ||
                     (statusFilter ===
-                        "ACTIVE" &&
+                        "PUBLISHED" &&
                         opportunity?.active !==
                         false) ||
                     (statusFilter ===
                         "INACTIVE" &&
                         opportunity?.active ===
-                        false) ||
-                    (statusFilter ===
-                        "FEATURED" &&
-                        opportunity?.featured ===
-                        true);
+                        false);
 
                 const matchesCountry =
                     countryFilter ===
                     "ALL" ||
-                    country === countryFilter;
+                    country ===
+                    countryFilter.toLowerCase();
 
                 const matchesCategory =
                     categoryFilter ===
                     "ALL" ||
-                    opportunity?.category ===
-                    categoryFilter;
+                    category ===
+                    categoryFilter.toLowerCase();
 
                 return (
                     matchesSearch &&
@@ -338,897 +725,161 @@ function AdminOpportunities() {
         categoryFilter,
     ]);
 
-
-    const hasFilters =
+    const hasActiveFilters =
         Boolean(search.trim()) ||
         statusFilter !== "ALL" ||
         countryFilter !== "ALL" ||
         categoryFilter !== "ALL";
 
-
-    const clearFilters = () => {
-        setSearch("");
-        setStatusFilter("ALL");
-        setCountryFilter("ALL");
-        setCategoryFilter("ALL");
-    };
-
-
-    const handleRefresh = async () => {
-        setSuccess("");
-
-        await loadOpportunities({
-            silent: true,
-        });
-    };
-
-
-    const handleToggleActive = async (
-        opportunity
-    ) => {
-        const id =
-            getOpportunityId(opportunity);
-
-        if (!id) {
-            setError(
-                "This opportunity does not have a valid ID."
-            );
-            return;
-        }
-
-        const nextActive =
-            opportunity?.active === false;
-
-        try {
-            setActionLoading(
-                `active-${id}`
-            );
-
-            setError("");
-            setSuccess("");
-
-            await opportunitiesService.setOpportunityActive(
-                id,
-                nextActive
-            );
-
-            setOpportunities(
-                (current) =>
-                    current.map((item) =>
-                        getOpportunityId(
-                            item
-                        ) === id
-                            ? {
-                                ...item,
-                                active: nextActive,
-                            }
-                            : item
-                    )
-            );
-
-            setSuccess(
-                nextActive
-                    ? "Opportunity activated successfully."
-                    : "Opportunity deactivated successfully."
-            );
-        } catch (err) {
-            console.error(
-                "Failed to update opportunity status:",
-                err
-            );
-
-            setError(
-                err?.response?.data?.message ||
-                err?.message ||
-                "Unable to update opportunity status."
-            );
-        } finally {
-            setActionLoading("");
-        }
-    };
-
-
-    const handleToggleFeatured = async (
-        opportunity
-    ) => {
-        const id =
-            getOpportunityId(opportunity);
-
-        if (!id) {
-            setError(
-                "This opportunity does not have a valid ID."
-            );
-            return;
-        }
-
-        const nextFeatured =
-            opportunity?.featured !== true;
-
-        try {
-            setActionLoading(
-                `featured-${id}`
-            );
-
-            setError("");
-            setSuccess("");
-
-            await opportunitiesService.setOpportunityFeatured(
-                id,
-                nextFeatured
-            );
-
-            setOpportunities(
-                (current) =>
-                    current.map((item) =>
-                        getOpportunityId(
-                            item
-                        ) === id
-                            ? {
-                                ...item,
-                                featured:
-                                    nextFeatured,
-                            }
-                            : item
-                    )
-            );
-
-            setSuccess(
-                nextFeatured
-                    ? "Opportunity marked as featured."
-                    : "Opportunity removed from featured."
-            );
-        } catch (err) {
-            console.error(
-                "Failed to update featured status:",
-                err
-            );
-
-            setError(
-                err?.response?.data?.message ||
-                err?.message ||
-                "Unable to update featured status."
-            );
-        } finally {
-            setActionLoading("");
-        }
-    };
-
-
-    const handleDeactivate = async (
-        opportunity
-    ) => {
-        const id =
-            getOpportunityId(opportunity);
-
-        if (!id) {
-            setError(
-                "This opportunity does not have a valid ID."
-            );
-            return;
-        }
-
-        const title =
-            opportunity?.title ||
-            "this opportunity";
-
-        const confirmed =
-            window.confirm(
-                `Deactivate "${title}"?\n\nThis will remove it from active opportunity listings.`
-            );
-
-        if (!confirmed) {
-            return;
-        }
-
-        try {
-            setActionLoading(
-                `delete-${id}`
-            );
-
-            setError("");
-            setSuccess("");
-
-            await opportunitiesService.deactivateOpportunity(
-                id
-            );
-
-            setOpportunities(
-                (current) =>
-                    current.map((item) =>
-                        getOpportunityId(
-                            item
-                        ) === id
-                            ? {
-                                ...item,
-                                active: false,
-                            }
-                            : item
-                    )
-            );
-
-            setSuccess(
-                "Opportunity deactivated successfully."
-            );
-        } catch (err) {
-            console.error(
-                "Failed to deactivate opportunity:",
-                err
-            );
-
-            setError(
-                err?.response?.data?.message ||
-                err?.message ||
-                "Unable to deactivate opportunity."
-            );
-        } finally {
-            setActionLoading("");
-        }
-    };
-
-
-    const handleEdit = (
-        opportunity
-    ) => {
-        const id =
-            getOpportunityId(opportunity);
-
-        if (!id) {
-            setError(
-                "This opportunity does not have a valid ID."
-            );
-            return;
-        }
-
-        navigate(
-            `/admin/opportunities/${id}/edit`
-        );
-    };
-
+    // --------------------------------------------------
+    // RENDER
+    // --------------------------------------------------
 
     return (
-        <div className="admin-opportunities">
+        <div className="admin-offers">
+            <OffersHeader
+                onRefresh={handleRefresh}
+                onCreate={handleCreate}
+                refreshing={refreshing}
+            />
 
-            <div className="admin-opportunities__header">
-
-                <div>
-                    <span className="admin-opportunities__eyebrow">
-                        ADMINISTRATION
-                    </span>
-
-                    <h1>
-                        Opportunities
-                    </h1>
-
-                    <p>
-                        Manage migration
-                        opportunities, job
-                        listings, publishing
-                        status, and featured
-                        opportunities.
-                    </p>
-                </div>
-
-
-                <div className="admin-opportunities__header-actions">
-
-                    <button
-                        type="button"
-                        className="admin-opportunities__refresh"
-                        onClick={
-                            handleRefresh
-                        }
-                        disabled={
-                            loading ||
-                            refreshing
-                        }
-                    >
-                        <HiOutlineRefresh
-                            className={
-                                refreshing
-                                    ? "is-spinning"
-                                    : ""
-                            }
-                        />
-
-                        {refreshing
-                            ? "Refreshing..."
-                            : "Refresh"}
-                    </button>
-
-
-                    <Link
-                        to="/admin/opportunities/new"
-                        className="admin-opportunities__create"
-                    >
-                        <HiOutlinePlus />
-
-                        Add Opportunity
-                    </Link>
-
-                </div>
-
-            </div>
-
+            <OffersStats stats={stats} />
 
             {error && (
-                <div className="admin-opportunities__alert admin-opportunities__alert--error">
-
-                    <HiOutlineExclamationCircle />
-
-                    <div>
-                        <strong>
-                            Something went wrong
-                        </strong>
-
-                        <span>
-                            {error}
-                        </span>
-                    </div>
-
-                    <button
-                        type="button"
-                        onClick={() =>
-                            setError("")
-                        }
-                    >
-                        Dismiss
-                    </button>
-
+                <div className="admin-offers__feedback admin-offers__feedback--error">
+                    {error}
                 </div>
             )}
-
 
             {success && (
-                <div
-                    className="admin-opportunities__alert"
-                    style={{
-                        border:
-                            "1px solid #bbf7d0",
-                        background:
-                            "#f0fdf4",
-                        color:
-                            "#15803d",
-                    }}
-                >
-                    <HiOutlineCheckCircle />
-
-                    <div>
-                        <strong>
-                            Success
-                        </strong>
-
-                        <span
-                            style={{
-                                color:
-                                    "#166534",
-                            }}
-                        >
-                            {success}
-                        </span>
-                    </div>
-
-                    <button
-                        type="button"
-                        onClick={() =>
-                            setSuccess("")
-                        }
-                    >
-                        Dismiss
-                    </button>
+                <div className="admin-offers__feedback admin-offers__feedback--success">
+                    {success}
                 </div>
             )}
 
+            {/* ------------------------------------------
+                OVERVIEW
+            ------------------------------------------ */}
 
-            <div className="admin-opportunities__stats">
+            <div className="admin-offers__overview-grid">
+                <OffersAttention
+                    offers={attentionOffers}
+                    onEdit={handleEdit}
+                    onView={handleView}
+                    actionLoading={actionLoading}
+                />
 
-                <div className="admin-opportunities__stat">
-                    <span>
-                        Total opportunities
-                    </span>
-
-                    <strong>
-                        {stats.total}
-                    </strong>
-                </div>
-
-
-                <div className="admin-opportunities__stat">
-                    <span>
-                        Active
-                    </span>
-
-                    <strong>
-                        {stats.active}
-                    </strong>
-                </div>
-
-
-                <div className="admin-opportunities__stat">
-                    <span>
-                        Inactive
-                    </span>
-
-                    <strong>
-                        {stats.inactive}
-                    </strong>
-                </div>
-
-
-                <div className="admin-opportunities__stat">
-                    <span>
-                        Featured
-                    </span>
-
-                    <strong>
-                        {stats.featured}
-                    </strong>
-                </div>
-
+                <OffersDestinations
+                    destinations={destinations}
+                    onView={handleDestinationView}
+                />
             </div>
 
+            {/* ------------------------------------------
+                FEATURED
+            ------------------------------------------ */}
 
-            <div className="admin-opportunities__panel">
+            <OffersFeatured
+                offers={featuredOffers}
+                onEdit={handleEdit}
+                onView={handleView}
+                onToggleFeatured={
+                    handleToggleFeatured
+                }
+                actionLoading={actionLoading}
+            />
 
-                <div className="admin-opportunities__toolbar">
+            {/* ------------------------------------------
+                RECENT
+            ------------------------------------------ */}
 
-                    <div className="admin-opportunities__search">
+            <OffersRecent
+                offers={recentOffers}
+                onEdit={handleEdit}
+                onView={handleView}
+                onToggleActive={
+                    handleToggleActive
+                }
+                onToggleFeatured={
+                    handleToggleFeatured
+                }
+                onDeactivate={
+                    handleDeactivate
+                }
+                actionLoading={actionLoading}
+            />
 
-                        <HiOutlineSearch />
+            {/* ------------------------------------------
+                FULL CATALOGUE
+            ------------------------------------------ */}
 
-                        <input
-                            type="search"
-                            value={search}
-                            onChange={(event) =>
-                                setSearch(
-                                    event.target
-                                        .value
-                                )
-                            }
-                            placeholder="Search opportunities..."
-                        />
-
-                    </div>
-
-
-                    <div className="admin-opportunities__filters">
-
-                        <select
-                            value={
-                                statusFilter
-                            }
-                            onChange={(event) =>
-                                setStatusFilter(
-                                    event.target
-                                        .value
-                                )
-                            }
-                        >
-                            <option value="ALL">
-                                All statuses
-                            </option>
-
-                            <option value="ACTIVE">
-                                Active
-                            </option>
-
-                            <option value="INACTIVE">
-                                Inactive
-                            </option>
-
-                            <option value="FEATURED">
-                                Featured
-                            </option>
-                        </select>
-
-
-                        <select
-                            value={
-                                countryFilter
-                            }
-                            onChange={(event) =>
-                                setCountryFilter(
-                                    event.target
-                                        .value
-                                )
-                            }
-                        >
-                            <option value="ALL">
-                                All countries
-                            </option>
-
-                            {countries.map(
-                                (country) => (
-                                    <option
-                                        key={
-                                            country
-                                        }
-                                        value={
-                                            country
-                                        }
-                                    >
-                                        {country}
-                                    </option>
-                                )
-                            )}
-                        </select>
-
-
-                        <select
-                            value={
-                                categoryFilter
-                            }
-                            onChange={(event) =>
-                                setCategoryFilter(
-                                    event.target
-                                        .value
-                                )
-                            }
-                        >
-                            <option value="ALL">
-                                All categories
-                            </option>
-
-                            {categories.map(
-                                (category) => (
-                                    <option
-                                        key={
-                                            category
-                                        }
-                                        value={
-                                            category
-                                        }
-                                    >
-                                        {category}
-                                    </option>
-                                )
-                            )}
-                        </select>
-
-                    </div>
-
-                </div>
-
+            <section className="admin-offers__catalogue">
+                <OffersToolbar
+                    search={search}
+                    setSearch={setSearch}
+                    statusFilter={statusFilter}
+                    setStatusFilter={
+                        setStatusFilter
+                    }
+                    countryFilter={countryFilter}
+                    setCountryFilter={
+                        setCountryFilter
+                    }
+                    categoryFilter={
+                        categoryFilter
+                    }
+                    setCategoryFilter={
+                        setCategoryFilter
+                    }
+                    countries={countries}
+                    categories={categories}
+                    onClearFilters={
+                        handleClearFilters
+                    }
+                    hasActiveFilters={
+                        hasActiveFilters
+                    }
+                />
 
                 {loading ? (
-                    <div className="admin-opportunities__loading">
-
-                        <div className="admin-opportunities__spinner" />
-
-                        <span>
-                            Loading opportunities...
-                        </span>
-
+                    <div className="admin-offers__loading">
+                        Loading offers...
                     </div>
-                ) : filteredOpportunities.length ===
+                ) : filteredOffers.length ===
                     0 ? (
-                    <div className="admin-opportunities__empty">
-
-                        <div className="admin-opportunities__empty-icon">
-                            <HiOutlineAdjustments />
-                        </div>
-
-                        <h2>
-                            {hasFilters
-                                ? "No opportunities found"
-                                : "No opportunities yet"}
-                        </h2>
-
-                        <p>
-                            {hasFilters
-                                ? "Try adjusting your search or filters."
-                                : "Create your first migration opportunity to start managing your listings."}
-                        </p>
-
-                        {hasFilters ? (
-                            <button
-                                type="button"
-                                className="admin-opportunities__refresh"
-                                onClick={
-                                    clearFilters
-                                }
-                            >
-                                Clear filters
-                            </button>
-                        ) : (
-                            <Link
-                                to="/admin/opportunities/new"
-                                className="admin-opportunities__create"
-                            >
-                                <HiOutlinePlus />
-
-                                Create opportunity
-                            </Link>
-                        )}
-
-                    </div>
+                    <OffersEmptyState
+                        hasFilters={
+                            hasActiveFilters
+                        }
+                        onClearFilters={
+                            handleClearFilters
+                        }
+                        onCreate={
+                            handleCreate
+                        }
+                    />
                 ) : (
-                    <div className="admin-opportunities__table-wrap">
-
-                        <table className="admin-opportunities__table">
-
-                            <thead>
-                                <tr>
-                                    <th>
-                                        Opportunity
-                                    </th>
-
-                                    <th>
-                                        Country
-                                    </th>
-
-                                    <th>
-                                        Category
-                                    </th>
-
-                                    <th>
-                                        Type
-                                    </th>
-
-                                    <th>
-                                        Salary
-                                    </th>
-
-                                    <th>
-                                        Status
-                                    </th>
-
-                                    <th>
-                                        Featured
-                                    </th>
-
-                                    <th>
-                                        Actions
-                                    </th>
-                                </tr>
-                            </thead>
-
-
-                            <tbody>
-                                {filteredOpportunities.map(
-                                    (
-                                        opportunity
-                                    ) => {
-                                        const id =
-                                            getOpportunityId(
-                                                opportunity
-                                            );
-
-                                        const active =
-                                            opportunity?.active !==
-                                            false;
-
-                                        const featured =
-                                            opportunity?.featured ===
-                                            true;
-
-                                        const activeLoading =
-                                            actionLoading ===
-                                            `active-${id}`;
-
-                                        const featuredLoading =
-                                            actionLoading ===
-                                            `featured-${id}`;
-
-                                        const deactivateLoading =
-                                            actionLoading ===
-                                            `delete-${id}`;
-
-                                        return (
-                                            <tr
-                                                key={
-                                                    id
-                                                }
-                                            >
-
-                                                <td>
-                                                    <div className="admin-opportunities__opportunity">
-
-                                                        <div className="admin-opportunities__image">
-
-                                                            {opportunity?.image ? (
-                                                                <img
-                                                                    src={
-                                                                        opportunity.image
-                                                                    }
-                                                                    alt=""
-                                                                />
-                                                            ) : (
-                                                                <span>
-                                                                    {(
-                                                                        opportunity?.title ||
-                                                                        "O"
-                                                                    )
-                                                                        .charAt(
-                                                                            0
-                                                                        )
-                                                                        .toUpperCase()}
-                                                                </span>
-                                                            )}
-
-                                                        </div>
-
-
-                                                        <div>
-
-                                                            <strong>
-                                                                {
-                                                                    opportunity?.title ||
-                                                                    "Untitled opportunity"
-                                                                }
-                                                            </strong>
-
-                                                            <small>
-                                                                /
-                                                                {opportunity?.slug ||
-                                                                    "no-slug"}
-                                                            </small>
-
-                                                        </div>
-
-                                                    </div>
-                                                </td>
-
-
-                                                <td>
-                                                    <span className="admin-opportunities__country">
-                                                        {
-                                                            getCountryName(
-                                                                opportunity
-                                                            )
-                                                        }
-                                                    </span>
-                                                </td>
-
-
-                                                <td>
-                                                    {
-                                                        opportunity?.category ||
-                                                        "—"
-                                                    }
-                                                </td>
-
-
-                                                <td>
-                                                    {
-                                                        opportunity?.type ||
-                                                        "—"
-                                                    }
-                                                </td>
-
-
-                                                <td>
-                                                    {formatSalary(
-                                                        opportunity?.salary
-                                                    )}
-                                                </td>
-
-
-                                                <td>
-                                                    <button
-                                                        type="button"
-                                                        className={`admin-opportunities__status ${active
-                                                                ? ""
-                                                                : "is-inactive"
-                                                            }`}
-                                                        onClick={() =>
-                                                            handleToggleActive(
-                                                                opportunity
-                                                            )
-                                                        }
-                                                        disabled={
-                                                            activeLoading
-                                                        }
-                                                    >
-                                                        {active ? (
-                                                            <>
-                                                                <HiOutlineCheckCircle />
-
-                                                                Active
-                                                            </>
-                                                        ) : (
-                                                            <>
-                                                                <HiOutlineXCircle />
-
-                                                                Inactive
-                                                            </>
-                                                        )}
-                                                    </button>
-                                                </td>
-
-
-                                                <td>
-                                                    <button
-                                                        type="button"
-                                                        className={`admin-opportunities__featured ${featured
-                                                                ? "is-featured"
-                                                                : ""
-                                                            }`}
-                                                        onClick={() =>
-                                                            handleToggleFeatured(
-                                                                opportunity
-                                                            )
-                                                        }
-                                                        disabled={
-                                                            featuredLoading
-                                                        }
-                                                    >
-                                                        {featured ? (
-                                                            <HiStar />
-                                                        ) : (
-                                                            <HiOutlineStar />
-                                                        )}
-
-                                                        {featured
-                                                            ? "Featured"
-                                                            : "Feature"}
-                                                    </button>
-                                                </td>
-
-
-                                                <td>
-                                                    <div className="admin-opportunities__actions">
-
-                                                        <Link
-                                                            to={`/opportunities/${opportunity?.countrySlug}/${opportunity?.slug}`}
-                                                            target="_blank"
-                                                            rel="noreferrer"
-                                                            className="admin-opportunities__action"
-                                                            title="View opportunity"
-                                                        >
-                                                            <HiOutlineEye />
-                                                        </Link>
-
-
-                                                        <button
-                                                            type="button"
-                                                            className="admin-opportunities__action"
-                                                            onClick={() =>
-                                                                handleEdit(
-                                                                    opportunity
-                                                                )
-                                                            }
-                                                            title="Edit opportunity"
-                                                        >
-                                                            <HiPencil />
-                                                        </button>
-
-
-                                                        <button
-                                                            type="button"
-                                                            className="admin-opportunities__action"
-                                                            onClick={() =>
-                                                                handleDeactivate(
-                                                                    opportunity
-                                                                )
-                                                            }
-                                                            disabled={
-                                                                deactivateLoading ||
-                                                                !active
-                                                            }
-                                                            title="Deactivate opportunity"
-                                                        >
-                                                            <HiOutlineXCircle />
-                                                        </button>
-
-                                                    </div>
-                                                </td>
-
-                                            </tr>
-                                        );
-                                    }
-                                )}
-                            </tbody>
-
-                        </table>
-
-                    </div>
+                    <OffersList
+                        offers={filteredOffers}
+                        onEdit={handleEdit}
+                        onView={handleView}
+                        onToggleActive={
+                            handleToggleActive
+                        }
+                        onToggleFeatured={
+                            handleToggleFeatured
+                        }
+                        onDeactivate={
+                            handleDeactivate
+                        }
+                        actionLoading={
+                            actionLoading
+                        }
+                    />
                 )}
-
-            </div>
-
+            </section>
         </div>
     );
 }
-
 
 export default AdminOpportunities;

@@ -1,0 +1,399 @@
+/* ==================================================
+   OFFERS STATS
+================================================== */
+
+.offers-stats {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.offers-stats__inner {
+    width: 100%;
+    min-width: 0;
+
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+
+    border: 1px solid #e4e9ee;
+    border-radius: 11px;
+
+    background: #ffffff;
+
+    overflow: hidden;
+}
+
+
+/* ==================================================
+   STAT
+================================================== */
+
+.offers-stat {
+    position: relative;
+
+    min-width: 0;
+    min-height: 82px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 14px 17px;
+
+    background: #ffffff;
+
+    transition:
+        background 160ms ease,
+        box-shadow 160ms ease,
+        transform 160ms ease;
+}
+
+.offers-stat+.offers-stat {
+    border-left: 1px solid #e9edf1;
+}
+
+.offers-stat:hover {
+    z-index: 2;
+
+    background: #fbfcfd;
+
+    box-shadow:
+        0 5px 16px rgba(24, 33, 43, 0.045);
+}
+
+
+/* ==================================================
+   ACCENT
+================================================== */
+
+.offers-stat__accent {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 2px;
+
+    background: #dfe5ea;
+
+    opacity: 0.9;
+}
+
+.offers-stat--total .offers-stat__accent {
+    background: #6f8ca6;
+}
+
+.offers-stat--published .offers-stat__accent {
+    background: #63886f;
+}
+
+.offers-stat--featured .offers-stat__accent {
+    background: #a08a55;
+}
+
+.offers-stat--inactive .offers-stat__accent {
+    background: #a17a80;
+}
+
+
+/* ==================================================
+   ICON
+================================================== */
+
+.offers-stat__icon {
+    width: 33px;
+    height: 33px;
+    flex: 0 0 33px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #e1e7ec;
+    border-radius: 8px;
+
+    background: #f7f9fa;
+    color: #64727f;
+
+    transition:
+        transform 180ms ease,
+        background 180ms ease,
+        border-color 180ms ease;
+}
+
+.offers-stat:hover .offers-stat__icon {
+    transform: translateY(-1px);
+}
+
+.offers-stat__icon svg {
+    width: 15px;
+    height: 15px;
+
+    stroke-width: 1.8;
+}
+
+
+/* ==================================================
+   TONES
+================================================== */
+
+.offers-stat--total .offers-stat__icon {
+    border-color: #dce5ed;
+    background: #f3f7fa;
+    color: #55748f;
+}
+
+.offers-stat--published .offers-stat__icon {
+    border-color: #dbe8df;
+    background: #f3f8f5;
+    color: #587763;
+}
+
+.offers-stat--featured .offers-stat__icon {
+    border-color: #e9e2d2;
+    background: #faf7ef;
+    color: #927945;
+}
+
+.offers-stat--inactive .offers-stat__icon {
+    border-color: #eadfe1;
+    background: #faf6f7;
+    color: #8b656c;
+}
+
+
+/* ==================================================
+   CONTENT
+================================================== */
+
+.offers-stat__content {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.offers-stat__label-row {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.offers-stat__label {
+    min-width: 0;
+
+    color: #6e7b87;
+
+    font-size: 10px;
+    line-height: 1.2;
+
+    font-weight: 650;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.offers-stat__value {
+    margin-top: 3px;
+
+    color: #1c2731;
+
+    font-size: 23px;
+    line-height: 1;
+
+    font-weight: 750;
+
+    letter-spacing: -0.035em;
+}
+
+.offers-stat__note {
+    margin-top: 5px;
+
+    color: #9aa4ad;
+
+    font-size: 8px;
+    line-height: 1.2;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* ==================================================
+   LIVE INDICATOR
+================================================== */
+
+.offers-stat__live {
+    position: relative;
+
+    width: 5px;
+    height: 5px;
+
+    flex: 0 0 5px;
+
+    border-radius: 50%;
+
+    background: #5f866b;
+
+    box-shadow:
+        0 0 0 3px rgba(95, 134, 107, 0.08);
+
+    animation: offers-stat-live 2.4s ease-in-out infinite;
+}
+
+@keyframes offers-stat-live {
+
+    0%,
+    100% {
+        opacity: 0.65;
+        transform: scale(0.9);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.12);
+    }
+}
+
+
+/* ==================================================
+   TABLET
+================================================== */
+
+@media (max-width: 900px) {
+    .offers-stats {
+        margin-bottom: 17px;
+    }
+
+    .offers-stat {
+        min-height: 76px;
+
+        gap: 9px;
+
+        padding: 13px 12px;
+    }
+
+    .offers-stat__icon {
+        width: 29px;
+        height: 29px;
+        flex-basis: 29px;
+
+        border-radius: 7px;
+    }
+
+    .offers-stat__icon svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    .offers-stat__label {
+        font-size: 9px;
+    }
+
+    .offers-stat__value {
+        font-size: 21px;
+    }
+
+    .offers-stat__note {
+        font-size: 7px;
+    }
+}
+
+
+/* ==================================================
+   MOBILE
+================================================== */
+
+@media (max-width: 640px) {
+    .offers-stats {
+        margin-bottom: 14px;
+    }
+
+    .offers-stats__inner {
+        border-radius: 9px;
+    }
+
+    .offers-stat {
+        min-height: 66px;
+
+        display: block;
+
+        padding: 10px 9px;
+    }
+
+    .offers-stat__icon {
+        display: none;
+    }
+
+    .offers-stat__label-row {
+        gap: 4px;
+    }
+
+    .offers-stat__label {
+        font-size: 8px;
+    }
+
+    .offers-stat__value {
+        margin-top: 4px;
+
+        font-size: 18px;
+    }
+
+    .offers-stat__note {
+        display: none;
+    }
+
+    .offers-stat__live {
+        width: 4px;
+        height: 4px;
+        flex-basis: 4px;
+
+        box-shadow:
+            0 0 0 2px rgba(95, 134, 107, 0.08);
+    }
+}
+
+
+/* ==================================================
+   SMALL MOBILE
+================================================== */
+
+@media (max-width: 380px) {
+    .offers-stat {
+        min-height: 62px;
+
+        padding: 9px 7px;
+    }
+
+    .offers-stat__label {
+        font-size: 7px;
+    }
+
+    .offers-stat__value {
+        font-size: 17px;
+    }
+}
+
+
+/* ==================================================
+   REDUCED MOTION
+================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .offers-stat,
+    .offers-stat__icon {
+        transition: none;
+    }
+
+    .offers-stat__live {
+        animation: none;
+    }
+}

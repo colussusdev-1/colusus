@@ -1,0 +1,551 @@
+.offers-toolbar {
+    width: 100%;
+    min-width: 0;
+    padding: 15px 17px;
+    border: 1px solid #e4e8ed;
+    border-radius: 10px;
+    background: #ffffff;
+    box-sizing: border-box;
+}
+
+/* --------------------------------------------------
+   HEADER
+-------------------------------------------------- */
+
+.offers-toolbar__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 12px;
+}
+
+.offers-toolbar__identity {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-width: 0;
+}
+
+.offers-toolbar__identity-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+    border: 1px solid #dbe8f5;
+    border-radius: 7px;
+
+    /*
+        Brand blue, but softened heavily so it
+        doesn't dominate the toolbar.
+    */
+    background: #f2f7fc;
+    color: #3d73a8;
+
+    font-size: 13px;
+}
+
+.offers-toolbar__identity-copy {
+    min-width: 0;
+}
+
+.offers-toolbar__eyebrow {
+    margin-bottom: 3px;
+    color: #9aa3ad;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+    line-height: 1;
+}
+
+.offers-toolbar__title-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.offers-toolbar__title {
+    margin: 0;
+    color: #27313d;
+    font-size: 15px;
+    font-weight: 650;
+    letter-spacing: -0.018em;
+    line-height: 1.2;
+}
+
+.offers-toolbar__active-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 17px;
+    padding: 0 6px;
+
+    border: 1px solid #dce9f5;
+    border-radius: 5px;
+    background: #f4f8fc;
+
+    color: #4b759d;
+    font-size: 8px;
+    font-weight: 650;
+    line-height: 1;
+}
+
+.offers-toolbar__active-badge span {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #4d82b4;
+}
+
+.offers-toolbar__reset {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    height: 27px;
+    padding: 0 9px;
+
+    border: 1px solid #e0e5ea;
+    border-radius: 6px;
+    background: #ffffff;
+
+    color: #7a8591;
+    font-family: inherit;
+    font-size: 9px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        border-color 150ms ease,
+        background 150ms ease,
+        color 150ms ease;
+}
+
+.offers-toolbar__reset:hover {
+    border-color: #cfdce8;
+    background: #f6f9fc;
+    color: #3d73a8;
+}
+
+.offers-toolbar__reset svg {
+    width: 11px;
+    height: 11px;
+}
+
+/* --------------------------------------------------
+   MAIN BAR
+-------------------------------------------------- */
+
+.offers-toolbar__bar {
+    display: flex;
+    align-items: stretch;
+    gap: 9px;
+    min-width: 0;
+}
+
+/* --------------------------------------------------
+   SEARCH
+-------------------------------------------------- */
+
+.offers-toolbar__search {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    min-width: 240px;
+    height: 36px;
+
+    flex: 1 1 38%;
+
+    border: 1px solid #e1e6eb;
+    border-radius: 7px;
+
+    /*
+        Slightly warm/neutral grey rather than
+        another blue surface.
+    */
+    background: #fafbfc;
+
+    box-sizing: border-box;
+
+    transition:
+        border-color 150ms ease,
+        background 150ms ease,
+        box-shadow 150ms ease;
+}
+
+.offers-toolbar__search:focus-within {
+    border-color: #a8c4df;
+    background: #ffffff;
+    box-shadow: 0 0 0 2px rgba(0, 86, 179, 0.045);
+}
+
+.offers-toolbar__search-icon {
+    flex: 0 0 auto;
+    margin-left: 10px;
+
+    color: #929ca7;
+    font-size: 13px;
+}
+
+.offers-toolbar__search input {
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+
+    padding: 0 32px 0 8px;
+
+    border: 0;
+    outline: 0;
+
+    background: transparent;
+    color: #303a46;
+
+    font: inherit;
+    font-size: 10px;
+
+    box-sizing: border-box;
+}
+
+.offers-toolbar__search input::placeholder {
+    color: #a0a8b1;
+}
+
+.offers-toolbar__search input::-webkit-search-cancel-button {
+    display: none;
+}
+
+.offers-toolbar__search-clear {
+    position: absolute;
+    top: 50%;
+    right: 7px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 20px;
+    height: 20px;
+    padding: 0;
+
+    border: 0;
+    border-radius: 5px;
+
+    background: #eef1f4;
+    color: #7d8792;
+
+    cursor: pointer;
+
+    transform: translateY(-50%);
+}
+
+.offers-toolbar__search-clear:hover {
+    background: #e4e9ee;
+    color: #394451;
+}
+
+.offers-toolbar__search-clear svg {
+    width: 10px;
+    height: 10px;
+}
+
+/* --------------------------------------------------
+   FILTER GROUP
+-------------------------------------------------- */
+
+.offers-toolbar__filters {
+    display: flex;
+    align-items: stretch;
+
+    min-width: 0;
+    flex: 1 1 62%;
+
+    padding: 3px;
+
+    border: 1px solid #e5e9ed;
+    border-radius: 7px;
+
+    /*
+        Very subtle blue-grey tint.
+        Brand is present without turning the
+        whole toolbar blue.
+    */
+    background: #f8fafc;
+
+    box-sizing: border-box;
+}
+
+.offers-toolbar__filter-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 4px;
+
+    min-width: 52px;
+    padding: 0 6px;
+
+    color: #89939e;
+
+    font-size: 8px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.offers-toolbar__filter-label svg {
+    width: 11px;
+    height: 11px;
+    color: #6f8295;
+}
+
+/* --------------------------------------------------
+   SELECT
+-------------------------------------------------- */
+
+.offers-toolbar__select {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    min-width: 0;
+    flex: 1;
+
+    gap: 2px;
+
+    padding: 0 8px;
+
+    border-left: 1px solid #e3e7eb;
+}
+
+.offers-toolbar__select>span {
+    color: #9aa3ad;
+    font-size: 7px;
+    font-weight: 650;
+    line-height: 1;
+}
+
+.offers-toolbar__select-wrap {
+    position: relative;
+    min-width: 0;
+}
+
+.offers-toolbar__select select {
+    width: 100%;
+    min-width: 0;
+    height: 20px;
+
+    padding: 0 17px 0 0;
+
+    border: 0;
+    outline: 0;
+
+    appearance: none;
+
+    background: transparent;
+    color: #3a4652;
+
+    font: inherit;
+    font-size: 9px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.offers-toolbar__select-wrap>svg {
+    position: absolute;
+    top: 50%;
+    right: 0;
+
+    width: 10px;
+    height: 10px;
+
+    color: #939da8;
+
+    pointer-events: none;
+
+    transform: translateY(-50%);
+}
+
+/* --------------------------------------------------
+   TABLET
+-------------------------------------------------- */
+
+@media (max-width: 1050px) {
+    .offers-toolbar__bar {
+        flex-direction: column;
+    }
+
+    .offers-toolbar__search {
+        width: 100%;
+        min-width: 0;
+        flex: none;
+    }
+
+    .offers-toolbar__filters {
+        width: 100%;
+        flex: none;
+    }
+}
+
+/* --------------------------------------------------
+   SMALL TABLET
+-------------------------------------------------- */
+
+@media (max-width: 720px) {
+    .offers-toolbar {
+        padding: 14px;
+    }
+
+    .offers-toolbar__filters {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .offers-toolbar__filter-label {
+        display: none;
+    }
+
+    .offers-toolbar__select {
+        border-left: 0;
+    }
+
+    .offers-toolbar__select+.offers-toolbar__select {
+        border-left: 1px solid #e3e7eb;
+    }
+}
+
+/* --------------------------------------------------
+   MOBILE
+-------------------------------------------------- */
+
+@media (max-width: 560px) {
+    .offers-toolbar {
+        padding: 13px;
+        border-radius: 9px;
+    }
+
+    .offers-toolbar__header {
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .offers-toolbar__identity {
+        gap: 8px;
+    }
+
+    .offers-toolbar__identity-icon {
+        width: 28px;
+        height: 28px;
+        flex-basis: 28px;
+        border-radius: 6px;
+        font-size: 12px;
+    }
+
+    .offers-toolbar__eyebrow {
+        font-size: 7px;
+    }
+
+    .offers-toolbar__title {
+        font-size: 14px;
+    }
+
+    .offers-toolbar__active-badge {
+        min-height: 16px;
+        padding: 0 5px;
+        font-size: 7px;
+    }
+
+    .offers-toolbar__reset {
+        width: 28px;
+        height: 28px;
+        padding: 0;
+    }
+
+    .offers-toolbar__reset span {
+        display: none;
+    }
+
+    .offers-toolbar__bar {
+        gap: 7px;
+    }
+
+    .offers-toolbar__search {
+        height: 33px;
+    }
+
+    .offers-toolbar__search-icon {
+        margin-left: 9px;
+        font-size: 12px;
+    }
+
+    .offers-toolbar__search input {
+        padding-left: 7px;
+        font-size: 9px;
+    }
+
+    .offers-toolbar__filters {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        padding: 3px;
+    }
+
+    .offers-toolbar__select {
+        min-height: 42px;
+        padding: 5px 9px;
+        border-left: 0 !important;
+        border-bottom: 1px solid #e3e7eb;
+    }
+
+    .offers-toolbar__select:last-child {
+        border-bottom: 0;
+    }
+
+    .offers-toolbar__select>span {
+        font-size: 7px;
+    }
+
+    .offers-toolbar__select select {
+        height: 21px;
+        font-size: 9px;
+    }
+}
+
+/* --------------------------------------------------
+   VERY SMALL MOBILE
+-------------------------------------------------- */
+
+@media (max-width: 380px) {
+    .offers-toolbar__active-badge {
+        display: none;
+    }
+
+    .offers-toolbar__search {
+        height: 32px;
+    }
+
+    .offers-toolbar__search input {
+        font-size: 8.5px;
+    }
+}
+
+/* --------------------------------------------------
+   REDUCED MOTION
+-------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .offers-toolbar__search,
+    .offers-toolbar__reset {
+        transition: none;
+    }
+}
