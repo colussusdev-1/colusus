@@ -1,64 +1,145 @@
 import {
+  useEffect,
   useMemo,
-  useState
+  useState,
 } from "react";
 
 import {
   HiOutlineGlobeAlt,
   HiOutlineBriefcase,
   HiOutlineAcademicCap,
-  HiOutlineUser
+  HiOutlineUser,
 } from "react-icons/hi";
 
 import "./Countries.css";
 
-import countries from "./countriesData";
 import CountryTabs from "./CountryTabs";
 import CountryCard from "./components/CountryCard/CountryCard";
 
 import ScrollReveal from "../../../../components/ScrollReveal/ScrollReveal";
+
+import opportunityService from "../../../../services/opportunity.service";
 
 import countriesBackground
   from "../../../../assets/images/countries/countries-section-bg.png";
 
 
 const Countries = () => {
-
   const [activeTab, setActiveTab] = useState("All");
 
+  const [countries, setCountries] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+
+  const [error, setError] = useState("");
+
+
+  /*
+  |--------------------------------------------------------------------------
+  | LOAD COUNTRIES
+  |--------------------------------------------------------------------------
+  |
+  | Countries are now derived from active Opportunities in MongoDB.
+  |
+  */
+
+  useEffect(() => {
+    let mounted = true;
+
+    const loadCountries = async () => {
+      try {
+        setLoading(true);
+        setError("");
+
+        const data = await opportunityService.getCountries();
+
+        if (!mounted) {
+          return;
+        }
+
+        setCountries(
+          Array.isArray(data)
+            ? data
+            : []
+        );
+      } catch (error) {
+        console.error(
+          "Failed to load countries:",
+          error
+        );
+
+        if (!mounted) {
+          return;
+        }
+
+        setCountries([]);
+
+        setError(
+          "Unable to load available destinations right now."
+        );
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadCountries();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+
+  /*
+  |--------------------------------------------------------------------------
+  | FILTER COUNTRIES
+  |--------------------------------------------------------------------------
+  |
+  | The category field now comes from the Opportunity backend.
+  |
+  | Example:
+  | category: ["popular", "affordable"]
+  |
+  */
 
   const filteredCountries = useMemo(() => {
-
     if (activeTab === "Most Popular") {
-
       return countries.filter((country) =>
-        country.category.includes("popular")
+        Array.isArray(country.category) &&
+        country.category.some(
+          (category) =>
+            String(category).toLowerCase() === "popular"
+        )
       );
-
     }
-
 
     if (activeTab === "Most Affordable") {
-
       return countries.filter((country) =>
-        country.category.includes("affordable")
+        Array.isArray(country.category) &&
+        country.category.some(
+          (category) =>
+            String(category).toLowerCase() === "affordable"
+        )
       );
-
     }
 
-
     return countries;
+  }, [activeTab, countries]);
 
-  }, [activeTab]);
 
+  /*
+  |--------------------------------------------------------------------------
+  | RENDER
+  |--------------------------------------------------------------------------
+  */
 
   return (
-
     <section
       id="global-opportunities"
       className="countries"
     >
-
 
       {/* =====================================================
                 PREMIUM BACKGROUND
@@ -117,7 +198,6 @@ const Countries = () => {
         >
 
           <header className="countries-section-header">
-
 
             <span className="countries-section-tag">
 
@@ -327,12 +407,49 @@ const Countries = () => {
 
         <div className="countries-grid">
 
-          {
+          {loading && (
+
+            <div className="countries-loading">
+
+              Loading available destinations...
+
+            </div>
+
+          )}
+
+
+          {!loading && error && (
+
+            <div className="countries-error">
+
+              {error}
+
+            </div>
+
+          )}
+
+
+          {!loading &&
+            !error &&
+            filteredCountries.length === 0 && (
+
+              <div className="countries-empty">
+
+                No destinations are currently available.
+
+              </div>
+
+            )
+          }
+
+
+          {!loading &&
+            !error &&
             filteredCountries.map(
               (country, index) => (
 
                 <ScrollReveal
-                  key={`${activeTab}-${country.id}`}
+                  key={`${activeTab}-${country.slug}`}
                   direction="up"
                   duration={0.8}
                   distance={32}
@@ -401,9 +518,7 @@ const Countries = () => {
       </div>
 
     </section>
-
   );
-
 };
 
 

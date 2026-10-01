@@ -20,6 +20,7 @@ import {
     HiOutlineBriefcase,
     HiOutlineViewBoards,
     HiOutlineCollection,
+    HiOutlinePencilAlt,
 } from "react-icons/hi";
 
 import authService from "../../../services/authService";
@@ -57,6 +58,12 @@ const adminNavigation = [
     },
 
     {
+        label: "Opportunities",
+        path: "/admin/opportunities",
+        icon: HiOutlineBriefcase,
+    },
+
+    {
         label: "Documents",
         path: "/admin/documents",
         icon: HiOutlineFolderOpen,
@@ -66,6 +73,12 @@ const adminNavigation = [
         label: "Forms",
         path: "/admin/forms",
         icon: HiOutlineCollection,
+    },
+
+    {
+        label: "Blog",
+        path: "/admin/blog",
+        icon: HiOutlinePencilAlt,
     },
 
     {
@@ -141,8 +154,7 @@ const staffNavigation = [
 
 const AdminSidebar = () => {
 
-    const location =
-        useLocation();
+    const location = useLocation();
 
 
     /*
@@ -151,8 +163,7 @@ const AdminSidebar = () => {
     |--------------------------------------------------------------------------
     */
 
-    const user =
-        authService.getCurrentUser();
+    const user = authService.getCurrentUser();
 
 
     const role =
@@ -210,9 +221,7 @@ const AdminSidebar = () => {
             .filter(Boolean)
             .slice(0, 2)
             .map(
-                (
-                    part,
-                ) =>
+                (part) =>
                     part
                         .charAt(0)
                         .toUpperCase(),
@@ -412,7 +421,6 @@ const AdminSidebar = () => {
                                     </div>
 
                                 );
-
                             }
 
 
@@ -466,15 +474,16 @@ const AdminSidebar = () => {
 
                                         {item.type ===
                                             "pipeline" && (
+
                                                 <span className="admin-nav-arrow">
                                                     →
                                                 </span>
+
                                             )}
 
                                     </NavLink>
 
                                 );
-
                             }
 
 
