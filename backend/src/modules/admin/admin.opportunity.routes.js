@@ -1,7 +1,10 @@
 import express from "express";
 
 import authenticate from "../../middleware/auth.middleware.js";
-import { allowRoles } from "../../middleware/role.middleware.js";
+
+import { requirePermission } from "../staff/access/access.middleware.js";
+
+import { PERMISSIONS } from "../staff/permissions/permission.constants.js";
 
 import {
   getAllOpportunities,
@@ -18,10 +21,15 @@ const router = express.Router();
 
 /*
 |--------------------------------------------------------------------------
-| ADMIN OPPORTUNITY MANAGEMENT
+| OPPORTUNITY MANAGEMENT
 |--------------------------------------------------------------------------
 |
-| All opportunity management is ADMIN only.
+| Access is controlled through granular staff permissions.
+|
+| opportunities.view
+| opportunities.create
+| opportunities.update
+| opportunities.delete
 |
 |--------------------------------------------------------------------------
 */
@@ -36,7 +44,12 @@ const router = express.Router();
 |--------------------------------------------------------------------------
 */
 
-router.get("/", authenticate, allowRoles("ADMIN"), getAllOpportunities);
+router.get(
+  "/",
+  authenticate,
+  requirePermission(PERMISSIONS.OPPORTUNITIES_VIEW),
+  getAllOpportunities,
+);
 
 /*
 |--------------------------------------------------------------------------
@@ -48,12 +61,15 @@ router.get("/", authenticate, allowRoles("ADMIN"), getAllOpportunities);
 | IMPORTANT:
 | This route must come before "/:id".
 |
-| Otherwise Express can interpret "destinations" as an opportunity ID.
-|
 |--------------------------------------------------------------------------
 */
 
-router.get("/destinations", authenticate, allowRoles("ADMIN"), getDestinations);
+router.get(
+  "/destinations",
+  authenticate,
+  requirePermission(PERMISSIONS.OPPORTUNITIES_VIEW),
+  getDestinations,
+);
 
 /*
 |--------------------------------------------------------------------------
@@ -65,7 +81,12 @@ router.get("/destinations", authenticate, allowRoles("ADMIN"), getDestinations);
 |--------------------------------------------------------------------------
 */
 
-router.post("/", authenticate, allowRoles("ADMIN"), createOpportunity);
+router.post(
+  "/",
+  authenticate,
+  requirePermission(PERMISSIONS.OPPORTUNITIES_CREATE),
+  createOpportunity,
+);
 
 /*
 |--------------------------------------------------------------------------
@@ -77,7 +98,12 @@ router.post("/", authenticate, allowRoles("ADMIN"), createOpportunity);
 |--------------------------------------------------------------------------
 */
 
-router.get("/:id", authenticate, allowRoles("ADMIN"), getOpportunityById);
+router.get(
+  "/:id",
+  authenticate,
+  requirePermission(PERMISSIONS.OPPORTUNITIES_VIEW),
+  getOpportunityById,
+);
 
 /*
 |--------------------------------------------------------------------------
@@ -89,7 +115,12 @@ router.get("/:id", authenticate, allowRoles("ADMIN"), getOpportunityById);
 |--------------------------------------------------------------------------
 */
 
-router.patch("/:id", authenticate, allowRoles("ADMIN"), updateOpportunity);
+router.patch(
+  "/:id",
+  authenticate,
+  requirePermission(PERMISSIONS.OPPORTUNITIES_UPDATE),
+  updateOpportunity,
+);
 
 /*
 |--------------------------------------------------------------------------
@@ -104,7 +135,7 @@ router.patch("/:id", authenticate, allowRoles("ADMIN"), updateOpportunity);
 router.patch(
   "/:id/active",
   authenticate,
-  allowRoles("ADMIN"),
+  requirePermission(PERMISSIONS.OPPORTUNITIES_UPDATE),
   setOpportunityActive,
 );
 
@@ -121,7 +152,7 @@ router.patch(
 router.patch(
   "/:id/featured",
   authenticate,
-  allowRoles("ADMIN"),
+  requirePermission(PERMISSIONS.OPPORTUNITIES_UPDATE),
   setOpportunityFeatured,
 );
 
@@ -132,11 +163,16 @@ router.patch(
 |
 | DELETE /api/v1/admin/opportunities/:id
 |
-| This performs a soft delete by setting active=false.
+| Performs a soft delete by setting active=false.
 |
 |--------------------------------------------------------------------------
 */
 
-router.delete("/:id", authenticate, allowRoles("ADMIN"), deactivateOpportunity);
+router.delete(
+  "/:id",
+  authenticate,
+  requirePermission(PERMISSIONS.OPPORTUNITIES_DELETE),
+  deactivateOpportunity,
+);
 
 export default router;

@@ -1,0 +1,250 @@
+.staff-profile-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    margin-bottom: 20px;
+    padding: 22px 24px;
+    border: 1px solid #e3e8ef;
+    border-radius: 14px;
+    background: #ffffff;
+}
+
+.staff-profile-identity {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.staff-profile-avatar {
+    width: 58px;
+    height: 58px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #cfe0f7;
+    border-radius: 14px;
+    background: #f1f6fc;
+    color: #0056b3;
+}
+
+.staff-profile-avatar span {
+    font-size: 15px;
+    font-weight: 750;
+    letter-spacing: 0.02em;
+    line-height: 1;
+}
+
+.staff-profile-copy {
+    min-width: 0;
+}
+
+.staff-profile-overline {
+    display: block;
+    margin-bottom: 5px;
+    color: #7a8798;
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: 0.11em;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.staff-profile-copy h2 {
+    margin: 0;
+    overflow: hidden;
+    color: #111827;
+    font-size: 18px;
+    font-weight: 750;
+    letter-spacing: -0.025em;
+    line-height: 1.25;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.staff-profile-copy p {
+    margin: 5px 0 0;
+    overflow: hidden;
+    color: #667085;
+    font-size: 11px;
+    line-height: 1.4;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.staff-profile-meta {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 24px;
+    flex-shrink: 0;
+}
+
+.staff-profile-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-width: 125px;
+}
+
+.staff-profile-meta-icon {
+    width: 31px;
+    height: 31px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e3e8ef;
+    border-radius: 8px;
+    background: #f8fafc;
+    color: #667085;
+}
+
+.staff-profile-meta-icon svg {
+    width: 15px;
+    height: 15px;
+}
+
+.staff-profile-meta-item>div:last-child {
+    min-width: 0;
+}
+
+.staff-profile-meta-item span {
+    display: block;
+    margin-bottom: 3px;
+    color: #98a2b3;
+    font-size: 9px;
+    font-weight: 650;
+    line-height: 1.2;
+}
+
+.staff-profile-meta-item strong {
+    display: block;
+    max-width: 150px;
+    overflow: hidden;
+    color: #344054;
+    font-size: 11px;
+    font-weight: 650;
+    line-height: 1.35;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.staff-profile-account-state {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 29px;
+    padding: 0 9px;
+    border: 1px solid;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 650;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.staff-profile-state-dot {
+    width: 6px;
+    height: 6px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.staff-profile-account-state.is-active {
+    border-color: #cce8d7;
+    background: #f4fbf6;
+    color: #167344;
+}
+
+.staff-profile-account-state.is-inactive {
+    border-color: #e4d3d3;
+    background: #fff8f8;
+    color: #b42318;
+}
+
+@media (max-width: 1100px) {
+    .staff-profile-card {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .staff-profile-meta {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 16px 24px;
+    }
+}
+
+@media (max-width: 700px) {
+    .staff-profile-card {
+        padding: 18px;
+    }
+
+    .staff-profile-meta {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .staff-profile-meta-item {
+        min-width: 0;
+    }
+
+    .staff-profile-account-state {
+        width: fit-content;
+    }
+}
+
+@media (max-width: 500px) {
+    .staff-profile-card {
+        gap: 18px;
+        margin-bottom: 18px;
+        padding: 16px;
+        border-radius: 12px;
+    }
+
+    .staff-profile-identity {
+        width: 100%;
+        gap: 13px;
+    }
+
+    .staff-profile-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 11px;
+    }
+
+    .staff-profile-avatar span {
+        font-size: 13px;
+    }
+
+    .staff-profile-copy h2 {
+        font-size: 16px;
+    }
+
+    .staff-profile-copy p {
+        font-size: 10px;
+    }
+
+    .staff-profile-meta {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .staff-profile-meta-item {
+        width: 100%;
+    }
+
+    .staff-profile-meta-item strong {
+        max-width: none;
+    }
+
+    .staff-profile-account-state {
+        width: 100%;
+    }
+}

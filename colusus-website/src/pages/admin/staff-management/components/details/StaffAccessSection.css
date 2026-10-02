@@ -1,0 +1,234 @@
+.staff-access-section {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 24px;
+    padding: 24px;
+    border: 1px solid #e3e8ef;
+    border-radius: 14px;
+    background: #ffffff;
+}
+
+.staff-access-section-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.staff-access-section-copy {
+    min-width: 0;
+}
+
+.staff-access-section-title {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.staff-access-section-icon {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #d9e5f4;
+    border-radius: 9px;
+    background: #f4f8fc;
+    color: #0056b3;
+}
+
+.staff-access-section-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.staff-access-section-title .staff-details-overline {
+    margin-bottom: 4px;
+}
+
+.staff-access-section-copy h2 {
+    margin: 0;
+    color: #111827;
+    font-size: 19px;
+    font-weight: 750;
+    letter-spacing: -0.025em;
+    line-height: 1.25;
+}
+
+.staff-access-section-copy>p {
+    max-width: 650px;
+    margin: 10px 0 0 48px;
+    color: #667085;
+    font-size: 11px;
+    line-height: 1.55;
+}
+
+.staff-details-overline {
+    display: block;
+    color: #7a8798;
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: 0.11em;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.staff-access-save-button {
+    min-height: 40px;
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 0 14px;
+    border: 1px solid #0056b3;
+    border-radius: 9px;
+    background: #0056b3;
+    color: #ffffff;
+    cursor: pointer;
+    font: inherit;
+    font-size: 11px;
+    font-weight: 650;
+    line-height: 1;
+    transition:
+        background 160ms ease,
+        border-color 160ms ease,
+        opacity 160ms ease,
+        transform 160ms ease;
+}
+
+.staff-access-save-button:hover:not(:disabled) {
+    border-color: #00458f;
+    background: #00458f;
+}
+
+.staff-access-save-button:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.staff-access-save-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.staff-access-save-button svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+}
+
+.staff-access-save-button:focus-visible {
+    outline: 3px solid rgba(0, 86, 179, 0.14);
+    outline-offset: 2px;
+}
+
+.staff-access-permissions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.staff-access-permissions-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 2px;
+}
+
+.staff-access-permissions-heading>div {
+    min-width: 0;
+}
+
+.staff-access-permissions-heading>div>span {
+    display: block;
+    color: #344054;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.staff-access-permissions-heading p {
+    margin: 4px 0 0;
+    color: #98a2b3;
+    font-size: 10px;
+    line-height: 1.45;
+}
+
+.staff-access-group-count {
+    flex-shrink: 0;
+    color: #98a2b3;
+    font-size: 10px;
+    font-weight: 650;
+    line-height: 1.3;
+}
+
+.staff-permission-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+@media (max-width: 760px) {
+    .staff-access-section {
+        gap: 20px;
+        padding: 20px;
+        border-radius: 13px;
+    }
+
+    .staff-access-section-heading {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+    }
+
+    .staff-access-save-button {
+        width: 100%;
+    }
+
+    .staff-access-permissions-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 7px;
+    }
+}
+
+@media (max-width: 500px) {
+    .staff-access-section {
+        margin-bottom: 20px;
+        padding: 17px;
+        border-radius: 12px;
+    }
+
+    .staff-access-section-title {
+        gap: 10px;
+    }
+
+    .staff-access-section-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+    }
+
+    .staff-access-section-icon svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .staff-access-section-copy h2 {
+        font-size: 17px;
+    }
+
+    .staff-access-section-copy>p {
+        margin-left: 42px;
+        font-size: 10px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .staff-access-save-button {
+        transition: none;
+    }
+}

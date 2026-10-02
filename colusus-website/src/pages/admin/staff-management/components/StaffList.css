@@ -1,0 +1,364 @@
+.staff-list-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #ffffff;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+}
+
+.staff-list-wrapper::-webkit-scrollbar {
+    height: 6px;
+}
+
+.staff-list-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.staff-list-wrapper::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: #cbd5e1;
+}
+
+.staff-list {
+    width: 100%;
+    min-width: 900px;
+    border-collapse: collapse;
+}
+
+/* --------------------------------------------------
+   TABLE HEADER
+-------------------------------------------------- */
+
+.staff-list thead {
+    background: #f8fafc;
+}
+
+.staff-list th {
+    height: 43px;
+    padding: 0 15px;
+    border-bottom: 1px solid #e2e8f0;
+    color: #64748b;
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: 0.075em;
+    line-height: 1;
+    text-align: left;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.staff-list th:first-child {
+    padding-left: 17px;
+}
+
+.staff-list th:last-child {
+    width: 38px;
+    padding-right: 13px;
+}
+
+/* --------------------------------------------------
+   TABLE ROWS
+-------------------------------------------------- */
+
+.staff-list tbody tr {
+    cursor: pointer;
+    outline: none;
+    transition:
+        background 0.16s ease,
+        box-shadow 0.16s ease;
+}
+
+.staff-list tbody tr:hover {
+    background: #f8fbff;
+}
+
+.staff-list tbody tr:focus-visible {
+    background: #f1f6ff;
+    box-shadow: inset 3px 0 0 #3569ee;
+}
+
+.staff-list tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.staff-list-row-inactive {
+    background: #fcfcfd;
+}
+
+.staff-list-row-inactive:hover {
+    background: #f8fafc;
+}
+
+/* --------------------------------------------------
+   CELLS
+-------------------------------------------------- */
+
+.staff-list td {
+    height: 64px;
+    padding: 10px 15px;
+    border-bottom: 1px solid #edf1f5;
+    color: #475569;
+    font-size: 11px;
+    vertical-align: middle;
+}
+
+.staff-list td:first-child {
+    padding-left: 17px;
+}
+
+.staff-list td:last-child {
+    width: 38px;
+    padding-right: 13px;
+}
+
+/* --------------------------------------------------
+   STAFF MEMBER
+-------------------------------------------------- */
+
+.staff-list-member {
+    min-width: 215px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.staff-list-avatar {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #d7e2ff;
+    border-radius: 9px;
+    background: #edf3ff;
+    color: #3569ee;
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: 0.02em;
+}
+
+.staff-list-member-info {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.staff-list-member-info strong {
+    max-width: 190px;
+    overflow: hidden;
+    color: #0f172a;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.staff-list-member-info span {
+    max-width: 190px;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 4px;
+    overflow: hidden;
+    color: #94a3b8;
+    font-size: 9px;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.staff-list-member-info span svg {
+    width: 11px;
+    height: 11px;
+    flex-shrink: 0;
+}
+
+/* --------------------------------------------------
+   ROLE
+-------------------------------------------------- */
+
+.staff-list-role {
+    display: inline-flex;
+    align-items: center;
+    min-height: 25px;
+    max-width: 145px;
+    padding: 0 8px;
+    overflow: hidden;
+    border: 1px solid #e8edf3;
+    border-radius: 6px;
+    background: #f8fafc;
+    color: #475569;
+    font-size: 9px;
+    font-weight: 650;
+    line-height: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* --------------------------------------------------
+   SECONDARY INFORMATION
+-------------------------------------------------- */
+
+.staff-list-secondary {
+    display: block;
+    max-width: 150px;
+    overflow: hidden;
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1.3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* --------------------------------------------------
+   ACCESS
+-------------------------------------------------- */
+
+.staff-list-access {
+    min-width: 120px;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    column-gap: 4px;
+    row-gap: 3px;
+}
+
+.staff-list-access strong {
+    color: #0f172a;
+    font-size: 13px;
+    font-weight: 750;
+    line-height: 1;
+}
+
+.staff-list-access>span {
+    color: #94a3b8;
+    font-size: 9px;
+    font-weight: 500;
+}
+
+.staff-list-access small {
+    width: 100%;
+    margin-top: 1px;
+    color: #94a3b8;
+    font-size: 8px;
+    font-weight: 500;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+/* --------------------------------------------------
+   STATUS
+-------------------------------------------------- */
+
+.staff-list-status {
+    min-height: 25px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 8px;
+    border-radius: 999px;
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.staff-list-status>span {
+    width: 5px;
+    height: 5px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.staff-list-status-active {
+    background: #ecfdf5;
+    color: #15803d;
+}
+
+.staff-list-status-inactive {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+/* --------------------------------------------------
+   ARROW
+-------------------------------------------------- */
+
+.staff-list-arrow {
+    width: 15px;
+    height: 15px;
+    color: #a1adbd;
+    transition:
+        color 0.16s ease,
+        transform 0.16s ease;
+}
+
+.staff-list tbody tr:hover .staff-list-arrow {
+    color: #3569ee;
+    transform: translateX(2px);
+}
+
+/* --------------------------------------------------
+   MOBILE / NARROW SCREEN
+-------------------------------------------------- */
+
+@media (max-width: 900px) {
+    .staff-list {
+        min-width: 880px;
+    }
+}
+
+@media (max-width: 560px) {
+    .staff-list-wrapper {
+        border-radius: 10px;
+    }
+
+    .staff-list {
+        min-width: 850px;
+    }
+
+    .staff-list th {
+        height: 40px;
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .staff-list td {
+        height: 60px;
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .staff-list th:first-child,
+    .staff-list td:first-child {
+        padding-left: 13px;
+    }
+
+    .staff-list-member {
+        min-width: 205px;
+    }
+
+    .staff-list-avatar {
+        width: 34px;
+        height: 34px;
+    }
+}
+
+/* --------------------------------------------------
+   REDUCED MOTION
+-------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .staff-list tbody tr,
+    .staff-list-arrow {
+        transition: none;
+    }
+}

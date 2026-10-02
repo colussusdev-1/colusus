@@ -1,4 +1,3 @@
-
 import React from "react";
 
 import {
@@ -23,7 +22,11 @@ import {
     HiOutlinePencilAlt,
 } from "react-icons/hi";
 
-import authService from "../../../services/authService";
+import authService
+    from "../../../services/authService";
+
+import useStaffAccess
+    from "../staff/hooks/useStaffAccess";
 
 import "./AdminSidebar.css";
 
@@ -33,7 +36,9 @@ import "./AdminSidebar.css";
 | ADMIN NAVIGATION
 |--------------------------------------------------------------------------
 |
-| Full navigation available to ADMIN users.
+| ADMIN users have unrestricted access through the backend access layer.
+|
+| These items are therefore not filtered by staff permissions.
 |
 */
 
@@ -96,7 +101,7 @@ const adminNavigation = [
 
     {
         label: "Staff",
-        path: "/admin/staff",
+        path: "/admin/staff-management",
         icon: HiOutlineUserGroup,
     },
 
@@ -115,8 +120,9 @@ const adminNavigation = [
 | STAFF NAVIGATION
 |--------------------------------------------------------------------------
 |
-| Staff gets its own operational navigation while continuing to use
-| the shared AdminSidebar component.
+| The permission controls visibility.
+|
+| The backend remains the actual authorization authority.
 |
 */
 
@@ -126,24 +132,50 @@ const staffNavigation = [
         label: "My Workspace",
         path: "/admin/staff",
         icon: HiOutlineBriefcase,
-        type: "dashboard",
+        permission: "dashboard.view",
     },
 
     {
         label: "Application Pipeline",
         path: "/admin/staff/applications",
         icon: HiOutlineViewBoards,
-        type: "pipeline",
+        permission: "applications.view",
     },
 
     {
         label: "Website Enquiries",
         path: "/admin/staff/form-submissions",
         icon: HiOutlineCollection,
-        type: "form-submissions",
+        permission: "forms.view",
     },
 
 ];
+
+
+/*
+|--------------------------------------------------------------------------
+| STAFF ACTIVE PATHS
+|--------------------------------------------------------------------------
+|
+| Used to keep detail pages highlighted under their parent workspace.
+|
+*/
+
+const isPathActive = (
+    pathname,
+    path,
+) => {
+
+    if (path === "/admin/staff") {
+        return pathname === path;
+    }
+
+    return (
+        pathname === path ||
+        pathname.startsWith(`${path}/`)
+    );
+
+};
 
 
 /*
@@ -154,7 +186,8 @@ const staffNavigation = [
 
 const AdminSidebar = () => {
 
-    const location = useLocation();
+    const location =
+        useLocation();
 
 
     /*
@@ -163,7 +196,8 @@ const AdminSidebar = () => {
     |--------------------------------------------------------------------------
     */
 
-    const user = authService.getCurrentUser();
+    const user =
+        authService.getCurrentUser();
 
 
     const role =
@@ -180,27 +214,67 @@ const AdminSidebar = () => {
 
     /*
     |--------------------------------------------------------------------------
-    | SELECT NAVIGATION
+    | STAFF ACCESS
+    |--------------------------------------------------------------------------
+    |
+    | Only STAFF accounts need to request their granular permissions.
+    |
+    */
+
+    const {
+        loading: accessLoading,
+        hasPermission,
+    } = useStaffAccess(
+        isStaff,
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | NAVIGATION
     |--------------------------------------------------------------------------
     */
 
     const navigation =
         isStaff
-            ? staffNavigation
+            ? staffNavigation.filter(
+                (item) => {
+
+                    if (!item.permission) {
+                        return true;
+                    }
+
+                    /*
+                    | Keep navigation visible while access is loading.
+                    | StaffPermissionRoute protects the actual route.
+                    */
+
+                    if (accessLoading) {
+                        return true;
+                    }
+
+                    return hasPermission(
+                        item.permission,
+                    );
+
+                },
+            )
             : adminNavigation;
 
 
     /*
     |--------------------------------------------------------------------------
-    | USER DISPLAY DATA
+    | USER DISPLAY
     |--------------------------------------------------------------------------
     */
 
     const displayName =
         user?.name ||
-        (isStaff
-            ? "Staff"
-            : "Admin");
+        (
+            isStaff
+                ? "Staff"
+                : "Admin"
+        );
 
 
     const displayRole =
@@ -241,67 +315,7 @@ const AdminSidebar = () => {
 
         window.location.href =
             "/admin/login";
-    };
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | STAFF ACTIVE STATE
-    |--------------------------------------------------------------------------
-    */
-
-    const isStaffNavigationActive = (
-        item,
-    ) => {
-
-        if (!isStaff) {
-            return false;
-        }
-
-
-        if (
-            item.type ===
-            "dashboard"
-        ) {
-
-            return (
-                location.pathname ===
-                "/admin/staff"
-            );
-        }
-
-
-        if (
-            item.type ===
-            "pipeline"
-        ) {
-
-            return (
-                location.pathname ===
-                "/admin/staff/applications" ||
-                location.pathname.startsWith(
-                    "/admin/staff/applications/",
-                )
-            );
-        }
-
-
-        if (
-            item.type ===
-            "form-submissions"
-        ) {
-
-            return (
-                location.pathname ===
-                "/admin/staff/form-submissions" ||
-                location.pathname.startsWith(
-                    "/admin/staff/form-submissions/",
-                )
-            );
-        }
-
-
-        return false;
     };
 
 
@@ -374,18 +388,16 @@ const AdminSidebar = () => {
 
 
                     {navigation.map(
-                        (
-                            item,
-                        ) => {
+                        (item) => {
 
                             const Icon =
                                 item.icon;
 
 
                             /*
-                            ------------------------------------------------
-                            DISABLED ADMIN NAVIGATION
-                            ------------------------------------------------
+                            |--------------------------------------------------------------------------
+                            | DISABLED ADMIN ITEM
+                            |--------------------------------------------------------------------------
                             */
 
                             if (
@@ -406,7 +418,9 @@ const AdminSidebar = () => {
                                         aria-disabled="true"
                                     >
 
-                                        <Icon className="admin-nav-icon" />
+                                        <Icon
+                                            className="admin-nav-icon"
+                                        />
 
                                         <span>
                                             {
@@ -421,20 +435,22 @@ const AdminSidebar = () => {
                                     </div>
 
                                 );
+
                             }
 
 
                             /*
-                            ------------------------------------------------
-                            STAFF
-                            ------------------------------------------------
+                            |--------------------------------------------------------------------------
+                            | STAFF NAVIGATION
+                            |--------------------------------------------------------------------------
                             */
 
                             if (isStaff) {
 
                                 const active =
-                                    isStaffNavigationActive(
-                                        item,
+                                    isPathActive(
+                                        location.pathname,
+                                        item.path,
                                     );
 
 
@@ -448,8 +464,8 @@ const AdminSidebar = () => {
                                             item.path
                                         }
                                         end={
-                                            item.type ===
-                                            "dashboard"
+                                            item.path ===
+                                            "/admin/staff"
                                         }
                                         className={
                                             active
@@ -460,37 +476,32 @@ const AdminSidebar = () => {
 
                                         <span className="admin-nav-icon-wrapper">
 
-                                            <Icon className="admin-nav-icon" />
+                                            <Icon
+                                                className="admin-nav-icon"
+                                            />
 
                                         </span>
 
 
                                         <span className="admin-nav-label">
+
                                             {
                                                 item.label
                                             }
+
                                         </span>
-
-
-                                        {item.type ===
-                                            "pipeline" && (
-
-                                                <span className="admin-nav-arrow">
-                                                    →
-                                                </span>
-
-                                            )}
 
                                     </NavLink>
 
                                 );
+
                             }
 
 
                             /*
-                            ------------------------------------------------
-                            ADMIN
-                            ------------------------------------------------
+                            |--------------------------------------------------------------------------
+                            | ADMIN NAVIGATION
+                            |--------------------------------------------------------------------------
                             */
 
                             return (
@@ -519,7 +530,9 @@ const AdminSidebar = () => {
                                     }
                                 >
 
-                                    <Icon className="admin-nav-icon" />
+                                    <Icon
+                                        className="admin-nav-icon"
+                                    />
 
                                     <span>
                                         {
@@ -558,10 +571,12 @@ const AdminSidebar = () => {
                     >
 
                         <div className="admin-avatar">
+
                             {
                                 avatar ||
                                 "U"
                             }
+
                         </div>
 
 
@@ -599,10 +614,12 @@ const AdminSidebar = () => {
                     >
 
                         <div className="admin-avatar">
+
                             {
                                 avatar ||
                                 "U"
                             }
+
                         </div>
 
 

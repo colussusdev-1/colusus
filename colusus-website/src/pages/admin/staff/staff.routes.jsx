@@ -1,4 +1,3 @@
-
 import React from "react";
 
 import {
@@ -7,44 +6,115 @@ import {
     Navigate,
 } from "react-router-dom";
 
-import StaffDashboard from "./StaffDashboard";
-import StaffApplications from "./StaffApplications";
-import StaffApplicationDetail from "./StaffApplicationDetail";
-import StaffFormSubmissions from "./StaffFormSubmissions";
-import StaffFormSubmissionDetail from "./StaffFormSubmissionDetail";
+import StaffDashboard
+    from "./StaffDashboard";
+
+import StaffApplications
+    from "./StaffApplications";
+
+import StaffApplicationDetail
+    from "./StaffApplicationDetail";
+
+import StaffFormSubmissions
+    from "./StaffFormSubmissions";
+
+import StaffFormSubmissionDetail
+    from "./StaffFormSubmissionDetail";
+
+import StaffPermissionRoute
+    from "./StaffPermissionRoute";
+
 
 const StaffRoutes = () => {
+
     return (
+
         <Routes>
-            {/* Staff Dashboard */}
-            <Route
-                index
-                element={<StaffDashboard />}
-            />
 
-            {/* Applications */}
-            <Route
-                path="applications"
-                element={<StaffApplications />}
-            />
+            {/* ======================================================
+                STAFF DASHBOARD
+            ====================================================== */}
 
             <Route
-                path="applications/:id"
-                element={<StaffApplicationDetail />}
-            />
+                element={
+                    <StaffPermissionRoute
+                        permission="dashboard.view"
+                    />
+                }
+            >
 
-            {/* Website Form Submissions */}
+                <Route
+                    index
+                    element={
+                        <StaffDashboard />
+                    }
+                />
+
+            </Route>
+
+
+            {/* ======================================================
+                APPLICATIONS
+            ====================================================== */}
+
             <Route
-                path="form-submissions"
-                element={<StaffFormSubmissions />}
-            />
+                element={
+                    <StaffPermissionRoute
+                        permission="applications.view"
+                    />
+                }
+            >
+
+                <Route
+                    path="applications"
+                    element={
+                        <StaffApplications />
+                    }
+                />
+
+                <Route
+                    path="applications/:id"
+                    element={
+                        <StaffApplicationDetail />
+                    }
+                />
+
+            </Route>
+
+
+            {/* ======================================================
+                WEBSITE FORM SUBMISSIONS
+            ====================================================== */}
 
             <Route
-                path="form-submissions/:id"
-                element={<StaffFormSubmissionDetail />}
-            />
+                element={
+                    <StaffPermissionRoute
+                        permission="forms.view"
+                    />
+                }
+            >
 
-            {/* Fallback */}
+                <Route
+                    path="form-submissions"
+                    element={
+                        <StaffFormSubmissions />
+                    }
+                />
+
+                <Route
+                    path="form-submissions/:id"
+                    element={
+                        <StaffFormSubmissionDetail />
+                    }
+                />
+
+            </Route>
+
+
+            {/* ======================================================
+                FALLBACK
+            ====================================================== */}
+
             <Route
                 path="*"
                 element={
@@ -54,8 +124,12 @@ const StaffRoutes = () => {
                     />
                 }
             />
+
         </Routes>
+
     );
+
 };
+
 
 export default StaffRoutes;

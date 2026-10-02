@@ -24,21 +24,16 @@ import {
   viewFormSubmissionDocument,
 } from "./staffFormSubmission.controller.js";
 
+import { getMyAccess } from "./access/access.controller.js";
+
 const router = express.Router();
 
 /*
 ============================================================
-colossus — STAFF ROUTES
+COLOSSUS — STAFF ROUTES
 ============================================================
 
-All Staff routes are protected by:
-
-    authenticate
-    allowRoles("STAFF")
-
-IMPORTANT:
-
-Staff access is intentionally separate from the Admin API.
+Staff routes are intentionally separate from Admin routes.
 
 Admin:
     /api/v1/admin/...
@@ -46,16 +41,55 @@ Admin:
 Staff:
     /api/v1/staff/...
 
-A Staff member can only work with resources assigned
-to them. Ownership / assignment checks are handled
-server-side inside the relevant Staff services.
+Staff access is:
 
-============================================================
-STAFF AUTHORIZATION
+    Authentication
+        +
+    STAFF account
+        +
+    Assignment / permission checks
+
+The Staff workspace must never rely on frontend
+visibility for security.
+
+Backend services remain responsible for enforcing
+ownership, assignment and permission rules.
 ============================================================
 */
 
 router.use(authenticate, allowRoles("STAFF"));
+
+/*
+============================================================
+STAFF ACCESS
+============================================================
+
+GET /api/v1/staff/access
+
+Returns the authenticated Staff member's effective
+permissions.
+
+Effective permissions are calculated from:
+
+    Staff Role Permissions
+        +
+    Direct Permission Grants
+        -
+    Explicit Permission Denials
+
+The frontend can use this response to determine which
+Staff modules and navigation items should be displayed.
+
+IMPORTANT:
+
+This endpoint only describes access.
+
+It does NOT replace backend authorization on protected
+resources.
+============================================================
+*/
+
+router.get("/access", getMyAccess);
 
 /*
 ============================================================
@@ -105,7 +139,6 @@ FormSubmission:
 
 A Staff member can only access FormSubmissions assigned
 to that Staff member.
-
 ============================================================
 */
 
@@ -201,8 +234,6 @@ router.get("/applications", getAssignedApplications);
 ============================================================
 APPLICATION NOTES
 ============================================================
-
-IMPORTANT:
 
 These routes must remain above:
 

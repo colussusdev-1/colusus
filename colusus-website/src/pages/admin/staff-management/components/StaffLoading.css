@@ -1,0 +1,228 @@
+.staff-loading {
+    width: 100%;
+}
+
+.staff-loading-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.staff-loading-card {
+    min-width: 0;
+    padding: 19px;
+    border: 1px solid #e2e8f0;
+    border-radius: 13px;
+    background: #ffffff;
+}
+
+.staff-loading-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.staff-loading-member {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.staff-loading-avatar {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 11px;
+    background: #eef2f7;
+    animation: staff-loading-pulse 1.4s ease-in-out infinite;
+}
+
+.staff-loading-member>div {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.staff-loading-line {
+    display: block;
+    width: 80px;
+    height: 8px;
+    border-radius: 4px;
+    background: #eef2f7;
+    animation: staff-loading-pulse 1.4s ease-in-out infinite;
+}
+
+.staff-loading-name {
+    width: 105px;
+    height: 10px;
+}
+
+.staff-loading-email {
+    width: 135px;
+    height: 7px;
+}
+
+.staff-loading-status {
+    width: 48px;
+    height: 20px;
+    flex-shrink: 0;
+    border-radius: 999px;
+    background: #eef2f7;
+    animation: staff-loading-pulse 1.4s ease-in-out infinite;
+}
+
+.staff-loading-position {
+    width: 145px;
+    margin-top: 20px;
+}
+
+.staff-loading-meta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 11px;
+}
+
+.staff-loading-box {
+    height: 32px;
+    border: 1px solid #f0f2f5;
+    border-radius: 8px;
+    background: #f8fafc;
+    animation: staff-loading-pulse 1.4s ease-in-out infinite;
+}
+
+.staff-loading-divider {
+    height: 1px;
+    margin: 17px 0 14px;
+    background: #edf1f5;
+}
+
+.staff-loading-access {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.staff-loading-access span {
+    width: 34px;
+    height: 17px;
+    border-radius: 4px;
+    background: #eef2f7;
+    animation: staff-loading-pulse 1.4s ease-in-out infinite;
+}
+
+.staff-loading-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 18px;
+    padding-top: 13px;
+    border-top: 1px solid #edf1f5;
+}
+
+.staff-loading-footer .staff-loading-line {
+    width: 58px;
+    height: 7px;
+}
+
+.staff-loading-footer .staff-loading-short {
+    width: 50px;
+}
+
+/* List */
+
+.staff-loading-list {
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    border-radius: 11px;
+    background: #ffffff;
+}
+
+.staff-loading-list-header {
+    height: 42px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+}
+
+.staff-loading-list-row {
+    min-height: 64px;
+    display: grid;
+    grid-template-columns:
+        minmax(210px, 1.5fr) minmax(110px, 0.8fr) minmax(120px, 0.9fr) minmax(110px, 0.8fr) minmax(100px, 0.7fr) minmax(70px, 0.5fr);
+    align-items: center;
+    gap: 15px;
+    padding: 0 15px;
+    border-bottom: 1px solid #edf1f5;
+}
+
+.staff-loading-list-row:last-child {
+    border-bottom: 0;
+}
+
+.staff-loading-list-row>.staff-loading-line {
+    width: 75px;
+}
+
+.staff-loading-list-row>.staff-loading-short {
+    width: 45px;
+}
+
+.staff-loading-list-row .staff-loading-member {
+    min-width: 0;
+}
+
+.staff-loading-list-row .staff-loading-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+}
+
+@keyframes staff-loading-pulse {
+
+    0%,
+    100% {
+        opacity: 0.55;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 1250px) {
+    .staff-loading-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 760px) {
+    .staff-loading-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .staff-loading-list {
+        overflow-x: auto;
+    }
+
+    .staff-loading-list-row,
+    .staff-loading-list-header {
+        min-width: 900px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .staff-loading-avatar,
+    .staff-loading-line,
+    .staff-loading-status,
+    .staff-loading-box,
+    .staff-loading-access span {
+        animation: none;
+    }
+}

@@ -17,7 +17,6 @@ import notificationRoutes from "../modules/notifications/notification.routes.js"
 
 import bookingRoutes from "../modules/bookings/booking.routes.js";
 import couponRoutes from "../modules/coupons/coupon.routes.js";
-import paymentRoutes from "../modules/payments/payment.routes.js";
 
 import formSubmissionRoutes from "../modules/form-submissions/form-submission.routes.js";
 import uploadRoutes from "../modules/uploads/upload.routes.js";
@@ -25,7 +24,11 @@ import uploadRoutes from "../modules/uploads/upload.routes.js";
 import adminRoutes from "../modules/admin/admin.routes.js";
 import staffRoutes from "../modules/staff/staff.routes.js";
 
+import accessRoutes from "../modules/staff/access/access.routes.js";
+
+
 const router = express.Router();
+
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +36,11 @@ const router = express.Router();
 |--------------------------------------------------------------------------
 */
 
-router.use("/health", healthRoutes);
+router.use(
+    "/health",
+    healthRoutes,
+);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +48,11 @@ router.use("/health", healthRoutes);
 |--------------------------------------------------------------------------
 */
 
-router.use("/auth", authRoutes);
+router.use(
+    "/auth",
+    authRoutes,
+);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -49,7 +60,11 @@ router.use("/auth", authRoutes);
 |--------------------------------------------------------------------------
 */
 
-router.use("/users", userRoutes);
+router.use(
+    "/users",
+    userRoutes,
+);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -57,7 +72,11 @@ router.use("/users", userRoutes);
 |--------------------------------------------------------------------------
 */
 
-router.use("/client", clientRoutes);
+router.use(
+    "/client",
+    clientRoutes,
+);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -72,7 +91,11 @@ router.use("/client", clientRoutes);
 |--------------------------------------------------------------------------
 */
 
-router.use("/client-profile", clientProfileRoutes);
+router.use(
+    "/client-profile",
+    clientProfileRoutes,
+);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -80,7 +103,11 @@ router.use("/client-profile", clientProfileRoutes);
 |--------------------------------------------------------------------------
 */
 
-router.use("/applications", applicationRoutes);
+router.use(
+    "/applications",
+    applicationRoutes,
+);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -88,7 +115,11 @@ router.use("/applications", applicationRoutes);
 |--------------------------------------------------------------------------
 */
 
-router.use("/documents", documentRoutes);
+router.use(
+    "/documents",
+    documentRoutes,
+);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -100,7 +131,11 @@ router.use("/documents", documentRoutes);
 |--------------------------------------------------------------------------
 */
 
-router.use("/opportunities", opportunityRoutes);
+router.use(
+    "/opportunities",
+    opportunityRoutes,
+);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -123,7 +158,11 @@ router.use("/opportunities", opportunityRoutes);
 |--------------------------------------------------------------------------
 */
 
-router.use("/form-submissions", formSubmissionRoutes);
+router.use(
+    "/form-submissions",
+    formSubmissionRoutes,
+);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -134,19 +173,14 @@ router.use("/form-submissions", formSubmissionRoutes);
 |
 | Generic file upload endpoint.
 |
-| Files are received through Multer and uploaded directly to
-| Cloudinary. The endpoint can be reused by:
-|
-| - Ireland Nursing & Healthcare
-| - CV uploads
-| - Passport uploads
-| - Supporting documents
-| - Future public forms
-|
 |--------------------------------------------------------------------------
 */
 
-router.use("/uploads", uploadRoutes);
+router.use(
+    "/uploads",
+    uploadRoutes,
+);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -162,16 +196,16 @@ router.use("/uploads", uploadRoutes);
 | DELETE /api/v1/notifications
 | DELETE /api/v1/notifications/:id
 |
-|--------------------------------------------------------------------------
-|
-| Authentication is handled inside:
-|
-| notification.routes.js
+| Authentication is handled inside notification.routes.js.
 |
 |--------------------------------------------------------------------------
 */
 
-router.use("/notifications", notificationRoutes);
+router.use(
+    "/notifications",
+    notificationRoutes,
+);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -179,7 +213,11 @@ router.use("/notifications", notificationRoutes);
 |--------------------------------------------------------------------------
 */
 
-router.use("/bookings", bookingRoutes);
+router.use(
+    "/bookings",
+    bookingRoutes,
+);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -187,15 +225,41 @@ router.use("/bookings", bookingRoutes);
 |--------------------------------------------------------------------------
 */
 
-router.use("/coupons", couponRoutes);
+router.use(
+    "/coupons",
+    couponRoutes,
+);
+
 
 /*
 |--------------------------------------------------------------------------
-| PAYMENTS
+| STAFF ACCESS
+|--------------------------------------------------------------------------
+|
+| GET /api/v1/access
+|
+| Returns the effective permissions of the authenticated user.
+|
+| The access service calculates:
+|
+|     role permissions
+|     + direct grants
+|     - direct denials
+|
+| Authentication is handled inside access.routes.js.
+|
+| This endpoint is intentionally not under /admin because it describes
+| the permissions of the currently authenticated user rather than being
+| an Admin management endpoint.
+|
 |--------------------------------------------------------------------------
 */
 
-router.use("/payments", paymentRoutes);
+router.use(
+    "/access",
+    accessRoutes,
+);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -213,15 +277,17 @@ router.use("/payments", paymentRoutes);
 | /api/v1/admin/clients
 | /api/v1/admin/notifications
 |
-|--------------------------------------------------------------------------
-|
-| Admin authentication and authorization are handled by
-| the individual Admin route trees.
+| Admin authentication and authorization are handled by the
+| individual Admin route trees.
 |
 |--------------------------------------------------------------------------
 */
 
-router.use("/admin", adminRoutes);
+router.use(
+    "/admin",
+    adminRoutes,
+);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -242,8 +308,6 @@ router.use("/admin", adminRoutes);
 | /api/v1/staff/documents/:id
 | /api/v1/staff/documents/:id/review
 |
-|--------------------------------------------------------------------------
-|
 | Staff authentication and STAFF role authorization are
 | handled inside staff.routes.js.
 |
@@ -253,7 +317,11 @@ router.use("/admin", adminRoutes);
 |--------------------------------------------------------------------------
 */
 
-router.use("/staff", staffRoutes);
+router.use(
+    "/staff",
+    staffRoutes,
+);
+
 
 /*
 |--------------------------------------------------------------------------

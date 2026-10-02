@@ -1,0 +1,107 @@
+.staff-access-summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    overflow: hidden;
+    border: 1px solid #e3e8ef;
+    border-radius: 11px;
+    background: #ffffff;
+}
+
+.staff-access-summary-item {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 14px 16px;
+}
+
+.staff-access-summary-item+.staff-access-summary-item {
+    border-left: 1px solid #edf0f4;
+}
+
+.staff-access-summary-icon {
+    width: 31px;
+    height: 31px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e7ebf0;
+    border-radius: 8px;
+    background: #f8fafc;
+    color: #667085;
+}
+
+.staff-access-summary-icon svg {
+    width: 15px;
+    height: 15px;
+}
+
+.staff-access-summary-copy {
+    min-width: 0;
+}
+
+.staff-access-summary-copy strong {
+    display: block;
+    margin-bottom: 3px;
+    color: #111827;
+    font-size: 18px;
+    font-weight: 750;
+    letter-spacing: -0.025em;
+    line-height: 1;
+}
+
+.staff-access-summary-copy span {
+    display: block;
+    overflow: hidden;
+    color: #7a8798;
+    font-size: 9px;
+    font-weight: 600;
+    line-height: 1.3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.staff-access-summary-item.is-effective .staff-access-summary-icon {
+    border-color: #d7e5f5;
+    background: #f4f8fc;
+    color: #0056b3;
+}
+
+.staff-access-summary-item.is-grant .staff-access-summary-icon {
+    border-color: #d5eadc;
+    background: #f4fbf6;
+    color: #167344;
+}
+
+.staff-access-summary-item.is-denial .staff-access-summary-icon {
+    border-color: #ead8d8;
+    background: #fff8f8;
+    color: #b42318;
+}
+
+@media (max-width: 650px) {
+    .staff-access-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .staff-access-summary-item+.staff-access-summary-item {
+        border-top: 1px solid #edf0f4;
+        border-left: 0;
+    }
+
+    .staff-access-summary-item {
+        padding: 12px 14px;
+    }
+}
+
+@media (max-width: 400px) {
+    .staff-access-summary-icon {
+        width: 29px;
+        height: 29px;
+    }
+
+    .staff-access-summary-copy strong {
+        font-size: 17px;
+    }
+}

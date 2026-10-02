@@ -1,0 +1,250 @@
+.admin-staff-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 18px;
+}
+
+.admin-staff-search {
+    position: relative;
+    min-width: 220px;
+    flex: 1;
+    max-width: 340px;
+}
+
+.admin-staff-search>svg {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    width: 16px;
+    height: 16px;
+    color: #94a3b8;
+    pointer-events: none;
+    transform: translateY(-50%);
+}
+
+.admin-staff-search input {
+    width: 100%;
+    height: 40px;
+    box-sizing: border-box;
+    padding: 0 36px 0 36px;
+    border: 1px solid #dbe2ea;
+    border-radius: 8px;
+    outline: none;
+    background: #ffffff;
+    color: #0f172a;
+    font: inherit;
+    font-size: 12px;
+    transition:
+        border-color 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.admin-staff-search input::placeholder {
+    color: #94a3b8;
+}
+
+.admin-staff-search input:hover {
+    border-color: #cbd5e1;
+}
+
+.admin-staff-search input:focus {
+    border-color: #3569ee;
+    box-shadow: 0 0 0 3px rgba(53, 105, 238, 0.1);
+}
+
+.admin-staff-search-clear {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: #94a3b8;
+    cursor: pointer;
+    transform: translateY(-50%);
+}
+
+.admin-staff-search-clear:hover {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.admin-staff-search-clear svg {
+    width: 14px;
+    height: 14px;
+}
+
+.admin-staff-filters {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.admin-staff-filters select {
+    height: 40px;
+    min-width: 130px;
+    padding: 0 30px 0 11px;
+    border: 1px solid #dbe2ea;
+    border-radius: 8px;
+    outline: none;
+    background: #ffffff;
+    color: #475569;
+    font: inherit;
+    font-size: 11px;
+    font-weight: 550;
+    cursor: pointer;
+    transition:
+        border-color 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.admin-staff-filters select:hover {
+    border-color: #cbd5e1;
+}
+
+.admin-staff-filters select:focus {
+    border-color: #3569ee;
+    box-shadow: 0 0 0 3px rgba(53, 105, 238, 0.1);
+}
+
+.admin-staff-toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-left: auto;
+}
+
+.admin-staff-clear-filters {
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 9px;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: #64748b;
+    font: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.admin-staff-clear-filters:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+}
+
+.admin-staff-clear-filters svg {
+    width: 13px;
+    height: 13px;
+}
+
+.admin-staff-view-toggle {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 3px;
+    border: 1px solid #dbe2ea;
+    border-radius: 8px;
+    background: #ffffff;
+}
+
+.admin-staff-view-toggle button {
+    width: 34px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: #94a3b8;
+    cursor: pointer;
+    transition:
+        background 0.18s ease,
+        color 0.18s ease;
+}
+
+.admin-staff-view-toggle button:hover {
+    color: #475569;
+}
+
+.admin-staff-view-toggle button.is-active {
+    background: #edf3ff;
+    color: #3569ee;
+}
+
+.admin-staff-view-toggle svg {
+    width: 16px;
+    height: 16px;
+}
+
+@media (max-width: 1050px) {
+    .admin-staff-toolbar {
+        flex-wrap: wrap;
+    }
+
+    .admin-staff-search {
+        flex: 1 1 100%;
+        max-width: none;
+    }
+
+    .admin-staff-filters {
+        flex: 1;
+    }
+
+    .admin-staff-filters select {
+        flex: 1;
+    }
+
+    .admin-staff-toolbar-right {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 700px) {
+    .admin-staff-filters {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-staff-filters select {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .admin-staff-toolbar-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 430px) {
+    .admin-staff-filters {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-staff-toolbar {
+        gap: 8px;
+    }
+
+    .admin-staff-search input,
+    .admin-staff-filters select,
+    .admin-staff-view-toggle {
+        height: 38px;
+    }
+
+    .admin-staff-view-toggle button {
+        height: 30px;
+    }
+}

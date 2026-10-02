@@ -18,7 +18,7 @@ const canada = {
 
   visa: "Express Entry",
 
-  duration: "8–16 Weeks",
+  duration: " 5-6 Months",
 
   processingTime: "Fast",
 
@@ -47,7 +47,7 @@ const canada = {
 
       type: "Express Entry",
 
-      duration: "8–16 Weeks",
+      duration: "5-6 Months",
 
       salary: "$80,000 - $120,000 CAD/year",
 

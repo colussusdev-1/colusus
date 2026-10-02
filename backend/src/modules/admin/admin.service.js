@@ -3,6 +3,7 @@ import Application from "../applications/application.model.js";
 import Document from "../documents/document.model.js";
 import workflowService from "../workflows/workflow.service.js";
 import notificationService from "../notifications/notification.service.js";
+import adminOpportunityService from "./admin.opportunity.service.js";
 
 /*
 |--------------------------------------------------------------------------
@@ -249,7 +250,6 @@ const buildApplicationStatusNotification = ({
   previousStatus,
   nextStatus,
   notes = "",
-  applicationId,
 }) => {
   const fromLabel = formatStatusLabel(previousStatus);
   const toLabel = formatStatusLabel(nextStatus);
@@ -341,11 +341,9 @@ const createApplicationStatusNotification = async ({
     applicationId: application._id,
   });
 
-  const notificationType =
-    getApplicationStatusNotificationType(nextStatus);
+  const notificationType = getApplicationStatusNotificationType(nextStatus);
 
-  const priority =
-    getApplicationStatusNotificationPriority(nextStatus);
+  const priority = getApplicationStatusNotificationPriority(nextStatus);
 
   return notificationService.createForApplicationOwner({
     application,
@@ -395,9 +393,7 @@ const getDashboardStats = async () => {
     User.countDocuments({
       role: "CLIENT",
       createdAt: {
-        $gte: new Date(
-          new Date().setDate(new Date().getDate() - 30),
-        ),
+        $gte: new Date(new Date().setDate(new Date().getDate() - 30)),
       },
     }),
 
@@ -537,9 +533,7 @@ const updateApplicationStatus = async (
   ];
 
   if (!allowedStatuses.includes(normalizedStatus)) {
-    const error = new Error(
-      `Invalid application status: ${status}`,
-    );
+    const error = new Error(`Invalid application status: ${status}`);
 
     error.statusCode = 400;
 
@@ -634,11 +628,7 @@ const getApplicationNotes = async (applicationId) => {
 |--------------------------------------------------------------------------
 */
 
-const addApplicationNote = async (
-  applicationId,
-  message,
-  adminId,
-) => {
+const addApplicationNote = async (applicationId, message, adminId) => {
   const application = await Application.findById(applicationId);
 
   if (!application) {
@@ -664,8 +654,7 @@ const addApplicationNote = async (
   application.activity.push({
     type: "UPDATED",
     title: "Internal note added",
-    description:
-      "An internal note was added to this application.",
+    description: "An internal note was added to this application.",
     metadata: {
       action: "INTERNAL_NOTE_ADDED",
       note: trimmedMessage,
@@ -705,11 +694,7 @@ const getAssignableStaff = async () => {
 |--------------------------------------------------------------------------
 */
 
-const assignApplication = async (
-  applicationId,
-  staffId,
-  updatedBy,
-) => {
+const assignApplication = async (applicationId, staffId, updatedBy) => {
   /*
   |--------------------------------------------------------------------------
   | VALIDATE APPLICATION ID
@@ -751,9 +736,7 @@ const assignApplication = async (
   */
 
   const assignmentValue =
-    staffId === null ||
-    staffId === undefined ||
-    staffId === ""
+    staffId === null || staffId === undefined || staffId === ""
       ? null
       : String(staffId).trim();
 
@@ -782,9 +765,7 @@ const assignApplication = async (
             ? String(previousAssignedTo)
             : null,
 
-          updatedBy: updatedBy
-            ? String(updatedBy)
-            : null,
+          updatedBy: updatedBy ? String(updatedBy) : null,
         },
 
         createdAt: new Date(),
@@ -798,9 +779,7 @@ const assignApplication = async (
     */
 
     if (!/^[a-fA-F0-9]{24}$/.test(assignmentValue)) {
-      const error = new Error(
-        "Selected staff member ID is invalid.",
-      );
+      const error = new Error("Selected staff member ID is invalid.");
 
       error.statusCode = 400;
 
@@ -822,9 +801,7 @@ const assignApplication = async (
     }).select("_id name email role");
 
     if (!staff) {
-      const error = new Error(
-        "Selected staff member is invalid.",
-      );
+      const error = new Error("Selected staff member is invalid.");
 
       error.statusCode = 400;
 
@@ -833,13 +810,12 @@ const assignApplication = async (
 
     /*
     |--------------------------------------------------------------------------
-    | DETERMINE WHETHER THIS IS A NEW ASSIGNMENT OR REASSIGNMENT
+    | DETERMINE WHETHER NEW OR REASSIGNMENT
     |--------------------------------------------------------------------------
     */
 
     const isSameStaff =
-      previousAssignedTo &&
-      String(previousAssignedTo) === String(staff._id);
+      previousAssignedTo && String(previousAssignedTo) === String(staff._id);
 
     if (!isSameStaff) {
       application.assignedTo = staff._id;
@@ -872,9 +848,7 @@ const assignApplication = async (
             ? String(previousAssignedTo)
             : null,
 
-          updatedBy: updatedBy
-            ? String(updatedBy)
-            : null,
+          updatedBy: updatedBy ? String(updatedBy) : null,
         },
 
         createdAt: new Date(),
@@ -896,13 +870,6 @@ const assignApplication = async (
   |--------------------------------------------------------------------------
   | SAVE APPLICATION
   |--------------------------------------------------------------------------
-  |
-  | Assignment should not silently fail.
-  |
-  | We capture the complete Mongoose error here so the backend log
-  | identifies the exact validation/casting/database problem.
-  |
-  |--------------------------------------------------------------------------
   */
 
   try {
@@ -912,9 +879,7 @@ const assignApplication = async (
       "============================================================",
     );
 
-    console.error(
-      "APPLICATION ASSIGNMENT SAVE FAILED",
-    );
+    console.error("APPLICATION ASSIGNMENT SAVE FAILED");
 
     console.error(
       "============================================================",
@@ -922,9 +887,7 @@ const assignApplication = async (
 
     console.error(
       "Application ID:",
-      application?._id
-        ? String(application._id)
-        : applicationId,
+      application?._id ? String(application._id) : applicationId,
     );
 
     console.error(
@@ -934,63 +897,40 @@ const assignApplication = async (
 
     console.error(
       "Previous Assigned To:",
-      previousAssignedTo
-        ? String(previousAssignedTo)
-        : null,
+      previousAssignedTo ? String(previousAssignedTo) : null,
     );
 
     console.error(
       "New Assigned To:",
-      application?.assignedTo
-        ? String(application.assignedTo)
-        : null,
+      application?.assignedTo ? String(application.assignedTo) : null,
     );
 
-    console.error(
-      "Updated By:",
-      updatedBy
-        ? String(updatedBy)
-        : null,
-    );
+    console.error("Updated By:", updatedBy ? String(updatedBy) : null);
 
-    console.error(
-      "Error Name:",
-      error?.name || "UnknownError",
-    );
+    console.error("Error Name:", error?.name || "UnknownError");
 
-    console.error(
-      "Error Message:",
-      error?.message || "Unknown error",
-    );
+    console.error("Error Message:", error?.message || "Unknown error");
 
-    console.error(
-      "Error Code:",
-      error?.code || "N/A",
-    );
+    console.error("Error Code:", error?.code || "N/A");
 
     if (error?.errors) {
       console.error(
         "Validation Errors:",
         Object.fromEntries(
-          Object.entries(error.errors).map(
-            ([field, fieldError]) => [
-              field,
-              {
-                message: fieldError?.message,
-                kind: fieldError?.kind,
-                path: fieldError?.path,
-                value: fieldError?.value,
-              },
-            ],
-          ),
+          Object.entries(error.errors).map(([field, fieldError]) => [
+            field,
+            {
+              message: fieldError?.message,
+              kind: fieldError?.kind,
+              path: fieldError?.path,
+              value: fieldError?.value,
+            },
+          ]),
         ),
       );
     }
 
-    console.error(
-      "Full Error:",
-      error,
-    );
+    console.error("Full Error:", error);
 
     console.error(
       "============================================================",
@@ -1010,12 +950,114 @@ const assignApplication = async (
 
 /*
 |--------------------------------------------------------------------------
+| OPPORTUNITY MANAGEMENT
+|--------------------------------------------------------------------------
+|
+| These methods are exposed through admin.service.js so the admin
+| opportunity controller can use the same central admin service
+| pattern already used by applications.
+|--------------------------------------------------------------------------
+*/
+
+/*
+|--------------------------------------------------------------------------
+| GET ALL OPPORTUNITIES
+|--------------------------------------------------------------------------
+*/
+
+const getAllOpportunities = async () => {
+  return await adminOpportunityService.getAllOpportunities();
+};
+
+/*
+|--------------------------------------------------------------------------
+| GET SINGLE OPPORTUNITY
+|--------------------------------------------------------------------------
+*/
+
+const getOpportunityById = async (opportunityId) => {
+  return await adminOpportunityService.getOpportunityById(opportunityId);
+};
+
+/*
+|--------------------------------------------------------------------------
+| CREATE OPPORTUNITY
+|--------------------------------------------------------------------------
+*/
+
+const createOpportunity = async (payload) => {
+  return await adminOpportunityService.createOpportunity(payload);
+};
+
+/*
+|--------------------------------------------------------------------------
+| UPDATE OPPORTUNITY
+|--------------------------------------------------------------------------
+*/
+
+const updateOpportunity = async (opportunityId, payload) => {
+  return await adminOpportunityService.updateOpportunity(
+    opportunityId,
+    payload,
+  );
+};
+
+/*
+|--------------------------------------------------------------------------
+| ACTIVATE / DEACTIVATE OPPORTUNITY
+|--------------------------------------------------------------------------
+*/
+
+const setOpportunityActive = async (opportunityId, active) => {
+  return await adminOpportunityService.setOpportunityActive(
+    opportunityId,
+    active,
+  );
+};
+
+/*
+|--------------------------------------------------------------------------
+| FEATURE / UNFEATURE OPPORTUNITY
+|--------------------------------------------------------------------------
+*/
+
+const setOpportunityFeatured = async (opportunityId, featured) => {
+  return await adminOpportunityService.setOpportunityFeatured(
+    opportunityId,
+    featured,
+  );
+};
+
+/*
+|--------------------------------------------------------------------------
+| DEACTIVATE OPPORTUNITY
+|--------------------------------------------------------------------------
+*/
+
+const deactivateOpportunity = async (opportunityId) => {
+  return await adminOpportunityService.deactivateOpportunity(opportunityId);
+};
+
+/*
+|--------------------------------------------------------------------------
 | EXPORT
 |--------------------------------------------------------------------------
 */
 
 export default {
+  /*
+  |--------------------------------------------------------------------------
+  | Dashboard
+  |--------------------------------------------------------------------------
+  */
+
   getDashboardStats,
+
+  /*
+  |--------------------------------------------------------------------------
+  | Applications
+  |--------------------------------------------------------------------------
+  */
 
   getAllApplications,
 
@@ -1023,11 +1065,43 @@ export default {
 
   updateApplicationStatus,
 
+  /*
+  |--------------------------------------------------------------------------
+  | Notes
+  |--------------------------------------------------------------------------
+  */
+
   getApplicationNotes,
 
   addApplicationNote,
 
+  /*
+  |--------------------------------------------------------------------------
+  | Assignment
+  |--------------------------------------------------------------------------
+  */
+
   getAssignableStaff,
 
   assignApplication,
+
+  /*
+  |--------------------------------------------------------------------------
+  | Opportunities
+  |--------------------------------------------------------------------------
+  */
+
+  getAllOpportunities,
+
+  getOpportunityById,
+
+  createOpportunity,
+
+  updateOpportunity,
+
+  setOpportunityActive,
+
+  setOpportunityFeatured,
+
+  deactivateOpportunity,
 };

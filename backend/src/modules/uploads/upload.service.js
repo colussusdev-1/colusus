@@ -10,7 +10,8 @@ const uploadBufferToCloudinary = ({
     const uploadStream = cloudinary.uploader.upload_stream(
       {
         folder,
-        resource_type: "auto",
+        resource_type: "raw",
+        type: "upload",
         use_filename: true,
         unique_filename: true,
         overwrite: false,
@@ -48,6 +49,7 @@ const uploadFile = async ({ file, type = "DOCUMENT" }) => {
     buffer: file.buffer,
     originalName: file.originalname,
     mimetype: file.mimetype,
+    folder: "colossus/documents",
   });
 
   return {

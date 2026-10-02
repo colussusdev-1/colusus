@@ -139,11 +139,18 @@ import AdminBlog
 import AdminBlogEditor
     from "./pages/admin/blog/AdminBlogEditor";
 
+import AdminStaff
+    from "./pages/admin/staff-management/AdminStaff";
+
+import AdminStaffDetails from "./pages/admin/staff-management/AdminStaffDetails";
+
 import StaffRoutes
     from "./pages/admin/staff/staff.routes";
 
 import AdminRoleRoute
     from "./pages/admin/Auth/AdminRoleRoute";
+
+import AdminCreateStaff from "./pages/admin/staff-management/AdminCreateStaff";
 
 import Login
     from "./pages/Auth/Login";
@@ -429,6 +436,7 @@ function App() {
 
                 {/* ======================================================
                     ADMIN OPERATIONS PORTAL
+                    ADMIN ONLY
                 ====================================================== */}
 
                 <Route
@@ -447,7 +455,6 @@ function App() {
                             <AdminLayout />
                         }
                     >
-
 
                         {/* ==================================================
                             ADMIN OVERVIEW
@@ -587,7 +594,7 @@ function App() {
                                 <AdminFormSubmissionDocumentViewer />
                             }
                         />
-/
+
 
                         {/* ==================================================
                             BLOG
@@ -628,6 +635,28 @@ function App() {
                             }
                         />
 
+
+                        {/* ==================================================
+                            STAFF MANAGEMENT
+                            ADMIN ONLY
+                        ================================================== */}
+
+                        <Route
+                            path="staff-management"
+                            element={
+                                <AdminStaff />
+                            }
+                        />
+
+                        <Route
+                            path="staff-management/new"
+                            element={<AdminCreateStaff />}
+                        />
+
+                        <Route
+                            path="staff-management/:id"
+                            element={<AdminStaffDetails />}
+                        />
                     </Route>
 
                 </Route>
@@ -635,6 +664,7 @@ function App() {
 
                 {/* ======================================================
                     STAFF OPERATIONS WORKSPACE
+                    STAFF ONLY
                 ====================================================== */}
 
                 <Route
@@ -682,7 +712,6 @@ function App() {
                             <PortalLayout />
                         }
                     >
-
 
                         {/* ==================================================
                             CLIENT DASHBOARD

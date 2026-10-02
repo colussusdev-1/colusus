@@ -227,7 +227,25 @@ const getCountryProfile = async ({
 
     /*
     |--------------------------------------------------------------------------
-    | 2. Prefer complete country records
+    | 2. Prefer records with a real country image
+    |--------------------------------------------------------------------------
+    |
+    | Country imagery is more important than general metadata completeness
+    | because this record may become the reusable destination profile.
+    |
+    */
+
+    const countryImageDifference =
+      Number(Boolean(toTrimmedString(b.countryImage))) -
+      Number(Boolean(toTrimmedString(a.countryImage)));
+
+    if (countryImageDifference !== 0) {
+      return countryImageDifference;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | 3. Prefer complete country records
     |--------------------------------------------------------------------------
     */
 
@@ -236,20 +254,6 @@ const getCountryProfile = async ({
 
     if (completenessDifference !== 0) {
       return completenessDifference;
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | 3. Prefer records with country imagery
-    |--------------------------------------------------------------------------
-    */
-
-    const imageDifference =
-      Number(Boolean(toTrimmedString(b.countryImage))) -
-      Number(Boolean(toTrimmedString(a.countryImage)));
-
-    if (imageDifference !== 0) {
-      return imageDifference;
     }
 
     /*
@@ -282,30 +286,57 @@ const getCountryProfile = async ({
 
 /*
 |--------------------------------------------------------------------------
+| DESTINATION IMAGE FALLBACK
+|--------------------------------------------------------------------------
+|
+| countryImage remains the authoritative destination image.
+|
+| If no countryImage exists, the strongest available opportunity image
+| can be used when returning a destination to the frontend.
+|
+| IMPORTANT:
+| This does NOT write the opportunity image into countryImage.
+| The two database fields remain semantically separate.
+|
+|--------------------------------------------------------------------------
+*/
+
+const getDestinationImageExpression = () => ({
+  $cond: [
+    {
+      $and: [{ $ne: ["$countryImage", null] }, { $ne: ["$countryImage", ""] }],
+    },
+    "$countryImage",
+    {
+      $cond: [
+        {
+          $and: [{ $ne: ["$image", null] }, { $ne: ["$image", ""] }],
+        },
+        "$image",
+        "",
+      ],
+    },
+  ],
+});
+
+/*
+|--------------------------------------------------------------------------
 | GET DESTINATIONS
 |--------------------------------------------------------------------------
 |
-| The database currently has no separate Country collection.
+| Destinations are currently derived from Opportunity records.
 |
-| Therefore destinations are derived from existing Opportunity records.
+| The aggregation chooses the strongest record for each destination.
 |
-| The frontend should use this endpoint when creating a new offer:
+| Priority:
 |
-|     GET /admin/opportunities/destinations
-|
-| The user selects:
-|
-|     Australia
-|
-| instead of manually entering:
-|
-|     countryName
-|     countrySlug
-|     countryFlag
-|     countryImage
-|     visa
-|     processing time
-|     etc.
+| 1. Active
+| 2. Country image
+| 3. Country flag
+| 4. Country description
+| 5. Offer image
+| 6. Featured
+| 7. Newest
 |
 |--------------------------------------------------------------------------
 */
@@ -327,6 +358,16 @@ const getDestinations = async () => {
                 { $ne: ["$countryImage", null] },
                 { $ne: ["$countryImage", ""] },
               ],
+            },
+            1,
+            0,
+          ],
+        },
+
+        _hasOfferImage: {
+          $cond: [
+            {
+              $and: [{ $ne: ["$image", null] }, { $ne: ["$image", ""] }],
             },
             1,
             0,
@@ -365,10 +406,6 @@ const getDestinations = async () => {
     |--------------------------------------------------------------------------
     | Put the strongest destination record first.
     |--------------------------------------------------------------------------
-    |
-    | This matters because country metadata currently lives on every
-    | opportunity record.
-    |
     */
 
     {
@@ -377,6 +414,7 @@ const getDestinations = async () => {
         _hasCountryImage: -1,
         _hasCountryFlag: -1,
         _hasDescription: -1,
+        _hasOfferImage: -1,
         featured: -1,
         createdAt: -1,
       },
@@ -408,8 +446,18 @@ const getDestinations = async () => {
           $first: "$countryFlag",
         },
 
+        /*
+        |--------------------------------------------------------------------------
+        | Destination image resolution
+        |--------------------------------------------------------------------------
+        |
+        | Use the real country image first.
+        | Otherwise use the selected opportunity image as a fallback.
+        |
+        */
+
         countryImage: {
-          $first: "$countryImage",
+          $first: getDestinationImageExpression(),
         },
 
         applicants: {
@@ -470,7 +518,7 @@ const getDestinations = async () => {
 
     /*
     |--------------------------------------------------------------------------
-    | Sort destinations alphabetically for the admin selector.
+    | Sort destinations alphabetically.
     |--------------------------------------------------------------------------
     */
 
@@ -1119,6 +1167,12 @@ const buildCreateData = async (payload) => {
     active: toBoolean(payload.active, true),
   };
 
+  /*
+  |--------------------------------------------------------------------------
+  | INHERIT EXISTING COUNTRY PROFILE
+  |--------------------------------------------------------------------------
+  */
+
   if (selectedCountry) {
     applyCountryProfile(data, selectedCountry, payload);
   }
@@ -1513,6 +1567,7 @@ const setOpportunityFeatured = async (id, featured) => {
 |--------------------------------------------------------------------------
 |
 | Soft-delete only.
+|
 |--------------------------------------------------------------------------
 */
 
