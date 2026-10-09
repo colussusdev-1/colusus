@@ -1,3 +1,4 @@
+
 import {
     useEffect,
     useState,
@@ -36,6 +37,9 @@ import ApplicationJourney
 
 import ApplicationStageCard
     from "../../components/ClientPortal/applications/ApplicationDetails/ApplicationStageCard/ApplicationStageCard";
+
+import ApplicationPayment
+    from "../../components/ClientPortal/applications/ApplicationDetails/ApplicationPayment/ApplicationPayment";
 
 import ApplicationCompletion
     from "../../components/ClientPortal/applications/ApplicationDetails/ApplicationCompletion/ApplicationCompletion";
@@ -113,10 +117,6 @@ const ApplicationDetails = () => {
 
     /* =========================================================
        ACTIVITY REFRESH STATE
-    =========================================================
-
-       Used by the ApplicationActivity refresh button.
-
     ========================================================= */
 
     const [refreshingActivity, setRefreshingActivity] =
@@ -152,6 +152,27 @@ const ApplicationDetails = () => {
 
 
             setApplication(data);
+
+
+            /*
+             * PAYMENT DEBUG
+             *
+             * This confirms whether the application returned
+             * by the backend actually contains the payment
+             * information required by ApplicationPayment.
+             */
+
+            console.log(
+                "APPLICATION PAYMENT DATA:",
+                {
+                    applicationId: data?._id,
+                    paymentStatus: data?.paymentStatus,
+                    currentPaymentStage:
+                        data?.currentPaymentStage,
+                    paymentPlan:
+                        data?.paymentPlan,
+                },
+            );
 
 
             return data;
@@ -227,22 +248,6 @@ const ApplicationDetails = () => {
 
     /* =========================================================
        REFRESH APPLICATION
-    =========================================================
-
-       Refreshes BOTH:
-
-       1. Application
-          - status
-          - progress
-          - activity
-          - updatedAt
-          - workflow
-
-       2. Documents
-          - uploaded documents
-          - document statuses
-          - document changes
-
     ========================================================= */
 
     const refreshApplication = async () => {
@@ -259,9 +264,6 @@ const ApplicationDetails = () => {
 
             /*
              * Refresh application and documents together.
-             *
-             * The application response contains the latest
-             * activity array.
              */
 
             await Promise.all([
@@ -381,15 +383,23 @@ const ApplicationDetails = () => {
 
 
     /* =========================================================
+       APPLICATION PAYMENT STARTED
+    ========================================================= */
+
+    const handleApplicationPaymentStarted = (
+        paymentResult,
+    ) => {
+
+        console.log(
+            "APPLICATION PAYMENT STARTED:",
+            paymentResult,
+        );
+
+    };
+
+
+    /* =========================================================
        APPLICATION ACTION
-    =========================================================
-
-       Handles the action selected from the new
-       ApplicationActionPanel.
-
-       The action panel does not own navigation.
-       This parent page controls where the user goes.
-
     ========================================================= */
 
     const handleApplicationAction = (
@@ -450,11 +460,6 @@ const ApplicationDetails = () => {
 
         /* -----------------------------------------------------
            ACTIVITY ACTION
-        -----------------------------------------------------
-
-           Scroll to the activity panel when the action panel
-           is asking the client to review an application update.
-
         ----------------------------------------------------- */
 
         if (action === "activity") {
@@ -521,11 +526,6 @@ const ApplicationDetails = () => {
 
 
         try {
-
-            /*
-             * Only the selected document enters
-             * the uploading state.
-             */
 
             setUploadingDocumentId(
                 documentId,
@@ -611,10 +611,7 @@ const ApplicationDetails = () => {
 
 
             /*
-             * Also refresh the application.
-             *
-             * This is important because the backend activity
-             * should now contain DOCUMENT_UPLOADED.
+             * Refresh application activity/state.
              */
 
             await loadApplication();
@@ -645,10 +642,6 @@ const ApplicationDetails = () => {
 
     /* =========================================================
        VIEW DOCUMENT
-    =========================================================
-
-       The client navigates to our internal DocumentViewer.
-
     ========================================================= */
 
     const handleDocumentView = (
@@ -774,17 +767,7 @@ const ApplicationDetails = () => {
 
         <main className="application-details-page">
 
-
-            {/* =====================================================
-                BACKGROUND
-            ===================================================== */}
-
             <div className="application-details-background" />
-
-
-            {/* =====================================================
-                PAGE CONTAINER
-            ===================================================== */}
 
             <div className="application-details-container">
 
@@ -868,6 +851,21 @@ const ApplicationDetails = () => {
 
 
                 {/* =================================================
+                    APPLICATION PAYMENT
+                ================================================= */}
+
+                <ApplicationPayment
+                    application={
+                        application
+                    }
+
+                    onPaymentStarted={
+                        handleApplicationPaymentStarted
+                    }
+                />
+
+
+                {/* =================================================
                     APPLICATION COMPLETION
                 ================================================= */}
 
@@ -916,17 +914,7 @@ const ApplicationDetails = () => {
 
                 <div className="application-details-layout">
 
-
-                    {/* =============================================
-                        PRIMARY CONTENT
-                    ============================================= */}
-
                     <div className="application-details-primary">
-
-
-                        {/* =========================================
-                            APPLICATION INFORMATION
-                        ========================================= */}
 
                         <ApplicationInformation
                             application={
@@ -935,20 +923,12 @@ const ApplicationDetails = () => {
                         />
 
 
-                        {/* =========================================
-                            OPPORTUNITY
-                        ========================================= */}
-
                         <OpportunityOverview
                             application={
                                 application
                             }
                         />
 
-
-                        {/* =========================================
-                            APPLICATION QUESTIONS
-                        ========================================= */}
 
                         <ApplicationQuestions
                             application={
@@ -958,10 +938,6 @@ const ApplicationDetails = () => {
 
                     </div>
 
-
-                    {/* =============================================
-                        ACTIVITY
-                    ============================================= */}
 
                     <aside className="application-details-sidebar">
 

@@ -11,7 +11,6 @@ const navLinks = [
 
   {
     name: "Services",
-
     dropdown: [
       {
         name: "Canada Migration",
@@ -19,7 +18,7 @@ const navLinks = [
       },
 
       {
-        name: "Global Works & Immigration Pathway",
+        name: "Global Work & Immigration Pathways",
         path: "/services/global-works",
       },
 
@@ -34,30 +33,37 @@ const navLinks = [
       },
     ],
   },
+
   {
     name: "Blog",
     path: "/blog",
   },
-
-  // {
-  //     name: "Overseas Job Matching",
-  //     path: "/overseas-job-matching",
-  // },
-
-  // {
-  //     name: "Offshore Company",
-  //     path: "/offshore-company",
-  // },
-
-  // {
-  //     name: "Shop",
-  //     path: "/shop",
-  // },
 
   {
     name: "Contact",
     path: "/contact",
   },
 ];
+
+/* -------------------------------------------------------------------------- */
+/* SECONDARY NAVIGATION ACTIONS                                               */
+/* -------------------------------------------------------------------------- */
+
+export const navActions = {
+  search: {
+    name: "Search Destinations",
+    ariaLabel: "Search migration destinations",
+  },
+
+  login: {
+    name: "Client Login",
+    path: "/login",
+  },
+
+  consultation: {
+    name: "Book a Consultation",
+    path: "/contact",
+  },
+};
 
 export default navLinks;

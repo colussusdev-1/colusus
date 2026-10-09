@@ -1,4 +1,3 @@
-
 import {
     useEffect,
     useMemo,
@@ -11,41 +10,34 @@ import {
 } from "react-router-dom";
 
 import {
-    HiOutlineBell,
     HiOutlineMenu,
     HiChevronDown,
 } from "react-icons/hi";
 
 import clientProfileService from "../../../services/clientPortal.service";
 
+import NotificationBell from "./NotificationBell";
+
 import "./PortalTopbar.css";
 
 
 /*
 ============================================================
-colossus — CLIENT PORTAL TOPBAR
+COLOSSUS — CLIENT PORTAL TOPBAR
 ============================================================
 
-USER SOURCE
+RESPONSIBILITIES
 
-The profile endpoint returns:
+- Mobile navigation trigger
+- Current page context
+- Client notifications
+- Authenticated client identity
+- Profile navigation
 
-profile.user
+The notification interface is handled by the existing
+NotificationBell component.
 
-Example:
-
-{
-    id: "...",
-    name: "DEVTEST",
-    email: "olaide@colossus.com",
-    role: "CLIENT"
-}
-
-The topbar therefore uses the backend profile as the
-authoritative account source.
-
-localStorage.user is used immediately while the profile
-request is loading.
+The profile endpoint remains the authoritative account source.
 
 ============================================================
 */
@@ -104,54 +96,52 @@ const PortalTopbar = () => {
 
         const loadAuthenticatedUser = async () => {
 
-            try {
+            /*
+            ------------------------------------------------
+            FIRST: LOCAL USER
+            ------------------------------------------------
+            */
 
-                /*
-                ------------------------------------------------
-                FIRST: LOCAL USER
-                ------------------------------------------------
-                */
-
-                const storedUser =
-                    localStorage.getItem("user");
+            const storedUser =
+                localStorage.getItem("user");
 
 
-                if (storedUser) {
+            if (storedUser) {
 
-                    try {
+                try {
 
-                        const parsedUser =
-                            JSON.parse(storedUser);
+                    const parsedUser =
+                        JSON.parse(storedUser);
 
 
-                        if (
-                            mounted &&
-                            parsedUser
-                        ) {
+                    if (
+                        mounted &&
+                        parsedUser
+                    ) {
 
-                            setUser(parsedUser);
-
-                        }
-
-                    } catch (error) {
-
-                        console.error(
-                            "colossus — INVALID STORED USER:",
-                            error,
-                        );
+                        setUser(parsedUser);
 
                     }
 
+                } catch (error) {
+
+                    console.error(
+                        "colossus — INVALID STORED USER:",
+                        error,
+                    );
+
                 }
 
+            }
 
-                /*
-                ------------------------------------------------
-                SECOND: BACKEND PROFILE
-                ------------------------------------------------
 
-                This is the authoritative source.
-                */
+            /*
+            ------------------------------------------------
+            SECOND: BACKEND PROFILE
+            ------------------------------------------------
+            */
+
+            try {
 
                 const profile =
                     await clientProfileService.getProfile();
@@ -170,12 +160,6 @@ const PortalTopbar = () => {
                     backendUser &&
                     typeof backendUser === "object"
                 ) {
-
-                    console.log(
-                        "[colossus TOPBAR] Backend user:",
-                        backendUser,
-                    );
-
 
                     setUser(backendUser);
 
@@ -209,14 +193,9 @@ const PortalTopbar = () => {
             } catch (error) {
 
                 /*
-                ------------------------------------------------
-                PROFILE REQUEST FAILED
-                ------------------------------------------------
-
-                Do NOT wipe the existing local user.
-
-                The portal can continue displaying the
-                locally stored authenticated account.
+                --------------------------------------------
+                PRESERVE LOCAL USER IF REQUEST FAILS
+                --------------------------------------------
                 */
 
                 console.warn(
@@ -474,7 +453,7 @@ const PortalTopbar = () => {
 
     /*
     ============================================================
-    ACCOUNT
+    ACCOUNT NAVIGATION
     ============================================================
     */
 
@@ -511,7 +490,6 @@ const PortalTopbar = () => {
     return (
 
         <header className="portal-topbar">
-
 
             {/* ==================================================
                 MOBILE MENU
@@ -552,33 +530,15 @@ const PortalTopbar = () => {
 
             <div className="portal-topbar__actions">
 
-
                 {/* =================================================
                     NOTIFICATIONS
                 ================================================= */}
 
-                <button
-                    type="button"
-                    className="
-                        portal-topbar__icon-btn
-                        portal-topbar__notification
-                        portal-topbar__notification--disabled
-                    "
-                    aria-label="Notifications not available"
-                    aria-disabled="true"
-                    disabled
-                >
+                <div className="portal-topbar__notification-wrapper">
 
-                    <HiOutlineBell />
+                    <NotificationBell />
 
-                    <span
-                        className="
-                            portal-topbar__notification-dot
-                        "
-                        aria-hidden="true"
-                    />
-
-                </button>
+                </div>
 
 
                 {/* =================================================

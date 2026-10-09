@@ -1,0 +1,14 @@
+.finance-receipt-status {
+    display: inline-flex;
+    border-radius: 999px;
+    padding: 4px 8px;
+    background: #e9f7ef;
+    color: #16704a;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.finance-receipt-status--void {
+    background: #fdecec;
+    color: #a52828;
+}

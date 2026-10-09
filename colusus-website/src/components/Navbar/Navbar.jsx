@@ -1,9 +1,14 @@
-import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+
 import {
     HiOutlineMenuAlt3,
     HiOutlineSearch,
+    HiOutlineUserCircle,
+    HiOutlineX,
 } from "react-icons/hi";
+
+import { HiArrowUpRight } from "react-icons/hi2";
 
 import "./Navbar.css";
 
@@ -13,112 +18,214 @@ import DesktopMenu from "./DesktopMenu";
 import MobileMenu from "./MobileMenu";
 
 const Navbar = () => {
-
     const [menuOpen, setMenuOpen] = useState(false);
-
     const [servicesOpen, setServicesOpen] = useState(false);
-
     const [scrolled, setScrolled] = useState(false);
 
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    /* -------------------------------------------------------------------------- */
+    /* SCROLL STATE                                                               */
+    /* -------------------------------------------------------------------------- */
+
     useEffect(() => {
-
         const handleScroll = () => {
-
-            setScrolled(window.scrollY > 20);
-
+            setScrolled(window.scrollY > 12);
         };
-
-        window.addEventListener("scroll", handleScroll);
 
         handleScroll();
 
+        window.addEventListener("scroll", handleScroll, {
+            passive: true,
+        });
+
         return () => {
-
             window.removeEventListener("scroll", handleScroll);
-
         };
-
     }, []);
 
-    useEffect(() => {
+    /* -------------------------------------------------------------------------- */
+    /* MOBILE SCROLL LOCK                                                         */
+    /* -------------------------------------------------------------------------- */
 
+    useEffect(() => {
         document.body.style.overflow = menuOpen ? "hidden" : "";
 
         return () => {
-
             document.body.style.overflow = "";
-
         };
-
     }, [menuOpen]);
 
-    const closeMenu = () => {
+    /* -------------------------------------------------------------------------- */
+    /* ROUTE CHANGES                                                              */
+    /* -------------------------------------------------------------------------- */
 
+    useEffect(() => {
         setMenuOpen(false);
-
         setServicesOpen(false);
+    }, [location.pathname]);
 
+    /* -------------------------------------------------------------------------- */
+    /* MENU ACTIONS                                                               */
+    /* -------------------------------------------------------------------------- */
+
+    const closeMenu = useCallback(() => {
+        setMenuOpen(false);
+        setServicesOpen(false);
+    }, []);
+
+    const toggleMobileMenu = () => {
+        setMenuOpen((previous) => !previous);
     };
+
+    /* -------------------------------------------------------------------------- */
+    /* DESTINATION SEARCH                                                        */
+    /* -------------------------------------------------------------------------- */
+
+    const handleSearch = () => {
+        closeMenu();
+
+        const focusSearch = () => {
+            const searchInput = document.getElementById("country-search");
+
+            if (searchInput) {
+                searchInput.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                });
+
+                window.setTimeout(() => {
+                    searchInput.focus({
+                        preventScroll: true,
+                    });
+                }, 350);
+
+                return;
+            }
+
+            const countriesSection =
+                document.getElementById("countries") ||
+                document.getElementById("global-opportunities");
+
+            countriesSection?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
+        };
+
+        if (location.pathname !== "/") {
+            navigate("/");
+
+            // Allow the homepage to render before searching for the input.
+            window.setTimeout(focusSearch, 450);
+
+            return;
+        }
+
+        focusSearch();
+    };
+
+    /* -------------------------------------------------------------------------- */
+    /* RENDER                                                                     */
+    /* -------------------------------------------------------------------------- */
 
     return (
         <>
             <header
-                className={`navbar ${scrolled ? "scrolled" : ""}`}
+                className={`navbar ${scrolled ? "scrolled" : ""} ${menuOpen ? "menu-is-open" : ""
+                    }`}
             >
-
-                <div className="container navbar-container">
-
-                    {/* Logo */}
+                <div className="navbar-container">
+                    {/* BRAND */}
 
                     <NavLink
                         to="/"
-                        className="logo"
+                        className="navbar-brand"
+                        aria-label="Colossus Migration and Tours home"
                         onClick={closeMenu}
                     >
-
                         <img
                             src={logo}
                             alt="Colossus Migration & Tours"
+                            className="navbar-logo"
                         />
-
                     </NavLink>
 
-                    {/* Desktop Navigation */}
+                    {/* DESKTOP NAVIGATION */}
 
-                    <DesktopMenu
-                        scrolled={scrolled}
-                    />
-
-                    {/* Right Actions */}
-
-                    <div className="nav-actions">
-
-                        <button
-                            className="search-btn"
-                            aria-label="Search"
-                        >
-
-                            <HiOutlineSearch />
-
-                        </button>
-
-                        <button
-                            className="menu-btn"
-                            aria-label="Open Menu"
-                            onClick={() => setMenuOpen(true)}
-                        >
-
-                            <HiOutlineMenuAlt3 />
-
-                        </button>
-
+                    <div className="navbar-navigation">
+                        <DesktopMenu closeMenu={closeMenu} />
                     </div>
 
-                </div>
+                    {/* ACTIONS */}
 
+                    <div className="nav-actions">
+                        {/* DESTINATION SEARCH */}
+
+                        <button
+                            type="button"
+                            className="nav-search-btn"
+                            aria-label="Search destinations"
+                            onClick={handleSearch}
+                        >
+                            <HiOutlineSearch aria-hidden="true" />
+
+                            <span className="nav-search-label">
+                                Destinations
+                            </span>
+                        </button>
+
+                        {/* CLIENT LOGIN */}
+
+                        <NavLink
+                            to="/login"
+                            className={({ isActive }) =>
+                                `nav-login-btn ${isActive ? "active" : ""}`
+                            }
+                            onClick={closeMenu}
+                        >
+                            <HiOutlineUserCircle
+                                className="nav-login-icon"
+                                aria-hidden="true"
+                            />
+
+                            <span>Client Login</span>
+                        </NavLink>
+
+                        {/* CONSULTATION CTA */}
+
+                        <NavLink
+                            to="/contact"
+                            className="nav-consultation-btn"
+                            onClick={closeMenu}
+                        >
+                            <span>Book a Consultation</span>
+
+                            <HiArrowUpRight aria-hidden="true" />
+                        </NavLink>
+
+                        {/* MOBILE MENU TOGGLE */}
+
+                        <button
+                            type="button"
+                            className={`menu-btn ${menuOpen ? "active" : ""}`}
+                            aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+                            aria-expanded={menuOpen}
+                            aria-controls="mobile-navigation"
+                            onClick={toggleMobileMenu}
+                        >
+                            {menuOpen ? (
+                                <HiOutlineX aria-hidden="true" />
+                            ) : (
+                                <HiOutlineMenuAlt3 aria-hidden="true" />
+                            )}
+                        </button>
+                    </div>
+                </div>
             </header>
 
-            {/* Mobile */}
+            {/* MOBILE NAVIGATION */}
 
             <MobileMenu
                 menuOpen={menuOpen}
@@ -127,10 +234,8 @@ const Navbar = () => {
                 closeMenu={closeMenu}
                 scrolled={scrolled}
             />
-
         </>
     );
-
 };
 
 export default Navbar;

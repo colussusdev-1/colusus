@@ -1,11 +1,10 @@
 import {
-    useEffect
+    useEffect,
 } from "react";
 
 import {
-    useLocation
+    useLocation,
 } from "react-router-dom";
-
 
 import Hero from "./sections/Hero/Hero";
 import About from "./sections/About/About";
@@ -24,205 +23,154 @@ import "./Home.css";
 
 
 const Home = () => {
-
     const location = useLocation();
 
+    /*
+    ============================================================
+    HASH / SECTION NAVIGATION
 
-    /* =====================================================
-       HASH / SECTION NAVIGATION
+    Supports:
+    /#countries
+    /#global-opportunities
 
-       Supports:
-
-       /#countries
-       /#global-opportunities
-
-       Both will take the user to the Countries section.
-    ===================================================== */
+    Both navigate to the Countries section.
+    ============================================================
+    */
 
     useEffect(() => {
-
         const hash = location.hash;
 
         if (
             hash === "#countries" ||
             hash === "#global-opportunities"
         ) {
-
-            /*
-                Wait for the page and ScrollReveal
-                wrappers to render before scrolling.
-            */
-
             const timer = setTimeout(() => {
-
-                const target =
-                    document.getElementById("countries");
+                const target = document.getElementById("countries");
 
                 if (target) {
-
                     target.scrollIntoView({
                         behavior: "smooth",
                         block: "start",
                     });
-
                 }
-
             }, 250);
 
-
             return () => {
-
                 clearTimeout(timer);
-
             };
-
         }
-
     }, [location.hash]);
 
 
     return (
-
         <main className="home-page">
 
-
             {/* =====================================================
-                HERO
+                1. HERO
             ===================================================== */}
 
             <Hero />
 
-
+            
             {/* =====================================================
-                STATS
+                2. STATS / TRUST INDICATORS
             ===================================================== */}
 
             <ScrollReveal
                 direction="up"
-                duration={1.25}
-                distance={65}
+                duration={1.1}
+                distance={35}
             >
-
                 <StatsStrip />
-
             </ScrollReveal>
 
 
             {/* =====================================================
-                ABOUT
-            ===================================================== */}
-
-            <ScrollReveal
-                direction="left"
-                duration={1.3}
-                distance={55}
-                delay={0.05}
-            >
-
-                <About />
-
-            </ScrollReveal>
-
-
-            {/* =====================================================
-                GLOBAL OPPORTUNITIES / COUNTRIES
-
-                HERO:
-
-                Explore Pathways
-                    ↓
-                #countries
-                    ↓
-                Countries section
+                3. DESTINATIONS / GLOBAL OPPORTUNITIES
             ===================================================== */}
 
             <div
                 id="countries"
                 className="home-global-opportunities"
             >
-
                 <ScrollReveal
-                    direction="right"
-                    duration={1.3}
-                    distance={55}
-                    delay={0.05}
+                    direction="up"
+                    duration={1.1}
+                    distance={35}
                 >
-
                     <Countries />
-
                 </ScrollReveal>
-
             </div>
 
 
+
+
             {/* =====================================================
-                SERVICES
+                4. SERVICES
             ===================================================== */}
 
             <ScrollReveal
                 direction="up"
-                duration={1.35}
-                distance={65}
-                delay={0.08}
+                duration={1.1}
+                distance={35}
             >
-
                 <Services />
-
             </ScrollReveal>
 
 
             {/* =====================================================
-                ZERO DEPOSIT PROGRAM
-            ===================================================== */}
-
-            <ScrollReveal
-                direction="left"
-                duration={1.3}
-                distance={55}
-                delay={0.08}
-            >
-
-                <ZeroDepositProgram />
-
-            </ScrollReveal>
-
-
-            {/* =====================================================
-                SUCCESS STORIES
-            ===================================================== */}
-
-            <ScrollReveal
-                direction="right"
-                duration={1.35}
-                distance={55}
-                delay={0.1}
-            >
-
-                <SuccessStories />
-
-            </ScrollReveal>
-
-
-            {/* =====================================================
-                CONTACT CTA
+                5. ZERO DEPOSIT PROGRAM
             ===================================================== */}
 
             <ScrollReveal
                 direction="up"
-                duration={1.25}
-                distance={60}
-                delay={0.08}
+                duration={1.1}
+                distance={35}
             >
-
-                <ContactCTA />
-
+                <ZeroDepositProgram />
             </ScrollReveal>
 
+
+            {/* =====================================================
+                6. SUCCESS STORIES
+            ===================================================== */}
+
+            <ScrollReveal
+                direction="up"
+                duration={1.1}
+                distance={35}
+            >
+                <SuccessStories />
+            </ScrollReveal>
+
+
+            {/* =====================================================
+                7. ABOUT COLOSSUS
+            ===================================================== */}
+
+            <ScrollReveal
+                direction="up"
+                duration={1.1}
+                distance={35}
+            >
+                <About />
+            </ScrollReveal>
+
+
+            {/* =====================================================
+                8. CONTACT CTA
+            ===================================================== */}
+
+            <ScrollReveal
+                direction="up"
+                duration={1.1}
+                distance={35}
+            >
+                <ContactCTA />
+            </ScrollReveal>
 
         </main>
-
     );
-
 };
 
 

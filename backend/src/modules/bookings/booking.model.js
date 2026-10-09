@@ -125,6 +125,26 @@ const bookingSchema = new mongoose.Schema(
     |--------------------------------------------------------------------------
     */
 
+    /*
+     * Financial source-of-record link.
+     *
+     * A booking may have one invoice associated with it.
+     *
+     * Booking
+     *    ↓
+     * Invoice
+     *    ↓
+     * Payment
+     *    ↓
+     * Receipt
+     */
+    invoice: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Invoice",
+      default: null,
+      index: true,
+    },
+
     consultationFee: {
       type: Number,
       required: true,
@@ -145,6 +165,12 @@ const bookingSchema = new mongoose.Schema(
       uppercase: true,
     },
 
+    /*
+     * Latest successful payment reference associated with the booking.
+     *
+     * The Payment collection remains the financial source of truth.
+     * This field is retained for convenient business-level access.
+     */
     paymentReference: {
       type: String,
       unique: true,

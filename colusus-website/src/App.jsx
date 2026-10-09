@@ -67,6 +67,9 @@ import ProtectedRoute
 import ClientDashboard
     from "./pages/Client/ClientDashboard";
 
+import ClientFinance
+    from "./components/ClientPortal/finance/ClientFinance";
+
 import Applications
     from "./pages/Client/Applications";
 
@@ -142,7 +145,8 @@ import AdminBlogEditor
 import AdminStaff
     from "./pages/admin/staff-management/AdminStaff";
 
-import AdminStaffDetails from "./pages/admin/staff-management/AdminStaffDetails";
+import AdminStaffDetails
+    from "./pages/admin/staff-management/AdminStaffDetails";
 
 import StaffRoutes
     from "./pages/admin/staff/staff.routes";
@@ -150,7 +154,15 @@ import StaffRoutes
 import AdminRoleRoute
     from "./pages/admin/Auth/AdminRoleRoute";
 
-import AdminCreateStaff from "./pages/admin/staff-management/AdminCreateStaff";
+import AdminCreateStaff
+    from "./pages/admin/staff-management/AdminCreateStaff";
+
+/* ======================================================
+   ADMIN FINANCE
+====================================================== */
+
+import AdminFinance
+    from "./pages/admin/finance/AdminFinance";
 
 import Login
     from "./pages/Auth/Login";
@@ -158,17 +170,17 @@ import Login
 import Register
     from "./pages/Auth/Register";
 
+import PaymentCallback
+    from "./pages/Client/PaymentCallback";
+
 
 function App() {
-
     return (
-
         <BrowserRouter>
 
             <ScrollToTop />
 
             <Routes>
-
 
                 {/* ======================================================
                     PUBLIC WEBSITE
@@ -185,7 +197,6 @@ function App() {
                     }
                 />
 
-
                 <Route
                     path="/about"
                     element={
@@ -197,6 +208,10 @@ function App() {
                     }
                 />
 
+                <Route
+                    path="/payment/callback"
+                    element={<PaymentCallback />}
+                />
 
                 <Route
                     path="/services"
@@ -209,7 +224,6 @@ function App() {
                     }
                 />
 
-
                 <Route
                     path="/services/canada-migration"
                     element={
@@ -220,7 +234,6 @@ function App() {
                         </>
                     }
                 />
-
 
                 <Route
                     path="/services/global-works"
@@ -233,7 +246,6 @@ function App() {
                     }
                 />
 
-
                 <Route
                     path="/services/tourist-visa"
                     element={
@@ -244,7 +256,6 @@ function App() {
                         </>
                     }
                 />
-
 
                 <Route
                     path="/services/ireland-nursing"
@@ -264,9 +275,7 @@ function App() {
 
                 <Route
                     path="/irelandnursingwebinar"
-                    element={
-                        <Webinar />
-                    }
+                    element={<Webinar />}
                 />
 
 
@@ -284,7 +293,6 @@ function App() {
                         </>
                     }
                 />
-
 
                 <Route
                     path="/opportunities/:country/:slug"
@@ -312,7 +320,6 @@ function App() {
                         </>
                     }
                 />
-
 
                 <Route
                     path="/blog/:slug"
@@ -396,9 +403,7 @@ function App() {
 
                 <Route
                     path="/webmail"
-                    element={
-                        <Webmailer />
-                    }
+                    element={<Webmailer />}
                 />
 
 
@@ -408,17 +413,12 @@ function App() {
 
                 <Route
                     path="/login"
-                    element={
-                        <Login />
-                    }
+                    element={<Login />}
                 />
-
 
                 <Route
                     path="/register"
-                    element={
-                        <Register />
-                    }
+                    element={<Register />}
                 />
 
 
@@ -428,9 +428,7 @@ function App() {
 
                 <Route
                     path="/admin/login"
-                    element={
-                        <AdminLogin />
-                    }
+                    element={<AdminLogin />}
                 />
 
 
@@ -442,210 +440,146 @@ function App() {
                 <Route
                     element={
                         <AdminRoleRoute
-                            allowedRoles={[
-                                "ADMIN",
-                            ]}
+                            allowedRoles={["ADMIN"]}
                         />
                     }
                 >
 
                     <Route
                         path="/admin"
-                        element={
-                            <AdminLayout />
-                        }
+                        element={<AdminLayout />}
                     >
 
-                        {/* ==================================================
-                            ADMIN OVERVIEW
-                        ================================================== */}
+                        {/* ADMIN OVERVIEW */}
 
                         <Route
                             index
-                            element={
-                                <AdminOverview />
-                            }
+                            element={<AdminOverview />}
                         />
 
 
-                        {/* ==================================================
-                            APPLICATIONS
-                        ================================================== */}
+                        {/* APPLICATIONS */}
 
                         <Route
                             path="applications"
-                            element={
-                                <AdminApplications />
-                            }
+                            element={<AdminApplications />}
                         />
-
 
                         <Route
                             path="applications/:id"
-                            element={
-                                <AdminApplicationDetails />
-                            }
+                            element={<AdminApplicationDetails />}
                         />
 
 
-                        {/* ==================================================
-                            OPPORTUNITIES
-                        ================================================== */}
+                        {/* OPPORTUNITIES */}
 
                         <Route
                             path="opportunities"
-                            element={
-                                <AdminOpportunities />
-                            }
+                            element={<AdminOpportunities />}
                         />
-
 
                         <Route
                             path="opportunities/new"
-                            element={
-                                <OpportunityForm />
-                            }
+                            element={<OpportunityForm />}
                         />
-
 
                         <Route
                             path="opportunities/:id/edit"
-                            element={
-                                <OpportunityForm />
-                            }
+                            element={<OpportunityForm />}
                         />
 
 
-                        {/* ==================================================
-                            CONSULTATIONS
-                        ================================================== */}
+                        {/* CONSULTATIONS */}
 
                         <Route
                             path="consultations"
-                            element={
-                                <AdminConsultations />
-                            }
+                            element={<AdminConsultations />}
                         />
 
 
-                        {/* ==================================================
-                            CLIENTS
-                        ================================================== */}
+                        {/* FINANCE */}
+
+                        <Route
+                            path="finance"
+                            element={<AdminFinance />}
+                        />
+
+
+                        {/* CLIENTS */}
 
                         <Route
                             path="clients"
-                            element={
-                                <AdminClients />
-                            }
+                            element={<AdminClients />}
                         />
-
 
                         <Route
                             path="clients/:id"
-                            element={
-                                <AdminClientDetails />
-                            }
+                            element={<AdminClientDetails />}
                         />
 
 
-                        {/* ==================================================
-                            DOCUMENTS
-                        ================================================== */}
+                        {/* DOCUMENTS */}
 
                         <Route
                             path="documents"
-                            element={
-                                <AdminDocuments />
-                            }
+                            element={<AdminDocuments />}
                         />
 
 
-                        {/* ==================================================
-                            PUBLIC FORM SUBMISSIONS
-                        ================================================== */}
+                        {/* PUBLIC FORM SUBMISSIONS */}
 
                         <Route
                             path="forms"
-                            element={
-                                <AdminForms />
-                            }
+                            element={<AdminForms />}
                         />
-
 
                         <Route
                             path="forms/:formKey"
-                            element={
-                                <AdminFormSubmissions />
-                            }
+                            element={<AdminFormSubmissions />}
                         />
-
 
                         <Route
                             path="forms/:formKey/:submissionId"
-                            element={
-                                <AdminFormSubmissionDetails />
-                            }
+                            element={<AdminFormSubmissionDetails />}
                         />
-
 
                         <Route
                             path="forms/:formKey/:submissionId/documents/:documentId"
-                            element={
-                                <AdminFormSubmissionDocumentViewer />
-                            }
+                            element={<AdminFormSubmissionDocumentViewer />}
                         />
 
 
-                        {/* ==================================================
-                            BLOG
-                        ================================================== */}
+                        {/* BLOG */}
 
                         <Route
                             path="blog"
-                            element={
-                                <AdminBlog />
-                            }
+                            element={<AdminBlog />}
                         />
-
 
                         <Route
                             path="blog/new"
-                            element={
-                                <AdminBlogEditor />
-                            }
+                            element={<AdminBlogEditor />}
                         />
-
 
                         <Route
                             path="blog/:id/edit"
-                            element={
-                                <AdminBlogEditor />
-                            }
+                            element={<AdminBlogEditor />}
                         />
 
 
-                        {/* ==================================================
-                            NOTIFICATIONS
-                        ================================================== */}
+                        {/* NOTIFICATIONS */}
 
                         <Route
                             path="notifications"
-                            element={
-                                <AdminNotifications />
-                            }
+                            element={<AdminNotifications />}
                         />
 
 
-                        {/* ==================================================
-                            STAFF MANAGEMENT
-                            ADMIN ONLY
-                        ================================================== */}
+                        {/* STAFF MANAGEMENT */}
 
                         <Route
                             path="staff-management"
-                            element={
-                                <AdminStaff />
-                            }
+                            element={<AdminStaff />}
                         />
 
                         <Route
@@ -657,6 +591,7 @@ function App() {
                             path="staff-management/:id"
                             element={<AdminStaffDetails />}
                         />
+
                     </Route>
 
                 </Route>
@@ -670,25 +605,19 @@ function App() {
                 <Route
                     element={
                         <AdminRoleRoute
-                            allowedRoles={[
-                                "STAFF",
-                            ]}
+                            allowedRoles={["STAFF"]}
                         />
                     }
                 >
 
                     <Route
                         path="/admin"
-                        element={
-                            <AdminLayout />
-                        }
+                        element={<AdminLayout />}
                     >
 
                         <Route
                             path="staff/*"
-                            element={
-                                <StaffRoutes />
-                            }
+                            element={<StaffRoutes />}
                         />
 
                     </Route>
@@ -701,16 +630,12 @@ function App() {
                 ====================================================== */}
 
                 <Route
-                    element={
-                        <ProtectedRoute />
-                    }
+                    element={<ProtectedRoute />}
                 >
 
                     <Route
                         path="/portal"
-                        element={
-                            <PortalLayout />
-                        }
+                        element={<PortalLayout />}
                     >
 
                         {/* ==================================================
@@ -719,9 +644,7 @@ function App() {
 
                         <Route
                             index
-                            element={
-                                <ClientDashboard />
-                            }
+                            element={<ClientDashboard />}
                         />
 
 
@@ -731,25 +654,17 @@ function App() {
 
                         <Route
                             path="applications"
-                            element={
-                                <Applications />
-                            }
+                            element={<Applications />}
                         />
-
 
                         <Route
                             path="applications/new"
-                            element={
-                                <NewApplication />
-                            }
+                            element={<NewApplication />}
                         />
-
 
                         <Route
                             path="applications/:id"
-                            element={
-                                <ApplicationDetail />
-                            }
+                            element={<ApplicationDetail />}
                         />
 
 
@@ -759,17 +674,22 @@ function App() {
 
                         <Route
                             path="documents"
-                            element={
-                                <Documents />
-                            }
+                            element={<Documents />}
                         />
-
 
                         <Route
                             path="documents/:documentId/view"
-                            element={
-                                <DocumentViewer />
-                            }
+                            element={<DocumentViewer />}
+                        />
+
+
+                        {/* ==================================================
+                            CLIENT FINANCE
+                        ================================================== */}
+
+                        <Route
+                            path="finance"
+                            element={<ClientFinance />}
                         />
 
 
@@ -779,9 +699,7 @@ function App() {
 
                         <Route
                             path="updates"
-                            element={
-                                <ClientUpdates />
-                            }
+                            element={<ClientUpdates />}
                         />
 
 
@@ -791,9 +709,7 @@ function App() {
 
                         <Route
                             path="profile"
-                            element={
-                                <Profile />
-                            }
+                            element={<Profile />}
                         />
 
 
@@ -803,9 +719,7 @@ function App() {
 
                         <Route
                             path="assessment"
-                            element={
-                                <Assessment />
-                            }
+                            element={<Assessment />}
                         />
 
                     </Route>
@@ -817,6 +731,5 @@ function App() {
         </BrowserRouter>
     );
 }
-
 
 export default App;

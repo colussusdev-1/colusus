@@ -26,13 +26,36 @@ const createBooking = async (bookingData) => {
 
 /*
 |--------------------------------------------------------------------------
-| Initialize Paystack Payment
+| Initialize Payment
+|--------------------------------------------------------------------------
+|
+| The backend is the source of truth for:
+|
+| - amount
+| - currency
+| - customer
+| - invoice balance
+|
+| The frontend only identifies:
+|
+| - payment type
+| - invoice
+|
 |--------------------------------------------------------------------------
 */
 
-const initializePayment = async (bookingId) => {
+const initializePayment = async ({ paymentType, invoiceId }) => {
+  if (!paymentType) {
+    throw new Error("Payment type is required.");
+  }
+
+  if (!invoiceId) {
+    throw new Error("Invoice ID is required.");
+  }
+
   const { data } = await api.post("/payments/initialize", {
-    bookingId,
+    paymentType,
+    invoiceId,
   });
 
   return data.data;
@@ -45,6 +68,10 @@ const initializePayment = async (bookingId) => {
 */
 
 const verifyPayment = async (reference) => {
+  if (!reference) {
+    throw new Error("Payment reference is required.");
+  }
+
   const { data } = await api.get(`/payments/verify/${reference}`);
 
   return data.data;
@@ -52,45 +79,157 @@ const verifyPayment = async (reference) => {
 
 /*
 |--------------------------------------------------------------------------
-| Start Consultation Payment Flow
+| Pay an Existing Invoice
+|--------------------------------------------------------------------------
+|
+| Generic payment helper.
+|
+| Used when an invoice has already been created by the backend.
+|
+| Supported payment types currently include:
+|
+| - BOOKING
+| - APPLICATION
+| - OPPORTUNITY
+| - SERVICE
+| - OTHER
+|
+| The backend determines the actual amount from the invoice.
+|
+|--------------------------------------------------------------------------
+*/
+
+const payInvoice = async ({ paymentType, invoiceId }) => {
+  /*
+  |--------------------------------------------------------------------------
+  | VALIDATE INPUT
+  |--------------------------------------------------------------------------
+  */
+
+  if (!paymentType) {
+    throw new Error("Payment type is required.");
+  }
+
+  if (!invoiceId) {
+    throw new Error("Invoice ID is required.");
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | INITIALIZE PAYMENT
+  |--------------------------------------------------------------------------
+  */
+
+  const payment = await initializePayment({
+    paymentType,
+    invoiceId,
+  });
+
+  console.log("PAYMENT INITIALIZATION RESPONSE:", payment);
+
+  /*
+  |--------------------------------------------------------------------------
+  | VALIDATE PAYSTACK RESPONSE
+  |--------------------------------------------------------------------------
+  */
+
+  if (!payment?.authorizationUrl) {
+    throw new Error("Payment gateway did not return an authorization URL.");
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | REDIRECT TO PAYSTACK
+  |--------------------------------------------------------------------------
+  */
+
+  window.location.href = payment.authorizationUrl;
+
+  /*
+  |--------------------------------------------------------------------------
+  | RETURN
+  |--------------------------------------------------------------------------
+  |
+  | Normally the browser will leave the page immediately because of the
+  | Paystack redirect.
+  |
+  |--------------------------------------------------------------------------
+  */
+
+  return {
+    payment,
+    paymentRequired: true,
+  };
+};
+
+/*
+|--------------------------------------------------------------------------
+| Pay Application Invoice
+|--------------------------------------------------------------------------
+|
+| Application invoices are created by the backend when:
+|
+| - an application is created
+| - a payment stage becomes payable
+| - the previous payment stage is completed
+|
+| The application frontend should only provide the invoice ID.
+|
+|--------------------------------------------------------------------------
+*/
+
+const payApplication = async (invoiceId) => {
+  if (!invoiceId) {
+    throw new Error("Application invoice ID is required.");
+  }
+
+  return payInvoice({
+    paymentType: "APPLICATION",
+    invoiceId,
+  });
+};
+
+/*
+|--------------------------------------------------------------------------
+| Start Consultation / Booking Payment Flow
 |--------------------------------------------------------------------------
 |
 | Flow:
 |
 | 1. Create consultation booking
-| 2. Receive booking
+| 2. Receive booking + invoice
 | 3. Check whether payment is required
 |
-|    FREE / FULL COUPON:
-|       → WAIVED
-|       → CONFIRMED
-|       → DO NOT CALL PAYSTACK
+| FREE / FULL COUPON:
+|    → WAIVED
+|    → CONFIRMED
+|    → DO NOT CALL PAYSTACK
 |
-|    NORMAL BOOKING:
-|       → UNPAID
-|       → AWAITING_PAYMENT
-|       → Initialize Paystack
-|       → Redirect client
+| NORMAL BOOKING:
+|    → UNPAID
+|    → AWAITING_PAYMENT
+|    → Initialize payment using invoice ID
+|    → Redirect client
 |
 |--------------------------------------------------------------------------
 */
 
 const pay = async (bookingData) => {
   /*
-    |--------------------------------------------------------------------------
-    | Create Booking
-    |--------------------------------------------------------------------------
-    */
+  |--------------------------------------------------------------------------
+  | CREATE BOOKING
+  |--------------------------------------------------------------------------
+  */
 
   const result = await createBooking(bookingData);
 
   console.log("BOOKING CREATED:", result);
 
   /*
-    |--------------------------------------------------------------------------
-    | Validate Booking Response
-    |--------------------------------------------------------------------------
-    */
+  |--------------------------------------------------------------------------
+  | VALIDATE BOOKING RESPONSE
+  |--------------------------------------------------------------------------
+  */
 
   if (!result?.booking?._id) {
     throw new Error("Booking was created, but no booking ID was returned.");
@@ -98,15 +237,17 @@ const pay = async (bookingData) => {
 
   const booking = result.booking;
 
+  const invoice = result.invoice || null;
+
   /*
-    |--------------------------------------------------------------------------
-    | Read Final Booking State
-    |--------------------------------------------------------------------------
-    |
-    | The backend is the source of truth.
-    |
-    |--------------------------------------------------------------------------
-    */
+  |--------------------------------------------------------------------------
+  | READ FINAL BOOKING STATE
+  |--------------------------------------------------------------------------
+  |
+  | The backend is the source of truth.
+  |
+  |--------------------------------------------------------------------------
+  */
 
   const amountPayable = Number(booking.amountPayable);
 
@@ -116,27 +257,17 @@ const pay = async (bookingData) => {
 
   console.log("CONSULTATION PAYMENT STATE:", {
     amountPayable,
-
     paymentStatus,
-
     bookingStatus,
+    invoiceId: invoice?._id || null,
+    invoiceStatus: invoice?.status || null,
   });
 
   /*
-    |--------------------------------------------------------------------------
-    | FREE / FULL COUPON BOOKING
-    |--------------------------------------------------------------------------
-    |
-    | A fully discounted consultation:
-    |
-    | amountPayable = 0
-    | paymentStatus = WAIVED
-    | bookingStatus = CONFIRMED
-    |
-    | There is NO Paystack transaction.
-    |
-    |--------------------------------------------------------------------------
-    */
+  |--------------------------------------------------------------------------
+  | FREE / FULL COUPON BOOKING
+  |--------------------------------------------------------------------------
+  */
 
   if (
     amountPayable <= 0 ||
@@ -147,91 +278,123 @@ const pay = async (bookingData) => {
 
     return {
       booking,
-
+      invoice: null,
       paymentRequired: false,
-
       payment: null,
     };
   }
 
   /*
-    |--------------------------------------------------------------------------
-    | Safety Check
-    |--------------------------------------------------------------------------
-    |
-    | If the backend says payment is required, the amount must be > 0.
-    |
-    |--------------------------------------------------------------------------
-    */
+  |--------------------------------------------------------------------------
+  | VALIDATE REQUIRED INVOICE
+  |--------------------------------------------------------------------------
+  |
+  | A paid booking must have an issued invoice.
+  |
+  |--------------------------------------------------------------------------
+  */
+
+  if (!invoice?._id) {
+    throw new Error("Booking was created, but no invoice was returned.");
+  }
+
+  if (
+    invoice.status !== "ISSUED" &&
+    invoice.status !== "PARTIALLY_PAID" &&
+    invoice.status !== "OVERDUE"
+  ) {
+    throw new Error(
+      `Invoice cannot receive payment from ${invoice.status} status.`,
+    );
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | SAFETY CHECK
+  |--------------------------------------------------------------------------
+  |
+  | The frontend does not determine the payment amount.
+  |
+  | This check only confirms that the backend-created booking
+  | actually requires a positive payment.
+  |
+  |--------------------------------------------------------------------------
+  */
 
   if (!Number.isFinite(amountPayable) || amountPayable <= 0) {
     throw new Error("Invalid consultation payment amount.");
   }
 
   /*
-    |--------------------------------------------------------------------------
-    | Initialize Paystack
-    |--------------------------------------------------------------------------
-    */
+  |--------------------------------------------------------------------------
+  | INITIALIZE PAYMENT
+  |--------------------------------------------------------------------------
+  */
 
-  const payment = await initializePayment(booking._id);
+  const payment = await initializePayment({
+    paymentType: "BOOKING",
+    invoiceId: invoice._id,
+  });
 
-  console.log("PAYSTACK RESPONSE:", payment);
+  console.log("PAYMENT INITIALIZATION RESPONSE:", payment);
 
-  console.log("AUTHORIZATION URL:", payment?.authorization_url);
+  console.log("AUTHORIZATION URL:", payment?.authorizationUrl);
 
   /*
-    |--------------------------------------------------------------------------
-    | Validate Paystack Response
-    |--------------------------------------------------------------------------
-    */
+  |--------------------------------------------------------------------------
+  | VALIDATE PAYMENT RESPONSE
+  |--------------------------------------------------------------------------
+  */
 
-  if (!payment?.authorization_url) {
-    throw new Error("Paystack did not return an authorization URL.");
+  if (!payment?.authorizationUrl) {
+    throw new Error("Payment gateway did not return an authorization URL.");
   }
 
   /*
-    |--------------------------------------------------------------------------
-    | Redirect Client To Paystack
-    |--------------------------------------------------------------------------
-    */
+  |--------------------------------------------------------------------------
+  | REDIRECT CLIENT TO PAYSTACK
+  |--------------------------------------------------------------------------
+  */
 
-  window.location.href = payment.authorization_url;
+  window.location.href = payment.authorizationUrl;
 
   /*
-    |--------------------------------------------------------------------------
-    | Return
-    |--------------------------------------------------------------------------
-    |
-    | Normally the browser leaves this page immediately because of the
-    | redirect. Returning this also makes the service easier to test.
-    |
-    |--------------------------------------------------------------------------
-    */
+  |--------------------------------------------------------------------------
+  | RETURN
+  |--------------------------------------------------------------------------
+  */
 
   return {
     booking,
-
+    invoice,
     payment,
-
     paymentRequired: true,
   };
 };
 
 /*
 |--------------------------------------------------------------------------
-| Export
+| EXPORT
 |--------------------------------------------------------------------------
 */
 
 export default {
+  /*
+  | Booking
+  */
+
   reviewBooking,
-
   createBooking,
-
-  initializePayment,
-
-  verifyPayment,
-
   pay,
+
+  /*
+  | Generic Finance Payment
+  */
+  initializePayment,
+  verifyPayment,
+  payInvoice,
+  /*
+  | Application Payment
+  */
+  payApplication,
 };

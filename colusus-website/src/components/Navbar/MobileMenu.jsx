@@ -1,11 +1,16 @@
-import { NavLink } from "react-router-dom";
+import { useCallback, useEffect, useRef } from "react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+
 import {
     HiOutlineX,
-    HiOutlineSearch,
+    HiOutlineGlobeAlt,
     HiChevronDown,
     HiOutlinePhone,
     HiOutlineMail,
+    HiOutlineUserCircle,
+    HiOutlineArrowRight,
 } from "react-icons/hi";
+
 import { FaWhatsapp } from "react-icons/fa";
 
 import navLinks from "./navLinks";
@@ -19,159 +24,428 @@ const MobileMenu = ({
     setServicesOpen,
     closeMenu,
 }) => {
-    const toggleServices = () => {
-        setServicesOpen((prev) => !prev);
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const drawerRef = useRef(null);
+    const destinationPendingRef = useRef(false);
+
+    /* ---------------------------------------------------------------------- */
+    /* CLOSE SERVICES DROPDOWN WHEN ROUTE CHANGES                             */
+    /* ---------------------------------------------------------------------- */
+
+    useEffect(() => {
+        setServicesOpen(false);
+    }, [location.pathname, setServicesOpen]);
+
+    /* ---------------------------------------------------------------------- */
+    /* DESTINATION NAVIGATION AFTER HOMEPAGE LOADS                            */
+    /* ---------------------------------------------------------------------- */
+
+    const scrollToDestinations = useCallback(() => {
+        const section =
+            document.getElementById("countries") ||
+            document.getElementById("global-opportunities");
+
+        const searchInput = document.getElementById("country-search");
+
+        if (!section && !searchInput) {
+            return false;
+        }
+
+        const target = section || searchInput;
+
+        target.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+        });
+
+        if (searchInput) {
+            window.setTimeout(() => {
+                searchInput.focus({
+                    preventScroll: true,
+                });
+            }, 350);
+        }
+
+        return true;
+    }, []);
+
+    useEffect(() => {
+        if (
+            location.pathname === "/" &&
+            destinationPendingRef.current
+        ) {
+            destinationPendingRef.current = false;
+
+            // Let React finish rendering the homepage before scrolling.
+            window.requestAnimationFrame(() => {
+                window.requestAnimationFrame(scrollToDestinations);
+            });
+        }
+    }, [location.pathname, scrollToDestinations]);
+
+    /* ---------------------------------------------------------------------- */
+    /* DESTINATIONS ACTION                                                    */
+    /* ---------------------------------------------------------------------- */
+
+    const handleDestinations = () => {
+        closeMenu();
+
+        if (location.pathname !== "/") {
+            destinationPendingRef.current = true;
+            navigate("/");
+            return;
+        }
+
+        scrollToDestinations();
     };
+
+    /* ---------------------------------------------------------------------- */
+    /* SERVICES DROPDOWN                                                      */
+    /* ---------------------------------------------------------------------- */
+
+    const toggleServices = () => {
+        setServicesOpen((previous) => !previous);
+    };
+
+    /* ---------------------------------------------------------------------- */
+    /* CLOSE ON ESCAPE                                                        */
+    /* ---------------------------------------------------------------------- */
+
+    useEffect(() => {
+        if (!menuOpen) {
+            return undefined;
+        }
+
+        const handleKeyDown = (event) => {
+            if (event.key === "Escape") {
+                closeMenu();
+            }
+        };
+
+        document.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [menuOpen, closeMenu]);
+
+    /* ---------------------------------------------------------------------- */
+    /* CLOSE WHEN A ROUTE CHANGES                                             */
+    /* ---------------------------------------------------------------------- */
+
+    const previousPathRef = useRef(location.pathname);
+
+    useEffect(() => {
+        if (previousPathRef.current !== location.pathname) {
+            previousPathRef.current = location.pathname;
+
+            // Keep the drawer open only when a destination jump is pending.
+            if (!destinationPendingRef.current) {
+                closeMenu();
+            }
+        }
+    }, [location.pathname, closeMenu]);
+
+    /* ---------------------------------------------------------------------- */
+    /* RESTORE FOCUS AFTER CLOSING                                            */
+    /* ---------------------------------------------------------------------- */
+
+    useEffect(() => {
+        if (!menuOpen) {
+            return;
+        }
+
+        const firstFocusable = drawerRef.current?.querySelector(
+            ".mobile-close"
+        );
+
+        firstFocusable?.focus({
+            preventScroll: true,
+        });
+    }, [menuOpen]);
+
+    /* ---------------------------------------------------------------------- */
+    /* RENDER                                                                 */
+    /* ---------------------------------------------------------------------- */
 
     return (
         <>
-            <aside className={`mobile-menu ${menuOpen ? "active" : ""}`}>
-
-                {/* Header */}
+            <aside
+                ref={drawerRef}
+                id="mobile-navigation"
+                className={`mobile-menu ${menuOpen ? "active" : ""}`}
+                aria-label="Mobile navigation"
+                aria-hidden={!menuOpen}
+                inert={!menuOpen}
+            >
+                {/* HEADER */}
 
                 <div className="mobile-header">
-
-                    <img
-                        src={logo}
-                        alt="colossus"
-                    />
+                    <NavLink
+                        to="/"
+                        className="mobile-brand"
+                        onClick={closeMenu}
+                        tabIndex={menuOpen ? 0 : -1}
+                    >
+                        <img
+                            src={logo}
+                            alt="Colossus Migration & Tours"
+                        />
+                    </NavLink>
 
                     <button
                         type="button"
                         className="mobile-close"
                         onClick={closeMenu}
+                        aria-label="Close navigation menu"
+                        tabIndex={menuOpen ? 0 : -1}
                     >
-                        <HiOutlineX />
+                        <HiOutlineX aria-hidden="true" />
                     </button>
-
                 </div>
 
-                {/* Search */}
+                {/* DESTINATIONS */}
 
-                <div className="mobile-search">
+                <div className="mobile-destination-action">
+                    <button
+                        type="button"
+                        className="mobile-destinations-btn"
+                        onClick={handleDestinations}
+                        tabIndex={menuOpen ? 0 : -1}
+                    >
+                        <span className="mobile-destinations-icon">
+                            <HiOutlineGlobeAlt aria-hidden="true" />
+                        </span>
 
-                    <HiOutlineSearch />
+                        <span className="mobile-destinations-copy">
+                            <strong>Explore Destinations</strong>
 
-                    <input
-                        type="text"
-                        placeholder="Search..."
-                    />
+                            <small>
+                                Discover countries and pathways
+                            </small>
+                        </span>
 
+                        <HiOutlineArrowRight
+                            className="mobile-action-arrow"
+                            aria-hidden="true"
+                        />
+                    </button>
                 </div>
 
-                {/* Scrollable Navigation */}
+                {/* SCROLLABLE NAVIGATION */}
 
                 <div className="mobile-menu-body">
+                    <div className="mobile-section-label">
+                        EXPLORE COLOSSUS
+                    </div>
 
-                    <div className="mobile-links">
-
+                    <nav
+                        className="mobile-links"
+                        aria-label="Main navigation"
+                    >
                         {navLinks.map((item) => {
+                            /* SERVICES */
 
                             if (item.dropdown) {
+                                const isOpen = servicesOpen;
+
+                                const servicesActive = item.dropdown.some(
+                                    (service) =>
+                                        location.pathname === service.path ||
+                                        location.pathname.startsWith(
+                                            `${service.path}/`
+                                        )
+                                );
 
                                 return (
-
                                     <div
                                         key={item.name}
-                                        className={`mobile-dropdown ${servicesOpen ? "open" : ""
+                                        className={`mobile-dropdown ${isOpen ? "open" : ""
+                                            } ${servicesActive ? "active" : ""
                                             }`}
                                     >
-
                                         <button
                                             type="button"
                                             className="mobile-dropdown-btn"
                                             onClick={toggleServices}
+                                            aria-expanded={isOpen}
+                                            aria-controls="mobile-services-panel"
+                                            aria-haspopup="true"
+                                            tabIndex={menuOpen ? 0 : -1}
                                         >
-
                                             <span>{item.name}</span>
 
-                                            <HiChevronDown />
-
+                                            <HiChevronDown
+                                                className={
+                                                    isOpen ? "rotate" : ""
+                                                }
+                                                aria-hidden="true"
+                                            />
                                         </button>
 
-                                        <div className="mobile-dropdown-menu">
+                                        <div
+                                            id="mobile-services-panel"
+                                            className="mobile-dropdown-panel"
+                                            aria-hidden={!isOpen}
+                                            inert={!isOpen}
+                                        >
+                                            <div className="mobile-dropdown-menu">
+                                                {item.dropdown.map(
+                                                    (service) => {
+                                                        const active =
+                                                            location.pathname ===
+                                                            service.path ||
+                                                            location.pathname.startsWith(
+                                                                `${service.path}/`
+                                                            );
 
-                                            {item.dropdown.map((service) => (
+                                                        return (
+                                                            <NavLink
+                                                                key={
+                                                                    service.path
+                                                                }
+                                                                to={
+                                                                    service.path
+                                                                }
+                                                                onClick={
+                                                                    closeMenu
+                                                                }
+                                                                tabIndex={
+                                                                    menuOpen &&
+                                                                        isOpen
+                                                                        ? 0
+                                                                        : -1
+                                                                }
+                                                                className={
+                                                                    active
+                                                                        ? "active"
+                                                                        : ""
+                                                                }
+                                                            >
+                                                                <span>
+                                                                    {
+                                                                        service.name
+                                                                    }
+                                                                </span>
 
-                                                <NavLink
-                                                    key={service.path}
-                                                    to={service.path}
-                                                    onClick={closeMenu}
-                                                >
-                                                    {service.name}
-                                                </NavLink>
-
-                                            ))}
-
+                                                                <HiOutlineArrowRight
+                                                                    aria-hidden="true"
+                                                                />
+                                                            </NavLink>
+                                                        );
+                                                    }
+                                                )}
+                                            </div>
                                         </div>
-
                                     </div>
-
                                 );
-
                             }
 
-                            return (
+                            /* REGULAR LINKS */
 
+                            return (
                                 <NavLink
                                     key={item.path}
                                     to={item.path}
+                                    end={item.path === "/"}
                                     onClick={closeMenu}
+                                    tabIndex={menuOpen ? 0 : -1}
                                     className={({ isActive }) =>
-                                        isActive ? "active" : ""
+                                        `mobile-nav-link ${isActive ? "active" : ""
+                                        }`
                                     }
                                 >
-                                    {item.name}
+                                    <span>{item.name}</span>
+
+                                    <HiOutlineArrowRight
+                                        aria-hidden="true"
+                                    />
                                 </NavLink>
-
                             );
-
                         })}
-
-                    </div>
-
+                    </nav>
                 </div>
 
-                {/* Fixed Bottom Contact */}
+                {/* PRIMARY ACTIONS */}
+
+                <div className="mobile-menu-actions">
+                    <NavLink
+                        to="/contact"
+                        className="mobile-consultation-btn"
+                        onClick={closeMenu}
+                        tabIndex={menuOpen ? 0 : -1}
+                    >
+                        <span className="mobile-consultation-copy">
+                            <strong>Book a Consultation</strong>
+
+                            <small>
+                                Let's discuss your plans
+                            </small>
+                        </span>
+
+                        <HiOutlineArrowRight aria-hidden="true" />
+                    </NavLink>
+
+                    <NavLink
+                        to="/login"
+                        className="mobile-portal-btn"
+                        onClick={closeMenu}
+                        tabIndex={menuOpen ? 0 : -1}
+                    >
+                        <HiOutlineUserCircle aria-hidden="true" />
+
+                        <span>Client Portal</span>
+                    </NavLink>
+                </div>
+
+                {/* QUICK CONTACT */}
 
                 <div className="mobile-contact-bar">
-
                     <a
-                        href="tel:+23409026953513"
-                        aria-label="Call"
+                        href="tel:+2349026953513"
+                        aria-label="Call Colossus Migration and Tours"
+                        tabIndex={menuOpen ? 0 : -1}
                     >
-                        <HiOutlinePhone />
+                        <HiOutlinePhone aria-hidden="true" />
                         <small>Call</small>
                     </a>
 
                     <a
-                        href="https://wa.me/23409026953513"
+                        href="https://wa.me/2349026953513"
                         target="_blank"
-                        rel="noreferrer"
-                        aria-label="WhatsApp"
+                        rel="noopener noreferrer"
+                        aria-label="Chat with Colossus on WhatsApp"
+                        tabIndex={menuOpen ? 0 : -1}
                     >
-                        <FaWhatsapp />
-                        <small>Chat</small>
+                        <FaWhatsapp aria-hidden="true" />
+                        <small>WhatsApp</small>
                     </a>
 
                     <a
                         href="mailto:admin@colossusmigration.com"
-                        aria-label="Email"
+                        aria-label="Email Colossus Migration and Tours"
+                        tabIndex={menuOpen ? 0 : -1}
                     >
-                        <HiOutlineMail />
+                        <HiOutlineMail aria-hidden="true" />
                         <small>Email</small>
                     </a>
-
                 </div>
-
             </aside>
 
-            {menuOpen && (
-                <div
-                    className="nav-overlay"
-                    onClick={closeMenu}
-                />
-            )}
+            {/* BACKDROP */}
+
+            <button
+                type="button"
+                className={`nav-overlay ${menuOpen ? "active" : ""
+                    }`}
+                onClick={closeMenu}
+                aria-label="Close navigation menu"
+                aria-hidden={!menuOpen}
+                tabIndex={menuOpen ? 0 : -1}
+                inert={!menuOpen}
+            />
         </>
     );
 };

@@ -9,12 +9,32 @@ import config from "./config/environment.js";
 
 import notFound from "./middleware/notFound.js";
 import errorHandler from "./middleware/errorHandler.js";
-
+  
 import routes from "./routes/index.js";
 import contactRoutes from "./routes/contactRoutes.js";
-
 import consultationRoutes from "./modules/consultations/consultation.routes.js";
 import adminDocumentRoutes from "./modules/admin/admin.document.routes.js";
+
+/* -------------------------------------------------------------------------- */
+/* FINANCE                                                                   */
+/* -------------------------------------------------------------------------- */
+
+import paymentRoutes from "./modules/finance/payments/payment.routes.js";
+import invoiceRoutes from "./modules/finance/invoices/invoice.routes.js";
+import receiptRoutes from "./modules/finance/reciepts/reciept.routes.js";
+import financeAdminRoutes from "./modules/finance/finance.admin.routes.js";
+
+/*
+ * Business-owned payment workflow registrations.
+ *
+ * Finance remains generic and does not import Application/Booking/Opportunity
+ * modules directly. These modules register their own completion handlers here.
+ */
+import "./modules/applications/application.payment.workflow.js";
+
+/* -------------------------------------------------------------------------- */
+/* BLOG                                                                      */
+/* -------------------------------------------------------------------------- */
 
 import {
   publicRoutes as blogPublicRoutes,
@@ -23,23 +43,20 @@ import {
 
 const app = express();
 
-/*
-|--------------------------------------------------------------------------
-| Global Middleware
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* GLOBAL MIDDLEWARE                                                         */
+/* -------------------------------------------------------------------------- */
 
 app.use(helmet());
 
-/*
-|--------------------------------------------------------------------------
-| CORS
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* CORS                                                                      */
+/* -------------------------------------------------------------------------- */
 
 const allowedOrigins = [
-  "http://localhost:5173",
   "http://localhost:3000",
+  "http://localhost:4173",
+  "http://localhost:5173",
   "https://www.colossusmigration.com",
   "https://colossusmigration.com",
   config.clientUrl,
@@ -66,19 +83,15 @@ app.use((req, res, next) => {
 
   if (allowedOrigins.includes(normalizedOrigin)) {
     res.header("Access-Control-Allow-Origin", normalizedOrigin);
-
     res.header("Access-Control-Allow-Credentials", "true");
-
     res.header(
       "Access-Control-Allow-Methods",
       "GET,POST,PUT,PATCH,DELETE,OPTIONS",
     );
-
     res.header(
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content-Type, Accept, Authorization",
     );
-
     res.header("Vary", "Origin");
   }
 
@@ -138,14 +151,14 @@ app.use(
 
 app.use(compression());
 
+/* -------------------------------------------------------------------------- */
+/* PAYSTACK WEBHOOK                                                          */
+/* -------------------------------------------------------------------------- */
+
 /*
-|--------------------------------------------------------------------------
-| Paystack Webhook
-|--------------------------------------------------------------------------
-|
-| Webhook must receive the raw request body before express.json().
-|--------------------------------------------------------------------------
-*/
+ * Paystack webhook must receive the raw request body before express.json()
+ * so the HMAC signature can be verified.
+ */
 
 app.use(
   "/api/v1/payments/webhook",
@@ -166,11 +179,9 @@ app.use(cookieParser());
 
 app.use(morgan("dev"));
 
-/*
-|--------------------------------------------------------------------------
-| Health Check / Root Route
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* HEALTH CHECK / ROOT ROUTE                                                 */
+/* -------------------------------------------------------------------------- */
 
 app.get("/", (req, res) => {
   res.json({
@@ -179,92 +190,98 @@ app.get("/", (req, res) => {
   });
 });
 
-/*
-|--------------------------------------------------------------------------
-| Core API Routes
-|--------------------------------------------------------------------------
-|
-| General application routes.
-|
-| /api/v1/*
-|
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* CORE API ROUTES                                                           */
+/* -------------------------------------------------------------------------- */
 
 app.use("/api/v1", routes);
 
+/* -------------------------------------------------------------------------- */
+/* PAYMENT & BILLING INFRASTRUCTURE                                          */
+/* -------------------------------------------------------------------------- */
+
 /*
-|--------------------------------------------------------------------------
-| Contact Routes
-|--------------------------------------------------------------------------
-*/
+ * Generic financial infrastructure.
+ *
+ * Payments:
+ *   /api/v1/payments/*
+ *
+ * Invoices:
+ *   /api/v1/invoices/*
+ *
+ * Receipts:
+ *   /api/v1/receipts/*
+ *
+ * Business modules such as Application, Opportunity and Booking consume
+ * this infrastructure rather than owning payment processing logic.
+ */
+
+app.use("/api/v1/payments", paymentRoutes);
+
+app.use("/api/v1/invoices", invoiceRoutes);
+
+app.use("/api/v1/receipts", receiptRoutes);
+
+/* -------------------------------------------------------------------------- */
+/* ADMIN FINANCE MONITORING                                                  */
+/* -------------------------------------------------------------------------- */
+
+/*
+ * Centralized admin financial monitoring.
+ *
+ * Overview:
+ *   /api/v1/admin/finance/overview
+ *
+ * Invoices:
+ *   /api/v1/admin/finance/invoices/*
+ *
+ * Payments:
+ *   /api/v1/admin/finance/payments/*
+ *
+ * Receipts:
+ *   /api/v1/admin/finance/receipts
+ *
+ * Access is restricted to authenticated ADMIN users
+ * inside finance.admin.routes.js.
+ */
+
+app.use("/api/v1/admin/finance", financeAdminRoutes);
+
+/* -------------------------------------------------------------------------- */
+/* CONTACT ROUTES                                                            */
+/* -------------------------------------------------------------------------- */
 
 app.use("/api/contact", contactRoutes);
 
-/*
-|--------------------------------------------------------------------------
-| Consultation Routes
-|--------------------------------------------------------------------------
-|
-| /api/v1/admin/consultations/*
-|
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* CONSULTATION ROUTES                                                       */
+/* -------------------------------------------------------------------------- */
 
 app.use("/api/v1/admin/consultations", consultationRoutes);
 
-/*
-|--------------------------------------------------------------------------
-| Admin Document Routes
-|--------------------------------------------------------------------------
-|
-| /api/v1/admin/documents/*
-|
-| Includes:
-|
-| GET    /api/v1/admin/documents
-| GET    /api/v1/admin/documents/application/:applicationId
-| GET    /api/v1/admin/documents/status/:status
-| GET    /api/v1/admin/documents/:id/view
-| GET    /api/v1/admin/documents/:id
-| PATCH  /api/v1/admin/documents/:id/status
-|
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* ADMIN DOCUMENT ROUTES                                                     */
+/* -------------------------------------------------------------------------- */
 
 app.use("/api/v1/admin/documents", adminDocumentRoutes);
 
-/*
-|--------------------------------------------------------------------------
-| Blog Module
-|--------------------------------------------------------------------------
-|
-| Public:
-|   /api/v1/blog/*
-|
-| Admin:
-|   /api/v1/admin/blog/*
-|
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* BLOG MODULE                                                               */
+/* -------------------------------------------------------------------------- */
 
 app.use("/api/v1/blog", blogPublicRoutes);
 
 app.use("/api/v1/admin/blog", blogAdminRoutes);
 
-/*
-|--------------------------------------------------------------------------
-| 404 Handler
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* 404 HANDLER                                                               */
+/* -------------------------------------------------------------------------- */
 
 app.use(notFound);
 
-/*
-|--------------------------------------------------------------------------
-| Global Error Handler
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* GLOBAL ERROR HANDLER                                                      */
+/* -------------------------------------------------------------------------- */
 
 app.use(errorHandler);
 

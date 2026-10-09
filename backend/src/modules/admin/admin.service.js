@@ -2,41 +2,32 @@ import User from "../users/user.model.js";
 import Application from "../applications/application.model.js";
 import Document from "../documents/document.model.js";
 import workflowService from "../workflows/workflow.service.js";
-import notificationService from "../notifications/notification.service.js";
 import adminOpportunityService from "./admin.opportunity.service.js";
 
-/*
-|--------------------------------------------------------------------------
-| APPLICATION STATUS LABEL
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* APPLICATION STATUS LABEL                                                  */
+/* -------------------------------------------------------------------------- */
 
-const formatStatusLabel = (status) => {
-  return String(status || "")
+const formatStatusLabel = (status) =>
+  String(status || "")
     .trim()
     .toLowerCase()
     .replace(/[_-]+/g, " ")
     .replace(/\b\w/g, (character) => character.toUpperCase());
-};
 
-/*
-|--------------------------------------------------------------------------
-| NORMALIZE STATUS
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* NORMALIZE STATUS                                                           */
+/* -------------------------------------------------------------------------- */
 
-const normalizeStatus = (status) => {
-  return String(status || "")
+const normalizeStatus = (status) =>
+  String(status || "")
     .trim()
     .toUpperCase()
     .replace(/\s+/g, "_");
-};
 
-/*
-|--------------------------------------------------------------------------
-| APPLICATION STATUS ACTIVITY
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* APPLICATION STATUS ACTIVITY                                               */
+/* -------------------------------------------------------------------------- */
 
 const createApplicationStatusActivity = ({
   previousStatus,
@@ -47,6 +38,15 @@ const createApplicationStatusActivity = ({
   const fromLabel = formatStatusLabel(previousStatus);
   const toLabel = formatStatusLabel(nextStatus);
 
+  const metadata = {
+    fromStatus: previousStatus,
+    toStatus: nextStatus,
+    previousStatus: fromLabel,
+    currentStatus: toLabel,
+    reviewNote: notes,
+    updatedBy,
+  };
+
   switch (nextStatus) {
     case "SUBMITTED":
       return {
@@ -54,14 +54,7 @@ const createApplicationStatusActivity = ({
         title: "Application submitted",
         description:
           "Your application has been submitted and is ready for colossus review.",
-        metadata: {
-          fromStatus: previousStatus,
-          toStatus: nextStatus,
-          previousStatus: fromLabel,
-          currentStatus: toLabel,
-          reviewNote: notes,
-          updatedBy,
-        },
+        metadata,
         createdAt: new Date(),
       };
 
@@ -71,14 +64,7 @@ const createApplicationStatusActivity = ({
         title: "Application moved to review",
         description:
           "Your application is now being reviewed by the colossus team.",
-        metadata: {
-          fromStatus: previousStatus,
-          toStatus: nextStatus,
-          previousStatus: fromLabel,
-          currentStatus: toLabel,
-          reviewNote: notes,
-          updatedBy,
-        },
+        metadata,
         createdAt: new Date(),
       };
 
@@ -88,14 +74,7 @@ const createApplicationStatusActivity = ({
         title: "Additional documents requested",
         description:
           "The colossus team has requested additional documents for your application.",
-        metadata: {
-          fromStatus: previousStatus,
-          toStatus: nextStatus,
-          previousStatus: fromLabel,
-          currentStatus: toLabel,
-          reviewNote: notes,
-          updatedBy,
-        },
+        metadata,
         createdAt: new Date(),
       };
 
@@ -105,14 +84,7 @@ const createApplicationStatusActivity = ({
         title: "Application processing started",
         description:
           "Your application has moved into processing by the colossus team.",
-        metadata: {
-          fromStatus: previousStatus,
-          toStatus: nextStatus,
-          previousStatus: fromLabel,
-          currentStatus: toLabel,
-          reviewNote: notes,
-          updatedBy,
-        },
+        metadata,
         createdAt: new Date(),
       };
 
@@ -120,15 +92,9 @@ const createApplicationStatusActivity = ({
       return {
         type: "APPROVED",
         title: "Application approved",
-        description: "Your application has been approved by the colossus team.",
-        metadata: {
-          fromStatus: previousStatus,
-          toStatus: nextStatus,
-          previousStatus: fromLabel,
-          currentStatus: toLabel,
-          reviewNote: notes,
-          updatedBy,
-        },
+        description:
+          "Your application has been approved by the colossus team.",
+        metadata,
         createdAt: new Date(),
       };
 
@@ -136,15 +102,9 @@ const createApplicationStatusActivity = ({
       return {
         type: "REJECTED",
         title: "Application rejected",
-        description: "Your application has been rejected by the colossus team.",
-        metadata: {
-          fromStatus: previousStatus,
-          toStatus: nextStatus,
-          previousStatus: fromLabel,
-          currentStatus: toLabel,
-          reviewNote: notes,
-          updatedBy,
-        },
+        description:
+          "Your application has been rejected by the colossus team.",
+        metadata,
         createdAt: new Date(),
       };
 
@@ -153,14 +113,7 @@ const createApplicationStatusActivity = ({
         type: "STATUS_CHANGED",
         title: "Application moved to in progress",
         description: "Your application is now in progress.",
-        metadata: {
-          fromStatus: previousStatus,
-          toStatus: nextStatus,
-          previousStatus: fromLabel,
-          currentStatus: toLabel,
-          reviewNote: notes,
-          updatedBy,
-        },
+        metadata,
         createdAt: new Date(),
       };
 
@@ -169,14 +122,7 @@ const createApplicationStatusActivity = ({
         type: "STATUS_CHANGED",
         title: "Application moved to draft",
         description: "Your application has been moved back to draft.",
-        metadata: {
-          fromStatus: previousStatus,
-          toStatus: nextStatus,
-          previousStatus: fromLabel,
-          currentStatus: toLabel,
-          reviewNote: notes,
-          updatedBy,
-        },
+        metadata,
         createdAt: new Date(),
       };
 
@@ -185,193 +131,20 @@ const createApplicationStatusActivity = ({
         type: "STATUS_CHANGED",
         title: `Application status changed to ${toLabel}`,
         description: `Your application status has changed from ${fromLabel} to ${toLabel}.`,
-        metadata: {
-          fromStatus: previousStatus,
-          toStatus: nextStatus,
-          previousStatus: fromLabel,
-          currentStatus: toLabel,
-          reviewNote: notes,
-          updatedBy,
-        },
+        metadata,
         createdAt: new Date(),
       };
   }
 };
 
-/*
-|--------------------------------------------------------------------------
-| NOTIFICATION TYPE FOR APPLICATION STATUS
-|--------------------------------------------------------------------------
-*/
-
-const getApplicationStatusNotificationType = (status) => {
-  switch (status) {
-    case "SUBMITTED":
-      return "APPLICATION_SUBMITTED";
-
-    case "APPROVED":
-      return "APPLICATION_APPROVED";
-
-    case "REJECTED":
-      return "APPLICATION_REJECTED";
-
-    default:
-      return "APPLICATION_STATUS_CHANGED";
-  }
-};
-
-/*
-|--------------------------------------------------------------------------
-| NOTIFICATION PRIORITY FOR APPLICATION STATUS
-|--------------------------------------------------------------------------
-*/
-
-const getApplicationStatusNotificationPriority = (status) => {
-  switch (status) {
-    case "APPROVED":
-    case "REJECTED":
-      return "HIGH";
-
-    case "DOCUMENT_REQUEST":
-      return "HIGH";
-
-    default:
-      return "NORMAL";
-  }
-};
-
-/*
-|--------------------------------------------------------------------------
-| BUILD APPLICATION STATUS NOTIFICATION
-|--------------------------------------------------------------------------
-*/
-
-const buildApplicationStatusNotification = ({
-  previousStatus,
-  nextStatus,
-  notes = "",
-}) => {
-  const fromLabel = formatStatusLabel(previousStatus);
-  const toLabel = formatStatusLabel(nextStatus);
-
-  switch (nextStatus) {
-    case "SUBMITTED":
-      return {
-        title: "Application submitted",
-        message:
-          "Your application has been submitted and is ready for colossus review.",
-      };
-
-    case "UNDER_REVIEW":
-      return {
-        title: "Application under review",
-        message: "Your application is now being reviewed by the colossus team.",
-      };
-
-    case "DOCUMENT_REQUEST":
-      return {
-        title: "Additional documents requested",
-        message:
-          String(notes || "").trim() ||
-          "The colossus team has requested additional documents for your application.",
-      };
-
-    case "PROCESSING":
-      return {
-        title: "Application processing started",
-        message:
-          "Your application has moved into processing by the colossus team.",
-      };
-
-    case "APPROVED":
-      return {
-        title: "Application approved",
-        message: "Your application has been approved by the colossus team.",
-      };
-
-    case "REJECTED":
-      return {
-        title: "Application rejected",
-        message:
-          String(notes || "").trim() ||
-          "Your application has been rejected by the colossus team.",
-      };
-
-    case "IN_PROGRESS":
-      return {
-        title: "Application in progress",
-        message: "Your application is now in progress.",
-      };
-
-    case "DRAFT":
-      return {
-        title: "Application moved to draft",
-        message: "Your application has been moved back to draft.",
-      };
-
-    default:
-      return {
-        title: `Application status changed to ${toLabel}`,
-        message: `Your application status has changed from ${fromLabel} to ${toLabel}.`,
-      };
-  }
-};
-
-/*
-|--------------------------------------------------------------------------
-| CREATE APPLICATION STATUS NOTIFICATION
-|--------------------------------------------------------------------------
-*/
-
-const createApplicationStatusNotification = async ({
-  application,
-  previousStatus,
-  nextStatus,
-  notes = "",
-  updatedBy = null,
-}) => {
-  if (!application?.user) {
-    return null;
-  }
-
-  const notificationContent = buildApplicationStatusNotification({
-    previousStatus,
-    nextStatus,
-    notes,
-    applicationId: application._id,
-  });
-
-  const notificationType = getApplicationStatusNotificationType(nextStatus);
-
-  const priority = getApplicationStatusNotificationPriority(nextStatus);
-
-  return notificationService.createForApplicationOwner({
-    application,
-    actorId: updatedBy,
-    title: notificationContent.title,
-    message: notificationContent.message,
-    type: notificationType,
-    entityType: "APPLICATION",
-    entityId: application._id,
-    metadata: {
-      applicationId: application._id,
-      previousStatus,
-      newStatus: nextStatus,
-      previousStatusLabel: formatStatusLabel(previousStatus),
-      newStatusLabel: formatStatusLabel(nextStatus),
-      reviewNote: String(notes || "").trim(),
-    },
-    priority,
-  });
-};
-
-/*
-|--------------------------------------------------------------------------
-| DASHBOARD STATISTICS
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* DASHBOARD STATISTICS                                                       */
+/* -------------------------------------------------------------------------- */
 
 const getDashboardStats = async () => {
+  const thirtyDaysAgo = new Date();
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
   const [
     totalClients,
     newClients,
@@ -393,7 +166,7 @@ const getDashboardStats = async () => {
     User.countDocuments({
       role: "CLIENT",
       createdAt: {
-        $gte: new Date(new Date().setDate(new Date().getDate() - 30)),
+        $gte: thirtyDaysAgo,
       },
     }),
 
@@ -465,14 +238,12 @@ const getDashboardStats = async () => {
   };
 };
 
-/*
-|--------------------------------------------------------------------------
-| GET ALL APPLICATIONS
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* GET ALL APPLICATIONS                                                       */
+/* -------------------------------------------------------------------------- */
 
 const getAllApplications = async () => {
-  return await Application.find()
+  return Application.find()
     .populate("user", "name email")
     .populate("assignedTo", "name email")
     .sort({
@@ -480,11 +251,9 @@ const getAllApplications = async () => {
     });
 };
 
-/*
-|--------------------------------------------------------------------------
-| GET SINGLE APPLICATION
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* GET SINGLE APPLICATION                                                    */
+/* -------------------------------------------------------------------------- */
 
 const getApplicationById = async (applicationId) => {
   const application = await Application.findById(applicationId)
@@ -492,13 +261,17 @@ const getApplicationById = async (applicationId) => {
     .populate("assignedTo", "name email")
     .populate("internalNotes.createdBy", "name email");
 
-  if (Array.isArray(application?.activity)) {
+  if (!application) {
+    return null;
+  }
+
+  if (Array.isArray(application.activity)) {
     application.activity = [...application.activity].sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
     );
   }
 
-  if (Array.isArray(application?.internalNotes)) {
+  if (Array.isArray(application.internalNotes)) {
     application.internalNotes = [...application.internalNotes].sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
     );
@@ -507,11 +280,9 @@ const getApplicationById = async (applicationId) => {
   return application;
 };
 
-/*
-|--------------------------------------------------------------------------
-| UPDATE APPLICATION STATUS
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* UPDATE APPLICATION STATUS                                                 */
+/* -------------------------------------------------------------------------- */
 
 const updateApplicationStatus = async (
   applicationId,
@@ -534,9 +305,7 @@ const updateApplicationStatus = async (
 
   if (!allowedStatuses.includes(normalizedStatus)) {
     const error = new Error(`Invalid application status: ${status}`);
-
     error.statusCode = 400;
-
     throw error;
   }
 
@@ -547,11 +316,9 @@ const updateApplicationStatus = async (
   }
 
   const previousStatus = normalizeStatus(application.status);
-
   const statusChanged = previousStatus !== normalizedStatus;
 
   application.status = normalizedStatus;
-
   application.notes = String(notes || "").trim();
 
   if (updatedBy) {
@@ -559,54 +326,53 @@ const updateApplicationStatus = async (
   }
 
   if (statusChanged) {
-    const activity = createApplicationStatusActivity({
-      previousStatus,
-      nextStatus: normalizedStatus,
-      notes,
-      updatedBy,
-    });
-
-    application.activity.push(activity);
-  }
-
-  await application.save();
-
-  if (statusChanged) {
-    try {
-      await createApplicationStatusNotification({
-        application,
+    application.activity.push(
+      createApplicationStatusActivity({
         previousStatus,
         nextStatus: normalizedStatus,
         notes,
         updatedBy,
-      });
-    } catch (notificationError) {
-      console.error("[colossus_NOTIFICATION_ERROR]", {
+      }),
+    );
+  }
+
+  await application.save();
+
+  /*
+   * Notification ownership:
+   *
+   * The workflow service handles application-status notifications.
+   * We intentionally do not call the old notificationService here,
+   * preventing duplicate notifications and calls to obsolete methods.
+   *
+   * Notification failures must not undo a successfully saved status.
+   */
+
+  if (statusChanged) {
+    try {
+      await workflowService.handleApplicationStatusChange({
+        userId: application.user,
         applicationId: application._id,
+        status: normalizedStatus,
+        actorId: updatedBy,
+      });
+    } catch (workflowError) {
+      console.error("[COLOSSUS_WORKFLOW_ERROR]", {
+        applicationId: String(application._id),
         previousStatus,
         newStatus: normalizedStatus,
-        updatedBy,
-        error: notificationError?.message,
+        updatedBy: updatedBy ? String(updatedBy) : null,
+        error: workflowError?.message || "Unknown workflow error",
       });
     }
   }
 
-  if (statusChanged) {
-    await workflowService.handleApplicationStatusChange({
-      userId: application.user,
-      applicationId: application._id,
-      status: application.status,
-    });
-  }
-
-  return await getApplicationById(application._id);
+  return getApplicationById(application._id);
 };
 
-/*
-|--------------------------------------------------------------------------
-| GET APPLICATION INTERNAL NOTES
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* GET APPLICATION INTERNAL NOTES                                             */
+/* -------------------------------------------------------------------------- */
 
 const getApplicationNotes = async (applicationId) => {
   const application = await Application.findById(applicationId)
@@ -622,11 +388,9 @@ const getApplicationNotes = async (applicationId) => {
   );
 };
 
-/*
-|--------------------------------------------------------------------------
-| ADD APPLICATION INTERNAL NOTE
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* ADD APPLICATION INTERNAL NOTE                                              */
+/* -------------------------------------------------------------------------- */
 
 const addApplicationNote = async (applicationId, message, adminId) => {
   const application = await Application.findById(applicationId);
@@ -639,9 +403,7 @@ const addApplicationNote = async (applicationId, message, adminId) => {
 
   if (!trimmedMessage) {
     const error = new Error("Note message is required.");
-
     error.statusCode = 400;
-
     throw error;
   }
 
@@ -667,17 +429,15 @@ const addApplicationNote = async (applicationId, message, adminId) => {
 
   await application.save();
 
-  return await getApplicationById(application._id);
+  return getApplicationById(application._id);
 };
 
-/*
-|--------------------------------------------------------------------------
-| GET ASSIGNABLE STAFF
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* GET ASSIGNABLE STAFF                                                       */
+/* -------------------------------------------------------------------------- */
 
 const getAssignableStaff = async () => {
-  return await User.find({
+  return User.find({
     role: {
       $in: ["ADMIN", "STAFF"],
     },
@@ -688,32 +448,16 @@ const getAssignableStaff = async () => {
     });
 };
 
-/*
-|--------------------------------------------------------------------------
-| ASSIGN APPLICATION
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* ASSIGN APPLICATION                                                         */
+/* -------------------------------------------------------------------------- */
 
 const assignApplication = async (applicationId, staffId, updatedBy) => {
-  /*
-  |--------------------------------------------------------------------------
-  | VALIDATE APPLICATION ID
-  |--------------------------------------------------------------------------
-  */
-
   if (!applicationId) {
     const error = new Error("Application ID is required.");
-
     error.statusCode = 400;
-
     throw error;
   }
-
-  /*
-  |--------------------------------------------------------------------------
-  | FIND APPLICATION
-  |--------------------------------------------------------------------------
-  */
 
   const application = await Application.findById(applicationId);
 
@@ -721,30 +465,14 @@ const assignApplication = async (applicationId, staffId, updatedBy) => {
     return null;
   }
 
-  /*
-  |--------------------------------------------------------------------------
-  | GET PREVIOUS ASSIGNEE
-  |--------------------------------------------------------------------------
-  */
-
   const previousAssignedTo = application.assignedTo;
-
-  /*
-  |--------------------------------------------------------------------------
-  | NORMALIZE ASSIGNMENT INPUT
-  |--------------------------------------------------------------------------
-  */
 
   const assignmentValue =
     staffId === null || staffId === undefined || staffId === ""
       ? null
       : String(staffId).trim();
 
-  /*
-  |--------------------------------------------------------------------------
-  | REMOVE ASSIGNMENT
-  |--------------------------------------------------------------------------
-  */
+  /* UNASSIGN APPLICATION */
 
   if (assignmentValue === null) {
     if (previousAssignedTo) {
@@ -752,49 +480,30 @@ const assignApplication = async (applicationId, staffId, updatedBy) => {
 
       application.activity.push({
         type: "UPDATED",
-
         title: "Application unassigned",
-
         description:
           "The application was removed from its assigned staff member.",
-
         metadata: {
           action: "APPLICATION_UNASSIGNED",
-
-          previousAssignedTo: previousAssignedTo
-            ? String(previousAssignedTo)
-            : null,
-
+          previousAssignedTo: String(previousAssignedTo),
           updatedBy: updatedBy ? String(updatedBy) : null,
         },
-
         createdAt: new Date(),
       });
     }
   } else {
-    /*
-    |--------------------------------------------------------------------------
-    | VALIDATE STAFF ID
-    |--------------------------------------------------------------------------
-    */
+    /* VALIDATE STAFF ID */
 
     if (!/^[a-fA-F0-9]{24}$/.test(assignmentValue)) {
       const error = new Error("Selected staff member ID is invalid.");
-
       error.statusCode = 400;
-
       throw error;
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | VALIDATE STAFF
-    |--------------------------------------------------------------------------
-    */
+    /* FIND VALID STAFF MEMBER */
 
     const staff = await User.findOne({
       _id: assignmentValue,
-
       role: {
         $in: ["ADMIN", "STAFF"],
       },
@@ -802,306 +511,153 @@ const assignApplication = async (applicationId, staffId, updatedBy) => {
 
     if (!staff) {
       const error = new Error("Selected staff member is invalid.");
-
       error.statusCode = 400;
-
       throw error;
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | DETERMINE WHETHER NEW OR REASSIGNMENT
-    |--------------------------------------------------------------------------
-    */
-
     const isSameStaff =
-      previousAssignedTo && String(previousAssignedTo) === String(staff._id);
+      previousAssignedTo &&
+      String(previousAssignedTo) === String(staff._id);
+
+    /* ASSIGN OR REASSIGN */
 
     if (!isSameStaff) {
       application.assignedTo = staff._id;
 
       application.activity.push({
         type: "UPDATED",
-
         title: previousAssignedTo
           ? "Application reassigned"
           : "Application assigned",
-
         description: previousAssignedTo
           ? `Application reassigned to ${staff.name}.`
           : `Application assigned to ${staff.name}.`,
-
         metadata: {
           action: previousAssignedTo
             ? "APPLICATION_REASSIGNED"
             : "APPLICATION_ASSIGNED",
-
           assignedTo: String(staff._id),
-
           assignedToName: staff.name || "",
-
           assignedToEmail: staff.email || "",
-
           assignedToRole: staff.role || "",
-
           previousAssignedTo: previousAssignedTo
             ? String(previousAssignedTo)
             : null,
-
           updatedBy: updatedBy ? String(updatedBy) : null,
         },
-
         createdAt: new Date(),
       });
     }
   }
 
-  /*
-  |--------------------------------------------------------------------------
-  | LAST UPDATED BY
-  |--------------------------------------------------------------------------
-  */
-
   if (updatedBy) {
     application.lastUpdatedBy = updatedBy;
   }
 
-  /*
-  |--------------------------------------------------------------------------
-  | SAVE APPLICATION
-  |--------------------------------------------------------------------------
-  */
+  /* SAVE ASSIGNMENT */
 
   try {
     await application.save();
   } catch (error) {
-    console.error(
-      "============================================================",
-    );
+    console.error("APPLICATION ASSIGNMENT SAVE FAILED", {
+      applicationId: application?._id
+        ? String(application._id)
+        : applicationId,
 
-    console.error("APPLICATION ASSIGNMENT SAVE FAILED");
+      applicationReference: application?.applicationReference || "N/A",
 
-    console.error(
-      "============================================================",
-    );
+      previousAssignedTo: previousAssignedTo
+        ? String(previousAssignedTo)
+        : null,
 
-    console.error(
-      "Application ID:",
-      application?._id ? String(application._id) : applicationId,
-    );
+      newAssignedTo: application?.assignedTo
+        ? String(application.assignedTo)
+        : null,
 
-    console.error(
-      "Application Reference:",
-      application?.applicationReference || "N/A",
-    );
+      updatedBy: updatedBy ? String(updatedBy) : null,
 
-    console.error(
-      "Previous Assigned To:",
-      previousAssignedTo ? String(previousAssignedTo) : null,
-    );
+      errorName: error?.name || "UnknownError",
+      errorMessage: error?.message || "Unknown error",
+      errorCode: error?.code || null,
 
-    console.error(
-      "New Assigned To:",
-      application?.assignedTo ? String(application.assignedTo) : null,
-    );
-
-    console.error("Updated By:", updatedBy ? String(updatedBy) : null);
-
-    console.error("Error Name:", error?.name || "UnknownError");
-
-    console.error("Error Message:", error?.message || "Unknown error");
-
-    console.error("Error Code:", error?.code || "N/A");
-
-    if (error?.errors) {
-      console.error(
-        "Validation Errors:",
-        Object.fromEntries(
-          Object.entries(error.errors).map(([field, fieldError]) => [
-            field,
-            {
-              message: fieldError?.message,
-              kind: fieldError?.kind,
-              path: fieldError?.path,
-              value: fieldError?.value,
-            },
-          ]),
-        ),
-      );
-    }
-
-    console.error("Full Error:", error);
-
-    console.error(
-      "============================================================",
-    );
+      validationErrors: error?.errors
+        ? Object.fromEntries(
+            Object.entries(error.errors).map(([field, fieldError]) => [
+              field,
+              {
+                message: fieldError?.message,
+                kind: fieldError?.kind,
+                path: fieldError?.path,
+                value: fieldError?.value,
+              },
+            ]),
+          )
+        : null,
+    });
 
     throw error;
   }
 
-  /*
-  |--------------------------------------------------------------------------
-  | RETURN COMPLETE APPLICATION
-  |--------------------------------------------------------------------------
-  */
-
-  return await getApplicationById(application._id);
+  return getApplicationById(application._id);
 };
 
-/*
-|--------------------------------------------------------------------------
-| OPPORTUNITY MANAGEMENT
-|--------------------------------------------------------------------------
-|
-| These methods are exposed through admin.service.js so the admin
-| opportunity controller can use the same central admin service
-| pattern already used by applications.
-|--------------------------------------------------------------------------
-*/
-
-/*
-|--------------------------------------------------------------------------
-| GET ALL OPPORTUNITIES
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* OPPORTUNITY MANAGEMENT                                                     */
+/* -------------------------------------------------------------------------- */
 
 const getAllOpportunities = async () => {
-  return await adminOpportunityService.getAllOpportunities();
+  return adminOpportunityService.getAllOpportunities();
 };
-
-/*
-|--------------------------------------------------------------------------
-| GET SINGLE OPPORTUNITY
-|--------------------------------------------------------------------------
-*/
 
 const getOpportunityById = async (opportunityId) => {
-  return await adminOpportunityService.getOpportunityById(opportunityId);
+  return adminOpportunityService.getOpportunityById(opportunityId);
 };
-
-/*
-|--------------------------------------------------------------------------
-| CREATE OPPORTUNITY
-|--------------------------------------------------------------------------
-*/
 
 const createOpportunity = async (payload) => {
-  return await adminOpportunityService.createOpportunity(payload);
+  return adminOpportunityService.createOpportunity(payload);
 };
-
-/*
-|--------------------------------------------------------------------------
-| UPDATE OPPORTUNITY
-|--------------------------------------------------------------------------
-*/
 
 const updateOpportunity = async (opportunityId, payload) => {
-  return await adminOpportunityService.updateOpportunity(
-    opportunityId,
-    payload,
-  );
+  return adminOpportunityService.updateOpportunity(opportunityId, payload);
 };
-
-/*
-|--------------------------------------------------------------------------
-| ACTIVATE / DEACTIVATE OPPORTUNITY
-|--------------------------------------------------------------------------
-*/
 
 const setOpportunityActive = async (opportunityId, active) => {
-  return await adminOpportunityService.setOpportunityActive(
-    opportunityId,
-    active,
-  );
+  return adminOpportunityService.setOpportunityActive(opportunityId, active);
 };
 
-/*
-|--------------------------------------------------------------------------
-| FEATURE / UNFEATURE OPPORTUNITY
-|--------------------------------------------------------------------------
-*/
-
 const setOpportunityFeatured = async (opportunityId, featured) => {
-  return await adminOpportunityService.setOpportunityFeatured(
+  return adminOpportunityService.setOpportunityFeatured(
     opportunityId,
     featured,
   );
 };
 
-/*
-|--------------------------------------------------------------------------
-| DEACTIVATE OPPORTUNITY
-|--------------------------------------------------------------------------
-*/
-
 const deactivateOpportunity = async (opportunityId) => {
-  return await adminOpportunityService.deactivateOpportunity(opportunityId);
+  return adminOpportunityService.deactivateOpportunity(opportunityId);
 };
 
-/*
-|--------------------------------------------------------------------------
-| EXPORT
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* EXPORT                                                                      */
+/* -------------------------------------------------------------------------- */
 
 export default {
-  /*
-  |--------------------------------------------------------------------------
-  | Dashboard
-  |--------------------------------------------------------------------------
-  */
-
   getDashboardStats,
 
-  /*
-  |--------------------------------------------------------------------------
-  | Applications
-  |--------------------------------------------------------------------------
-  */
-
   getAllApplications,
-
   getApplicationById,
-
   updateApplicationStatus,
 
-  /*
-  |--------------------------------------------------------------------------
-  | Notes
-  |--------------------------------------------------------------------------
-  */
-
   getApplicationNotes,
-
   addApplicationNote,
 
-  /*
-  |--------------------------------------------------------------------------
-  | Assignment
-  |--------------------------------------------------------------------------
-  */
-
   getAssignableStaff,
-
   assignApplication,
 
-  /*
-  |--------------------------------------------------------------------------
-  | Opportunities
-  |--------------------------------------------------------------------------
-  */
-
   getAllOpportunities,
-
   getOpportunityById,
-
   createOpportunity,
-
   updateOpportunity,
-
   setOpportunityActive,
-
   setOpportunityFeatured,
-
   deactivateOpportunity,
 };

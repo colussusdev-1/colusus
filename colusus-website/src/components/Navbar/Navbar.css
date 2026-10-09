@@ -1,312 +1,846 @@
-/* =====================================================
-   NAVBAR
-===================================================== */
+/* ==========================================================================
+   COLOSSUS MIGRATION & TOURS
+   Premium responsive navigation
+   ========================================================================== */
 
 .navbar {
+    --nav-ink: #142b45;
+    --nav-primary: #123c65;
+    --nav-primary-hover: #0b2d4d;
+    --nav-accent: #c99a43;
+    --nav-muted: #6b7c8f;
+    --nav-border: #e5ebf2;
+    --nav-white: #ffffff;
+
     position: fixed;
     top: 0;
     left: 0;
+
     width: 100%;
 
-    z-index: var(--z-sticky);
+    z-index: var(--z-sticky, 1000);
 
-    transition: all .35s ease;
+    background: transparent;
+    border-bottom: 1px solid transparent;
+
+    transition:
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
-/* Soft dark overlay while over hero */
+/* ==========================================================================
+   HERO HEADER OVERLAY
+   ========================================================================== */
 
-.navbar::before{
+.navbar::before {
+    content: "";
 
-    content:"";
+    position: absolute;
+    inset: 0;
 
-    position:absolute;
+    background: linear-gradient(180deg,
+            rgba(8, 23, 39, 0.45),
+            rgba(8, 23, 39, 0.1));
 
-    inset:0;
+    pointer-events: none;
 
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(0,0,0,.35),
-            rgba(0,0,0,0)
-        );
-
-    opacity:1;
-
-    transition:.35s;
-
-    pointer-events:none;
+    transition: opacity 0.25s ease;
 }
 
-/* Glass Navbar */
+/* ==========================================================================
+   SCROLLED HEADER
+   ========================================================================== */
 
-.navbar.scrolled{
+.navbar.scrolled {
+    background: rgba(255, 255, 255, 0.97);
 
-    background:rgba(255,255,255,.78);
+    border-bottom-color: var(--nav-border);
 
-    backdrop-filter:blur(18px);
-    -webkit-backdrop-filter:blur(18px);
+    box-shadow: 0 5px 24px rgba(20, 43, 69, 0.07);
 
-    border-bottom:1px solid rgba(255,255,255,.4);
-
-    box-shadow:var(--shadow-md);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
 }
 
-.navbar.scrolled::before{
-
-    opacity:0;
+.navbar.scrolled::before {
+    opacity: 0;
 }
 
-/* =====================================================
-   CONTAINER
-===================================================== */
-
-.navbar-container{
-
-    position:relative;
-
-    z-index:2;
-
-    height:90px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    transition:.35s ease;
+.navbar.menu-is-open {
+    background: var(--nav-white);
+    border-bottom-color: var(--nav-border);
+    box-shadow: none;
 }
 
-.navbar.scrolled .navbar-container{
-
-    height:72px;
+.navbar.menu-is-open::before {
+    opacity: 0;
 }
 
-/* =====================================================
-   LOGO
-===================================================== */
+/* ==========================================================================
+   MAIN CONTAINER
+   ========================================================================== */
 
-.logo{
+.navbar-container {
+    position: relative;
+    z-index: 2;
 
-    display:flex;
+    width: 100%;
+    max-width: 1440px;
 
-    align-items:center;
+    min-height: 82px;
 
-    flex-shrink:0;
+    margin: 0 auto;
+    padding: 0 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 24px;
+
+    transition: min-height 0.25s ease;
 }
 
-.logo img{
-
-    height:110px;
-
-    width:auto;
-
-    display:block;
-
-    transition:.35s ease;
+.navbar.scrolled .navbar-container {
+    min-height: 72px;
 }
 
-.logo:hover img{
+/* ==========================================================================
+   BRAND
+   ========================================================================== */
 
-    transform:scale(1.03);
+.navbar-brand {
+    display: inline-flex;
+    align-items: center;
+
+    flex-shrink: 0;
+    min-width: 0;
+
+    text-decoration: none;
 }
 
-.navbar.scrolled .logo img{
+.navbar-logo {
+    display: block;
 
-    height:72px;
+    width: auto;
+    max-width: 205px;
+    height: 56px;
+
+    object-fit: contain;
+    object-position: left center;
+
+    transition:
+        height 0.25s ease,
+        opacity 0.2s ease;
 }
 
-/* =====================================================
-   NAVIGATION LINKS
-===================================================== */
-
-/* Hero */
-
-.navbar:not(.scrolled) .nav-link{
-
-    color:rgba(255,255,255,.92);
-
-    transition:.3s;
+.navbar-brand:hover .navbar-logo {
+    opacity: 0.92;
 }
 
-.navbar:not(.scrolled) .nav-link:hover{
-
-    color:#fff;
+.navbar.scrolled .navbar-logo {
+    height: 48px;
 }
 
-/* Active */
+/* ==========================================================================
+   DESKTOP NAVIGATION
+   ========================================================================== */
 
-.navbar:not(.scrolled) .nav-link.active{
+.navbar-navigation {
+    flex: 1;
+    min-width: 0;
 
-    color:#fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Scrolled */
+.navbar-navigation .desktop-nav {
+    width: 100%;
 
-.navbar.scrolled .nav-link{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    color:var(--heading);
+    gap: 24px;
 }
 
-.navbar.scrolled .nav-link:hover{
+/* Navigation links and dropdown triggers */
 
-    color:var(--primary);
+.navbar-navigation .desktop-nav>a,
+.navbar-navigation .desktop-nav .dropdown>button {
+    position: relative;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    min-height: 44px;
+    padding: 10px 0;
+
+    color: rgba(255, 255, 255, 0.95);
+
+    background: transparent;
+    border: 0;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+
+    text-decoration: none;
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition: color 0.2s ease;
 }
 
-.navbar.scrolled .nav-link.active{
+/* Hover states over hero */
 
-    color:var(--primary);
+.navbar:not(.scrolled) .navbar-navigation .desktop-nav>a:hover,
+.navbar:not(.scrolled) .navbar-navigation .desktop-nav .dropdown>button:hover {
+    color: var(--nav-white);
 }
 
-/* =====================================================
-   RIGHT ACTIONS
-===================================================== */
+/* Active links */
 
-.nav-actions{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:.8rem;
-
-    flex-shrink:0;
+.navbar-navigation .desktop-nav>a.active,
+.navbar-navigation .desktop-nav .dropdown>button.active {
+    color: var(--nav-accent);
 }
 
-/* =====================================================
-   SEARCH BUTTON
-===================================================== */
+/* Active underline */
 
-.search-btn{
+.navbar-navigation .desktop-nav>a.active::after,
+.navbar-navigation .desktop-nav .dropdown.active>button::after {
+    content: "";
 
-    width:44px;
-    height:44px;
+    position: absolute;
+    bottom: 3px;
+    left: 0;
+    right: 0;
 
-    display:flex;
+    height: 2px;
 
-    align-items:center;
-
-    justify-content:center;
-
-    border-radius:50%;
-
-    font-size:1.2rem;
-
-    transition:.3s ease;
+    background: var(--nav-accent);
+    border-radius: 99px;
 }
 
-/* Hero */
+/* Links after scrolling */
 
-.navbar:not(.scrolled) .search-btn{
-
-    color:rgba(255,255,255,.92);
+.navbar.scrolled .navbar-navigation .desktop-nav>a,
+.navbar.scrolled .navbar-navigation .desktop-nav .dropdown>button {
+    color: var(--nav-ink);
 }
 
-.navbar:not(.scrolled) .search-btn:hover{
-
-    background:rgba(255,255,255,.12);
-
-    color:#fff;
+.navbar.scrolled .navbar-navigation .desktop-nav>a:hover,
+.navbar.scrolled .navbar-navigation .desktop-nav .dropdown>button:hover {
+    color: var(--nav-primary);
 }
 
-/* Scrolled */
-
-.navbar.scrolled .search-btn{
-
-    color:var(--heading);
+.navbar.scrolled .navbar-navigation .desktop-nav>a.active,
+.navbar.scrolled .navbar-navigation .desktop-nav .dropdown>button.active {
+    color: var(--nav-primary);
 }
 
-.navbar.scrolled .search-btn:hover{
+/* ==========================================================================
+   DROPDOWN TRIGGER
+   ========================================================================== */
 
-    background:var(--surface-light);
+.navbar-navigation .dropdown {
+    position: relative;
 
-    color:var(--primary);
+    display: flex;
+    align-items: center;
 }
 
-/* =====================================================
-   MOBILE MENU
-===================================================== */
-
-.menu-btn{
-
-    display:none;
-
-    width:46px;
-    height:46px;
-
-    align-items:center;
-
-    justify-content:center;
-
-    border-radius:50%;
-
-    font-size:1.6rem;
-
-    transition:.3s ease;
-
-    cursor:pointer;
+.navbar-navigation .dropdown-btn {
+    font-family: inherit;
 }
 
-/* Hero */
+.navbar-navigation .dropdown-icon {
+    width: 16px;
+    height: 16px;
 
-.navbar:not(.scrolled) .menu-btn{
+    flex-shrink: 0;
 
-    background:rgba(255,255,255,.08);
-
-    border:1px solid rgba(255,255,255,.15);
-
-    backdrop-filter:blur(10px);
-
-    color:#fff;
+    transition: transform 0.2s ease;
 }
 
-.navbar:not(.scrolled) .menu-btn:hover{
-
-    background:rgba(255,255,255,.18);
+.navbar-navigation .dropdown-icon.rotate {
+    transform: rotate(180deg);
 }
 
-/* Scrolled */
+/* ==========================================================================
+   SERVICES DROPDOWN MENU
+   ========================================================================== */
 
-.navbar.scrolled .menu-btn{
+.navbar-navigation .dropdown-menu {
+    position: absolute;
 
-    background:var(--surface);
+    top: calc(100% + 4px);
+    left: -18px;
 
-    color:var(--heading);
+    z-index: 1100;
 
-    box-shadow:var(--shadow-sm);
+    width: 290px;
+    padding: 8px;
+
+    display: flex;
+    flex-direction: column;
+
+    background: var(--nav-white);
+
+    border: 1px solid var(--nav-border);
+    border-radius: 13px;
+
+    box-shadow: 0 16px 45px rgba(15, 35, 55, 0.16);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transform: translateY(8px);
+
+    transition:
+        opacity 0.18s ease,
+        transform 0.18s ease,
+        visibility 0.18s ease;
 }
 
-.navbar.scrolled .menu-btn:hover{
+/* Click-controlled visibility */
 
-    background:var(--primary);
+.navbar-navigation .dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
 
-    color:#fff;
+    transform: translateY(0);
 }
 
-/* =====================================================
-   RESPONSIVE
-===================================================== */
+/* Dropdown links */
 
-@media (max-width:992px){
+.navbar-navigation .dropdown-menu a {
+    display: flex;
+    align-items: center;
 
-    .search-btn{
+    min-height: 46px;
 
-        display:none;
+    padding: 11px 13px;
+
+    color: var(--nav-ink);
+
+    background: transparent;
+    border-radius: 8px;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.5;
+
+    text-decoration: none;
+
+    transition:
+        background-color 0.18s ease,
+        color 0.18s ease;
+}
+
+.navbar-navigation .dropdown-menu a:hover {
+    color: var(--nav-primary);
+    background: #f1f5f9;
+}
+
+.navbar-navigation .dropdown-menu a.active {
+    color: var(--nav-primary);
+
+    background: #edf3f9;
+
+    font-weight: 700;
+}
+
+/* ==========================================================================
+   NAVIGATION ACTIONS
+   ========================================================================== */
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    flex-shrink: 0;
+
+    gap: 9px;
+}
+
+/* ==========================================================================
+   DESTINATION SEARCH
+   ========================================================================== */
+
+.nav-search-btn {
+    min-width: 42px;
+    min-height: 44px;
+
+    padding: 0 10px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    color: rgba(255, 255, 255, 0.95);
+
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 9px;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.nav-search-btn svg {
+    width: 19px;
+    height: 19px;
+
+    flex-shrink: 0;
+}
+
+.nav-search-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.navbar.scrolled .nav-search-btn {
+    color: var(--nav-ink);
+}
+
+.navbar.scrolled .nav-search-btn:hover {
+    color: var(--nav-primary);
+    background: #f1f5f9;
+}
+
+/* ==========================================================================
+   CLIENT LOGIN
+   ========================================================================== */
+
+.nav-login-btn {
+    min-height: 44px;
+
+    padding: 0 12px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    color: var(--nav-white);
+
+    background: rgba(255, 255, 255, 0.09);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 9px;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+
+    text-decoration: none;
+    white-space: nowrap;
+
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.nav-login-icon {
+    width: 19px;
+    height: 19px;
+
+    flex-shrink: 0;
+}
+
+.nav-login-btn:hover,
+.nav-login-btn.active {
+    color: var(--nav-white);
+
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.65);
+}
+
+.navbar.scrolled .nav-login-btn {
+    color: var(--nav-primary);
+
+    background: #f2f6fa;
+    border-color: #e1eaf3;
+}
+
+.navbar.scrolled .nav-login-btn:hover,
+.navbar.scrolled .nav-login-btn.active {
+    color: var(--nav-white);
+
+    background: var(--nav-primary);
+    border-color: var(--nav-primary);
+}
+
+/* ==========================================================================
+   CONSULTATION CTA
+   ========================================================================== */
+
+.nav-consultation-btn {
+    min-height: 46px;
+
+    padding: 0 15px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    color: var(--nav-white);
+
+    background: var(--nav-primary);
+    border: 1px solid var(--nav-primary);
+    border-radius: 9px;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+
+    text-decoration: none;
+    white-space: nowrap;
+
+    transition: background-color 0.2s ease;
+}
+
+.nav-consultation-btn svg {
+    width: 17px;
+    height: 17px;
+
+    flex-shrink: 0;
+
+    transition: transform 0.2s ease;
+}
+
+.nav-consultation-btn:hover {
+    color: var(--nav-white);
+
+    background: var(--nav-primary-hover);
+    border-color: var(--nav-primary-hover);
+}
+
+.nav-consultation-btn:hover svg {
+    transform: translate(2px, -2px);
+}
+
+/* ==========================================================================
+   MOBILE MENU BUTTON
+   ========================================================================== */
+
+.menu-btn {
+    display: none;
+
+    width: 44px;
+    height: 44px;
+
+    padding: 0;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    color: var(--nav-white);
+
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.menu-btn svg {
+    width: 24px;
+    height: 24px;
+}
+
+.menu-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.navbar.scrolled .menu-btn {
+    color: var(--nav-ink);
+
+    background: var(--nav-white);
+    border-color: var(--nav-border);
+}
+
+.navbar.scrolled .menu-btn:hover,
+.navbar.scrolled .menu-btn.active {
+    color: var(--nav-white);
+
+    background: var(--nav-primary);
+    border-color: var(--nav-primary);
+}
+
+/* ==========================================================================
+   ACCESSIBILITY
+   ========================================================================== */
+
+.navbar a:focus-visible,
+.navbar button:focus-visible {
+    outline: 3px solid var(--nav-accent);
+    outline-offset: 3px;
+}
+
+/* ==========================================================================
+   TABLET
+   ========================================================================== */
+
+@media (max-width: 1200px) {
+    .navbar-container {
+        padding: 0 20px;
+        gap: 16px;
     }
 
-    .menu-btn{
-
-        display:flex;
+    .navbar-logo {
+        max-width: 175px;
+        height: 49px;
     }
 
-    .logo img{
-
-        height:80px;
+    .navbar.scrolled .navbar-logo {
+        height: 43px;
     }
 
-    .navbar.scrolled .logo img{
-
-        height:60px;
+    .navbar-navigation .desktop-nav {
+        gap: 16px;
     }
 
+    .navbar-navigation .desktop-nav>a,
+    .navbar-navigation .desktop-nav .dropdown>button {
+        font-size: 12px;
+    }
+
+    .nav-actions {
+        gap: 6px;
+    }
+
+    .nav-search-label {
+        display: none;
+    }
+
+    .nav-search-btn {
+        width: 40px;
+        padding: 0;
+    }
+
+    .nav-login-btn {
+        padding: 0 9px;
+    }
+
+    .nav-consultation-btn {
+        padding: 0 11px;
+        font-size: 11px;
+    }
+}
+
+/* ==========================================================================
+   MOBILE
+   ========================================================================== */
+
+@media (max-width: 960px) {
+    .navbar-container {
+        min-height: 70px;
+
+        padding: 0 20px;
+        gap: 10px;
+    }
+
+    .navbar.scrolled .navbar-container {
+        min-height: 66px;
+    }
+
+    .navbar-logo {
+        max-width: 175px;
+        height: 45px;
+    }
+
+    .navbar.scrolled .navbar-logo {
+        height: 42px;
+    }
+
+    .navbar-navigation {
+        display: none;
+    }
+
+    .nav-actions {
+        gap: 7px;
+    }
+
+    .nav-search-btn {
+        width: 42px;
+        min-width: 42px;
+        min-height: 42px;
+
+        padding: 0;
+    }
+
+    .nav-search-label {
+        display: none;
+    }
+
+    .nav-login-btn {
+        min-height: 42px;
+
+        padding: 0 10px;
+
+        font-size: 11px;
+    }
+
+    .nav-consultation-btn {
+        display: none;
+    }
+
+    .menu-btn {
+        display: inline-flex;
+    }
+}
+
+/* ==========================================================================
+   SMALL MOBILE
+   ========================================================================== */
+
+@media (max-width: 480px) {
+    .navbar-container {
+        min-height: 66px;
+
+        padding: 0 13px;
+        gap: 7px;
+    }
+
+    .navbar.scrolled .navbar-container {
+        min-height: 62px;
+    }
+
+    .navbar-logo {
+        max-width: 142px;
+        height: 40px;
+    }
+
+    .navbar.scrolled .navbar-logo {
+        height: 37px;
+    }
+
+    .nav-actions {
+        gap: 4px;
+    }
+
+    .nav-search-btn {
+        width: 37px;
+        min-width: 37px;
+        min-height: 40px;
+    }
+
+    .nav-login-btn {
+        min-height: 39px;
+
+        padding: 0 8px;
+        gap: 5px;
+
+        font-size: 10px;
+    }
+
+    .nav-login-icon {
+        width: 17px;
+        height: 17px;
+    }
+
+    .menu-btn {
+        width: 39px;
+        height: 39px;
+    }
+
+    .menu-btn svg {
+        width: 22px;
+        height: 22px;
+    }
+}
+
+/* ==========================================================================
+   VERY NARROW MOBILE
+   ========================================================================== */
+
+@media (max-width: 360px) {
+    .navbar-container {
+        padding: 0 9px;
+        gap: 5px;
+    }
+
+    .navbar-logo {
+        max-width: 116px;
+        height: 35px;
+    }
+
+    .navbar.scrolled .navbar-logo {
+        height: 33px;
+    }
+
+    .nav-actions {
+        gap: 3px;
+    }
+
+    .nav-search-btn {
+        width: 32px;
+        min-width: 32px;
+    }
+
+    .nav-login-btn {
+        padding: 0 6px;
+        font-size: 9px;
+    }
+
+    .nav-login-icon {
+        width: 15px;
+        height: 15px;
+    }
+
+    .menu-btn {
+        width: 35px;
+        height: 37px;
+    }
+}
+
+/* ==========================================================================
+   REDUCED MOTION
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .navbar,
+    .navbar *,
+    .navbar *::before,
+    .navbar *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
 }

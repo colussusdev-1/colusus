@@ -1,115 +1,205 @@
+import { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { useState } from "react";
+
 import { HiChevronDown } from "react-icons/hi";
+import { HiArrowUpRight } from "react-icons/hi2";
 
 import navLinks from "./navLinks";
 import "./DesktopMenu.css";
 
-const DesktopMenu = ({ closeMenu = () => {} }) => {
-
+const DesktopMenu = ({ closeMenu = () => { } }) => {
   const location = useLocation();
 
   const [openDropdown, setOpenDropdown] = useState(null);
 
-  const handleOpen = (name) => {
-    setOpenDropdown(name);
+  const navRef = useRef(null);
+
+  /* -------------------------------------------------------------------------- */
+  /* CLOSE DROPDOWN WHEN ROUTE CHANGES                                          */
+  /* -------------------------------------------------------------------------- */
+
+  useEffect(() => {
+    setOpenDropdown(null);
+  }, [location.pathname]);
+
+  /* -------------------------------------------------------------------------- */
+  /* CLOSE DROPDOWN WHEN CLICKING OUTSIDE                                       */
+  /* -------------------------------------------------------------------------- */
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (navRef.current && !navRef.current.contains(event.target)) {
+        setOpenDropdown(null);
+      }
+    };
+
+    document.addEventListener("pointerdown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("pointerdown", handleOutsideClick);
+    };
+  }, []);
+
+  /* -------------------------------------------------------------------------- */
+  /* DROPDOWN ACTIONS                                                           */
+  /* -------------------------------------------------------------------------- */
+
+  const toggleDropdown = (name) => {
+    setOpenDropdown((current) => (current === name ? null : name));
   };
 
-  const handleClose = () => {
+  const closeDropdown = () => {
     setOpenDropdown(null);
   };
 
+  const handleLinkClick = () => {
+    closeDropdown();
+    closeMenu();
+  };
+
+  /* -------------------------------------------------------------------------- */
+  /* KEYBOARD ACCESSIBILITY                                                     */
+  /* -------------------------------------------------------------------------- */
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Escape") {
+      if (openDropdown) {
+        closeDropdown();
+        event.preventDefault();
+      }
+    }
+  };
+
+  /* -------------------------------------------------------------------------- */
+  /* RENDER                                                                     */
+  /* -------------------------------------------------------------------------- */
+
   return (
-    <nav className="desktop-nav">
-
+    <nav
+      ref={navRef}
+      className="desktop-nav"
+      aria-label="Main navigation"
+      onKeyDown={handleKeyDown}
+    >
       {navLinks.map((item) => {
-
-        /* =========================
-           DROPDOWN ITEM (SERVICES)
-        ========================= */
+        /* ------------------------------------------------------------------ */
+        /* SERVICES DROPDOWN                                                   */
+        /* ------------------------------------------------------------------ */
 
         if (item.dropdown) {
-
           const isOpen = openDropdown === item.name;
 
-          const servicesActive =
-            location.pathname.startsWith("/services");
+          const servicesActive = item.dropdown.some(
+            (service) =>
+              location.pathname === service.path ||
+              location.pathname.startsWith(`${service.path}/`)
+          );
 
           return (
             <div
               key={item.name}
-              className={`dropdown ${
-                servicesActive ? "active" : ""
-              }`}
-              onMouseEnter={() => handleOpen(item.name)}
-              onMouseLeave={handleClose}
+              className={`desktop-dropdown ${servicesActive ? "active" : ""
+                } ${isOpen ? "is-open" : ""}`}
             >
+              {/* Dropdown trigger */}
 
-              {/* TRIGGER */}
               <button
                 type="button"
-                className="dropdown-btn"
+                className={`desktop-nav-link dropdown-btn ${servicesActive ? "active" : ""
+                  }`}
                 aria-haspopup="true"
                 aria-expanded={isOpen}
-                onClick={() =>
-                  setOpenDropdown(isOpen ? null : item.name)
-                }
+                onClick={() => toggleDropdown(item.name)}
               >
-
                 <span>{item.name}</span>
 
                 <HiChevronDown
-                  className={`dropdown-icon ${
-                    isOpen ? "rotate" : ""
-                  }`}
+                  className={`dropdown-icon ${isOpen ? "rotate" : ""
+                    }`}
+                  aria-hidden="true"
                 />
-
               </button>
 
-              {/* MENU */}
-              <div
-                className={`dropdown-menu ${
-                  isOpen ? "show" : ""
-                }`}
-              >
+              {/* Dropdown panel */}
 
-                {item.dropdown.map((service) => (
+              <div
+                className={`desktop-dropdown-menu ${isOpen ? "show" : ""
+                  }`}
+                aria-label={`${item.name} menu`}
+                aria-hidden={!isOpen}
+                inert={!isOpen}
+              >
+                <div className="dropdown-heading">
+                  <span className="dropdown-eyebrow">
+                    EXPLORE OUR SERVICES
+                  </span>
+
+                  <span className="dropdown-title">
+                    Find your pathway
+                  </span>
+                </div>
+
+                <div className="dropdown-links">
+                  {item.dropdown.map((service) => {
+                    const serviceActive =
+                      location.pathname === service.path ||
+                      location.pathname.startsWith(
+                        `${service.path}/`
+                      );
+
+                    return (
+                      <NavLink
+                        key={service.path}
+                        to={service.path}
+                        onClick={handleLinkClick}
+                        className={`dropdown-link ${serviceActive ? "active" : ""
+                          }`}
+                        tabIndex={isOpen ? 0 : -1}
+                      >
+                        <span className="dropdown-link-text">
+                          {service.name}
+                        </span>
+
+                        <HiArrowUpRight
+                          className="dropdown-link-icon"
+                          aria-hidden="true"
+                        />
+                      </NavLink>
+                    );
+                  })}
+                </div>
+
+                <div className="dropdown-footer">
+                  <span>
+                    Not sure which pathway is right for you?
+                  </span>
 
                   <NavLink
-                    key={service.path}
-                    to={service.path}
-                    onClick={() => {
-                      closeMenu();
-                      handleClose();
-                    }}
-                    className={({ isActive }) =>
-                      isActive ? "active" : ""
-                    }
+                    to="/contact"
+                    onClick={handleLinkClick}
                   >
-
-                    {service.name}
-
+                    Talk to our team
+                    <HiArrowUpRight aria-hidden="true" />
                   </NavLink>
-
-                ))}
-
+                </div>
               </div>
-
             </div>
           );
         }
 
-        /* =========================
-           NORMAL LINK
-        ========================= */
+        /* ------------------------------------------------------------------ */
+        /* STANDARD NAVIGATION LINKS                                           */
+        /* ------------------------------------------------------------------ */
 
         return (
           <NavLink
             key={item.path}
             to={item.path}
-            onClick={closeMenu}
+            end={item.path === "/"}
+            onClick={handleLinkClick}
             className={({ isActive }) =>
-              isActive ? "active" : ""
+              `desktop-nav-link nav-link ${isActive ? "active" : ""
+              }`
             }
           >
             {item.name}

@@ -1,579 +1,253 @@
 import mongoose from "mongoose";
 
-/*
-============================================================
-colossus — NOTIFICATION MODEL
-============================================================
-|
-| Central notification infrastructure for the entire
-| colossus platform.
-|
-| A notification always belongs to a specific USER.
-|
-| The AUDIENCE field identifies the operational area that
-| the recipient belongs to:
-|
-|     CLIENT
-|     ADMIN
-|     STAFF
-|     DEVELOPER
-|
-| This allows the same notification collection to safely
-| support both:
-|
-|     Client notification inbox
-|     Admin / staff notification inbox
-|
-| without creating separate notification collections.
-|
-============================================================
-*/
+import {
+  NOTIFICATION_AUDIENCES,
+  NOTIFICATION_CATEGORIES,
+  NOTIFICATION_PRIORITIES,
+  NOTIFICATION_ENTITY_TYPES,
+  NOTIFICATION_ACTIONS,
+  NOTIFICATION_TYPES,
+  isValidNotificationType,
+} from "./notification.types.js";
+
+/* -------------------------------------------------------------------------- */
+/* HELPERS                                                                    */
+/* -------------------------------------------------------------------------- */
+
+const allNotificationTypes = Object.values(NOTIFICATION_TYPES).flat();
+
+/* -------------------------------------------------------------------------- */
+/* SCHEMA                                                                     */
+/* -------------------------------------------------------------------------- */
 
 const notificationSchema = new mongoose.Schema(
   {
-    /*
-    ============================================================
-    RECIPIENT
-    ============================================================
-    |
-    | The exact user who should receive the notification.
-    |
-    ============================================================
-    */
+    /* RECIPIENT */
 
     user: {
       type: mongoose.Schema.Types.ObjectId,
-
       ref: "User",
-
       required: true,
-
       index: true,
     },
-
-    /*
-    ============================================================
-    AUDIENCE
-    ============================================================
-    |
-    | Identifies which operational audience the notification
-    | belongs to.
-    |
-    | IMPORTANT:
-    |
-    | This is NOT the actual recipient.
-    |
-    | `user` identifies the recipient.
-    |
-    | `audience` identifies the recipient's platform area.
-    |
-    | Example:
-    |
-    |     user    = client user ID
-    | |   audience = CLIENT
-    |
-    |     user    = admin user ID
-    | |   audience = ADMIN
-    |
-    ============================================================
-    */
 
     audience: {
       type: String,
-
+      enum: NOTIFICATION_AUDIENCES,
       required: true,
-
       uppercase: true,
-
       trim: true,
-
-      enum: ["CLIENT", "ADMIN", "STAFF", "DEVELOPER"],
-
       index: true,
     },
 
-    /*
-    ============================================================
-    ACTOR
-    ============================================================
-    |
-    | The user/system that caused the notification.
-    |
-    | Example:
-    |
-    | Admin changes application status:
-    |
-    |     actor = admin user
-    |
-    | System-generated notification:
-    |
-    |     actor = null
-    |
-    ============================================================
-    */
+    /* ACTOR */
 
     actor: {
       type: mongoose.Schema.Types.ObjectId,
-
       ref: "User",
-
       default: null,
-
-      index: true,
     },
 
-    /*
-    ============================================================
-    TYPE
-    ============================================================
-    */
+    /* NOTIFICATION CLASSIFICATION */
+
+    category: {
+      type: String,
+      enum: NOTIFICATION_CATEGORIES,
+      required: true,
+      uppercase: true,
+      trim: true,
+      index: true,
+    },
 
     type: {
       type: String,
-
+      enum: allNotificationTypes,
       required: true,
-
       uppercase: true,
-
       trim: true,
-
-      enum: [
-        /*
-        --------------------------------------------------------
-        APPLICATION
-        --------------------------------------------------------
-        */
-
-        "APPLICATION_CREATED",
-
-        "APPLICATION_UPDATED",
-
-        "APPLICATION_STATUS_CHANGED",
-
-        "APPLICATION_SUBMITTED",
-
-        "APPLICATION_APPROVED",
-
-        "APPLICATION_REJECTED",
-
-        /*
-        --------------------------------------------------------
-        DOCUMENT
-        --------------------------------------------------------
-        */
-
-        "DOCUMENT_UPLOADED",
-
-        "DOCUMENT_UPDATED",
-
-        "DOCUMENT_APPROVED",
-
-        "DOCUMENT_REJECTED",
-
-        "DOCUMENT_REUPLOAD_REQUIRED",
-
-        /*
-        --------------------------------------------------------
-        PROFILE
-        --------------------------------------------------------
-        */
-
-        "PROFILE_UPDATED",
-
-        "PROFILE_COMPLETED",
-
-        /*
-        --------------------------------------------------------
-        PAYMENT
-        --------------------------------------------------------
-        */
-
-        "PAYMENT_CREATED",
-
-        "PAYMENT_RECEIVED",
-
-        "PAYMENT_PENDING",
-
-        "PAYMENT_FAILED",
-
-        "PAYMENT_REFUNDED",
-
-        /*
-        --------------------------------------------------------
-        BOOKING
-        --------------------------------------------------------
-        */
-
-        "BOOKING_CREATED",
-
-        "BOOKING_UPDATED",
-
-        "BOOKING_CANCELLED",
-
-        "BOOKING_CONFIRMED",
-
-        /*
-        --------------------------------------------------------
-        ADMIN / STAFF
-        --------------------------------------------------------
-        */
-
-        "ADMIN_ACTION",
-
-        "STAFF_ACTION",
-
-        /*
-        --------------------------------------------------------
-        SYSTEM
-        --------------------------------------------------------
-        */
-
-        "MESSAGE_RECEIVED",
-
-        "SYSTEM",
-
-        "GENERAL",
-      ],
-
       index: true,
     },
-
-    /*
-    ============================================================
-    TITLE
-    ============================================================
-    */
-
-    title: {
-      type: String,
-
-      required: true,
-
-      trim: true,
-
-      maxlength: 180,
-    },
-
-    /*
-    ============================================================
-    MESSAGE
-    ============================================================
-    */
-
-    message: {
-      type: String,
-
-      required: true,
-
-      trim: true,
-
-      maxlength: 2000,
-    },
-
-    /*
-    ============================================================
-    ENTITY TYPE
-    ============================================================
-    |
-    | Identifies the primary platform entity involved.
-    |
-    ============================================================
-    */
-
-    entityType: {
-      type: String,
-
-      enum: [
-        "APPLICATION",
-
-        "DOCUMENT",
-
-        "PROFILE",
-
-        "PAYMENT",
-
-        "BOOKING",
-
-        "USER",
-
-        "SYSTEM",
-
-        "NONE",
-      ],
-
-      default: "NONE",
-
-      index: true,
-    },
-
-    /*
-    ============================================================
-    ENTITY ID
-    ============================================================
-    |
-    | ID of the entity the notification relates to.
-    |
-    | Examples:
-    |
-    | application ID
-    | document ID
-    | payment ID
-    | booking ID
-    |
-    ============================================================
-    */
-
-    entityId: {
-      type: mongoose.Schema.Types.ObjectId,
-
-      default: null,
-
-      index: true,
-    },
-
-    /*
-    ============================================================
-    METADATA
-    ============================================================
-    |
-    | Additional structured information required by the
-    | frontend or internal workflows.
-    |
-    | Example:
-    |
-    | {
-    |   applicationId: "...",
-    |   documentId: "...",
-    |   previousStatus: "SUBMITTED",
-    |   newStatus: "UNDER_REVIEW"
-    | }
-    |
-    ============================================================
-    */
-
-    metadata: {
-      type: mongoose.Schema.Types.Mixed,
-
-      default: {},
-    },
-
-    /*
-    ============================================================
-    PRIORITY
-    ============================================================
-    */
 
     priority: {
       type: String,
-
-      uppercase: true,
-
-      trim: true,
-
-      enum: ["LOW", "NORMAL", "HIGH", "URGENT"],
-
+      enum: NOTIFICATION_PRIORITIES,
       default: "NORMAL",
-
+      uppercase: true,
+      trim: true,
       index: true,
     },
 
-    /*
-    ============================================================
-    READ STATE
-    ============================================================
-    */
+    /* CONTENT */
+
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 180,
+    },
+
+    message: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 2000,
+    },
+
+    /* APPLICATION CONTEXT */
+
+    application: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Application",
+      default: null,
+      index: true,
+    },
+
+    /* ENTITY CONTEXT */
+
+    entityType: {
+      type: String,
+      enum: NOTIFICATION_ENTITY_TYPES,
+      default: "NONE",
+      uppercase: true,
+      trim: true,
+    },
+
+    entityId: {
+      type: mongoose.Schema.Types.ObjectId,
+      default: null,
+    },
+
+    /* ACTION */
+
+    action: {
+      type: String,
+      enum: NOTIFICATION_ACTIONS,
+      default: "NONE",
+      uppercase: true,
+      trim: true,
+    },
+
+    actionUrl: {
+      type: String,
+      trim: true,
+      maxlength: 500,
+      default: null,
+    },
+
+    /* EXTRA DATA */
+
+    metadata: {
+      type: mongoose.Schema.Types.Mixed,
+      default: {},
+    },
+
+    /* READ STATE */
 
     read: {
       type: Boolean,
-
       default: false,
-
       index: true,
     },
-
-    /*
-    ============================================================
-    READ AT
-    ============================================================
-    |
-    | Timestamp showing when the notification was read.
-    |
-    ============================================================
-    */
 
     readAt: {
       type: Date,
-
       default: null,
     },
 
-    /*
-    ============================================================
-    OPTIONAL EXPIRATION
-    ============================================================
-    |
-    | Used for temporary/system notifications that should
-    | eventually disappear.
-    |
-    | NOTE:
-    |
-    | MongoDB TTL behavior can be enabled later if we decide
-    | expired notifications should automatically be deleted.
-    |
-    ============================================================
-    */
+    /* EXPIRATION */
 
     expiresAt: {
       type: Date,
-
       default: null,
-
-      index: true,
     },
   },
-
   {
     timestamps: true,
-
-    /*
-    ----------------------------------------------------------
-    SCHEMA OPTIONS
-    ----------------------------------------------------------
-    */
-
     versionKey: false,
   },
 );
 
-/*
-============================================================
-INDEXES
-============================================================
-|
-| These indexes are designed around the actual notification
-| queries the platform will perform.
-|
-============================================================
-*/
+/* -------------------------------------------------------------------------- */
+/* VALIDATION                                                                 */
+/* -------------------------------------------------------------------------- */
 
-/*
-------------------------------------------------------------
-USER INBOX
-------------------------------------------------------------
-|
-| Used by:
-|
-| GET /notifications
-|
-| Returns the recipient's newest notifications first.
-|
-------------------------------------------------------------
-*/
+/**
+ * Ensure the notification type belongs to its category.
+ *
+ * Example:
+ * APPLICATION + APPROVED = valid
+ * APPLICATION + REFUNDED = invalid
+ */
+notificationSchema.pre("validate", function () {
+  if (!isValidNotificationType(this.category, this.type)) {
+    throw new Error(
+      `Notification type "${this.type}" is not valid for category "${this.category}".`,
+    );
+  }
+});
 
+/* -------------------------------------------------------------------------- */
+/* READ STATE CONSISTENCY                                                     */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Keep the read flag and readAt timestamp consistent.
+ */
+notificationSchema.pre("save", function () {
+  if (this.read) {
+    if (!this.readAt) {
+      this.readAt = new Date();
+    }
+  } else {
+    this.readAt = null;
+  }
+});
+
+/* -------------------------------------------------------------------------- */
+/* INDEXES                                                                    */
+/* -------------------------------------------------------------------------- */
+
+/* Main notification feed */
 notificationSchema.index({
   user: 1,
-
   createdAt: -1,
 });
 
-/*
-------------------------------------------------------------
-USER + READ STATE
-------------------------------------------------------------
-|
-| Used by:
-|
-| unread notifications
-| unread count
-| notification inbox filtering
-|
-------------------------------------------------------------
-*/
-
+/* Unread notifications */
 notificationSchema.index({
   user: 1,
-
   read: 1,
-
   createdAt: -1,
 });
 
-/*
-------------------------------------------------------------
-USER + TYPE
-------------------------------------------------------------
-|
-| Useful for future notification filtering.
-|
-------------------------------------------------------------
-*/
-
+/* Application-specific notification history */
 notificationSchema.index({
   user: 1,
-
-  type: 1,
-
+  application: 1,
   createdAt: -1,
 });
 
-/*
-------------------------------------------------------------
-AUDIENCE + READ STATE
-------------------------------------------------------------
-|
-| Useful for admin/staff operational inbox queries.
-|
-------------------------------------------------------------
-*/
+/* Category filtering */
+notificationSchema.index({
+  user: 1,
+  category: 1,
+  createdAt: -1,
+});
 
+/* Audience operational queries */
 notificationSchema.index({
   audience: 1,
-
   read: 1,
-
   createdAt: -1,
 });
 
-/*
-------------------------------------------------------------
-AUDIENCE + USER + CREATED
-------------------------------------------------------------
-|
-| Makes recipient-scoped operational inbox queries explicit.
-|
-------------------------------------------------------------
-*/
-
-notificationSchema.index({
-  audience: 1,
-
-  user: 1,
-
-  createdAt: -1,
-});
-
-/*
-------------------------------------------------------------
-EXPIRATION
-------------------------------------------------------------
-|
-| Partial TTL index:
-|
-| Only notifications with an expiresAt value are eligible
-| for automatic expiration.
-|
-| Notifications without expiresAt remain permanent.
-|
-------------------------------------------------------------
-*/
-
+/* Automatic expiration */
 notificationSchema.index(
   {
     expiresAt: 1,
   },
   {
     expireAfterSeconds: 0,
-
     partialFilterExpression: {
       expiresAt: {
         $type: "date",
@@ -582,39 +256,9 @@ notificationSchema.index(
   },
 );
 
-/*
-============================================================
-READ STATE CONSISTENCY
-============================================================
-|
-| Keep `read` and `readAt` synchronized when documents are
-| saved through Mongoose.
-|
-| This hook is intentionally synchronous.
-|
-| There is no asynchronous operation here, so Mongoose does
-| not need a `next` callback.
-|
-============================================================
-*/
-
-notificationSchema.pre("save", function () {
-  if (this.isModified("read")) {
-    if (this.read) {
-      if (!this.readAt) {
-        this.readAt = new Date();
-      }
-    } else {
-      this.readAt = null;
-    }
-  }
-});
-
-/*
-============================================================
-MODEL
-============================================================
-*/
+/* -------------------------------------------------------------------------- */
+/* MODEL                                                                      */
+/* -------------------------------------------------------------------------- */
 
 const Notification =
   mongoose.models.Notification ||

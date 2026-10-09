@@ -190,3 +190,58 @@
         transform: translateY(0);
     }
 }
+
+/* -------------------------------------------------------------------------- */
+/* NOTIFICATION BUTTON                                                        */
+/* -------------------------------------------------------------------------- */
+
+.admin-notification-button {
+    position: relative;
+}
+
+.admin-notification-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+
+    min-width: 19px;
+    height: 19px;
+    padding: 0 5px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px solid var(--admin-header-background, #ffffff);
+    border-radius: 999px;
+
+    background: #dc2626;
+    color: #ffffff;
+
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1;
+
+    white-space: nowrap;
+}
+
+.admin-notification-button.has-unread-notifications {
+    color: #4338ca;
+}
+
+.admin-notification-button:focus-visible {
+    outline: 2px solid #6366f1;
+    outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+    .admin-notification-count {
+        top: -4px;
+        right: -4px;
+
+        min-width: 17px;
+        height: 17px;
+
+        font-size: 9px;
+    }
+}

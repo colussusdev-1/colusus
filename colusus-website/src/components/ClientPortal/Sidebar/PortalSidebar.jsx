@@ -1,4 +1,3 @@
-
 import {
     useEffect,
     useState,
@@ -10,7 +9,7 @@ import {
     HiOutlineHome,
     HiOutlineDocumentText,
     HiOutlineFolderOpen,
-    HiOutlineBell,
+    HiOutlineCreditCard,
     HiOutlineUser,
     HiOutlineQuestionMarkCircle,
     HiOutlineLogout,
@@ -23,263 +22,191 @@ import colossusLogo from "../../../assets/logo.png";
 
 
 const PortalSidebar = () => {
-
     const [mobileOpen, setMobileOpen] = useState(false);
 
+    /* ============================================================
+       NAVIGATION
+    ============================================================ */
 
     const navigation = [
-
         {
             label: "Dashboard",
             path: "/portal",
             icon: HiOutlineHome,
             end: true,
         },
-
         {
             label: "Applications",
             path: "/portal/applications",
             icon: HiOutlineDocumentText,
         },
-
         {
             label: "Documents",
             path: "/portal/documents",
             icon: HiOutlineFolderOpen,
         },
-
         {
-            label: "Updates",
-            path: "/portal/updates",
-            icon: HiOutlineBell,
-            disabled: true,
+            label: "Finance",
+            path: "/portal/finance",
+            icon: HiOutlineCreditCard,
         },
-
         {
             label: "Profile",
             path: "/portal/profile",
             icon: HiOutlineUser,
         },
-
     ];
 
 
-    /*
-    ============================================================
-    MOBILE MENU EVENTS
-    ============================================================
-    */
+    /* ============================================================
+       MOBILE MENU EVENTS
+    ============================================================ */
 
     useEffect(() => {
-
         const handleOpenMobileMenu = () => {
-
             setMobileOpen(true);
-
         };
-
 
         window.addEventListener(
             "colossus:open-mobile-menu",
-            handleOpenMobileMenu,
+            handleOpenMobileMenu
         );
 
-
         return () => {
-
             window.removeEventListener(
                 "colossus:open-mobile-menu",
-                handleOpenMobileMenu,
+                handleOpenMobileMenu
             );
-
         };
-
     }, []);
 
 
-    /*
-    ============================================================
-    LOCK BODY SCROLL
-    ============================================================
-    */
+    /* ============================================================
+       LOCK BODY SCROLL WHEN MOBILE MENU IS OPEN
+    ============================================================ */
 
     useEffect(() => {
-
         if (mobileOpen) {
-
             document.body.classList.add(
-                "portal-mobile-menu-open",
+                "portal-mobile-menu-open"
             );
-
         } else {
-
             document.body.classList.remove(
-                "portal-mobile-menu-open",
+                "portal-mobile-menu-open"
             );
-
         }
 
-
         return () => {
-
             document.body.classList.remove(
-                "portal-mobile-menu-open",
+                "portal-mobile-menu-open"
             );
-
         };
-
     }, [mobileOpen]);
 
 
-    /*
-    ============================================================
-    ESCAPE KEY
-    ============================================================
-    */
+    /* ============================================================
+       ESCAPE KEY HANDLING
+    ============================================================ */
 
     useEffect(() => {
-
         const handleKeyDown = (event) => {
-
-            if (
-                event.key === "Escape" &&
-                mobileOpen
-            ) {
-
+            if (event.key === "Escape" && mobileOpen) {
                 setMobileOpen(false);
-
             }
-
         };
-
 
         window.addEventListener(
             "keydown",
-            handleKeyDown,
+            handleKeyDown
         );
 
-
         return () => {
-
             window.removeEventListener(
                 "keydown",
-                handleKeyDown,
+                handleKeyDown
             );
-
         };
-
     }, [mobileOpen]);
 
 
-    /*
-    ============================================================
-    CLOSE AFTER NAVIGATION
-    ============================================================
-    */
+    /* ============================================================
+       CLOSE MENU AFTER NAVIGATION
+    ============================================================ */
 
     const handleNavigation = () => {
-
         setMobileOpen(false);
-
     };
 
 
-    /*
-    ============================================================
-    LOGOUT
-    ============================================================
-    */
+    /* ============================================================
+       LOGOUT
+    ============================================================ */
 
     const handleLogout = () => {
-
         localStorage.removeItem("token");
-
         localStorage.removeItem("user");
 
-
         window.dispatchEvent(
-            new CustomEvent(
-                "colossus:user-updated",
-            ),
+            new CustomEvent("colossus:user-updated")
         );
 
-
         window.location.href = "/login";
-
     };
 
 
-    /*
-    ============================================================
-    CLOSE MENU
-    ============================================================
-    */
+    /* ============================================================
+       CLOSE MENU
+    ============================================================ */
 
     const handleCloseMenu = () => {
-
         setMobileOpen(false);
-
     };
 
 
+    /* ============================================================
+       RENDER
+    ============================================================ */
+
     return (
-
         <>
-
-            {/* =================================================
-                MOBILE BACKDROP
-            ================================================= */}
+            {/* MOBILE BACKDROP */}
 
             <div
-                className={
-                    `portal-sidebar__mobile-backdrop ${mobileOpen
-                        ? "is-open"
-                        : ""
-                    }`
-                }
+                className={`portal-sidebar__mobile-backdrop ${mobileOpen ? "is-open" : ""
+                    }`}
                 onClick={handleCloseMenu}
                 aria-hidden="true"
             />
 
 
-            {/* =================================================
-                SIDEBAR
-            ================================================= */}
+            {/* SIDEBAR */}
 
             <aside
-                className={
-                    `portal-sidebar ${mobileOpen
+                id="portal-sidebar"
+                className={`portal-sidebar ${mobileOpen
                         ? "portal-sidebar--mobile-open"
                         : ""
-                    }`
-                }
+                    }`}
+                aria-label="Client portal sidebar"
             >
-
-                {/* =================================================
-                    BRAND
-                ================================================= */}
+                {/* BRAND */}
 
                 <div className="portal-sidebar__brand">
-
                     <NavLink
                         to="/portal"
                         className="portal-sidebar__brand-link"
-                        aria-label="colossus Client Portal"
+                        aria-label="Colossus Client Portal"
                         onClick={handleNavigation}
                     >
-
                         <img
                             src={colossusLogo}
-                            alt="colossus"
+                            alt="Colossus"
                             className="portal-sidebar__logo"
                         />
-
                     </NavLink>
 
 
-                    {/* =================================================
-                        MOBILE CLOSE
-                    ================================================= */}
+                    {/* MOBILE CLOSE BUTTON */}
 
                     <button
                         type="button"
@@ -287,158 +214,85 @@ const PortalSidebar = () => {
                         onClick={handleCloseMenu}
                         aria-label="Close navigation menu"
                     >
-
-                        <HiOutlineX />
-
+                        <HiOutlineX aria-hidden="true" />
                     </button>
-
                 </div>
 
 
-                {/* =================================================
-                    NAVIGATION
-                ================================================= */}
+                {/* NAVIGATION */}
 
                 <nav
                     className="portal-sidebar__nav"
                     aria-label="Client portal navigation"
                 >
-
                     <div className="portal-sidebar__section-label">
                         Workspace
                     </div>
 
-
                     {navigation.map((item) => {
-
                         const Icon = item.icon;
 
-
-                        if (item.disabled) {
-
-                            return (
-
-                                <div
-                                    key={item.path}
-                                    className="portal-sidebar__link portal-sidebar__link--disabled"
-                                    aria-disabled="true"
-                                >
-
-                                    <Icon
-                                        className="portal-sidebar__icon"
-                                        aria-hidden="true"
-                                    />
-
-                                    <span>
-                                        {item.label}
-                                    </span>
-
-                                    <small>
-                                        Not available
-                                    </small>
-
-                                </div>
-
-                            );
-
-                        }
-
-
                         return (
-
                             <NavLink
                                 key={item.path}
                                 to={item.path}
                                 end={item.end}
                                 onClick={handleNavigation}
                                 className={({ isActive }) =>
-                                    `portal-sidebar__link ${isActive
-                                        ? "active"
-                                        : ""
+                                    `portal-sidebar__link ${isActive ? "active" : ""
                                     }`
                                 }
                             >
-
                                 <Icon
                                     className="portal-sidebar__icon"
                                     aria-hidden="true"
                                 />
 
-                                <span>
-                                    {item.label}
-                                </span>
-
+                                <span>{item.label}</span>
                             </NavLink>
-
                         );
-
                     })}
-
                 </nav>
 
 
-                {/* =================================================
-                    BOTTOM AREA
-                ================================================= */}
+                {/* BOTTOM AREA */}
 
                 <div className="portal-sidebar__bottom">
-
-
-                    {/* =================================================
-                        HELP
-                    ================================================= */}
+                    {/* HELP & SUPPORT */}
 
                     <div
                         className="portal-sidebar__link portal-sidebar__link--disabled"
                         aria-disabled="true"
                     >
-
                         <HiOutlineQuestionMarkCircle
                             className="portal-sidebar__icon"
                             aria-hidden="true"
                         />
 
-                        <span>
-                            Help & Support
-                        </span>
+                        <span>Help &amp; Support</span>
 
-                        <small>
-                            Not available
-                        </small>
-
+                        <small>Not available</small>
                     </div>
 
 
-                    {/* =================================================
-                        LOGOUT
-                    ================================================= */}
+                    {/* LOGOUT */}
 
                     <button
                         type="button"
                         className="portal-sidebar__logout"
                         onClick={handleLogout}
                     >
-
                         <HiOutlineLogout
                             className="portal-sidebar__icon"
                             aria-hidden="true"
                         />
 
-                        <span>
-                            Logout
-                        </span>
-
+                        <span>Logout</span>
                     </button>
-
                 </div>
-
             </aside>
-
         </>
-
     );
-
 };
-
 
 export default PortalSidebar;

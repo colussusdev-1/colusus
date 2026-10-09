@@ -7,9 +7,7 @@ console.log("================================");
 console.log("Base URL:", config.paystackBaseUrl);
 console.log(
   "Secret Key:",
-  config.paystackSecretKey
-    ? `${config.paystackSecretKey.substring(0, 12)}...`
-    : "UNDEFINED",
+  config.paystackSecretKey ? "CONFIGURED" : "UNDEFINED",
 );
 
 const paystack = axios.create({

@@ -1,0 +1,138 @@
+.finance-recent-payments {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid #e4e6e9;
+    border-radius: 11px;
+    background: #fff;
+}
+
+.finance-recent-payments__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px;
+    border-bottom: 1px solid #eceef0;
+}
+
+.finance-recent-payments__eyebrow {
+    display: block;
+    margin-bottom: 5px;
+    color: #858a91;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.finance-recent-payments__header h2 {
+    margin: 0;
+    color: #272a2f;
+    font-size: 15px;
+}
+
+.finance-recent-payments__header p {
+    margin: 4px 0 0;
+    color: #858a91;
+    font-size: 12px;
+}
+
+.finance-recent-payments__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: #f1f3f5;
+    color: #555b62;
+    font-size: 16px;
+}
+
+.finance-recent-payments__table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.finance-recent-payments__table {
+    width: 100%;
+    min-width: 900px;
+    border-collapse: collapse;
+}
+
+.finance-recent-payments__table th {
+    padding: 11px 18px;
+    background: #fafafa;
+    color: #858a91;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.finance-recent-payments__table td {
+    padding: 13px 18px;
+    border-top: 1px solid #f0f1f2;
+    color: #4c5158;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.finance-recent-payments__table td strong {
+    color: #272a2f;
+}
+
+.finance-recent-payments__customer {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.finance-recent-payments__customer span {
+    color: #8a9097;
+    font-size: 11px;
+}
+
+.finance-recent-payments__status {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 4px 8px;
+    background: #f0f1f3;
+    color: #555b62;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.finance-recent-payments__status--success {
+    background: #e9f7ef;
+    color: #16704a;
+}
+
+.finance-recent-payments__status--processing,
+.finance-recent-payments__status--pending {
+    background: #fff5dc;
+    color: #986300;
+}
+
+.finance-recent-payments__status--failed,
+.finance-recent-payments__status--cancelled,
+.finance-recent-payments__status--refunded {
+    background: #fdecec;
+    color: #a52828;
+}
+
+.finance-recent-payments__empty {
+    padding: 45px 20px;
+    color: #8a9097;
+    font-size: 13px;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .finance-recent-payments__header {
+        padding: 15px;
+    }
+}

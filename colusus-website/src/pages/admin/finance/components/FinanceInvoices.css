@@ -1,0 +1,150 @@
+.finance-list-panel {
+    overflow: hidden;
+    border: 1px solid #e4e6e9;
+    border-radius: 11px;
+    background: #fff;
+}
+
+.finance-list-panel__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px;
+    border-bottom: 1px solid #eceef0;
+}
+
+.finance-list-panel__header h2 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.finance-list-panel__header p {
+    margin: 4px 0 0;
+    color: #858a91;
+    font-size: 12px;
+}
+
+.finance-list-panel__header>span {
+    color: #858a91;
+    font-size: 12px;
+}
+
+.finance-list-panel__table {
+    overflow-x: auto;
+}
+
+.finance-list-panel__table table {
+    width: 100%;
+    min-width: 950px;
+    border-collapse: collapse;
+}
+
+.finance-list-panel__table th {
+    padding: 11px 18px;
+    background: #fafafa;
+    color: #858a91;
+    font-size: 10px;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.finance-list-panel__table td {
+    padding: 14px 18px;
+    border-top: 1px solid #f0f1f2;
+    color: #4f545b;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.finance-list-panel__table td strong {
+    color: #25282d;
+}
+
+.finance-list-customer {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.finance-list-customer span {
+    color: #8a9097;
+    font-size: 11px;
+}
+
+.finance-list-status {
+    display: inline-flex;
+    border-radius: 999px;
+    padding: 4px 8px;
+    background: #f0f1f3;
+    color: #555b62;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.finance-list-status--paid {
+    background: #e9f7ef;
+    color: #16704a;
+}
+
+.finance-list-status--issued,
+.finance-list-status--processing,
+.finance-list-status--pending {
+    background: #fff5dc;
+    color: #986300;
+}
+
+.finance-list-status--partially_paid,
+.finance-list-status--overdue {
+    background: #fff0df;
+    color: #a35c00;
+}
+
+.finance-list-status--cancelled,
+.finance-list-status--void,
+.finance-list-status--failed {
+    background: #fdecec;
+    color: #a52828;
+}
+
+.finance-list-panel__empty,
+.finance-list-panel__loading {
+    padding: 60px 20px;
+    color: #8a9097;
+    text-align: center;
+    font-size: 13px;
+}
+
+.finance-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 13px 18px;
+    border-top: 1px solid #eceef0;
+    color: #858a91;
+    font-size: 12px;
+}
+
+.finance-pagination>div {
+    display: flex;
+    gap: 6px;
+}
+
+.finance-pagination button {
+    width: 31px;
+    height: 31px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #dfe2e6;
+    border-radius: 7px;
+    background: #fff;
+    color: #42474d;
+    cursor: pointer;
+}
+
+.finance-pagination button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}

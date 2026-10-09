@@ -1,32 +1,40 @@
 import api from "./api";
 
 /*
-============================================================
-colossus — AUTH SERVICE
-============================================================
-
-Shared authentication service for:
-
-- Client
-- Admin
-- Staff
-
-The backend remains responsible for determining the user's
-actual role.
-
-This service does NOT decide whether a user is ADMIN, STAFF,
-or CLIENT.
-
-The individual portal decides where the authenticated user
-is allowed to go.
-
-============================================================
+|--------------------------------------------------------------------------
+| COLOSSUS — AUTH SERVICE
+|--------------------------------------------------------------------------
+|
+| Shared authentication service for:
+|
+| - Client
+| - Admin
+| - Staff
+|
+| Authentication state is stored in localStorage.
+|
+| Token:
+|   colossus_token
+|
+| User:
+|   colossus_user
+|
+|--------------------------------------------------------------------------
 */
 
 /*
-============================================================
-LOGIN
-============================================================
+|--------------------------------------------------------------------------
+| STORAGE KEYS
+|--------------------------------------------------------------------------
+*/
+
+const TOKEN_KEY = "colossus_token";
+const USER_KEY = "colossus_user";
+
+/*
+|--------------------------------------------------------------------------
+| LOGIN
+|--------------------------------------------------------------------------
 */
 
 const login = async (email, password) => {
@@ -37,96 +45,114 @@ const login = async (email, password) => {
   });
 
   /*
-  ----------------------------------------------------------
-  STORE TOKEN
-  ----------------------------------------------------------
-  */
+    |--------------------------------------------------------------------------
+    | STORE TOKEN
+    |--------------------------------------------------------------------------
+    */
 
   if (data?.token) {
-    localStorage.setItem("colossus_token", data.token);
+    localStorage.setItem(TOKEN_KEY, data.token);
   }
 
   /*
-  ----------------------------------------------------------
-  STORE USER
-  ----------------------------------------------------------
-  */
+    |--------------------------------------------------------------------------
+    | STORE USER
+    |--------------------------------------------------------------------------
+    */
 
   if (data?.user) {
-    localStorage.setItem("colossus_user", JSON.stringify(data.user));
+    localStorage.setItem(USER_KEY, JSON.stringify(data.user));
   }
 
   return data;
 };
 
 /*
-============================================================
-REGISTER
-============================================================
+|--------------------------------------------------------------------------
+| REGISTER
+|--------------------------------------------------------------------------
 */
 
 const register = async (registrationData) => {
   const { data } = await api.post("/auth/register", registrationData);
 
   /*
-  ----------------------------------------------------------
-  STORE TOKEN
-  ----------------------------------------------------------
-  */
+    |--------------------------------------------------------------------------
+    | STORE TOKEN
+    |--------------------------------------------------------------------------
+    */
 
   if (data?.token) {
-    localStorage.setItem("colossus_token", data.token);
+    localStorage.setItem(TOKEN_KEY, data.token);
   }
 
   /*
-  ----------------------------------------------------------
-  STORE USER
-  ----------------------------------------------------------
-  */
+    |--------------------------------------------------------------------------
+    | STORE USER
+    |--------------------------------------------------------------------------
+    */
 
   if (data?.user) {
-    localStorage.setItem("colossus_user", JSON.stringify(data.user));
+    localStorage.setItem(USER_KEY, JSON.stringify(data.user));
   }
 
   return data;
 };
 
 /*
-============================================================
-LOGOUT
-============================================================
+|--------------------------------------------------------------------------
+| LOGOUT
+|--------------------------------------------------------------------------
 */
 
 const logout = () => {
-  localStorage.removeItem("colossus_token");
+  localStorage.removeItem(TOKEN_KEY);
 
-  localStorage.removeItem("colossus_user");
+  localStorage.removeItem(USER_KEY);
 };
 
 /*
-============================================================
-GET CURRENT USER
-============================================================
+|--------------------------------------------------------------------------
+| GET TOKEN
+|--------------------------------------------------------------------------
+*/
+
+const getToken = () => {
+  return localStorage.getItem(TOKEN_KEY);
+};
+
+/*
+|--------------------------------------------------------------------------
+| GET CURRENT USER
+|--------------------------------------------------------------------------
 */
 
 const getCurrentUser = () => {
-  const user = localStorage.getItem("colossus_user");
+  const storedUser = localStorage.getItem(USER_KEY);
 
-  if (!user) {
+  if (!storedUser) {
     return null;
   }
 
   try {
-    return JSON.parse(user);
+    return JSON.parse(storedUser);
   } catch {
+    /*
+        |--------------------------------------------------------------------------
+        | Invalid stored user
+        |--------------------------------------------------------------------------
+        */
+
+    localStorage.removeItem(USER_KEY);
+
     return null;
   }
 };
 
 /*
-============================================================
-GET CURRENT USER ROLE
-============================================================
+|--------------------------------------------------------------------------
+| GET CURRENT USER ROLE
+|--------------------------------------------------------------------------
 */
 
 const getCurrentUserRole = () => {
@@ -138,31 +164,53 @@ const getCurrentUserRole = () => {
 };
 
 /*
-============================================================
-CHECK AUTHENTICATION
-============================================================
+|--------------------------------------------------------------------------
+| CHECK AUTHENTICATION
+|--------------------------------------------------------------------------
 */
 
 const isAuthenticated = () => {
-  return Boolean(localStorage.getItem("colossus_token"));
+  return Boolean(getToken());
 };
 
 /*
-============================================================
-EXPORT
-============================================================
+|--------------------------------------------------------------------------
+| CLEAR AUTH
+|--------------------------------------------------------------------------
+|
+| Useful when authentication becomes invalid.
+|
+|--------------------------------------------------------------------------
 */
 
-export default {
+const clearAuth = () => {
+  localStorage.removeItem(TOKEN_KEY);
+
+  localStorage.removeItem(USER_KEY);
+};
+
+/*
+|--------------------------------------------------------------------------
+| EXPORT
+|--------------------------------------------------------------------------
+*/
+
+const authService = {
   login,
 
   register,
 
   logout,
 
+  getToken,
+
   getCurrentUser,
 
   getCurrentUserRole,
 
   isAuthenticated,
+
+  clearAuth,
 };
+
+export default authService;

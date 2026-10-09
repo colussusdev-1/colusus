@@ -1275,3 +1275,310 @@
         transition-duration: .01ms !important;
     }
 }
+
+/* ============================================================
+   DESTINATION DISCOVERY TOOLS
+============================================================ */
+
+.countries-discovery-tools {
+    width: 100%;
+    max-width: 960px;
+
+    margin: 0 auto 28px;
+}
+
+
+/* ============================================================
+   SEARCH INPUT
+============================================================ */
+
+.countries-search {
+    position: relative;
+
+    width: 100%;
+    min-height: 58px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 16px;
+
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 12px;
+
+    background: rgba(5, 19, 37, 0.82);
+
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease;
+}
+
+.countries-search:focus-within {
+    border-color: #168fff;
+
+    background: rgba(5, 19, 37, 0.96);
+}
+
+.countries-search-icon {
+    flex-shrink: 0;
+
+    margin-right: 12px;
+
+    color: #75baff;
+
+    font-size: 1.3rem;
+}
+
+.countries-search-input {
+    width: 100%;
+    min-width: 0;
+    min-height: 54px;
+
+    padding: 0;
+
+    border: 0;
+    outline: none;
+
+    color: #ffffff;
+    background: transparent;
+
+    font-family: inherit;
+    font-size: 0.9rem;
+    line-height: 1.5;
+
+    appearance: none;
+}
+
+.countries-search-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+    opacity: 1;
+}
+
+.countries-search-input::-webkit-search-cancel-button {
+    display: none;
+}
+
+.countries-search-clear {
+    width: 36px;
+    height: 36px;
+
+    flex-shrink: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-left: 8px;
+
+    border: 0;
+    border-radius: 8px;
+
+    color: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.08);
+
+    cursor: pointer;
+}
+
+.countries-search-clear:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.countries-search-clear svg {
+    font-size: 1.1rem;
+}
+
+
+/* ============================================================
+   RESULTS SUMMARY
+============================================================ */
+
+.countries-results-summary {
+    min-height: 35px;
+
+    display: flex;
+    align-items: center;
+
+    color: rgba(255, 255, 255, 0.62);
+
+    font-size: 0.76rem;
+    font-weight: 600;
+}
+
+
+/* ============================================================
+   FILTER WRAPPER
+============================================================ */
+
+.countries-discovery-tools .countries-filter-wrapper {
+    width: 100%;
+    min-width: 0;
+
+    margin: 0;
+}
+
+
+/* ============================================================
+   EMPTY SEARCH RESULTS
+============================================================ */
+
+.countries-empty {
+    grid-column: 1 / -1;
+
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 44px 22px;
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+
+    text-align: center;
+
+    background: rgba(5, 19, 37, 0.65);
+}
+
+.countries-empty-icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 15px;
+
+    border-radius: 50%;
+
+    color: #8bc9ff;
+    background: rgba(22, 143, 255, 0.12);
+
+    font-size: 1.4rem;
+}
+
+.countries-empty h3 {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 1.05rem;
+    line-height: 1.4;
+}
+
+.countries-empty p {
+    max-width: 440px;
+
+    margin: 10px 0 0;
+
+    color: rgba(255, 255, 255, 0.66);
+
+    font-size: 0.84rem;
+    line-height: 1.7;
+
+    overflow-wrap: anywhere;
+}
+
+.countries-reset-btn {
+    min-height: 43px;
+
+    margin-top: 20px;
+    padding: 0 16px;
+
+    border: 1px solid rgba(90, 174, 255, 0.5);
+    border-radius: 8px;
+
+    color: #ffffff;
+    background: rgba(22, 143, 255, 0.14);
+
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: background 0.2s ease;
+}
+
+.countries-reset-btn:hover {
+    background: rgba(22, 143, 255, 0.25);
+}
+
+
+/* ============================================================
+   KEYBOARD ACCESSIBILITY
+============================================================ */
+
+.countries-search-clear:focus-visible,
+.countries-reset-btn:focus-visible {
+    outline: 2px solid #78bdff;
+    outline-offset: 3px;
+}
+
+
+/* ============================================================
+   MOBILE-FIRST REFINEMENTS
+============================================================ */
+
+@media (max-width: 600px) {
+    .countries-discovery-tools {
+        margin-bottom: 22px;
+    }
+
+    .countries-search {
+        min-height: 54px;
+
+        padding: 0 13px;
+
+        border-radius: 10px;
+    }
+
+    .countries-search-input {
+        min-height: 50px;
+
+        font-size: 16px;
+    }
+
+    .countries-search-icon {
+        margin-right: 10px;
+
+        font-size: 1.2rem;
+    }
+
+    .countries-results-summary {
+        min-height: 34px;
+
+        font-size: 0.73rem;
+    }
+
+    .countries-empty {
+        padding: 34px 17px;
+    }
+
+    .countries-empty h3 {
+        font-size: 1rem;
+    }
+
+    .countries-empty p {
+        font-size: 0.8rem;
+    }
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .countries-search,
+    .countries-search-clear,
+    .countries-reset-btn {
+        transition: none;
+    }
+}

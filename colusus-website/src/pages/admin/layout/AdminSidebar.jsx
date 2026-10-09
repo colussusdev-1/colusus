@@ -20,6 +20,7 @@ import {
     HiOutlineViewBoards,
     HiOutlineCollection,
     HiOutlinePencilAlt,
+    HiOutlineCurrencyDollar,
 } from "react-icons/hi";
 
 import authService
@@ -31,19 +32,11 @@ import useStaffAccess
 import "./AdminSidebar.css";
 
 
-/*
-|--------------------------------------------------------------------------
-| ADMIN NAVIGATION
-|--------------------------------------------------------------------------
-|
-| ADMIN users have unrestricted access through the backend access layer.
-|
-| These items are therefore not filtered by staff permissions.
-|
-*/
+/* ==========================================================================
+   ADMIN NAVIGATION
+   ========================================================================== */
 
 const adminNavigation = [
-
     {
         label: "Overview",
         path: "/admin",
@@ -93,10 +86,15 @@ const adminNavigation = [
     },
 
     {
+        label: "Finance",
+        path: "/admin/finance",
+        icon: HiOutlineCurrencyDollar,
+    },
+
+    {
         label: "Notifications",
         path: "/admin/notifications",
         icon: HiOutlineBell,
-        disabled: true,
     },
 
     {
@@ -111,23 +109,14 @@ const adminNavigation = [
         icon: HiOutlineClock,
         disabled: true,
     },
-
 ];
 
 
-/*
-|--------------------------------------------------------------------------
-| STAFF NAVIGATION
-|--------------------------------------------------------------------------
-|
-| The permission controls visibility.
-|
-| The backend remains the actual authorization authority.
-|
-*/
+/* ==========================================================================
+   STAFF NAVIGATION
+   ========================================================================== */
 
 const staffNavigation = [
-
     {
         label: "My Workspace",
         path: "/admin/staff",
@@ -149,23 +138,22 @@ const staffNavigation = [
         permission: "forms.view",
     },
 
+    {
+        label: "Notifications",
+        path: "/admin/notifications",
+        icon: HiOutlineBell,
+    },
 ];
 
 
-/*
-|--------------------------------------------------------------------------
-| STAFF ACTIVE PATHS
-|--------------------------------------------------------------------------
-|
-| Used to keep detail pages highlighted under their parent workspace.
-|
-*/
+/* ==========================================================================
+   ACTIVE PATH HANDLING
+   ========================================================================== */
 
-const isPathActive = (
-    pathname,
-    path,
-) => {
-
+/**
+ * Keeps staff detail pages highlighted under their parent navigation item.
+ */
+const isPathActive = (pathname, path) => {
     if (path === "/admin/staff") {
         return pathname === path;
     }
@@ -174,161 +162,116 @@ const isPathActive = (
         pathname === path ||
         pathname.startsWith(`${path}/`)
     );
-
 };
 
 
-/*
-|--------------------------------------------------------------------------
-| ADMIN SIDEBAR
-|--------------------------------------------------------------------------
-*/
+/* ==========================================================================
+   ADMIN SIDEBAR
+   ========================================================================== */
 
 const AdminSidebar = () => {
-
-    const location =
-        useLocation();
+    const location = useLocation();
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | CURRENT USER
-    |--------------------------------------------------------------------------
-    */
+    /* ----------------------------------------------------------------------
+       CURRENT USER
+       ---------------------------------------------------------------------- */
 
-    const user =
-        authService.getCurrentUser();
+    let user = null;
 
+    try {
+        const storedUser =
+            localStorage.getItem("colossus_user");
 
-    const role =
-        String(
-            user?.role || "",
-        )
-            .trim()
-            .toUpperCase();
-
-
-    const isStaff =
-        role === "STAFF";
+        if (storedUser) {
+            user = JSON.parse(storedUser);
+        }
+    } catch {
+        user = null;
+    }
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | STAFF ACCESS
-    |--------------------------------------------------------------------------
-    |
-    | Only STAFF accounts need to request their granular permissions.
-    |
-    */
+    /* ----------------------------------------------------------------------
+       USER ROLE
+       ---------------------------------------------------------------------- */
+
+    const role = String(user?.role || "")
+        .trim()
+        .toUpperCase();
+
+    const isStaff = role === "STAFF";
+
+
+    /* ----------------------------------------------------------------------
+       STAFF ACCESS
+       ---------------------------------------------------------------------- */
 
     const {
         loading: accessLoading,
         hasPermission,
-    } = useStaffAccess(
-        isStaff,
-    );
+    } = useStaffAccess(isStaff);
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | NAVIGATION
-    |--------------------------------------------------------------------------
-    */
+    /* ----------------------------------------------------------------------
+       NAVIGATION
+       ---------------------------------------------------------------------- */
 
-    const navigation =
-        isStaff
-            ? staffNavigation.filter(
-                (item) => {
+    const navigation = isStaff
+        ? staffNavigation.filter((item) => {
+            // Notifications does not require a dashboard permission.
+            if (!item.permission) {
+                return true;
+            }
 
-                    if (!item.permission) {
-                        return true;
-                    }
+            // Keep permitted navigation visible while permissions load.
+            // Route-level protection must still enforce authorization.
+            if (accessLoading) {
+                return true;
+            }
 
-                    /*
-                    | Keep navigation visible while access is loading.
-                    | StaffPermissionRoute protects the actual route.
-                    */
-
-                    if (accessLoading) {
-                        return true;
-                    }
-
-                    return hasPermission(
-                        item.permission,
-                    );
-
-                },
-            )
-            : adminNavigation;
+            return hasPermission(item.permission);
+        })
+        : adminNavigation;
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | USER DISPLAY
-    |--------------------------------------------------------------------------
-    */
+    /* ----------------------------------------------------------------------
+       USER DISPLAY
+       ---------------------------------------------------------------------- */
 
     const displayName =
         user?.name ||
-        (
-            isStaff
-                ? "Staff"
-                : "Admin"
-        );
-
+        (isStaff ? "Staff" : "Admin");
 
     const displayRole =
         isStaff
             ? "Staff Member"
             : "Administrator";
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | AVATAR
-    |--------------------------------------------------------------------------
-    */
-
-    const avatar =
-        displayName
-            .split(" ")
-            .filter(Boolean)
-            .slice(0, 2)
-            .map(
-                (part) =>
-                    part
-                        .charAt(0)
-                        .toUpperCase(),
-            )
-            .join("");
+    const avatar = displayName
+        .split(" ")
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((part) => part.charAt(0).toUpperCase())
+        .join("");
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | LOGOUT
-    |--------------------------------------------------------------------------
-    */
+    /* ----------------------------------------------------------------------
+       LOGOUT
+       ---------------------------------------------------------------------- */
 
     const handleLogout = () => {
-
         authService.logout();
 
-        window.location.href =
-            "/admin/login";
-
+        window.location.href = "/admin/login";
     };
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | RENDER
-    |--------------------------------------------------------------------------
-    */
+    /* ----------------------------------------------------------------------
+       RENDER
+       ---------------------------------------------------------------------- */
 
     return (
-
         <aside className="admin-sidebar">
-
 
             {/* ============================================================
                 SIDEBAR TOP
@@ -336,17 +279,13 @@ const AdminSidebar = () => {
 
             <div className="admin-sidebar-top">
 
-
-                {/* ========================================================
-                    BRAND
-                ======================================================== */}
+                {/* BRAND */}
 
                 <div className="admin-brand">
 
                     <div className="admin-brand-mark">
                         C
                     </div>
-
 
                     <div className="admin-brand-text">
 
@@ -363,189 +302,120 @@ const AdminSidebar = () => {
                 </div>
 
 
-                {/* ========================================================
-                    NAVIGATION
-                ======================================================== */}
+                {/* NAVIGATION */}
 
                 <nav className="admin-navigation">
 
-
-                    {/* ====================================================
-                        STAFF SECTION LABEL
-                    ==================================================== */}
+                    {/* STAFF SECTION LABEL */}
 
                     {isStaff && (
-
                         <div className="admin-navigation-section">
-
-                            <span>
-                                Workspace
-                            </span>
-
+                            <span>Workspace</span>
                         </div>
-
                     )}
 
 
-                    {navigation.map(
-                        (item) => {
+                    {/* NAVIGATION ITEMS */}
 
-                            const Icon =
-                                item.icon;
+                    {navigation.map((item) => {
+                        const Icon = item.icon;
 
+                        /* --------------------------------------------------
+                           DISABLED ADMIN ITEMS
+                           -------------------------------------------------- */
 
-                            /*
-                            |--------------------------------------------------------------------------
-                            | DISABLED ADMIN ITEM
-                            |--------------------------------------------------------------------------
-                            */
+                        if (!isStaff && item.disabled) {
+                            return (
+                                <div
+                                    key={item.label}
+                                    className="
+                                        admin-nav-item
+                                        admin-nav-item-disabled
+                                    "
+                                    aria-disabled="true"
+                                >
 
-                            if (
-                                !isStaff &&
-                                item.disabled
-                            ) {
+                                    <Icon className="admin-nav-icon" />
 
-                                return (
+                                    <span>
+                                        {item.label}
+                                    </span>
 
-                                    <div
-                                        key={
-                                            item.label
-                                        }
-                                        className="
-                                            admin-nav-item
-                                            admin-nav-item-disabled
-                                        "
-                                        aria-disabled="true"
-                                    >
+                                    <small>
+                                        Not available
+                                    </small>
 
-                                        <Icon
-                                            className="admin-nav-icon"
-                                        />
-
-                                        <span>
-                                            {
-                                                item.label
-                                            }
-                                        </span>
-
-                                        <small>
-                                            Not available
-                                        </small>
-
-                                    </div>
-
-                                );
-
-                            }
+                                </div>
+                            );
+                        }
 
 
-                            /*
-                            |--------------------------------------------------------------------------
-                            | STAFF NAVIGATION
-                            |--------------------------------------------------------------------------
-                            */
+                        /* --------------------------------------------------
+                           STAFF NAVIGATION
+                           -------------------------------------------------- */
 
-                            if (isStaff) {
-
-                                const active =
-                                    isPathActive(
-                                        location.pathname,
-                                        item.path,
-                                    );
-
-
-                                return (
-
-                                    <NavLink
-                                        key={
-                                            item.label
-                                        }
-                                        to={
-                                            item.path
-                                        }
-                                        end={
-                                            item.path ===
-                                            "/admin/staff"
-                                        }
-                                        className={
-                                            active
-                                                ? "admin-nav-item admin-nav-item-active"
-                                                : "admin-nav-item"
-                                        }
-                                    >
-
-                                        <span className="admin-nav-icon-wrapper">
-
-                                            <Icon
-                                                className="admin-nav-icon"
-                                            />
-
-                                        </span>
-
-
-                                        <span className="admin-nav-label">
-
-                                            {
-                                                item.label
-                                            }
-
-                                        </span>
-
-                                    </NavLink>
-
-                                );
-
-                            }
-
-
-                            /*
-                            |--------------------------------------------------------------------------
-                            | ADMIN NAVIGATION
-                            |--------------------------------------------------------------------------
-                            */
+                        if (isStaff) {
+                            const active = isPathActive(
+                                location.pathname,
+                                item.path,
+                            );
 
                             return (
-
                                 <NavLink
-                                    key={
-                                        item.label
-                                    }
-                                    to={
-                                        item.path
-                                    }
-                                    end={
-                                        item.path ===
-                                        "/admin"
-                                    }
-                                    className={({
-                                        isActive,
-                                    }) =>
-                                        `
-                                        admin-nav-item
-                                        ${isActive
-                                            ? "admin-nav-item-active"
-                                            : ""
-                                        }
-                                        `
+                                    key={item.label}
+                                    to={item.path}
+                                    end={item.path === "/admin/staff"}
+                                    className={
+                                        active
+                                            ? "admin-nav-item admin-nav-item-active"
+                                            : "admin-nav-item"
                                     }
                                 >
 
-                                    <Icon
-                                        className="admin-nav-icon"
-                                    />
+                                    <span className="admin-nav-icon-wrapper">
 
-                                    <span>
-                                        {
-                                            item.label
-                                        }
+                                        <Icon className="admin-nav-icon" />
+
+                                    </span>
+
+                                    <span className="admin-nav-label">
+                                        {item.label}
                                     </span>
 
                                 </NavLink>
-
                             );
+                        }
 
-                        },
-                    )}
+
+                        /* --------------------------------------------------
+                           ADMIN NAVIGATION
+                           -------------------------------------------------- */
+
+                        return (
+                            <NavLink
+                                key={item.label}
+                                to={item.path}
+                                end={item.path === "/admin"}
+                                className={({ isActive }) =>
+                                    `
+                                        admin-nav-item
+                                        ${isActive
+                                        ? "admin-nav-item-active"
+                                        : ""
+                                    }
+                                    `
+                                }
+                            >
+
+                                <Icon className="admin-nav-icon" />
+
+                                <span>
+                                    {item.label}
+                                </span>
+
+                            </NavLink>
+                        );
+                    })}
 
                 </nav>
 
@@ -558,53 +428,36 @@ const AdminSidebar = () => {
 
             <div className="admin-sidebar-bottom">
 
-
-                {/* ========================================================
-                    USER PROFILE
-                ======================================================== */}
+                {/* USER PROFILE */}
 
                 {isStaff ? (
-
                     <NavLink
                         to="/admin/staff"
                         className="admin-profile-link"
                     >
 
                         <div className="admin-avatar">
-
-                            {
-                                avatar ||
-                                "U"
-                            }
-
+                            {avatar || "U"}
                         </div>
-
 
                         <div className="admin-profile-info">
 
                             <strong>
-                                {
-                                    displayName
-                                }
+                                {displayName}
                             </strong>
 
                             <span>
-                                {
-                                    displayRole
-                                }
+                                {displayRole}
                             </span>
 
                         </div>
-
 
                         <HiOutlineUserCircle
                             className="admin-profile-icon"
                         />
 
                     </NavLink>
-
                 ) : (
-
                     <div
                         className="
                             admin-profile-link
@@ -614,56 +467,39 @@ const AdminSidebar = () => {
                     >
 
                         <div className="admin-avatar">
-
-                            {
-                                avatar ||
-                                "U"
-                            }
-
+                            {avatar || "U"}
                         </div>
-
 
                         <div className="admin-profile-info">
 
                             <strong>
-                                {
-                                    displayName
-                                }
+                                {displayName}
                             </strong>
 
                             <span>
-                                {
-                                    displayRole
-                                }
+                                {displayRole}
                             </span>
 
                         </div>
 
-
                         <HiOutlineUserCircle
                             className="admin-profile-icon"
                         />
-
 
                         <small>
                             Not available
                         </small>
 
                     </div>
-
                 )}
 
 
-                {/* ========================================================
-                    LOGOUT
-                ======================================================== */}
+                {/* LOGOUT */}
 
                 <button
                     type="button"
                     className="admin-logout-button"
-                    onClick={
-                        handleLogout
-                    }
+                    onClick={handleLogout}
                 >
 
                     <HiOutlineLogout />
@@ -676,11 +512,8 @@ const AdminSidebar = () => {
 
             </div>
 
-
         </aside>
-
     );
-
 };
 
 

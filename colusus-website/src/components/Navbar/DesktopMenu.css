@@ -1,410 +1,420 @@
-/* =====================================================
-   DESKTOP MENU
-===================================================== */
+/* ==========================================================================
+   COLOSSUS MIGRATION & TOURS
+   DESKTOP NAVIGATION
+   ========================================================================== */
 
 .desktop-nav {
     display: flex;
     align-items: center;
-    gap: 1.8rem;
-}
+    justify-content: center;
 
-/* =====================================================
-   LINKS
-===================================================== */
-
-.desktop-nav>a {
-    position: relative;
-
-    display: flex;
-    align-items: center;
-
-    height: 90px;
-
-    color: rgba(255, 255, 255, .92  );
-
-    font-size: 15px;
-    font-weight: 600;
-
-    transition: .3s ease;
-}
-
-.navbar.scrolled .desktop-nav>a {
-    height: 72px;
-     color: var(--heading);
-}
-
-.desktop-nav>a:hover,
-.desktop-nav>a.active {
-    color: var(--primary);
-}
-
-/* Underline */
-
-.desktop-nav>a::after {
-    content: "";
-
-    position: absolute;
-
-    left: 50%;
-    bottom: 22px;
-
-    transform: translateX(-50%);
-
-    width: 0;
-    height: 2px;
-
-    background: var(--primary);
-
-    border-radius: 999px;
-
-    transition: width .3s ease;
-}
-
-.desktop-nav>a:hover::after,
-.desktop-nav>a.active::after {
     width: 100%;
+    gap: 24px;
 }
 
-/* =====================================================
-   DROPDOWN
-===================================================== */
+/* ==========================================================================
+   STANDARD LINKS AND DROPDOWN TRIGGERS
+   ========================================================================== */
 
-.dropdown {
+.desktop-nav-link {
     position: relative;
 
-    display: flex;
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
 
-    height: 90px;
-}
+    min-height: 44px;
+    padding: 10px 0;
 
-.navbar.scrolled .dropdown {
-    height: 72px;
-}
+    gap: 7px;
 
-/* Trigger */
+    color: rgba(255, 255, 255, 0.95);
 
-.dropdown-btn {
-    position: relative;
+    background: transparent;
+    border: none;
+    border-radius: 0;
 
-    display: flex;
-    align-items: center;
-    gap: .4rem;
-
-    height: 100%;
-
-    color: rgba(255, 255, 255, .92);
-
-    font-size: 15px;
+    font-family: inherit;
+    font-size: 13px;
     font-weight: 600;
+    line-height: 1.4;
 
-    transition: .3s ease;
-}
+    text-decoration: none;
+    white-space: nowrap;
 
-.navbar.scrolled .dropdown-btn{
-    color: var(--heading);
-}
-
-.dropdown-btn:hover {
-    color: var(--primary);
-}
-
-/* Active parent */
-
-.dropdown.active .dropdown-btn {
-    color: var(--primary);
-}
-
-/* Underline */
-
-.dropdown-btn::after {
-    content: "";
-
-    position: absolute;
-
-    left: 50%;
-    bottom: 22px;
-
-    transform: translateX(-50%);
-
-    width: 0;
-    height: 2px;
-
-    background: var(--primary);
-
-    border-radius: 999px;
-
-    transition: width .3s ease;
-}
-
-.dropdown:hover .dropdown-btn::after,
-.dropdown.active .dropdown-btn::after {
-    width: 100%;
-}
-
-/* Chevron */
-
-.dropdown-icon {
-    font-size: 18px;
-
-    transition: transform .3s ease;
-}
-
-.dropdown:hover .dropdown-icon {
-    transform: rotate(180deg);
-}
-
-/* =====================================================
-   DROPDOWN MENU
-===================================================== */
-
-.dropdown-menu {
-    position: absolute;
-
-    top: calc(100% + 14px);
-    left: 50%;
-
-    transform: translateX(-50%) translateY(14px);
-
-    width: 320px;
-
-    padding: .8rem;
-
-    background: rgba(255, 255, 255, .96);
-
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-
-    border: 1px solid rgba(255, 255, 255, .8);
-
-    border-radius: 18px;
-
-    box-shadow:
-        0 18px 45px rgba(0, 0, 0, .08),
-        0 8px 20px rgba(0, 0, 0, .05);
-
-    opacity: 0;
-    visibility: hidden;
+    cursor: pointer;
 
     transition:
-        opacity .3s ease,
-        transform .3s ease,
-        visibility .3s ease;
-
-    z-index: 1000;
+        color 0.2s ease,
+        opacity 0.2s ease;
 }
 
-/* Arrow */
+.desktop-nav-link:hover {
+    color: #ffffff;
+}
 
-.dropdown-menu::before {
+.desktop-nav-link.active {
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   ACTIVE INDICATOR
+   ========================================================================== */
+
+.desktop-nav>.desktop-nav-link::after,
+.desktop-dropdown>.desktop-nav-link::after {
     content: "";
 
     position: absolute;
 
-    top: -8px;
-    left: 50%;
+    left: 0;
+    right: 0;
+    bottom: 3px;
+
+    height: 2px;
+
+    background: #c99a43;
+
+    border-radius: 999px;
+
+    transform: scaleX(0);
+    transform-origin: center;
+
+    transition: transform 0.2s ease;
+}
+
+.desktop-nav>.desktop-nav-link.active::after,
+.desktop-dropdown.active>.desktop-nav-link::after,
+.desktop-dropdown.is-open>.desktop-nav-link::after {
+    transform: scaleX(1);
+}
+
+/* ==========================================================================
+   SCROLLED NAVBAR LINKS
+   ========================================================================== */
+
+.navbar.scrolled .desktop-nav-link {
+    color: #142b45;
+}
+
+.navbar.scrolled .desktop-nav-link:hover {
+    color: #123c65;
+}
+
+.navbar.scrolled .desktop-nav-link.active {
+    color: #123c65;
+}
+
+/* ==========================================================================
+   DROPDOWN WRAPPER
+   ========================================================================== */
+
+.desktop-dropdown {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    flex-shrink: 0;
+}
+
+/* ==========================================================================
+   DROPDOWN TRIGGER
+   ========================================================================== */
+
+.dropdown-btn {
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.dropdown-icon {
+    display: block;
 
     width: 16px;
     height: 16px;
 
-    background: white;
+    flex-shrink: 0;
 
-    border-top: 1px solid rgba(0, 0, 0, .05);
-    border-left: 1px solid rgba(0, 0, 0, .05);
-
-    transform:
-        translateX(-50%)
-        rotate(45deg);
-}
-
-.dropdown:hover .dropdown-menu {
-    opacity: 1;
-    visibility: visible;
-
-    transform:
-        translateX(-50%)
-        translateY(0);
-}
-
-/* =====================================================
-   DROPDOWN LINKS
-===================================================== */
-
-.dropdown-menu a {
-    display: flex;
-    align-items: center;
-
-    padding: .95rem 1rem;
-
-    border-radius: 12px;
-
-    color: var(--heading);
-
-    font-size: .95rem;
-    font-weight: 500;
-
-    transition: .25s ease;
-}
-
-.dropdown-menu a:hover {
-    background: rgba(18, 110, 255, .06);
-
-    color: var(--primary);
-
-    padding-left: 1.4rem;
-}
-
-.dropdown-menu a.active {
-    background: rgba(18, 110, 255, .09);
-
-    color: var(--primary);
-
-    font-weight: 600;
-}
-
-/* =====================================================
-   RESPONSIVE
-===================================================== */
-
-@media (max-width: 992px) {
-
-    .desktop-nav {
-        display: none;
-    }
-
-}
-
-
-
-/* =========================
-   DROPDOWN BASE
-========================= */
-
-.dropdown {
-
-  position: relative;
-}
-
-/* =========================
-   BUTTON
-========================= */
-
-.dropdown-btn {
-
-  background: none;
-
-  border: none;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 0.4rem;
-
-  cursor: pointer;
-
-  font: inherit;
-
-  color: inherit;
-}
-
-/* icon animation */
-
-.dropdown-icon {
-
-  transition: 0.25s ease;
-
+    transition: transform 0.2s ease;
 }
 
 .dropdown-icon.rotate {
-
-  transform: rotate(180deg);
+    transform: rotate(180deg);
 }
 
-/* =========================
-   MENU (PREMIUM GLASS)
-========================= */
+/* ==========================================================================
+   DROPDOWN PANEL
+   ========================================================================== */
 
-.dropdown-menu {
+.desktop-dropdown-menu {
+    position: absolute;
 
-  position: absolute;
+    top: calc(100% + 9px);
+    left: -24px;
 
-  top: 120%;
+    z-index: 1100;
 
-  left: 0;
+    width: 340px;
+    max-width: min(340px, calc(100vw - 32px));
 
-  min-width: 260px;
+    padding: 10px;
 
-  padding: 0.8rem;
+    background: #ffffff;
 
-  border-radius: 14px;
+    border: 1px solid #e7edf3;
+    border-radius: 14px;
 
-  background: rgba(255,255,255,0.92);
+    box-shadow:
+        0 20px 55px rgba(15, 35, 55, 0.15),
+        0 3px 10px rgba(15, 35, 55, 0.04);
 
-  backdrop-filter: blur(18px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
 
-  box-shadow: 0 25px 60px rgba(0,0,0,0.12);
+    transform: translateY(8px);
 
-  opacity: 0;
-
-  visibility: hidden;
-
-  transform: translateY(10px);
-
-  transition: all 0.25s ease;
-
-  z-index: 999;
+    transition:
+        opacity 0.18s ease,
+        transform 0.18s ease,
+        visibility 0.18s ease;
 }
 
-/* open state */
+/* Open only when React adds .show */
 
-.dropdown-menu.show {
+.desktop-dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
 
-  opacity: 1;
-
-  visibility: visible;
-
-  transform: translateY(0);
+    transform: translateY(0);
 }
 
-/* =========================
-   LINKS
-========================= */
+/* ==========================================================================
+   DROPDOWN HEADER
+   ========================================================================== */
 
-.dropdown-menu a {
+.dropdown-heading {
+    display: flex;
+    flex-direction: column;
 
-  display: block;
+    gap: 5px;
 
-  padding: 0.7rem 0.9rem;
+    padding: 15px 13px 17px;
 
-  border-radius: 10px;
-
-  color: var(--text);
-
-  transition: 0.2s ease;
+    border-bottom: 1px solid #edf1f5;
 }
 
-.dropdown-menu a:hover {
+.dropdown-eyebrow {
+    color: #9a7533;
 
-  background: rgba(0,86,179,0.08);
-
-  color: var(--primary);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    line-height: 1.4;
 }
 
-/* active link */
+.dropdown-title {
+    color: #142b45;
 
-.dropdown-menu a.active {
-
-  background: rgba(0,86,179,0.12);
-
-  color: var(--primary);
-
-  font-weight: 600;
+    font-size: 19px;
+    font-weight: 750;
+    line-height: 1.3;
+    letter-spacing: -0.4px;
 }
 
-/* parent active state */
+/* ==========================================================================
+   DROPDOWN LINKS
+   ========================================================================== */
 
-.dropdown.active .dropdown-btn {
+.dropdown-links {
+    display: flex;
+    flex-direction: column;
 
-  color: var(--primary);
+    gap: 3px;
+
+    padding: 8px 0;
+}
+
+.desktop-dropdown-menu .dropdown-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    min-height: 47px;
+
+    padding: 11px 13px;
+
+    gap: 12px;
+
+    color: #30465d;
+
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 8px;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 550;
+    line-height: 1.5;
+
+    text-decoration: none;
+
+    transition:
+        background-color 0.18s ease,
+        color 0.18s ease,
+        border-color 0.18s ease;
+}
+
+.dropdown-link-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.desktop-dropdown-menu .dropdown-link:hover {
+    color: #123c65;
+    background: #f3f6fa;
+}
+
+.desktop-dropdown-menu .dropdown-link.active {
+    color: #123c65;
+
+    background: #edf3f9;
+    border-color: #e1eaf3;
+
+    font-weight: 700;
+}
+
+.dropdown-link-icon {
+    width: 16px;
+    height: 16px;
+
+    flex-shrink: 0;
+
+    color: #93a2b2;
+
+    opacity: 0;
+
+    transform: translate(-3px, 3px);
+
+    transition:
+        opacity 0.18s ease,
+        transform 0.18s ease,
+        color 0.18s ease;
+}
+
+.dropdown-link:hover .dropdown-link-icon,
+.dropdown-link.active .dropdown-link-icon {
+    color: #123c65;
+
+    opacity: 1;
+    transform: translate(0, 0);
+}
+
+/* ==========================================================================
+   DROPDOWN FOOTER
+   ========================================================================== */
+
+.dropdown-footer {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+
+    padding: 15px 13px 10px;
+
+    border-top: 1px solid #edf1f5;
+}
+
+.dropdown-footer>span {
+    color: #738397;
+
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.dropdown-footer>a {
+    display: inline-flex;
+    align-items: center;
+
+    align-self: flex-start;
+
+    gap: 7px;
+
+    color: #123c65;
+
+    font-size: 12px;
+    font-weight: 750;
+
+    text-decoration: none;
+
+    transition: color 0.18s ease;
+}
+
+.dropdown-footer>a:hover {
+    color: #c18c30;
+}
+
+.dropdown-footer>a svg {
+    width: 15px;
+    height: 15px;
+
+    transition: transform 0.18s ease;
+}
+
+.dropdown-footer>a:hover svg {
+    transform: translate(2px, -2px);
+}
+
+/* ==========================================================================
+   KEYBOARD FOCUS
+   ========================================================================== */
+
+.desktop-nav-link:focus-visible,
+.desktop-dropdown-menu a:focus-visible {
+    outline: 3px solid #c99a43;
+    outline-offset: 4px;
+    border-radius: 5px;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESKTOP
+   ========================================================================== */
+
+@media (max-width: 1200px) {
+    .desktop-nav {
+        gap: 16px;
+    }
+
+    .desktop-nav-link {
+        font-size: 12px;
+    }
+
+    .desktop-dropdown-menu {
+        width: 320px;
+    }
+}
+
+/* ==========================================================================
+   MOBILE — DESKTOP NAV IS HIDDEN
+   ========================================================================== */
+
+@media (max-width: 960px) {
+    .desktop-nav {
+        display: none;
+    }
+}
+
+/* ==========================================================================
+   REDUCED MOTION
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .desktop-nav *,
+    .desktop-nav *::before,
+    .desktop-nav *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
 }

@@ -1,6 +1,7 @@
 import Application from "../applications/application.model.js";
+import User from "../users/user.model.js";
 
-import notificationService from "../notifications/notification.service.js";
+import { notifyUser } from "../notifications/notification.policy.js";
 
 import {
   getApplicationNotificationData,
@@ -11,43 +12,40 @@ import { getApplicationProgress } from "./workflow.progress.js";
 
 /*
 |--------------------------------------------------------------------------
-| colossus — WORKFLOW SERVICE
+| COLOSSUS — WORKFLOW SERVICE
 |--------------------------------------------------------------------------
 |
-| Central workflow coordination service.
-|
-| RESPONSIBILITIES:
-|
-| - Application workflow progress
-| - Application status change handling
-| - Client application notifications
-| - Admin operational notifications
-| - Assigned Staff operational notifications
+| Responsibilities:
+| - Application workflow progress.
+| - Client application notifications.
+| - Admin operational notifications.
+| - Assigned staff operational notifications.
+| - Document status notifications.
 |
 | IMPORTANT:
-|
-| Staff notifications must respect application assignment.
-|
-| Staff should NOT receive notifications for applications that
-| are assigned to another Staff member.
-|
+| - Staff notifications respect application assignment.
+| - Notifications use the new notification policy.
+| - Notification failures must not undo saved workflow changes.
 |--------------------------------------------------------------------------
 */
 
-/*
-|--------------------------------------------------------------------------
-| GET APPLICATION NOTIFICATION CONTEXT
-|--------------------------------------------------------------------------
-|
-| Collects the real application information needed by
-| notification workflows.
-|
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* HELPERS                                                                    */
+/* -------------------------------------------------------------------------- */
+
+const normalizeStatus = (status) =>
+  String(status || "")
+    .trim()
+    .toUpperCase()
+    .replace(/\s+/g, "_");
+
+/* -------------------------------------------------------------------------- */
+/* APPLICATION NOTIFICATION CONTEXT                                           */
+/* -------------------------------------------------------------------------- */
 
 const getApplicationNotificationContext = async (applicationId) => {
   const application = await Application.findById(applicationId)
-    .populate("user", "name email")
+    .populate("user", "name email role")
     .populate("assignedTo", "name email role")
     .lean();
 
@@ -91,208 +89,173 @@ const getApplicationNotificationContext = async (applicationId) => {
   };
 };
 
-/*
-|--------------------------------------------------------------------------
-| BUILD ADMIN NOTIFICATION
-|--------------------------------------------------------------------------
-|
-| Admin receives operational information about every relevant
-| application workflow event.
-|
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* BUILD ADMIN NOTIFICATION                                                   */
+/* -------------------------------------------------------------------------- */
 
-const buildAdminNotification = ({
-  applicationContext,
+const buildAdminNotification = ({ applicationContext, status }) => {
+  const normalizedStatus = normalizeStatus(status);
 
-  status,
-}) => {
-  let title = "Application updated";
+  let title = "Application status updated";
 
-  let message = `${applicationContext.clientName}'s application ${applicationContext.applicationReference} has been updated.`;
+  let message =
+    `${applicationContext.clientName}'s application ` +
+    `${applicationContext.applicationReference} has been updated.`;
 
   let priority = "NORMAL";
 
-  switch (
-    String(status || "")
-      .trim()
-      .toUpperCase()
-  ) {
+  switch (normalizedStatus) {
     case "UNDER_REVIEW":
       title = "Application moved to review";
 
-      message = `${applicationContext.clientName}'s ${
-        applicationContext.applicationType || "application"
-      } for ${
-        applicationContext.destinationCountry || "the selected destination"
-      } is now under review.`;
+      message =
+        `${applicationContext.clientName}'s ` +
+        `${applicationContext.applicationType || "application"} for ` +
+        `${applicationContext.destinationCountry || "the selected destination"} ` +
+        "is now under review.";
 
       priority = "HIGH";
-
       break;
 
     case "APPROVED":
       title = "Application approved";
 
-      message = `${applicationContext.clientName}'s ${applicationContext.applicationReference} application has been approved.`;
-
-      priority = "NORMAL";
+      message =
+        `${applicationContext.clientName}'s application ` +
+        `${applicationContext.applicationReference} has been approved.`;
 
       break;
 
     case "REJECTED":
       title = "Application rejected";
 
-      message = `${applicationContext.clientName}'s ${applicationContext.applicationReference} application has been rejected and requires attention.`;
+      message =
+        `${applicationContext.clientName}'s application ` +
+        `${applicationContext.applicationReference} has been rejected ` +
+        "and requires attention.";
 
       priority = "HIGH";
-
       break;
 
     case "SUBMITTED":
       title = "Application submitted";
 
-      message = `${applicationContext.clientName} submitted application ${applicationContext.applicationReference} for ${
-        applicationContext.destinationCountry || "a destination"
-      }.`;
-
-      priority = "NORMAL";
+      message =
+        `${applicationContext.clientName} submitted application ` +
+        `${applicationContext.applicationReference} for ` +
+        `${applicationContext.destinationCountry || "a destination"}.`;
 
       break;
 
     case "DOCUMENT_REQUEST":
       title = "Additional documents requested";
 
-      message = `${applicationContext.clientName}'s application ${applicationContext.applicationReference} requires additional documents.`;
+      message =
+        `${applicationContext.clientName}'s application ` +
+        `${applicationContext.applicationReference} requires additional documents.`;
 
       priority = "HIGH";
-
       break;
 
     case "PROCESSING":
       title = "Application processing started";
 
-      message = `${applicationContext.clientName}'s application ${applicationContext.applicationReference} has moved into processing.`;
-
-      priority = "NORMAL";
+      message =
+        `${applicationContext.clientName}'s application ` +
+        `${applicationContext.applicationReference} has moved into processing.`;
 
       break;
 
     default:
-      title = "Application status updated";
-
-      message = `${applicationContext.clientName}'s application ${applicationContext.applicationReference} is now ${String(
-        status || "",
-      )
-        .replace(/_/g, " ")
-        .toLowerCase()}.`;
-
-      break;
+      message =
+        `${applicationContext.clientName}'s application ` +
+        `${applicationContext.applicationReference} is now ` +
+        `${normalizedStatus.toLowerCase().replace(/_/g, " ")}.`;
   }
 
   return {
     title,
-
     message,
-
     priority,
   };
 };
 
-/*
-|--------------------------------------------------------------------------
-| BUILD NOTIFICATION METADATA
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* BUILD APPLICATION NOTIFICATION METADATA                                    */
+/* -------------------------------------------------------------------------- */
 
 const buildApplicationNotificationMetadata = ({
   applicationContext,
-
   status,
+  progress,
+  event,
+}) => ({
+  applicationId: applicationContext.applicationId,
+
+  applicationReference: applicationContext.applicationReference,
+
+  clientId: applicationContext.clientId,
+
+  clientName: applicationContext.clientName,
+
+  clientEmail: applicationContext.clientEmail,
+
+  applicationType: applicationContext.applicationType,
+
+  opportunityTitle: applicationContext.opportunityTitle,
+
+  destinationCountry: applicationContext.destinationCountry,
+
+  category: applicationContext.category,
+
+  applicationStatus: status,
+
+  currentStep: applicationContext.currentStep,
 
   progress,
 
+  documentProgress: applicationContext.documentProgress,
+
+  assignedTo: applicationContext.assignedTo,
+
+  priority: applicationContext.priority,
+
   event,
-}) => {
-  return {
-    applicationId: applicationContext.applicationId,
+});
 
-    applicationReference: applicationContext.applicationReference,
+/* -------------------------------------------------------------------------- */
+/* SEND NOTIFICATION SAFELY                                                   */
+/* -------------------------------------------------------------------------- */
 
-    clientId: applicationContext.clientId,
+/**
+ * Notifications are secondary to the business operation.
+ *
+ * A notification failure is logged and returned as null rather than
+ * propagating an exception into the saved application workflow.
+ */
+const sendNotificationSafely = async (label, payload) => {
+  try {
+    return await notifyUser(payload);
+  } catch (error) {
+    console.error(`[WORKFLOW] ${label} notification failed:`, error.message);
 
-    clientName: applicationContext.clientName,
-
-    clientEmail: applicationContext.clientEmail,
-
-    applicationType: applicationContext.applicationType,
-
-    opportunityTitle: applicationContext.opportunityTitle,
-
-    destinationCountry: applicationContext.destinationCountry,
-
-    category: applicationContext.category,
-
-    applicationStatus: status,
-
-    currentStep: applicationContext.currentStep,
-
-    progress,
-
-    documentProgress: applicationContext.documentProgress,
-
-    assignedTo: applicationContext.assignedTo,
-
-    priority: applicationContext.priority,
-
-    event,
-  };
+    return null;
+  }
 };
 
-/*
-|--------------------------------------------------------------------------
-| HANDLE APPLICATION STATUS CHANGE
-|--------------------------------------------------------------------------
-|
-| Called when an application's status changes.
-|
-| RESPONSIBILITIES:
-|
-| 1. Calculate application progress
-| 2. Persist progress
-| 3. Notify application owner
-| 4. Notify Admin users
-| 5. Notify the assigned Staff member
-|
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* HANDLE APPLICATION STATUS CHANGE                                           */
+/* -------------------------------------------------------------------------- */
 
 const handleApplicationStatusChange = async ({
   userId = null,
-
   applicationId,
-
   status,
-
   actorId = null,
 }) => {
-  /*
-  |--------------------------------------------------------------------------
-  | VALIDATE APPLICATION
-  |--------------------------------------------------------------------------
-  */
-
   if (!applicationId) {
     return null;
   }
-
-  /*
-  |--------------------------------------------------------------------------
-  | CALCULATE OVERALL APPLICATION PROGRESS
-  |--------------------------------------------------------------------------
-  */
-
-  const progress = getApplicationProgress(status);
 
   /*
   |--------------------------------------------------------------------------
@@ -300,27 +263,21 @@ const handleApplicationStatusChange = async ({
   |--------------------------------------------------------------------------
   */
 
+  const progress = getApplicationProgress(status);
+
   const application = await Application.findByIdAndUpdate(
     applicationId,
-
     {
       $set: {
         progress,
       },
     },
-
     {
       new: true,
     },
   )
-    .populate("user", "name email")
+    .populate("user", "name email role")
     .populate("assignedTo", "name email role");
-
-  /*
-  |--------------------------------------------------------------------------
-  | APPLICATION NOT FOUND
-  |--------------------------------------------------------------------------
-  */
 
   if (!application) {
     return null;
@@ -328,22 +285,12 @@ const handleApplicationStatusChange = async ({
 
   /*
   |--------------------------------------------------------------------------
-  | DETERMINE CLIENT
-  |--------------------------------------------------------------------------
-  |
-  | Prefer the application owner over the supplied userId.
-  |
+  | RESOLVE APPLICATION OWNER
   |--------------------------------------------------------------------------
   */
 
   const applicationOwnerId =
     application.user?._id || application.user || userId || null;
-
-  /*
-  |--------------------------------------------------------------------------
-  | CLIENT NOTIFICATION DATA
-  |--------------------------------------------------------------------------
-  */
 
   const notificationData = getApplicationNotificationData(status);
 
@@ -356,52 +303,67 @@ const handleApplicationStatusChange = async ({
   let clientNotification = null;
 
   if (applicationOwnerId) {
-    clientNotification = await notificationService.createForApplicationOwner({
-      application,
+    clientNotification = await sendNotificationSafely(
+      "Client application status",
+      {
+        user: applicationOwnerId,
 
-      actorId,
+        role: "CLIENT",
 
-      title: notificationData.title,
+        actor: actorId,
 
-      message: notificationData.message,
+        category: "APPLICATION",
 
-      type: notificationData.type,
+        type: "STATUS_CHANGED",
 
-      entityType: "APPLICATION",
+        title: notificationData.title,
 
-      entityId: application._id,
+        message: notificationData.message,
 
-      metadata: {
-        applicationId: application._id,
+        priority: "NORMAL",
 
-        applicationReference: application.applicationReference || "",
+        application: application._id,
 
-        applicationType:
-          application.type || application.opportunitySnapshot?.type || "",
+        entityType: "APPLICATION",
 
-        opportunityTitle: application.opportunitySnapshot?.title || "",
+        entityId: application._id,
 
-        destinationCountry:
-          application.destinationCountry ||
-          application.opportunitySnapshot?.countryName ||
-          "",
+        action: "VIEW",
 
-        applicationStatus: status,
+        actionUrl: `/portal/applications/${application._id}`,
 
-        currentStep: application.currentStep || "",
+        metadata: {
+          applicationId: application._id,
 
-        progress,
+          applicationReference: application.applicationReference || "",
 
-        documentProgress: application.documentProgress || {},
+          applicationType:
+            application.type || application.opportunitySnapshot?.type || "",
 
-        event: "APPLICATION_STATUS_CHANGED",
+          opportunityTitle: application.opportunitySnapshot?.title || "",
+
+          destinationCountry:
+            application.destinationCountry ||
+            application.opportunitySnapshot?.countryName ||
+            "",
+
+          applicationStatus: status,
+
+          currentStep: application.currentStep || "",
+
+          progress,
+
+          documentProgress: application.documentProgress || {},
+
+          event: "APPLICATION_STATUS_CHANGED",
+        },
       },
-    });
+    );
   }
 
   /*
   |--------------------------------------------------------------------------
-  | GET FULL APPLICATION CONTEXT
+  | LOAD APPLICATION CONTEXT
   |--------------------------------------------------------------------------
   */
 
@@ -411,70 +373,87 @@ const handleApplicationStatusChange = async ({
   if (!applicationContext) {
     return {
       clientNotification,
-
       application,
     };
   }
 
-  /*
-  |--------------------------------------------------------------------------
-  | ADMIN NOTIFICATION
-  |--------------------------------------------------------------------------
-  |
-  | Admin has global operational visibility.
-  |
-  | Therefore Admin receives the application workflow
-  | notification regardless of assignment.
-  |
-  |--------------------------------------------------------------------------
-  */
+  const metadata = buildApplicationNotificationMetadata({
+    applicationContext,
+    status,
+    progress,
+    event: "APPLICATION_STATUS_CHANGED",
+  });
 
   const adminNotification = buildAdminNotification({
     applicationContext,
-
     status,
   });
 
-  await notificationService.createForRoles({
-    roles: ["ADMIN"],
+  /*
+  |--------------------------------------------------------------------------
+  | ADMIN NOTIFICATIONS
+  |--------------------------------------------------------------------------
+  |
+  | Administrators receive operational notifications.
+  | Each notification is created for an individual recipient.
+  |--------------------------------------------------------------------------
+  */
 
-    actorId,
+  try {
+    const admins = await User.find({
+      role: "ADMIN",
+      isActive: { $ne: false },
+    })
+      .select("_id role")
+      .lean();
 
-    title: adminNotification.title,
+    await Promise.all(
+      admins.map((admin) =>
+        sendNotificationSafely("Admin application status", {
+          user: admin._id,
 
-    message: adminNotification.message,
+          role: "ADMIN",
 
-    type: "APPLICATION_STATUS_CHANGED",
+          actor: actorId,
 
-    entityType: "APPLICATION",
+          category: "APPLICATION",
 
-    entityId: application._id,
+          type: "STATUS_CHANGED",
 
-    metadata: buildApplicationNotificationMetadata({
-      applicationContext,
+          title: adminNotification.title,
 
-      status,
+          message: adminNotification.message,
 
-      progress,
+          priority: adminNotification.priority,
 
-      event: "APPLICATION_STATUS_CHANGED",
-    }),
+          application: application._id,
 
-    priority: adminNotification.priority,
-  });
+          entityType: "APPLICATION",
+
+          entityId: application._id,
+
+          action: "VIEW",
+
+          actionUrl: `/admin/applications/${application._id}`,
+
+          metadata,
+        }),
+      ),
+    );
+  } catch (error) {
+    console.error(
+      "[WORKFLOW] Failed to resolve admin notification recipients:",
+      error.message,
+    );
+  }
 
   /*
   |--------------------------------------------------------------------------
   | ASSIGNED STAFF NOTIFICATION
   |--------------------------------------------------------------------------
   |
-  | IMPORTANT:
-  |
-  | We DO NOT notify all STAFF users.
-  |
-  | Only the Staff member currently assigned to this
-  | application receives the operational notification.
-  |
+  | Notify only the staff member assigned to this application.
+  | Do not broadcast this notification to all staff members.
   |--------------------------------------------------------------------------
   */
 
@@ -482,32 +461,34 @@ const handleApplicationStatusChange = async ({
     application.assignedTo?._id || application.assignedTo || null;
 
   if (assignedStaffId) {
-    await notificationService.createForUsers({
-      userIds: [assignedStaffId],
+    await sendNotificationSafely("Assigned staff application status", {
+      user: assignedStaffId,
 
-      actorId,
+      role: "STAFF",
+
+      actor: actorId,
+
+      category: "APPLICATION",
+
+      type: "STATUS_CHANGED",
 
       title: adminNotification.title,
 
       message: adminNotification.message,
 
-      type: "APPLICATION_STATUS_CHANGED",
+      priority: adminNotification.priority,
+
+      application: application._id,
 
       entityType: "APPLICATION",
 
       entityId: application._id,
 
-      metadata: buildApplicationNotificationMetadata({
-        applicationContext,
+      action: "VIEW",
 
-        status,
+      actionUrl: `/staff/applications/${application._id}`,
 
-        progress,
-
-        event: "APPLICATION_STATUS_CHANGED",
-      }),
-
-      priority: adminNotification.priority,
+      metadata,
     });
   }
 
@@ -519,75 +500,91 @@ const handleApplicationStatusChange = async ({
 
   return {
     clientNotification,
-
     application,
   };
 };
 
-/*
-|--------------------------------------------------------------------------
-| HANDLE DOCUMENT STATUS CHANGE
-|--------------------------------------------------------------------------
-|
-| This remains available for workflows that explicitly change
-| document status.
-|
-| Detailed document workflow notifications are currently
-| handled by document.service.js.
-|
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* HANDLE DOCUMENT STATUS CHANGE                                              */
+/* -------------------------------------------------------------------------- */
 
 const handleDocumentStatusChange = async ({
   userId,
-
   documentId,
-
   status,
-
   actorId = null,
+  applicationId = null,
 }) => {
-  /*
-  |--------------------------------------------------------------------------
-  | VALIDATE REQUIRED VALUES
-  |--------------------------------------------------------------------------
-  */
-
   if (!userId || !documentId) {
     return null;
   }
-
-  /*
-  |--------------------------------------------------------------------------
-  | BUILD NOTIFICATION DATA
-  |--------------------------------------------------------------------------
-  */
 
   const notificationData = getDocumentNotificationData(status);
 
   /*
   |--------------------------------------------------------------------------
-  | CREATE CLIENT NOTIFICATION
+  | MAP DOCUMENT STATUS TO NOTIFICATION TYPE
+  |--------------------------------------------------------------------------
+  |
+  | These values must match notification.types.js.
   |--------------------------------------------------------------------------
   */
 
-  return notificationService.createForUser({
-    userId,
+  const normalizedStatus = normalizeStatus(status);
 
-    actorId,
+  let type = "UPDATED";
+
+  if (normalizedStatus === "APPROVED") {
+    type = "APPROVED";
+  } else if (normalizedStatus === "REJECTED") {
+    type = "REJECTED";
+  } else if (normalizedStatus === "REUPLOAD_REQUIRED") {
+    type = "REUPLOAD_REQUIRED";
+  }
+
+  const requiresAttention = ["REJECTED", "REUPLOAD_REQUIRED"].includes(
+    normalizedStatus,
+  );
+
+  /*
+  |--------------------------------------------------------------------------
+  | CREATE CLIENT DOCUMENT NOTIFICATION
+  |--------------------------------------------------------------------------
+  */
+
+  return sendNotificationSafely("Document status", {
+    user: userId,
+
+    role: "CLIENT",
+
+    actor: actorId,
+
+    category: "DOCUMENT",
+
+    type,
 
     title: notificationData.title,
 
     message: notificationData.message,
 
-    type: notificationData.type,
+    priority: requiresAttention ? "HIGH" : "NORMAL",
+
+    application: applicationId || null,
 
     entityType: "DOCUMENT",
 
     entityId: documentId,
 
+    action: requiresAttention ? "UPLOAD" : "VIEW",
+
+    actionUrl: applicationId
+      ? `/portal/applications/${applicationId}`
+      : "/portal/documents",
+
     metadata: {
       documentId,
+
+      applicationId,
 
       status,
 
@@ -596,14 +593,11 @@ const handleDocumentStatusChange = async ({
   });
 };
 
-/*
-|--------------------------------------------------------------------------
-| EXPORT
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* EXPORT                                                                      */
+/* -------------------------------------------------------------------------- */
 
 export default {
   handleApplicationStatusChange,
-
   handleDocumentStatusChange,
 };

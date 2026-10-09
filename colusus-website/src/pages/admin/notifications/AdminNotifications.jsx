@@ -25,7 +25,7 @@ import {
 } from "react-router-dom";
 
 import notificationsService
-    from "./notifications.service";
+    from "../../../services/notification.service";
 
 import "./AdminNotifications.css";
 

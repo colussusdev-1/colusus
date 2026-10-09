@@ -1,0 +1,173 @@
+.finance-tabs {
+    position: relative;
+    width: 100%;
+    margin-top: 18px;
+    border-bottom: 1px solid #e1e4e7;
+}
+
+.finance-tabs__inner {
+    display: flex;
+    align-items: stretch;
+    gap: 2px;
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.finance-tabs__inner::-webkit-scrollbar {
+    display: none;
+}
+
+.finance-tab {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 0 0 auto;
+    min-width: 150px;
+    border: 0;
+    border-radius: 8px 8px 0 0;
+    padding: 11px 15px 13px;
+    background: transparent;
+    color: #777d85;
+    text-align: left;
+    cursor: pointer;
+    transition:
+        background 0.15s ease,
+        color 0.15s ease;
+}
+
+.finance-tab:hover {
+    background: #f7f8f9;
+    color: #30343a;
+}
+
+.finance-tab__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #e4e6e9;
+    border-radius: 8px;
+    background: #fafafa;
+    color: #666c73;
+    font-size: 14px;
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease;
+}
+
+.finance-tab__content {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.finance-tab__label {
+    color: #444950;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.finance-tab__description {
+    color: #969ba2;
+    font-size: 9px;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.finance-tab__indicator {
+    position: absolute;
+    right: 10px;
+    bottom: -1px;
+    left: 10px;
+    height: 2px;
+    border-radius: 2px 2px 0 0;
+    background: #17191c;
+}
+
+/* -------------------------------------------------------------------------- */
+/* ACTIVE STATE                                                               */
+/* -------------------------------------------------------------------------- */
+
+.finance-tab--active {
+    background: #f7f8f9;
+}
+
+.finance-tab--active:hover {
+    background: #f7f8f9;
+}
+
+.finance-tab--active .finance-tab__icon {
+    border-color: #17191c;
+    background: #17191c;
+    color: #fff;
+}
+
+.finance-tab--active .finance-tab__label {
+    color: #17191c;
+}
+
+.finance-tab--active .finance-tab__description {
+    color: #777d85;
+}
+
+/* -------------------------------------------------------------------------- */
+/* FOCUS                                                                      */
+/* -------------------------------------------------------------------------- */
+
+.finance-tab:focus-visible {
+    outline: 2px solid #17191c;
+    outline-offset: -2px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* RESPONSIVE                                                                 */
+/* -------------------------------------------------------------------------- */
+
+@media (max-width: 700px) {
+    .finance-tabs {
+        margin-top: 15px;
+    }
+
+    .finance-tab {
+        min-width: 135px;
+        padding: 10px 12px 12px;
+    }
+
+    .finance-tab__description {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .finance-tab {
+        min-width: 115px;
+        justify-content: center;
+        padding: 10px 11px 12px;
+    }
+
+    .finance-tab__content {
+        align-items: flex-start;
+    }
+
+    .finance-tab__label {
+        font-size: 11px;
+    }
+
+    .finance-tab__icon {
+        width: 28px;
+        height: 28px;
+        font-size: 13px;
+    }
+
+    .finance-tab__indicator {
+        right: 8px;
+        left: 8px;
+    }
+}

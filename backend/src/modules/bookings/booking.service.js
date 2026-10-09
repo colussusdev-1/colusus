@@ -1,155 +1,247 @@
 import Booking from "./booking.model.js";
 import couponService from "../coupons/coupon.service.js";
+import invoiceService from "../finance/invoices/invoice.service.js";
 import config from "../../config/environment.js";
-
 
 /*
 |--------------------------------------------------------------------------
-| Create Booking
+| CREATE BOOKING
 |--------------------------------------------------------------------------
 */
 
 const createBooking = async (bookingData) => {
+  /*
+  |--------------------------------------------------------------------------
+  | Calculate Booking Pricing
+  |--------------------------------------------------------------------------
+  |
+  | Pricing is calculated entirely on the server.
+  |
+  */
 
+  const pricing = await reviewBooking(bookingData);
+
+  /*
+  |--------------------------------------------------------------------------
+  | Create Booking
+  |--------------------------------------------------------------------------
+  */
+
+  const booking = await Booking.create({
     /*
     |--------------------------------------------------------------------------
-    | Calculate Booking Pricing
+    | Personal Information
     |--------------------------------------------------------------------------
     */
 
-    const pricing =
-        await reviewBooking(
-            bookingData
-        );
+    fullName: bookingData.fullName,
 
+    email: bookingData.email,
 
-    /*
-    |--------------------------------------------------------------------------
-    | Create Booking
-    |--------------------------------------------------------------------------
-    */
+    phone: bookingData.phone,
 
-    const booking =
-        await Booking.create({
+    age: bookingData.age,
 
-            /*
-            |--------------------------------------------------------------------------
-            | Personal Information
-            |--------------------------------------------------------------------------
-            */
+    education: bookingData.education,
 
-            fullName:
-                bookingData.fullName,
-
-            email:
-                bookingData.email,
-
-            phone:
-                bookingData.phone,
-
-            age:
-                bookingData.age,
-
-            education:
-                bookingData.education,
-
-            maritalStatus:
-                bookingData.maritalStatus,
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | Travel Information
-            |--------------------------------------------------------------------------
-            */
-
-            travelPackage:
-                bookingData.travelPackage,
-
-            countries:
-                bookingData.countries || [],
-
-            visaClass:
-                bookingData.visaClass,
-
-            intendedTravelDate:
-                bookingData.intendedTravelDate,
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | Consultation Information
-            |--------------------------------------------------------------------------
-            */
-
-            consultationDate:
-                bookingData.consultationDate,
-
-            consultationType:
-                bookingData.consultationType,
-
-            message:
-                bookingData.message,
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | Coupon
-            |--------------------------------------------------------------------------
-            */
-
-            couponCode:
-                pricing.couponApplied
-                    ? pricing.coupon
-                    : null,
-
-            couponApplied:
-                pricing.couponApplied,
-
-            discountAmount:
-                pricing.discount,
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | Payment
-            |--------------------------------------------------------------------------
-            */
-
-            consultationFee:
-                pricing.consultationFee,
-
-            amountPayable:
-                pricing.amountPayable,
-
-            currency:
-                config.consultationCurrency,
-
-            paymentStatus:
-                pricing.paymentStatus,
-
-            bookingStatus:
-                pricing.bookingStatus,
-
-        });
-
+    maritalStatus: bookingData.maritalStatus,
 
     /*
     |--------------------------------------------------------------------------
-    | Return
+    | Travel Information
     |--------------------------------------------------------------------------
     */
 
+    travelPackage: bookingData.travelPackage,
+
+    countries: bookingData.countries || [],
+
+    visaClass: bookingData.visaClass,
+
+    intendedTravelDate: bookingData.intendedTravelDate,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Consultation Information
+    |--------------------------------------------------------------------------
+    */
+
+    consultationDate: bookingData.consultationDate,
+
+    consultationType: bookingData.consultationType,
+
+    message: bookingData.message,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Coupon
+    |--------------------------------------------------------------------------
+    */
+
+    couponCode: pricing.couponApplied ? pricing.coupon : null,
+
+    couponApplied: pricing.couponApplied,
+
+    discountAmount: pricing.discount,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Payment
+    |--------------------------------------------------------------------------
+    */
+
+    consultationFee: pricing.consultationFee,
+
+    amountPayable: pricing.amountPayable,
+
+    currency: config.consultationCurrency,
+
+    paymentStatus: pricing.paymentStatus,
+
+    bookingStatus: pricing.bookingStatus,
+  });
+
+  /*
+  |--------------------------------------------------------------------------
+  | Fully Discounted Booking
+  |--------------------------------------------------------------------------
+  |
+  | No financial transaction is required when the booking is completely
+  | waived.
+  |
+  */
+
+  if (!pricing.paymentRequired) {
     return {
-        booking,
+      booking,
+      invoice: null,
     };
+  }
 
+  /*
+  |--------------------------------------------------------------------------
+  | CREATE INVOICE
+  |--------------------------------------------------------------------------
+  |
+  | IMPORTANT:
+  |
+  | This is a public booking flow.
+  |
+  | The person making the booking does not necessarily have a User account.
+  |
+  | Therefore:
+  |
+  | customerId = null
+  |
+  | The invoice still keeps:
+  |
+  | - customerName
+  | - customerEmail
+  | - customerPhone
+  |
+  | as immutable transaction snapshots.
+  |
+  */
+
+  const invoice = await invoiceService.createInvoice({
+    invoiceType: "BOOKING",
+
+    customer: {
+      name: booking.fullName,
+      email: booking.email,
+      phone: booking.phone,
+    },
+
+    /*
+      |--------------------------------------------------------------------------
+      | Invoice Items
+      |--------------------------------------------------------------------------
+      |
+      | The booking service determines the commercial amount.
+      |
+      | The invoice service calculates the final item total.
+      |
+      */
+
+    items: [
+      {
+        name: "Consultation Booking",
+
+        description: `${booking.consultationType} consultation`,
+
+        quantity: 1,
+
+        unitPrice: booking.amountPayable,
+      },
+    ],
+
+    currency: booking.currency,
+
+    /*
+      |--------------------------------------------------------------------------
+      | Business Context
+      |--------------------------------------------------------------------------
+      |
+      | The invoice knows what business transaction it belongs to,
+      | without owning booking business logic.
+      |
+      */
+
+    context: {
+      bookingId: booking._id,
+
+      consultationDate: booking.consultationDate,
+
+      consultationType: booking.consultationType,
+    },
+
+    dueDate: null,
+
+    notes: "Consultation booking payment.",
+
+    metadata: {
+      bookingId: booking._id.toString(),
+
+      paymentType: "BOOKING",
+    },
+  });
+
+  /*
+  |--------------------------------------------------------------------------
+  | ISSUE INVOICE
+  |--------------------------------------------------------------------------
+  |
+  | Payment initialization must only happen against an issued invoice.
+  |
+  */
+
+  const issuedInvoice = await invoiceService.issueInvoice(invoice._id);
+
+  /*
+  |--------------------------------------------------------------------------
+  | LINK INVOICE TO BOOKING
+  |--------------------------------------------------------------------------
+  */
+
+  booking.invoice = issuedInvoice._id;
+
+  await booking.save();
+
+  /*
+  |--------------------------------------------------------------------------
+  | RETURN
+  |--------------------------------------------------------------------------
+  */
+
+  return {
+    booking,
+    invoice: issuedInvoice,
+  };
 };
-
 
 /*
 |--------------------------------------------------------------------------
-| Review Booking
+| REVIEW BOOKING
 |--------------------------------------------------------------------------
 |
 | This is the single source of truth for consultation pricing.
@@ -166,498 +258,350 @@ const createBooking = async (bookingData) => {
 |--------------------------------------------------------------------------
 */
 
-const reviewBooking = async (
-    bookingData
-) => {
+const reviewBooking = async (bookingData) => {
+  /*
+  |--------------------------------------------------------------------------
+  | Base Consultation Fee
+  |--------------------------------------------------------------------------
+  */
+
+  const consultationFee = config.consultationFee;
+
+  /*
+  |--------------------------------------------------------------------------
+  | Default Pricing
+  |--------------------------------------------------------------------------
+  */
+
+  let discount = 0;
+
+  let amountPayable = consultationFee;
+
+  let couponApplied = false;
+
+  let coupon = null;
+
+  /*
+  |--------------------------------------------------------------------------
+  | Coupon Processing
+  |--------------------------------------------------------------------------
+  */
+
+  if (bookingData.couponCode) {
+    const result = await couponService.validateCoupon(bookingData.couponCode);
 
     /*
     |--------------------------------------------------------------------------
-    | Base Consultation Fee
+    | Valid Coupon
     |--------------------------------------------------------------------------
     */
 
-    const consultationFee =
-        config.consultationFee;
+    if (result.valid && result.coupon) {
+      couponApplied = true;
 
+      coupon = result.coupon.code;
 
-    /*
-    |--------------------------------------------------------------------------
-    | Default Pricing
-    |--------------------------------------------------------------------------
-    */
+      /*
+      |--------------------------------------------------------------------------
+      | Coupon Type
+      |--------------------------------------------------------------------------
+      */
 
-    let discount = 0;
-
-    let amountPayable =
-        consultationFee;
-
-    let couponApplied = false;
-
-    let coupon = null;
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Coupon Processing
-    |--------------------------------------------------------------------------
-    */
-
-    if (
-        bookingData.couponCode
-    ) {
-
-        const result =
-            await couponService.validateCoupon(
-                bookingData.couponCode
-            );
-
-
+      switch (result.coupon.discountType) {
         /*
         |--------------------------------------------------------------------------
-        | Valid Coupon
+        | FULL DISCOUNT
         |--------------------------------------------------------------------------
         */
 
-        if (
-            result.valid &&
-            result.coupon
-        ) {
+        case "FULL":
+          discount = consultationFee;
 
-            couponApplied = true;
+          amountPayable = 0;
 
-            coupon =
-                result.coupon.code;
+          break;
 
+        /*
+        |--------------------------------------------------------------------------
+        | FIXED DISCOUNT
+        |--------------------------------------------------------------------------
+        */
 
-            /*
-            |--------------------------------------------------------------------------
-            | Coupon Type
-            |--------------------------------------------------------------------------
-            */
+        case "FIXED":
+          discount = Math.max(Number(result.coupon.discountValue) || 0, 0);
 
-            switch (
-                result.coupon.discountType
-            ) {
+          amountPayable = Math.max(consultationFee - discount, 0);
 
-                /*
-                |--------------------------------------------------------------------------
-                | FULL DISCOUNT
-                |--------------------------------------------------------------------------
-                */
+          break;
 
-                case "FULL":
+        /*
+        |--------------------------------------------------------------------------
+        | PERCENTAGE DISCOUNT
+        |--------------------------------------------------------------------------
+        */
 
-                    discount =
-                        consultationFee;
+        case "PERCENTAGE": {
+          const percentage = Math.min(
+            Math.max(Number(result.coupon.discountValue) || 0, 0),
+            100,
+          );
 
-                    amountPayable =
-                        0;
+          discount = Math.round((consultationFee * percentage) / 100);
 
-                    break;
+          amountPayable = Math.max(consultationFee - discount, 0);
 
-
-                /*
-                |--------------------------------------------------------------------------
-                | FIXED DISCOUNT
-                |--------------------------------------------------------------------------
-                */
-
-                case "FIXED":
-
-                    discount =
-                        Math.max(
-                            Number(
-                                result.coupon.discountValue
-                            ) || 0,
-                            0
-                        );
-
-
-                    amountPayable =
-                        Math.max(
-                            consultationFee -
-                            discount,
-                            0
-                        );
-
-                    break;
-
-
-                /*
-                |--------------------------------------------------------------------------
-                | PERCENTAGE DISCOUNT
-                |--------------------------------------------------------------------------
-                */
-
-                case "PERCENTAGE":
-
-                    const percentage =
-                        Math.min(
-                            Math.max(
-                                Number(
-                                    result.coupon.discountValue
-                                ) || 0,
-                                0
-                            ),
-                            100
-                        );
-
-
-                    discount =
-                        Math.round(
-                            (
-                                consultationFee *
-                                percentage
-                            ) / 100
-                        );
-
-
-                    amountPayable =
-                        Math.max(
-                            consultationFee -
-                            discount,
-                            0
-                        );
-
-                    break;
-
-
-                /*
-                |--------------------------------------------------------------------------
-                | Unknown Coupon Type
-                |--------------------------------------------------------------------------
-                */
-
-                default:
-
-                    couponApplied = false;
-
-                    coupon = null;
-
-                    discount = 0;
-
-                    amountPayable =
-                        consultationFee;
-
-                    break;
-
-            }
-
+          break;
         }
 
+        /*
+        |--------------------------------------------------------------------------
+        | UNKNOWN COUPON TYPE
+        |--------------------------------------------------------------------------
+        */
+
+        default:
+          couponApplied = false;
+
+          coupon = null;
+
+          discount = 0;
+
+          amountPayable = consultationFee;
+
+          break;
+      }
     }
+  }
 
+  /*
+  |--------------------------------------------------------------------------
+  | Normalize Final Amount
+  |--------------------------------------------------------------------------
+  |
+  | Never allow a negative payable amount.
+  |
+  */
 
-    /*
-    |--------------------------------------------------------------------------
-    | Normalize Final Amount
-    |--------------------------------------------------------------------------
-    |
-    | Never allow a negative payable amount.
-    |
-    |--------------------------------------------------------------------------
-    */
+  amountPayable = Math.max(Number(amountPayable) || 0, 0);
 
-    amountPayable =
-        Math.max(
-            Number(amountPayable) || 0,
-            0
-        );
+  /*
+  |--------------------------------------------------------------------------
+  | Determine Payment State
+  |--------------------------------------------------------------------------
+  */
 
+  const paymentRequired = amountPayable > 0;
 
-    /*
-    |--------------------------------------------------------------------------
-    | Determine Payment State
-    |--------------------------------------------------------------------------
-    |
-    | IMPORTANT:
-    |
-    | amountPayable === 0
-    |     → WAIVED
-    |     → CONFIRMED
-    |
-    | amountPayable > 0
-    |     → UNPAID
-    |     → AWAITING_PAYMENT
-    |
-    |--------------------------------------------------------------------------
-    */
+  const paymentStatus = paymentRequired ? "UNPAID" : "WAIVED";
 
-    const paymentRequired =
-        amountPayable > 0;
+  const bookingStatus = paymentRequired ? "AWAITING_PAYMENT" : "CONFIRMED";
 
+  /*
+  |--------------------------------------------------------------------------
+  | Final Pricing
+  |--------------------------------------------------------------------------
+  */
 
-    const paymentStatus =
-        paymentRequired
-            ? "UNPAID"
-            : "WAIVED";
+  const pricing = {
+    consultationFee,
 
+    discount,
 
-    const bookingStatus =
-        paymentRequired
-            ? "AWAITING_PAYMENT"
-            : "CONFIRMED";
+    amountPayable,
 
+    paymentRequired,
 
-    /*
-    |--------------------------------------------------------------------------
-    | Final Pricing
-    |--------------------------------------------------------------------------
-    */
+    couponApplied,
 
-    const pricing = {
+    coupon,
 
-        consultationFee,
+    paymentStatus,
 
-        discount,
+    bookingStatus,
+  };
 
-        amountPayable,
+  /*
+  |--------------------------------------------------------------------------
+  | Debug
+  |--------------------------------------------------------------------------
+  */
 
-        paymentRequired,
+  console.log("BOOKING PRICING:", pricing);
 
-        couponApplied,
+  /*
+  |--------------------------------------------------------------------------
+  | Return
+  |--------------------------------------------------------------------------
+  */
 
-        coupon,
-
-        paymentStatus,
-
-        bookingStatus,
-
-    };
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Debug
-    |--------------------------------------------------------------------------
-    */
-
-    console.log(
-        "BOOKING PRICING:",
-        pricing
-    );
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Return
-    |--------------------------------------------------------------------------
-    */
-
-    return pricing;
-
+  return pricing;
 };
-
 
 /*
 |--------------------------------------------------------------------------
-| Get All Bookings
+| GET ALL BOOKINGS
 |--------------------------------------------------------------------------
 */
 
 const getAllBookings = async () => {
+  const bookings = await Booking.find().sort({
+    createdAt: -1,
+  });
 
-    const bookings =
-        await Booking.find()
-            .sort({
-                createdAt: -1,
-            });
-
-    return bookings;
-
+  return bookings;
 };
-
 
 /*
 |--------------------------------------------------------------------------
-| Get Booking By ID
+| GET BOOKING BY ID
 |--------------------------------------------------------------------------
 */
 
-const getBookingById = async (
-    bookingId
-) => {
+const getBookingById = async (bookingId) => {
+  const booking = await Booking.findById(bookingId);
 
-    const booking =
-        await Booking.findById(
-            bookingId
-        );
-
-    return booking;
-
+  return booking;
 };
-
 
 /*
 |--------------------------------------------------------------------------
-| Update Booking Status
+| UPDATE BOOKING STATUS
 |--------------------------------------------------------------------------
 */
 
-const updateBookingStatus = async (
+const updateBookingStatus = async (bookingId, bookingStatus) => {
+  const booking = await Booking.findByIdAndUpdate(
     bookingId,
-    bookingStatus
-) => {
+    {
+      bookingStatus,
+    },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
 
-    const booking =
-        await Booking.findByIdAndUpdate(
-
-            bookingId,
-
-            {
-                bookingStatus,
-            },
-
-            {
-                new: true,
-                runValidators: true,
-            }
-
-        );
-
-    return booking;
-
+  return booking;
 };
-
 
 /*
 |--------------------------------------------------------------------------
-| Confirm Booking
+| CONFIRM BOOKING
+|--------------------------------------------------------------------------
+|
+| Legacy/business-level helper.
+|
+| The normal Paystack flow should now be completed through the
+| payment workflow service rather than directly trusting the client.
+|
 |--------------------------------------------------------------------------
 */
 
 const confirmBooking = async (
-    bookingId,
-    paymentReference = null,
-    paymentStatus = "PAID"
+  bookingId,
+  paymentReference = null,
+  paymentStatus = "PAID",
 ) => {
+  const booking = await Booking.findByIdAndUpdate(
+    bookingId,
+    {
+      paymentStatus,
 
-    const booking =
-        await Booking.findByIdAndUpdate(
+      paymentReference,
 
-            bookingId,
+      bookingStatus: "CONFIRMED",
+    },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
 
-            {
-                paymentStatus,
-
-                paymentReference,
-
-                bookingStatus:
-                    "CONFIRMED",
-            },
-
-            {
-                new: true,
-                runValidators: true,
-            }
-
-        );
-
-    return booking;
-
+  return booking;
 };
-
 
 /*
 |--------------------------------------------------------------------------
-| Cancel Booking
+| CANCEL BOOKING
 |--------------------------------------------------------------------------
 */
 
-const cancelBooking = async (
-    bookingId
-) => {
+const cancelBooking = async (bookingId) => {
+  const booking = await Booking.findByIdAndUpdate(
+    bookingId,
+    {
+      bookingStatus: "CANCELLED",
+    },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
 
-    const booking =
-        await Booking.findByIdAndUpdate(
-
-            bookingId,
-
-            {
-                bookingStatus:
-                    "CANCELLED",
-            },
-
-            {
-                new: true,
-                runValidators: true,
-            }
-
-        );
-
-    return booking;
-
+  return booking;
 };
-
 
 /*
 |--------------------------------------------------------------------------
-| Update Payment Status
+| UPDATE PAYMENT STATUS
+|--------------------------------------------------------------------------
+|
+| Legacy/business-level helper.
+|
+| This remains available for existing admin/business flows.
+| Paystack completion should use the payment workflow.
+|
 |--------------------------------------------------------------------------
 */
 
 const updatePaymentStatus = async (
-    bookingId,
-    paymentStatus,
-    paymentReference = null
+  bookingId,
+  paymentStatus,
+  paymentReference = null,
 ) => {
+  const bookingStatus =
+    paymentStatus === "PAID" || paymentStatus === "WAIVED"
+      ? "CONFIRMED"
+      : "AWAITING_PAYMENT";
 
-    const bookingStatus =
-        paymentStatus === "PAID" ||
-        paymentStatus === "WAIVED"
+  const booking = await Booking.findByIdAndUpdate(
+    bookingId,
+    {
+      paymentStatus,
 
-            ? "CONFIRMED"
+      paymentReference,
 
-            : "AWAITING_PAYMENT";
+      bookingStatus,
+    },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
 
-
-    const booking =
-        await Booking.findByIdAndUpdate(
-
-            bookingId,
-
-            {
-                paymentStatus,
-
-                paymentReference,
-
-                bookingStatus,
-            },
-
-            {
-                new: true,
-                runValidators: true,
-            }
-
-        );
-
-    return booking;
-
+  return booking;
 };
-
 
 /*
 |--------------------------------------------------------------------------
-| Export
+| EXPORT
 |--------------------------------------------------------------------------
 */
 
 export default {
+  createBooking,
 
-    createBooking,
+  reviewBooking,
 
-    reviewBooking,
+  getAllBookings,
 
-    getAllBookings,
+  getBookingById,
 
-    getBookingById,
+  updateBookingStatus,
 
-    updateBookingStatus,
+  updatePaymentStatus,
 
-    updatePaymentStatus,
+  confirmBooking,
 
-    confirmBooking,
-
-    cancelBooking,
-
+  cancelBooking,
 };
