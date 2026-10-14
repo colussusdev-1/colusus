@@ -6,18 +6,39 @@ import {
     useLocation,
 } from "react-router-dom";
 
+/* ======================================================
+   HOME SECTIONS
+====================================================== */
+
 import Hero from "./sections/Hero/Hero";
 import About from "./sections/About/About";
 import StatsStrip from "./sections/About/StatsStrip";
 import Countries from "./sections/Countries/Countries";
 
+import MigrationJourney
+    from "./sections/MigrationJourney/MigrationJourney";
+
+/* ======================================================
+   SHARED COMPONENTS
+====================================================== */
+
 import Services from "../../components/Services/Services";
-import ZeroDepositProgram from "../../components/ZeroDepositProgram/ZeroDepositProgram";
 
-import SuccessStories from "./sections/SuccessStories/SuccessStories";
-import ContactCTA from "./sections/ContactCTA/ContactCTA";
+import ZeroDepositProgram
+    from "../../components/ZeroDepositProgram/ZeroDepositProgram";
 
-import ScrollReveal from "../../components/ScrollReveal/ScrollReveal";
+import SuccessStories
+    from "./sections/SuccessStories/SuccessStories";
+
+import ContactCTA
+    from "./sections/ContactCTA/ContactCTA";
+
+import ScrollReveal
+    from "../../components/ScrollReveal/ScrollReveal";
+
+/* ======================================================
+   STYLES
+====================================================== */
 
 import "./Home.css";
 
@@ -25,17 +46,15 @@ import "./Home.css";
 const Home = () => {
     const location = useLocation();
 
-    /*
-    ============================================================
-    HASH / SECTION NAVIGATION
+    /* ======================================================
+       HASH / SECTION NAVIGATION
 
-    Supports:
-    /#countries
-    /#global-opportunities
+       Supports:
+       /#countries
+       /#global-opportunities
 
-    Both navigate to the Countries section.
-    ============================================================
-    */
+       Both navigate to the Countries section.
+    ====================================================== */
 
     useEffect(() => {
         const hash = location.hash;
@@ -71,7 +90,7 @@ const Home = () => {
 
             <Hero />
 
-            
+
             {/* =====================================================
                 2. STATS / TRUST INDICATORS
             ===================================================== */}
@@ -103,10 +122,22 @@ const Home = () => {
             </div>
 
 
+            {/* =====================================================
+                4. MIGRATION JOURNEY
+                8 STEPS TO YOUR DREAM DESTINATION
+            ===================================================== */}
+
+            <ScrollReveal
+                direction="up"
+                duration={1.1}
+                distance={35}
+            >
+                <MigrationJourney />
+            </ScrollReveal>
 
 
             {/* =====================================================
-                4. SERVICES
+                5. SERVICES
             ===================================================== */}
 
             <ScrollReveal
@@ -119,7 +150,7 @@ const Home = () => {
 
 
             {/* =====================================================
-                5. ZERO DEPOSIT PROGRAM
+                6. ZERO DEPOSIT PROGRAM
             ===================================================== */}
 
             <ScrollReveal
@@ -132,7 +163,7 @@ const Home = () => {
 
 
             {/* =====================================================
-                6. SUCCESS STORIES
+                7. SUCCESS STORIES
             ===================================================== */}
 
             <ScrollReveal
@@ -145,7 +176,7 @@ const Home = () => {
 
 
             {/* =====================================================
-                7. ABOUT COLOSSUS
+                8. ABOUT COLOSSUS
             ===================================================== */}
 
             <ScrollReveal
@@ -158,7 +189,7 @@ const Home = () => {
 
 
             {/* =====================================================
-                8. CONTACT CTA
+                9. CONTACT CTA
             ===================================================== */}
 
             <ScrollReveal

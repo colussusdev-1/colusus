@@ -2,12 +2,19 @@ import {
     BrowserRouter,
     Routes,
     Route,
+    useLocation,
 } from "react-router-dom";
 
 import ScrollToTop from "./components/ScrollToTop";
 
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./pages/Home/sections/Footer/Footer";
+
+import WhatsAppFloat from "./components/WhatsAppFloat";
+
+/* ======================================================
+   PUBLIC WEBSITE PAGES
+====================================================== */
 
 import Home from "./pages/Home/Home";
 import About from "./pages/About/About";
@@ -52,11 +59,12 @@ import Assessment
 import ConsultationBooking
     from "./components/ConsultationBooking/ConsultationBooking";
 
+/* ======================================================
+   CLIENT PORTAL PAGES
+====================================================== */
+
 import NewApplication
     from "./pages/Client/NewApplication";
-
-import Webmailer
-    from "./pages/Webmailer/Webmailer";
 
 import PortalLayout
     from "./components/ClientPortal/PortalLayout/PortalLayout";
@@ -88,8 +96,28 @@ import ClientUpdates
 import Profile
     from "./pages/Client/Profile";
 
+/* ======================================================
+   AUTHENTICATION
+====================================================== */
+
 import AdminLogin
     from "./pages/admin/Auth/AdminLogin";
+
+import AdminRoleRoute
+    from "./pages/admin/Auth/AdminRoleRoute";
+
+import Login
+    from "./pages/Auth/Login";
+
+import Register
+    from "./pages/Auth/Register";
+
+import PaymentCallback
+    from "./pages/Client/PaymentCallback";
+
+/* ======================================================
+   ADMIN OPERATIONS
+====================================================== */
 
 import AdminLayout
     from "./pages/admin/layout/AdminLayout";
@@ -148,14 +176,11 @@ import AdminStaff
 import AdminStaffDetails
     from "./pages/admin/staff-management/AdminStaffDetails";
 
-import StaffRoutes
-    from "./pages/admin/staff/staff.routes";
-
-import AdminRoleRoute
-    from "./pages/admin/Auth/AdminRoleRoute";
-
 import AdminCreateStaff
     from "./pages/admin/staff-management/AdminCreateStaff";
+
+import StaffRoutes
+    from "./pages/admin/staff/staff.routes";
 
 /* ======================================================
    ADMIN FINANCE
@@ -164,21 +189,66 @@ import AdminCreateStaff
 import AdminFinance
     from "./pages/admin/finance/AdminFinance";
 
-import Login
-    from "./pages/Auth/Login";
+/* ======================================================
+   WEBMAIL
+====================================================== */
 
-import Register
-    from "./pages/Auth/Register";
+import Webmailer
+    from "./pages/Webmailer/Webmailer";
 
-import PaymentCallback
-    from "./pages/Client/PaymentCallback";
 
+/* ======================================================
+   PUBLIC WEBSITE WHATSAPP BUTTON
+====================================================== */
+
+/**
+ * Display the WhatsApp floating button on public website pages.
+ *
+ * Hide it on:
+ * - Admin operations
+ * - Staff workspace
+ * - Client portal
+ * - Authentication pages
+ * - Payment callback
+ * - Webmail
+ */
+function PublicWhatsAppFloat() {
+    const { pathname } = useLocation();
+
+    const isRestrictedArea =
+        pathname === "/admin" ||
+        pathname.startsWith("/admin/") ||
+
+        pathname === "/portal" ||
+        pathname.startsWith("/portal/") ||
+
+        pathname === "/login" ||
+        pathname === "/register" ||
+
+        pathname === "/payment/callback" ||
+
+        pathname === "/webmail";
+
+    if (isRestrictedArea) {
+        return null;
+    }
+
+    return <WhatsAppFloat />;
+}
+
+
+/* ======================================================
+   APP
+====================================================== */
 
 function App() {
     return (
         <BrowserRouter>
 
             <ScrollToTop />
+
+            {/* Public website floating WhatsApp button */}
+            <PublicWhatsAppFloat />
 
             <Routes>
 
@@ -208,10 +278,18 @@ function App() {
                     }
                 />
 
+                {/* ======================================================
+                    PAYMENT CALLBACK
+                ====================================================== */}
+
                 <Route
                     path="/payment/callback"
                     element={<PaymentCallback />}
                 />
+
+                {/* ======================================================
+                    SERVICES
+                ====================================================== */}
 
                 <Route
                     path="/services"
@@ -268,7 +346,6 @@ function App() {
                     }
                 />
 
-
                 {/* ======================================================
                     WEBINAR
                 ====================================================== */}
@@ -277,7 +354,6 @@ function App() {
                     path="/irelandnursingwebinar"
                     element={<Webinar />}
                 />
-
 
                 {/* ======================================================
                     OPPORTUNITIES
@@ -305,7 +381,6 @@ function App() {
                     }
                 />
 
-
                 {/* ======================================================
                     BLOG
                 ====================================================== */}
@@ -332,7 +407,6 @@ function App() {
                     }
                 />
 
-
                 {/* ======================================================
                     SHOP
                 ====================================================== */}
@@ -347,7 +421,6 @@ function App() {
                         </>
                     }
                 />
-
 
                 {/* ======================================================
                     CONTACT
@@ -364,7 +437,6 @@ function App() {
                     }
                 />
 
-
                 {/* ======================================================
                     PUBLIC MIGRATION ASSESSMENT
                 ====================================================== */}
@@ -379,7 +451,6 @@ function App() {
                         </>
                     }
                 />
-
 
                 {/* ======================================================
                     CONSULTATION
@@ -396,7 +467,6 @@ function App() {
                     }
                 />
 
-
                 {/* ======================================================
                     WEBMAIL
                 ====================================================== */}
@@ -405,7 +475,6 @@ function App() {
                     path="/webmail"
                     element={<Webmailer />}
                 />
-
 
                 {/* ======================================================
                     CLIENT AUTHENTICATION
@@ -421,7 +490,6 @@ function App() {
                     element={<Register />}
                 />
 
-
                 {/* ======================================================
                     SHARED OPERATIONS LOGIN
                 ====================================================== */}
@@ -430,7 +498,6 @@ function App() {
                     path="/admin/login"
                     element={<AdminLogin />}
                 />
-
 
                 {/* ======================================================
                     ADMIN OPERATIONS PORTAL
@@ -457,7 +524,6 @@ function App() {
                             element={<AdminOverview />}
                         />
 
-
                         {/* APPLICATIONS */}
 
                         <Route
@@ -469,7 +535,6 @@ function App() {
                             path="applications/:id"
                             element={<AdminApplicationDetails />}
                         />
-
 
                         {/* OPPORTUNITIES */}
 
@@ -488,7 +553,6 @@ function App() {
                             element={<OpportunityForm />}
                         />
 
-
                         {/* CONSULTATIONS */}
 
                         <Route
@@ -496,14 +560,12 @@ function App() {
                             element={<AdminConsultations />}
                         />
 
-
                         {/* FINANCE */}
 
                         <Route
                             path="finance"
                             element={<AdminFinance />}
                         />
-
 
                         {/* CLIENTS */}
 
@@ -517,14 +579,12 @@ function App() {
                             element={<AdminClientDetails />}
                         />
 
-
                         {/* DOCUMENTS */}
 
                         <Route
                             path="documents"
                             element={<AdminDocuments />}
                         />
-
 
                         {/* PUBLIC FORM SUBMISSIONS */}
 
@@ -548,7 +608,6 @@ function App() {
                             element={<AdminFormSubmissionDocumentViewer />}
                         />
 
-
                         {/* BLOG */}
 
                         <Route
@@ -566,14 +625,12 @@ function App() {
                             element={<AdminBlogEditor />}
                         />
 
-
                         {/* NOTIFICATIONS */}
 
                         <Route
                             path="notifications"
                             element={<AdminNotifications />}
                         />
-
 
                         {/* STAFF MANAGEMENT */}
 
@@ -595,7 +652,6 @@ function App() {
                     </Route>
 
                 </Route>
-
 
                 {/* ======================================================
                     STAFF OPERATIONS WORKSPACE
@@ -624,7 +680,6 @@ function App() {
 
                 </Route>
 
-
                 {/* ======================================================
                     PROTECTED CLIENT PORTAL
                 ====================================================== */}
@@ -638,19 +693,14 @@ function App() {
                         element={<PortalLayout />}
                     >
 
-                        {/* ==================================================
-                            CLIENT DASHBOARD
-                        ================================================== */}
+                        {/* CLIENT DASHBOARD */}
 
                         <Route
                             index
                             element={<ClientDashboard />}
                         />
 
-
-                        {/* ==================================================
-                            CLIENT APPLICATIONS
-                        ================================================== */}
+                        {/* CLIENT APPLICATIONS */}
 
                         <Route
                             path="applications"
@@ -667,10 +717,7 @@ function App() {
                             element={<ApplicationDetail />}
                         />
 
-
-                        {/* ==================================================
-                            CLIENT DOCUMENTS
-                        ================================================== */}
+                        {/* CLIENT DOCUMENTS */}
 
                         <Route
                             path="documents"
@@ -682,40 +729,28 @@ function App() {
                             element={<DocumentViewer />}
                         />
 
-
-                        {/* ==================================================
-                            CLIENT FINANCE
-                        ================================================== */}
+                        {/* CLIENT FINANCE */}
 
                         <Route
                             path="finance"
                             element={<ClientFinance />}
                         />
 
-
-                        {/* ==================================================
-                            CLIENT UPDATES
-                        ================================================== */}
+                        {/* CLIENT UPDATES */}
 
                         <Route
                             path="updates"
                             element={<ClientUpdates />}
                         />
 
-
-                        {/* ==================================================
-                            CLIENT PROFILE
-                        ================================================== */}
+                        {/* CLIENT PROFILE */}
 
                         <Route
                             path="profile"
                             element={<Profile />}
                         />
 
-
-                        {/* ==================================================
-                            CLIENT ELIGIBILITY ASSESSMENT
-                        ================================================== */}
+                        {/* CLIENT ELIGIBILITY ASSESSMENT */}
 
                         <Route
                             path="assessment"

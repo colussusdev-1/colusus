@@ -1,0 +1,957 @@
+/* ======================================================
+   MIGRATION JOURNEY
+====================================================== */
+
+.migration-journey {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+
+    padding: 100px 24px;
+
+    background: #f7f9fc;
+
+    color: #14243a;
+
+    font-family: inherit;
+}
+
+.migration-journey *,
+.migration-journey *::before,
+.migration-journey *::after {
+    box-sizing: border-box;
+}
+
+.migration-journey-container {
+    width: 100%;
+    max-width: 1240px;
+
+    margin: 0 auto;
+}
+
+/* ======================================================
+   HEADER
+====================================================== */
+
+.migration-journey-header {
+    max-width: 800px;
+
+    margin: 0 auto 48px;
+
+    text-align: center;
+}
+
+.migration-journey-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    margin-bottom: 20px;
+
+    color: #0056b3;
+
+    font-size: 12px;
+    font-weight: 800;
+
+    letter-spacing: 2px;
+}
+
+.migration-journey-eyebrow-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+
+    border-radius: 50%;
+
+    background: rgba(0, 86, 179, 0.09);
+
+    font-size: 15px;
+}
+
+.migration-journey-heading {
+    margin: 0;
+
+    color: #14243a;
+
+    font-size: clamp(32px, 4.5vw, 48px);
+
+    font-weight: 800;
+
+    line-height: 1.2;
+
+    letter-spacing: -1.5px;
+}
+
+.migration-journey-heading span {
+    color: #0056b3;
+}
+
+.migration-journey-description {
+    max-width: 690px;
+
+    margin: 20px auto 0;
+
+    color: #64748b;
+
+    font-size: 16px;
+
+    line-height: 1.85;
+}
+
+/* ======================================================
+   OVERVIEW BANNER
+====================================================== */
+
+.migration-journey-overview {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 28px;
+
+    margin-bottom: 30px;
+
+    padding: 30px 34px;
+
+    overflow: hidden;
+
+    border: 1px solid #dce7f3;
+
+    border-radius: 18px;
+
+    background: #ffffff;
+
+    box-shadow: 0 8px 30px rgba(20, 36, 58, 0.035);
+}
+
+.migration-journey-overview-content {
+    display: flex;
+    align-items: center;
+
+    gap: 22px;
+}
+
+.migration-journey-overview-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    width: 66px;
+    height: 66px;
+
+    border-radius: 16px;
+
+    background: #eaf2ff;
+
+    color: #0056b3;
+
+    font-size: 29px;
+}
+
+.migration-journey-overview-label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #0056b3;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+}
+
+.migration-journey-overview-content h3 {
+    margin: 0 0 7px;
+
+    color: #14243a;
+
+    font-size: 24px;
+
+    font-weight: 800;
+}
+
+.migration-journey-overview-content p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+.migration-journey-step-count {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    min-width: 100px;
+
+    padding-left: 28px;
+
+    border-left: 1px solid #e2e8f0;
+}
+
+.migration-journey-step-count strong {
+    color: #0056b3;
+
+    font-size: 38px;
+
+    font-weight: 800;
+
+    line-height: 1;
+}
+
+.migration-journey-step-count span {
+    margin-top: 8px;
+
+    color: #64748b;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.3px;
+}
+
+/* ======================================================
+   STEPS GRID
+====================================================== */
+
+.migration-journey-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+
+    gap: 22px;
+}
+
+/* ======================================================
+   INDIVIDUAL STEP CARD
+====================================================== */
+
+.migration-journey-card {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+
+    min-height: 300px;
+
+    padding: 26px 24px 23px;
+
+    overflow: hidden;
+
+    border: 1px solid #e1e8f0;
+
+    border-radius: 16px;
+
+    background: #ffffff;
+
+    box-shadow: 0 5px 20px rgba(20, 36, 58, 0.025);
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.migration-journey-card:hover {
+    transform: translateY(-5px);
+
+    border-color: #b8d3f6;
+
+    box-shadow: 0 16px 35px rgba(20, 36, 58, 0.075);
+}
+
+/* Card header */
+
+.migration-journey-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-bottom: 26px;
+}
+
+.migration-journey-number {
+    color: #0056b3;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+.migration-journey-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 48px;
+    height: 48px;
+
+    flex-shrink: 0;
+
+    border-radius: 13px;
+
+    background: #edf4ff;
+
+    color: #0056b3;
+
+    font-size: 21px;
+
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease;
+}
+
+.migration-journey-card:hover .migration-journey-card-icon {
+    background: #0056b3;
+
+    color: #ffffff;
+}
+
+/* Card body */
+
+.migration-journey-card-content {
+    flex: 1;
+}
+
+.migration-journey-card-content h3 {
+    margin: 0 0 13px;
+
+    color: #14243a;
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+    line-height: 1.45;
+
+    letter-spacing: -0.3px;
+}
+
+.migration-journey-card-content p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 13px;
+
+    line-height: 1.85;
+}
+
+/* Card bottom */
+
+.migration-journey-card-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    margin-top: 24px;
+    padding-top: 18px;
+
+    border-top: 1px solid #edf1f5;
+
+    color: #0056b3;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    line-height: 1.5;
+}
+
+.migration-journey-card-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    width: 28px;
+    height: 28px;
+
+    border-radius: 50%;
+
+    background: #edf4ff;
+
+    font-size: 11px;
+
+    transition:
+        transform 0.25s ease,
+        background-color 0.25s ease,
+        color 0.25s ease;
+}
+
+.migration-journey-card:hover .migration-journey-card-arrow {
+    transform: translateX(3px);
+
+    background: #0056b3;
+
+    color: #ffffff;
+}
+
+/* Subtle card accent */
+
+.migration-journey-card-progress {
+    position: absolute;
+
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    height: 3px;
+
+    background: #e6effb;
+
+    transition: background-color 0.25s ease;
+}
+
+.migration-journey-card:hover .migration-journey-card-progress {
+    background: #0056b3;
+}
+
+/* ======================================================
+   DISCLAIMER
+====================================================== */
+
+.migration-journey-note {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 14px;
+
+    margin-top: 28px;
+    padding: 20px 22px;
+
+    border: 1px solid #dce7f3;
+
+    border-radius: 12px;
+
+    background: #ffffff;
+}
+
+.migration-journey-note-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    width: 30px;
+    height: 30px;
+
+    border-radius: 50%;
+
+    background: #edf4ff;
+
+    color: #0056b3;
+
+    font-size: 14px;
+}
+
+.migration-journey-note p {
+    margin: 2px 0 0;
+
+    color: #64748b;
+
+    font-size: 12px;
+
+    line-height: 1.8;
+}
+
+.migration-journey-note strong {
+    color: #14243a;
+}
+
+/* ======================================================
+   BOTTOM CALL TO ACTION
+====================================================== */
+
+.migration-journey-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 35px;
+
+    margin-top: 55px;
+
+    padding: 40px;
+
+    border-radius: 20px;
+
+    background: #102b4e;
+
+    color: #ffffff;
+}
+
+.migration-journey-cta-content {
+    max-width: 600px;
+}
+
+.migration-journey-cta-eyebrow {
+    display: block;
+
+    margin-bottom: 12px;
+
+    color: #9cc8ff;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.8px;
+}
+
+.migration-journey-cta-content h3 {
+    margin: 0 0 12px;
+
+    color: #ffffff;
+
+    font-size: clamp(24px, 3vw, 32px);
+
+    font-weight: 800;
+
+    line-height: 1.3;
+
+    letter-spacing: -0.6px;
+}
+
+.migration-journey-cta-content p {
+    max-width: 520px;
+
+    margin: 0;
+
+    color: #d1ddeb;
+
+    font-size: 14px;
+
+    line-height: 1.8;
+}
+
+/* CTA buttons */
+
+.migration-journey-cta-actions {
+    display: flex;
+    flex-direction: column;
+
+    flex-shrink: 0;
+
+    gap: 12px;
+
+    min-width: 220px;
+}
+
+.migration-journey-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    min-height: 49px;
+
+    padding: 13px 20px;
+
+    border: 1px solid transparent;
+
+    border-radius: 8px;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    line-height: 1.4;
+
+    text-align: center;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.migration-journey-btn-primary {
+    background: #ffffff;
+
+    color: #102b4e;
+}
+
+.migration-journey-btn-primary:hover {
+    transform: translateY(-2px);
+
+    background: #eaf2ff;
+
+    color: #0056b3;
+}
+
+.migration-journey-btn-secondary {
+    border-color: rgba(255, 255, 255, 0.35);
+
+    background: transparent;
+
+    color: #ffffff;
+}
+
+.migration-journey-btn-secondary:hover {
+    border-color: #ffffff;
+
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.migration-journey-btn:focus-visible {
+    outline: 3px solid #9cc8ff;
+
+    outline-offset: 4px;
+}
+
+/* ======================================================
+   RESPONSIVE: LAPTOPS
+====================================================== */
+
+@media (max-width: 1100px) {
+    .migration-journey {
+        padding: 85px 24px;
+    }
+
+    .migration-journey-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        gap: 20px;
+    }
+
+    .migration-journey-card {
+        min-height: 280px;
+
+        padding: 26px;
+    }
+
+    .migration-journey-card-content h3 {
+        font-size: 19px;
+    }
+
+    .migration-journey-card-content p {
+        font-size: 14px;
+    }
+}
+
+/* ======================================================
+   RESPONSIVE: TABLETS
+====================================================== */
+
+@media (max-width: 768px) {
+    .migration-journey {
+        padding: 70px 20px;
+    }
+
+    .migration-journey-header {
+        margin-bottom: 36px;
+    }
+
+    .migration-journey-heading {
+        font-size: clamp(30px, 6vw, 40px);
+
+        letter-spacing: -1px;
+    }
+
+    .migration-journey-description {
+        font-size: 14px;
+
+        line-height: 1.85;
+    }
+
+    .migration-journey-overview {
+        padding: 24px;
+
+        gap: 18px;
+    }
+
+    .migration-journey-overview-icon {
+        width: 54px;
+        height: 54px;
+
+        border-radius: 13px;
+
+        font-size: 24px;
+    }
+
+    .migration-journey-overview-content {
+        gap: 15px;
+    }
+
+    .migration-journey-overview-content h3 {
+        font-size: 21px;
+    }
+
+    .migration-journey-step-count {
+        min-width: 75px;
+
+        padding-left: 18px;
+    }
+
+    .migration-journey-step-count strong {
+        font-size: 32px;
+    }
+
+    .migration-journey-card {
+        min-height: 290px;
+
+        padding: 23px;
+    }
+
+    .migration-journey-cta {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 26px;
+
+        margin-top: 40px;
+
+        padding: 32px;
+    }
+
+    .migration-journey-cta-actions {
+        flex-direction: row;
+
+        flex-wrap: wrap;
+
+        min-width: 0;
+
+        width: 100%;
+    }
+}
+
+/* ======================================================
+   RESPONSIVE: MOBILE
+====================================================== */
+
+@media (max-width: 520px) {
+    .migration-journey {
+        padding: 58px 16px;
+    }
+
+    .migration-journey-eyebrow {
+        gap: 8px;
+
+        margin-bottom: 17px;
+
+        font-size: 10px;
+
+        letter-spacing: 1.5px;
+    }
+
+    .migration-journey-eyebrow-icon {
+        width: 29px;
+        height: 29px;
+    }
+
+    .migration-journey-heading {
+        font-size: 31px;
+
+        line-height: 1.25;
+
+        letter-spacing: -0.8px;
+    }
+
+    .migration-journey-description {
+        margin-top: 15px;
+
+        font-size: 13px;
+    }
+
+    .migration-journey-overview {
+        align-items: flex-start;
+
+        gap: 16px;
+
+        padding: 20px;
+
+        border-radius: 14px;
+    }
+
+    .migration-journey-overview-content {
+        align-items: flex-start;
+
+        gap: 12px;
+    }
+
+    .migration-journey-overview-icon {
+        width: 42px;
+        height: 42px;
+
+        border-radius: 10px;
+
+        font-size: 19px;
+    }
+
+    .migration-journey-overview-label {
+        font-size: 8px;
+
+        letter-spacing: 1px;
+    }
+
+    .migration-journey-overview-content h3 {
+        font-size: 18px;
+    }
+
+    .migration-journey-overview-content p {
+        font-size: 12px;
+    }
+
+    .migration-journey-step-count {
+        min-width: 48px;
+
+        padding-left: 12px;
+    }
+
+    .migration-journey-step-count strong {
+        font-size: 25px;
+    }
+
+    .migration-journey-step-count span {
+        font-size: 8px;
+
+        letter-spacing: 0.5px;
+    }
+
+    .migration-journey-grid {
+        grid-template-columns: 1fr;
+
+        gap: 15px;
+    }
+
+    .migration-journey-card {
+        min-height: 0;
+
+        padding: 22px;
+    }
+
+    .migration-journey-card-top {
+        margin-bottom: 20px;
+    }
+
+    .migration-journey-card-icon {
+        width: 44px;
+        height: 44px;
+
+        font-size: 19px;
+    }
+
+    .migration-journey-card-content h3 {
+        margin-bottom: 10px;
+
+        font-size: 18px;
+    }
+
+    .migration-journey-card-content p {
+        font-size: 13px;
+
+        line-height: 1.85;
+    }
+
+    .migration-journey-card-bottom {
+        margin-top: 19px;
+        padding-top: 15px;
+    }
+
+    .migration-journey-note {
+        gap: 11px;
+
+        margin-top: 22px;
+
+        padding: 16px;
+    }
+
+    .migration-journey-note p {
+        font-size: 11px;
+    }
+
+    .migration-journey-cta {
+        gap: 24px;
+
+        margin-top: 35px;
+
+        padding: 25px 21px;
+
+        border-radius: 15px;
+    }
+
+    .migration-journey-cta-eyebrow {
+        font-size: 9px;
+
+        letter-spacing: 1.2px;
+    }
+
+    .migration-journey-cta-content h3 {
+        font-size: 25px;
+    }
+
+    .migration-journey-cta-content p {
+        font-size: 13px;
+    }
+
+    .migration-journey-cta-actions {
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 10px;
+    }
+
+    .migration-journey-btn {
+        width: 100%;
+
+        min-height: 48px;
+    }
+}
+
+/* ======================================================
+   ACCESSIBILITY
+====================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .migration-journey-card,
+    .migration-journey-card-icon,
+    .migration-journey-card-arrow,
+    .migration-journey-card-progress,
+    .migration-journey-btn {
+        transition: none;
+    }
+
+    .migration-journey-card:hover,
+    .migration-journey-btn-primary:hover {
+        transform: none;
+    }
+}
