@@ -1,176 +1,114 @@
+import mongoose from "mongoose";
+import { pathToFileURL } from "node:url";
+
 import Opportunity from "../modules/opportunities/opportunity.model.js";
+import opportunitiesData from "./data/opportunities.data.js";
 
-/*
-|--------------------------------------------------------------------------
-| COUNTRY DATA
-|--------------------------------------------------------------------------
-*/
+/* ==========================================================================
+   COLOSSUS — OPPORTUNITY SEEDER
+   ==========================================================================
 
-import australia from "./data/australia.js";
-import bulgaria from "./data/bulgaria.js";
-import canada from "./data/canada.js";
-import croatia from "./data/croatia.js";
-import finland from "./data/finland.js";
-import germany from "./data/germany.js";
-import hungary from "./data/hungary.js";
-import ireland from "./data/ireland.js";
-import latvia from "./data/latvia.js";
-import lithuania from "./data/lithuania.js";
-import norway from "./data/norway.js";
-import poland from "./data/poland.js";
-import romania from "./data/romania.js";
-import serbia from "./data/serbia.js";
-import spain from "./data/spain.js";
-import uk from "./data/uk.js";
+   Features:
+   - Uses the validated opportunities.data.js catalogue.
+   - Validates country IDs and country-scoped offer identities.
+   - Supports --dry-run.
+   - Preserves existing MongoDB _id values for matched records.
+   - Updates matched records in place.
+   - Inserts genuinely new records.
+   - Never automatically deletes unmatched records.
+   - Reports duplicate existing identities for manual review.
+   - Preserves application configuration and required-document handling.
 
-/*
-|--------------------------------------------------------------------------
-| ALL COUNTRIES
-|--------------------------------------------------------------------------
-*/
+   IMPORTANT:
+   This seeder runs automatically when imported by the database seeder.
+   Do not restart the backend until the dry-run report has been reviewed.
 
-const countries = [
-  australia,
-  bulgaria,
-  canada,
-  croatia,
-  finland,
-  germany,
-  hungary,
-  ireland,
-  latvia,
-  lithuania,
-  norway,
-  poland,
-  romania,
-  serbia,
-  spain,
-  uk,
-];
+   ========================================================================== */
 
-/*
-|--------------------------------------------------------------------------
-| DEFAULT APPLICATION WORKFLOW
-|--------------------------------------------------------------------------
-|
-| The client-facing application journey is:
-|
-| DOCUMENTS → REVIEW
-|
-| Personal information is completed through Client Profile
-| before an application is started.
-|
-*/
+/* -------------------------------------------------------------------------- */
+/* AUTHORITATIVE COUNTRY REGISTER                                             */
+/* -------------------------------------------------------------------------- */
+
+const AUTHORITATIVE_COUNTRIES = new Map([
+  [1, { name: "Australia", slug: "australia" }],
+  [2, { name: "Bulgaria", slug: "bulgaria" }],
+  [3, { name: "Canada", slug: "canada" }],
+  [4, { name: "Croatia", slug: "croatia" }],
+  [5, { name: "Finland", slug: "finland" }],
+  [6, { name: "Germany", slug: "germany" }],
+  [7, { name: "Hungary", slug: "hungary" }],
+  [8, { name: "Ireland", slug: "ireland" }],
+  [9, { name: "Latvia", slug: "latvia" }],
+  [10, { name: "Lithuania", slug: "lithuania" }],
+  [11, { name: "Norway", slug: "norway" }],
+  [12, { name: "Poland", slug: "poland" }],
+  [13, { name: "Romania", slug: "romania" }],
+  [14, { name: "Serbia", slug: "serbia" }],
+  [15, { name: "Spain", slug: "spain" }],
+  [16, { name: "United Kingdom", slug: "united-kingdom" }],
+]);
+
+/* -------------------------------------------------------------------------- */
+/* DEFAULT APPLICATION CONFIGURATION                                          */
+/* -------------------------------------------------------------------------- */
 
 const DEFAULT_APPLICATION_STEPS = ["DOCUMENTS", "REVIEW"];
 
-/*
-|--------------------------------------------------------------------------
-| DEFAULT INTERNAL WORKFLOW
-|--------------------------------------------------------------------------
-*/
+const VALID_DOCUMENT_TYPES = [
+  "PASSPORT",
+  "IDENTIFICATION",
+  "ACADEMIC_CERTIFICATE",
+  "FINANCIAL_DOCUMENT",
+  "EMPLOYMENT_DOCUMENT",
+  "OTHER",
+];
 
-const buildDefaultWorkflow = () => {
-  return [
-    {
-      key: "APPLICATION_SUBMITTED",
-
-      label: "Application Submitted",
-
-      status: "PENDING",
-
-      order: 1,
-    },
-
-    {
-      key: "DOCUMENT_REVIEW",
-
-      label: "Document Review",
-
-      status: "PENDING",
-
-      order: 2,
-    },
-
-    {
-      key: "PROCESSING",
-
-      label: "Application Processing",
-
-      status: "PENDING",
-
-      order: 3,
-    },
-
-    {
-      key: "FINAL_DECISION",
-
-      label: "Final Decision",
-
-      status: "PENDING",
-
-      order: 4,
-    },
-  ];
-};
-
-/*
-|--------------------------------------------------------------------------
-| DOCUMENT TYPE RESOLVER
-|--------------------------------------------------------------------------
-|
-| Converts the public document name into one of the document
-| types supported by the Document model.
-|
-| IMPORTANT:
-| We NEVER use "FILE".
-|
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* DOCUMENT TYPE RESOLVER                                                     */
+/* -------------------------------------------------------------------------- */
 
 const resolveDocumentType = (documentName) => {
-  const normalizedName = String(documentName || "")
+  const name = String(documentName ?? "")
     .trim()
     .toLowerCase();
 
-  if (normalizedName.includes("passport")) {
+  if (name.includes("passport")) {
     return "PASSPORT";
   }
 
   if (
-    normalizedName.includes("identification") ||
-    normalizedName.includes("identity") ||
-    normalizedName.includes("national id") ||
-    normalizedName.includes("id card")
+    name.includes("identification") ||
+    name.includes("identity") ||
+    name.includes("national id") ||
+    name.includes("id card")
   ) {
     return "IDENTIFICATION";
   }
 
   if (
-    normalizedName.includes("academic") ||
-    normalizedName.includes("certificate") ||
-    normalizedName.includes("degree") ||
-    normalizedName.includes("diploma") ||
-    normalizedName.includes("transcript")
+    name.includes("academic") ||
+    name.includes("certificate") ||
+    name.includes("degree") ||
+    name.includes("diploma") ||
+    name.includes("transcript")
   ) {
     return "ACADEMIC_CERTIFICATE";
   }
 
   if (
-    normalizedName.includes("financial") ||
-    normalizedName.includes("bank") ||
-    normalizedName.includes("statement") ||
-    normalizedName.includes("funds") ||
-    normalizedName.includes("proof of funds")
+    name.includes("financial") ||
+    name.includes("bank") ||
+    name.includes("statement") ||
+    name.includes("funds") ||
+    name.includes("proof of funds")
   ) {
     return "FINANCIAL_DOCUMENT";
   }
 
   if (
-    normalizedName.includes("employment") ||
-    normalizedName.includes("employer") ||
-    normalizedName.includes("employment letter") ||
-    normalizedName.includes("work experience")
+    name.includes("employment") ||
+    name.includes("employer") ||
+    name.includes("work experience")
   ) {
     return "EMPLOYMENT_DOCUMENT";
   }
@@ -178,31 +116,15 @@ const resolveDocumentType = (documentName) => {
   return "OTHER";
 };
 
-/*
-|--------------------------------------------------------------------------
-| BUILD REQUIRED DOCUMENT CONFIGURATION
-|--------------------------------------------------------------------------
-|
-| Priority:
-|
-| 1. Explicit pathway configuration
-| 2. Existing public documents array
-|
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* BUILD REQUIRED DOCUMENTS                                                   */
+/* -------------------------------------------------------------------------- */
 
 const buildRequiredDocuments = (opportunity) => {
-  /*
-  |--------------------------------------------------------------------------
-  | EXPLICIT REQUIRED DOCUMENTS
-  |--------------------------------------------------------------------------
-  */
+  const explicitDocuments = opportunity.requiredDocuments;
 
-  if (
-    Array.isArray(opportunity.requiredDocuments) &&
-    opportunity.requiredDocuments.length > 0
-  ) {
-    return opportunity.requiredDocuments.map((document, index) => {
+  if (Array.isArray(explicitDocuments) && explicitDocuments.length > 0) {
+    return explicitDocuments.map((document, index) => {
       const name =
         document?.name ||
         document?.label ||
@@ -210,22 +132,7 @@ const buildRequiredDocuments = (opportunity) => {
         document?.documentName ||
         `Required Document ${index + 1}`;
 
-      /*
-      |--------------------------------------------------------------------------
-      | Respect a valid explicit type.
-      |--------------------------------------------------------------------------
-      */
-
-      const validTypes = [
-        "PASSPORT",
-        "IDENTIFICATION",
-        "ACADEMIC_CERTIFICATE",
-        "FINANCIAL_DOCUMENT",
-        "EMPLOYMENT_DOCUMENT",
-        "OTHER",
-      ];
-
-      const type = validTypes.includes(document?.type)
+      const type = VALID_DOCUMENT_TYPES.includes(document?.type)
         ? document.type
         : resolveDocumentType(name);
 
@@ -247,12 +154,6 @@ const buildRequiredDocuments = (opportunity) => {
     });
   }
 
-  /*
-  |--------------------------------------------------------------------------
-  | FALLBACK TO PUBLIC DOCUMENT LIST
-  |--------------------------------------------------------------------------
-  */
-
   if (
     !Array.isArray(opportunity.documents) ||
     opportunity.documents.length === 0
@@ -261,347 +162,501 @@ const buildRequiredDocuments = (opportunity) => {
   }
 
   return opportunity.documents.map((document, index) => {
-    const name = String(document || "").trim();
+    const name =
+      typeof document === "string"
+        ? document.trim()
+        : String(
+            document?.name || document?.label || document?.title || "",
+          ).trim();
+
+    const type = VALID_DOCUMENT_TYPES.includes(document?.type)
+      ? document.type
+      : resolveDocumentType(name);
 
     return {
-      key: `DOCUMENT_${index + 1}`,
+      key: document?.key || `DOCUMENT_${index + 1}`,
 
       name,
 
-      label: name,
+      label: document?.label || name,
 
-      description: "",
+      description: document?.description || "",
 
-      required: true,
+      required: document?.required !== false,
 
-      type: resolveDocumentType(name),
+      type,
 
-      order: index + 1,
+      order: document?.order || index + 1,
     };
   });
 };
 
-/*
-|--------------------------------------------------------------------------
-| BUILD APPLICATION QUESTIONS
-|--------------------------------------------------------------------------
-|
-| Questions remain available for future pathway-specific
-| requirements, but they are NOT part of the default V1
-| client journey.
-|
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* DEFAULT INTERNAL WORKFLOW                                                  */
+/* -------------------------------------------------------------------------- */
 
-const buildApplicationQuestions = (opportunity) => {
-  if (
-    Array.isArray(opportunity.questions) &&
-    opportunity.questions.length > 0
-  ) {
-    return opportunity.questions;
-  }
+const buildDefaultWorkflow = () => [
+  {
+    key: "APPLICATION_SUBMITTED",
+    label: "Application Submitted",
+    status: "PENDING",
+    order: 1,
+  },
+  {
+    key: "DOCUMENT_REVIEW",
+    label: "Document Review",
+    status: "PENDING",
+    order: 2,
+  },
+  {
+    key: "PROCESSING",
+    label: "Application Processing",
+    status: "PENDING",
+    order: 3,
+  },
+  {
+    key: "FINAL_DECISION",
+    label: "Final Decision",
+    status: "PENDING",
+    order: 4,
+  },
+];
 
-  return [];
-};
-
-/*
-|--------------------------------------------------------------------------
-| BUILD APPLICATION CONFIGURATION
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* BUILD APPLICATION CONFIGURATION                                           */
+/* -------------------------------------------------------------------------- */
 
 const buildApplicationConfig = (opportunity) => {
-  const customWorkflow = opportunity.applicationConfig?.workflow;
+  const config = opportunity.applicationConfig || {};
 
-  const customSteps = opportunity.applicationConfig?.steps;
+  const steps =
+    Array.isArray(config.steps) && config.steps.length > 0
+      ? config.steps
+      : DEFAULT_APPLICATION_STEPS;
+
+  const questions = Array.isArray(config.questions) ? config.questions : [];
+
+  const workflow =
+    Array.isArray(config.workflow) && config.workflow.length > 0
+      ? config.workflow
+      : buildDefaultWorkflow();
 
   return {
-    /*
-    |--------------------------------------------------------------------------
-    | Client-facing application steps
-    |--------------------------------------------------------------------------
-    */
-
-    steps:
-      Array.isArray(customSteps) && customSteps.length > 0
-        ? customSteps
-        : DEFAULT_APPLICATION_STEPS,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Future questions
-    |--------------------------------------------------------------------------
-    */
-
-    questions: buildApplicationQuestions(opportunity),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Required documents
-    |--------------------------------------------------------------------------
-    */
-
+    steps,
+    questions,
     requiredDocuments: buildRequiredDocuments(opportunity),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Internal workflow
-    |--------------------------------------------------------------------------
-    */
-
-    workflow:
-      Array.isArray(customWorkflow) && customWorkflow.length > 0
-        ? customWorkflow
-        : buildDefaultWorkflow(),
+    workflow,
   };
 };
 
-/*
-|--------------------------------------------------------------------------
-| BUILD OPPORTUNITIES
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* VALIDATE SOURCE DATA                                                       */
+/* -------------------------------------------------------------------------- */
 
-const buildOpportunities = () => {
-  const opportunities = [];
+const validateOpportunities = (opportunities) => {
+  const errors = [];
+  const seenKeys = new Set();
 
-  for (const country of countries) {
-    if (!country || !Array.isArray(country.opportunities)) {
-      console.warn(
-        `⚠ No opportunities found for ${country?.name || "unknown country"}`,
+  if (!Array.isArray(opportunities) || opportunities.length === 0) {
+    throw new Error(
+      "Opportunity source data is empty. No database writes were performed.",
+    );
+  }
+
+  for (const opportunity of opportunities) {
+    if (!opportunity || typeof opportunity !== "object") {
+      errors.push("Invalid opportunity record encountered.");
+      continue;
+    }
+
+    const country = AUTHORITATIVE_COUNTRIES.get(opportunity.countryId);
+
+    if (!country) {
+      errors.push(
+        `Unknown country ID "${opportunity.countryId}" for ` +
+          `"${opportunity.title || "Unknown opportunity"}".`,
       );
 
       continue;
     }
 
-    for (const opportunity of country.opportunities) {
-      opportunities.push({
-        /*
-        |--------------------------------------------------------------------------
-        | COUNTRY INFORMATION
-        |--------------------------------------------------------------------------
-        */
+    if (
+      opportunity.countryName !== country.name ||
+      opportunity.countrySlug !== country.slug
+    ) {
+      errors.push(
+        `Country metadata mismatch for "${opportunity.title}". ` +
+          `Expected "${country.name}" (${country.slug}); received ` +
+          `"${opportunity.countryName}" (${opportunity.countrySlug}).`,
+      );
+    }
 
-        countryId: country.id,
+    if (!Number.isInteger(opportunity.legacyId)) {
+      errors.push(
+        `Invalid legacyId for "${opportunity.title || "Unknown opportunity"}".`,
+      );
+    }
 
-        countryName: country.name,
+    if (!opportunity.title || !opportunity.slug) {
+      errors.push(`Missing title or slug for country "${country.name}".`);
 
-        countrySlug: country.slug,
+      continue;
+    }
 
-        countryFlag: country.flag || "",
+    const key = `${opportunity.countrySlug}:${opportunity.slug}`;
 
-        countryImage: country.image || "",
+    if (seenKeys.has(key)) {
+      errors.push(`Duplicate source opportunity identity "${key}".`);
+    }
 
-        /*
-        |--------------------------------------------------------------------------
-        | COUNTRY METADATA
-        |--------------------------------------------------------------------------
-        */
+    seenKeys.add(key);
+  }
 
-        applicants: country.applicants || "",
+  if (errors.length > 0) {
+    throw new Error(
+      [
+        "Opportunity validation failed. No database writes were performed.",
+        ...errors.map((error) => `- ${error}`),
+      ].join("\n"),
+    );
+  }
+};
 
-        countryCategories: country.category || [],
+/* -------------------------------------------------------------------------- */
+/* BUILD DATABASE DOCUMENT                                                    */
+/* -------------------------------------------------------------------------- */
 
-        countryVisa: country.visa || "",
+const buildOpportunityDocument = (opportunity) => ({
+  ...opportunity,
 
-        countryDuration: country.duration || "",
+  applicationConfig: buildApplicationConfig(opportunity),
 
-        countryProcessingTime: country.processingTime || "",
+  active: opportunity.active !== false,
+});
 
-        countryDescription: country.description || "",
+/* -------------------------------------------------------------------------- */
+/* HELPERS                                                                    */
+/* -------------------------------------------------------------------------- */
 
-        opportunityScore: country.opportunityScore || "",
+const getOpportunityKey = (opportunity) =>
+  `${opportunity.countrySlug}:${opportunity.slug}`;
 
-        successRate: country.successRate || "",
+const summarizeRecord = (record) => ({
+  id: String(record._id),
 
-        featured: country.featured || false,
+  title: record.title || "",
 
-        /*
-        |--------------------------------------------------------------------------
-        | OPPORTUNITY IDENTITY
-        |--------------------------------------------------------------------------
-        */
+  countryId: record.countryId ?? null,
 
-        legacyId: opportunity.id,
+  countryName: record.countryName || "",
 
-        title: opportunity.title,
+  countrySlug: record.countrySlug || "",
 
-        slug: opportunity.slug,
+  slug: record.slug || "",
 
-        image: opportunity.image || "",
+  active: record.active !== false,
+});
 
-        category: opportunity.category || "",
+/* -------------------------------------------------------------------------- */
+/* SEED OPPORTUNITIES                                                         */
+/* -------------------------------------------------------------------------- */
 
-        location: opportunity.location || "",
+const seedOpportunities = async () => {
+  const dryRun = process.argv.includes("--dry-run");
 
-        type: opportunity.type || "",
+  const opportunities = opportunitiesData.map(buildOpportunityDocument);
 
-        duration: opportunity.duration || "",
+  /*
+   * Validate the complete source before any writes.
+   */
+  validateOpportunities(opportunities);
 
-        icon: opportunity.icon || "",
+  console.log("\n========================================");
+  console.log("COLOSSUS OPPORTUNITY SEEDER");
+  console.log("========================================");
 
-        /*
-        |--------------------------------------------------------------------------
-        | OPPORTUNITY DETAILS
-        |--------------------------------------------------------------------------
-        */
+  console.log(`Source opportunities: ${opportunities.length}`);
+  console.log(`Mode: ${dryRun ? "DRY RUN" : "LIVE"}`);
 
-        salary: opportunity.salary || "",
+  /*
+   * Load existing records without changing them.
+   */
+  const existingRecords = await Opportunity.find({})
+    .select(
+      [
+        "_id",
+        "legacyId",
+        "title",
+        "slug",
+        "countryId",
+        "countryName",
+        "countrySlug",
+        "active",
+      ].join(" "),
+    )
+    .lean();
 
-        demand: opportunity.demand || "",
+  /*
+   * Group records by country-scoped identity.
+   */
+  const existingByKey = new Map();
 
-        description: opportunity.description || "",
+  for (const record of existingRecords) {
+    const key = getOpportunityKey(record);
 
-        /*
-        |--------------------------------------------------------------------------
-        | HIGHLIGHTS
-        |--------------------------------------------------------------------------
-        */
+    if (!existingByKey.has(key)) {
+      existingByKey.set(key, []);
+    }
 
-        highlights: opportunity.highlights || [],
+    existingByKey.get(key).push(record);
+  }
 
-        /*
-        |--------------------------------------------------------------------------
-        | REQUIREMENTS
-        |--------------------------------------------------------------------------
-        */
+  /*
+   * Identify duplicate identities in the existing database.
+   */
+  const existingDuplicates = [];
 
-        requirements: opportunity.requirements || [],
+  for (const [key, records] of existingByKey.entries()) {
+    if (records.length > 1) {
+      existingDuplicates.push({
+        key,
 
-        /*
-        |--------------------------------------------------------------------------
-        | PUBLIC DOCUMENTS
-        |--------------------------------------------------------------------------
-        */
-
-        documents: opportunity.documents || [],
-
-        /*
-        |--------------------------------------------------------------------------
-        | BENEFITS
-        |--------------------------------------------------------------------------
-        */
-
-        benefits: opportunity.benefits || [],
-
-        /*
-        |--------------------------------------------------------------------------
-        | APPLICATION JOURNEY
-        |--------------------------------------------------------------------------
-        */
-
-        steps: opportunity.steps || [],
-
-        /*
-        |--------------------------------------------------------------------------
-        | POSITIONS
-        |--------------------------------------------------------------------------
-        */
-
-        positions: opportunity.positions || [],
-
-        /*
-        |--------------------------------------------------------------------------
-        | WORK CONDITIONS
-        |--------------------------------------------------------------------------
-        */
-
-        workConditions: opportunity.workConditions || null,
-
-        /*
-        |--------------------------------------------------------------------------
-        | CONTRACT
-        |--------------------------------------------------------------------------
-        */
-
-        contract: opportunity.contract || "",
-
-        /*
-        |--------------------------------------------------------------------------
-        | FAQ
-        |--------------------------------------------------------------------------
-        */
-
-        faq: opportunity.faq || [],
-
-        /*
-        |--------------------------------------------------------------------------
-        | PRICING
-        |--------------------------------------------------------------------------
-        */
-
-        pricing: opportunity.pricing || null,
-
-        /*
-        |--------------------------------------------------------------------------
-        | PAYMENT PLAN
-        |--------------------------------------------------------------------------
-        */
-
-        paymentPlan: opportunity.paymentPlan || [],
-
-        /*
-        |--------------------------------------------------------------------------
-        | TERMS
-        |--------------------------------------------------------------------------
-        */
-
-        terms: opportunity.terms || [],
-
-        /*
-        |--------------------------------------------------------------------------
-        | APPLICATION CONFIGURATION
-        |--------------------------------------------------------------------------
-        */
-
-        applicationConfig: buildApplicationConfig(opportunity),
-
-        /*
-        |--------------------------------------------------------------------------
-        | ACTIVE
-        |--------------------------------------------------------------------------
-        */
-
-        active: true,
+        records: records.map(summarizeRecord),
       });
     }
   }
 
-  return opportunities;
-};
+  /*
+   * Compare source catalogue against existing records.
+   */
+  const sourceKeys = new Set(opportunities.map(getOpportunityKey));
 
-/*
-|--------------------------------------------------------------------------
-| SEED OPPORTUNITIES
-|--------------------------------------------------------------------------
-*/
-
-const seedOpportunities = async () => {
-  const opportunities = buildOpportunities();
-
-  console.log(`Preparing ${opportunities.length} opportunities...`);
+  const updates = [];
+  const inserts = [];
+  const manualReview = [];
 
   for (const opportunity of opportunities) {
-    await Opportunity.findOneAndUpdate(
+    const key = getOpportunityKey(opportunity);
+
+    const matches = existingByKey.get(key) || [];
+
+    if (matches.length > 1) {
+      manualReview.push({
+        key,
+
+        reason: "Multiple existing records share this country-scoped identity.",
+
+        records: matches.map(summarizeRecord),
+      });
+
+      continue;
+    }
+
+    if (matches.length === 1) {
+      updates.push({
+        key,
+
+        existingId: String(matches[0]._id),
+
+        opportunity,
+      });
+
+      continue;
+    }
+
+    inserts.push({
+      key,
+
+      opportunity,
+    });
+  }
+
+  /*
+   * Existing records absent from the source catalogue are retained.
+   */
+  const unmatchedExisting = existingRecords.filter((record) => {
+    return !sourceKeys.has(getOpportunityKey(record));
+  });
+
+  /*
+   * Display comparison summary.
+   */
+  console.log(`Existing opportunities: ${existingRecords.length}`);
+  console.log(`Planned updates: ${updates.length}`);
+  console.log(`Planned inserts: ${inserts.length}`);
+  console.log(`Duplicate existing identities: ${existingDuplicates.length}`);
+  console.log(`Manual review cases: ${manualReview.length}`);
+  console.log(`Unmatched existing records: ${unmatchedExisting.length}`);
+
+  if (existingDuplicates.length > 0) {
+    console.log("\nEXISTING DUPLICATE IDENTITIES");
+
+    for (const duplicate of existingDuplicates) {
+      console.log(`\nIdentity: ${duplicate.key}`);
+      console.table(duplicate.records);
+    }
+  }
+
+  if (manualReview.length > 0) {
+    console.log("\nMANUAL REVIEW REQUIRED");
+
+    for (const item of manualReview) {
+      console.log(`\nIdentity: ${item.key}`);
+      console.log(`Reason: ${item.reason}`);
+      console.table(item.records);
+    }
+  }
+
+  if (unmatchedExisting.length > 0) {
+    console.log("\nUNMATCHED EXISTING RECORDS — RETAINED");
+
+    console.table(unmatchedExisting.map(summarizeRecord));
+  }
+
+  /*
+   * Dry-run mode stops before the first database write.
+   */
+  if (dryRun) {
+    console.log("\nDRY RUN COMPLETE.");
+    console.log("MongoDB writes: NONE");
+    console.log("No records were inserted, updated, or deleted.");
+    console.log("========================================\n");
+
+    return {
+      mode: "DRY_RUN",
+
+      sourceCount: opportunities.length,
+
+      existingCount: existingRecords.length,
+
+      plannedUpdates: updates.length,
+
+      plannedInserts: inserts.length,
+
+      duplicateIdentityCount: existingDuplicates.length,
+
+      manualReviewCount: manualReview.length,
+
+      unmatchedCount: unmatchedExisting.length,
+    };
+  }
+
+  /*
+   * Fail closed when the existing database contains ambiguous identities.
+   *
+   * Do not insert or update anything until duplicates are resolved.
+   */
+  if (existingDuplicates.length > 0 || manualReview.length > 0) {
+    throw new Error(
+      "Seeder stopped before writing: duplicate or ambiguous existing " +
+        "opportunity identities require manual review.",
+    );
+  }
+
+  /*
+   * UPDATE MATCHED RECORDS
+   *
+   * updateOne with $set preserves the existing MongoDB _id.
+   */
+  let updatedCount = 0;
+  let insertedCount = 0;
+
+  for (const { key, opportunity } of updates) {
+    const result = await Opportunity.updateOne(
       {
         countrySlug: opportunity.countrySlug,
 
         slug: opportunity.slug,
       },
-
-      opportunity,
-
       {
-        upsert: true,
-
-        new: true,
-
-        setDefaultsOnInsert: true,
+        $set: opportunity,
+      },
+      {
+        runValidators: true,
       },
     );
+
+    if (result.matchedCount !== 1) {
+      throw new Error(
+        `Expected exactly one matching record for "${key}", ` +
+          `but matched ${result.matchedCount}.`,
+      );
+    }
+
+    updatedCount += 1;
   }
 
-  console.log(`✓ ${opportunities.length} opportunities seeded successfully.`);
+  /*
+   * INSERT NEW RECORDS
+   */
+  for (const { key, opportunity } of inserts) {
+    try {
+      await Opportunity.create(opportunity);
+
+      insertedCount += 1;
+    } catch (error) {
+      throw new Error(
+        `Failed to insert opportunity "${key}": ${error.message}`,
+      );
+    }
+  }
+
+  /*
+   * Final summary.
+   */
+  console.log("\nSEED COMPLETE");
+  console.log("========================================");
+  console.log(`Updated: ${updatedCount}`);
+  console.log(`Inserted: ${insertedCount}`);
+  console.log(`Unmatched records retained: ${unmatchedExisting.length}`);
+  console.log("Existing opportunity records were not intentionally deleted.");
+  console.log("========================================\n");
+
+  return {
+    mode: "LIVE",
+
+    sourceCount: opportunities.length,
+
+    updatedCount,
+
+    insertedCount,
+
+    unmatchedCount: unmatchedExisting.length,
+  };
 };
 
 export default seedOpportunities;
+
+/* -------------------------------------------------------------------------- */
+/* DIRECT EXECUTION                                                           */
+/* -------------------------------------------------------------------------- */
+
+const isDirectExecution =
+  Boolean(process.argv[1]) &&
+  import.meta.url === pathToFileURL(process.argv[1]).href;
+
+if (isDirectExecution) {
+  const mongoUri = process.env.MONGO_URI || process.env.MONGODB_URI;
+
+  if (!mongoUri) {
+    console.error(
+      "MongoDB connection string is missing. " +
+        "Set MONGO_URI or MONGODB_URI in the environment.",
+    );
+
+    process.exitCode = 1;
+  } else {
+    mongoose
+      .connect(mongoUri)
+      .then(() => seedOpportunities())
+      .catch((error) => {
+        console.error("\nOPPORTUNITY SEEDER FAILED");
+        console.error(error);
+
+        process.exitCode = 1;
+      })
+      .finally(async () => {
+        await mongoose.disconnect().catch(() => {});
+      });
+  }
+}

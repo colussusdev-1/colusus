@@ -1,16 +1,39 @@
-// import hungaryImage from "../../../../../assets/images/countries/hungary.jpg";
-// import hungaryWorkImage from "../../../../../assets/images/opportunities/hungary-work.jpg";
+/*
+|--------------------------------------------------------------------------
+| HUNGARY — COUNTRY AND OPPORTUNITY DATA
+|--------------------------------------------------------------------------
+|
+| Source of truth for Hungary's catalogue metadata and offers.
+|
+| Rules:
+| - Every country has a unique numeric ID.
+| - Country identity belongs to this country definition.
+| - Offer slugs are country-specific.
+| - Offer IDs are local identifiers, not MongoDB ObjectIds.
+| - Do not duplicate country metadata inside individual offers.
+|
+*/
 
 const hungary = {
-  id: 3,
+  /*
+    |--------------------------------------------------------------------------
+    | COUNTRY IDENTITY
+    |--------------------------------------------------------------------------
+    */
+
+  id: 7,
 
   name: "Hungary",
-
   shortName: "Hungary",
-
   slug: "hungary",
 
   flag: "🇭🇺",
+
+  /*
+    |--------------------------------------------------------------------------
+    | COUNTRY PRESENTATION
+    |--------------------------------------------------------------------------
+    */
 
   image: "",
 
@@ -19,27 +42,41 @@ const hungary = {
   category: ["popular", "work", "residency"],
 
   visa: "Work Permit + Residence Card",
-
   duration: "3 Weeks - 4 Months",
-
   processingTime: "Flexible Processing",
 
   opportunityScore: "86%",
-
   successRate: "High",
-
   featured: false,
 
   description:
-    "Move to Hungary through seasonal and long-term work opportunities with job placement, work permit support and residence options.",
+    "Explore seasonal and longer-term employment opportunities in Hungary, with job placement assistance, work authorization support and residence permit guidance, subject to employer availability and applicable immigration requirements.",
+
+  /*
+    |--------------------------------------------------------------------------
+    | OPPORTUNITIES
+    |--------------------------------------------------------------------------
+    */
 
   opportunities: [
     {
+      /*
+            |--------------------------------------------------------------------------
+            | OFFER IDENTITY
+            |--------------------------------------------------------------------------
+            */
+
       id: 1,
 
       title: "Hungary Flexible Work Permit Package",
 
-      slug: "hungary-work-permit-residency",
+      slug: "hungary-flexible-work-permit-package",
+
+      /*
+            |--------------------------------------------------------------------------
+            | PRESENTATION
+            |--------------------------------------------------------------------------
+            */
 
       image: "",
 
@@ -49,28 +86,42 @@ const hungary = {
 
       location: "Hungary",
 
-      type: "Work Permit + Residence Card (TRC)",
+      type: "Work Permit + Residence Permit",
 
       duration: "3 Weeks - 4 Months",
+
+      /*
+            |--------------------------------------------------------------------------
+            | EMPLOYMENT INFORMATION
+            |--------------------------------------------------------------------------
+            */
 
       salary: "€700 - €1,400+/month",
 
       demand: "High",
 
       description:
-        "Relocate to Hungary through seasonal and long-term employment programs with job placement, work permit processing, free accommodation and residence support.",
+        "Explore seasonal and longer-term employment opportunities in Hungary across construction and agriculture. The package includes employment matching assistance, work authorization support and guidance on residence requirements. Actual employment conditions depend on the employer and the agreed contract.",
+
+      /*
+            |--------------------------------------------------------------------------
+            | HIGHLIGHTS
+            |--------------------------------------------------------------------------
+            */
 
       highlights: [
-        "Job Offer",
-
-        "Work Permit",
-
-        "Residence Card (TRC)",
-
-        "FREE Employer Accommodation",
-
-        "Seasonal & Long-Term Work Options",
+        "Employment Offer Support",
+        "Work Authorization Processing Support",
+        "Residence Permit Guidance",
+        "Employer Accommodation, Subject to Agreement",
+        "Seasonal and Longer-Term Work Opportunities",
       ],
+
+      /*
+            |--------------------------------------------------------------------------
+            | AVAILABLE POSITIONS
+            |--------------------------------------------------------------------------
+            */
 
       positions: [
         {
@@ -80,37 +131,23 @@ const hungary = {
 
           roles: [
             "General Workers",
-
             "Laborers",
-
             "Concrete Workers",
-
             "Rebar Workers",
-
             "Carpenters",
-
             "Assembly Workers",
-
             "Electricians",
-
             "Low-Voltage Assemblers",
-
             "Welders",
-
             "Tile Layers",
-
             "Plasterers",
-
             "Painters",
-
             "Finishers",
-
             "Electrical Installers",
-
             "Plumbing Equipment Installers",
           ],
 
-          notes: ["Driver's license preferred for some roles"],
+          notes: ["Driver's license preferred for some roles."],
         },
 
         {
@@ -118,100 +155,130 @@ const hungary = {
 
           roles: [
             "Agricultural Workers",
-
             "Fruit Harvesters",
-
             "Vegetable Harvesters",
-
             "Farm Workers",
           ],
 
           workingHours: "06:00 - 16:00 (5 days/week)",
 
           notes: [
-            "Extra hours and Saturdays possible",
-
-            "Meals paid by employee",
-
-            "Free accommodation provided",
+            "Extra hours and Saturdays may be available.",
+            "Meals are paid for by the employee unless otherwise agreed.",
+            "Accommodation is subject to the employer's agreement.",
           ],
         },
       ],
 
+      /*
+            |--------------------------------------------------------------------------
+            | BENEFITS
+            |--------------------------------------------------------------------------
+            */
+
       benefits: [
-        "FREE accommodation provided by employer",
-
-        "Seasonal and long-term work options",
-
-        "Residence Card issuance upon arrival",
-
-        "Overtime opportunities available",
-
-        "Skilled and unskilled roles available",
+        "Employer Accommodation, Subject to Agreement",
+        "Seasonal and Longer-Term Work Options",
+        "Residence Permit Process Guidance",
+        "Potential Overtime Opportunities, Subject to Contract",
+        "Opportunities Across Skilled and General Labour Roles",
       ],
+
+      /*
+            |--------------------------------------------------------------------------
+            | REQUIREMENTS
+            |--------------------------------------------------------------------------
+            */
 
       requirements: [
         "Valid International Passport",
-
         "Updated CV / Resume",
-
         "Digital Passport Photograph",
-
-        "Educational Certificates (for 1-year contract)",
-
-        "Proof of work experience",
-
-        "Police Clearance Certificate",
-
-        "Embassy Registration Details",
+        "Educational Certificates, where required for the role or contract",
+        "Proof of Work Experience, where required",
+        "Police Clearance Certificate, where required",
+        "Additional documents required by the employer or relevant authorities",
+        "Eligibility for the applicable Hungarian employment and immigration pathway",
       ],
+
+      /*
+            |--------------------------------------------------------------------------
+            | PUBLIC DOCUMENT LIST
+            |--------------------------------------------------------------------------
+            */
 
       documents: [
         "International Passport",
-
         "CV / Resume",
-
         "Passport Photograph",
-
-        "Educational Certificates",
-
-        "Employment Records",
-
-        "Police Clearance Certificate",
+        "Educational Certificates, where applicable",
+        "Employment Records, where applicable",
+        "Police Clearance Certificate, where required",
+        "Additional Supporting Documents, where required",
       ],
+
+      /*
+            |--------------------------------------------------------------------------
+            | MIGRATION JOURNEY
+            |--------------------------------------------------------------------------
+            */
 
       steps: [
         {
           title: "Document Screening",
 
-          description: "Applicant documents are reviewed for eligibility.",
+          description:
+            "Review the applicant's identity documents, experience and eligibility for the selected employment opportunity.",
         },
 
         {
           title: "Employer Matching",
 
           description:
-            "Candidate is matched with available Hungarian employers.",
+            "Assess the applicant's profile against available Hungarian employment opportunities.",
         },
 
         {
-          title: "Work Permit Processing",
+          title: "Employment Offer",
 
-          description: "Work permit application and visa support begins.",
+          description:
+            "Review the proposed job offer, employment contract, salary and working conditions.",
         },
 
         {
-          title: "Visa Approval",
+          title: "Work Authorization Processing",
 
-          description: "Applicant completes visa requirements and preparation.",
+          description:
+            "Prepare and process the applicable employment and work authorization documentation.",
+        },
+
+        {
+          title: "Visa or Entry Procedure",
+
+          description:
+            "Complete the applicable visa or entry procedures and submit any required supporting documents.",
+        },
+
+        {
+          title: "Residence Formalities",
+
+          description:
+            "Complete the relevant residence permit or registration requirements under the applicable immigration pathway.",
         },
 
         {
           title: "Travel Preparation",
 
-          description: "Final relocation steps are completed.",
+          description:
+            "Prepare relocation arrangements after the necessary approvals have been obtained.",
         },
       ],
+
+      /*
+            |--------------------------------------------------------------------------
+            | PRICING
+            |--------------------------------------------------------------------------
+            */
 
       pricing: {
         total: "₦8,000,000",
@@ -219,17 +286,19 @@ const hungary = {
         currency: "NGN",
 
         includes: [
-          "Work Permit Processing",
-
-          "Employment Placement",
-
-          "Visa Processing Support",
-
+          "Work Authorization Processing Support",
+          "Employment Placement Assistance",
+          "Visa Application Support",
           "Job Matching",
-
-          "Documentation",
+          "Documentation Assistance",
         ],
       },
+
+      /*
+            |--------------------------------------------------------------------------
+            | PAYMENT PLAN
+            |--------------------------------------------------------------------------
+            */
 
       paymentPlan: [
         {
@@ -251,16 +320,21 @@ const hungary = {
         },
       ],
 
+      /*
+            |--------------------------------------------------------------------------
+            | TERMS AND CONDITIONS
+            |--------------------------------------------------------------------------
+            */
+
       terms: [
         "Applicants must provide genuine documents for verification.",
-
-        "Processing begins after agreement signing and document screening.",
-
-        "Placements depend on employer availability and embassy approval.",
-
-        "Limited slots available.",
-
-        "Applications are processed first-come, first-served.",
+        "Processing begins after agreement signing and the required document screening.",
+        "Employment placement depends on employer availability and successful recruitment.",
+        "Accommodation arrangements are subject to the employer's written agreement.",
+        "Employment conditions must be confirmed in the signed employment contract.",
+        "Work authorization and visa decisions are made by the relevant authorities.",
+        "Processing times are estimates and are not guaranteed.",
+        "Payment milestones and the services included must be documented in the signed agreement.",
       ],
     },
   ],

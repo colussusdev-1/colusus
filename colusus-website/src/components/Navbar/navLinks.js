@@ -33,6 +33,10 @@ const navLinks = [
       },
     ],
   },
+  {
+    name: "Pathways",
+    path: "/pathways",
+  },
 
   {
     name: "Blog",

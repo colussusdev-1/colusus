@@ -6,6 +6,7 @@ import { allowRoles } from "../../../middleware/role.middleware.js";
 import {
   initializePayment,
   verifyPayment,
+  verifyConsultationPayment,
   paystackWebhook,
   getPaymentByReference,
   getMyPayments,
@@ -16,12 +17,13 @@ const router = Router();
 /* -------------------------------------------------------------------------- */
 /* PAYMENT INITIALIZATION                                                     */
 /* -------------------------------------------------------------------------- */
-/*
- * Customers need to initialize their own invoice payments.
- *
- * ADMIN is also allowed for administrative/payment recovery workflows.
- */
 
+/**
+ * Initialize payments for authenticated clients and administrators.
+ *
+ * Consultation payments that must be initiated by unauthenticated visitors
+ * will need a separate, restricted public initialization endpoint.
+ */
 router.post(
   "/initialize",
   authenticate,
@@ -30,12 +32,14 @@ router.post(
 );
 
 /* -------------------------------------------------------------------------- */
-/* PAYMENT VERIFICATION                                                       */
+/* AUTHENTICATED PAYMENT VERIFICATION                                         */
 /* -------------------------------------------------------------------------- */
-/*
- * Verification is available to authenticated customers and administrators.
- */
 
+/**
+ * Verify ordinary payments.
+ *
+ * Authentication and role restrictions remain in place.
+ */
 router.get(
   "/verify/:reference",
   authenticate,
@@ -44,43 +48,52 @@ router.get(
 );
 
 /* -------------------------------------------------------------------------- */
+/* PUBLIC CONSULTATION PAYMENT VERIFICATION                                   */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Verify consultation payments after returning from Paystack.
+ *
+ * This endpoint does not require authentication.
+ * The controller and service must validate the consultation invoice,
+ * verify the transaction with Paystack, and return limited confirmation data.
+ *
+ * Do not expose general payment records through this endpoint.
+ */
+router.get("/verify-consultation/:reference", verifyConsultationPayment);
+
+/* -------------------------------------------------------------------------- */
 /* PAYSTACK WEBHOOK                                                           */
 /* -------------------------------------------------------------------------- */
-/*
- * DO NOT add authenticate here.
- *
+
+/**
  * Paystack calls this endpoint directly.
  *
- * Authenticity is established through the Paystack HMAC signature
- * inside payment.controller.js.
+ * Do not add application authentication.
+ * The controller validates the Paystack HMAC signature.
  *
- * app.js also ensures this route receives the raw request body.
+ * Ensure app.js mounts the webhook with express.raw() before express.json().
  */
-
 router.post("/webhook", paystackWebhook);
 
 /* -------------------------------------------------------------------------- */
 /* GET MY PAYMENTS                                                            */
 /* -------------------------------------------------------------------------- */
-/*
- * CLIENT:
- * Returns only payments belonging to the authenticated client.
- *
- * ADMIN:
- * Can also access this endpoint through the service authorization logic.
- *
- * The frontend does not provide customerId.
- */
 
+/**
+ * Retrieve payment history for the authenticated client or administrator.
+ */
 router.get("/my", authenticate, allowRoles("CLIENT", "ADMIN"), getMyPayments);
 
 /* -------------------------------------------------------------------------- */
-/* GET PAYMENT                                                                */
+/* GET PAYMENT BY REFERENCE                                                   */
 /* -------------------------------------------------------------------------- */
-/*
- * Payment records are financial records and should not be publicly readable.
- */
 
+/**
+ * Retrieve an individual payment.
+ *
+ * This route remains protected.
+ */
 router.get(
   "/:reference",
   authenticate,

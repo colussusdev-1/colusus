@@ -1,4 +1,4 @@
-import { getOpportunityPool } from "./opportunityPool";
+import { loadOpportunityPool, getOpportunityPool } from "./opportunityPool";
 
 import { resolveNextQuestion } from "./questionResolver";
 
@@ -6,91 +6,113 @@ import { evaluateEligibility } from "./eligibility";
 
 import { matchOpportunities } from "./matcher";
 
-/*
-|--------------------------------------------------------------------------
-| CREATE ASSESSMENT
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* CREATE ASSESSMENT                                                          */
+/* -------------------------------------------------------------------------- */
 
 export const createAssessment = () => {
-  const opportunities = getOpportunityPool();
+  let opportunities = getOpportunityPool();
 
   const state = {
     answers: {},
-
     currentQuestion: null,
-
     completed: false,
-
     results: [],
+    loading: false,
+    error: null,
   };
 
-  /*
-  |--------------------------------------------------------------------------
-  | STATE
-  |--------------------------------------------------------------------------
-  */
+  /* ------------------------------------------------------------------------ */
+  /* STATE                                                                    */
+  /* ------------------------------------------------------------------------ */
 
-  const getState = () => {
-    return {
-      answers: {
-        ...state.answers,
-      },
+  const getState = () => ({
+    answers: {
+      ...state.answers,
+    },
 
-      currentQuestion: state.currentQuestion,
+    currentQuestion: state.currentQuestion,
 
-      completed: state.completed,
+    completed: state.completed,
 
-      results: [...state.results],
-    };
-  };
+    results: [...state.results],
 
-  /*
-  |--------------------------------------------------------------------------
-  | START
-  |--------------------------------------------------------------------------
-  */
+    loading: state.loading,
 
-  const start = () => {
+    error: state.error,
+  });
+
+  /* ------------------------------------------------------------------------ */
+  /* START                                                                    */
+  /* ------------------------------------------------------------------------ */
+
+  const start = async () => {
     state.answers = {};
-
+    state.currentQuestion = null;
     state.completed = false;
-
     state.results = [];
+    state.loading = true;
+    state.error = null;
 
-    state.currentQuestion = resolveNextQuestion(state.answers, opportunities);
+    try {
+      /*
+       * Load the current opportunities from the public API.
+       */
+      opportunities = await loadOpportunityPool();
 
-    return getState();
+      if (!Array.isArray(opportunities) || opportunities.length === 0) {
+        throw new Error(
+          "No opportunities are currently available. Please try again later.",
+        );
+      }
+
+      state.currentQuestion = resolveNextQuestion(state.answers, opportunities);
+
+      if (!state.currentQuestion) {
+        throw new Error("The assessment questions could not be initialized.");
+      }
+
+      return getState();
+    } catch (error) {
+      state.error =
+        error?.message ||
+        "Unable to load current opportunities. Please try again.";
+
+      state.currentQuestion = null;
+
+      throw error;
+    } finally {
+      state.loading = false;
+    }
   };
 
-  /*
-  |--------------------------------------------------------------------------
-  | ANSWER
-  |--------------------------------------------------------------------------
-  */
+  /* ------------------------------------------------------------------------ */
+  /* ANSWER                                                                   */
+  /* ------------------------------------------------------------------------ */
 
   const answer = (questionId, value) => {
-    if (!questionId) {
+    if (
+      !questionId ||
+      state.loading ||
+      state.completed ||
+      !opportunities.length
+    ) {
       return getState();
     }
 
     state.answers = {
       ...state.answers,
-
       [questionId]: value,
     };
 
     const nextQuestion = resolveNextQuestion(state.answers, opportunities);
 
-    /*
-    |--------------------------------------------------------------------------
-    | COMPLETE
-    |--------------------------------------------------------------------------
-    */
+    /* ---------------------------------------------------------------------- */
+    /* COMPLETE                                                               */
+    /* ---------------------------------------------------------------------- */
 
     if (!nextQuestion) {
       state.completed = true;
-
       state.currentQuestion = null;
 
       const eligibility = evaluateEligibility(state.answers, opportunities);
@@ -104,55 +126,47 @@ export const createAssessment = () => {
       return getState();
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | NEXT QUESTION
-    |--------------------------------------------------------------------------
-    */
+    /* ---------------------------------------------------------------------- */
+    /* NEXT QUESTION                                                          */
+    /* ---------------------------------------------------------------------- */
 
     state.currentQuestion = nextQuestion;
 
     return getState();
   };
 
-  /*
-  |--------------------------------------------------------------------------
-  | RESET
-  |--------------------------------------------------------------------------
-  */
+  /* ------------------------------------------------------------------------ */
+  /* RESET                                                                    */
+  /* ------------------------------------------------------------------------ */
 
-  const reset = () => {
+  const reset = async () => {
     return start();
   };
 
-  /*
-  |--------------------------------------------------------------------------
-  | GET RESULTS
-  |--------------------------------------------------------------------------
-  */
+  /* ------------------------------------------------------------------------ */
+  /* GET RESULTS                                                              */
+  /* ------------------------------------------------------------------------ */
 
   const getResults = () => {
     return [...state.results];
   };
 
+  /* ------------------------------------------------------------------------ */
+  /* PUBLIC API                                                               */
+  /* ------------------------------------------------------------------------ */
+
   return {
     start,
-
     answer,
-
     reset,
-
     getState,
-
     getResults,
   };
 };
 
-/*
-|--------------------------------------------------------------------------
-| DEFAULT EXPORT
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* DEFAULT EXPORT                                                             */
+/* -------------------------------------------------------------------------- */
 
 export default {
   createAssessment,

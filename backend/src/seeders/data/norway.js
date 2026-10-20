@@ -1,16 +1,30 @@
-// import norwayImage from "../../../../../assets/images/countries/norway.jpg";
-// import norwaySeafoodImage from "../../../../../assets/images/opportunities/norway-seafood.jpg";
+/*
+|--------------------------------------------------------------------------
+| NORWAY — COUNTRY AND OPPORTUNITY DATA
+|--------------------------------------------------------------------------
+|
+| Source of truth for Norway's catalogue metadata and offers.
+|
+| Rules:
+| - Every country has a unique numeric ID.
+| - Country identity belongs to this country definition.
+| - Offer slugs are country-specific.
+| - Offer IDs are local identifiers, not MongoDB ObjectIds.
+|
+*/
 
 const norway = {
-  id: 8,
+  // COUNTRY IDENTITY
+
+  id: 11,
 
   name: "Norway",
-
   shortName: "Norway",
-
   slug: "norway",
 
   flag: "🇳🇴",
+
+  // COUNTRY PRESENTATION
 
   image: "",
 
@@ -19,27 +33,29 @@ const norway = {
   category: ["premium", "work", "residency"],
 
   visa: "Work Permit + Residence Permit Support",
-
   duration: "Employer & Immigration Processing",
-
   processingTime: "Standard",
 
   opportunityScore: "94%",
-
   successRate: "High",
-
   featured: true,
 
   description:
-    "Relocate to Norway through employment opportunities with employer-supported accommodation, work permit processing and residence permit support.",
+    "Explore employment opportunities in Norway with employer-supported recruitment, work authorization assistance, accommodation arrangements and relocation guidance, subject to employer terms and applicable immigration requirements.",
+
+  // OPPORTUNITIES
 
   opportunities: [
     {
+      // OFFER IDENTITY
+
       id: 1,
 
       title: "Norway Work Permit Migration Package",
 
-      slug: "norway-work-permit-package",
+      slug: "norway-work-permit-migration-package",
+
+      // PRESENTATION
 
       image: "",
 
@@ -58,39 +74,33 @@ const norway = {
       demand: "High",
 
       description:
-        "Move to Norway with a verified job offer, work permit support, employer accommodation and employment benefits through seafood production opportunities.",
+        "Explore seafood production employment opportunities in Norway with recruitment assistance, work authorization support, accommodation arrangements and relocation guidance. Employment terms, salary and immigration outcomes depend on the employer, applicant eligibility and the applicable requirements.",
+
+      // HIGHLIGHTS
 
       highlights: [
-        "Job Offer",
-
-        "Work Permit",
-
-        "Residence Permit Support",
-
-        "Employer Accommodation",
-
-        "Flight Arrangement Support",
+        "Employment Offer Support",
+        "Work Authorization Processing Support",
+        "Residence Permit Guidance",
+        "Employer Accommodation, Subject to Agreement",
+        "Flight Arrangement Assistance",
       ],
+
+      // BENEFITS
 
       benefits: [
-        "Job Offer",
-
-        "Work Permit",
-
-        "Residence Permit Support",
-
-        "Employer-Provided Accommodation",
-
-        "Flight Arrangement Support",
-
-        "Meals During Working Hours",
-
-        "Local Transportation Support",
-
-        "Work Clothes Support",
-
-        "Overtime According To Norwegian Labour Regulations",
+        "Employment Placement Assistance",
+        "Work Authorization Processing Support",
+        "Residence Permit Guidance",
+        "Employer-Provided Accommodation, Subject to Agreement",
+        "Flight Arrangement Assistance",
+        "Meals During Working Hours, Subject to Employer Agreement",
+        "Local Transportation Support, Subject to Employer Agreement",
+        "Work Clothes Support, Subject to Employer Agreement",
+        "Overtime According to Applicable Norwegian Labour Rules and Employment Terms",
       ],
+
+      // AVAILABLE POSITIONS
 
       positions: [
         {
@@ -98,94 +108,95 @@ const norway = {
 
           roles: [
             "Seafood Production Line Worker",
-
             "Fish Processing Worker",
-
             "Packaging Worker",
-
             "Quality Control Assistant",
           ],
 
           description:
-            "Work in seafood processing facilities handling production, packaging and quality control processes.",
+            "Work in seafood processing facilities supporting production, packaging and quality control activities.",
         },
       ],
 
+      // WORK CONDITIONS
+
       workConditions: [
-        "Working Hours: 120–160 Hours Per Month",
-
-        "Probation Period: 3 Months",
-
-        "Accommodation Provided By Employer",
-
-        "Meals Provided During Working Hours",
-
-        "Overtime Available",
+        "Working Hours: 120–160 Hours Per Month, Subject to the Employment Contract",
+        "Probation Period: 3 Months, Where Agreed and Permitted",
+        "Accommodation: Subject to Employer Agreement",
+        "Meals During Working Hours: Subject to Employer Agreement",
+        "Overtime: Subject to Applicable Labour Rules and Employment Terms",
       ],
+
+      // REQUIREMENTS
 
       requirements: [
         "Updated CV / Resume",
-
         "Passport Photograph",
-
-        "International Passport Data Page (Minimum 1 Year Validity)",
-
-        "Proof Of Funds (If Required)",
-
+        "Valid International Passport",
+        "Proof of Funds, Where Required",
         "Valid Supporting Documents",
+        "Ability to meet the requirements of the selected position",
+        "Eligibility for the applicable employment and immigration pathway",
       ],
+
+      // PUBLIC DOCUMENT LIST
 
       documents: [
-        "International Passport",
-
+        "Valid International Passport",
         "CV / Resume",
-
         "Passport Photograph",
+        "Employment Offer or Contract, Where Available",
+        "Additional Documents Required by the Employer or Relevant Authorities",
       ],
+
+      // MIGRATION JOURNEY
 
       steps: [
         {
           title: "Document Submission",
 
           description:
-            "Submit required documents for eligibility screening and profile assessment.",
+            "Submit the required documents for initial eligibility screening and profile assessment.",
         },
 
         {
           title: "Migration Agreement",
 
           description:
-            "Successful applicants sign the official Migration Service Agreement before processing begins.",
+            "Review and sign the Migration Service Agreement, including the scope of services, fees and payment milestones.",
         },
 
         {
           title: "Employer Matching",
 
           description:
-            "Applicant profile is matched with suitable Norwegian employers.",
+            "Assess the applicant's profile against available Norwegian employment opportunities.",
         },
 
         {
-          title: "Job Offer & Work Permit",
+          title: "Job Offer & Work Authorization",
 
           description:
-            "Receive job offer, employment contract, accommodation details and approved work permit.",
+            "Review the employment offer and contract, then prepare the applicable work authorization documentation.",
         },
 
         {
-          title: "Visa Application",
+          title: "Visa and Residence Procedures",
 
           description:
-            "Applicant proceeds for embassy submission, biometrics and visa processing.",
+            "Complete the applicable visa, residence permit and consular procedures.",
         },
 
         {
           title: "Travel Preparation",
 
           description:
-            "After visa approval, final travel arrangements are completed.",
+            "Prepare travel and relocation arrangements after the necessary approvals have been obtained.",
         },
       ],
+
+      // PRICING
 
       pricing: {
         total: "₦10,000,000",
@@ -193,17 +204,15 @@ const norway = {
         currency: "NGN",
 
         includes: [
-          "Job Placement",
-
-          "Work Permit Processing",
-
+          "Job Placement Assistance",
+          "Work Authorization Processing Support",
           "Residence Permit Support",
-
-          "Visa Support",
-
+          "Visa Application Support",
           "Relocation Assistance",
         ],
       },
+
+      // PAYMENT PLAN
 
       paymentPlan: [
         {
@@ -214,7 +223,7 @@ const norway = {
 
         {
           stage:
-            "After Job Offer, Employment Contract, Accommodation Details & Approved Work Permit",
+            "After Job Offer, Employment Contract, Accommodation Details & Work Authorization Milestone",
 
           amount: "₦3,000,000",
         },
@@ -226,16 +235,17 @@ const norway = {
         },
       ],
 
+      // TERMS AND CONDITIONS
+
       terms: [
-        "Applicants must meet eligibility requirements and provide valid documents.",
-
-        "Processing begins after agreement signing and document verification.",
-
-        "Employment placement depends on employer availability and immigration approval.",
-
-        "Accommodation benefits depend on employer agreement.",
-
-        "Limited slots available.",
+        "Applicants must meet the applicable eligibility requirements and provide genuine documents.",
+        "Processing begins after agreement signing and the required document verification.",
+        "Employment placement depends on employer availability and successful recruitment.",
+        "Accommodation and other employment benefits are subject to the employer's written agreement.",
+        "Salary, currency, working hours and other employment conditions must be confirmed in the employment contract.",
+        "Work authorization and visa decisions are made by the relevant authorities.",
+        "Processing times are estimates and are not guaranteed.",
+        "Payment milestones and included services must be documented in the signed agreement.",
       ],
     },
   ],

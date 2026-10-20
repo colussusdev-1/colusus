@@ -1,13 +1,39 @@
+/*
+|--------------------------------------------------------------------------
+| IRELAND — COUNTRY AND OPPORTUNITY DATA
+|--------------------------------------------------------------------------
+|
+| Source of truth for Ireland's catalogue metadata and offers.
+|
+| Rules:
+| - Every country has a unique numeric ID.
+| - Country identity belongs to this country definition.
+| - Offer slugs are country-specific.
+| - Offer IDs are local identifiers, not MongoDB ObjectIds.
+| - Country metadata is not duplicated inside individual offers.
+|
+*/
+
 const ireland = {
-  id: 10,
+  /*
+    |--------------------------------------------------------------------------
+    | COUNTRY IDENTITY
+    |--------------------------------------------------------------------------
+    */
+
+  id: 8,
 
   name: "Ireland",
-
   shortName: "Ireland",
-
   slug: "ireland",
 
   flag: "🇮🇪",
+
+  /*
+    |--------------------------------------------------------------------------
+    | COUNTRY PRESENTATION
+    |--------------------------------------------------------------------------
+    */
 
   image: "",
 
@@ -16,27 +42,41 @@ const ireland = {
   category: ["popular", "work"],
 
   visa: "Work Permit + Employment Pathway",
-
   duration: "4–6 Months",
-
   processingTime: "Standard",
 
   opportunityScore: "90%",
-
   successRate: "High",
-
   featured: true,
 
   description:
-    "Explore a structured pathway for qualified nurses and eligible healthcare professionals seeking employment opportunities and migration support in Ireland.",
+    "Explore employment and migration support for qualified nurses and eligible healthcare professionals seeking opportunities in Ireland, including qualification recognition, professional registration, employment assistance and immigration guidance.",
+
+  /*
+    |--------------------------------------------------------------------------
+    | OPPORTUNITIES
+    |--------------------------------------------------------------------------
+    */
 
   opportunities: [
     {
+      /*
+            |--------------------------------------------------------------------------
+            | OFFER IDENTITY
+            |--------------------------------------------------------------------------
+            */
+
       id: 1,
 
       title: "Ireland Nursing & Healthcare Migration",
 
-      slug: "ireland-nursing-healthcare",
+      slug: "ireland-nursing-healthcare-migration",
+
+      /*
+            |--------------------------------------------------------------------------
+            | PRESENTATION
+            |--------------------------------------------------------------------------
+            */
 
       image: "",
 
@@ -50,34 +90,39 @@ const ireland = {
 
       duration: "4–6 Months",
 
+      /*
+            |--------------------------------------------------------------------------
+            | EMPLOYMENT INFORMATION
+            |--------------------------------------------------------------------------
+            */
+
       salary: "€37,000 - €98,000/year",
 
       demand: "High",
 
       description:
-        "A structured pathway for qualified nurses and eligible healthcare professionals covering qualification recognition, professional registration, employment support, work visa processing and relocation guidance.",
+        "A structured support pathway for qualified nurses and eligible healthcare professionals covering qualification recognition, professional registration, employment assistance, work authorization guidance and relocation preparation. Eligibility and outcomes depend on professional requirements, employer selection and applicable immigration rules.",
+
+      /*
+            |--------------------------------------------------------------------------
+            | HIGHLIGHTS
+            |--------------------------------------------------------------------------
+            */
 
       highlights: [
         "Qualification Recognition Support",
-        "Professional Registration Support",
-        "Job Placement Support",
-        "Work Visa Processing Support",
-        "Employer Accommodation",
-        "Family Migration Options",
+        "Professional Registration Guidance",
+        "Job Placement Assistance",
+        "Work Visa Application Support",
+        "Employer Accommodation Arrangements, Subject to Agreement",
+        "Family Immigration Guidance, Subject to Eligibility",
       ],
 
-      benefits: [
-        "Qualification Recognition Support",
-        "Professional Registration Support",
-        "Job Placement with an Employer",
-        "Adaptation or Full-Time Employment Pathway",
-        "Work Visa Application Support",
-        "Visa Fee Support",
-        "Candidate Interview Preparation",
-        "IELTS / OET Preparation Guidance",
-        "Employer Accommodation Arrangement",
-        "Family Package Options",
-      ],
+      /*
+            |--------------------------------------------------------------------------
+            | AVAILABLE POSITIONS
+            |--------------------------------------------------------------------------
+            */
 
       positions: [
         {
@@ -96,106 +141,130 @@ const ireland = {
         },
       ],
 
+      /*
+            |--------------------------------------------------------------------------
+            | BENEFITS
+            |--------------------------------------------------------------------------
+            */
+
+      benefits: [
+        "Qualification Recognition Support",
+        "Professional Registration Guidance",
+        "Employment Placement Assistance",
+        "Adaptation or Full-Time Employment Pathway, Where Applicable",
+        "Work Visa Application Support",
+        "Visa Fee Support, Subject to Package Terms",
+        "Candidate Interview Preparation",
+        "IELTS / OET Preparation Guidance",
+        "Employer Accommodation Arrangements, Subject to Agreement",
+        "Family Package Options",
+      ],
+
+      /*
+            |--------------------------------------------------------------------------
+            | REQUIREMENTS
+            |--------------------------------------------------------------------------
+            */
+
       requirements: [
         "Qualified nurse or eligible healthcare professional",
-
-        "Current nursing licence from NMCN",
-
-        "Certificate of Current Professional Status (CCPS) / Certificate of Good Standing",
-
-        "IELTS Academic or Occupational English Test (OET)",
-
+        "Current nursing licence from NMCN, where applicable",
+        "Certificate of Current Professional Status (CCPS) or Certificate of Good Standing, where required",
+        "IELTS Academic or Occupational English Test (OET), where required",
         "Relevant nursing education and clinical placement records",
-
-        "Evidence of professional nursing experience",
-
-        "Valid international passport",
+        "Evidence of professional nursing experience, where required",
+        "Valid International Passport",
+        "Compliance with the applicable professional registration and immigration requirements",
       ],
+
+      /*
+            |--------------------------------------------------------------------------
+            | PUBLIC DOCUMENT LIST
+            |--------------------------------------------------------------------------
+            */
 
       documents: [
         "Updated CV / Resume",
-
         "Passport Photograph",
-
-        "Passport Data Page",
-
-        "IELTS Academic or OET",
-
+        "International Passport Data Page",
+        "IELTS Academic or OET Results, where required",
         "Academic Transcripts",
-
-        "Detailed Curriculum / Syllabus",
-
-        "Clinical Placement Records / Hours",
-
-        "Current NMCN Nursing Licence",
-
-        "Certificate of Current Professional Status (CCPS) / Certificate of Good Standing",
-
-        "Registration History Where Applicable",
-
+        "Detailed Curriculum / Syllabus, where required",
+        "Clinical Placement Records / Hours, where required",
+        "Current NMCN Nursing Licence, where applicable",
+        "Certificate of Current Professional Status (CCPS) or Certificate of Good Standing, where required",
+        "Registration History, where applicable",
         "Employment Reference Letters",
-
         "Evidence of Nursing Work Experience",
-
-        "Employer Verification Documents",
-
+        "Employer Verification Documents, where required",
         "Certified Copies of Required Documents",
-
-        "Postgraduate Qualifications Where Applicable",
-
-        "Specialist Certificates Where Applicable",
+        "Postgraduate Qualifications, where applicable",
+        "Specialist Certificates, where applicable",
+        "Additional documents requested by the relevant registration body, employer or authorities",
       ],
+
+      /*
+            |--------------------------------------------------------------------------
+            | MIGRATION JOURNEY
+            |--------------------------------------------------------------------------
+            */
 
       steps: [
         {
           title: "Document Submission",
 
           description:
-            "Submit the documents currently available for initial review. Outstanding documents can be arranged as the process progresses.",
+            "Submit the documents currently available for initial review. Outstanding documents can be identified and arranged according to the requirements of each stage.",
         },
 
         {
           title: "Service Level Agreement",
 
           description:
-            "Colossus Migration & Tours and the candidate formalise the engagement through a Service Level Agreement.",
+            "Review and formalize the engagement through a Service Level Agreement that defines the services, fees, payment milestones and applicable terms.",
         },
 
         {
           title: "Initial Mobilisation",
 
           description:
-            "Make the initial mobilisation payment to begin the registration and processing stage.",
+            "Complete the agreed initial mobilisation payment before the contracted registration and processing services begin.",
         },
 
         {
           title: "Qualification Recognition & Registration",
 
           description:
-            "Proceed with qualification recognition and the applicable professional registration process.",
+            "Prepare the documents required for qualification recognition and proceed with the applicable professional registration process.",
         },
 
         {
           title: "Employment Placement",
 
           description:
-            "Receive support with job placement for adaptation or full-time employment with an employer in Ireland.",
+            "Receive assistance identifying suitable employment opportunities, subject to employer requirements and successful selection.",
         },
 
         {
           title: "Work Visa & Immigration Processing",
 
           description:
-            "Proceed with work visa application processing and the required employment and immigration documentation.",
+            "Prepare and submit the applicable employment permit or immigration applications and supporting documents.",
         },
 
         {
           title: "Relocation Preparation",
 
           description:
-            "Complete the final documentation and relocation arrangements required to proceed to Ireland.",
+            "Complete outstanding documentation and prepare relocation arrangements after the necessary approvals have been obtained.",
         },
       ],
+
+      /*
+            |--------------------------------------------------------------------------
+            | PRICING
+            |--------------------------------------------------------------------------
+            */
 
       pricing: {
         total: "₦15,000,000",
@@ -204,13 +273,19 @@ const ireland = {
 
         includes: [
           "Qualification Recognition and Registration Service",
-          "Applicable NMBI Fees",
+          "Applicable NMBI Fees, as specified in the agreement",
           "Job Placement Service",
-          "Employment / Adaptation Pathway",
+          "Employment / Adaptation Pathway Support",
           "Work Visa Application Service",
-          "Applicable Visa Fees",
+          "Applicable Visa Fees, as specified in the agreement",
         ],
       },
+
+      /*
+            |--------------------------------------------------------------------------
+            | PAYMENT PLAN
+            |--------------------------------------------------------------------------
+            */
 
       paymentPlan: [
         {
@@ -239,30 +314,37 @@ const ireland = {
         },
       ],
 
+      /*
+            |--------------------------------------------------------------------------
+            | FAMILY PACKAGE
+            |--------------------------------------------------------------------------
+            */
+
       familyPackage: {
         spouse: "+₦3,000,000",
 
         child: "+₦1,000,000 per child",
       },
 
+      /*
+            |--------------------------------------------------------------------------
+            | TERMS AND CONDITIONS
+            |--------------------------------------------------------------------------
+            */
+
       terms: [
         "Candidates must satisfy the applicable professional registration, employment and immigration requirements.",
-
-        "Candidates can begin by submitting the documents currently available to them.",
-
-        "Outstanding documents may be arranged during the application process, subject to the requirements of each stage.",
-
-        "Processing begins after the Service Level Agreement is completed and the initial mobilisation payment is made.",
-
-        "Employment placement is subject to employer availability and approval.",
-
-        "Accommodation is to be arranged by the employer according to the offer.",
-
-        "Actual processing timelines may vary depending on registration, employment, documentation and immigration processing.",
-
-        "Colossus Migration & Tours provides guidance with required documentation, language or occupational tests and interview preparation.",
-
-        "Family applications are available at additional package costs.",
+        "Candidates may begin by submitting the documents currently available to them, subject to the requirements of the relevant stage.",
+        "Outstanding documents may be arranged during the application process where permitted by the applicable requirements.",
+        "Processing begins after the Service Level Agreement is completed and the agreed initial mobilisation payment is made.",
+        "Employment placement depends on employer availability, candidate suitability and successful recruitment.",
+        "Accommodation arrangements are subject to the employer's offer and written agreement.",
+        "Processing timelines may vary depending on professional registration, documentation, employment and immigration procedures.",
+        "Colossus Migration & Tours provides the documentation and preparation services expressly included in the signed agreement.",
+        "Language tests, professional assessments and third-party charges must be confirmed in the package terms.",
+        "Family applications are subject to individual eligibility and the agreed additional package costs.",
+        "Professional registration, employment permit and immigration decisions are made by the relevant bodies and authorities.",
+        "Payment milestones and the specific services included must be documented in the signed agreement.",
       ],
     },
   ],

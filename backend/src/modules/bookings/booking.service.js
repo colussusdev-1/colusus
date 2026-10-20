@@ -3,80 +3,260 @@ import couponService from "../coupons/coupon.service.js";
 import invoiceService from "../finance/invoices/invoice.service.js";
 import config from "../../config/environment.js";
 
-/*
-|--------------------------------------------------------------------------
-| CREATE BOOKING
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* CONSTANTS                                                                  */
+/* -------------------------------------------------------------------------- */
 
-const createBooking = async (bookingData) => {
-  /*
-  |--------------------------------------------------------------------------
-  | Calculate Booking Pricing
-  |--------------------------------------------------------------------------
-  |
-  | Pricing is calculated entirely on the server.
-  |
-  */
+const PAYMENT_REQUIRED_INVOICE_STATUSES = [
+  "ISSUED",
+  "PARTIALLY_PAID",
+  "OVERDUE",
+];
 
-  const pricing = await reviewBooking(bookingData);
+/* -------------------------------------------------------------------------- */
+/* NORMALIZE FORM SUBMISSION ID                                                */
+/* -------------------------------------------------------------------------- */
 
-  /*
-  |--------------------------------------------------------------------------
-  | Create Booking
-  |--------------------------------------------------------------------------
-  */
+const normalizeFormSubmissionId = (value) => {
+  if (value === undefined || value === null || value === "") {
+    return null;
+  }
+
+  const normalized = String(value).trim();
+
+  if (!/^[a-f\d]{24}$/i.test(normalized)) {
+    throw new Error("Invalid consultation form submission ID.");
+  }
+
+  return normalized;
+};
+
+/* -------------------------------------------------------------------------- */
+/* REVIEW BOOKING                                                             */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Calculate consultation pricing on the server.
+ *
+ * The frontend cannot determine the authoritative consultation fee,
+ * discount, or final amount payable.
+ */
+const reviewBooking = async (bookingData = {}) => {
+  const consultationFee = Number(config.consultationFee);
+
+  if (!Number.isFinite(consultationFee) || consultationFee < 0) {
+    throw new Error("Invalid consultation fee configuration.");
+  }
+
+  let discount = 0;
+  let amountPayable = consultationFee;
+  let couponApplied = false;
+  let coupon = null;
+
+  /* ------------------------------------------------------------------------ */
+  /* VALIDATE COUPON                                                          */
+  /* ------------------------------------------------------------------------ */
+
+  if (bookingData.couponCode) {
+    const result = await couponService.validateCoupon(
+      String(bookingData.couponCode).trim().toUpperCase(),
+    );
+
+    if (result.valid && result.coupon) {
+      const validatedCoupon = result.coupon;
+
+      const discountValue = Number(validatedCoupon.discountValue) || 0;
+
+      switch (validatedCoupon.discountType) {
+        case "FULL": {
+          couponApplied = true;
+          coupon = validatedCoupon.code;
+          discount = consultationFee;
+          amountPayable = 0;
+          break;
+        }
+
+        case "FIXED": {
+          couponApplied = true;
+          coupon = validatedCoupon.code;
+
+          discount = Math.min(Math.max(discountValue, 0), consultationFee);
+
+          amountPayable = consultationFee - discount;
+
+          break;
+        }
+
+        case "PERCENTAGE": {
+          const percentage = Math.min(Math.max(discountValue, 0), 100);
+
+          couponApplied = true;
+          coupon = validatedCoupon.code;
+
+          discount = Math.round((consultationFee * percentage) / 100);
+
+          amountPayable = consultationFee - discount;
+
+          break;
+        }
+
+        default: {
+          couponApplied = false;
+          coupon = null;
+          discount = 0;
+          amountPayable = consultationFee;
+          break;
+        }
+      }
+    }
+  }
+
+  /* ------------------------------------------------------------------------ */
+  /* NORMALIZE AMOUNTS                                                        */
+  /* ------------------------------------------------------------------------ */
+
+  discount = Math.max(Number(discount) || 0, 0);
+
+  amountPayable = Math.max(Number(amountPayable) || 0, 0);
+
+  const paymentRequired = amountPayable > 0;
+
+  const paymentStatus = paymentRequired ? "UNPAID" : "WAIVED";
+
+  const bookingStatus = paymentRequired ? "AWAITING_PAYMENT" : "CONFIRMED";
+
+  const pricing = {
+    consultationFee,
+    discount,
+    amountPayable,
+    paymentRequired,
+    couponApplied,
+    coupon,
+    paymentStatus,
+    bookingStatus,
+  };
+
+  console.log("BOOKING PRICING:", pricing);
+
+  return pricing;
+};
+
+/* -------------------------------------------------------------------------- */
+/* CREATE BOOKING                                                             */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Create a consultation booking and its invoice.
+ *
+ * Flow:
+ *
+ * 1. Calculate pricing on the server.
+ * 2. Create the booking.
+ * 3. If payment is required, create and issue an invoice.
+ * 4. Link the invoice to the booking.
+ * 5. Return the booking and invoice.
+ *
+ * formSubmissionId optionally links the booking to the previously saved
+ * website consultation submission.
+ */
+const createBooking = async (bookingData = {}) => {
+  /* ------------------------------------------------------------------------ */
+  /* VALIDATE REQUIRED INFORMATION                                            */
+  /* ------------------------------------------------------------------------ */
+
+  const fullName = String(bookingData.fullName || "").trim();
+  const email = String(bookingData.email || "")
+    .trim()
+    .toLowerCase();
+  const phone = String(bookingData.phone || "").trim();
+
+  if (!fullName) {
+    throw new Error("Full name is required.");
+  }
+
+  if (!email) {
+    throw new Error("Email address is required.");
+  }
+
+  if (!phone) {
+    throw new Error("Phone number is required.");
+  }
+
+  if (!bookingData.travelPackage) {
+    throw new Error("Travel package is required.");
+  }
+
+  if (!bookingData.consultationDate) {
+    throw new Error("Consultation date is required.");
+  }
+
+  if (!bookingData.consultationType) {
+    throw new Error("Consultation type is required.");
+  }
+
+  /* ------------------------------------------------------------------------ */
+  /* NORMALIZE FORM SUBMISSION ID                                             */
+  /* ------------------------------------------------------------------------ */
+
+  const formSubmissionId = normalizeFormSubmissionId(
+    bookingData.formSubmissionId,
+  );
+
+  /* ------------------------------------------------------------------------ */
+  /* CALCULATE AUTHORITATIVE PRICING                                          */
+  /* ------------------------------------------------------------------------ */
+
+  const pricing = await reviewBooking({
+    ...bookingData,
+    fullName,
+    email,
+    phone,
+  });
+
+  /* ------------------------------------------------------------------------ */
+  /* CREATE BOOKING                                                           */
+  /* ------------------------------------------------------------------------ */
 
   const booking = await Booking.create({
-    /*
-    |--------------------------------------------------------------------------
-    | Personal Information
-    |--------------------------------------------------------------------------
-    */
+    /* Consultation form submission linkage */
 
-    fullName: bookingData.fullName,
+    ...(formSubmissionId ? { formSubmissionId } : {}),
 
-    email: bookingData.email,
+    /* Personal information */
 
-    phone: bookingData.phone,
+    fullName,
 
-    age: bookingData.age,
+    email,
 
-    education: bookingData.education,
+    phone,
 
-    maritalStatus: bookingData.maritalStatus,
+    age: bookingData.age ?? null,
 
-    /*
-    |--------------------------------------------------------------------------
-    | Travel Information
-    |--------------------------------------------------------------------------
-    */
+    education: String(bookingData.education || "").trim(),
+
+    maritalStatus: bookingData.maritalStatus || "",
+
+    /* Travel information */
 
     travelPackage: bookingData.travelPackage,
 
-    countries: bookingData.countries || [],
+    countries: Array.isArray(bookingData.countries)
+      ? bookingData.countries
+      : [],
 
-    visaClass: bookingData.visaClass,
+    visaClass: bookingData.visaClass || "",
 
-    intendedTravelDate: bookingData.intendedTravelDate,
+    intendedTravelDate: bookingData.intendedTravelDate || null,
 
-    /*
-    |--------------------------------------------------------------------------
-    | Consultation Information
-    |--------------------------------------------------------------------------
-    */
+    /* Consultation information */
 
     consultationDate: bookingData.consultationDate,
 
     consultationType: bookingData.consultationType,
 
-    message: bookingData.message,
+    message: String(bookingData.message || "").trim(),
 
-    /*
-    |--------------------------------------------------------------------------
-    | Coupon
-    |--------------------------------------------------------------------------
-    */
+    /* Coupon information */
 
     couponCode: pricing.couponApplied ? pricing.coupon : null,
 
@@ -84,11 +264,7 @@ const createBooking = async (bookingData) => {
 
     discountAmount: pricing.discount,
 
-    /*
-    |--------------------------------------------------------------------------
-    | Payment
-    |--------------------------------------------------------------------------
-    */
+    /* Financial information */
 
     consultationFee: pricing.consultationFee,
 
@@ -101,47 +277,30 @@ const createBooking = async (bookingData) => {
     bookingStatus: pricing.bookingStatus,
   });
 
-  /*
-  |--------------------------------------------------------------------------
-  | Fully Discounted Booking
-  |--------------------------------------------------------------------------
-  |
-  | No financial transaction is required when the booking is completely
-  | waived.
-  |
-  */
+  console.log("CONSULTATION BOOKING CREATED:", {
+    bookingId: booking._id.toString(),
+    formSubmissionId: formSubmissionId || null,
+    paymentStatus: booking.paymentStatus,
+    bookingStatus: booking.bookingStatus,
+    amountPayable: booking.amountPayable,
+  });
+
+  /* ------------------------------------------------------------------------ */
+  /* NO PAYMENT REQUIRED                                                      */
+  /* ------------------------------------------------------------------------ */
 
   if (!pricing.paymentRequired) {
     return {
       booking,
       invoice: null,
+      pricing,
+      paymentRequired: false,
     };
   }
 
-  /*
-  |--------------------------------------------------------------------------
-  | CREATE INVOICE
-  |--------------------------------------------------------------------------
-  |
-  | IMPORTANT:
-  |
-  | This is a public booking flow.
-  |
-  | The person making the booking does not necessarily have a User account.
-  |
-  | Therefore:
-  |
-  | customerId = null
-  |
-  | The invoice still keeps:
-  |
-  | - customerName
-  | - customerEmail
-  | - customerPhone
-  |
-  | as immutable transaction snapshots.
-  |
-  */
+  /* ------------------------------------------------------------------------ */
+  /* CREATE INVOICE                                                           */
+  /* ------------------------------------------------------------------------ */
 
   const invoice = await invoiceService.createInvoice({
     invoiceType: "BOOKING",
@@ -151,17 +310,6 @@ const createBooking = async (bookingData) => {
       email: booking.email,
       phone: booking.phone,
     },
-
-    /*
-      |--------------------------------------------------------------------------
-      | Invoice Items
-      |--------------------------------------------------------------------------
-      |
-      | The booking service determines the commercial amount.
-      |
-      | The invoice service calculates the final item total.
-      |
-      */
 
     items: [
       {
@@ -177,22 +325,14 @@ const createBooking = async (bookingData) => {
 
     currency: booking.currency,
 
-    /*
-      |--------------------------------------------------------------------------
-      | Business Context
-      |--------------------------------------------------------------------------
-      |
-      | The invoice knows what business transaction it belongs to,
-      | without owning booking business logic.
-      |
-      */
-
     context: {
       bookingId: booking._id,
 
       consultationDate: booking.consultationDate,
 
       consultationType: booking.consultationType,
+
+      formSubmissionId,
     },
 
     dueDate: null,
@@ -203,274 +343,85 @@ const createBooking = async (bookingData) => {
       bookingId: booking._id.toString(),
 
       paymentType: "BOOKING",
+
+      flow: "CONSULTATION",
+
+      formSubmissionId,
     },
   });
 
-  /*
-  |--------------------------------------------------------------------------
-  | ISSUE INVOICE
-  |--------------------------------------------------------------------------
-  |
-  | Payment initialization must only happen against an issued invoice.
-  |
-  */
+  /* ------------------------------------------------------------------------ */
+  /* ISSUE INVOICE                                                            */
+  /* ------------------------------------------------------------------------ */
 
   const issuedInvoice = await invoiceService.issueInvoice(invoice._id);
 
-  /*
-  |--------------------------------------------------------------------------
-  | LINK INVOICE TO BOOKING
-  |--------------------------------------------------------------------------
-  */
+  if (!issuedInvoice?._id) {
+    throw new Error("Consultation invoice could not be issued.");
+  }
+
+  if (!PAYMENT_REQUIRED_INVOICE_STATUSES.includes(issuedInvoice.status)) {
+    throw new Error(
+      `Consultation invoice cannot receive payment from ${issuedInvoice.status} status.`,
+    );
+  }
+
+  /* ------------------------------------------------------------------------ */
+  /* LINK INVOICE TO BOOKING                                                  */
+  /* ------------------------------------------------------------------------ */
 
   booking.invoice = issuedInvoice._id;
 
   await booking.save();
 
-  /*
-  |--------------------------------------------------------------------------
-  | RETURN
-  |--------------------------------------------------------------------------
-  */
+  /* ------------------------------------------------------------------------ */
+  /* RETURN                                                                   */
+  /* ------------------------------------------------------------------------ */
 
   return {
     booking,
     invoice: issuedInvoice,
+    pricing,
+    paymentRequired: true,
   };
 };
 
-/*
-|--------------------------------------------------------------------------
-| REVIEW BOOKING
-|--------------------------------------------------------------------------
-|
-| This is the single source of truth for consultation pricing.
-|
-| Normal:
-| ₦50,000 → UNPAID → AWAITING_PAYMENT
-|
-| Partial discount:
-| ₦50,000 → e.g. ₦20,000 → UNPAID → AWAITING_PAYMENT
-|
-| Full discount:
-| ₦50,000 → ₦0 → WAIVED → CONFIRMED
-|
-|--------------------------------------------------------------------------
-*/
-
-const reviewBooking = async (bookingData) => {
-  /*
-  |--------------------------------------------------------------------------
-  | Base Consultation Fee
-  |--------------------------------------------------------------------------
-  */
-
-  const consultationFee = config.consultationFee;
-
-  /*
-  |--------------------------------------------------------------------------
-  | Default Pricing
-  |--------------------------------------------------------------------------
-  */
-
-  let discount = 0;
-
-  let amountPayable = consultationFee;
-
-  let couponApplied = false;
-
-  let coupon = null;
-
-  /*
-  |--------------------------------------------------------------------------
-  | Coupon Processing
-  |--------------------------------------------------------------------------
-  */
-
-  if (bookingData.couponCode) {
-    const result = await couponService.validateCoupon(bookingData.couponCode);
-
-    /*
-    |--------------------------------------------------------------------------
-    | Valid Coupon
-    |--------------------------------------------------------------------------
-    */
-
-    if (result.valid && result.coupon) {
-      couponApplied = true;
-
-      coupon = result.coupon.code;
-
-      /*
-      |--------------------------------------------------------------------------
-      | Coupon Type
-      |--------------------------------------------------------------------------
-      */
-
-      switch (result.coupon.discountType) {
-        /*
-        |--------------------------------------------------------------------------
-        | FULL DISCOUNT
-        |--------------------------------------------------------------------------
-        */
-
-        case "FULL":
-          discount = consultationFee;
-
-          amountPayable = 0;
-
-          break;
-
-        /*
-        |--------------------------------------------------------------------------
-        | FIXED DISCOUNT
-        |--------------------------------------------------------------------------
-        */
-
-        case "FIXED":
-          discount = Math.max(Number(result.coupon.discountValue) || 0, 0);
-
-          amountPayable = Math.max(consultationFee - discount, 0);
-
-          break;
-
-        /*
-        |--------------------------------------------------------------------------
-        | PERCENTAGE DISCOUNT
-        |--------------------------------------------------------------------------
-        */
-
-        case "PERCENTAGE": {
-          const percentage = Math.min(
-            Math.max(Number(result.coupon.discountValue) || 0, 0),
-            100,
-          );
-
-          discount = Math.round((consultationFee * percentage) / 100);
-
-          amountPayable = Math.max(consultationFee - discount, 0);
-
-          break;
-        }
-
-        /*
-        |--------------------------------------------------------------------------
-        | UNKNOWN COUPON TYPE
-        |--------------------------------------------------------------------------
-        */
-
-        default:
-          couponApplied = false;
-
-          coupon = null;
-
-          discount = 0;
-
-          amountPayable = consultationFee;
-
-          break;
-      }
-    }
-  }
-
-  /*
-  |--------------------------------------------------------------------------
-  | Normalize Final Amount
-  |--------------------------------------------------------------------------
-  |
-  | Never allow a negative payable amount.
-  |
-  */
-
-  amountPayable = Math.max(Number(amountPayable) || 0, 0);
-
-  /*
-  |--------------------------------------------------------------------------
-  | Determine Payment State
-  |--------------------------------------------------------------------------
-  */
-
-  const paymentRequired = amountPayable > 0;
-
-  const paymentStatus = paymentRequired ? "UNPAID" : "WAIVED";
-
-  const bookingStatus = paymentRequired ? "AWAITING_PAYMENT" : "CONFIRMED";
-
-  /*
-  |--------------------------------------------------------------------------
-  | Final Pricing
-  |--------------------------------------------------------------------------
-  */
-
-  const pricing = {
-    consultationFee,
-
-    discount,
-
-    amountPayable,
-
-    paymentRequired,
-
-    couponApplied,
-
-    coupon,
-
-    paymentStatus,
-
-    bookingStatus,
-  };
-
-  /*
-  |--------------------------------------------------------------------------
-  | Debug
-  |--------------------------------------------------------------------------
-  */
-
-  console.log("BOOKING PRICING:", pricing);
-
-  /*
-  |--------------------------------------------------------------------------
-  | Return
-  |--------------------------------------------------------------------------
-  */
-
-  return pricing;
-};
-
-/*
-|--------------------------------------------------------------------------
-| GET ALL BOOKINGS
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* GET ALL BOOKINGS                                                           */
+/* -------------------------------------------------------------------------- */
 
 const getAllBookings = async () => {
-  const bookings = await Booking.find().sort({
+  return Booking.find().sort({
     createdAt: -1,
   });
-
-  return bookings;
 };
 
-/*
-|--------------------------------------------------------------------------
-| GET BOOKING BY ID
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* GET BOOKING BY ID                                                          */
+/* -------------------------------------------------------------------------- */
 
 const getBookingById = async (bookingId) => {
-  const booking = await Booking.findById(bookingId);
+  if (!bookingId) {
+    throw new Error("Booking ID is required.");
+  }
 
-  return booking;
+  return Booking.findById(bookingId);
 };
 
-/*
-|--------------------------------------------------------------------------
-| UPDATE BOOKING STATUS
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* UPDATE BOOKING STATUS                                                      */
+/* -------------------------------------------------------------------------- */
 
 const updateBookingStatus = async (bookingId, bookingStatus) => {
-  const booking = await Booking.findByIdAndUpdate(
+  if (!bookingId) {
+    throw new Error("Booking ID is required.");
+  }
+
+  if (!bookingStatus) {
+    throw new Error("Booking status is required.");
+  }
+
+  return Booking.findByIdAndUpdate(
     bookingId,
     {
       bookingStatus,
@@ -480,35 +431,32 @@ const updateBookingStatus = async (bookingId, bookingStatus) => {
       runValidators: true,
     },
   );
-
-  return booking;
 };
 
-/*
-|--------------------------------------------------------------------------
-| CONFIRM BOOKING
-|--------------------------------------------------------------------------
-|
-| Legacy/business-level helper.
-|
-| The normal Paystack flow should now be completed through the
-| payment workflow service rather than directly trusting the client.
-|
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* CONFIRM BOOKING                                                            */
+/* -------------------------------------------------------------------------- */
 
+/**
+ * Legacy helper.
+ *
+ * Prefer paymentWorkflowService.completeSuccessfulPayment() for actual
+ * Paystack transactions.
+ */
 const confirmBooking = async (
   bookingId,
   paymentReference = null,
   paymentStatus = "PAID",
 ) => {
-  const booking = await Booking.findByIdAndUpdate(
+  if (!bookingId) {
+    throw new Error("Booking ID is required.");
+  }
+
+  return Booking.findByIdAndUpdate(
     bookingId,
     {
       paymentStatus,
-
       paymentReference,
-
       bookingStatus: "CONFIRMED",
     },
     {
@@ -516,18 +464,18 @@ const confirmBooking = async (
       runValidators: true,
     },
   );
-
-  return booking;
 };
 
-/*
-|--------------------------------------------------------------------------
-| CANCEL BOOKING
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* CANCEL BOOKING                                                             */
+/* -------------------------------------------------------------------------- */
 
 const cancelBooking = async (bookingId) => {
-  const booking = await Booking.findByIdAndUpdate(
+  if (!bookingId) {
+    throw new Error("Booking ID is required.");
+  }
+
+  return Booking.findByIdAndUpdate(
     bookingId,
     {
       bookingStatus: "CANCELLED",
@@ -537,40 +485,41 @@ const cancelBooking = async (bookingId) => {
       runValidators: true,
     },
   );
-
-  return booking;
 };
 
-/*
-|--------------------------------------------------------------------------
-| UPDATE PAYMENT STATUS
-|--------------------------------------------------------------------------
-|
-| Legacy/business-level helper.
-|
-| This remains available for existing admin/business flows.
-| Paystack completion should use the payment workflow.
-|
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* UPDATE PAYMENT STATUS                                                      */
+/* -------------------------------------------------------------------------- */
 
+/**
+ * Legacy helper.
+ *
+ * Successful Paystack payments should normally be completed through
+ * paymentWorkflowService rather than trusting client-provided payment status.
+ */
 const updatePaymentStatus = async (
   bookingId,
   paymentStatus,
   paymentReference = null,
 ) => {
+  if (!bookingId) {
+    throw new Error("Booking ID is required.");
+  }
+
+  if (!paymentStatus) {
+    throw new Error("Payment status is required.");
+  }
+
   const bookingStatus =
     paymentStatus === "PAID" || paymentStatus === "WAIVED"
       ? "CONFIRMED"
       : "AWAITING_PAYMENT";
 
-  const booking = await Booking.findByIdAndUpdate(
+  return Booking.findByIdAndUpdate(
     bookingId,
     {
       paymentStatus,
-
       paymentReference,
-
       bookingStatus,
     },
     {
@@ -578,30 +527,19 @@ const updatePaymentStatus = async (
       runValidators: true,
     },
   );
-
-  return booking;
 };
 
-/*
-|--------------------------------------------------------------------------
-| EXPORT
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* EXPORT                                                                     */
+/* -------------------------------------------------------------------------- */
 
 export default {
   createBooking,
-
   reviewBooking,
-
   getAllBookings,
-
   getBookingById,
-
   updateBookingStatus,
-
   updatePaymentStatus,
-
   confirmBooking,
-
   cancelBooking,
 };

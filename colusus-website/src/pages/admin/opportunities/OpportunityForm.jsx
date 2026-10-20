@@ -5,7 +5,6 @@ import {
     HiOutlineCheck,
     HiOutlineChevronDown,
     HiOutlineGlobeAlt,
-    HiOutlineLockClosed,
     HiOutlineMapPin,
     HiOutlineSparkles,
 } from "react-icons/hi2";
@@ -386,24 +385,29 @@ const OpportunityForm = () => {
     */
 
     const selectedDestination = useMemo(() => {
-        if (!form.countryId && !form.countrySlug) {
-            return null;
+        // The slug is the reliable identity. Country IDs may be duplicated
+        // while the existing records are being repaired.
+        if (form.countrySlug) {
+            const destinationBySlug = destinations.find(
+                (destination) =>
+                    destination.countrySlug === form.countrySlug,
+            );
+
+            if (destinationBySlug) {
+                return destinationBySlug;
+            }
         }
 
-        return (
-            destinations.find(
-                (destination) =>
-                    String(destination.countryId) ===
-                    String(form.countryId) ||
-                    destination.countrySlug ===
-                    form.countrySlug,
-            ) || null
+        // Only fall back to countryId when it identifies exactly one country.
+        const destinationsWithMatchingId = destinations.filter(
+            (destination) =>
+                String(destination.countryId) === String(form.countryId),
         );
-    }, [
-        destinations,
-        form.countryId,
-        form.countrySlug,
-    ]);
+
+        return destinationsWithMatchingId.length === 1
+            ? destinationsWithMatchingId[0]
+            : null;
+    }, [destinations, form.countryId, form.countrySlug]);
 
     /*
     |--------------------------------------------------------------------------
@@ -428,37 +432,15 @@ const OpportunityForm = () => {
     */
 
     const handleDestinationChange = (event) => {
-        const value = event.target.value;
+        const countrySlug = event.target.value;
 
+        // Select by countrySlug, never by countryId: IDs may currently collide.
         const destination = destinations.find(
-            (item) =>
-                String(item.countryId) ===
-                String(value),
+            (item) => item.countrySlug === countrySlug,
         );
 
         if (!destination) {
-            setForm((current) => ({
-                ...current,
-
-                countryId: "",
-                countryName: "",
-                countrySlug: "",
-                countryFlag: "",
-                countryImage: "",
-
-                applicants: "",
-                countryCategories: [],
-                countryVisa: "",
-                countryDuration: "",
-                countryProcessingTime: "",
-                countryDescription: "",
-                opportunityScore: "",
-                successRate: "",
-            }));
-
-            setError("");
-            setSuccess("");
-
+            setError("Select a valid destination.");
             return;
         }
 
@@ -472,27 +454,13 @@ const OpportunityForm = () => {
             countryImage: destination.countryImage,
 
             applicants: destination.applicants,
-
-            countryCategories:
-                destination.countryCategories,
-
-            countryVisa:
-                destination.countryVisa,
-
-            countryDuration:
-                destination.countryDuration,
-
-            countryProcessingTime:
-                destination.countryProcessingTime,
-
-            countryDescription:
-                destination.countryDescription,
-
-            opportunityScore:
-                destination.opportunityScore,
-
-            successRate:
-                destination.successRate,
+            countryCategories: destination.countryCategories,
+            countryVisa: destination.countryVisa,
+            countryDuration: destination.countryDuration,
+            countryProcessingTime: destination.countryProcessingTime,
+            countryDescription: destination.countryDescription,
+            opportunityScore: destination.opportunityScore,
+            successRate: destination.successRate,
         }));
 
         setError("");
@@ -659,30 +627,45 @@ const OpportunityForm = () => {
         try {
             setSaving(true);
 
-            const payload =
-                buildPayload();
+            const payload = buildPayload();
 
+            // Persist the shared destination image independently from this offer.
+            await opportunitiesService.updateDestination(
+                payload.countrySlug,
+                {
+                    countryImage: payload.countryImage,
+                },
+            );
+
+            // Save the individual offer only after the destination update succeeds.
             if (isEditMode) {
                 await opportunitiesService.updateOpportunity(
                     id,
                     payload,
                 );
             } else {
-                await opportunitiesService.createOpportunity(
-                    payload,
-                );
+                await opportunitiesService.createOpportunity(payload);
+            }
+
+            // Refresh destination data so the form reflects the saved shared image.
+            try {
+                const response = await opportunitiesService.getDestinations();
+                const items = getResponseItems(response)
+                    .map(normalizeDestination)
+                    .filter((destination) => destination.countryName);
+                setDestinations(items);
+            } catch {
+                // A refresh failure should not turn a successful save into an error.
             }
 
             setSuccess(
                 isEditMode
-                    ? "Offer updated successfully."
-                    : "Offer created successfully.",
+                    ? "Offer and destination image updated successfully."
+                    : "Offer created successfully. Destination image saved.",
             );
 
             setTimeout(() => {
-                navigate(
-                    "/admin/opportunities",
-                );
+                navigate("/admin/opportunities");
             }, 700);
         } catch (submitError) {
             setError(
@@ -754,8 +737,8 @@ const OpportunityForm = () => {
 
                             <span
                                 className={`opportunity-form-status-dot ${form.active
-                                        ? "is-active"
-                                        : "is-inactive"
+                                    ? "is-active"
+                                    : "is-inactive"
                                     }`}
                             />
 
@@ -951,17 +934,9 @@ const OpportunityForm = () => {
                                             <select
                                                 id="destination"
                                                 className="field__input"
-                                                value={
-                                                    form.countryId
-                                                }
-                                                onChange={
-                                                    handleDestinationChange
-                                                }
-                                                disabled={
-                                                    saving ||
-                                                    destinationsLoading ||
-                                                    isEditMode
-                                                }
+                                                value={form.countrySlug || ""}
+                                                onChange={handleDestinationChange}
+                                                disabled={saving || destinationsLoading}
                                             >
 
                                                 <option value="">
@@ -975,10 +950,8 @@ const OpportunityForm = () => {
                                                         destination,
                                                     ) => (
                                                         <option
-                                                            key={`${destination.countrySlug}-${destination.countryId}`}
-                                                            value={
-                                                                destination.countryId
-                                                            }
+                                                            key={destination.countrySlug}
+                                                            value={destination.countrySlug}
                                                         >
                                                             {destination.countryFlag
                                                                 ? `${destination.countryFlag} `
@@ -998,15 +971,10 @@ const OpportunityForm = () => {
 
                                         {isEditMode && (
                                             <div className="field__locked">
-
-                                                <HiOutlineLockClosed />
-
                                                 <span>
-                                                    Destination is locked
-                                                    after an offer has been
-                                                    created.
+                                                    Changing the destination updates this offer's country assignment.
+                                                    Check the destination and offer URL before saving.
                                                 </span>
-
                                             </div>
                                         )}
 
@@ -1238,6 +1206,7 @@ const OpportunityForm = () => {
                                             }
                                             hint="This image represents the destination in country-level catalogue areas."
                                             aspect="landscape"
+                                            uploadType="DESTINATION_IMAGE"
                                         />
 
                                     </div>
@@ -1765,6 +1734,7 @@ const OpportunityForm = () => {
                                 }
                                 hint="Use a strong, relevant image that represents this specific migration opportunity."
                                 aspect="landscape"
+                                uploadType="OPPORTUNITY_IMAGE"
                             />
 
                         </div>

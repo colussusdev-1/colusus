@@ -11,7 +11,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Footer from "./pages/Home/sections/Footer/Footer";
 
 import WhatsAppFloat from "./components/WhatsAppFloat";
-
+import ConsultationPaymentSuccess from "./components/ConsultationBooking/ConsultationPaymentSuccess";
 /* ======================================================
    PUBLIC WEBSITE PAGES
 ====================================================== */
@@ -52,6 +52,9 @@ import Opportunities
 
 import OpportunityDetails
     from "./pages/Opportunities/OpportunityDetails/OpportunityDetails";
+
+import Pathways
+    from "./pages/pathways/Pathways";
 
 import Assessment
     from "./features/assessment/Assessment";
@@ -189,13 +192,15 @@ import StaffRoutes
 import AdminFinance
     from "./pages/admin/finance/AdminFinance";
 
+import DestinationsPage
+    from "./pages/admin/opportunities/destinations/DestinationsPage";
+
 /* ======================================================
    WEBMAIL
 ====================================================== */
 
 import Webmailer
     from "./pages/Webmailer/Webmailer";
-
 
 /* ======================================================
    PUBLIC WEBSITE WHATSAPP BUTTON
@@ -236,7 +241,6 @@ function PublicWhatsAppFloat() {
     return <WhatsAppFloat />;
 }
 
-
 /* ======================================================
    APP
 ====================================================== */
@@ -244,7 +248,6 @@ function PublicWhatsAppFloat() {
 function App() {
     return (
         <BrowserRouter>
-
             <ScrollToTop />
 
             {/* Public website floating WhatsApp button */}
@@ -341,6 +344,21 @@ function App() {
                         <>
                             <Navbar />
                             <IrelandNursing />
+                            <Footer />
+                        </>
+                    }
+                />
+
+                {/* ======================================================
+                    PATHWAYS CATALOGUE
+                ====================================================== */}
+
+                <Route
+                    path="/pathways"
+                    element={
+                        <>
+                            <Navbar />
+                            <Pathways />
                             <Footer />
                         </>
                     }
@@ -467,6 +485,11 @@ function App() {
                     }
                 />
 
+                <Route
+                    path="/consultation/payment-success"
+                    element={<ConsultationPaymentSuccess />}
+                />
+
                 {/* ======================================================
                     WEBMAIL
                 ====================================================== */}
@@ -511,12 +534,10 @@ function App() {
                         />
                     }
                 >
-
                     <Route
                         path="/admin"
                         element={<AdminLayout />}
                     >
-
                         {/* ADMIN OVERVIEW */}
 
                         <Route
@@ -551,6 +572,11 @@ function App() {
                         <Route
                             path="opportunities/:id/edit"
                             element={<OpportunityForm />}
+                        />
+
+                        <Route
+                            path="opportunities/destinations"
+                            element={<DestinationsPage />}
                         />
 
                         {/* CONSULTATIONS */}
@@ -648,9 +674,7 @@ function App() {
                             path="staff-management/:id"
                             element={<AdminStaffDetails />}
                         />
-
                     </Route>
-
                 </Route>
 
                 {/* ======================================================
@@ -665,19 +689,15 @@ function App() {
                         />
                     }
                 >
-
                     <Route
                         path="/admin"
                         element={<AdminLayout />}
                     >
-
                         <Route
                             path="staff/*"
                             element={<StaffRoutes />}
                         />
-
                     </Route>
-
                 </Route>
 
                 {/* ======================================================
@@ -687,12 +707,10 @@ function App() {
                 <Route
                     element={<ProtectedRoute />}
                 >
-
                     <Route
                         path="/portal"
                         element={<PortalLayout />}
                     >
-
                         {/* CLIENT DASHBOARD */}
 
                         <Route
@@ -756,13 +774,10 @@ function App() {
                             path="assessment"
                             element={<Assessment />}
                         />
-
                     </Route>
-
                 </Route>
 
             </Routes>
-
         </BrowserRouter>
     );
 }

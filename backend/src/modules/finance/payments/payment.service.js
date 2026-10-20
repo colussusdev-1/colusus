@@ -9,29 +9,28 @@ import generatePaymentReference from "../../../utils/generatePaymentReference.js
 /* HELPERS                                                                    */
 /* -------------------------------------------------------------------------- */
 
+const createError = (message, statusCode = 400) => {
+  const error = new Error(message);
+  error.statusCode = statusCode;
+  return error;
+};
+
 const validateInitializationPayload = ({ paymentType, invoiceId }) => {
   if (!paymentType) {
-    const error = new Error("Payment type is required.");
-    error.statusCode = 400;
-    throw error;
+    throw createError("Payment type is required.");
   }
 
   if (!invoiceId) {
-    const error = new Error("Invoice ID is required.");
-    error.statusCode = 400;
-    throw error;
+    throw createError("Invoice ID is required.");
   }
 
   return true;
 };
 
-const isAdmin = (user) => {
-  return user?.role === "ADMIN";
-};
+const isAdmin = (user) => user?.role === "ADMIN";
 
-const getUserId = (user) => {
-  return user?.id?.toString?.() || user?._id?.toString?.() || null;
-};
+const getUserId = (user) =>
+  user?.id?.toString?.() || user?._id?.toString?.() || null;
 
 const assertClientOwnership = ({ user, customerId, resource = "payment" }) => {
   if (isAdmin(user)) {
@@ -39,112 +38,84 @@ const assertClientOwnership = ({ user, customerId, resource = "payment" }) => {
   }
 
   if (user?.role !== "CLIENT") {
-    const error = new Error("You are not authorized to access this resource.");
-
-    error.statusCode = 403;
-
-    throw error;
+    throw createError("You are not authorized to access this resource.", 403);
   }
 
   const userId = getUserId(user);
 
-  if (!userId || !customerId) {
-    const error = new Error(
+  if (!userId || !customerId || userId !== customerId.toString()) {
+    throw createError(
       `You are not authorized to access this ${resource}.`,
+      403,
     );
-
-    error.statusCode = 403;
-
-    throw error;
-  }
-
-  if (userId !== customerId.toString()) {
-    const error = new Error(
-      `You are not authorized to access this ${resource}.`,
-    );
-
-    error.statusCode = 403;
-
-    throw error;
   }
 
   return true;
 };
 
 const toGatewayAmount = (amount) => {
-  return Math.round(Number(amount) * 100);
+  const numericAmount = Number(amount);
+
+  if (!Number.isFinite(numericAmount) || numericAmount <= 0) {
+    throw createError("Payment amount must be greater than zero.");
+  }
+
+  return Math.round(numericAmount * 100);
 };
 
 const validateGatewayAmount = (payment, gatewayAmount) => {
   const expectedAmount = toGatewayAmount(payment.amount);
 
   if (Number(gatewayAmount) !== expectedAmount) {
-    const error = new Error(
+    throw createError(
       "Payment amount does not match the expected transaction amount.",
     );
+  }
+};
 
-    error.statusCode = 400;
+const validateGatewayCurrency = (payment, gatewayCurrency) => {
+  const expectedCurrency = String(payment.currency || "").toUpperCase();
+  const actualCurrency = String(gatewayCurrency || "").toUpperCase();
 
-    throw error;
+  if (!actualCurrency || actualCurrency !== expectedCurrency) {
+    throw createError(
+      "Payment currency does not match the gateway transaction.",
+    );
   }
 };
 
 const validateInvoiceForPayment = (invoice) => {
   if (!invoice) {
-    const error = new Error("Invoice not found.");
-
-    error.statusCode = 404;
-
-    throw error;
+    throw createError("Invoice not found.", 404);
   }
 
   if (invoice.status === "DRAFT") {
-    const error = new Error(
+    throw createError(
       "Invoice must be issued before payment can be initialized.",
     );
-
-    error.statusCode = 400;
-
-    throw error;
   }
 
-  if (invoice.status === "CANCELLED" || invoice.status === "VOID") {
-    const error = new Error(
+  if (["CANCELLED", "VOID"].includes(invoice.status)) {
+    throw createError(
       "Payment cannot be initialized for a cancelled or void invoice.",
     );
-
-    error.statusCode = 400;
-
-    throw error;
   }
 
   if (invoice.status === "PAID" || Number(invoice.balanceDue) <= 0) {
-    const error = new Error("Invoice has already been fully paid.");
-
-    error.statusCode = 400;
-
-    throw error;
+    throw createError("Invoice has already been fully paid.");
   }
 
   if (!["ISSUED", "PARTIALLY_PAID", "OVERDUE"].includes(invoice.status)) {
-    const error = new Error(
+    throw createError(
       `Invoice cannot receive payment from ${invoice.status} status.`,
     );
-
-    error.statusCode = 400;
-
-    throw error;
   }
 
   if (
     !Number.isFinite(Number(invoice.balanceDue)) ||
     Number(invoice.balanceDue) <= 0
   ) {
-    const error = new Error("Invoice has no outstanding balance.");
-
-    error.statusCode = 400;
-
-    throw error;
+    throw createError("Invoice has no outstanding balance.");
   }
 
   return true;
@@ -153,13 +124,71 @@ const validateInvoiceForPayment = (invoice) => {
 const findActivePaymentForInvoice = async (invoiceId) => {
   return Payment.findOne({
     invoice: invoiceId,
-
     status: {
       $in: ["PENDING", "PROCESSING"],
     },
   }).sort({
     createdAt: -1,
   });
+};
+
+/* -------------------------------------------------------------------------- */
+/* CONSULTATION DETECTION                                                     */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Consultation bookings use invoiceType BOOKING.
+ *
+ * Therefore, invoiceType alone cannot identify a consultation payment.
+ * We inspect persisted invoice context and metadata instead.
+ */
+const isConsultationInvoice = (invoice) => {
+  if (!invoice) {
+    return false;
+  }
+
+  const context = invoice.context || {};
+  const metadata = invoice.metadata || {};
+
+  const consultationFlow =
+    String(metadata.flow || "").toUpperCase() === "CONSULTATION" ||
+    String(context.flow || "").toUpperCase() === "CONSULTATION";
+
+  const linkedConsultationBooking = Boolean(
+    context.bookingId && context.consultationType,
+  );
+
+  const explicitConsultation =
+    /consultation/i.test(String(context.purpose || "")) ||
+    /consultation/i.test(String(context.paymentFor || "")) ||
+    /consultation/i.test(String(metadata.purpose || "")) ||
+    /consultation/i.test(String(metadata.paymentFor || ""));
+
+  return consultationFlow || linkedConsultationBooking || explicitConsultation;
+};
+
+/* -------------------------------------------------------------------------- */
+/* FRONTEND CALLBACK                                                          */
+/* -------------------------------------------------------------------------- */
+
+const getFrontendUrl = () => {
+  const frontendUrl = (
+    process.env.CLIENT_URL || "https://www.colossusmigration.com"
+  ).replace(/\/+$/, "");
+
+  if (!/^https?:\/\//i.test(frontendUrl)) {
+    throw createError("CLIENT_URL must be a valid HTTP or HTTPS URL.", 500);
+  }
+
+  return frontendUrl;
+};
+
+const getPaymentCallbackUrl = ({ frontendUrl, isConsultation }) => {
+  if (isConsultation) {
+    return `${frontendUrl}/consultation/payment-success`;
+  }
+
+  return `${frontendUrl}/payment/callback`;
 };
 
 /* -------------------------------------------------------------------------- */
@@ -182,39 +211,62 @@ const initializePayment = async ({
 
   validateInvoiceForPayment(invoice);
 
-  assertClientOwnership({
-    user,
-    customerId: invoice.customerId,
-    resource: "invoice",
-  });
-
-  if (paymentType !== invoice.invoiceType) {
-    const error = new Error("Payment type does not match invoice type.");
-
-    error.statusCode = 400;
-
-    throw error;
+  if (
+    String(paymentType).toUpperCase() !==
+    String(invoice.invoiceType).toUpperCase()
+  ) {
+    throw createError("Payment type does not match invoice type.");
   }
 
-  /* ------------------------------------------------------------------------
-     STALE PAYMENT RECOVERY
+  /*
+   * Determine whether this invoice belongs to the consultation flow
+   * using backend-persisted invoice data.
+   */
+  const publicConsultation = isConsultationInvoice(invoice);
 
-     Never blindly reuse an old Paystack checkout session.
+  /*
+   * Ordinary invoices require ownership verification.
+   *
+   * Consultation invoices can initialize checkout publicly because
+   * the visitor may not have a client account yet.
+   */
+  if (!publicConsultation) {
+    assertClientOwnership({
+      user,
+      customerId: invoice.customerId,
+      resource: "invoice",
+    });
+  }
 
-     If a previous local payment is still PENDING/PROCESSING,
-     invalidate it and create a fresh transaction.
-  ------------------------------------------------------------------------ */
+  /*
+   * The invoice remains authoritative for customer, amount and currency.
+   * Request context and metadata may supplement the stored information,
+   * but cannot change the invoice balance.
+   */
+  const paymentContext = {
+    ...(invoice.context || {}),
+    ...(context || {}),
+    invoiceId: invoice._id.toString(),
+  };
 
+  const paymentMetadata = {
+    ...(invoice.metadata || {}),
+    ...(metadata || {}),
+    invoiceId: invoice._id.toString(),
+    paymentType: invoice.invoiceType,
+  };
+
+  /*
+   * Replace an earlier active checkout session.
+   */
   const existingPayment = await findActivePaymentForInvoice(invoice._id);
 
   if (existingPayment) {
     existingPayment.status = "FAILED";
-
     existingPayment.failedAt = new Date();
 
     existingPayment.gatewayResponse = {
       ...(existingPayment.gatewayResponse || {}),
-
       recoveryReason:
         "Previous Paystack checkout session was replaced with a fresh transaction.",
     };
@@ -223,90 +275,48 @@ const initializePayment = async ({
   }
 
   const amount = Number(invoice.balanceDue);
-
-  const currency = invoice.currency.toUpperCase();
+  const currency = String(invoice.currency || "NGN").toUpperCase();
 
   const customer = {
     id: invoice.customerId || null,
-
     name: invoice.customerName,
-
     email: invoice.customerEmail,
-
     phone: invoice.customerPhone || null,
   };
 
-  const paymentContext = {
-    ...(invoice.context || {}),
-
-    ...(context || {}),
-
-    invoiceId: invoice._id.toString(),
-  };
-
-  /* ------------------------------------------------------------------------
-     GENERATE NEW PAYMENT REFERENCE
-  ------------------------------------------------------------------------ */
+  if (!customer.email) {
+    throw createError("A customer email is required to initialize payment.");
+  }
 
   const reference = generatePaymentReference();
 
   const payment = await Payment.create({
     reference,
-
-    paymentType,
-
+    paymentType: invoice.invoiceType,
     context: paymentContext,
-
     invoice: invoice._id,
-
     amount,
-
     currency,
-
     customerId: customer.id,
-
     customerName: customer.name,
-
     customerEmail: customer.email,
-
     customerPhone: customer.phone,
-
     provider: "PAYSTACK",
-
     status: "PENDING",
-
-    metadata: {
-      ...(invoice.metadata || {}),
-
-      ...(metadata || {}),
-
-      invoiceId: invoice._id.toString(),
-
-      paymentType,
-    },
+    metadata: paymentMetadata,
   });
 
   try {
-    /* ----------------------------------------------------------------------
-       PAYSTACK INITIALIZATION
-    ---------------------------------------------------------------------- */
-
-    const frontendUrl = (
-      process.env.CLIENT_URL || "https://www.colossusmigration.com"
-    ).replace(/\/$/, "");
+    const frontendUrl = getFrontendUrl();
 
     /*
-     * Paystack returns to a dedicated callback route.
-     *
-     * The callback route then forwards the customer
-     * into the protected Client Finance page.
+     * Route consultation payments to the consultation success page.
+     * Route all other payments to the standard finance callback.
      */
-
-    const callbackUrl = `${frontendUrl}/payment/callback`;
-
-    /* ----------------------------------------------------------------------
-       DEBUG INFORMATION
-    ---------------------------------------------------------------------- */
+    const callbackUrl = getPaymentCallbackUrl({
+      frontendUrl,
+      isConsultation: publicConsultation,
+    });
 
     console.log("");
     console.log("==============================================");
@@ -315,8 +325,10 @@ const initializePayment = async ({
     console.log("Payment ID:", payment._id.toString());
     console.log("Payment Reference:", reference);
     console.log("Invoice ID:", invoice._id.toString());
+    console.log("Payment Type:", payment.paymentType);
     console.log("Amount:", amount);
     console.log("Currency:", currency);
+    console.log("Consultation Payment:", publicConsultation);
     console.log("Client URL:", frontendUrl);
     console.log("PAYSTACK CALLBACK URL:", callbackUrl);
     console.log("==============================================");
@@ -324,76 +336,52 @@ const initializePayment = async ({
 
     const response = await paystack.post("/transaction/initialize", {
       email: customer.email,
-
       amount: toGatewayAmount(amount),
-
       currency,
-
       reference,
-
       callback_url: callbackUrl,
 
       metadata: {
         paymentId: payment._id.toString(),
-
         paymentReference: reference,
-
-        paymentType,
-
+        paymentType: payment.paymentType,
         invoiceId: invoice._id.toString(),
-
         context: paymentContext,
-
-        ...metadata,
+        ...paymentMetadata,
       },
     });
 
     const gatewayData = response.data?.data;
 
-    if (!gatewayData) {
-      throw new Error("Invalid payment gateway response.");
+    if (!gatewayData?.authorization_url) {
+      throw createError(
+        "Paystack did not return a checkout authorization URL.",
+        502,
+      );
     }
 
-    /*
-     * Store Paystack checkout information.
-     */
-
-    payment.authorizationUrl = gatewayData.authorization_url || null;
-
+    payment.authorizationUrl = gatewayData.authorization_url;
     payment.accessCode = gatewayData.access_code || null;
-
     payment.gatewayResponse = response.data;
-
     payment.status = "PROCESSING";
 
     await payment.save();
 
     return {
       paymentId: payment._id,
-
       reference: payment.reference,
-
       paymentType: payment.paymentType,
-
       invoiceId: payment.invoice,
-
       amount: payment.amount,
-
       currency: payment.currency,
-
       status: payment.status,
-
       authorizationUrl: payment.authorizationUrl,
-
       accessCode: payment.accessCode,
-
       callbackUrl,
-
       existing: false,
     };
   } catch (error) {
     payment.status = "FAILED";
-
     payment.failedAt = new Date();
 
     payment.gatewayResponse = error.response?.data || {
@@ -407,16 +395,12 @@ const initializePayment = async ({
 };
 
 /* -------------------------------------------------------------------------- */
-/* VERIFY PAYMENT                                                             */
+/* VERIFY AUTHENTICATED PAYMENT                                               */
 /* -------------------------------------------------------------------------- */
 
 const verifyPayment = async (reference, user = null) => {
   if (!reference) {
-    const error = new Error("Payment reference is required.");
-
-    error.statusCode = 400;
-
-    throw error;
+    throw createError("Payment reference is required.");
   }
 
   const payment = await Payment.findOne({
@@ -424,42 +408,22 @@ const verifyPayment = async (reference, user = null) => {
   });
 
   if (!payment) {
-    const error = new Error("Payment record not found.");
-
-    error.statusCode = 404;
-
-    throw error;
+    throw createError("Payment record not found.", 404);
   }
 
   assertClientOwnership({
     user,
-
     customerId: payment.customerId,
-
     resource: "payment",
   });
-
-  /*
-   * Idempotency:
-   *
-   * If the payment is already successful,
-   * don't call Paystack again.
-   */
 
   if (payment.status === "SUCCESS") {
     return {
       verified: true,
-
       alreadyVerified: true,
-
       payment,
     };
   }
-
-  /*
-   * Paystack verification uses the transaction
-   * REFERENCE, never the access code.
-   */
 
   const response = await paystack.get(
     `/transaction/verify/${encodeURIComponent(reference)}`,
@@ -468,47 +432,34 @@ const verifyPayment = async (reference, user = null) => {
   const gatewayData = response.data?.data;
 
   if (!gatewayData) {
-    const error = new Error("Invalid payment verification response.");
-
-    error.statusCode = 502;
-
-    throw error;
+    throw createError("Invalid payment verification response.", 502);
   }
 
   payment.gatewayResponse = response.data;
 
-  /*
-   * Payment was not successful.
-   */
-
   if (gatewayData.status !== "success") {
-    payment.status = "FAILED";
+    if (
+      ["failed", "abandoned"].includes(
+        String(gatewayData.status || "").toLowerCase(),
+      )
+    ) {
+      payment.status = "FAILED";
+      payment.failedAt = new Date();
 
-    payment.failedAt = new Date();
-
-    await payment.save();
+      await payment.save();
+    }
 
     return {
       verified: false,
-
       alreadyVerified: false,
-
       payment,
     };
   }
 
-  /*
-   * Verify amount.
-   */
-
   validateGatewayAmount(payment, gatewayData.amount);
-
-  /*
-   * Mark local payment successful.
-   */
+  validateGatewayCurrency(payment, gatewayData.currency);
 
   payment.status = "SUCCESS";
-
   payment.transactionId = gatewayData.id || null;
 
   payment.paidAt = gatewayData.paid_at
@@ -519,10 +470,122 @@ const verifyPayment = async (reference, user = null) => {
 
   return {
     verified: true,
-
     alreadyVerified: false,
-
     payment,
+  };
+};
+
+/* -------------------------------------------------------------------------- */
+/* VERIFY PUBLIC CONSULTATION PAYMENT                                         */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Public route:
+ * GET /payments/verify-consultation/:reference
+ *
+ * The frontend can call this after Paystack redirects the customer.
+ */
+const verifyConsultationPayment = async (reference) => {
+  if (!reference || typeof reference !== "string") {
+    throw createError("Payment reference is required.");
+  }
+
+  const payment = await Payment.findOne({
+    reference,
+  });
+
+  if (!payment) {
+    throw createError("Payment record not found.", 404);
+  }
+
+  if (!payment.invoice) {
+    throw createError("Payment is not linked to an invoice.");
+  }
+
+  const invoice = await Invoice.findById(payment.invoice);
+
+  if (!invoice) {
+    throw createError("Linked invoice was not found.", 404);
+  }
+
+  if (!isConsultationInvoice(invoice)) {
+    throw createError(
+      "This endpoint is only available for consultation payments.",
+      403,
+    );
+  }
+
+  if (
+    String(payment.paymentType).toUpperCase() !==
+    String(invoice.invoiceType).toUpperCase()
+  ) {
+    throw createError("Payment type does not match invoice type.");
+  }
+
+  if (
+    String(payment.currency || "").toUpperCase() !==
+    String(invoice.currency || "").toUpperCase()
+  ) {
+    throw createError("Payment currency does not match invoice currency.");
+  }
+
+  /*
+   * Always verify the transaction with Paystack.
+   */
+  const response = await paystack.get(
+    `/transaction/verify/${encodeURIComponent(reference)}`,
+  );
+
+  const gatewayData = response.data?.data;
+
+  if (!gatewayData) {
+    throw createError("Invalid payment verification response.", 502);
+  }
+
+  if (gatewayData.status !== "success") {
+    if (
+      ["failed", "abandoned"].includes(
+        String(gatewayData.status || "").toLowerCase(),
+      )
+    ) {
+      payment.status = "FAILED";
+      payment.failedAt = new Date();
+      payment.gatewayResponse = response.data;
+
+      await payment.save();
+    }
+
+    return {
+      verified: false,
+      status: gatewayData.status || "PENDING",
+      reference: payment.reference,
+      amount: payment.amount,
+      currency: payment.currency,
+    };
+  }
+
+  validateGatewayAmount(payment, gatewayData.amount);
+  validateGatewayCurrency(payment, gatewayData.currency);
+
+  payment.status = "SUCCESS";
+  payment.transactionId = gatewayData.id || null;
+
+  payment.paidAt = gatewayData.paid_at
+    ? new Date(gatewayData.paid_at)
+    : new Date();
+
+  payment.gatewayResponse = response.data;
+
+  await payment.save();
+
+  return {
+    verified: true,
+    status: "SUCCESS",
+    reference: payment.reference,
+    amount: payment.amount,
+    currency: payment.currency,
+    paidAt: payment.paidAt,
+    paymentId: payment._id,
   };
 };
 
@@ -530,11 +593,14 @@ const verifyPayment = async (reference, user = null) => {
 /* WEBHOOK                                                                    */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * The controller must verify the Paystack webhook signature before calling
+ * this method.
+ */
 const handleWebhook = async (payload) => {
   if (!payload || !payload.event) {
     return {
       processed: false,
-
       reason: "Invalid webhook payload.",
     };
   }
@@ -542,7 +608,6 @@ const handleWebhook = async (payload) => {
   if (payload.event !== "charge.success") {
     return {
       processed: false,
-
       reason: "Event not handled.",
     };
   }
@@ -552,7 +617,6 @@ const handleWebhook = async (payload) => {
   if (!gatewayData?.reference) {
     return {
       processed: false,
-
       reason: "Payment reference missing.",
     };
   }
@@ -564,49 +628,35 @@ const handleWebhook = async (payload) => {
   if (!payment) {
     return {
       processed: false,
-
       reason: "Payment record not found.",
     };
   }
 
-  /*
-   * Idempotency.
-   */
-
   if (payment.status === "SUCCESS") {
     return {
       processed: true,
-
       alreadyProcessed: true,
-
       payment,
     };
   }
 
   if (gatewayData.status !== "success") {
     payment.status = "FAILED";
-
     payment.failedAt = new Date();
-
     payment.gatewayResponse = payload;
 
     await payment.save();
 
     return {
       processed: true,
-
       payment,
     };
   }
 
-  /*
-   * Validate amount.
-   */
-
   validateGatewayAmount(payment, gatewayData.amount);
+  validateGatewayCurrency(payment, gatewayData.currency);
 
   payment.status = "SUCCESS";
-
   payment.transactionId = gatewayData.id || null;
 
   payment.paidAt = gatewayData.paid_at
@@ -619,7 +669,6 @@ const handleWebhook = async (payload) => {
 
   return {
     processed: true,
-
     payment,
   };
 };
@@ -634,18 +683,12 @@ const getPaymentByReference = async (reference, user = null) => {
   });
 
   if (!payment) {
-    const error = new Error("Payment record not found.");
-
-    error.statusCode = 404;
-
-    throw error;
+    throw createError("Payment record not found.", 404);
   }
 
   assertClientOwnership({
     user,
-
     customerId: payment.customerId,
-
     resource: "payment",
   });
 
@@ -664,16 +707,8 @@ const getClientPayments = async ({
   const customerId = getUserId(user);
 
   if (!customerId) {
-    const error = new Error("Authenticated user is required.");
-
-    error.statusCode = 401;
-
-    throw error;
+    throw createError("Authenticated user is required.", 401);
   }
-
-  /*
-   * ADMIN
-   */
 
   if (isAdmin(user)) {
     const query = {};
@@ -693,18 +728,8 @@ const getClientPayments = async ({
       .lean();
   }
 
-  /*
-   * CLIENT
-   */
-
   if (user?.role !== "CLIENT") {
-    const error = new Error(
-      "You are not authorized to access payment records.",
-    );
-
-    error.statusCode = 403;
-
-    throw error;
+    throw createError("You are not authorized to access payment records.", 403);
   }
 
   const query = {
@@ -732,12 +757,9 @@ const getClientPayments = async ({
 
 export default {
   initializePayment,
-
   verifyPayment,
-
+  verifyConsultationPayment,
   handleWebhook,
-
   getPaymentByReference,
-
   getClientPayments,
 };

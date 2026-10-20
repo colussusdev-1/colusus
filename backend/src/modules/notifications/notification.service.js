@@ -10,6 +10,8 @@ import {
   isValidNotificationType,
 } from "./notification.types.js";
 
+import { safelySendAdminNotificationEmail } from "./notification.email.service.js";
+
 /* -------------------------------------------------------------------------- */
 /* CONSTANTS                                                                  */
 /* -------------------------------------------------------------------------- */
@@ -44,7 +46,9 @@ const normalizeId = (value, fieldName) => {
 
   if (!mongoose.Types.ObjectId.isValid(candidate)) {
     const error = new Error(`${fieldName} must be a valid ObjectId.`);
+
     error.statusCode = 400;
+
     throw error;
   }
 
@@ -67,6 +71,7 @@ const normalizeMetadata = (metadata) => {
     const error = new Error("Notification metadata must be a plain object.");
 
     error.statusCode = 400;
+
     throw error;
   }
 
@@ -76,6 +81,7 @@ const normalizeMetadata = (metadata) => {
     const error = new Error("Notification metadata must be a plain object.");
 
     error.statusCode = 400;
+
     throw error;
   }
 
@@ -87,6 +93,7 @@ const normalizeMetadata = (metadata) => {
  */
 const createNotFoundError = () => {
   const error = new Error("Notification not found.");
+
   error.statusCode = 404;
 
   return error;
@@ -103,6 +110,7 @@ const validateAudience = (audience) => {
     const error = new Error(`Invalid notification audience "${audience}".`);
 
     error.statusCode = 400;
+
     throw error;
   }
 
@@ -116,6 +124,7 @@ const validateCategory = (category) => {
     const error = new Error(`Invalid notification category "${category}".`);
 
     error.statusCode = 400;
+
     throw error;
   }
 
@@ -129,6 +138,7 @@ const validatePriority = (priority) => {
     const error = new Error(`Invalid notification priority "${priority}".`);
 
     error.statusCode = 400;
+
     throw error;
   }
 
@@ -144,6 +154,7 @@ const validateEntityType = (entityType) => {
     );
 
     error.statusCode = 400;
+
     throw error;
   }
 
@@ -157,6 +168,7 @@ const validateAction = (action) => {
     const error = new Error(`Invalid notification action "${action}".`);
 
     error.statusCode = 400;
+
     throw error;
   }
 
@@ -168,7 +180,9 @@ const validateType = (category, type) => {
 
   if (!normalized) {
     const error = new Error("Notification type is required.");
+
     error.statusCode = 400;
+
     throw error;
   }
 
@@ -178,6 +192,7 @@ const validateType = (category, type) => {
     );
 
     error.statusCode = 400;
+
     throw error;
   }
 
@@ -216,36 +231,49 @@ const buildNotification = ({
 
   if (!recipientId) {
     const error = new Error("Notification recipient is required.");
+
     error.statusCode = 400;
+
     throw error;
   }
 
   const normalizedAudience = validateAudience(audience);
+
   const normalizedCategory = validateCategory(category);
+
   const normalizedType = validateType(normalizedCategory, type);
+
   const normalizedPriority = validatePriority(priority);
+
   const normalizedEntityType = validateEntityType(entityType);
+
   const normalizedAction = validateAction(action);
 
   if (!title || !String(title).trim()) {
     const error = new Error("Notification title is required.");
+
     error.statusCode = 400;
+
     throw error;
   }
 
   if (!message || !String(message).trim()) {
     const error = new Error("Notification message is required.");
+
     error.statusCode = 400;
+
     throw error;
   }
 
   const normalizedTitle = String(title).trim();
+
   const normalizedMessage = String(message).trim();
 
   if (normalizedTitle.length > 180) {
     const error = new Error("Notification title cannot exceed 180 characters.");
 
     error.statusCode = 400;
+
     throw error;
   }
 
@@ -255,11 +283,14 @@ const buildNotification = ({
     );
 
     error.statusCode = 400;
+
     throw error;
   }
 
   const actorId = normalizeId(actor, "actor");
+
   const applicationId = normalizeId(application, "application");
+
   const normalizedEntityId = normalizeId(entityId, "entityId");
 
   let normalizedActionUrl = null;
@@ -273,6 +304,7 @@ const buildNotification = ({
       );
 
       error.statusCode = 400;
+
       throw error;
     }
   }
@@ -284,21 +316,26 @@ const buildNotification = ({
 
     if (Number.isNaN(normalizedExpiresAt.getTime())) {
       const error = new Error("expiresAt must be a valid date.");
+
       error.statusCode = 400;
+
       throw error;
     }
   }
 
   return {
     user: recipientId,
+
     audience: normalizedAudience,
 
     actor: actorId,
 
     category: normalizedCategory,
+
     type: normalizedType,
 
     title: normalizedTitle,
+
     message: normalizedMessage,
 
     priority: normalizedPriority,
@@ -306,9 +343,11 @@ const buildNotification = ({
     application: applicationId,
 
     entityType: normalizedEntityType,
+
     entityId: normalizedEntityId,
 
     action: normalizedAction,
+
     actionUrl: normalizedActionUrl,
 
     metadata: normalizeMetadata(metadata),
@@ -318,23 +357,62 @@ const buildNotification = ({
 };
 
 /* -------------------------------------------------------------------------- */
+/* ADMIN EMAIL NOTIFICATION                                                   */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Send an admin email without allowing email failures
+ * to interrupt the main notification workflow.
+ *
+ * The email service catches and logs delivery errors.
+ */
+const notifyAdminByEmail = async (notification) => {
+  if (!notification) {
+    return null;
+  }
+
+  return safelySendAdminNotificationEmail(notification);
+};
+
+/* -------------------------------------------------------------------------- */
 /* CREATE ONE                                                                 */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * Create one notification.
+ *
+ * 1. Validate the notification.
+ * 2. Save it to MongoDB.
+ * 3. Send an admin email.
+ *
+ * The database notification is saved before attempting email delivery.
+ */
 const createNotification = async (payload) => {
   const notificationData = buildNotification(payload);
 
-  return Notification.create(notificationData);
+  const notification = await Notification.create(notificationData);
+
+  await notifyAdminByEmail(notification);
+
+  return notification;
 };
 
 /* -------------------------------------------------------------------------- */
 /* CREATE MANY                                                                */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * Create multiple notifications for a single event.
+ *
+ * This sends one admin email for the batch rather than
+ * sending a separate email for every recipient.
+ */
 const createNotifications = async (notifications = []) => {
   if (!Array.isArray(notifications)) {
     const error = new Error("Notifications must be an array.");
+
     error.statusCode = 400;
+
     throw error;
   }
 
@@ -342,9 +420,27 @@ const createNotifications = async (notifications = []) => {
     return [];
   }
 
+  /*
+   * Validate all notification payloads before inserting.
+   */
   const notificationData = notifications.map(buildNotification);
 
-  return Notification.insertMany(notificationData);
+  /*
+   * Persist the notifications first.
+   */
+  const createdNotifications = await Notification.insertMany(notificationData);
+
+  /*
+   * One email for this batch.
+   *
+   * Do not loop through createdNotifications here,
+   * because that would generate duplicate emails.
+   */
+  if (createdNotifications.length > 0) {
+    await notifyAdminByEmail(createdNotifications[0]);
+  }
+
+  return createdNotifications;
 };
 
 /* -------------------------------------------------------------------------- */
@@ -383,7 +479,9 @@ const createForUsers = async ({
 }) => {
   if (!Array.isArray(users)) {
     const error = new Error("users must be an array.");
+
     error.statusCode = 400;
+
     throw error;
   }
 
@@ -409,13 +507,17 @@ const createForUsers = async ({
 
       return {
         user,
+
         audience: validateAudience(recipientAudience),
 
         actor,
 
         category,
+
         type,
+
         title,
+
         message,
 
         priority,
@@ -423,9 +525,11 @@ const createForUsers = async ({
         application,
 
         entityType,
+
         entityId,
 
         action,
+
         actionUrl,
 
         metadata,
@@ -472,7 +576,9 @@ const createForRole = async ({
 }) => {
   if (!User) {
     const error = new Error("User model is required.");
+
     error.statusCode = 500;
+
     throw error;
   }
 
@@ -480,20 +586,24 @@ const createForRole = async ({
 
   if (!normalizedRole) {
     const error = new Error("User role is required.");
+
     error.statusCode = 400;
+
     throw error;
   }
 
   /*
-   * Business roles and notification audiences are separate concepts.
-   * In this application, supported operational roles map to audiences
-   * with the same names.
+   * Business roles and notification audiences
+   * are separate concepts.
    */
   const audience = validateAudience(normalizedRole);
 
   const users = await User.find({
     role: normalizedRole,
-    isActive: { $ne: false },
+
+    isActive: {
+      $ne: false,
+    },
   })
     .select("_id role")
     .lean();
@@ -504,13 +614,17 @@ const createForRole = async ({
 
   return createForUsers({
     users: users.map((user) => user._id),
+
     audience,
 
     actor,
 
     category,
+
     type,
+
     title,
+
     message,
 
     priority,
@@ -518,9 +632,11 @@ const createForRole = async ({
     application,
 
     entityType,
+
     entityId,
 
     action,
+
     actionUrl,
 
     metadata,
@@ -550,11 +666,14 @@ const getUserNotifications = async (
 
   if (!normalizedUserId) {
     const error = new Error("userId is required.");
+
     error.statusCode = 400;
+
     throw error;
   }
 
   const parsedPage = Number.parseInt(page, 10);
+
   const parsedLimit = Number.parseInt(limit, 10);
 
   const currentPage = Math.max(
@@ -584,7 +703,9 @@ const getUserNotifications = async (
 
     if (!applicationId) {
       const error = new Error("application must be a valid ObjectId.");
+
       error.statusCode = 400;
+
       throw error;
     }
 
@@ -636,12 +757,17 @@ const getUserNotifications = async (
 /* GET UNREAD COUNT                                                           */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * Get the number of unread notifications for one user.
+ */
 const getUnreadCount = async (userId) => {
   const normalizedUserId = normalizeId(userId, "userId");
 
   if (!normalizedUserId) {
     const error = new Error("userId is required.");
+
     error.statusCode = 400;
+
     throw error;
   }
 
@@ -655,6 +781,11 @@ const getUnreadCount = async (userId) => {
 /* MARK ONE AS READ                                                           */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * Mark one notification as read.
+ *
+ * Users can only update their own notifications.
+ */
 const markAsRead = async (notificationId, userId) => {
   const normalizedNotificationId = normalizeId(
     notificationId,
@@ -665,13 +796,17 @@ const markAsRead = async (notificationId, userId) => {
 
   if (!normalizedNotificationId) {
     const error = new Error("notificationId is required.");
+
     error.statusCode = 400;
+
     throw error;
   }
 
   if (!normalizedUserId) {
     const error = new Error("userId is required.");
+
     error.statusCode = 400;
+
     throw error;
   }
 
@@ -703,12 +838,17 @@ const markAsRead = async (notificationId, userId) => {
 /* MARK ALL AS READ                                                           */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * Mark all notifications belonging to a user as read.
+ */
 const markAllAsRead = async (userId) => {
   const normalizedUserId = normalizeId(userId, "userId");
 
   if (!normalizedUserId) {
     const error = new Error("userId is required.");
+
     error.statusCode = 400;
+
     throw error;
   }
 
@@ -735,6 +875,9 @@ const markAllAsRead = async (userId) => {
 /* DELETE ONE                                                                 */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * Delete one notification belonging to a specific user.
+ */
 const deleteNotification = async (notificationId, userId) => {
   const normalizedNotificationId = normalizeId(
     notificationId,
@@ -745,13 +888,17 @@ const deleteNotification = async (notificationId, userId) => {
 
   if (!normalizedNotificationId) {
     const error = new Error("notificationId is required.");
+
     error.statusCode = 400;
+
     throw error;
   }
 
   if (!normalizedUserId) {
     const error = new Error("userId is required.");
+
     error.statusCode = 400;
+
     throw error;
   }
 
@@ -771,12 +918,17 @@ const deleteNotification = async (notificationId, userId) => {
 /* DELETE ALL                                                                 */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * Delete all notifications belonging to a specific user.
+ */
 const deleteAllNotifications = async (userId) => {
   const normalizedUserId = normalizeId(userId, "userId");
 
   if (!normalizedUserId) {
     const error = new Error("userId is required.");
+
     error.statusCode = 400;
+
     throw error;
   }
 

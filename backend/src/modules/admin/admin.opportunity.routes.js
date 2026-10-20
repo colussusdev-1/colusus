@@ -9,6 +9,9 @@ import { PERMISSIONS } from "../staff/permissions/permission.constants.js";
 import {
   getAllOpportunities,
   getDestinations,
+  getDestinationBySlug,
+  updateDestination,
+  getIntegrityReport,
   getOpportunityById,
   createOpportunity,
   updateOpportunity,
@@ -19,50 +22,10 @@ import {
 
 const router = express.Router();
 
-/*
-|--------------------------------------------------------------------------
-| OPPORTUNITY MANAGEMENT
-|--------------------------------------------------------------------------
-|
-| Access is controlled through granular staff permissions.
-|
-| opportunities.view
-| opportunities.create
-| opportunities.update
-| opportunities.delete
-|
-|--------------------------------------------------------------------------
-*/
-
-/*
-|--------------------------------------------------------------------------
-| GET ALL
-|--------------------------------------------------------------------------
-|
-| GET /api/v1/admin/opportunities
-|
-|--------------------------------------------------------------------------
-*/
-
-router.get(
-  "/",
-  authenticate,
-  requirePermission(PERMISSIONS.OPPORTUNITIES_VIEW),
-  getAllOpportunities,
-);
-
-/*
-|--------------------------------------------------------------------------
-| GET DESTINATIONS
-|--------------------------------------------------------------------------
-|
-| GET /api/v1/admin/opportunities/destinations
-|
-| IMPORTANT:
-| This route must come before "/:id".
-|
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* GET DESTINATIONS                                                           */
+/* GET /api/v1/admin/opportunities/destinations                               */
+/* -------------------------------------------------------------------------- */
 
 router.get(
   "/destinations",
@@ -71,15 +34,58 @@ router.get(
   getDestinations,
 );
 
-/*
-|--------------------------------------------------------------------------
-| CREATE
-|--------------------------------------------------------------------------
-|
-| POST /api/v1/admin/opportunities
-|
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* GET DESTINATION DETAILS                                                    */
+/* GET /api/v1/admin/opportunities/destinations/:countrySlug                 */
+/* -------------------------------------------------------------------------- */
+
+router.get(
+  "/destinations/:countrySlug",
+  authenticate,
+  requirePermission(PERMISSIONS.OPPORTUNITIES_VIEW),
+  getDestinationBySlug,
+);
+
+/* -------------------------------------------------------------------------- */
+/* UPDATE DESTINATION METADATA                                                */
+/* PATCH /api/v1/admin/opportunities/destinations/:countrySlug               */
+/* -------------------------------------------------------------------------- */
+
+router.patch(
+  "/destinations/:countrySlug",
+  authenticate,
+  requirePermission(PERMISSIONS.OPPORTUNITIES_UPDATE),
+  updateDestination,
+);
+
+/* -------------------------------------------------------------------------- */
+/* OPPORTUNITY DATA INTEGRITY                                                 */
+/* GET /api/v1/admin/opportunities/integrity                                  */
+/* -------------------------------------------------------------------------- */
+
+router.get(
+  "/integrity",
+  authenticate,
+  requirePermission(PERMISSIONS.OPPORTUNITIES_VIEW),
+  getIntegrityReport,
+);
+
+/* -------------------------------------------------------------------------- */
+/* GET ALL OPPORTUNITIES                                                      */
+/* GET /api/v1/admin/opportunities                                            */
+/* -------------------------------------------------------------------------- */
+
+router.get(
+  "/",
+  authenticate,
+  requirePermission(PERMISSIONS.OPPORTUNITIES_VIEW),
+  getAllOpportunities,
+);
+
+/* -------------------------------------------------------------------------- */
+/* CREATE OPPORTUNITY                                                         */
+/* POST /api/v1/admin/opportunities                                           */
+/* -------------------------------------------------------------------------- */
 
 router.post(
   "/",
@@ -88,15 +94,10 @@ router.post(
   createOpportunity,
 );
 
-/*
-|--------------------------------------------------------------------------
-| GET SINGLE
-|--------------------------------------------------------------------------
-|
-| GET /api/v1/admin/opportunities/:id
-|
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* GET SINGLE OPPORTUNITY                                                     */
+/* GET /api/v1/admin/opportunities/:id                                        */
+/* -------------------------------------------------------------------------- */
 
 router.get(
   "/:id",
@@ -105,15 +106,10 @@ router.get(
   getOpportunityById,
 );
 
-/*
-|--------------------------------------------------------------------------
-| UPDATE
-|--------------------------------------------------------------------------
-|
-| PATCH /api/v1/admin/opportunities/:id
-|
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* UPDATE OPPORTUNITY                                                         */
+/* PATCH /api/v1/admin/opportunities/:id                                      */
+/* -------------------------------------------------------------------------- */
 
 router.patch(
   "/:id",
@@ -122,15 +118,10 @@ router.patch(
   updateOpportunity,
 );
 
-/*
-|--------------------------------------------------------------------------
-| ACTIVATE / DEACTIVATE
-|--------------------------------------------------------------------------
-|
-| PATCH /api/v1/admin/opportunities/:id/active
-|
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* ACTIVATE / DEACTIVATE OPPORTUNITY                                          */
+/* PATCH /api/v1/admin/opportunities/:id/active                               */
+/* -------------------------------------------------------------------------- */
 
 router.patch(
   "/:id/active",
@@ -139,15 +130,10 @@ router.patch(
   setOpportunityActive,
 );
 
-/*
-|--------------------------------------------------------------------------
-| FEATURED
-|--------------------------------------------------------------------------
-|
-| PATCH /api/v1/admin/opportunities/:id/featured
-|
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* FEATURE / UNFEATURE OPPORTUNITY                                            */
+/* PATCH /api/v1/admin/opportunities/:id/featured                             */
+/* -------------------------------------------------------------------------- */
 
 router.patch(
   "/:id/featured",
@@ -156,17 +142,10 @@ router.patch(
   setOpportunityFeatured,
 );
 
-/*
-|--------------------------------------------------------------------------
-| DEACTIVATE
-|--------------------------------------------------------------------------
-|
-| DELETE /api/v1/admin/opportunities/:id
-|
-| Performs a soft delete by setting active=false.
-|
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* DEACTIVATE OPPORTUNITY                                                     */
+/* DELETE /api/v1/admin/opportunities/:id                                     */
+/* -------------------------------------------------------------------------- */
 
 router.delete(
   "/:id",

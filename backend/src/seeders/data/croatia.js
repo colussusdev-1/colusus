@@ -1,15 +1,11 @@
-
 const croatia = {
-  id: 6,
+  id: 4,
 
   name: "Croatia",
-
   shortName: "Croatia",
-
   slug: "croatia",
 
   flag: "🇭🇷",
-
   image: "",
 
   applicants: "620",
@@ -17,92 +13,88 @@ const croatia = {
   category: ["work", "residency"],
 
   visa: "Work Permit + Residence Permit",
-
   duration: "2–3 Months",
-
   processingTime: "Fast",
 
   opportunityScore: "85%",
-
   successRate: "High",
-
   featured: false,
 
   description:
-    "Relocate to Croatia with a work permit, residence permit, employer-arranged accommodation and seasonal employment opportunities.",
+    "Explore employment opportunities in Croatia, including agricultural and seasonal work, with employer support, work authorization assistance and accommodation arrangements subject to the employment agreement.",
 
   opportunities: [
     {
       id: 1,
 
       title: "Croatia Work Permit Migration Program",
-
-      slug: "croatia-work-permit-program",
+      slug: "croatia-work-permit-migration-program",
 
       image: "",
-
       icon: "🇭🇷",
 
       category: "Jobs",
-
       type: "Work Permit + Residence Permit",
-
       location: "Croatia",
 
       salary: "€1,200 - €1,400 Gross / Month",
-
       duration: "2–3 Months Processing",
-
       contract: "6–12 Months Renewable",
 
       demand: "Seasonal High",
 
       description:
-        "Work in Croatia through an employer-supported agriculture program with work permit processing, residence support, accommodation benefits and seasonal employment opportunities.",
+        "Explore agricultural employment opportunities in Croatia with employer-supported recruitment, work authorization processing, residence permit guidance, accommodation arrangements and seasonal employment options. Final employment conditions and immigration approval depend on the employer, applicant eligibility and the relevant authorities.",
 
       highlights: [
-        "Job Offer",
+        "Employment Offer",
+        "Work Authorization Processing",
+        "Residence Permit Guidance",
+        "Employer Accommodation Arrangements",
+        "Company Lunch Support, Subject to Employer Agreement",
+        "Visa Application Support",
+      ],
 
-        "Work Permit",
+      requirements: [
+        "Valid International Passport",
+        "Criminal Record Certificate, where required",
+        "Medical Certificate, where required",
+        "Updated CV / Resume",
+        "Passport Photograph",
+        "Ability to meet the physical requirements of the selected role",
+        "Compliance with applicable Croatian employment and immigration requirements",
+      ],
 
-        "Residence Permit",
-
-        "Employer Accommodation",
-
-        "Company Lunch Support",
-
-        "Visa Processing Support",
+      documents: [
+        "International Passport",
+        "Criminal Record Certificate, where required",
+        "Medical Certificate, where required",
+        "CV / Resume",
+        "Passport Photograph",
+        "Additional documents required by the employer or relevant authorities",
       ],
 
       benefits: [
-        "Job Offer",
-
-        "Work Permit",
-
-        "Residence Permit",
-
-        "Employer-Arranged Accommodation",
-
-        "Daily Lunch At Company Cafeteria",
-
-        "Refundable Airfare After Contract Completion",
-
-        "Visa Processing Support",
+        "Employment Opportunity",
+        "Work Authorization Support",
+        "Residence Permit Process Guidance",
+        "Employer-Arranged Accommodation, Subject to Agreement",
+        "Daily Lunch at Company Cafeteria, Subject to Employer Agreement",
+        "Refundable Airfare After Contract Completion, Subject to Written Agreement",
+        "Visa Application Support",
       ],
 
       positions: [
         {
           title: "Corn Harvester",
-
           category: "Agriculture",
 
           description:
-            "Assist with seasonal corn harvesting operations and farm activities.",
+            "Assist with seasonal corn harvesting operations and general farm activities.",
         },
 
         {
           title: "Soya Bean Harvester",
-
           category: "Agriculture",
 
           description:
@@ -111,49 +103,19 @@ const croatia = {
 
         {
           title: "Field Crop Worker",
-
           category: "Agriculture",
 
           description:
-            "Perform general farm duties including crop handling and maintenance.",
+            "Perform general farm duties, including crop handling and field maintenance.",
         },
 
         {
           title: "Farm Assistant",
-
           category: "Agriculture",
 
           description:
-            "Provide support during harvest season and daily agricultural operations.",
+            "Support harvest-season activities and daily agricultural operations.",
         },
-      ],
-
-      requirements: [
-        "Valid International Passport (Minimum 12 Months Validity)",
-
-        "Criminal Record Certificate",
-
-        "Medical Certificate",
-
-        "Updated CV / Resume",
-
-        "Passport Photograph",
-
-        "Physically Fit For Work",
-
-        "Willingness To Follow Croatian Labour Regulations",
-      ],
-
-      documents: [
-        "International Passport",
-
-        "Criminal Record Certificate",
-
-        "Medical Certificate",
-
-        "CV / Resume",
-
-        "Passport Photograph",
       ],
 
       steps: [
@@ -161,86 +123,85 @@ const croatia = {
           title: "Application Review",
 
           description:
-            "Assessment of applicant eligibility and submitted documents.",
+            "Review the applicant's profile, eligibility and submitted documents.",
         },
 
         {
           title: "Employer Matching",
 
           description:
-            "Applicant profile is matched with suitable Croatian employers.",
+            "Assess the applicant's profile against available agricultural roles and employer requirements.",
         },
 
         {
-          title: "Work Permit Processing",
+          title: "Work Authorization Processing",
 
           description:
-            "Employer submits work permit application. Processing takes approximately 6–8 weeks.",
+            "Prepare and process the required employment and work authorization documentation through the applicable official procedure.",
         },
 
         {
-          title: "Residence Permit",
+          title: "Visa Application",
 
           description:
-            "Residence permit application is completed after arrival in Croatia.",
+            "Complete the applicable visa application and any required embassy or consular procedures.",
+        },
+
+        {
+          title: "Residence Formalities",
+
+          description:
+            "Complete the applicable residence registration and permit formalities according to the approved immigration pathway.",
         },
 
         {
           title: "Employment Start",
 
-          description: "Complete registration and begin employment.",
+          description:
+            "Complete the employer's onboarding and any required registration before starting employment.",
         },
       ],
 
       pricing: {
         total: "₦7,000,000",
-
         currency: "NGN",
 
         includes: [
           "Employment Placement",
-
-          "Work Permit Processing",
-
+          "Work Authorization Processing Support",
           "Residence Permit Support",
-
-          "Visa Processing Support",
-
-          "Documentation",
+          "Visa Application Support",
+          "Documentation Assistance",
         ],
       },
 
       paymentPlan: [
         {
           stage: "Migration Agreement Signing",
-
           amount: "₦2,000,000",
         },
 
         {
           stage:
-            "Job Offer + Contract + Accommodation Details + Approved Work Permit",
-
+            "Job Offer + Contract + Accommodation Details + Work Authorization Milestone",
           amount: "₦3,000,000",
         },
 
         {
           stage: "Visa Approval & Travel Readiness",
-
           amount: "₦2,000,000",
         },
       ],
 
       terms: [
-        "Applicants must provide valid documents for verification.",
-
-        "Processing begins after agreement signing and successful screening.",
-
-        "Placements depend on employer availability and approval.",
-
-        "Accommodation is arranged according to employer agreement.",
-
-        "Applications are processed based on available slots.",
+        "Applicants must provide genuine, valid documents for verification.",
+        "Processing begins after agreement signing and the required initial screening.",
+        "Employment placement depends on employer availability and successful recruitment.",
+        "Accommodation arrangements are subject to the employer's written agreement.",
+        "Any airfare refund must be documented in the signed agreement, including the applicable conditions.",
+        "Work authorization and visa decisions are made by the relevant authorities.",
+        "Processing times are estimates and are not guaranteed.",
+        "Payment milestones and the services included must be documented in the signed agreement.",
       ],
     },
   ],

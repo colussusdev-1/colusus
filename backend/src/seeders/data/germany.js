@@ -1,19 +1,11 @@
-// import germanyImage from "../../../../../assets/images/countries/germany.jpg";
-
-// import germanyWorkImage from "../../../../../assets/images/opportunities/germany-work.jpg";
-// import germanyNursingImage from "../../../../../assets/images/opportunities/germany-nursing.jpg";
-
 const germany = {
-  id: 4,
+  id: 6,
 
   name: "Germany",
-
   shortName: "Germany",
-
   slug: "germany",
 
   flag: "🇩🇪",
-
   image: "",
 
   applicants: "2.4k",
@@ -21,191 +13,154 @@ const germany = {
   category: ["popular", "work", "residency", "healthcare"],
 
   visa: "Work Permit + Work Visa",
-
   duration: "8–12 Weeks",
-
   processingTime: "Maximum 12 Weeks",
 
   opportunityScore: "92%",
-
   successRate: "High",
-
   featured: true,
 
   description:
-    "Move to Germany through employer-backed work opportunities including skilled employment and healthcare migration pathways with job placement support, visa processing and relocation assistance.",
+    "Explore employer-supported employment opportunities in Germany, including general employment and healthcare pathways, with recruitment assistance, visa application support and relocation guidance. Eligibility and outcomes depend on the employer, applicant qualifications and applicable immigration requirements.",
 
   opportunities: [
     {
       id: 1,
 
       title: "Germany Standard Work Permit Package",
-
-      slug: "germany-work-permit",
+      slug: "germany-standard-work-permit-package",
 
       image: "",
-
       icon: "🇩🇪",
 
       category: "Jobs",
-
       location: "Germany",
-
       type: "Work Permit Package",
-
       duration: "8–12 Weeks",
 
       salary: "€1,800 - €2,500/month",
-
       demand: "High",
 
       description:
-        "Relocate to Germany through employer-backed employment opportunities with job placement, work visa support and relocation assistance.",
+        "Explore employment opportunities in Germany with employer matching, recruitment assistance, work visa application support and relocation guidance. Available roles, salaries and immigration eligibility depend on the employer and the applicable requirements.",
 
       highlights: [
-        "Verified Job Offer",
-
-        "Work Visa / Work Permit",
-
-        "Accommodation Support",
-
-        "Employer Matching",
-
-        "Relocation Assistance",
+        "Employer Job Matching",
+        "Employment Offer Support",
+        "Work Visa Application Support",
+        "Accommodation Assistance",
+        "Relocation Guidance",
       ],
 
       positions: [
         {
           sector: "Warehouse & Logistics",
-
           roles: ["Warehouse Workers", "Logistics Workers"],
         },
-
         {
           sector: "Construction",
-
           roles: ["Construction Workers", "General Labour Workers"],
         },
-
         {
           sector: "Hospitality",
-
           roles: ["Hotel Workers", "Kitchen Helpers"],
         },
-
         {
           sector: "Factory & Skilled Trades",
-
           roles: ["Factory Workers", "Electricians", "Welders", "Mechanics"],
         },
       ],
 
       benefits: [
         "Employer Job Matching",
-
-        "Work Permit Processing Support",
-
-        "Accommodation Assistance",
-
-        "Competitive Salary Opportunities",
-
-        "Pathway To Long-Term Residence",
+        "Work Authorization Application Support",
+        "Accommodation Assistance, Subject to Employer Agreement",
+        "Competitive Salary Potential",
+        "Potential Long-Term Residence Options, Subject to Eligibility",
       ],
 
       requirements: [
         "Updated CV / Resume",
-
         "Passport Photograph",
-
-        "International Passport Data Page",
-
-        "Educational Certificates",
-
-        "Professional Certificates",
-
-        "Relevant Work Experience Documents",
+        "Valid International Passport",
+        "Educational Certificates, where relevant",
+        "Professional Certificates, where relevant",
+        "Relevant Work Experience Documents, where applicable",
+        "Qualifications required for the selected role",
+        "Eligibility for the applicable German employment and immigration pathway",
       ],
 
       documents: [
         "Valid International Passport",
-
-        "Updated CV",
-
+        "Updated CV / Resume",
         "Passport Photograph",
-
-        "Educational Certificates",
-
-        "Employment Records",
+        "Educational Certificates, where applicable",
+        "Employment Records, where applicable",
+        "Professional Certificates, where applicable",
+        "Additional documents required by the employer or relevant authorities",
       ],
 
       steps: [
         {
           title: "Document Submission",
-
           description:
-            "Applicant documents are submitted for eligibility review.",
+            "Submit the required applicant documents for initial eligibility review.",
         },
-
         {
           title: "Migration Agreement",
-
           description:
-            "Successful applicants sign the migration service agreement before processing begins.",
+            "Review and sign the service agreement, including the scope of services, fees and payment milestones.",
         },
-
         {
           title: "Employer Matching",
-
           description:
-            "Applicant profile is matched with suitable German employers.",
+            "Assess the applicant's profile against available roles and employer requirements.",
         },
-
         {
-          title: "Job Offer & Work Permit",
-
+          title: "Job Offer & Work Authorization",
           description:
-            "Applicant receives employment documentation and approved work permit.",
+            "Review the employment offer and prepare the applicable work authorization documentation.",
         },
-
         {
           title: "Visa Application",
-
           description:
-            "Applicant completes embassy submission and biometric processing.",
+            "Prepare and submit the applicable visa application and complete any required consular procedures.",
         },
-
         {
           title: "Travel Preparation",
-
           description:
-            "Final relocation arrangements are completed before departure.",
+            "Prepare relocation arrangements after the required approvals have been obtained.",
         },
       ],
 
       pricing: {
         total: "₦8,000,000",
-
         currency: "NGN",
       },
 
       paymentPlan: [
         {
           stage: "Migration Agreement Signing",
-
           amount: "₦2,000,000",
         },
-
         {
-          stage: "Job Offer + Contract + Approved Work Permit",
-
+          stage: "Job Offer + Contract + Work Authorization Milestone",
           amount: "₦3,000,000",
         },
-
         {
           stage: "Visa Approval & Travel Preparation",
-
           amount: "₦3,000,000",
         },
+      ],
+
+      terms: [
+        "Applicants must provide genuine documents for verification.",
+        "Processing begins after agreement signing and the required initial screening.",
+        "Employment placement depends on employer availability and successful recruitment.",
+        "Accommodation arrangements depend on the agreed employment terms.",
+        "Visa and work authorization decisions are made by the relevant authorities.",
+        "Processing times are estimates and are not guaranteed.",
+        "Payment milestones and included services must be documented in the signed agreement.",
       ],
     },
 
@@ -213,163 +168,135 @@ const germany = {
       id: 2,
 
       title: "Germany Registered Nurse (RN) Placement Program",
-
-      slug: "germany-registered-nurse",
+      slug: "germany-registered-nurse-placement-program",
 
       image: "",
-
       icon: "🏥",
 
       category: "Healthcare",
-
       location: "Germany",
-
       type: "Healthcare Migration Package",
-
       duration: "Fast Track Processing",
 
       salary: "€3,800 - €4,200/month",
-
       demand: "Very High",
 
       description:
-        "Registered nurses from Nigeria can access German healthcare employment with qualification recognition, work visa support and relocation assistance.",
+        "Explore German healthcare employment opportunities for qualified nurses, including recruitment assistance, qualification recognition guidance, work visa support and relocation assistance. Employment eligibility depends on professional qualifications, language requirements, recognition procedures and employer selection.",
 
       highlights: [
-        "150 Registered Nurse Positions",
-
-        "Permanent Unlimited Contract",
-
-        "Employer Accommodation For First 6 Months",
-
-        "Qualification Recognition Support",
-
-        "Family Reunification Support",
+        "Registered Nurse Employment Opportunities",
+        "Employment Contract Review",
+        "Employer Accommodation Support, Subject to Agreement",
+        "Nursing Qualification Recognition Guidance",
+        "Family Reunification Information, Subject to Eligibility",
       ],
 
       positions: [
         {
           sector: "Healthcare",
-
           roles: [
             "Registered Nurses",
-
             "Hospital Nurses",
-
             "Clinical Nursing Staff",
           ],
         },
       ],
 
       benefits: [
-        "Permanent Employment Contract",
-
-        "German Work Visa Support",
-
-        "Paid Onboarding",
-
-        "Integration Support",
-
-        "Anerkennung Qualification Recognition",
-
-        "Family Reunification Pathway",
+        "Potential Long-Term Employment",
+        "German Work Visa Application Support",
+        "Employer Onboarding Support, Subject to Agreement",
+        "Integration Assistance",
+        "Anerkennung Qualification Recognition Guidance",
+        "Family Reunification Guidance, Subject to Eligibility",
       ],
 
       requirements: [
-        "Age 25 - 50 Years",
-
-        "Valid BSc Nursing Degree",
-
-        "Minimum 6 Years Nursing Experience",
-
-        "German Language Certificate B2 Level",
-
-        "Medical Fitness Certificate",
+        "Nursing qualifications that meet the applicable requirements",
+        "Relevant nursing experience, where required by the employer",
+        "German language proficiency at the level required for the role and recognition process",
+        "Medical Fitness Certificate, where required",
+        "Professional registration or qualification recognition, as applicable",
+        "Eligibility for the relevant German employment and immigration pathway",
       ],
 
       documents: [
-        "Updated CV",
-
+        "Updated CV / Resume",
         "Passport Photograph",
-
-        "International Passport",
-
+        "Valid International Passport",
         "Nursing Degree Certificate",
-
         "Professional Certificates",
-
-        "Medical Fitness Certificate",
-
-        "Experience Records",
+        "Medical Fitness Certificate, where required",
+        "Employment and Experience Records",
+        "German Language Certificate, where required",
+        "Qualification Recognition Documents, where applicable",
       ],
 
       steps: [
         {
           title: "Document Assessment",
-
-          description: "Nursing qualifications and documents are reviewed.",
+          description:
+            "Review nursing qualifications, professional experience, language proficiency and supporting documents.",
         },
-
         {
           title: "Employer Matching",
-
           description:
-            "Qualified nurses are matched with German healthcare employers.",
+            "Assess the applicant's suitability for available German healthcare roles.",
         },
-
         {
           title: "Job Offer & Contract",
-
           description:
-            "Receive employment contract and accommodation confirmation.",
+            "Review the employment offer, contract, salary and any agreed accommodation arrangements.",
         },
-
         {
           title: "Qualification Recognition",
-
           description:
-            "Support is provided for nursing qualification recognition.",
+            "Prepare and complete the applicable nursing qualification recognition process.",
         },
-
         {
           title: "Visa Application",
-
           description:
-            "Complete embassy submission and long-stay work visa process.",
+            "Prepare and submit the relevant long-stay employment visa application and supporting documents.",
         },
-
         {
-          title: "Relocation",
-
+          title: "Relocation & Onboarding",
           description:
-            "Travel arrangements and onboarding support are completed.",
+            "Prepare for relocation and complete the employer's onboarding requirements after the necessary approvals.",
         },
       ],
 
       pricing: {
         total: "₦7,000,000",
-
         currency: "NGN",
       },
 
       paymentPlan: [
         {
           stage: "Migration Agreement Signing",
-
           amount: "₦3,500,000",
         },
-
         {
-          stage: "Job Offer + Employment Contract + Work Permit",
-
+          stage:
+            "Job Offer + Employment Contract + Work Authorization Milestone",
           amount: "₦2,500,000",
         },
-
         {
           stage: "Visa Approval & Travel",
-
           amount: "₦1,000,000",
         },
+      ],
+
+      terms: [
+        "Applicants must provide genuine nursing qualifications and supporting documents.",
+        "Eligibility depends on professional qualifications, language proficiency and the requirements of the selected role.",
+        "Qualification recognition and professional authorization may be required before unrestricted nursing practice.",
+        "Employment placement depends on employer selection and availability.",
+        "Salary, working conditions and accommodation arrangements must be confirmed in the employment agreement.",
+        "Visa and work authorization decisions are made by the relevant authorities.",
+        "Processing times are estimates and are not guaranteed.",
+        "The advertised number of positions must be confirmed with the employer before publication.",
+        "Payment milestones and included services must be documented in the signed agreement.",
       ],
     },
   ],

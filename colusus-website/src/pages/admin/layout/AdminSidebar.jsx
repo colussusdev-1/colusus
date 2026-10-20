@@ -79,11 +79,7 @@ const adminNavigation = [
         icon: HiOutlinePencilAlt,
     },
 
-    {
-        label: "Consultations",
-        path: "/admin/consultations",
-        icon: HiOutlineChatAlt2,
-    },
+   
 
     {
         label: "Finance",

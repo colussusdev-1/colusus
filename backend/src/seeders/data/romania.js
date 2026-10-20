@@ -2,17 +2,14 @@
 // import romaniaWorkImage from "../../../../../assets/images/opportunities/romania-work.jpg";
 
 const romania = {
-  id: 11,
+  id: 13,
 
   name: "Romania",
-
   shortName: "Romania",
-
   slug: "romania",
-
   flag: "🇷🇴",
 
-  image:"" ,
+  image: "",
 
   applicants: "1.4k",
 
@@ -21,17 +18,14 @@ const romania = {
   visa: "Work Permit + Residency Permit",
 
   duration: "2–3 Months",
-
   processingTime: "Standard",
-
   opportunityScore: "87%",
-
   successRate: "High",
 
   featured: false,
 
   description:
-    "Discover employment opportunities in Romania with verified job offers, work permit processing, residency support and employer benefits.",
+    "Explore employment opportunities in Romania, including job placement support, work permit processing, residency permit assistance, and potential employer-provided benefits.",
 
   opportunities: [
     {
@@ -39,7 +33,7 @@ const romania = {
 
       title: "Romania Work Permit Migration Package",
 
-      slug: "romania-work-permit",
+      slug: "romania-work-permit-migration-package",
 
       image: "",
 
@@ -58,19 +52,14 @@ const romania = {
       demand: "High",
 
       description:
-        "Move to Romania with a verified job offer, work permit, residency permit and employer support including accommodation options.",
+        "Explore employment opportunities in Romania with job placement support, work permit processing, residency permit assistance, and potential employer benefits, subject to the employment contract.",
 
       highlights: [
-        "Verified Job Offer",
-
-        "Work Permit",
-
-        "Residency Permit",
-
-        "FREE Accommodation (Most Positions)",
-
-        "FREE Meals (Selected Positions)",
-
+        "Job Offer and Employer Matching Support",
+        "Work Permit Processing Support",
+        "Residency Permit Assistance",
+        "Accommodation May Be Available for Eligible Positions",
+        "Meals May Be Provided for Selected Positions",
         "Flight Arrangement Support",
       ],
 
@@ -80,13 +69,9 @@ const romania = {
 
           roles: [
             "Masons",
-
             "Shuttering Carpenters",
-
             "Wall Painters",
-
             "Tile Fitters",
-
             "Gypsum Board Workers",
           ],
         },
@@ -96,15 +81,10 @@ const romania = {
 
           roles: [
             "Meat Processors",
-
             "Machine Operators",
-
             "Product Cutters",
-
             "Packagers",
-
             "Sorters",
-
             "Quality Controllers",
           ],
         },
@@ -117,86 +97,74 @@ const romania = {
       ],
 
       benefits: [
-        "Work Permit Processing",
-
-        "Residency Permit Support",
-
-        "8–10 Working Hours Per Day",
-
-        "FREE Employer Accommodation (Most Positions)",
-
-        "FREE Meals For Selected Positions",
-
-        "Medical Insurance Provided",
-
-        "Medical Examination Support",
+        "Work Permit Processing Support",
+        "Residency Permit Assistance",
+        "Working Hours Subject to the Employment Contract and Applicable Labour Laws",
+        "Employer Accommodation May Be Available for Selected Positions",
+        "Meals May Be Provided for Selected Positions",
+        "Medical Insurance Subject to Employment Terms and Applicable Requirements",
+        "Medical Examination Guidance",
       ],
 
       requirements: [
-        "Citizens of All Countries Except Bangladesh and Pakistan",
-
-        "Male & Female Applicants",
-
-        "Maximum Age: 50 Years",
-
-        "Communicative English Required",
-
-        "Physically Fit for Full-Time Employment",
+        "Applicants Must Meet the Eligibility Requirements for the Specific Position and Applicable Immigration Rules",
+        "Male and Female Applicants May Be Considered Depending on the Position",
+        "Age Requirements Depend on Employer and Position",
+        "Communicative English May Be Required",
+        "Applicants Must Be Medically Fit to Perform the Duties of the Position",
+        "Applicants Must Meet the Relevant Work Permit and Visa Requirements",
       ],
 
       documents: [
         "Valid International Passport",
-
         "Police Clearance Certificate",
-
         "Updated CV / Resume",
-
         "Passport Photograph",
-
-        "Proof of Current Residence (If Applicable)",
-
-        "Educational Certificates (If Available)",
+        "Proof of Current Residence, If Applicable",
+        "Educational Certificates, If Available",
       ],
 
       steps: [
         {
           title: "Document Submission",
 
-          description: "Submit required documents for eligibility screening.",
+          description:
+            "Submit the required documents for an initial eligibility assessment.",
         },
 
         {
           title: "Migration Agreement",
 
           description:
-            "Sign the official Migration Service Agreement before processing begins.",
+            "Review and sign the migration service agreement, including the service scope, fees, payment milestones, and applicable terms.",
         },
 
         {
           title: "Employer Matching",
 
           description:
-            "Your profile is matched with a suitable Romanian employer.",
+            "Your profile is reviewed for suitable employment opportunities with Romanian employers.",
         },
 
         {
-          title: "Job Offer & Work Permit",
+          title: "Job Offer and Work Permit",
 
           description:
-            "Receive job offer, employment contract, accommodation details and approved work permit.",
+            "If selected by an employer, review the job offer and employment contract. Work permit processing is subject to employer participation and approval by the relevant authorities.",
         },
 
         {
           title: "Visa Application",
 
-          description: "Complete embassy submission and biometric processing.",
+          description:
+            "Prepare and submit the required visa application and supporting documents through the appropriate process.",
         },
 
         {
-          title: "Travel & Residency",
+          title: "Travel and Residency",
 
           description:
-            "Travel to Romania and receive residency card according to immigration regulations.",
+            "Travel only after the necessary approvals are obtained. Complete the applicable residence registration or permit formalities in Romania.",
         },
       ],
 
@@ -206,15 +174,11 @@ const romania = {
         currency: "NGN",
 
         includes: [
-          "Job Placement",
-
-          "Work Permit Processing",
-
-          "Residency Permit Support",
-
-          "Visa Support",
-
-          "Documentation",
+          "Job Placement Support",
+          "Work Permit Processing Support",
+          "Residency Permit Assistance",
+          "Visa Application Support",
+          "Documentation Assistance",
         ],
       },
 
@@ -226,28 +190,34 @@ const romania = {
         },
 
         {
-          stage: "Job Offer + Employment Contract + Work Permit",
+          stage: "Job Offer, Employment Contract, and Work Permit Milestone",
 
           amount: "₦3,000,000",
         },
 
         {
-          stage: "Visa Approval & Travel Readiness",
+          stage: "Visa Approval and Travel Readiness Milestone",
 
           amount: "₦3,000,000",
         },
       ],
 
       terms: [
-        "Applicants must meet eligibility requirements and provide valid documents.",
+        "Applicants must satisfy the eligibility requirements for their selected position and provide valid supporting documents.",
 
-        "Processing begins after agreement signing and document verification.",
+        "Processing begins according to the signed migration service agreement and after the required documents have been reviewed.",
 
-        "Employment placement depends on employer availability and immigration approval.",
+        "Employment placement depends on employer selection, job availability, and the relevant approvals.",
 
-        "Accommodation benefits depend on employer agreement.",
+        "Work permits, visas, and residence permits are subject to approval by the relevant authorities.",
 
-        "Applications are processed on a first-come, first-served basis.",
+        "Accommodation, meals, insurance, and other employer benefits depend on the written employment agreement and applicable requirements.",
+
+        "The stated salary range, processing duration, and package inclusions should be confirmed for the specific job offer before payment.",
+
+        "Payment milestones and refund conditions must be governed by the signed service agreement.",
+
+        "Applications may be handled according to the provider's documented application process.",
       ],
     },
   ],

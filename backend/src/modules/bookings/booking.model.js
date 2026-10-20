@@ -1,12 +1,31 @@
 import mongoose from "mongoose";
 
+/* -------------------------------------------------------------------------- */
+/* BOOKING SCHEMA                                                             */
+/* -------------------------------------------------------------------------- */
+
 const bookingSchema = new mongoose.Schema(
   {
-    /*
-    |--------------------------------------------------------------------------
-    | Personal Information
-    |--------------------------------------------------------------------------
-    */
+    /* ---------------------------------------------------------------------- */
+    /* FORM SUBMISSION LINK                                                    */
+    /* ---------------------------------------------------------------------- */
+
+    /**
+     * References the website form submission associated with this booking.
+     *
+     * Stored as a string because form submission IDs are passed between
+     * the public website and the booking API as strings.
+     */
+    formSubmissionId: {
+      type: String,
+      trim: true,
+      default: null,
+      index: true,
+    },
+
+    /* ---------------------------------------------------------------------- */
+    /* PERSONAL INFORMATION                                                    */
+    /* ---------------------------------------------------------------------- */
 
     fullName: {
       type: String,
@@ -30,6 +49,7 @@ const bookingSchema = new mongoose.Schema(
     age: {
       type: Number,
       min: 0,
+      default: null,
     },
 
     education: {
@@ -44,11 +64,9 @@ const bookingSchema = new mongoose.Schema(
       default: "",
     },
 
-    /*
-    |--------------------------------------------------------------------------
-    | Travel Information
-    |--------------------------------------------------------------------------
-    */
+    /* ---------------------------------------------------------------------- */
+    /* TRAVEL INFORMATION                                                      */
+    /* ---------------------------------------------------------------------- */
 
     travelPackage: {
       type: String,
@@ -72,11 +90,9 @@ const bookingSchema = new mongoose.Schema(
       default: null,
     },
 
-    /*
-    |--------------------------------------------------------------------------
-    | Consultation
-    |--------------------------------------------------------------------------
-    */
+    /* ---------------------------------------------------------------------- */
+    /* CONSULTATION INFORMATION                                                */
+    /* ---------------------------------------------------------------------- */
 
     consultationDate: {
       type: Date,
@@ -95,11 +111,9 @@ const bookingSchema = new mongoose.Schema(
       default: "",
     },
 
-    /*
-    |--------------------------------------------------------------------------
-    | Coupon
-    |--------------------------------------------------------------------------
-    */
+    /* ---------------------------------------------------------------------- */
+    /* COUPON                                                                  */
+    /* ---------------------------------------------------------------------- */
 
     couponCode: {
       type: String,
@@ -119,24 +133,16 @@ const bookingSchema = new mongoose.Schema(
       min: 0,
     },
 
-    /*
-    |--------------------------------------------------------------------------
-    | Payment
-    |--------------------------------------------------------------------------
-    */
+    /* ---------------------------------------------------------------------- */
+    /* FINANCIAL INVOICE LINK                                                  */
+    /* ---------------------------------------------------------------------- */
 
-    /*
-     * Financial source-of-record link.
+    /**
+     * Financial relationship:
      *
-     * A booking may have one invoice associated with it.
+     * Booking → Invoice → Payment → Receipt
      *
-     * Booking
-     *    ↓
-     * Invoice
-     *    ↓
-     * Payment
-     *    ↓
-     * Receipt
+     * The finance module remains responsible for payment records.
      */
     invoice: {
       type: mongoose.Schema.Types.ObjectId,
@@ -144,6 +150,10 @@ const bookingSchema = new mongoose.Schema(
       default: null,
       index: true,
     },
+
+    /* ---------------------------------------------------------------------- */
+    /* CONSULTATION PRICING                                                    */
+    /* ---------------------------------------------------------------------- */
 
     consultationFee: {
       type: Number,
@@ -165,11 +175,14 @@ const bookingSchema = new mongoose.Schema(
       uppercase: true,
     },
 
-    /*
-     * Latest successful payment reference associated with the booking.
+    /* ---------------------------------------------------------------------- */
+    /* PAYMENT REFERENCE                                                       */
+    /* ---------------------------------------------------------------------- */
+
+    /**
+     * Most recent successful payment reference associated with the booking.
      *
      * The Payment collection remains the financial source of truth.
-     * This field is retained for convenient business-level access.
      */
     paymentReference: {
       type: String,
@@ -183,11 +196,9 @@ const bookingSchema = new mongoose.Schema(
       default: "UNPAID",
     },
 
-    /*
-    |--------------------------------------------------------------------------
-    | Booking Status
-    |--------------------------------------------------------------------------
-    */
+    /* ---------------------------------------------------------------------- */
+    /* BOOKING STATUS                                                          */
+    /* ---------------------------------------------------------------------- */
 
     bookingStatus: {
       type: String,
@@ -201,11 +212,9 @@ const bookingSchema = new mongoose.Schema(
       default: "AWAITING_PAYMENT",
     },
 
-    /*
-    |--------------------------------------------------------------------------
-    | Audit
-    |--------------------------------------------------------------------------
-    */
+    /* ---------------------------------------------------------------------- */
+    /* AUDIT                                                                   */
+    /* ---------------------------------------------------------------------- */
 
     bookedAt: {
       type: Date,
@@ -217,6 +226,23 @@ const bookingSchema = new mongoose.Schema(
   },
 );
 
-const Booking = mongoose.model("Booking", bookingSchema);
+/* -------------------------------------------------------------------------- */
+/* INDEXES                                                                    */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Supports finding bookings associated with a saved website submission.
+ *
+ * This is deliberately not unique yet, because existing records may already
+ * contain multiple bookings for the same customer or submission.
+ */
+bookingSchema.index({ formSubmissionId: 1, createdAt: -1 });
+
+/* -------------------------------------------------------------------------- */
+/* MODEL                                                                       */
+/* -------------------------------------------------------------------------- */
+
+const Booking =
+  mongoose.models.Booking || mongoose.model("Booking", bookingSchema);
 
 export default Booking;

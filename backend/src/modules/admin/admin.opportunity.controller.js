@@ -1,260 +1,263 @@
-import adminOpportunityService from "./admin.opportunity.service.js";
+import opportunityService from "./admin.opportunity.service.js";
 
-/*
-|--------------------------------------------------------------------------
-| GET ALL OPPORTUNITIES
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* RESPONSE HELPERS                                                           */
+/* -------------------------------------------------------------------------- */
 
-export const getAllOpportunities = async (req, res, next) => {
-  try {
-    const opportunities = await adminOpportunityService.getAllOpportunities();
-
-    return res.status(200).json({
-      success: true,
-      count: opportunities.length,
-      data: opportunities,
-    });
-  } catch (error) {
-    next(error);
-  }
+const sendSuccess = (res, message, data = null, statusCode = 200) => {
+  return res.status(statusCode).json({
+    success: true,
+    message,
+    ...(data !== null ? { data } : {}),
+  });
 };
 
-/*
-|--------------------------------------------------------------------------
-| GET DESTINATIONS
-|--------------------------------------------------------------------------
-|
-| Returns the existing destinations derived from Opportunity records.
-|
-| This is used by the New Offer builder so the user can select an
-| existing destination instead of manually entering country metadata.
-|
-| Example:
-|
-| GET /api/v1/admin/opportunities/destinations
-|
-|--------------------------------------------------------------------------
-*/
+const sendError = (
+  res,
+  error,
+  fallbackMessage = "An unexpected error occurred.",
+) => {
+  const statusCode =
+    Number.isInteger(error?.statusCode) &&
+    error.statusCode >= 400 &&
+    error.statusCode <= 599
+      ? error.statusCode
+      : 500;
 
-export const getDestinations = async (req, res, next) => {
-  try {
-    const destinations = await adminOpportunityService.getDestinations();
-
-    return res.status(200).json({
-      success: true,
-      count: destinations.length,
-      data: destinations,
-    });
-  } catch (error) {
-    next(error);
-  }
+  return res.status(statusCode).json({
+    success: false,
+    message: error?.message || fallbackMessage,
+    ...(error?.details ? { details: error.details } : {}),
+  });
 };
 
-/*
-|--------------------------------------------------------------------------
-| GET SINGLE OPPORTUNITY
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* ASYNC HANDLER                                                              */
+/* -------------------------------------------------------------------------- */
 
-export const getOpportunityById = async (req, res, next) => {
-  try {
-    const opportunity = await adminOpportunityService.getOpportunityById(
-      req.params.id,
-    );
+const asyncHandler = (handler) => {
+  return async (req, res) => {
+    try {
+      await handler(req, res);
+    } catch (error) {
+      console.error(
+        `[Admin Opportunity Controller] ${req.method} ${req.originalUrl}:`,
+        error,
+      );
 
-    if (!opportunity) {
-      return res.status(404).json({
-        success: false,
-        message: "Opportunity not found.",
-      });
+      if (res.headersSent) {
+        return;
+      }
+
+      return sendError(res, error);
     }
-
-    return res.status(200).json({
-      success: true,
-      data: opportunity,
-    });
-  } catch (error) {
-    next(error);
-  }
+  };
 };
 
-/*
-|--------------------------------------------------------------------------
-| CREATE OPPORTUNITY
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* GET ALL OPPORTUNITIES                                                      */
+/* GET /api/v1/admin/opportunities                                            */
+/* -------------------------------------------------------------------------- */
 
-export const createOpportunity = async (req, res, next) => {
-  try {
-    const opportunity = await adminOpportunityService.createOpportunity(
-      req.body,
-    );
+export const getAllOpportunities = asyncHandler(async (req, res) => {
+  const result = await opportunityService.getAllOpportunities({
+    search: req.query.search,
+    countrySlug: req.query.countrySlug,
+    countryName: req.query.countryName,
+    category: req.query.category,
+    type: req.query.type,
+    active: req.query.active,
+    featured: req.query.featured,
+    page: req.query.page,
+    limit: req.query.limit,
+    sort: req.query.sort,
+    order: req.query.order,
+  });
 
-    return res.status(201).json({
-      success: true,
-      message: "Opportunity created successfully.",
-      data: opportunity,
+  return sendSuccess(res, "Opportunities retrieved successfully.", result);
+});
+
+/* -------------------------------------------------------------------------- */
+/* GET OPPORTUNITY BY ID                                                      */
+/* GET /api/v1/admin/opportunities/:id                                        */
+/* -------------------------------------------------------------------------- */
+
+export const getOpportunityById = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const opportunity = await opportunityService.getOpportunityById(id);
+
+  return sendSuccess(res, "Opportunity retrieved successfully.", opportunity);
+});
+
+/* -------------------------------------------------------------------------- */
+/* CREATE OPPORTUNITY                                                         */
+/* POST /api/v1/admin/opportunities                                           */
+/* -------------------------------------------------------------------------- */
+
+export const createOpportunity = asyncHandler(async (req, res) => {
+  const opportunity = await opportunityService.createOpportunity(req.body);
+
+  return sendSuccess(
+    res,
+    "Opportunity created successfully.",
+    opportunity,
+    201,
+  );
+});
+
+/* -------------------------------------------------------------------------- */
+/* UPDATE OPPORTUNITY                                                         */
+/* PATCH /api/v1/admin/opportunities/:id                                      */
+/* -------------------------------------------------------------------------- */
+
+export const updateOpportunity = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const opportunity = await opportunityService.updateOpportunity(id, req.body);
+
+  return sendSuccess(res, "Opportunity updated successfully.", opportunity);
+});
+
+/* -------------------------------------------------------------------------- */
+/* DEACTIVATE OPPORTUNITY                                                     */
+/* DELETE /api/v1/admin/opportunities/:id                                     */
+/* -------------------------------------------------------------------------- */
+
+export const deactivateOpportunity = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const opportunity = await opportunityService.deactivateOpportunity(id);
+
+  return sendSuccess(res, "Opportunity deactivated successfully.", opportunity);
+});
+
+/* -------------------------------------------------------------------------- */
+/* SET OPPORTUNITY ACTIVE STATUS                                              */
+/* PATCH /api/v1/admin/opportunities/:id/active                               */
+/* -------------------------------------------------------------------------- */
+
+export const setOpportunityActive = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { active } = req.body;
+
+  if (typeof active !== "boolean") {
+    return res.status(400).json({
+      success: false,
+      message: "The active field must be a boolean.",
     });
-  } catch (error) {
-    next(error);
   }
-};
 
-/*
-|--------------------------------------------------------------------------
-| UPDATE OPPORTUNITY
-|--------------------------------------------------------------------------
-*/
+  const opportunity = await opportunityService.setOpportunityActive(id, active);
 
-export const updateOpportunity = async (req, res, next) => {
-  try {
-    const opportunity = await adminOpportunityService.updateOpportunity(
-      req.params.id,
-      req.body,
-    );
+  return sendSuccess(
+    res,
+    `Opportunity ${active ? "activated" : "deactivated"} successfully.`,
+    opportunity,
+  );
+});
 
-    if (!opportunity) {
-      return res.status(404).json({
-        success: false,
-        message: "Opportunity not found.",
-      });
-    }
+/* -------------------------------------------------------------------------- */
+/* SET OPPORTUNITY FEATURED STATUS                                            */
+/* PATCH /api/v1/admin/opportunities/:id/featured                             */
+/* -------------------------------------------------------------------------- */
 
-    return res.status(200).json({
-      success: true,
-      message: "Opportunity updated successfully.",
-      data: opportunity,
+export const setOpportunityFeatured = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { featured } = req.body;
+
+  if (typeof featured !== "boolean") {
+    return res.status(400).json({
+      success: false,
+      message: "The featured field must be a boolean.",
     });
-  } catch (error) {
-    next(error);
   }
-};
 
-/*
-|--------------------------------------------------------------------------
-| ACTIVATE / DEACTIVATE
-|--------------------------------------------------------------------------
-*/
+  const opportunity = await opportunityService.setOpportunityFeatured(
+    id,
+    featured,
+  );
 
-export const setOpportunityActive = async (req, res, next) => {
-  try {
-    const { active } = req.body;
+  return sendSuccess(
+    res,
+    `Opportunity ${featured ? "featured" : "unfeatured"} successfully.`,
+    opportunity,
+  );
+});
 
-    if (typeof active !== "boolean") {
-      return res.status(400).json({
-        success: false,
-        message: "The active value must be true or false.",
-      });
-    }
+/* -------------------------------------------------------------------------- */
+/* GET DESTINATIONS                                                           */
+/* GET /api/v1/admin/opportunities/destinations                               */
+/* -------------------------------------------------------------------------- */
 
-    const opportunity = await adminOpportunityService.setOpportunityActive(
-      req.params.id,
-      active,
-    );
+export const getDestinations = asyncHandler(async (req, res) => {
+  const destinations = await opportunityService.getDestinations({
+    search: req.query.search,
+    active: req.query.active,
+  });
 
-    if (!opportunity) {
-      return res.status(404).json({
-        success: false,
-        message: "Opportunity not found.",
-      });
-    }
+  return sendSuccess(res, "Destinations retrieved successfully.", destinations);
+});
 
-    return res.status(200).json({
-      success: true,
-      message: active
-        ? "Opportunity activated successfully."
-        : "Opportunity deactivated successfully.",
-      data: opportunity,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+/* -------------------------------------------------------------------------- */
+/* GET DESTINATION BY COUNTRY SLUG                                            */
+/* GET /api/v1/admin/opportunities/destinations/:countrySlug                 */
+/* -------------------------------------------------------------------------- */
 
-/*
-|--------------------------------------------------------------------------
-| FEATURED
-|--------------------------------------------------------------------------
-*/
+export const getDestinationBySlug = asyncHandler(async (req, res) => {
+  const { countrySlug } = req.params;
 
-export const setOpportunityFeatured = async (req, res, next) => {
-  try {
-    const { featured } = req.body;
+  const destination =
+    await opportunityService.getDestinationBySlug(countrySlug);
 
-    if (typeof featured !== "boolean") {
-      return res.status(400).json({
-        success: false,
-        message: "The featured value must be true or false.",
-      });
-    }
+  return sendSuccess(res, "Destination retrieved successfully.", destination);
+});
 
-    const opportunity = await adminOpportunityService.setOpportunityFeatured(
-      req.params.id,
-      featured,
-    );
+/* -------------------------------------------------------------------------- */
+/* UPDATE DESTINATION METADATA                                                */
+/* PATCH /api/v1/admin/opportunities/destinations/:countrySlug               */
+/* -------------------------------------------------------------------------- */
 
-    if (!opportunity) {
-      return res.status(404).json({
-        success: false,
-        message: "Opportunity not found.",
-      });
-    }
+export const updateDestination = asyncHandler(async (req, res) => {
+  const { countrySlug } = req.params;
 
-    return res.status(200).json({
-      success: true,
-      message: featured
-        ? "Opportunity marked as featured."
-        : "Opportunity removed from featured.",
-      data: opportunity,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+  const destination = await opportunityService.updateDestination(
+    countrySlug,
+    req.body,
+  );
 
-/*
-|--------------------------------------------------------------------------
-| DEACTIVATE
-|--------------------------------------------------------------------------
-*/
+  return sendSuccess(res, "Destination updated successfully.", destination);
+});
 
-export const deactivateOpportunity = async (req, res, next) => {
-  try {
-    const opportunity = await adminOpportunityService.deactivateOpportunity(
-      req.params.id,
-    );
+/* -------------------------------------------------------------------------- */
+/* GET OPPORTUNITY DATA INTEGRITY REPORT                                      */
+/* GET /api/v1/admin/opportunities/integrity                                  */
+/* -------------------------------------------------------------------------- */
 
-    if (!opportunity) {
-      return res.status(404).json({
-        success: false,
-        message: "Opportunity not found.",
-      });
-    }
+export const getIntegrityReport = asyncHandler(async (req, res) => {
+  const report = await opportunityService.getIntegrityReport();
 
-    return res.status(200).json({
-      success: true,
-      message: "Opportunity deactivated successfully.",
-      data: opportunity,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+  return sendSuccess(
+    res,
+    "Opportunity integrity report generated successfully.",
+    report,
+  );
+});
 
-/*
-|--------------------------------------------------------------------------
-| EXPORT
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* DEFAULT EXPORT                                                             */
+/* -------------------------------------------------------------------------- */
 
 export default {
   getAllOpportunities,
-  getDestinations,
   getOpportunityById,
   createOpportunity,
   updateOpportunity,
+  deactivateOpportunity,
   setOpportunityActive,
   setOpportunityFeatured,
-  deactivateOpportunity,
+  getDestinations,
+  getDestinationBySlug,
+  updateDestination,
+  getIntegrityReport,
 };

@@ -12,6 +12,7 @@ const ImagePicker = ({
     onChange,
     hint = "Upload a JPG or PNG image. Maximum file size is 10 MB.",
     aspect = "landscape",
+    uploadType = "OPPORTUNITY_IMAGE",
 }) => {
     const inputRef = useRef(null);
 
@@ -26,9 +27,7 @@ const ImagePicker = ({
     const handleFileChange = async (event) => {
         const file = event.target.files?.[0];
 
-        if (!file) {
-            return;
-        }
+        if (!file) return;
 
         setError("");
 
@@ -50,23 +49,20 @@ const ImagePicker = ({
         }
 
         const localPreview = URL.createObjectURL(file);
+
         setPreview(localPreview);
         setUploading(true);
 
         try {
             const formData = new FormData();
 
+            // Append the type before the file.
+            formData.append("type", uploadType);
             formData.append("file", file);
-            formData.append("type", "OPPORTUNITY_IMAGE");
 
             const { data } = await api.post(
                 "/uploads",
                 formData,
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                },
             );
 
             const uploadedUrl = data?.data?.url;
@@ -77,9 +73,12 @@ const ImagePicker = ({
                 );
             }
 
+            // Return the Cloudinary URL to the parent form.
+            setPreview(uploadedUrl);
             onChange(uploadedUrl);
         } catch (uploadError) {
             setPreview(value || "");
+
             setError(
                 uploadError?.response?.data?.message ||
                 uploadError?.message ||
@@ -142,12 +141,11 @@ const ImagePicker = ({
                             <HiOutlinePhoto />
                         </span>
 
-                        <strong>
-                            No image selected
-                        </strong>
+                        <strong>No image selected</strong>
 
                         <span>
-                            Upload an image for this opportunity.
+                            Upload an image for this destination or
+                            opportunity.
                         </span>
                     </div>
                 )}
@@ -155,7 +153,9 @@ const ImagePicker = ({
                 {uploading && (
                     <div className="image-picker__uploading">
                         <span className="image-picker__spinner" />
+
                         <strong>Uploading image...</strong>
+
                         <span>
                             Saving securely to Cloudinary
                         </span>
@@ -170,7 +170,7 @@ const ImagePicker = ({
                 >
                     <HiOutlineArrowUpTray />
 
-                    {preview
+                    {uploading ? "Uploading..." : preview
                         ? "Replace image"
                         : "Choose image"}
                 </button>

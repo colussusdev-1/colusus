@@ -2,7 +2,10 @@ import {
     FiArrowUpRight,
     FiPlus,
     FiRefreshCw,
+    FiMapPin,
 } from "react-icons/fi";
+
+import { useNavigate } from "react-router-dom";
 
 import "./OffersHeader.css";
 
@@ -11,12 +14,18 @@ function OffersHeader({
     onRefresh,
     refreshing,
 }) {
+    const navigate = useNavigate();
+
     const handleOpenCatalogue = () => {
         window.open(
             "/opportunities",
             "_blank",
             "noopener,noreferrer"
         );
+    };
+
+    const handleManageDestinations = () => {
+        navigate("/admin/opportunities/destinations");
     };
 
     return (
@@ -49,6 +58,7 @@ function OffersHeader({
                 </div>
 
                 <div className="offers-header__actions">
+                    {/* Refresh */}
                     <button
                         type="button"
                         className="offers-header__button offers-header__button--secondary"
@@ -70,20 +80,29 @@ function OffersHeader({
                         </span>
                     </button>
 
+                    {/* Public Catalogue */}
                     <button
                         type="button"
                         className="offers-header__button offers-header__button--secondary"
-                        onClick={
-                            handleOpenCatalogue
-                        }
+                        onClick={handleOpenCatalogue}
                     >
                         <FiArrowUpRight className="offers-header__button-icon" />
 
-                        <span>
-                            View catalogue
-                        </span>
+                        <span>View catalogue</span>
                     </button>
 
+                    {/* Destination Management */}
+                    <button
+                        type="button"
+                        className="offers-header__button offers-header__button--secondary"
+                        onClick={handleManageDestinations}
+                    >
+                        <FiMapPin className="offers-header__button-icon" />
+
+                        <span>Destinations</span>
+                    </button>
+
+                    {/* Create Offer */}
                     <button
                         type="button"
                         className="offers-header__button offers-header__button--primary"
@@ -91,9 +110,7 @@ function OffersHeader({
                     >
                         <FiPlus className="offers-header__button-icon" />
 
-                        <span>
-                            New offer
-                        </span>
+                        <span>New offer</span>
                     </button>
                 </div>
             </div>

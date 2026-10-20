@@ -1,436 +1,328 @@
-// import australia from "../../../../../assets/flags/australia.png";
-
-
 const australiaData = {
+  id: 1,
 
+  name: "Australia",
+  shortName: "Australia",
+  slug: "australia",
 
-    id:3,
+  flag: "🇦🇺",
+  image: "",
 
-    name:"Australia",
+  applicants: "1.7k",
 
-    shortName:"Australia",
+  category: ["popular", "work", "pr", "study"],
 
-    slug:"australia",
+  visa: "Skilled Migration",
+  duration: "10–20 Weeks",
+  processingTime: "Medium",
 
-
-    flag:"🇦🇺",
-
-
-    image:"",
-
-
-    applicants:"1.7k",
-
-
-
-    category:[
-        "popular",
-        "work",
-        "pr",
-        "study"
-    ],
-
-
-
-    visa:"Skilled Migration",
-
-
-
-    duration:"10–20 Weeks",
-
-
-
-    processingTime:"Medium",
-
-
-
-    description:
+  description:
     "Access Australian skilled migration, education and permanent residency opportunities designed for qualified professionals and international students.",
 
-
-
-    opportunityScore:"90%",
-
-
-
-    successRate:"High",
-
-
-
-    featured:true,
-
-
-
-    opportunities:[
-
-
-
-        {
-
-
-            id:1,
-
-
-            title:"Skilled Migration",
-
-
-            slug:"skilled-migration",
-
-
-            category:"Residency",
-
-
-            location:"Australia",
-
-
-            type:"Permanent Residency Pathway",
-
-
-            duration:"10–20 Weeks",
-
-
-            icon:"🇦🇺",
-
-
-
-            salary:
-            "AUD $70,000 - $120,000/year",
-
-
-
-            demand:
-            "Very High",
-
-
-
-            description:
-            "Australia's skilled migration programs allow qualified professionals to build careers and pursue permanent residency.",
-
-
-
-            requirements:[
-
-                "Occupation listed on Australia's skilled occupation list",
-
-                "Skills assessment approval",
-
-                "English language proficiency",
-
-                "Relevant work experience"
-
-            ],
-
-
-
-            documents:[
-
-                "Valid passport",
-
-                "Skills assessment documents",
-
-                "Employment records",
-
-                "Educational certificates",
-
-                "English test results"
-
-            ],
-
-
-
-            benefits:[
-
-                "Permanent residency pathway",
-
-                "Access to Australian healthcare",
-
-                "Family migration options",
-
-                "Long-term settlement opportunities"
-
-            ]
-
-        },
-
-
-
-
-
-        {
-
-
-            id:2,
-
-
-            title:"Software Engineer",
-
-
-            slug:"software-engineer",
-
-
-            category:"Jobs",
-
-
-            location:"Sydney, Melbourne, Australia",
-
-
-            type:"Skilled Worker Visa",
-
-
-            duration:"8–16 Weeks",
-
-
-            icon:"💻",
-
-
-
-            salary:
-            "AUD $90,000 - $150,000/year",
-
-
-
-            demand:
-            "Critical Shortage",
-
-
-
-            description:
-            "Australia has strong demand for software engineers, developers and technology professionals across major cities.",
-
-
-
-            requirements:[
-
-                "Computer Science or related qualification",
-
-                "Professional software development experience",
-
-                "Programming skills",
-
-                "English proficiency"
-
-            ],
-
-
-
-            documents:[
-
-                "Passport",
-
-                "CV",
-
-                "Portfolio or GitHub profile",
-
-                "Degree certificates",
-
-                "Employment references"
-
-            ],
-
-
-
-            benefits:[
-
-                "High salary potential",
-
-                "Technology career growth",
-
-                "PR opportunities",
-
-                "Family visa options"
-
-            ]
-
-        },
-
-
-
-
-
-
-        {
-
-
-            id:3,
-
-
-            title:"International Student",
-
-
-            slug:"international-student",
-
-
-            category:"Study",
-
-
-            location:"Australia",
-
-
-            type:"Student Visa",
-
-
-            duration:"8–14 Weeks",
-
-
-            icon:"🎓",
-
-
-
-            salary:
-            "Post-study work opportunities",
-
-
-
-            demand:
-            "High",
-
-
-
-            description:
-            "Study at Australian universities while creating opportunities for future employment and migration.",
-
-
-
-            requirements:[
-
-                "Admission offer from institution",
-
-                "Academic qualifications",
-
-                "Proof of financial capacity",
-
-                "English requirement"
-
-            ],
-
-
-
-            documents:[
-
-                "Passport",
-
-                "Admission letter",
-
-                "Academic transcripts",
-
-                "Financial documents"
-
-            ],
-
-
-
-            benefits:[
-
-                "World-class education",
-
-                "Post-study work rights",
-
-                "Career opportunities",
-
-                "Migration pathways"
-
-            ]
-
-        },
-
-
-
-
-
-
-
-        {
-
-
-            id:4,
-
-
-            title:"Healthcare Worker",
-
-
-            slug:"healthcare-worker",
-
-
-            category:"Jobs",
-
-
-            location:"Australia",
-
-
-            type:"Healthcare Skilled Visa",
-
-
-            duration:"10–18 Weeks",
-
-
-            icon:"🏥",
-
-
-
-            salary:
-            "AUD $75,000 - $130,000/year",
-
-
-
-            demand:
-            "Very High",
-
-
-
-            description:
-            "Healthcare professionals are among Australia's most demanded migration categories.",
-
-
-
-            requirements:[
-
-                "Healthcare qualification",
-
-                "Professional registration",
-
-                "Work experience",
-
-                "English language ability"
-
-            ],
-
-
-
-            documents:[
-
-                "Passport",
-
-                "Professional license",
-
-                "Qualification certificates",
-
-                "Employment records"
-
-            ],
-
-
-
-            benefits:[
-
-                "High demand occupation",
-
-                "Competitive salaries",
-
-                "Permanent residency options",
-
-                "Healthcare benefits"
-
-            ]
-
-        }
-
-
-
-
-    ]
-
+  opportunityScore: "90%",
+  successRate: "High",
+  featured: true,
+
+  opportunities: [
+    {
+      id: 1,
+
+      title: "Skilled Migration",
+      slug: "australia-skilled-migration",
+
+      image: "",
+      category: "Residency",
+      location: "Australia",
+      type: "Permanent Residency Pathway",
+      duration: "10–20 Weeks",
+
+      icon: "🇦🇺",
+
+      salary: "AUD $70,000 - $120,000/year",
+      demand: "Very High",
+
+      description:
+        "Australia's skilled migration programs allow qualified professionals to build careers and pursue permanent residency.",
+
+      highlights: [
+        "Skilled migration pathway",
+        "Skills assessment support",
+        "English language requirements",
+        "Long-term settlement opportunities",
+      ],
+
+      requirements: [
+        "Occupation listed on Australia's skilled occupation list",
+        "Skills assessment approval",
+        "English language proficiency",
+        "Relevant work experience",
+      ],
+
+      documents: [
+        "Valid passport",
+        "Skills assessment documents",
+        "Employment records",
+        "Educational certificates",
+        "English test results",
+      ],
+
+      benefits: [
+        "Permanent residency pathway",
+        "Access to Australian healthcare, subject to eligibility",
+        "Family migration options, subject to visa eligibility",
+        "Long-term settlement opportunities",
+      ],
+
+      positions: [],
+
+      steps: [
+        "Eligibility Assessment",
+        "Skills Assessment",
+        "Application Preparation",
+        "Visa Application",
+        "Migration Decision",
+      ],
+
+      pricing: null,
+      paymentPlan: [],
+
+      terms: [
+        "Eligibility depends on the applicable visa subclass and its requirements.",
+        "Skills assessment and English language requirements vary by occupation and visa pathway.",
+        "Visa approval is determined by the relevant Australian authorities.",
+        "Processing times depend on the application type and the relevant authorities.",
+      ],
+    },
+
+    {
+      id: 2,
+
+      title: "Software Engineer",
+      slug: "australia-software-engineer-jobs",
+
+      image: "",
+      category: "Jobs",
+      location: "Sydney, Melbourne, Australia",
+      type: "Skilled Worker Visa",
+      duration: "8–16 Weeks",
+
+      icon: "💻",
+
+      salary: "AUD $90,000 - $150,000/year",
+      demand: "Critical Shortage",
+
+      description:
+        "Australia has demand for software engineers, developers and technology professionals across major cities. Employment and migration eligibility depend on the role, employer and applicable visa pathway.",
+
+      highlights: [
+        "Software development career opportunities",
+        "Technology-sector employment",
+        "Potential skilled migration pathways",
+        "Opportunities across major Australian cities",
+      ],
+
+      requirements: [
+        "Computer Science or related qualification, where required",
+        "Professional software development experience",
+        "Relevant programming and technical skills",
+        "English proficiency, where required",
+        "Eligibility for the applicable visa pathway",
+      ],
+
+      documents: [
+        "Valid passport",
+        "CV or resume",
+        "Portfolio or GitHub profile",
+        "Degree certificates, where applicable",
+        "Employment references",
+        "Skills assessment documents, where required",
+      ],
+
+      benefits: [
+        "Technology career growth",
+        "Competitive salary potential",
+        "Potential permanent residency pathways",
+        "Possible family visa options, subject to eligibility",
+      ],
+
+      positions: [
+        "Software Engineer",
+        "Backend Developer",
+        "Frontend Developer",
+        "Full Stack Developer",
+        "Systems Developer",
+      ],
+
+      steps: [
+        "Profile Assessment",
+        "Qualification and Experience Review",
+        "Skills Assessment, Where Required",
+        "Employer or Visa Pathway Review",
+        "Application Preparation",
+      ],
+
+      pricing: null,
+      paymentPlan: [],
+
+      terms: [
+        "Employment is not guaranteed by inclusion in this catalogue.",
+        "Salary depends on experience, location, employer and employment terms.",
+        "Visa eligibility depends on the applicable immigration requirements.",
+        "Professional registration or skills assessment may be required for some pathways.",
+      ],
+    },
+
+    {
+      id: 3,
+
+      title: "International Student",
+      slug: "australia-international-student",
+
+      image: "",
+      category: "Study",
+      location: "Australia",
+      type: "Student Visa",
+      duration: "8–14 Weeks",
+
+      icon: "🎓",
+
+      salary: "Post-study work opportunities",
+
+      demand: "High",
+
+      description:
+        "Study at Australian universities and other eligible institutions while building academic and professional opportunities. Admission and visa approval depend on the applicant meeting the relevant requirements.",
+
+      highlights: [
+        "International education opportunities",
+        "Access to eligible Australian institutions",
+        "Academic and professional development",
+        "Potential post-study work options, subject to eligibility",
+      ],
+
+      requirements: [
+        "Admission offer from an eligible institution",
+        "Required academic qualifications",
+        "Proof of financial capacity",
+        "English language proficiency, where required",
+        "Compliance with applicable student visa requirements",
+      ],
+
+      documents: [
+        "Valid passport",
+        "Admission letter",
+        "Academic transcripts",
+        "Financial documents",
+        "English language test results, where required",
+        "Additional documents required by the institution or visa process",
+      ],
+
+      benefits: [
+        "International education opportunities",
+        "Academic and professional development",
+        "Exposure to international learning environments",
+        "Potential post-study work options, subject to eligibility",
+      ],
+
+      positions: [],
+
+      steps: [
+        "Course and Institution Selection",
+        "Academic Eligibility Assessment",
+        "Application to Institution",
+        "Admission and Enrolment",
+        "Student Visa Application",
+      ],
+
+      pricing: null,
+      paymentPlan: [],
+
+      terms: [
+        "Admission depends on the institution's entry requirements.",
+        "Tuition and other study costs depend on the selected institution and course.",
+        "Student visa approval is determined by the relevant authorities.",
+        "Post-study work rights depend on the applicable rules and individual eligibility.",
+      ],
+    },
+
+    {
+      id: 4,
+
+      title: "Healthcare Worker",
+      slug: "australia-healthcare-worker",
+
+      image: "",
+      category: "Jobs",
+      location: "Australia",
+      type: "Healthcare Skilled Visa",
+      duration: "10–18 Weeks",
+
+      icon: "🏥",
+
+      salary: "AUD $75,000 - $130,000/year",
+
+      demand: "Very High",
+
+      description:
+        "Healthcare professionals may explore Australian employment and skilled migration pathways. Eligibility depends on the occupation, qualifications, registration requirements and applicable visa rules.",
+
+      highlights: [
+        "Healthcare employment opportunities",
+        "Qualification assessment",
+        "Professional registration guidance",
+        "Potential skilled migration pathways",
+      ],
+
+      requirements: [
+        "Relevant healthcare qualification",
+        "Professional registration or licensing, where required",
+        "Relevant work experience",
+        "English language ability",
+        "Eligibility for the applicable visa pathway",
+      ],
+
+      documents: [
+        "Valid passport",
+        "Professional licence or registration documents, where applicable",
+        "Qualification certificates",
+        "Employment records",
+        "English language test results, where required",
+        "Skills assessment documents, where required",
+      ],
+
+      benefits: [
+        "Healthcare career opportunities",
+        "Competitive salary potential",
+        "Potential permanent residency options",
+        "Professional development opportunities",
+      ],
+
+      positions: [
+        "Registered Nurse",
+        "Medical Laboratory Professional",
+        "Allied Health Professional",
+        "Healthcare Support Roles, Where Eligible",
+      ],
+
+      steps: [
+        "Professional Profile Assessment",
+        "Qualification Assessment",
+        "Registration Review, Where Required",
+        "Employment or Visa Pathway Review",
+        "Application Preparation",
+      ],
+
+      pricing: null,
+      paymentPlan: [],
+
+      terms: [
+        "Employment is not guaranteed by inclusion in this catalogue.",
+        "Healthcare registration requirements vary by occupation.",
+        "Visa eligibility depends on the applicable immigration requirements.",
+        "Salary and employment conditions depend on the employer, role and location.",
+      ],
+    },
+  ],
 };
-
-
 
 export default australiaData;

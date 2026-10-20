@@ -2,14 +2,11 @@
 // import spainWarehouseImage from "../../../../../assets/images/opportunities/spain-warehouse.jpg";
 
 const spain = {
-  id: 7,
+  id: 15,
 
   name: "Spain",
-
   shortName: "Spain",
-
   slug: "spain",
-
   flag: "🇪🇸",
 
   image: "",
@@ -21,17 +18,14 @@ const spain = {
   visa: "Work Permit + Type-D Work Visa",
 
   duration: "2–4 Weeks",
-
   processingTime: "Fast",
-
   opportunityScore: "90%",
-
   successRate: "High",
 
   featured: true,
 
   description:
-    "Relocate to Spain through verified employment opportunities with work permit processing, visa support and employer-provided accommodation.",
+    "Explore employment opportunities in Spain with job placement support, work permit processing, visa application assistance, and potential employer-provided accommodation, subject to the employment agreement and applicable approvals.",
 
   opportunities: [
     {
@@ -39,7 +33,7 @@ const spain = {
 
       title: "Spain Work Permit Migration Package",
 
-      slug: "spain-work-permit-package",
+      slug: "spain-work-permit-migration-package",
 
       image: "",
 
@@ -60,36 +54,25 @@ const spain = {
       demand: "High",
 
       description:
-        "Move to Spain with a verified job offer, work permit, Type-D visa support and employer-provided accommodation across warehouse and agricultural sectors.",
+        "Explore employment opportunities in Spain across warehouse and agricultural sectors, with job placement support, work authorization assistance, visa application guidance, and potential employer-provided accommodation.",
 
       highlights: [
-        "Verified Job Offer",
-
-        "Work Permit",
-
-        "Type-D Work Visa Support",
-
-        "Accommodation Included",
-
+        "Job Placement Support",
         "Employer Matching",
-
+        "Work Permit Processing Support",
+        "Type-D Work Visa Application Support",
+        "Accommodation May Be Available Depending on the Employer",
         "Flight Arrangement Support",
       ],
 
       benefits: [
-        "Verified Job Offer",
-
-        "Work Permit",
-
-        "Type-D Work Visa Support",
-
-        "Accommodation Included",
-
-        "Flight Arrangement Support",
-
+        "Job Placement Support",
         "Employer Matching",
-
-        "Visa Processing Assistance",
+        "Work Permit Processing Support",
+        "Type-D Work Visa Application Support",
+        "Accommodation Subject to the Employment Agreement",
+        "Flight Arrangement Support",
+        "Visa Application Guidance",
       ],
 
       positions: [
@@ -99,7 +82,7 @@ const spain = {
           category: "Warehouse",
 
           description:
-            "Handle sorting, packing and preparation of agricultural products in warehouse facilities.",
+            "Handle sorting, packing, and preparation of agricultural products in warehouse facilities.",
         },
 
         {
@@ -108,7 +91,7 @@ const spain = {
           category: "Warehouse",
 
           description:
-            "Prepare products for shipment while maintaining packaging standards.",
+            "Prepare products for shipment while maintaining applicable packaging standards.",
         },
 
         {
@@ -126,7 +109,7 @@ const spain = {
           category: "General Labour",
 
           description:
-            "Support warehouse operations including loading and material handling.",
+            "Support warehouse operations, including loading and material handling.",
         },
 
         {
@@ -135,40 +118,30 @@ const spain = {
           category: "Labour",
 
           description:
-            "Perform general workplace support duties based on employer requirements.",
+            "Perform general workplace support duties according to employer requirements.",
         },
       ],
 
       requirements: [
         "Updated CV / Resume",
-
         "Passport Photograph",
-
-        "International Passport (Minimum 6 Months Validity)",
-
-        "Criminal Record Certificate (Apostilled)",
-
-        "Educational Certificates (If Available)",
-
-        "Professional Certificates (If Available)",
-
-        "Relevant Work Experience Documents (If Available)",
-
-        "Maximum Age: 45 Years",
-
-        "Physically Fit For Warehouse Work",
+        "Valid International Passport",
+        "Criminal Record Certificate, With Legalisation or Apostille Where Required",
+        "Educational Certificates, If Available",
+        "Professional Certificates, If Available",
+        "Relevant Work Experience Documents, If Available",
+        "Applicants Must Meet the Employer's Age and Eligibility Requirements",
+        "Applicants Must Be Able to Perform the Duties of Their Selected Position",
+        "Applicants Must Meet Applicable Spanish Work Authorization and Visa Requirements",
       ],
 
       documents: [
-        "International Passport",
-
+        "Valid International Passport",
         "CV / Resume",
-
         "Passport Photograph",
-
         "Criminal Record Certificate",
-
-        "Certificates (If Available)",
+        "Educational or Professional Certificates, If Available",
+        "Additional Documents Required for the Specific Position or Visa Application",
       ],
 
       steps: [
@@ -176,42 +149,42 @@ const spain = {
           title: "Document Submission",
 
           description:
-            "Submit required documents for eligibility screening and profile review.",
+            "Submit the required documents for eligibility screening and profile assessment.",
         },
 
         {
           title: "Migration Agreement",
 
           description:
-            "Successful applicants sign the official Migration Service Agreement.",
+            "Review and sign the migration service agreement, including service scope, fees, payment milestones, and applicable terms.",
         },
 
         {
           title: "Employer Matching",
 
           description:
-            "Applicant profile is matched with verified Spanish employers.",
+            "Your profile is reviewed for suitable employment opportunities with Spanish employers.",
         },
 
         {
           title: "Work Permit Processing",
 
           description:
-            "Employer applies for work permit through Spanish labour authorities.",
+            "Where an employer selects you, the applicable work authorization process can proceed through the relevant Spanish authorities.",
         },
 
         {
           title: "Type-D Visa Application",
 
           description:
-            "Applicant proceeds for embassy submission and biometric processing.",
+            "Prepare and submit the required visa application and supporting documents through the appropriate consular process.",
         },
 
         {
-          title: "Visa Approval & Travel",
+          title: "Visa Approval and Travel",
 
           description:
-            "After approval, relocation arrangements and travel preparation begin.",
+            "After the necessary approvals are obtained, complete travel preparations in accordance with your employment and immigration requirements.",
         },
       ],
 
@@ -221,14 +194,10 @@ const spain = {
         currency: "NGN",
 
         includes: [
-          "Job Placement",
-
+          "Job Placement Support",
           "Employer Matching",
-
-          "Work Permit Processing",
-
-          "Visa Processing Support",
-
+          "Work Permit Processing Support",
+          "Visa Application Support",
           "Flight Arrangement Support",
         ],
       },
@@ -242,28 +211,34 @@ const spain = {
 
         {
           stage:
-            "Job Offer + Employment Contract + Accommodation Details + Approved Work Permit",
+            "Job Offer, Employment Contract, Accommodation Details, and Work Permit Milestone",
 
           amount: "₦3,000,000",
         },
 
         {
-          stage: "Visa Approval & Travel Readiness",
+          stage: "Visa Approval and Travel Readiness Milestone",
 
           amount: "₦3,000,000",
         },
       ],
 
       terms: [
-        "Applicants must provide valid documents for verification.",
+        "Applicants must provide valid documents for eligibility assessment and verification.",
 
-        "Processing begins after agreement signing and successful screening.",
+        "Processing begins according to the signed migration service agreement and after the required documents have been reviewed.",
 
-        "Employment opportunities depend on employer availability and approval.",
+        "Employment opportunities depend on employer availability, employer selection, and the terms of the job offer.",
 
-        "Visa approval is subject to embassy requirements.",
+        "Work authorization and visa issuance are subject to approval by the relevant authorities.",
 
-        "Applications are processed based on available slots.",
+        "Accommodation and other employer-provided benefits must be confirmed in the written employment agreement.",
+
+        "The stated salary range and processing duration must be verified against the specific job offer and application.",
+
+        "Payment milestones, service inclusions, and refund conditions must be clearly stated in the signed agreement.",
+
+        "Applicants must meet applicable immigration requirements before travelling to Spain.",
       ],
     },
   ],

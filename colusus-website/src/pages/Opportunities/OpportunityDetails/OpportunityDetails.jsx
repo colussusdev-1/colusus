@@ -26,6 +26,9 @@ import {
 import opportunityService
     from "../../../services/opportunity.service";
 
+import authService
+    from "../../../services/authService";
+
 import "./OpportunityDetails.css";
 
 
@@ -647,10 +650,7 @@ const OpportunityDetails = () => {
             return;
         }
 
-
-        const applicationPath =
-            "/portal/applications/new";
-
+        const applicationPath = "/portal/applications/new";
 
         const opportunityId =
             selectedOpportunity?._id ||
@@ -658,89 +658,50 @@ const OpportunityDetails = () => {
             selectedOpportunity?.legacyId ||
             null;
 
-
         const applicationState = {
-
-            opportunity:
-                selectedOpportunity,
-
+            opportunity: selectedOpportunity,
             opportunityId,
-
             opportunitySlug:
                 selectedOpportunity?.slug ||
                 slug ||
                 null,
-
             countrySlug:
                 selectedCountry?.slug ||
                 country ||
                 null,
-
-            source:
-                "opportunity-details",
-
+            source: "opportunity-details",
         };
 
-
+        // Preserve the selected pathway so it can be restored after login.
         try {
-
             sessionStorage.setItem(
                 "colossus_pending_application",
-                JSON.stringify(
-                    applicationState,
-                ),
+                JSON.stringify(applicationState)
             );
-
         } catch (storageError) {
-
             console.warn(
                 "Unable to preserve pending application:",
-                storageError,
+                storageError
             );
-
         }
 
-
-        const token =
-            localStorage.getItem(
-                "colusus_token",
-            );
-
-
-        if (token) {
-
-            navigate(
-                applicationPath,
-                {
-                    state:
-                        applicationState,
-                },
-            );
-
+        // Use the shared auth service so we check the correct token key.
+        if (authService.isAuthenticated()) {
+            navigate(applicationPath, {
+                state: applicationState,
+            });
             return;
         }
 
-
-        navigate(
-            "/login",
-            {
-                state: {
-
-                    returnTo:
-                        applicationPath,
-
-                    returnState:
-                        applicationState,
-
-                    source:
-                        "opportunity-details",
-
-                },
+        // If logged out, sign in first and then resume this pathway.
+        navigate("/login", {
+            state: {
+                returnTo: applicationPath,
+                returnState: applicationState,
+                source: "opportunity-details",
             },
-        );
-
+        });
     };
-
 
     /* ========================================================
        ELIGIBILITY

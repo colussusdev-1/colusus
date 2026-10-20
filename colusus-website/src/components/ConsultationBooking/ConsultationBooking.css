@@ -1,0 +1,19 @@
+.consultation-page__summary {
+    scroll-margin-top: 100px;
+}
+
+.consultation-page__payment-error {
+    width: min(100% - 32px, 900px);
+    margin: 24px auto;
+    padding: 16px 20px;
+    border: 1px solid #fecaca;
+    border-radius: 12px;
+    background: #fef2f2;
+    color: #991b1b;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.consultation-page__payment-error p {
+    margin: 0;
+}

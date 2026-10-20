@@ -251,7 +251,7 @@ app.use("/api/v1/admin/finance", financeAdminRoutes);
 /* CONTACT ROUTES                                                            */
 /* -------------------------------------------------------------------------- */
 
-app.use("/api/contact", contactRoutes);
+
 
 /* -------------------------------------------------------------------------- */
 /* CONSULTATION ROUTES                                                       */

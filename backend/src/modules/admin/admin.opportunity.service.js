@@ -1,101 +1,22 @@
 import mongoose from "mongoose";
 import Opportunity from "../opportunities/opportunity.model.js";
 
-/*
-|--------------------------------------------------------------------------
-| HELPERS
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* CONSTANTS                                                                  */
+/* -------------------------------------------------------------------------- */
 
-const toTrimmedString = (value, fallback = "") => {
-  if (value === undefined || value === null) {
-    return fallback;
-  }
+const DEFAULT_APPLICATION_STEPS = ["DOCUMENTS", "REVIEW"];
 
-  return String(value).trim();
-};
+const DOCUMENT_TYPES = new Set([
+  "PASSPORT",
+  "IDENTIFICATION",
+  "ACADEMIC_CERTIFICATE",
+  "FINANCIAL_DOCUMENT",
+  "EMPLOYMENT_DOCUMENT",
+  "OTHER",
+]);
 
-const toNullableString = (value) => {
-  const normalized = toTrimmedString(value);
-
-  return normalized || null;
-};
-
-const toBoolean = (value, fallback = false) => {
-  if (typeof value === "boolean") {
-    return value;
-  }
-
-  if (typeof value === "string") {
-    if (value.toLowerCase() === "true") {
-      return true;
-    }
-
-    if (value.toLowerCase() === "false") {
-      return false;
-    }
-  }
-
-  return fallback;
-};
-
-const normalizeArray = (value) => {
-  if (!Array.isArray(value)) {
-    return [];
-  }
-
-  return value
-    .map((item) => {
-      if (typeof item === "string") {
-        return item.trim();
-      }
-
-      return item;
-    })
-    .filter((item) => {
-      if (typeof item === "string") {
-        return item.length > 0;
-      }
-
-      return item !== null && item !== undefined;
-    });
-};
-
-const slugify = (value) => {
-  return toTrimmedString(value)
-    .toLowerCase()
-    .replace(/&/g, " and ")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .replace(/-{2,}/g, "-");
-};
-
-const escapeRegex = (value) => {
-  return String(value || "")
-    .trim()
-    .replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-};
-
-/*
-|--------------------------------------------------------------------------
-| COUNTRY PROFILE
-|--------------------------------------------------------------------------
-|
-| The current Opportunity collection contains both:
-|
-| 1. Country-level information
-| 2. Opportunity-level information
-|
-| Until a separate Country collection exists, these helpers treat the
-| country information as a reusable destination profile.
-|
-|--------------------------------------------------------------------------
-*/
-
-const COUNTRY_FIELDS = [
-  "countryId",
-  "countryName",
-  "countrySlug",
+const DESTINATION_FIELDS = [
   "countryFlag",
   "countryImage",
   "applicants",
@@ -106,96 +27,169 @@ const COUNTRY_FIELDS = [
   "countryDescription",
   "opportunityScore",
   "successRate",
-  "active",
-  "featured",
-  "createdAt",
 ];
 
-const getCountryCompletenessScore = (country) => {
-  if (!country) {
-    return 0;
-  }
+const OFFER_FIELDS = [
+  "image",
+  "category",
+  "location",
+  "type",
+  "duration",
+  "icon",
+  "salary",
+  "demand",
+  "description",
+  "highlights",
+  "requirements",
+  "documents",
+  "benefits",
+  "steps",
+  "positions",
+  "workConditions",
+  "contract",
+  "faq",
+  "pricing",
+  "paymentPlan",
+  "terms",
+  "applicationConfig",
+];
 
-  let score = 0;
+/* -------------------------------------------------------------------------- */
+/* HELPERS                                                                    */
+/* -------------------------------------------------------------------------- */
 
-  const stringFields = [
-    "countryName",
-    "countrySlug",
-    "countryFlag",
-    "countryImage",
-    "applicants",
-    "countryVisa",
-    "countryDuration",
-    "countryProcessingTime",
-    "countryDescription",
-    "opportunityScore",
-    "successRate",
-  ];
-
-  stringFields.forEach((field) => {
-    if (toTrimmedString(country[field])) {
-      score += 1;
-    }
-  });
-
-  if (
-    Array.isArray(country.countryCategories) &&
-    country.countryCategories.length > 0
-  ) {
-    score += 1;
-  }
-
-  return score;
+const fail = (message, statusCode = 400) => {
+  const error = new Error(message);
+  error.statusCode = statusCode;
+  return error;
 };
 
-const getCountryProfile = async ({
-  countryId = null,
-  countrySlug = "",
-  countryName = "",
-  excludeId = null,
-} = {}) => {
-  const queries = [];
+const own = (obj, key) => Object.prototype.hasOwnProperty.call(obj || {}, key);
 
-  const parsedCountryId =
-    countryId !== null && countryId !== undefined && countryId !== ""
-      ? Number(countryId)
-      : null;
+const isObject = (value) =>
+  value !== null && typeof value === "object" && !Array.isArray(value);
 
-  if (Number.isFinite(parsedCountryId) && parsedCountryId > 0) {
-    queries.push({
-      countryId: parsedCountryId,
-    });
+const str = (value, fallback = "") =>
+  value == null ? fallback : String(value).trim();
+
+const nullable = (value) => str(value);
+
+const bool = (value, fallback = false) => {
+  if (typeof value === "boolean") return value;
+
+  if (typeof value === "number" && (value === 0 || value === 1)) {
+    return value === 1;
   }
 
+  if (typeof value === "string") {
+    const normalized = value.trim().toLowerCase();
+
+    if (["true", "1", "yes", "on"].includes(normalized)) {
+      return true;
+    }
+
+    if (["false", "0", "no", "off"].includes(normalized)) {
+      return false;
+    }
+  }
+
+  return fallback;
+};
+
+const arr = (value) =>
+  Array.isArray(value)
+    ? value
+        .map((item) => (typeof item === "string" ? item.trim() : item))
+        .filter((item) =>
+          typeof item === "string" ? item.length > 0 : item != null,
+        )
+    : [];
+
+const slugify = (value) =>
+  str(value)
+    .toLowerCase()
+    .replace(/&/g, " and ")
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .replace(/-{2,}/g, "-");
+
+const escapeRegex = (value) =>
+  String(value || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+const positiveInt = (value, label) => {
+  if (value == null || value === "") {
+    return null;
+  }
+
+  const number = Number(value);
+
+  if (!Number.isSafeInteger(number) || number <= 0) {
+    throw fail(`${label} must be a positive integer.`);
+  }
+
+  return number;
+};
+
+const sameName = (first, second) =>
+  str(first).toLowerCase().replace(/\s+/g, " ") ===
+  str(second).toLowerCase().replace(/\s+/g, " ");
+
+const validId = (id) => mongoose.Types.ObjectId.isValid(id);
+
+const mapDbError = (error) => {
+  if (error?.code === 11000) {
+    return fail(
+      "An offer with this destination and slug already exists. Change the offer slug and try again.",
+      409,
+    );
+  }
+
+  return error;
+};
+
+/* -------------------------------------------------------------------------- */
+/* DESTINATION PROFILE                                                        */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Destination information currently lives on Opportunity documents.
+ *
+ * This helper selects a representative record for a destination.
+ * Destination metadata updates must be propagated to all records sharing
+ * the same countrySlug.
+ */
+const getCountryProfile = async ({
+  countryId,
+  countrySlug,
+  countryName,
+  excludeId,
+} = {}) => {
+  const id = positiveInt(countryId, "Country ID");
   const normalizedSlug = slugify(countrySlug);
+  const normalizedName = str(countryName);
+
+  let query;
 
   if (normalizedSlug) {
-    queries.push({
+    query = {
       countrySlug: normalizedSlug,
-    });
-  }
-
-  const normalizedName = toTrimmedString(countryName);
-
-  if (normalizedName) {
-    queries.push({
+    };
+  } else if (normalizedName) {
+    query = {
       countryName: {
         $regex: `^${escapeRegex(normalizedName)}$`,
         $options: "i",
       },
-    });
-  }
-
-  if (queries.length === 0) {
+    };
+  } else if (id) {
+    query = {
+      countryId: id,
+    };
+  } else {
     return null;
   }
-
-  const query =
-    queries.length === 1
-      ? { ...queries[0] }
-      : {
-          $or: queries,
-        };
 
   if (excludeId) {
     query._id = {
@@ -203,500 +197,470 @@ const getCountryProfile = async ({
     };
   }
 
-  const candidates = await Opportunity.find(query)
-    .select(COUNTRY_FIELDS.join(" "))
+  const records = await Opportunity.find(query)
+    .select(
+      [
+        "countryId",
+        "countryName",
+        "countrySlug",
+        ...DESTINATION_FIELDS,
+        "active",
+        "createdAt",
+      ].join(" "),
+    )
+    .sort({
+      active: -1,
+      createdAt: -1,
+    })
     .lean();
 
-  if (!candidates.length) {
-    return null;
-  }
+  const matches = records.filter(
+    (record) =>
+      (!normalizedSlug || slugify(record.countrySlug) === normalizedSlug) &&
+      (!normalizedName || sameName(record.countryName, normalizedName)),
+  );
 
-  candidates.sort((a, b) => {
-    /*
-    |--------------------------------------------------------------------------
-    | 1. Prefer active records
-    |--------------------------------------------------------------------------
-    */
-
-    const activeDifference =
-      Number(Boolean(b.active)) - Number(Boolean(a.active));
-
-    if (activeDifference !== 0) {
-      return activeDifference;
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | 2. Prefer records with a real country image
-    |--------------------------------------------------------------------------
-    |
-    | Country imagery is more important than general metadata completeness
-    | because this record may become the reusable destination profile.
-    |
-    */
-
-    const countryImageDifference =
-      Number(Boolean(toTrimmedString(b.countryImage))) -
-      Number(Boolean(toTrimmedString(a.countryImage)));
-
-    if (countryImageDifference !== 0) {
-      return countryImageDifference;
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | 3. Prefer complete country records
-    |--------------------------------------------------------------------------
-    */
-
-    const completenessDifference =
-      getCountryCompletenessScore(b) - getCountryCompletenessScore(a);
-
-    if (completenessDifference !== 0) {
-      return completenessDifference;
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | 4. Prefer featured records
-    |--------------------------------------------------------------------------
-    */
-
-    const featuredDifference =
-      Number(Boolean(b.featured)) - Number(Boolean(a.featured));
-
-    if (featuredDifference !== 0) {
-      return featuredDifference;
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | 5. Finally use newest record
-    |--------------------------------------------------------------------------
-    */
-
-    return (
-      new Date(b.createdAt || 0).getTime() -
-      new Date(a.createdAt || 0).getTime()
+  if (matches.length > 0) {
+    const identities = new Set(
+      matches.map(
+        (record) =>
+          `${str(record.countryName).toLowerCase()}::${slugify(
+            record.countrySlug,
+          )}`,
+      ),
     );
-  });
 
-  return candidates[0];
-};
+    if (identities.size > 1) {
+      throw fail(
+        "The selected destination has conflicting names or slugs. Resolve the records first.",
+        409,
+      );
+    }
 
-/*
-|--------------------------------------------------------------------------
-| DESTINATION IMAGE FALLBACK
-|--------------------------------------------------------------------------
-|
-| countryImage remains the authoritative destination image.
-|
-| If no countryImage exists, the strongest available opportunity image
-| can be used when returning a destination to the frontend.
-|
-| IMPORTANT:
-| This does NOT write the opportunity image into countryImage.
-| The two database fields remain semantically separate.
-|
-|--------------------------------------------------------------------------
-*/
+    const counts = new Map();
 
-const getDestinationImageExpression = () => ({
-  $cond: [
-    {
-      $and: [{ $ne: ["$countryImage", null] }, { $ne: ["$countryImage", ""] }],
-    },
-    "$countryImage",
-    {
-      $cond: [
-        {
-          $and: [{ $ne: ["$image", null] }, { $ne: ["$image", ""] }],
-        },
-        "$image",
-        "",
-      ],
-    },
-  ],
-});
+    for (const record of matches) {
+      const country = positiveInt(record.countryId, "Country ID");
 
-/*
-|--------------------------------------------------------------------------
-| GET DESTINATIONS
-|--------------------------------------------------------------------------
-|
-| Destinations are currently derived from Opportunity records.
-|
-| The aggregation chooses the strongest record for each destination.
-|
-| Priority:
-|
-| 1. Active
-| 2. Country image
-| 3. Country flag
-| 4. Country description
-| 5. Offer image
-| 6. Featured
-| 7. Newest
-|
-|--------------------------------------------------------------------------
-*/
+      if (country) {
+        counts.set(country, (counts.get(country) || 0) + 1);
+      }
+    }
 
-const getDestinations = async () => {
-  const destinations = await Opportunity.aggregate([
-    /*
-    |--------------------------------------------------------------------------
-    | Create temporary ranking values.
-    |--------------------------------------------------------------------------
-    */
+    const canonicalId = [...counts.entries()].sort(
+      (a, b) => b[1] - a[1] || a[0] - b[0],
+    )[0]?.[0];
 
-    {
-      $addFields: {
-        _hasCountryImage: {
-          $cond: [
-            {
-              $and: [
-                { $ne: ["$countryImage", null] },
-                { $ne: ["$countryImage", ""] },
-              ],
-            },
-            1,
-            0,
-          ],
-        },
+    if (!canonicalId) {
+      throw fail(
+        "The destination has no valid country ID. Resolve its records first.",
+        409,
+      );
+    }
 
-        _hasOfferImage: {
-          $cond: [
-            {
-              $and: [{ $ne: ["$image", null] }, { $ne: ["$image", ""] }],
-            },
-            1,
-            0,
-          ],
-        },
+    if (id && id !== canonicalId && !counts.has(id)) {
+      throw fail(
+        "The supplied country ID does not belong to this destination.",
+        409,
+      );
+    }
 
-        _hasCountryFlag: {
-          $cond: [
-            {
-              $and: [
-                { $ne: ["$countryFlag", null] },
-                { $ne: ["$countryFlag", ""] },
-              ],
-            },
-            1,
-            0,
-          ],
-        },
+    // Prefer a record with a populated shared countryImage.
+    // Never substitute an opportunity-specific image here.
+    const chosen =
+      matches.find(
+        (record) =>
+          Number(record.countryId) === canonicalId &&
+          Boolean(str(record.countryImage)),
+      ) ||
+      matches.find((record) => Number(record.countryId) === canonicalId) ||
+      matches[0];
 
-        _hasDescription: {
-          $cond: [
-            {
-              $and: [
-                { $ne: ["$countryDescription", null] },
-                { $ne: ["$countryDescription", ""] },
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-    },
+    return {
+      ...chosen,
+      countryId: canonicalId,
+      countryName: str(chosen.countryName),
+      countrySlug: slugify(chosen.countrySlug),
+    };
+  }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Put the strongest destination record first.
-    |--------------------------------------------------------------------------
-    */
+  if (id) {
+    const owner = await Opportunity.findOne({
+      countryId: id,
+    })
+      .select("countryId countryName countrySlug")
+      .lean();
 
-    {
-      $sort: {
-        active: -1,
-        _hasCountryImage: -1,
-        _hasCountryFlag: -1,
-        _hasDescription: -1,
-        _hasOfferImage: -1,
-        featured: -1,
-        createdAt: -1,
-      },
-    },
-
-    /*
-    |--------------------------------------------------------------------------
-    | Group all offers belonging to the same destination.
-    |--------------------------------------------------------------------------
-    */
-
-    {
-      $group: {
-        _id: "$countrySlug",
-
-        countryId: {
-          $first: "$countryId",
-        },
-
-        countryName: {
-          $first: "$countryName",
-        },
-
-        countrySlug: {
-          $first: "$countrySlug",
-        },
-
-        countryFlag: {
-          $first: "$countryFlag",
-        },
-
-        /*
-        |--------------------------------------------------------------------------
-        | Destination image resolution
-        |--------------------------------------------------------------------------
-        |
-        | Use the real country image first.
-        | Otherwise use the selected opportunity image as a fallback.
-        |
-        */
-
-        countryImage: {
-          $first: getDestinationImageExpression(),
-        },
-
-        applicants: {
-          $first: "$applicants",
-        },
-
-        countryCategories: {
-          $first: "$countryCategories",
-        },
-
-        countryVisa: {
-          $first: "$countryVisa",
-        },
-
-        countryDuration: {
-          $first: "$countryDuration",
-        },
-
-        countryProcessingTime: {
-          $first: "$countryProcessingTime",
-        },
-
-        countryDescription: {
-          $first: "$countryDescription",
-        },
-
-        opportunityScore: {
-          $first: "$opportunityScore",
-        },
-
-        successRate: {
-          $first: "$successRate",
-        },
-
-        offerCount: {
-          $sum: 1,
-        },
-
-        activeOfferCount: {
-          $sum: {
-            $cond: [{ $eq: ["$active", true] }, 1, 0],
-          },
-        },
-
-        inactiveOfferCount: {
-          $sum: {
-            $cond: [{ $eq: ["$active", false] }, 1, 0],
-          },
-        },
-
-        featuredOfferCount: {
-          $sum: {
-            $cond: [{ $eq: ["$featured", true] }, 1, 0],
-          },
-        },
-      },
-    },
-
-    /*
-    |--------------------------------------------------------------------------
-    | Sort destinations alphabetically.
-    |--------------------------------------------------------------------------
-    */
-
-    {
-      $sort: {
-        countryName: 1,
-      },
-    },
-
-    /*
-    |--------------------------------------------------------------------------
-    | Clean up the temporary aggregation identity.
-    |--------------------------------------------------------------------------
-    */
-
-    {
-      $project: {
-        _id: 0,
-
-        countryId: 1,
-        countryName: 1,
-        countrySlug: 1,
-        countryFlag: 1,
-        countryImage: 1,
-        applicants: 1,
-        countryCategories: 1,
-        countryVisa: 1,
-        countryDuration: 1,
-        countryProcessingTime: 1,
-        countryDescription: 1,
-        opportunityScore: 1,
-        successRate: 1,
-
-        offerCount: 1,
-        activeOfferCount: 1,
-        inactiveOfferCount: 1,
-        featuredOfferCount: 1,
-      },
-    },
-  ]);
-
-  return destinations;
-};
-
-/*
-|--------------------------------------------------------------------------
-| COUNTRY ID
-|--------------------------------------------------------------------------
-*/
-
-const getCountryId = async (countryName, providedCountryId = null) => {
-  if (
-    providedCountryId !== null &&
-    providedCountryId !== undefined &&
-    providedCountryId !== ""
-  ) {
-    const parsed = Number(providedCountryId);
-
-    if (Number.isFinite(parsed) && parsed > 0) {
-      return parsed;
+    if (
+      owner &&
+      ((normalizedName && !sameName(owner.countryName, normalizedName)) ||
+        (normalizedSlug && slugify(owner.countrySlug) !== normalizedSlug))
+    ) {
+      throw fail(
+        "This country ID is already assigned to another destination.",
+        409,
+      );
     }
   }
 
-  const existingCountry = await getCountryProfile({
-    countryName,
+  return null;
+};
+
+/* -------------------------------------------------------------------------- */
+/* COUNTRY ID                                                                 */
+/* -------------------------------------------------------------------------- */
+
+const getCountryId = async (name, providedId, countrySlug) => {
+  const id = positiveInt(providedId, "Country ID");
+
+  const existing = await getCountryProfile({
+    countryName: name,
+    countrySlug,
   });
 
-  if (existingCountry?.countryId) {
-    return existingCountry.countryId;
+  if (existing) {
+    if (id && id !== Number(existing.countryId)) {
+      throw fail(
+        "The supplied country ID does not match the selected destination.",
+        409,
+      );
+    }
+
+    return Number(existing.countryId);
   }
 
-  const latestCountry = await Opportunity.findOne({
+  if (id) {
+    if (
+      await Opportunity.exists({
+        countryId: id,
+      })
+    ) {
+      throw fail(
+        "This country ID is already assigned to another destination.",
+        409,
+      );
+    }
+
+    return id;
+  }
+
+  const latest = await Opportunity.findOne({
     countryId: {
-      $exists: true,
-      $ne: null,
+      $type: "number",
     },
   })
     .sort({
       countryId: -1,
     })
-    .select("countryId");
+    .select("countryId")
+    .lean();
 
-  return Number(latestCountry?.countryId || 0) + 1;
+  return Number(latest?.countryId || 0) + 1;
 };
 
-/*
-|--------------------------------------------------------------------------
-| APPLY COUNTRY PROFILE
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* APPLY COUNTRY PROFILE                                                      */
+/* -------------------------------------------------------------------------- */
 
-const applyCountryProfile = (data, country, payload = {}) => {
-  if (!country) {
-    return data;
+const applyCountryProfile = (target, profile, fallback = {}) => {
+  if (!profile) {
+    return target;
   }
 
-  data.countryId = country.countryId ?? data.countryId;
+  target.countryId = Number(profile.countryId);
+  target.countryName = str(profile.countryName);
+  target.countrySlug = slugify(profile.countrySlug);
 
-  data.countryName = toTrimmedString(
-    country.countryName,
-    data.countryName || toTrimmedString(payload.countryName),
-  );
+  for (const field of DESTINATION_FIELDS) {
+    const value = profile[field] ?? fallback[field];
 
-  data.countrySlug =
-    slugify(country.countrySlug) ||
-    data.countrySlug ||
-    slugify(payload.countrySlug);
+    target[field] =
+      field === "countryCategories" ? arr(value) : nullable(value);
+  }
 
-  data.countryFlag =
-    toNullableString(country.countryFlag) ??
-    toNullableString(payload.countryFlag);
-
-  data.countryImage =
-    toNullableString(country.countryImage) ??
-    toNullableString(payload.countryImage);
-
-  data.applicants = toTrimmedString(
-    country.applicants,
-    toTrimmedString(payload.applicants),
-  );
-
-  data.countryCategories =
-    Array.isArray(country.countryCategories) && country.countryCategories.length
-      ? normalizeArray(country.countryCategories)
-      : normalizeArray(payload.countryCategories);
-
-  data.countryVisa =
-    toNullableString(country.countryVisa) ??
-    toNullableString(payload.countryVisa);
-
-  data.countryDuration =
-    toNullableString(country.countryDuration) ??
-    toNullableString(payload.countryDuration);
-
-  data.countryProcessingTime =
-    toNullableString(country.countryProcessingTime) ??
-    toNullableString(payload.countryProcessingTime);
-
-  data.countryDescription =
-    toNullableString(country.countryDescription) ??
-    toNullableString(payload.countryDescription);
-
-  data.opportunityScore = toTrimmedString(
-    country.opportunityScore,
-    toTrimmedString(payload.opportunityScore),
-  );
-
-  data.successRate = toTrimmedString(
-    country.successRate,
-    toTrimmedString(payload.successRate),
-  );
-
-  return data;
+  return target;
 };
 
-/*
-|--------------------------------------------------------------------------
-| UNIQUE SLUG
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* NORMALIZE MIGRATION JOURNEY STEPS                                          */
+/* -------------------------------------------------------------------------- */
 
-const makeUniqueSlug = async (value, excludeId = null) => {
-  const baseSlug = slugify(value);
+const normalizeSteps = (value) =>
+  arr(value)
+    .map((step) => {
+      if (typeof step === "string") {
+        const title = step.trim();
 
-  if (!baseSlug) {
-    const error = new Error("A valid opportunity slug could not be generated.");
+        return title
+          ? {
+              title,
+              description: "",
+              duration: "",
+            }
+          : null;
+      }
 
-    error.statusCode = 400;
+      if (!isObject(step)) {
+        return null;
+      }
 
-    throw error;
+      const title = str(step.title);
+
+      if (!title) {
+        return null;
+      }
+
+      return {
+        title,
+        description: nullable(step.description),
+        duration: nullable(step.duration),
+      };
+    })
+    .filter(Boolean);
+
+/* -------------------------------------------------------------------------- */
+/* NORMALIZE POSITIONS                                                        */
+/* -------------------------------------------------------------------------- */
+
+const normalizePositions = (value) =>
+  arr(value)
+    .map((position) => {
+      if (typeof position === "string") {
+        return position.trim()
+          ? {
+              title: position.trim(),
+            }
+          : null;
+      }
+
+      if (!isObject(position) || !str(position.title)) {
+        return null;
+      }
+
+      return {
+        ...position,
+        title: str(position.title),
+        description: nullable(position.description),
+        salary: nullable(position.salary),
+        demand: nullable(position.demand),
+        requirements: arr(position.requirements),
+        benefits: arr(position.benefits),
+      };
+    })
+    .filter(Boolean);
+
+/* -------------------------------------------------------------------------- */
+/* NORMALIZE PAYMENT PLAN                                                     */
+/* -------------------------------------------------------------------------- */
+
+const normalizePaymentPlan = (value) =>
+  arr(value)
+    .map((item) => {
+      if (typeof item === "string") {
+        return item.trim()
+          ? {
+              description: item.trim(),
+            }
+          : null;
+      }
+
+      if (!isObject(item)) {
+        return null;
+      }
+
+      const result = {
+        ...item,
+        title: nullable(item.title),
+        description: nullable(item.description),
+        amount: nullable(item.amount),
+      };
+
+      if (
+        item.percentage !== undefined &&
+        item.percentage !== null &&
+        item.percentage !== ""
+      ) {
+        const percentage = Number(item.percentage);
+
+        if (
+          !Number.isFinite(percentage) ||
+          percentage < 0 ||
+          percentage > 100
+        ) {
+          throw fail("Payment plan percentage must be between 0 and 100.");
+        }
+
+        result.percentage = percentage;
+      } else {
+        delete result.percentage;
+      }
+
+      return result;
+    })
+    .filter(Boolean);
+
+/* -------------------------------------------------------------------------- */
+/* NORMALIZE PRICING                                                          */
+/* -------------------------------------------------------------------------- */
+
+const normalizePricing = (value) => {
+  if (value == null || !isObject(value)) {
+    return null;
   }
 
-  let slug = baseSlug;
+  const result = {
+    ...value,
+  };
+
+  if (
+    value.amount !== undefined &&
+    value.amount !== null &&
+    value.amount !== ""
+  ) {
+    const amount = Number(value.amount);
+
+    if (!Number.isFinite(amount) || amount < 0) {
+      throw fail("Pricing amount must be a valid non-negative number.");
+    }
+
+    result.amount = amount;
+  } else {
+    delete result.amount;
+  }
+
+  for (const field of ["currency", "label", "description"]) {
+    if (value[field] !== undefined) {
+      result[field] = nullable(value[field]);
+    }
+  }
+
+  return result;
+};
+
+/* -------------------------------------------------------------------------- */
+/* NORMALIZE REQUIRED DOCUMENTS                                               */
+/* -------------------------------------------------------------------------- */
+
+const normalizeRequiredDocuments = (value) =>
+  arr(value)
+    .map((document) => {
+      if (typeof document === "string") {
+        const name = document.trim();
+
+        return name
+          ? {
+              name,
+              type: "OTHER",
+              description: "",
+              required: true,
+            }
+          : null;
+      }
+
+      if (!isObject(document) || !str(document.name)) {
+        return null;
+      }
+
+      return {
+        name: str(document.name),
+        type: DOCUMENT_TYPES.has(document.type) ? document.type : "OTHER",
+        description: nullable(document.description),
+        required: bool(document.required, true),
+      };
+    })
+    .filter(Boolean);
+
+/* -------------------------------------------------------------------------- */
+/* NORMALIZE APPLICATION CONFIGURATION                                       */
+/* -------------------------------------------------------------------------- */
+
+const normalizeApplicationConfig = (config) => {
+  if (config == null) {
+    return {
+      steps: [...DEFAULT_APPLICATION_STEPS],
+      questions: [],
+      requiredDocuments: [],
+      workflow: [],
+    };
+  }
+
+  if (!isObject(config)) {
+    throw fail("applicationConfig must be an object.");
+  }
+
+  return {
+    steps:
+      Array.isArray(config.steps) && config.steps.length > 0
+        ? arr(config.steps).map((step) => str(step).toUpperCase())
+        : [...DEFAULT_APPLICATION_STEPS],
+
+    questions: Array.isArray(config.questions) ? config.questions : [],
+
+    requiredDocuments: normalizeRequiredDocuments(config.requiredDocuments),
+
+    workflow: Array.isArray(config.workflow) ? config.workflow : [],
+  };
+};
+
+/* -------------------------------------------------------------------------- */
+/* VALIDATION                                                                 */
+/* -------------------------------------------------------------------------- */
+
+const validateRequired = (payload) => {
+  const missing = [
+    "countryName",
+    "title",
+    "category",
+    "type",
+    "description",
+  ].filter((field) => !str(payload[field]));
+
+  if (missing.length > 0) {
+    throw fail(`Missing required offer fields: ${missing.join(", ")}.`);
+  }
+};
+
+const normalizeLegacyId = (value) => {
+  if (value == null || value === "") {
+    return null;
+  }
+
+  return positiveInt(value, "Legacy ID");
+};
+
+const getNextLegacyId = async () => {
+  const latest = await Opportunity.findOne({
+    legacyId: {
+      $type: "number",
+    },
+  })
+    .sort({
+      legacyId: -1,
+    })
+    .select("legacyId")
+    .lean();
+
+  return Number(latest?.legacyId || 0) + 1;
+};
+
+/* -------------------------------------------------------------------------- */
+/* UNIQUE SLUG                                                                */
+/* -------------------------------------------------------------------------- */
+
+const makeUniqueSlug = async (value, countrySlug, excludeId = null) => {
+  const base = slugify(value);
+
+  if (!base) {
+    throw fail("A valid offer slug is required.");
+  }
+
+  let candidate = base;
   let counter = 2;
 
   while (true) {
     const query = {
-      slug,
+      countrySlug,
+      slug: candidate,
     };
 
     if (excludeId) {
@@ -705,742 +669,346 @@ const makeUniqueSlug = async (value, excludeId = null) => {
       };
     }
 
-    const existing = await Opportunity.findOne(query).select("_id");
-
-    if (!existing) {
-      return slug;
+    if (!(await Opportunity.exists(query))) {
+      return candidate;
     }
 
-    slug = `${baseSlug}-${counter}`;
-
-    counter += 1;
+    candidate = `${base}-${counter++}`;
   }
 };
 
-/*
-|--------------------------------------------------------------------------
-| LEGACY ID
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* DUPLICATE TITLE PROTECTION                                                 */
+/* -------------------------------------------------------------------------- */
 
-const getNextLegacyId = async () => {
-  const latestOpportunity = await Opportunity.findOne({
-    legacyId: {
-      $exists: true,
-      $ne: null,
+const assertNoDuplicateTitle = async ({
+  countrySlug,
+  title,
+  excludeId = null,
+}) => {
+  const query = {
+    countrySlug,
+    title: {
+      $regex: `^${escapeRegex(title)}$`,
+      $options: "i",
     },
-  })
-    .sort({
-      legacyId: -1,
-    })
-    .select("legacyId");
-
-  return Number(latestOpportunity?.legacyId || 0) + 1;
-};
-
-/*
-|--------------------------------------------------------------------------
-| POSITIONS
-|--------------------------------------------------------------------------
-*/
-
-const normalizePositions = (positions) => {
-  if (!Array.isArray(positions)) {
-    return [];
-  }
-
-  return positions
-    .map((position) => {
-      if (typeof position === "string") {
-        const title = position.trim();
-
-        if (!title) {
-          return null;
-        }
-
-        return {
-          title,
-        };
-      }
-
-      if (!position || typeof position !== "object") {
-        return null;
-      }
-
-      return {
-        ...position,
-
-        title: toTrimmedString(position.title),
-
-        description: toNullableString(position.description),
-
-        salary: toNullableString(position.salary),
-
-        demand: toNullableString(position.demand),
-
-        requirements: normalizeArray(position.requirements),
-
-        benefits: normalizeArray(position.benefits),
-      };
-    })
-    .filter(Boolean);
-};
-
-/*
-|--------------------------------------------------------------------------
-| STEPS
-|--------------------------------------------------------------------------
-*/
-
-const normalizeSteps = (steps) => {
-  if (!Array.isArray(steps)) {
-    return [];
-  }
-
-  return steps
-    .map((step) => {
-      if (!step || typeof step !== "object") {
-        return null;
-      }
-
-      const title = toTrimmedString(step.title);
-
-      if (!title) {
-        return null;
-      }
-
-      return {
-        title,
-
-        description: toNullableString(step.description),
-
-        duration: toNullableString(step.duration),
-      };
-    })
-    .filter(Boolean);
-};
-
-/*
-|--------------------------------------------------------------------------
-| PAYMENT PLAN
-|--------------------------------------------------------------------------
-*/
-
-const normalizePaymentPlan = (paymentPlan) => {
-  if (!Array.isArray(paymentPlan)) {
-    return [];
-  }
-
-  return paymentPlan
-    .map((item) => {
-      if (typeof item === "string") {
-        const description = item.trim();
-
-        if (!description) {
-          return null;
-        }
-
-        return {
-          description,
-        };
-      }
-
-      if (!item || typeof item !== "object") {
-        return null;
-      }
-
-      return {
-        ...item,
-
-        title: toNullableString(item.title),
-
-        description: toNullableString(item.description),
-
-        amount: toNullableString(item.amount),
-
-        percentage:
-          item.percentage !== undefined &&
-          item.percentage !== null &&
-          item.percentage !== ""
-            ? Number(item.percentage)
-            : undefined,
-      };
-    })
-    .filter(Boolean);
-};
-
-/*
-|--------------------------------------------------------------------------
-| PRICING
-|--------------------------------------------------------------------------
-*/
-
-const normalizePricing = (pricing) => {
-  if (!pricing || typeof pricing !== "object") {
-    return {};
-  }
-
-  return {
-    ...pricing,
-
-    amount:
-      pricing.amount !== undefined &&
-      pricing.amount !== null &&
-      pricing.amount !== ""
-        ? Number(pricing.amount)
-        : undefined,
-
-    currency: toNullableString(pricing.currency),
-
-    label: toNullableString(pricing.label),
-
-    description: toNullableString(pricing.description),
   };
-};
 
-/*
-|--------------------------------------------------------------------------
-| REQUIRED DOCUMENTS
-|--------------------------------------------------------------------------
-*/
-
-const normalizeRequiredDocuments = (documents) => {
-  if (!Array.isArray(documents)) {
-    return [];
-  }
-
-  const allowedTypes = [
-    "PASSPORT",
-    "IDENTIFICATION",
-    "ACADEMIC_CERTIFICATE",
-    "FINANCIAL_DOCUMENT",
-    "EMPLOYMENT_DOCUMENT",
-    "OTHER",
-  ];
-
-  return documents
-    .map((document) => {
-      if (typeof document === "string") {
-        const name = document.trim();
-
-        if (!name) {
-          return null;
-        }
-
-        return {
-          name,
-          type: "OTHER",
-          description: "",
-          required: true,
-        };
-      }
-
-      if (!document || typeof document !== "object") {
-        return null;
-      }
-
-      const name = toTrimmedString(document.name);
-
-      if (!name) {
-        return null;
-      }
-
-      const type = allowedTypes.includes(document.type)
-        ? document.type
-        : "OTHER";
-
-      return {
-        name,
-
-        type,
-
-        description: toNullableString(document.description),
-
-        required: toBoolean(document.required, true),
-      };
-    })
-    .filter(Boolean);
-};
-
-/*
-|--------------------------------------------------------------------------
-| APPLICATION CONFIG
-|--------------------------------------------------------------------------
-*/
-
-const normalizeApplicationConfig = (applicationConfig) => {
-  if (!applicationConfig || typeof applicationConfig !== "object") {
-    return {
-      steps: ["DOCUMENTS", "REVIEW"],
-      questions: [],
-      requiredDocuments: [],
-      workflow: [],
+  if (excludeId) {
+    query._id = {
+      $ne: excludeId,
     };
   }
 
-  const steps =
-    Array.isArray(applicationConfig.steps) && applicationConfig.steps.length > 0
-      ? normalizeArray(applicationConfig.steps)
-      : ["DOCUMENTS", "REVIEW"];
-
-  return {
-    steps,
-
-    questions: Array.isArray(applicationConfig.questions)
-      ? applicationConfig.questions
-      : [],
-
-    requiredDocuments: normalizeRequiredDocuments(
-      applicationConfig.requiredDocuments,
-    ),
-
-    workflow: Array.isArray(applicationConfig.workflow)
-      ? applicationConfig.workflow
-      : [],
-  };
-};
-
-/*
-|--------------------------------------------------------------------------
-| VALIDATION
-|--------------------------------------------------------------------------
-*/
-
-const validateOpportunityPayload = (payload) => {
-  const hasCountryReference =
-    payload.countryId !== undefined &&
-    payload.countryId !== null &&
-    payload.countryId !== "" &&
-    Number.isFinite(Number(payload.countryId)) &&
-    Number(payload.countryId) > 0;
-
-  const requiredFields = [
-    ["countryName", hasCountryReference ? "selected" : payload.countryName],
-    ["title", payload.title],
-    ["category", payload.category],
-    ["type", payload.type],
-    ["description", payload.description],
-  ];
-
-  const missingFields = requiredFields
-    .filter(([, value]) => !toTrimmedString(value))
-    .map(([field]) => field);
-
-  if (missingFields.length > 0) {
-    const error = new Error(
-      `Missing required opportunity fields: ${missingFields.join(", ")}.`,
+  if (await Opportunity.exists(query)) {
+    throw fail(
+      `An offer named "${title}" already exists for this destination. Edit the existing offer instead of creating a duplicate.`,
+      409,
     );
-
-    error.statusCode = 400;
-
-    throw error;
   }
 };
 
-/*
-|--------------------------------------------------------------------------
-| CREATE DATA
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* BUILD CREATE DATA                                                          */
+/* -------------------------------------------------------------------------- */
 
-const buildCreateData = async (payload) => {
-  validateOpportunityPayload(payload);
+const buildCreateData = async (payload = {}) => {
+  if (!isObject(payload)) {
+    throw fail("Offer payload must be an object.");
+  }
 
-  const selectedCountry = await getCountryProfile({
-    countryId: payload.countryId,
-    countrySlug: payload.countrySlug,
-    countryName: payload.countryName,
+  const requestedName = str(payload.countryName);
+  const requestedCountrySlug = slugify(payload.countrySlug || requestedName);
+
+  if (!requestedName || !requestedCountrySlug) {
+    throw fail("A valid destination country name and slug are required.");
+  }
+
+  validateRequired({
+    ...payload,
+    countryName: requestedName,
   });
 
-  const countryName = toTrimmedString(
-    selectedCountry?.countryName || payload.countryName,
-  );
+  const profile = await getCountryProfile({
+    countryId: payload.countryId,
+    countrySlug: requestedCountrySlug,
+    countryName: requestedName,
+  });
 
-  const countrySlug =
-    slugify(selectedCountry?.countrySlug) ||
-    slugify(payload.countrySlug) ||
-    slugify(countryName);
+  const countryName = str(profile?.countryName || requestedName);
+  const countrySlug = slugify(profile?.countrySlug || requestedCountrySlug);
 
-  if (!countrySlug) {
-    const error = new Error("A valid country slug is required.");
+  const countryId = profile
+    ? Number(profile.countryId)
+    : await getCountryId(countryName, payload.countryId, countrySlug);
 
-    error.statusCode = 400;
+  const title = str(payload.title);
 
-    throw error;
-  }
-
-  const title = toTrimmedString(payload.title);
-
-  const slug = await makeUniqueSlug(payload.slug || title);
-
-  const countryId =
-    selectedCountry?.countryId ||
-    (await getCountryId(countryName, payload.countryId));
-
-  const legacyId =
-    payload.legacyId !== undefined &&
-    payload.legacyId !== null &&
-    payload.legacyId !== ""
-      ? Number(payload.legacyId)
-      : await getNextLegacyId();
+  await assertNoDuplicateTitle({
+    countrySlug,
+    title,
+  });
 
   const data = {
     countryId,
-
     countryName,
-
     countrySlug,
 
-    countryFlag: toNullableString(payload.countryFlag),
-
-    countryImage: toNullableString(payload.countryImage),
-
-    applicants: toTrimmedString(payload.applicants),
-
-    countryCategories: normalizeArray(payload.countryCategories),
-
-    countryVisa: toNullableString(payload.countryVisa),
-
-    countryDuration: toNullableString(payload.countryDuration),
-
-    countryProcessingTime: toNullableString(payload.countryProcessingTime),
-
-    countryDescription: toNullableString(payload.countryDescription),
-
-    opportunityScore: toTrimmedString(payload.opportunityScore),
-
-    successRate: toTrimmedString(payload.successRate),
-
-    featured: toBoolean(payload.featured, false),
-
-    legacyId,
+    legacyId: normalizeLegacyId(payload.legacyId) ?? (await getNextLegacyId()),
 
     title,
 
-    slug,
+    slug: await makeUniqueSlug(payload.slug || title, countrySlug),
 
-    image: toNullableString(payload.image),
+    image: nullable(payload.image),
+    category: str(payload.category),
+    location: nullable(payload.location),
+    type: str(payload.type),
+    duration: nullable(payload.duration),
+    icon: nullable(payload.icon),
 
-    category: toTrimmedString(payload.category),
+    salary: nullable(payload.salary),
+    demand: nullable(payload.demand),
+    description: str(payload.description),
 
-    location: toNullableString(payload.location),
-
-    type: toTrimmedString(payload.type),
-
-    duration: toNullableString(payload.duration),
-
-    icon: toNullableString(payload.icon),
-
-    salary: toNullableString(payload.salary),
-
-    demand: toNullableString(payload.demand),
-
-    description: toTrimmedString(payload.description),
-
-    highlights: normalizeArray(payload.highlights),
-
-    requirements: normalizeArray(payload.requirements),
-
-    documents: normalizeArray(payload.documents),
-
-    benefits: normalizeArray(payload.benefits),
+    highlights: arr(payload.highlights),
+    requirements: arr(payload.requirements),
+    documents: arr(payload.documents),
+    benefits: arr(payload.benefits),
 
     steps: normalizeSteps(payload.steps),
-
     positions: normalizePositions(payload.positions),
 
-    workConditions:
-      payload.workConditions !== undefined ? payload.workConditions : null,
-
-    contract: toNullableString(payload.contract),
+    workConditions: payload.workConditions ?? null,
+    contract: nullable(payload.contract),
 
     faq: Array.isArray(payload.faq) ? payload.faq : [],
 
     pricing: normalizePricing(payload.pricing),
-
     paymentPlan: normalizePaymentPlan(payload.paymentPlan),
-
-    terms: normalizeArray(payload.terms),
+    terms: arr(payload.terms),
 
     applicationConfig: normalizeApplicationConfig(payload.applicationConfig),
 
-    active: toBoolean(payload.active, true),
+    active: bool(payload.active, true),
+    featured: bool(payload.featured, false),
   };
 
-  /*
-  |--------------------------------------------------------------------------
-  | INHERIT EXISTING COUNTRY PROFILE
-  |--------------------------------------------------------------------------
-  */
-
-  if (selectedCountry) {
-    applyCountryProfile(data, selectedCountry, payload);
+  if (profile) {
+    applyCountryProfile(data, profile, payload);
+  } else {
+    for (const field of DESTINATION_FIELDS) {
+      data[field] =
+        field === "countryCategories"
+          ? arr(payload[field])
+          : nullable(payload[field]);
+    }
   }
+
+  // Destination identity remains authoritative.
+  data.countryId = countryId;
+  data.countryName = countryName;
+  data.countrySlug = countrySlug;
 
   return data;
 };
 
-/*
-|--------------------------------------------------------------------------
-| UPDATE DATA
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* BUILD UPDATE DATA                                                          */
+/* -------------------------------------------------------------------------- */
 
-const buildUpdateData = async (payload, existing) => {
-  validateOpportunityPayload({
-    countryId: payload.countryId ?? existing.countryId,
+const buildUpdateData = async (payload = {}, existing) => {
+  if (!isObject(payload)) {
+    throw fail("Offer payload must be an object.");
+  }
 
+  validateRequired({
     countryName: payload.countryName ?? existing.countryName,
-
     title: payload.title ?? existing.title,
-
     category: payload.category ?? existing.category,
-
     type: payload.type ?? existing.type,
-
     description: payload.description ?? existing.description,
   });
 
   const data = {};
 
-  /*
-  |--------------------------------------------------------------------------
-  | DESTINATION
-  |--------------------------------------------------------------------------
-  */
+  const identitySubmitted = ["countryId", "countryName", "countrySlug"].some(
+    (field) => own(payload, field),
+  );
 
-  const destinationWasChanged =
-    payload.countryId !== undefined ||
-    payload.countrySlug !== undefined ||
-    payload.countryName !== undefined;
+  const nextName = own(payload, "countryName")
+    ? str(payload.countryName)
+    : str(existing.countryName);
 
-  if (destinationWasChanged) {
-    const selectedCountry = await getCountryProfile({
-      countryId: payload.countryId,
-      countrySlug: payload.countrySlug,
-      countryName: payload.countryName,
+  const nextSlug = own(payload, "countrySlug")
+    ? slugify(payload.countrySlug)
+    : own(payload, "countryName")
+      ? slugify(payload.countryName)
+      : slugify(existing.countrySlug);
+
+  const nextId = own(payload, "countryId")
+    ? positiveInt(payload.countryId, "Country ID")
+    : Number(existing.countryId);
+
+  const changed =
+    nextName !== str(existing.countryName) ||
+    nextSlug !== slugify(existing.countrySlug) ||
+    nextId !== Number(existing.countryId);
+
+  if (identitySubmitted && changed) {
+    if (!nextName || !nextSlug) {
+      throw fail(
+        "A destination change requires a valid country name and slug.",
+      );
+    }
+
+    const profile = await getCountryProfile({
+      countryId: nextId,
+      countryName: nextName,
+      countrySlug: nextSlug,
       excludeId: existing._id,
     });
 
-    if (selectedCountry) {
-      applyCountryProfile(data, selectedCountry, payload);
+    const countryId = profile
+      ? Number(profile.countryId)
+      : await getCountryId(nextName, nextId, nextSlug);
+
+    data.countryId = countryId;
+    data.countryName = profile?.countryName || nextName;
+    data.countrySlug = slugify(profile?.countrySlug || nextSlug);
+
+    if (profile) {
+      applyCountryProfile(data, profile, payload);
     } else {
-      if (payload.countryName !== undefined) {
-        data.countryName = toTrimmedString(payload.countryName);
-      }
-
-      if (payload.countrySlug !== undefined) {
-        data.countrySlug = slugify(payload.countrySlug);
-      }
-
-      if (payload.countryId !== undefined) {
-        const countryId = Number(payload.countryId);
-
-        if (Number.isFinite(countryId) && countryId > 0) {
-          data.countryId = countryId;
+      for (const field of DESTINATION_FIELDS) {
+        if (!own(payload, field)) {
+          continue;
         }
-      }
 
-      if (payload.countryFlag !== undefined) {
-        data.countryFlag = toNullableString(payload.countryFlag);
+        data[field] =
+          field === "countryCategories"
+            ? arr(payload[field])
+            : nullable(payload[field]);
       }
+    }
+  } else if (identitySubmitted) {
+    if (own(payload, "countryId") && nextId !== Number(existing.countryId)) {
+      throw fail("Country ID does not match the current destination.");
+    }
 
-      if (payload.countryImage !== undefined) {
-        data.countryImage = toNullableString(payload.countryImage);
-      }
+    if (
+      own(payload, "countryName") &&
+      !sameName(payload.countryName, existing.countryName)
+    ) {
+      throw fail("Country name does not match the current destination.");
+    }
 
-      if (payload.applicants !== undefined) {
-        data.applicants = toTrimmedString(payload.applicants);
-      }
-
-      if (payload.countryCategories !== undefined) {
-        data.countryCategories = normalizeArray(payload.countryCategories);
-      }
-
-      if (payload.countryVisa !== undefined) {
-        data.countryVisa = toNullableString(payload.countryVisa);
-      }
-
-      if (payload.countryDuration !== undefined) {
-        data.countryDuration = toNullableString(payload.countryDuration);
-      }
-
-      if (payload.countryProcessingTime !== undefined) {
-        data.countryProcessingTime = toNullableString(
-          payload.countryProcessingTime,
-        );
-      }
-
-      if (payload.countryDescription !== undefined) {
-        data.countryDescription = toNullableString(payload.countryDescription);
-      }
-
-      if (payload.opportunityScore !== undefined) {
-        data.opportunityScore = toTrimmedString(payload.opportunityScore);
-      }
-
-      if (payload.successRate !== undefined) {
-        data.successRate = toTrimmedString(payload.successRate);
-      }
+    if (
+      own(payload, "countrySlug") &&
+      nextSlug !== slugify(existing.countrySlug)
+    ) {
+      throw fail("Country slug does not match the current destination.");
     }
   }
 
-  /*
-  |--------------------------------------------------------------------------
-  | PUBLISHING
-  |--------------------------------------------------------------------------
-  */
-
-  if (payload.featured !== undefined) {
-    data.featured = toBoolean(payload.featured, existing.featured ?? false);
+  if (own(payload, "title")) {
+    data.title = str(payload.title);
   }
 
-  if (payload.active !== undefined) {
-    data.active = toBoolean(payload.active, existing.active ?? true);
-  }
+  const effectiveCountrySlug =
+    data.countrySlug || slugify(existing.countrySlug);
 
-  /*
-  |--------------------------------------------------------------------------
-  | OPPORTUNITY IDENTITY
-  |--------------------------------------------------------------------------
-  */
+  if (own(payload, "slug")) {
+    if (!slugify(payload.slug)) {
+      throw fail("Offer slug cannot be empty.");
+    }
 
-  if (payload.title !== undefined) {
-    data.title = toTrimmedString(payload.title);
-  }
-
-  if (payload.slug !== undefined) {
     data.slug = await makeUniqueSlug(
-      payload.slug || payload.title || existing.title,
+      payload.slug,
+      effectiveCountrySlug,
       existing._id,
     );
   }
 
-  /*
-  |--------------------------------------------------------------------------
-  | OPPORTUNITY CONTENT
-  |--------------------------------------------------------------------------
-  */
+  for (const field of OFFER_FIELDS) {
+    if (!own(payload, field)) {
+      continue;
+    }
 
-  if (payload.image !== undefined) {
-    data.image = toNullableString(payload.image);
+    switch (field) {
+      case "highlights":
+      case "requirements":
+      case "documents":
+      case "benefits":
+      case "terms":
+        data[field] = arr(payload[field]);
+        break;
+
+      case "steps":
+        data.steps = normalizeSteps(payload.steps);
+        break;
+
+      case "positions":
+        data.positions = normalizePositions(payload.positions);
+        break;
+
+      case "workConditions":
+        data.workConditions = payload.workConditions ?? null;
+        break;
+
+      case "faq":
+        data.faq = Array.isArray(payload.faq) ? payload.faq : [];
+        break;
+
+      case "pricing":
+        data.pricing = normalizePricing(payload.pricing);
+        break;
+
+      case "paymentPlan":
+        data.paymentPlan = normalizePaymentPlan(payload.paymentPlan);
+        break;
+
+      case "applicationConfig":
+        data.applicationConfig = normalizeApplicationConfig(
+          payload.applicationConfig,
+        );
+        break;
+
+      default:
+        data[field] = nullable(payload[field]);
+        break;
+    }
   }
 
-  if (payload.category !== undefined) {
-    data.category = toTrimmedString(payload.category);
+  if (own(payload, "active")) {
+    data.active = bool(payload.active, existing.active);
   }
 
-  if (payload.location !== undefined) {
-    data.location = toNullableString(payload.location);
+  if (own(payload, "featured")) {
+    data.featured = bool(payload.featured, existing.featured);
   }
 
-  if (payload.type !== undefined) {
-    data.type = toTrimmedString(payload.type);
+  if (own(payload, "legacyId")) {
+    data.legacyId = positiveInt(payload.legacyId, "Legacy ID");
   }
 
-  if (payload.duration !== undefined) {
-    data.duration = toNullableString(payload.duration);
+  if (data.title) {
+    await assertNoDuplicateTitle({
+      countrySlug: effectiveCountrySlug,
+      title: data.title,
+      excludeId: existing._id,
+    });
   }
-
-  if (payload.icon !== undefined) {
-    data.icon = toNullableString(payload.icon);
-  }
-
-  if (payload.salary !== undefined) {
-    data.salary = toNullableString(payload.salary);
-  }
-
-  if (payload.demand !== undefined) {
-    data.demand = toNullableString(payload.demand);
-  }
-
-  if (payload.description !== undefined) {
-    data.description = toTrimmedString(payload.description);
-  }
-
-  /*
-  |--------------------------------------------------------------------------
-  | ADVANCED FIELDS
-  |--------------------------------------------------------------------------
-  */
-
-  if (payload.highlights !== undefined) {
-    data.highlights = normalizeArray(payload.highlights);
-  }
-
-  if (payload.requirements !== undefined) {
-    data.requirements = normalizeArray(payload.requirements);
-  }
-
-  if (payload.documents !== undefined) {
-    data.documents = normalizeArray(payload.documents);
-  }
-
-  if (payload.benefits !== undefined) {
-    data.benefits = normalizeArray(payload.benefits);
-  }
-
-  if (payload.steps !== undefined) {
-    data.steps = normalizeSteps(payload.steps);
-  }
-
-  if (payload.positions !== undefined) {
-    data.positions = normalizePositions(payload.positions);
-  }
-
-  if (payload.workConditions !== undefined) {
-    data.workConditions = payload.workConditions;
-  }
-
-  if (payload.contract !== undefined) {
-    data.contract = toNullableString(payload.contract);
-  }
-
-  if (payload.faq !== undefined) {
-    data.faq = Array.isArray(payload.faq) ? payload.faq : [];
-  }
-
-  if (payload.pricing !== undefined) {
-    data.pricing = normalizePricing(payload.pricing);
-  }
-
-  if (payload.paymentPlan !== undefined) {
-    data.paymentPlan = normalizePaymentPlan(payload.paymentPlan);
-  }
-
-  if (payload.terms !== undefined) {
-    data.terms = normalizeArray(payload.terms);
-  }
-
-  if (payload.applicationConfig !== undefined) {
-    data.applicationConfig = normalizeApplicationConfig(
-      payload.applicationConfig,
-    );
-  }
-
-  /*
-  |--------------------------------------------------------------------------
-  | NEVER UPDATE
-  |--------------------------------------------------------------------------
-  |
-  | _id
-  | legacyId
-  | createdAt
-  |
-  |--------------------------------------------------------------------------
-  */
 
   return data;
 };
 
-/*
-|--------------------------------------------------------------------------
-| GET ALL OPPORTUNITIES
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* GET ALL OPPORTUNITIES                                                      */
+/* -------------------------------------------------------------------------- */
 
-const getAllOpportunities = async () => {
-  return Opportunity.find({})
+const getAllOpportunities = async () =>
+  Opportunity.find({})
     .sort({
       active: -1,
       featured: -1,
@@ -1448,44 +1016,185 @@ const getAllOpportunities = async () => {
       title: 1,
     })
     .lean();
+
+/* -------------------------------------------------------------------------- */
+/* GET OPPORTUNITY BY ID                                                      */
+/* -------------------------------------------------------------------------- */
+
+const getOpportunityById = async (id) =>
+  validId(id) ? Opportunity.findById(id).lean() : null;
+
+/* -------------------------------------------------------------------------- */
+/* GET DESTINATIONS                                                           */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Groups offers by destination.
+ *
+ * The destination image comes from countryImage only.
+ * Opportunity-specific image values are deliberately not used as a fallback.
+ */
+const getDestinations = async () => {
+  const offers = await getAllOpportunities();
+  const grouped = new Map();
+
+  for (const offer of offers) {
+    const key = slugify(offer.countrySlug);
+
+    if (!key) {
+      continue;
+    }
+
+    if (!grouped.has(key)) {
+      grouped.set(key, {
+        countryId: offer.countryId,
+        countryName: offer.countryName,
+        countrySlug: key,
+
+        ...Object.fromEntries(
+          DESTINATION_FIELDS.map((field) => [
+            field,
+            offer[field] ?? (field === "countryCategories" ? [] : ""),
+          ]),
+        ),
+
+        offerCount: 0,
+        activeOfferCount: 0,
+        inactiveOfferCount: 0,
+        featuredOfferCount: 0,
+      });
+    }
+
+    const country = grouped.get(key);
+
+    // If the first record has an empty countryImage, accept a populated
+    // countryImage from another offer belonging to the same destination.
+    if (!country.countryImage && str(offer.countryImage)) {
+      country.countryImage = str(offer.countryImage);
+    }
+
+    country.offerCount++;
+
+    if (offer.active === false) {
+      country.inactiveOfferCount++;
+    } else {
+      country.activeOfferCount++;
+    }
+
+    if (offer.featured === true) {
+      country.featuredOfferCount++;
+    }
+  }
+
+  return [...grouped.values()].sort((a, b) =>
+    str(a.countryName).localeCompare(str(b.countryName)),
+  );
 };
 
-/*
-|--------------------------------------------------------------------------
-| GET SINGLE OPPORTUNITY
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* GET DESTINATION BY SLUG                                                    */
+/* -------------------------------------------------------------------------- */
 
-const getOpportunityById = async (id) => {
-  if (!mongoose.Types.ObjectId.isValid(id)) {
+const getDestinationBySlug = async (countrySlug) => {
+  const normalizedSlug = slugify(countrySlug);
+
+  if (!normalizedSlug) {
     return null;
   }
 
-  return Opportunity.findById(id).lean();
+  const offers = await Opportunity.find({
+    countrySlug: normalizedSlug,
+  })
+    .sort({
+      active: -1,
+      featured: -1,
+      createdAt: -1,
+    })
+    .lean();
+
+  if (!offers.length) {
+    return null;
+  }
+
+  const first = offers[0];
+
+  const identities = new Set(
+    offers.map(
+      (offer) =>
+        `${Number(offer.countryId)}::${str(
+          offer.countryName,
+        ).toLowerCase()}::${slugify(offer.countrySlug)}`,
+    ),
+  );
+
+  // Use the first non-empty countryImage across matching records.
+  // Never substitute offer.image for the destination image.
+  const sharedCountryImage =
+    offers.find((offer) => str(offer.countryImage))?.countryImage || "";
+
+  return {
+    countryId: first.countryId ?? null,
+    countryName: first.countryName || "",
+    countrySlug: normalizedSlug,
+
+    ...Object.fromEntries(
+      DESTINATION_FIELDS.map((field) => [
+        field,
+        field === "countryImage"
+          ? sharedCountryImage
+          : (first[field] ?? (field === "countryCategories" ? [] : "")),
+      ]),
+    ),
+
+    countryImage: sharedCountryImage,
+
+    offerCount: offers.length,
+
+    activeOfferCount: offers.filter((offer) => offer.active !== false).length,
+
+    inactiveOfferCount: offers.filter((offer) => offer.active === false).length,
+
+    featuredOfferCount: offers.filter((offer) => offer.featured === true)
+      .length,
+
+    hasIdentityConflicts: identities.size > 1,
+
+    identityConflicts:
+      identities.size > 1
+        ? offers.map((offer) => ({
+            offerId: String(offer._id),
+            title: offer.title,
+            countryId: offer.countryId ?? null,
+            countryName: offer.countryName || "",
+            countrySlug: offer.countrySlug || "",
+          }))
+        : [],
+
+    offers,
+  };
 };
 
-/*
-|--------------------------------------------------------------------------
-| CREATE OPPORTUNITY
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* CREATE OPPORTUNITY                                                         */
+/* -------------------------------------------------------------------------- */
 
 const createOpportunity = async (payload) => {
-  const data = await buildCreateData(payload);
+  try {
+    const data = await buildCreateData(payload);
+    const opportunity = await Opportunity.create(data);
 
-  const opportunity = await Opportunity.create(data);
-
-  return opportunity.toObject();
+    return opportunity.toObject();
+  } catch (error) {
+    throw mapDbError(error);
+  }
 };
 
-/*
-|--------------------------------------------------------------------------
-| UPDATE OPPORTUNITY
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* UPDATE OPPORTUNITY                                                         */
+/* -------------------------------------------------------------------------- */
 
 const updateOpportunity = async (id, payload) => {
-  if (!mongoose.Types.ObjectId.isValid(id)) {
+  if (!validId(id)) {
     return null;
   }
 
@@ -1495,38 +1204,47 @@ const updateOpportunity = async (id, payload) => {
     return null;
   }
 
-  const data = await buildUpdateData(payload, existing);
+  try {
+    const data = await buildUpdateData(payload, existing);
 
-  const updatedOpportunity = await Opportunity.findByIdAndUpdate(
-    id,
-    {
-      $set: data,
-    },
-    {
-      new: true,
-      runValidators: true,
-    },
-  );
+    if (!Object.keys(data).length) {
+      return existing.toObject();
+    }
 
-  return updatedOpportunity;
+    return await Opportunity.findByIdAndUpdate(
+      id,
+      {
+        $set: data,
+      },
+      {
+        new: true,
+        runValidators: true,
+        context: "query",
+      },
+    );
+  } catch (error) {
+    throw mapDbError(error);
+  }
 };
 
-/*
-|--------------------------------------------------------------------------
-| SET ACTIVE / INACTIVE
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* SET ACTIVE / INACTIVE                                                      */
+/* -------------------------------------------------------------------------- */
 
 const setOpportunityActive = async (id, active) => {
-  if (!mongoose.Types.ObjectId.isValid(id)) {
+  if (!validId(id)) {
     return null;
+  }
+
+  if (active === undefined || active === null) {
+    throw fail("An active value is required.");
   }
 
   return Opportunity.findByIdAndUpdate(
     id,
     {
       $set: {
-        active: Boolean(active),
+        active: bool(active, false),
       },
     },
     {
@@ -1536,22 +1254,24 @@ const setOpportunityActive = async (id, active) => {
   );
 };
 
-/*
-|--------------------------------------------------------------------------
-| SET FEATURED
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* SET FEATURED                                                               */
+/* -------------------------------------------------------------------------- */
 
 const setOpportunityFeatured = async (id, featured) => {
-  if (!mongoose.Types.ObjectId.isValid(id)) {
+  if (!validId(id)) {
     return null;
+  }
+
+  if (featured === undefined || featured === null) {
+    throw fail("A featured value is required.");
   }
 
   return Opportunity.findByIdAndUpdate(
     id,
     {
       $set: {
-        featured: Boolean(featured),
+        featured: bool(featured, false),
       },
     },
     {
@@ -1561,18 +1281,12 @@ const setOpportunityFeatured = async (id, featured) => {
   );
 };
 
-/*
-|--------------------------------------------------------------------------
-| DEACTIVATE
-|--------------------------------------------------------------------------
-|
-| Soft-delete only.
-|
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* DEACTIVATE OPPORTUNITY                                                     */
+/* -------------------------------------------------------------------------- */
 
 const deactivateOpportunity = async (id) => {
-  if (!mongoose.Types.ObjectId.isValid(id)) {
+  if (!validId(id)) {
     return null;
   }
 
@@ -1591,26 +1305,324 @@ const deactivateOpportunity = async (id) => {
   );
 };
 
-/*
-|--------------------------------------------------------------------------
-| EXPORT
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* UPDATE DESTINATION METADATA                                                */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Updates shared metadata across every opportunity belonging to a destination.
+ *
+ * This includes countryImage, which means an uploaded destination image is
+ * shared across all matching opportunities after this method succeeds.
+ */
+const updateDestination = async (countrySlug, payload = {}) => {
+  const normalizedSlug = slugify(countrySlug);
+
+  if (!normalizedSlug) {
+    throw fail("A valid destination slug is required.");
+  }
+
+  if (
+    ["countryId", "countryName", "countrySlug"].some((field) =>
+      own(payload, field),
+    )
+  ) {
+    throw fail(
+      "Destination identity cannot be edited in the metadata editor. Use a dedicated integrity-repair operation.",
+      409,
+    );
+  }
+
+  const updates = {};
+
+  for (const field of DESTINATION_FIELDS) {
+    if (!own(payload, field)) {
+      continue;
+    }
+
+    if (field === "countryCategories") {
+      if (!Array.isArray(payload[field])) {
+        throw fail("countryCategories must be an array.");
+      }
+
+      updates[field] = arr(payload[field]);
+    } else {
+      updates[field] = nullable(payload[field]);
+    }
+  }
+
+  if (!Object.keys(updates).length) {
+    throw fail("No editable destination metadata was provided.");
+  }
+
+  const result = await Opportunity.updateMany(
+    {
+      countrySlug: normalizedSlug,
+    },
+    {
+      $set: updates,
+    },
+    {
+      runValidators: true,
+    },
+  );
+
+  return result.matchedCount ? getDestinationBySlug(normalizedSlug) : null;
+};
+
+/* -------------------------------------------------------------------------- */
+/* READ-ONLY DATA INTEGRITY REPORT                                             */
+/* -------------------------------------------------------------------------- */
+
+const getIntegrityReport = async () => {
+  const offers = await Opportunity.find({})
+    .select(
+      "_id legacyId title slug countryId countryName countrySlug active featured createdAt updatedAt",
+    )
+    .sort({
+      createdAt: -1,
+    })
+    .lean();
+
+  const issues = [];
+
+  const countryIds = new Map();
+  const countrySlugs = new Map();
+  const titleGroups = new Map();
+
+  const group = (map, key, offer) => {
+    if (!key) {
+      return;
+    }
+
+    if (!map.has(key)) {
+      map.set(key, []);
+    }
+
+    map.get(key).push(offer);
+  };
+
+  for (const offer of offers) {
+    const id = Number(offer.countryId);
+
+    const name = str(offer.countryName).toLowerCase().replace(/\s+/g, " ");
+
+    const countrySlug = slugify(offer.countrySlug);
+
+    const title = str(offer.title).toLowerCase().replace(/\s+/g, " ");
+
+    if (Number.isSafeInteger(id) && id > 0) {
+      group(countryIds, String(id), offer);
+    }
+
+    group(countrySlugs, countrySlug, offer);
+
+    if (countrySlug && title) {
+      group(titleGroups, `${countrySlug}::${title}`, offer);
+    }
+
+    const addIssue = (code, severity, message) => {
+      issues.push({
+        opportunityId: String(offer._id),
+        legacyId: offer.legacyId ?? null,
+        title: offer.title || "(Untitled offer)",
+        slug: offer.slug || "",
+        countryId: offer.countryId ?? null,
+        countryName: offer.countryName || "",
+        countrySlug: offer.countrySlug || "",
+        active: offer.active !== false,
+        featured: offer.featured === true,
+
+        issue: {
+          code,
+          severity,
+          message,
+        },
+      });
+    };
+
+    if (!Number.isSafeInteger(id) || id <= 0) {
+      addIssue("INVALID_COUNTRY_ID", "ERROR", "Missing or invalid country ID.");
+    }
+
+    if (!name) {
+      addIssue(
+        "MISSING_COUNTRY_NAME",
+        "ERROR",
+        "Missing destination country name.",
+      );
+    }
+
+    if (!countrySlug) {
+      addIssue("MISSING_COUNTRY_SLUG", "ERROR", "Missing destination slug.");
+    }
+
+    if (!str(offer.title)) {
+      addIssue("MISSING_OFFER_TITLE", "ERROR", "Missing offer title.");
+    }
+
+    if (!slugify(offer.slug)) {
+      addIssue("MISSING_OFFER_SLUG", "ERROR", "Missing offer slug.");
+    }
+  }
+
+  /* Country ID conflicts */
+
+  for (const [id, records] of countryIds) {
+    const identities = new Set(
+      records.map(
+        (offer) =>
+          `${str(offer.countryName).toLowerCase()}::${slugify(
+            offer.countrySlug,
+          )}`,
+      ),
+    );
+
+    if (identities.size > 1) {
+      for (const offer of records) {
+        issues.push({
+          opportunityId: String(offer._id),
+          legacyId: offer.legacyId ?? null,
+          title: offer.title || "(Untitled offer)",
+          slug: offer.slug || "",
+          countryId: offer.countryId ?? null,
+          countryName: offer.countryName || "",
+          countrySlug: offer.countrySlug || "",
+          active: offer.active !== false,
+          featured: offer.featured === true,
+
+          issue: {
+            code: "COUNTRY_ID_CONFLICT",
+            severity: "ERROR",
+            message: `Country ID ${id} has conflicting destination identities.`,
+          },
+        });
+      }
+    }
+  }
+
+  /* Country slug conflicts */
+
+  for (const [slug, records] of countrySlugs) {
+    const identities = new Set(
+      records.map(
+        (offer) =>
+          `${Number(offer.countryId)}::${str(offer.countryName).toLowerCase()}`,
+      ),
+    );
+
+    if (identities.size > 1) {
+      for (const offer of records) {
+        issues.push({
+          opportunityId: String(offer._id),
+          legacyId: offer.legacyId ?? null,
+          title: offer.title || "(Untitled offer)",
+          slug: offer.slug || "",
+          countryId: offer.countryId ?? null,
+          countryName: offer.countryName || "",
+          countrySlug: offer.countrySlug || "",
+          active: offer.active !== false,
+          featured: offer.featured === true,
+
+          issue: {
+            code: "COUNTRY_SLUG_CONFLICT",
+            severity: "ERROR",
+            message: `Destination slug "${slug}" has conflicting identities.`,
+          },
+        });
+      }
+    }
+  }
+
+  /* Potential duplicate offers */
+
+  for (const records of titleGroups.values()) {
+    if (records.length <= 1) {
+      continue;
+    }
+
+    for (const offer of records) {
+      issues.push({
+        opportunityId: String(offer._id),
+        legacyId: offer.legacyId ?? null,
+        title: offer.title || "(Untitled offer)",
+        slug: offer.slug || "",
+        countryId: offer.countryId ?? null,
+        countryName: offer.countryName || "",
+        countrySlug: offer.countrySlug || "",
+        active: offer.active !== false,
+        featured: offer.featured === true,
+
+        issue: {
+          code: "POTENTIAL_DUPLICATE_OFFER",
+          severity: "WARNING",
+          message: `This offer shares a title and destination with ${
+            records.length - 1
+          } other record(s). Review before deleting.`,
+        },
+      });
+    }
+  }
+
+  const rank = {
+    ERROR: 0,
+    WARNING: 1,
+    INFO: 2,
+  };
+
+  issues.sort(
+    (a, b) =>
+      rank[a.issue.severity] - rank[b.issue.severity] ||
+      a.title.localeCompare(b.title),
+  );
+
+  const issueCounts = {};
+
+  for (const item of issues) {
+    issueCounts[item.issue.code] = (issueCounts[item.issue.code] || 0) + 1;
+  }
+
+  const affected = new Set(issues.map((item) => item.opportunityId));
+
+  const errorCount = issues.filter(
+    (item) => item.issue.severity === "ERROR",
+  ).length;
+
+  const warningCount = issues.filter(
+    (item) => item.issue.severity === "WARNING",
+  ).length;
+
+  return {
+    scannedAt: new Date().toISOString(),
+
+    summary: {
+      totalOffersScanned: offers.length,
+      totalIssues: issues.length,
+      affectedOffers: affected.size,
+      errorCount,
+      warningCount,
+      healthyOffers: offers.length - affected.size,
+      issueCounts,
+    },
+
+    issues,
+  };
+};
+
+/* -------------------------------------------------------------------------- */
+/* EXPORT SERVICE METHODS                                                     */
+/* -------------------------------------------------------------------------- */
 
 export default {
   getAllOpportunities,
-
   getDestinations,
-
+  getDestinationBySlug,
+  updateDestination,
+  getIntegrityReport,
   getOpportunityById,
-
   createOpportunity,
-
   updateOpportunity,
-
   setOpportunityActive,
-
   setOpportunityFeatured,
-
   deactivateOpportunity,
 };

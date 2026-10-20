@@ -25,7 +25,7 @@ import adminRoutes from "../modules/admin/admin.routes.js";
 import staffRoutes from "../modules/staff/staff.routes.js";
 
 import accessRoutes from "../modules/staff/access/access.routes.js";
-
+import contactRoutes from "../modules/contact/contact.routes.js";
 
 const router = express.Router();
 
@@ -322,6 +322,10 @@ router.use(
     staffRoutes,
 );
 
+router.use(
+    "/contact",
+    contactRoutes,
+);
 
 /*
 |--------------------------------------------------------------------------

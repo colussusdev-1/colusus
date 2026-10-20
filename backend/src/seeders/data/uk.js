@@ -1,665 +1,408 @@
 // import ukImage from "../../../../../assets/images/countries/uk.jpg";
 
-
 const uk = {
+  id: 16,
 
+  name: "United Kingdom",
+  shortName: "UK",
+  slug: "united-kingdom",
 
-    id:2,
+  flag: "🇬🇧",
 
+  image: "",
 
-    name:"United Kingdom",
+  applicants: "2.1k",
 
-    shortName:"UK",
+  category: ["popular", "work", "study"],
 
-    slug:"united-kingdom",
+  visa: "Skilled Worker Visa",
 
+  duration: "6–12 Weeks",
+  processingTime: "Fast",
 
-    flag:"🇬🇧",
+  opportunityScore: "88%",
+  successRate: "High",
 
+  description:
+    "Explore UK healthcare careers, employer-sponsored skilled employment opportunities, university pathways, and potential long-term immigration options.",
 
-    image:"",
+  opportunities: [
+    {
+      id: 1,
 
+      title: "Healthcare Worker",
 
+      slug: "united-kingdom-healthcare-worker",
 
-    applicants:"2.1k",
+      image: "",
 
+      icon: "🏥",
 
+      category: "Jobs",
 
-    category:[
+      location: "United Kingdom",
 
-        "popular",
+      type: "Health & Care Visa",
 
-        "work",
+      duration: "6–12 Weeks",
 
-        "study"
+      salary: "£30,000 - £50,000/year",
 
-    ],
+      demand: "Very High",
 
+      description:
+        "Explore UK healthcare employment opportunities for eligible healthcare professionals, including nurses, care workers where eligible, and medical specialists. Eligibility depends on the occupation, qualifications, registration requirements, and employer sponsorship.",
 
+      highlights: [
+        "Healthcare Employment Opportunities",
+        "Potential Employer Visa Sponsorship",
+        "Professional Registration Guidance",
+        "Document Preparation Support",
+        "Relocation Guidance",
+        "Potential Long-Term Immigration Options Subject to Eligibility",
+      ],
 
-    visa:"Skilled Worker Visa",
+      requirements: [
+        "Relevant Healthcare Qualification Where Required",
+        "Professional Registration Where Required",
+        "English Language Proficiency Where Required",
+        "Relevant Healthcare Experience Depending on the Position",
+        "Eligible Job Offer Where Required",
+        "Compliance with Applicable UK Immigration Requirements",
+      ],
 
+      documents: [
+        "Valid International Passport",
+        "Professional Certificates",
+        "Work Experience Records",
+        "English Language Results Where Required",
+        "CV / Resume",
+        "Professional Registration Evidence Where Applicable",
+        "Additional Documents Required by the Employer or Visa Route",
+      ],
 
-    duration:"6–12 Weeks",
+      benefits: [
+        "Potential Visa Sponsorship Opportunities",
+        "Healthcare Career Development",
+        "Family or Dependant Options Where Permitted",
+        "Potential Long-Term Residence Options Subject to Eligibility",
+        "Guidance on Professional Registration and Documentation",
+      ],
 
-
-    processingTime:"Fast",
-
-
-
-    opportunityScore:"88%",
-
-
-
-    successRate:"High",
-
-
-
-
-    description:
-
-    "Explore UK skilled worker routes, healthcare careers, university pathways and long-term settlement opportunities.",
-
-
-
-
-
-    opportunities:[
-
-
-
+      steps: [
         {
+          title: "Profile Assessment",
 
-            id:1,
-
-
-            title:"Healthcare Worker",
-
-
-            slug:"healthcare-worker",
-
-
-            icon:"🏥",
-
-
-            category:"Jobs",
-
-
-
-            location:"United Kingdom",
-
-
-
-            type:"Health & Care Visa",
-
-
-
-            duration:"6–12 Weeks",
-
-
-
-            salary:
-
-            "£30,000 - £50,000/year",
-
-
-
-            demand:
-
-            "Very High",
-
-
-
-
-            description:
-
-            "The UK continues to experience strong demand for qualified healthcare professionals including nurses, carers and medical specialists.",
-
-
-
-
-
-            requirements:[
-
-                "Healthcare qualification",
-
-                "Professional registration",
-
-                "English language proficiency",
-
-                "Relevant healthcare experience"
-
-            ],
-
-
-
-
-
-            documents:[
-
-                "Valid passport",
-
-                "Professional certificates",
-
-                "Work experience records",
-
-                "English language results",
-
-                "CV / Resume"
-
-            ],
-
-
-
-
-
-            benefits:[
-
-                "Visa sponsorship opportunities",
-
-                "Healthcare career growth",
-
-                "Family migration options",
-
-                "Pathway toward settlement"
-
-            ],
-
-
-
-
-
-            steps:[
-
-
-                {
-
-                    title:"Profile Assessment",
-
-                    description:
-
-                    "Review your healthcare background and eligibility for UK healthcare routes."
-
-                },
-
-
-                {
-
-                    title:"Document Preparation",
-
-                    description:
-
-                    "Prepare professional certificates, identity documents and employment records."
-
-                },
-
-
-                {
-
-                    title:"Employer Matching",
-
-                    description:
-
-                    "Connect with eligible UK employers offering sponsorship opportunities."
-
-                },
-
-
-                {
-
-                    title:"Visa Application",
-
-                    description:
-
-                    "Submit your application and prepare for relocation."
-
-                }
-
-
-            ],
-
-
-
-
-
-            faq:[
-
-
-                {
-
-                    question:
-
-                    "Can healthcare workers get UK visa sponsorship?",
-
-
-                    answer:
-
-                    "Yes. Many UK healthcare employers are approved sponsors for qualified international workers."
-
-                },
-
-
-                {
-
-                    question:
-
-                    "Is English required?",
-
-
-                    answer:
-
-                    "Most healthcare routes require proof of English language ability."
-
-                }
-
-
-            ]
-
-
+          description:
+            "Review your healthcare background, qualifications, experience, and potential eligibility for relevant UK employment and immigration routes.",
         },
 
-
-
-
-
-
-
-
         {
+          title: "Document Preparation",
 
-            id:2,
-
-
-            title:"Skilled Worker",
-
-
-            slug:"skilled-worker",
-
-
-            icon:"💼",
-
-
-            category:"Jobs",
-
-
-
-            location:"London, United Kingdom",
-
-
-
-            type:"Skilled Worker Visa",
-
-
-
-            duration:"8–14 Weeks",
-
-
-
-            salary:
-
-            "£35,000 - £70,000/year",
-
-
-
-
-            demand:
-
-            "High",
-
-
-
-
-            description:
-
-            "Move to the UK through employer-sponsored skilled employment opportunities across technology, engineering, finance and other industries.",
-
-
-
-
-            requirements:[
-
-                "Eligible occupation",
-
-                "Job offer from approved UK employer",
-
-                "Required professional skills",
-
-                "English proficiency"
-
-            ],
-
-
-
-
-
-            documents:[
-
-                "Passport",
-
-                "Certificate of sponsorship",
-
-                "CV",
-
-                "Educational certificates",
-
-                "Employment history"
-
-            ],
-
-
-
-
-
-            benefits:[
-
-                "Work legally in the UK",
-
-                "Career advancement opportunities",
-
-                "Family visa options",
-
-                "Settlement pathway"
-
-            ],
-
-
-
-
-
-            steps:[
-
-
-                {
-
-                    title:"Eligibility Check",
-
-                    description:
-
-                    "Determine if your occupation qualifies under the UK skilled worker system."
-
-                },
-
-
-                {
-
-                    title:"Employer Sponsorship",
-
-                    description:
-
-                    "Secure employment with an approved UK sponsor."
-
-                },
-
-
-                {
-
-                    title:"Application Filing",
-
-                    description:
-
-                    "Submit visa documents and complete application requirements."
-
-                },
-
-
-                {
-
-                    title:"Relocation",
-
-                    description:
-
-                    "Receive approval and prepare your move."
-
-                }
-
-
-            ],
-
-
-
-
-            faq:[
-
-
-                {
-
-                    question:
-
-                    "Do I need a UK job offer?",
-
-
-                    answer:
-
-                    "Yes. Skilled Worker routes usually require sponsorship from an approved employer."
-
-                },
-
-
-                {
-
-                    question:
-
-                    "Can my family join me?",
-
-
-                    answer:
-
-                    "Eligible applicants may bring qualifying dependants."
-
-                }
-
-
-            ]
-
-
+          description:
+            "Prepare your professional certificates, identity documents, registration evidence, and employment records.",
         },
 
+        {
+          title: "Employer Matching",
 
-
-
-
-
-
-
+          description:
+            "Explore suitable opportunities with employers authorised to sponsor eligible workers where sponsorship is required.",
+        },
 
         {
+          title: "Visa Application",
 
-            id:3,
+          description:
+            "After securing the required employment and sponsorship documentation, prepare and submit the appropriate visa application.",
+        },
+      ],
 
+      faq: [
+        {
+          question: "Can healthcare workers get UK visa sponsorship?",
 
-            title:"Student Route",
+          answer:
+            "Eligible healthcare professionals may qualify for employer sponsorship when the occupation, employer, job offer, and applicant meet the applicable immigration requirements.",
+        },
 
+        {
+          question: "Is English required?",
 
-            slug:"student-route",
+          answer:
+            "English language requirements depend on the immigration route and professional role. Applicants should confirm the requirements that apply to their specific application.",
+        },
+      ],
 
+      pricing: null,
 
-            icon:"🎓",
+      paymentPlan: [],
 
+      terms: [
+        "Employment and sponsorship depend on the selected occupation, employer eligibility, and applicable immigration rules.",
 
-            category:"Study",
+        "Professional registration may be required for regulated healthcare occupations.",
 
+        "Salary, processing duration, and eligibility must be confirmed for the specific position and application.",
 
+        "Visa approval is determined by the relevant UK authorities.",
+      ],
+    },
 
-            location:"United Kingdom",
+    {
+      id: 2,
 
+      title: "Skilled Worker",
 
+      slug: "united-kingdom-skilled-worker",
 
-            type:"Student Visa",
+      image: "",
 
+      icon: "💼",
 
+      category: "Jobs",
 
-            duration:"6–10 Weeks",
+      location: "London, United Kingdom",
 
+      type: "Skilled Worker Visa",
 
+      duration: "8–14 Weeks",
 
+      salary: "£35,000 - £70,000/year",
 
-            salary:
+      demand: "High",
 
-            "Post-study work opportunities",
+      description:
+        "Explore employer-sponsored skilled employment opportunities in the United Kingdom across technology, engineering, finance, and other eligible occupations.",
 
+      highlights: [
+        "Skilled Employment Opportunities",
+        "Approved Employer Sponsorship Where Required",
+        "Application Documentation Guidance",
+        "Professional Career Opportunities",
+        "Potential Dependant Options Subject to Eligibility",
+        "Potential Settlement Options Subject to Immigration Rules",
+      ],
 
+      requirements: [
+        "Eligible Occupation",
+        "Job Offer from an Eligible Approved Sponsor",
+        "Required Professional Skills and Qualifications",
+        "English Language Proficiency Where Required",
+        "Compliance with Applicable Salary and Immigration Requirements",
+      ],
 
+      documents: [
+        "Valid International Passport",
+        "Certificate of Sponsorship Where Required",
+        "CV / Resume",
+        "Educational Certificates Where Applicable",
+        "Employment History",
+        "Additional Supporting Documents Required for the Application",
+      ],
 
-            demand:
+      benefits: [
+        "Opportunity to Work Legally in the UK When Authorised",
+        "Career Advancement Opportunities",
+        "Potential Dependant Options Subject to Eligibility",
+        "Potential Settlement Pathway Subject to Applicable Rules",
+        "Employer-Sponsored Employment Opportunities",
+      ],
 
-            "Growing",
+      steps: [
+        {
+          title: "Eligibility Check",
 
+          description:
+            "Assess whether your occupation, qualifications, experience, and circumstances align with the relevant UK immigration route.",
+        },
 
+        {
+          title: "Employer Sponsorship",
 
+          description:
+            "Seek employment with an eligible employer that can provide the required sponsorship for the selected role.",
+        },
 
-            description:
+        {
+          title: "Application Filing",
 
-            "Study at globally recognised UK universities while building opportunities for future employment and settlement.",
+          description:
+            "Prepare the required supporting documents and submit the relevant visa application after obtaining the necessary employment documentation.",
+        },
 
+        {
+          title: "Relocation",
 
+          description:
+            "After the required approvals are granted, prepare for relocation in accordance with your visa conditions.",
+        },
+      ],
 
+      faq: [
+        {
+          question: "Do I need a UK job offer?",
 
-            requirements:[
+          answer:
+            "The Skilled Worker route generally requires an eligible job offer from an approved sponsor and the necessary sponsorship documentation.",
+        },
 
-                "University admission offer",
+        {
+          question: "Can my family join me?",
 
-                "Academic qualification",
+          answer:
+            "Dependant eligibility depends on the immigration route, occupation, and applicable rules. Not every applicant or occupation has the same dependant options.",
+        },
+      ],
 
-                "Proof of funds",
+      pricing: null,
 
-                "English language requirement"
+      paymentPlan: [],
 
-            ],
+      terms: [
+        "Applicants must meet the requirements of the applicable immigration route.",
 
+        "A job offer alone does not guarantee sponsorship or visa approval.",
 
+        "Salary thresholds and occupation eligibility must be confirmed against the rules in force when applying.",
 
+        "Dependant and settlement options depend on the applicant's circumstances and applicable immigration rules.",
 
-            documents:[
+        "The stated salary range and processing duration are indicative source-data values and have not been independently verified.",
+      ],
+    },
 
-                "Passport",
+    {
+      id: 3,
 
-                "Admission letter",
+      title: "Student Route",
 
-                "Academic transcripts",
+      slug: "united-kingdom-student-route",
 
-                "Financial documents"
+      image: "",
 
-            ],
+      icon: "🎓",
 
+      category: "Study",
 
+      location: "United Kingdom",
 
+      type: "Student Visa",
 
+      duration: "6–10 Weeks",
 
-            benefits:[
+      salary: "Post-study work opportunities",
 
-                "World-class education",
+      demand: "Growing",
 
-                "Graduate route opportunities",
+      description:
+        "Explore opportunities to study at UK universities and eligible educational institutions while preparing for future academic and career development.",
 
-                "International career exposure",
+      highlights: [
+        "University and Course Selection Guidance",
+        "Admission Application Support",
+        "Student Visa Application Guidance",
+        "Academic Document Preparation",
+        "International Education Opportunities",
+        "Potential Post-Study Options Subject to Eligibility",
+      ],
 
-                "Future migration pathways"
+      requirements: [
+        "Admission Offer from an Eligible Education Provider",
+        "Required Academic Qualifications",
+        "Proof of Funds Where Required",
+        "English Language Evidence Where Required",
+        "Confirmation of Acceptance for Studies (CAS) Where Required",
+        "Compliance with Applicable Student Visa Requirements",
+      ],
 
-            ],
+      documents: [
+        "Valid International Passport",
+        "Admission Documentation",
+        "Academic Transcripts",
+        "Educational Certificates",
+        "Financial Documents Where Required",
+        "English Language Results Where Required",
+        "Confirmation of Acceptance for Studies (CAS) Where Required",
+        "Additional Supporting Documents Required for the Application",
+      ],
 
+      benefits: [
+        "Access to Eligible UK Education Opportunities",
+        "International Academic Experience",
+        "Potential Part-Time Work Rights Subject to Visa Conditions",
+        "Potential Graduate Route Eligibility Subject to the Rules in Force",
+        "International Career Development Opportunities",
+      ],
 
+      steps: [
+        {
+          title: "University Selection",
 
+          description:
+            "Identify suitable UK institutions and study programmes based on your academic background, budget, and career goals.",
+        },
 
+        {
+          title: "Admission Application",
 
-            steps:[
+          description:
+            "Apply to the selected institution and satisfy its admission requirements. Obtain the necessary confirmation documentation if accepted.",
+        },
 
+        {
+          title: "Visa Processing",
 
-                {
+          description:
+            "Prepare the required financial, academic, identity, and other supporting documents before submitting the appropriate student visa application.",
+        },
 
-                    title:"University Selection",
+        {
+          title: "Travel Preparation",
 
-                    description:
+          description:
+            "After the required approvals are granted, arrange accommodation, travel, and other preparations for your studies.",
+        },
+      ],
 
-                    "Choose a suitable UK institution and study program."
+      faq: [
+        {
+          question: "Can students work in the UK?",
 
-                },
+          answer:
+            "Some international students may work limited hours during their studies, depending on their visa conditions and course or institution eligibility.",
+        },
 
+        {
+          question: "Can students stay after graduation?",
 
-                {
+          answer:
+            "Some graduates may qualify for a post-study immigration route if they satisfy the applicable requirements in force at the time of application.",
+        },
+      ],
 
-                    title:"Admission Application",
+      pricing: null,
 
-                    description:
+      paymentPlan: [],
 
-                    "Receive your official confirmation of study."
+      terms: [
+        "Admission decisions are made by the relevant educational institution.",
 
-                },
+        "Student visa approval depends on satisfying the applicable immigration requirements.",
 
+        "Applicants must meet the financial and academic requirements for their chosen programme and visa route.",
 
-                {
+        "Work rights during study are subject to visa conditions.",
 
-                    title:"Visa Processing",
+        "Post-study immigration options are subject to eligibility and the rules in force when applying.",
 
-                    description:
+        "Tuition fees, service charges, and other costs must be confirmed separately for the selected institution and service package.",
+      ],
+    },
+  ],
 
-                    "Submit your student visa application."
-
-                },
-
-
-                {
-
-                    title:"Travel Preparation",
-
-                    description:
-
-                    "Prepare accommodation and relocation plans."
-
-                }
-
-
-            ],
-
-
-
-
-
-            faq:[
-
-
-                {
-
-                    question:
-
-                    "Can students work in the UK?",
-
-
-                    answer:
-
-                    "Many international students can work limited hours during their studies depending on visa conditions."
-
-                },
-
-
-                {
-
-                    question:
-
-                    "Can students stay after graduation?",
-
-
-                    answer:
-
-                    "Graduates may qualify for post-study work options."
-
-                }
-
-
-            ]
-
-        }
-
-
-
-    ],
-
-
-
-    featured:true
-
-
+  featured: true,
 };
-
-
 
 export default uk;

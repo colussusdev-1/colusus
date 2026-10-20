@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import api from "../../services/api";
 
 import {
     HiOutlineArrowRight,
@@ -79,10 +79,18 @@ const Contact = () => {
 
         try {
 
-            await axios.post(
-                "/contact",
-                formData
-            );
+            await api.post("/form-submissions", {
+                formKey: "contact",
+                formName: "Contact Form",
+                submissionData: {
+                    fullName: formData.name.trim(),
+                    email: formData.email.trim(),
+                    phone: formData.phone.trim(),
+                    service: formData.service,
+                    message: formData.message.trim(),
+                },
+                source: "website-contact",
+            });
 
             setStatus({
                 type: "success",
@@ -108,6 +116,7 @@ const Contact = () => {
             setStatus({
                 type: "error",
                 message:
+                    error?.response?.data?.message ||
                     "We couldn't send your enquiry right now. Please try again or contact us directly.",
             });
 

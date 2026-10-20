@@ -1,4 +1,5 @@
 import React, {
+    useCallback,
     useEffect,
     useState,
 } from "react";
@@ -9,6 +10,7 @@ import {
     HiOutlineDocumentText,
     HiOutlineFolderOpen,
     HiOutlineChevronRight,
+    HiOutlineDownload,
 } from "react-icons/hi";
 
 import adminClientService from "./adminClient.service";
@@ -66,7 +68,7 @@ const getClientEmail = (client) => {
     return (
         client?.user?.email ||
         client?.email ||
-        "—"
+        ""
     );
 };
 
@@ -79,6 +81,30 @@ GET CLIENT PROFILE
 
 const getProfile = (client) => {
     return client?.profile || null;
+};
+
+
+/*
+============================================================
+GET CLIENT PHONE
+============================================================
+*/
+
+const getClientPhone = (client) => {
+    const profile = getProfile(client);
+    const user = client?.user || client;
+
+    return (
+        profile?.phoneNumber ||
+        profile?.phone ||
+        profile?.mobileNumber ||
+        profile?.mobile ||
+        user?.phoneNumber ||
+        user?.phone ||
+        user?.mobileNumber ||
+        user?.mobile ||
+        ""
+    );
 };
 
 
@@ -127,6 +153,148 @@ const getClientStatus = (client) => {
 
 /*
 ============================================================
+CSV VALUE ESCAPING
+============================================================
+|
+| Escapes values containing commas, quotes or newlines.
+|
+| Also protects spreadsheet users against common CSV
+| formula injection when opening exported files.
+|
+============================================================
+*/
+
+const escapeCSV = (value) => {
+    let text = String(value ?? "");
+
+    if (/^[\s\u0000-\u001f]*[=+\-@]/.test(text)) {
+        text = `'${text}`;
+    }
+
+    return `"${text.replace(/"/g, '""')}"`;
+};
+
+
+/*
+============================================================
+EXPORT CLIENTS TO CSV
+============================================================
+*/
+
+const exportClientsToCSV = (clients) => {
+    if (!Array.isArray(clients) || clients.length === 0) {
+        return false;
+    }
+
+    /*
+    --------------------------------------------------------
+    CSV HEADERS
+    --------------------------------------------------------
+    */
+
+    const headers = [
+        "Client Name",
+        "Email",
+        "Phone",
+        "Nationality",
+        "Current Country",
+        "Account Status",
+        "Applications",
+        "Documents",
+        "Date Joined",
+    ];
+
+
+    /*
+    --------------------------------------------------------
+    CLIENT DATA
+    --------------------------------------------------------
+    */
+
+    const rows = clients.map((client) => {
+        const user = client?.user || client;
+        const profile = getProfile(client);
+
+        const joinedDate = user?.createdAt
+            ? new Date(user.createdAt)
+            : null;
+
+        const validJoinedDate =
+            joinedDate &&
+                !Number.isNaN(joinedDate.getTime())
+                ? joinedDate.toISOString().slice(0, 10)
+                : "";
+
+        return [
+            getClientName(client),
+            getClientEmail(client),
+            getClientPhone(client),
+            profile?.nationality || "",
+            profile?.currentCountry || "",
+            getClientStatus(client),
+            client?.applications ?? 0,
+            client?.documents ?? 0,
+            validJoinedDate,
+        ];
+    });
+
+
+    /*
+    --------------------------------------------------------
+    BUILD CSV CONTENT
+    --------------------------------------------------------
+    */
+
+    const csvContent = [
+        headers,
+        ...rows,
+    ]
+        .map((row) => row.map(escapeCSV).join(","))
+        .join("\r\n");
+
+
+    /*
+    --------------------------------------------------------
+    CREATE DOWNLOAD
+    --------------------------------------------------------
+    */
+
+    const blob = new Blob(
+        [
+            "\uFEFF",
+            csvContent,
+        ],
+        {
+            type: "text/csv;charset=utf-8;",
+        }
+    );
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+
+    const date = new Date()
+        .toISOString()
+        .slice(0, 10);
+
+    link.href = url;
+
+    link.download = `colossus-clients-${date}.csv`;
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+    URL.revokeObjectURL(url);
+
+    return true;
+};
+
+
+/*
+============================================================
 COMPONENT
 ============================================================
 */
@@ -134,9 +302,9 @@ COMPONENT
 const AdminClients = () => {
 
     /*
-    |--------------------------------------------------------------------------
+    |--------------------------------------------------------
     | STATE
-    |--------------------------------------------------------------------------
+    |--------------------------------------------------------
     */
 
     const [clients, setClients] = useState([]);
@@ -147,23 +315,24 @@ const AdminClients = () => {
 
     const [error, setError] = useState("");
 
+    const [exporting, setExporting] = useState(false);
+
 
     /*
-    |--------------------------------------------------------------------------
+    |--------------------------------------------------------
     | LOAD CLIENTS
-    |--------------------------------------------------------------------------
+    |--------------------------------------------------------
     */
 
-    const loadClients = async () => {
+    const loadClients = useCallback(async (searchTerm = "") => {
         try {
-
             setLoading(true);
 
             setError("");
 
             const result =
                 await adminClientService.getAllClients(
-                    search
+                    searchTerm
                 );
 
             setClients(
@@ -173,7 +342,6 @@ const AdminClients = () => {
             );
 
         } catch (requestError) {
-
             console.error(
                 "FAILED TO LOAD CLIENTS:",
                 requestError
@@ -184,64 +352,110 @@ const AdminClients = () => {
                 "Unable to load clients."
             );
 
+            setClients([]);
+
         } finally {
-
             setLoading(false);
+        }
+    }, []);
 
+
+    /*
+    |--------------------------------------------------------
+    | INITIAL LOAD AND SEARCH
+    |--------------------------------------------------------
+    |
+    | One effect handles both initial loading and searching.
+    | This avoids making two requests on the initial render.
+    |
+    */
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            loadClients(search.trim());
+        }, search ? 350 : 0);
+
+        return () => {
+            clearTimeout(timeout);
+        };
+    }, [search, loadClients]);
+
+
+    /*
+    |--------------------------------------------------------
+    | EXPORT CLIENTS
+    |--------------------------------------------------------
+    */
+
+    const handleExportClients = () => {
+        if (loading || exporting) {
+            return;
+        }
+
+        if (!clients.length) {
+            setError("There are no clients to export.");
+
+            return;
+        }
+
+        try {
+            setExporting(true);
+
+            setError("");
+
+            const exported = exportClientsToCSV(clients);
+
+            if (!exported) {
+                setError("Unable to export clients.");
+            }
+
+        } catch (exportError) {
+            console.error(
+                "FAILED TO EXPORT CLIENTS:",
+                exportError
+            );
+
+            setError(
+                "An error occurred while exporting clients."
+            );
+
+        } finally {
+            setExporting(false);
         }
     };
 
 
     /*
-    |--------------------------------------------------------------------------
-    | INITIAL LOAD
-    |--------------------------------------------------------------------------
+    |--------------------------------------------------------
+    | OPEN CLIENT
+    |--------------------------------------------------------
     */
 
-    useEffect(() => {
+    const handleOpenClient = (client) => {
+        const user = client?.user || client;
 
-        loadClients();
+        if (!user?._id) {
+            return;
+        }
 
-    }, []);
+        window.location.href =
+            `/admin/clients/${user._id}`;
+    };
 
 
     /*
-    |--------------------------------------------------------------------------
-    | SEARCH
-    |--------------------------------------------------------------------------
-    */
-
-    useEffect(() => {
-
-        const timeout = setTimeout(() => {
-
-            loadClients();
-
-        }, 350);
-
-        return () => {
-
-            clearTimeout(timeout);
-
-        };
-
-    }, [search]);
-
-
-    /*
-    |--------------------------------------------------------------------------
+    |--------------------------------------------------------
     | RENDER
-    |--------------------------------------------------------------------------
+    |--------------------------------------------------------
     */
 
     return (
 
         <section className="admin-clients">
 
-
-            {/* =========================================================
+            {/* =====================================================
                 PAGE HEADER
-            ========================================================= */}
+            ===================================================== */}
 
             <div className="admin-clients__header">
 
@@ -265,16 +479,15 @@ const AdminClients = () => {
             </div>
 
 
-            {/* =========================================================
+            {/* =====================================================
                 TOOLBAR
-            ========================================================= */}
+            ===================================================== */}
 
             <div className="admin-clients__toolbar">
 
-
-                {/* =====================================================
+                {/* =============================================
                     SEARCH
-                ===================================================== */}
+                ============================================= */}
 
                 <div className="admin-clients__search">
 
@@ -292,9 +505,9 @@ const AdminClients = () => {
                 </div>
 
 
-                {/* =====================================================
+                {/* =============================================
                     CLIENT COUNT
-                ===================================================== */}
+                ============================================= */}
 
                 <div className="admin-clients__count">
 
@@ -312,16 +525,46 @@ const AdminClients = () => {
 
                 </div>
 
+
+                {/* =============================================
+                    EXPORT CLIENTS
+                ============================================= */}
+
+                <button
+                    type="button"
+                    className="admin-clients__export"
+                    onClick={handleExportClients}
+                    disabled={
+                        loading ||
+                        exporting ||
+                        clients.length === 0
+                    }
+                    title="Export the currently loaded clients to CSV"
+                >
+
+                    <HiOutlineDownload />
+
+                    <span>
+                        {exporting
+                            ? "Preparing export..."
+                            : "Export Clients"}
+                    </span>
+
+                </button>
+
             </div>
 
 
-            {/* =========================================================
+            {/* =====================================================
                 ERROR
-            ========================================================= */}
+            ===================================================== */}
 
             {error && (
 
-                <div className="admin-clients__error">
+                <div
+                    className="admin-clients__error"
+                    role="alert"
+                >
 
                     {error}
 
@@ -330,9 +573,9 @@ const AdminClients = () => {
             )}
 
 
-            {/* =========================================================
+            {/* =====================================================
                 LOADING
-            ========================================================= */}
+            ===================================================== */}
 
             {loading ? (
 
@@ -348,10 +591,9 @@ const AdminClients = () => {
 
             ) : clients.length === 0 ? (
 
-
-                /* =====================================================
+                /* =================================================
                     EMPTY STATE
-                ===================================================== */
+                ================================================= */
 
                 <div className="admin-clients__empty">
 
@@ -366,31 +608,26 @@ const AdminClients = () => {
                     </h3>
 
                     <p>
-
                         {search
                             ? "Try a different search."
                             : "There are no client accounts yet."}
-
                     </p>
 
                 </div>
 
-
             ) : (
 
-
-                /* =====================================================
+                /* =================================================
                     CLIENT TABLE
-                ===================================================== */
+                ================================================= */
 
                 <div className="admin-clients__table-wrapper">
 
                     <table className="admin-clients__table">
 
-
-                        {/* =================================================
+                        {/* =====================================
                             TABLE HEADER
-                        ================================================= */}
+                        ===================================== */}
 
                         <thead>
 
@@ -427,9 +664,9 @@ const AdminClients = () => {
                         </thead>
 
 
-                        {/* =================================================
+                        {/* =====================================
                             TABLE BODY
-                        ================================================= */}
+                        ===================================== */}
 
                         <tbody>
 
@@ -442,57 +679,44 @@ const AdminClients = () => {
                                 return (
 
                                     <tr
-                                        key={
-                                            user?._id
-                                        }
+                                        key={user?._id}
 
                                         className="admin-clients__row"
 
-                                        onClick={() => {
-
-                                            window.location.href =
-                                                `/admin/clients/${user?._id}`;
-
-                                        }}
+                                        onClick={() =>
+                                            handleOpenClient(client)
+                                        }
 
                                     >
 
-
-                                        {/* =================================
+                                        {/* =====================
                                             CLIENT
-                                        ================================= */}
+                                        ===================== */}
 
                                         <td>
 
                                             <div className="admin-clients__client">
 
-
                                                 <div className="admin-clients__avatar">
 
-                                                    {getClientName(
-                                                        client
-                                                    )
+                                                    {getClientName(client)
                                                         .charAt(0)
                                                         .toUpperCase()}
 
                                                 </div>
 
-
                                                 <div>
 
                                                     <strong>
 
-                                                        {getClientName(
-                                                            client
-                                                        )}
+                                                        {getClientName(client)}
 
                                                     </strong>
 
                                                     <span>
 
-                                                        {getClientEmail(
-                                                            client
-                                                        )}
+                                                        {getClientEmail(client) ||
+                                                            "No email available"}
 
                                                     </span>
 
@@ -503,26 +727,24 @@ const AdminClients = () => {
                                         </td>
 
 
-                                        {/* =================================
+                                        {/* =====================
                                             LOCATION
-                                        ================================= */}
+                                        ===================== */}
 
                                         <td>
 
                                             <span className="admin-clients__text">
 
-                                                {getClientLocation(
-                                                    client
-                                                )}
+                                                {getClientLocation(client)}
 
                                             </span>
 
                                         </td>
 
 
-                                        {/* =================================
+                                        {/* =====================
                                             APPLICATIONS
-                                        ================================= */}
+                                        ===================== */}
 
                                         <td>
 
@@ -541,9 +763,9 @@ const AdminClients = () => {
                                         </td>
 
 
-                                        {/* =================================
+                                        {/* =====================
                                             DOCUMENTS
-                                        ================================= */}
+                                        ===================== */}
 
                                         <td>
 
@@ -562,9 +784,9 @@ const AdminClients = () => {
                                         </td>
 
 
-                                        {/* =================================
+                                        {/* =====================
                                             STATUS
-                                        ================================= */}
+                                        ===================== */}
 
                                         <td>
 
@@ -577,35 +799,31 @@ const AdminClients = () => {
                                                 }
                                             >
 
-                                                {getClientStatus(
-                                                    client
-                                                )}
+                                                {getClientStatus(client)}
 
                                             </span>
 
                                         </td>
 
 
-                                        {/* =================================
+                                        {/* =====================
                                             JOINED
-                                        ================================= */}
+                                        ===================== */}
 
                                         <td>
 
                                             <span className="admin-clients__date">
 
-                                                {formatDate(
-                                                    user?.createdAt
-                                                )}
+                                                {formatDate(user?.createdAt)}
 
                                             </span>
 
                                         </td>
 
 
-                                        {/* =================================
+                                        {/* =====================
                                             ACTION
-                                        ================================= */}
+                                        ===================== */}
 
                                         <td>
 
@@ -632,7 +850,6 @@ const AdminClients = () => {
         </section>
 
     );
-
 };
 
 

@@ -2,17 +2,14 @@
 // import serbiaWorkImage from "../../../../../assets/images/opportunities/serbia-warehouse.jpg";
 
 const serbia = {
-  id: 2,
+  id: 14,
 
   name: "Serbia",
-
   shortName: "Serbia",
-
   slug: "serbia",
-
   flag: "🇷🇸",
 
-  image:"" ,
+  image: "",
 
   applicants: "1.1k",
 
@@ -21,17 +18,14 @@ const serbia = {
   visa: "Work Permit + Residency Card",
 
   duration: "20–25 Days",
-
   processingTime: "Fast Track",
-
   opportunityScore: "90%",
-
   successRate: "High",
 
   featured: false,
 
   description:
-    "Move to Serbia through a fast-track work permit program with job placement, residency support, free employer accommodation and multiple employment options.",
+    "Explore employment opportunities in Serbia with job placement support, work permit processing, residency assistance, and potential employer-provided accommodation, subject to the employment agreement and applicable approvals.",
 
   opportunities: [
     {
@@ -39,7 +33,7 @@ const serbia = {
 
       title: "Serbia Fast Track Work Permit Package",
 
-      slug: "serbia-work-permit-residency",
+      slug: "serbia-fast-track-work-permit-package",
 
       image: "",
 
@@ -58,20 +52,15 @@ const serbia = {
       demand: "High",
 
       description:
-        "Relocate to Serbia through a fast-track employment program with job offer, work permit processing, residency card and employer-provided accommodation.",
+        "Explore relocation opportunities in Serbia with job placement support, work permit processing, residency assistance, and potential employer-provided accommodation. Employment and immigration approvals are subject to the relevant employer and authorities.",
 
       highlights: [
-        "Job Offer",
-
-        "Work Permit",
-
-        "Residency Card",
-
-        "FREE Employer Accommodation",
-
-        "Fast Track Processing",
-
-        "Pathway to Permanent Residency",
+        "Job Placement Support",
+        "Work Permit Processing Support",
+        "Residency Permit Assistance",
+        "Employer Accommodation May Be Available",
+        "Processing Timeline Subject to the Specific Case",
+        "Long-Term Residence Options Subject to Eligibility",
       ],
 
       positions: [
@@ -82,10 +71,8 @@ const serbia = {
 
           responsibilities: [
             "Sorting goods and packages",
-
             "Packing items for shipment",
-
-            "General warehouse support duties",
+            "Performing general warehouse support duties",
           ],
         },
 
@@ -96,54 +83,40 @@ const serbia = {
 
           responsibilities: [
             "Harvesting fruits and vegetables",
-
             "Sorting farm produce",
-
             "Packing agricultural products",
-
-            "General farm support duties",
+            "Performing general farm support duties",
           ],
 
-          specialCondition: "Women applicants maximum lifting requirement: 1kg",
+          specialCondition:
+            "Physical requirements, including lifting limits, must be confirmed with the specific employer and stated in the job description.",
         },
       ],
 
       benefits: [
-        "Fast processing within 20–25 days",
-
-        "FREE accommodation provided by employer",
-
-        "Pathway to Permanent Residency",
-
-        "Light work options available for women",
-
-        "Multiple job categories available",
-
-        "Open to couples, men and women",
-
-        "8–10 working hours per day",
+        "Work Permit Processing Support",
+        "Employer Accommodation May Be Available Depending on the Position",
+        "Long-Term Residence Options Subject to Applicable Eligibility Requirements",
+        "Different Employment Categories Available",
+        "Positions Open to Eligible Applicants Depending on Employer Requirements",
+        "Working Hours and Overtime Subject to the Employment Contract and Applicable Labour Laws",
       ],
 
       requirements: [
         "Valid International Passport",
-
-        "Migration eligibility screening",
-
-        "Required employment documents",
-
-        "Ability to meet employer requirements",
+        "Successful Eligibility Assessment",
+        "Required Employment and Immigration Documents",
+        "Ability to Meet the Specific Employer's Requirements",
+        "Compliance with Applicable Serbian Work Permit and Residence Requirements",
       ],
 
       documents: [
-        "International Passport",
-
+        "Valid International Passport",
         "Updated CV / Resume",
-
         "Passport Photograph",
-
         "Employment Documents",
-
-        "Supporting Qualification Documents (If Available)",
+        "Supporting Qualification Documents, If Available",
+        "Additional Documents Required for the Specific Position or Application",
       ],
 
       steps: [
@@ -151,27 +124,28 @@ const serbia = {
           title: "Eligibility Assessment",
 
           description:
-            "Applicant documents are reviewed and verified for eligibility.",
+            "Submit your documents for an initial eligibility review and assessment against available employment opportunities.",
         },
 
         {
           title: "Job Offer Processing",
 
           description:
-            "Employer placement and employment documents are prepared.",
+            "If suitable, proceed with employer matching and review the proposed job offer and employment documentation.",
         },
 
         {
-          title: "Work Permit & Residency Processing",
-
-          description: "Work permit application and residency support begins.",
-        },
-
-        {
-          title: "Visa & Travel Preparation",
+          title: "Work Permit and Residency Processing",
 
           description:
-            "Applicant receives relocation guidance and prepares for travel.",
+            "Prepare the required documentation and proceed with the applicable work authorization and residence application process.",
+        },
+
+        {
+          title: "Visa and Travel Preparation",
+
+          description:
+            "Receive guidance on any required visa procedures and travel arrangements after the necessary approvals have been obtained.",
         },
       ],
 
@@ -181,13 +155,10 @@ const serbia = {
         currency: "NGN",
 
         includes: [
-          "Work Permit Processing",
-
-          "Job Placement",
-
-          "Employment Documentation",
-
-          "Visa Support Services",
+          "Work Permit Processing Support",
+          "Job Placement Support",
+          "Employment Documentation Assistance",
+          "Visa Application Support Services",
         ],
       },
 
@@ -199,28 +170,34 @@ const serbia = {
         },
 
         {
-          stage: "Job Offer Letter",
+          stage: "Job Offer Letter Milestone",
 
           amount: "₦3,000,000",
         },
 
         {
-          stage: "Visa Approval & Travel",
+          stage: "Visa Approval and Travel Milestone",
 
           amount: "₦3,000,000",
         },
       ],
 
       terms: [
-        "Applicants must meet eligibility requirements and provide valid documentation.",
+        "Applicants must meet the eligibility requirements for their selected position and provide valid documentation.",
 
-        "Processing begins after agreement signing and document verification.",
+        "Processing begins according to the signed migration service agreement and after the required documents have been reviewed.",
 
-        "Placements are subject to employer availability and embassy approval.",
+        "Employment placement depends on employer availability, employer selection, and the terms of the job offer.",
 
-        "Limited slots available.",
+        "Work permits, visas, and residence permits are subject to approval by the relevant authorities.",
 
-        "Applications are processed first-come, first-served.",
+        "Accommodation and other employer-provided benefits depend on the written employment agreement.",
+
+        "The stated salary range and processing duration must be confirmed against the specific job offer and application.",
+
+        "Payment milestones, service inclusions, and refund conditions must be clearly stated in the signed agreement.",
+
+        "Any permanent or long-term residency pathway depends on the applicant's eligibility and applicable immigration rules.",
       ],
     },
   ],

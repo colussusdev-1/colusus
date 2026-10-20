@@ -280,14 +280,34 @@ function AdminFormSubmissionDetails() {
     }, [submission]);
 
     const applicantName =
+        submission?.submissionData?.fullName ||
         submission?.submissionData?.name ||
+        [
+            submission?.submissionData?.firstName,
+            submission?.submissionData?.lastName,
+        ]
+            .filter(Boolean)
+            .join(" ") ||
+        [
+            submission?.submissionData?.first_name,
+            submission?.submissionData?.last_name,
+        ]
+            .filter(Boolean)
+            .join(" ") ||
         "Unnamed applicant";
 
     const applicantEmail =
-        submission?.submissionData?.email || "";
+        submission?.submissionData?.email ||
+        submission?.submissionData?.emailAddress ||
+        submission?.submissionData?.email_address ||
+        "";
 
     const applicantPhone =
-        submission?.submissionData?.phone || "";
+        submission?.submissionData?.phone ||
+        submission?.submissionData?.phoneNumber ||
+        submission?.submissionData?.phone_number ||
+        submission?.submissionData?.mobile ||
+        "";
 
     const documents = Array.isArray(
         submission?.documents,

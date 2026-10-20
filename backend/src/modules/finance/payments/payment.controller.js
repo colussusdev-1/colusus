@@ -8,20 +8,14 @@ import paymentWorkflowService from "./payment.workflow.service.js";
 /* -------------------------------------------------------------------------- */
 
 /**
- * Initialize a payment.
- *
- * The request identifies the invoice.
+ * Initialize a payment against an existing invoice.
  *
  * Finance resolves the authoritative financial values from the invoice:
- *
- * - amount
- * - currency
- * - customer
- * - payment type
- * - invoice context
- *
- * The business module creates the invoice.
- * Finance creates the payment session.
+ * - Amount
+ * - Currency
+ * - Customer
+ * - Payment type
+ * - Invoice context
  */
 export const initializePayment = async (req, res, next) => {
   try {
@@ -46,32 +40,19 @@ export const initializePayment = async (req, res, next) => {
     console.error("INITIALIZE PAYMENT ERROR");
     console.error(error);
 
-    next(error);
+    return next(error);
   }
 };
 
 /* -------------------------------------------------------------------------- */
-/* VERIFY PAYMENT                                                             */
+/* VERIFY AUTHENTICATED PAYMENT                                               */
 /* -------------------------------------------------------------------------- */
 
 /**
- * Verify a payment manually.
+ * Verify a payment for an authenticated customer or administrator.
  *
- * Verification establishes financial truth with Paystack.
- *
- * The workflow service then completes:
- *
- * Payment
- * ↓
- * Invoice
- * ↓
- * Receipt
- * ↓
- * Business workflow when invoice becomes PAID
- *
- * The business workflow is only triggered when the invoice is fully paid.
- * Partial payments still receive receipts but do not complete the
- * downstream business workflow.
+ * Workflow:
+ * Paystack → Payment → Invoice → Receipt → Business workflow.
  */
 export const verifyPayment = async (req, res, next) => {
   try {
@@ -83,7 +64,11 @@ export const verifyPayment = async (req, res, next) => {
       return res.status(400).json({
         success: false,
         message: "Payment verification failed.",
-        data: result,
+        data: {
+          verified: false,
+          status: result.payment?.status || "PENDING",
+          reference: result.payment?.reference || reference,
+        },
       });
     }
 
@@ -102,7 +87,93 @@ export const verifyPayment = async (req, res, next) => {
     console.error("VERIFY PAYMENT ERROR");
     console.error(error);
 
-    next(error);
+    return next(error);
+  }
+};
+
+/* -------------------------------------------------------------------------- */
+/* VERIFY CONSULTATION PAYMENT — PUBLIC                                      */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Verify a consultation payment after the customer returns from Paystack.
+ *
+ * Authentication is not required for this endpoint.
+ *
+ * Security:
+ * - The payment service must verify that the linked invoice is a
+ *   consultation invoice.
+ * - The transaction is checked against Paystack.
+ * - Only a limited confirmation response is returned.
+ * - The full payment, invoice, and customer records are not exposed.
+ *
+ * The existing financial workflow completes the payment records.
+ */
+export const verifyConsultationPayment = async (req, res, next) => {
+  try {
+    const reference = String(req.params.reference || "").trim();
+
+    if (!reference) {
+      return res.status(400).json({
+        success: false,
+        message: "Payment reference is required.",
+      });
+    }
+
+    /*
+     * The dedicated service method validates that this is genuinely
+     * a consultation payment and verifies it with Paystack.
+     */
+    const result = await paymentService.verifyConsultationPayment(reference);
+
+    /*
+     * A pending or unsuccessful transaction must not complete the
+     * invoice or generate a receipt.
+     */
+    if (!result.verified) {
+      return res.status(200).json({
+        success: true,
+        message: "Payment has not yet been confirmed.",
+        data: {
+          verified: false,
+          status: result.status || "PENDING",
+          reference: result.reference || reference,
+          amount: result.amount,
+          currency: result.currency,
+        },
+      });
+    }
+
+    /*
+     * Complete invoice, receipt, and any registered business workflow.
+     *
+     * This method is idempotent, so a customer can revisit the page
+     * without intentionally creating a duplicate receipt.
+     */
+    const workflow = await paymentWorkflowService.completeSuccessfulPayment({
+      paymentId: result.paymentId,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: workflow.alreadyCompleted
+        ? "Consultation payment has already been completed."
+        : "Consultation payment verified successfully.",
+      data: {
+        verified: true,
+        status: "SUCCESS",
+        reference: result.reference,
+        amount: result.amount,
+        currency: result.currency,
+        paidAt: result.paidAt,
+        alreadyCompleted: workflow.alreadyCompleted,
+      },
+    });
+  } catch (error) {
+    console.error("PUBLIC CONSULTATION PAYMENT VERIFICATION ERROR");
+    console.error(error);
+
+    return next(error);
   }
 };
 
@@ -113,20 +184,16 @@ export const verifyPayment = async (req, res, next) => {
 /**
  * Handle Paystack webhook events.
  *
- * IMPORTANT:
+ * This endpoint must be mounted with express.raw() before express.json()
+ * processes the request body.
  *
- * app.js must mount this route before express.json() and provide
- * express.raw({ type: "application/json" }) for this endpoint.
- *
- * The webhook does not use application authentication because Paystack
- * calls this endpoint directly.
- *
- * Paystack authenticity is established through the HMAC signature.
+ * Authentication is not required because Paystack calls this endpoint.
+ * Authenticity is established through the Paystack HMAC signature.
  */
 export const paystackWebhook = async (req, res, next) => {
   try {
     /* ---------------------------------------------------------------------- */
-    /* SIGNATURE                                                              */
+    /* VERIFY SIGNATURE                                                       */
     /* ---------------------------------------------------------------------- */
 
     const signature = req.headers["x-paystack-signature"];
@@ -139,7 +206,7 @@ export const paystackWebhook = async (req, res, next) => {
     }
 
     /* ---------------------------------------------------------------------- */
-    /* RAW BODY                                                               */
+    /* VALIDATE RAW BODY                                                      */
     /* ---------------------------------------------------------------------- */
 
     const rawBody = req.body;
@@ -152,7 +219,7 @@ export const paystackWebhook = async (req, res, next) => {
     }
 
     /* ---------------------------------------------------------------------- */
-    /* VERIFY SIGNATURE                                                       */
+    /* AUTHENTICATE PAYSTACK                                                  */
     /* ---------------------------------------------------------------------- */
 
     const isValid = verifyPaystackSignature(signature, rawBody);
@@ -172,7 +239,7 @@ export const paystackWebhook = async (req, res, next) => {
 
     try {
       payload = JSON.parse(rawBody.toString("utf8"));
-    } catch (parseError) {
+    } catch {
       return res.status(400).json({
         success: false,
         message: "Invalid Paystack webhook payload.",
@@ -180,13 +247,13 @@ export const paystackWebhook = async (req, res, next) => {
     }
 
     /* ---------------------------------------------------------------------- */
-    /* PROCESS PAYMENT                                                        */
+    /* PROCESS WEBHOOK                                                        */
     /* ---------------------------------------------------------------------- */
 
     const webhookResult = await paymentService.handleWebhook(payload);
 
-    /**
-     * Valid Paystack events that do not belong to a local payment record
+    /*
+     * A valid event without a corresponding local payment record
      * should still be acknowledged.
      */
     if (!webhookResult.payment) {
@@ -200,7 +267,7 @@ export const paystackWebhook = async (req, res, next) => {
     const payment = webhookResult.payment;
 
     /* ---------------------------------------------------------------------- */
-    /* SUCCESSFUL PAYMENT                                                     */
+    /* COMPLETE SUCCESSFUL PAYMENT                                            */
     /* ---------------------------------------------------------------------- */
 
     if (payment.status === "SUCCESS") {
@@ -214,7 +281,13 @@ export const paystackWebhook = async (req, res, next) => {
           webhookResult.alreadyProcessed || workflow.alreadyCompleted
             ? "Payment webhook already processed."
             : "Payment webhook processed successfully.",
-        data: workflow,
+        data: {
+          processed: true,
+          alreadyCompleted: workflow.alreadyCompleted,
+          paymentId: payment._id,
+          reference: payment.reference,
+          status: payment.status,
+        },
       });
     }
 
@@ -225,13 +298,17 @@ export const paystackWebhook = async (req, res, next) => {
     return res.status(200).json({
       success: true,
       message: "Webhook received.",
-      data: webhookResult,
+      data: {
+        processed: Boolean(webhookResult.processed),
+        reference: payment.reference,
+        status: payment.status,
+      },
     });
   } catch (error) {
     console.error("PAYSTACK WEBHOOK ERROR");
     console.error(error);
 
-    next(error);
+    return next(error);
   }
 };
 
@@ -240,7 +317,9 @@ export const paystackWebhook = async (req, res, next) => {
 /* -------------------------------------------------------------------------- */
 
 /**
- * Get a payment by its internal reference.
+ * Retrieve a payment by reference.
+ *
+ * This endpoint remains protected by payment.routes.js.
  */
 export const getPaymentByReference = async (req, res, next) => {
   try {
@@ -259,7 +338,7 @@ export const getPaymentByReference = async (req, res, next) => {
     console.error("GET PAYMENT ERROR");
     console.error(error);
 
-    next(error);
+    return next(error);
   }
 };
 
@@ -268,10 +347,7 @@ export const getPaymentByReference = async (req, res, next) => {
 /* -------------------------------------------------------------------------- */
 
 /**
- * Get payment history for the authenticated client.
- *
- * The client ID is resolved from req.user inside the service.
- * The frontend never supplies customerId.
+ * Retrieve payment history for the authenticated client or administrator.
  */
 export const getMyPayments = async (req, res, next) => {
   try {
@@ -292,6 +368,6 @@ export const getMyPayments = async (req, res, next) => {
     console.error("GET MY PAYMENTS ERROR");
     console.error(error);
 
-    next(error);
+    return next(error);
   }
 };

@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import {
+    NavLink,
+    useLocation,
+    useNavigate,
+} from "react-router-dom";
 
 import {
     HiOutlineMenuAlt3,
@@ -9,6 +13,8 @@ import {
 } from "react-icons/hi";
 
 import { HiArrowUpRight } from "react-icons/hi2";
+
+import authService from "../../services/authService";
 
 import "./Navbar.css";
 
@@ -22,8 +28,79 @@ const Navbar = () => {
     const [servicesOpen, setServicesOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
 
+    const [authenticated, setAuthenticated] = useState(() =>
+        authService.isAuthenticated()
+    );
+
     const location = useLocation();
     const navigate = useNavigate();
+
+    /* -------------------------------------------------------------------------- */
+    /* AUTHENTICATION STATE                                                       */
+    /* -------------------------------------------------------------------------- */
+
+    const refreshAuthentication = useCallback(() => {
+        setAuthenticated(authService.isAuthenticated());
+    }, []);
+
+    useEffect(() => {
+        // Recheck whenever the current route changes.
+        refreshAuthentication();
+    }, [
+        location.pathname,
+        location.key,
+        refreshAuthentication,
+    ]);
+
+    useEffect(() => {
+        // Recheck when the user returns to the browser tab.
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === "visible") {
+                refreshAuthentication();
+            }
+        };
+
+        const handleStorageChange = (event) => {
+            if (
+                event.key === "colossus_token" ||
+                event.key === null
+            ) {
+                refreshAuthentication();
+            }
+        };
+
+        window.addEventListener(
+            "focus",
+            refreshAuthentication
+        );
+
+        document.addEventListener(
+            "visibilitychange",
+            handleVisibilityChange
+        );
+
+        window.addEventListener(
+            "storage",
+            handleStorageChange
+        );
+
+        return () => {
+            window.removeEventListener(
+                "focus",
+                refreshAuthentication
+            );
+
+            document.removeEventListener(
+                "visibilitychange",
+                handleVisibilityChange
+            );
+
+            window.removeEventListener(
+                "storage",
+                handleStorageChange
+            );
+        };
+    }, [refreshAuthentication]);
 
     /* -------------------------------------------------------------------------- */
     /* SCROLL STATE                                                               */
@@ -80,14 +157,37 @@ const Navbar = () => {
     };
 
     /* -------------------------------------------------------------------------- */
-    /* DESTINATION SEARCH                                                        */
+    /* CLIENT DASHBOARD                                                           */
+    /* -------------------------------------------------------------------------- */
+
+    const handleDashboardClick = (event) => {
+        closeMenu();
+
+        // Prevent a full-page navigation.
+        event.preventDefault();
+
+        // Recheck the stored authentication state before navigating.
+        const isLoggedIn = authService.isAuthenticated();
+
+        setAuthenticated(isLoggedIn);
+
+        if (isLoggedIn) {
+            navigate("/portal");
+        } else {
+            navigate("/login");
+        }
+    };
+
+    /* -------------------------------------------------------------------------- */
+    /* DESTINATION SEARCH                                                         */
     /* -------------------------------------------------------------------------- */
 
     const handleSearch = () => {
         closeMenu();
 
         const focusSearch = () => {
-            const searchInput = document.getElementById("country-search");
+            const searchInput =
+                document.getElementById("country-search");
 
             if (searchInput) {
                 searchInput.scrollIntoView({
@@ -117,7 +217,6 @@ const Navbar = () => {
         if (location.pathname !== "/") {
             navigate("/");
 
-            // Allow the homepage to render before searching for the input.
             window.setTimeout(focusSearch, 450);
 
             return;
@@ -133,10 +232,12 @@ const Navbar = () => {
     return (
         <>
             <header
-                className={`navbar ${scrolled ? "scrolled" : ""} ${menuOpen ? "menu-is-open" : ""
+                className={`navbar ${scrolled ? "scrolled" : ""
+                    } ${menuOpen ? "menu-is-open" : ""
                     }`}
             >
                 <div className="navbar-container">
+
                     {/* BRAND */}
 
                     <NavLink
@@ -161,6 +262,7 @@ const Navbar = () => {
                     {/* ACTIONS */}
 
                     <div className="nav-actions">
+
                         {/* DESTINATION SEARCH */}
 
                         <button
@@ -176,22 +278,41 @@ const Navbar = () => {
                             </span>
                         </button>
 
-                        {/* CLIENT LOGIN */}
+                        {/* CLIENT ACCOUNT */}
 
-                        <NavLink
-                            to="/login"
-                            className={({ isActive }) =>
-                                `nav-login-btn ${isActive ? "active" : ""}`
-                            }
-                            onClick={closeMenu}
-                        >
-                            <HiOutlineUserCircle
-                                className="nav-login-icon"
-                                aria-hidden="true"
-                            />
+                        {authenticated ? (
+                            <NavLink
+                                to="/portal"
+                                className={({ isActive }) =>
+                                    `nav-login-btn ${isActive ? "active" : ""
+                                    }`
+                                }
+                                onClick={handleDashboardClick}
+                            >
+                                <HiOutlineUserCircle
+                                    className="nav-login-icon"
+                                    aria-hidden="true"
+                                />
 
-                            <span>Client Login</span>
-                        </NavLink>
+                                <span>My Dashboard</span>
+                            </NavLink>
+                        ) : (
+                            <NavLink
+                                to="/login"
+                                className={({ isActive }) =>
+                                    `nav-login-btn ${isActive ? "active" : ""
+                                    }`
+                                }
+                                onClick={closeMenu}
+                            >
+                                <HiOutlineUserCircle
+                                    className="nav-login-icon"
+                                    aria-hidden="true"
+                                />
+
+                                <span>Client Login</span>
+                            </NavLink>
+                        )}
 
                         {/* CONSULTATION CTA */}
 
@@ -209,8 +330,13 @@ const Navbar = () => {
 
                         <button
                             type="button"
-                            className={`menu-btn ${menuOpen ? "active" : ""}`}
-                            aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+                            className={`menu-btn ${menuOpen ? "active" : ""
+                                }`}
+                            aria-label={
+                                menuOpen
+                                    ? "Close navigation"
+                                    : "Open navigation"
+                            }
                             aria-expanded={menuOpen}
                             aria-controls="mobile-navigation"
                             onClick={toggleMobileMenu}
@@ -221,6 +347,7 @@ const Navbar = () => {
                                 <HiOutlineMenuAlt3 aria-hidden="true" />
                             )}
                         </button>
+
                     </div>
                 </div>
             </header>

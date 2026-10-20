@@ -1,20 +1,30 @@
-// import polandImage from "../../../../../assets/images/countries/poland.jpg";
-
-// import polandWorkImage from "../../../../../assets/images/opportunities/poland-work.jpg";
-// import polandWarehouseImage from "../../../../../assets/images/opportunities/poland-warehouse.jpg";
-// import polandFactoryImage from "../../../../../assets/images/opportunities/poland-factory.jpg";
-// import polandAgricultureImage from "../../../../../assets/images/opportunities/poland-agriculture.jpg";
+/*
+|--------------------------------------------------------------------------
+| POLAND — COUNTRY AND OPPORTUNITY DATA
+|--------------------------------------------------------------------------
+|
+| Source of truth for Poland's catalogue metadata and offers.
+|
+| Rules:
+| - Every country has a unique numeric ID.
+| - Country identity belongs to this country definition.
+| - Offer slugs are country-specific.
+| - Offer IDs are local identifiers, not MongoDB ObjectIds.
+|
+*/
 
 const poland = {
-  id: 5,
+  // COUNTRY IDENTITY
+
+  id: 12,
 
   name: "Poland",
-
   shortName: "Poland",
-
   slug: "poland",
 
   flag: "🇵🇱",
+
+  // COUNTRY PRESENTATION
 
   image: "",
 
@@ -23,27 +33,29 @@ const poland = {
   category: ["popular", "work"],
 
   visa: "Work Permit",
-
   duration: "3–6 Weeks",
-
   processingTime: "Fast",
 
   opportunityScore: "90%",
-
   successRate: "High",
-
   featured: true,
 
   description:
-    "Relocate to Poland through a verified employer-sponsored work permit program with accommodation support, multiple employment sectors and flight arrangement assistance.",
+    "Explore employer-supported employment opportunities in Poland across warehouse, factory and agricultural sectors, with recruitment assistance, work authorization support, accommodation arrangements and relocation guidance.",
+
+  // OPPORTUNITIES
 
   opportunities: [
     {
+      // OFFER IDENTITY
+
       id: 1,
 
       title: "Poland Work Permit Migration Package",
 
-      slug: "poland-work-permit",
+      slug: "poland-work-permit-migration-package",
+
+      // PRESENTATION
 
       image: "",
 
@@ -53,7 +65,7 @@ const poland = {
 
       location: "Poland",
 
-      type: "Standard Work Permit Package",
+      type: "Work Permit Package",
 
       duration: "3–6 Weeks",
 
@@ -62,19 +74,19 @@ const poland = {
       demand: "High",
 
       description:
-        "Move to Poland with a verified job offer, employer-provided accommodation, work permit processing and opportunities across warehouse, factory and agricultural sectors.",
+        "Explore employment opportunities in Poland with employer matching, work authorization application support, accommodation arrangements and potential roles across warehouse, factory and agricultural sectors. Actual employment terms depend on the employer and the agreed employment contract.",
+
+      // HIGHLIGHTS
 
       highlights: [
-        "Verified Job Offer",
-
-        "Work Permit",
-
-        "Employer Accommodation",
-
+        "Employment Offer Support",
+        "Work Authorization Application Support",
+        "Accommodation Arrangements, Subject to Employer Agreement",
         "Multiple Employment Sectors",
-
-        "Flight Arrangement Support",
+        "Flight Arrangement Assistance",
       ],
+
+      // AVAILABLE POSITIONS
 
       positions: [
         {
@@ -84,9 +96,7 @@ const poland = {
 
           roles: [
             "Product Packers",
-
             "Scanner Operators",
-
             "Electric Trolley Operators",
           ],
         },
@@ -98,9 +108,7 @@ const poland = {
 
           roles: [
             "Assembly Line Workers",
-
             "Quality Control Staff",
-
             "Small Parts Assembly Workers",
           ],
         },
@@ -114,85 +122,87 @@ const poland = {
         },
       ],
 
+      // BENEFITS
+
       benefits: [
-        "Verified Work Permit",
-
-        "Accommodation Provided by Employer",
-
-        "6 Working Days Per Week",
-
-        "170–250 Working Hours Per Month",
-
-        "Transportation to and from Work (Where Applicable)",
-
-        "Multiple Employment Sectors",
-
-        "Flight Arrangement Support",
+        "Work Authorization Application Support",
+        "Accommodation, Subject to Employer Agreement",
+        "Potential Six-Day Working Schedule, Subject to Contract",
+        "Working Hours as Specified in the Employment Contract",
+        "Transportation to and from Work, Where Agreed",
+        "Employment Opportunities Across Multiple Sectors",
+        "Flight Arrangement Assistance",
       ],
+
+      // REQUIREMENTS
 
       requirements: [
-        "All Nationalities Can Apply",
-
-        "Maximum Age: 45 Years",
-
-        "Communicative English Required",
-
-        "Physically Fit for Manual Work",
+        "Valid International Passport",
+        "Updated CV / Resume",
+        "Ability to communicate in English where required by the employer",
+        "Ability to meet the physical requirements of the selected role",
+        "Relevant experience or qualifications where required",
+        "Eligibility for the applicable employment and immigration pathway",
       ],
+
+      // PUBLIC DOCUMENT LIST
 
       documents: [
         "Valid International Passport",
-
         "Updated CV / Resume",
-
         "Passport Photograph",
-
-        "Educational Certificates (If Available)",
-
-        "Work Experience Documents (If Available)",
+        "Educational Certificates, where available or required",
+        "Work Experience Documents, where available or required",
+        "Additional documents required by the employer or relevant authorities",
       ],
+
+      // MIGRATION JOURNEY
 
       steps: [
         {
           title: "Document Submission",
 
           description:
-            "Submit all required documents for eligibility screening.",
+            "Submit the required documents for initial eligibility screening and profile assessment.",
         },
 
         {
           title: "Migration Service Agreement",
 
           description:
-            "Sign the official Migration Service Agreement before processing begins.",
+            "Review and sign the Migration Service Agreement, including the scope of services, fees and payment milestones.",
         },
 
         {
           title: "Employer Matching",
 
           description:
-            "Your profile is matched with a suitable Polish employer.",
+            "Assess the applicant's profile against available positions and employer requirements.",
         },
 
         {
-          title: "Job Offer & Work Permit",
+          title: "Job Offer & Work Authorization",
 
           description:
-            "Receive employment contract, accommodation details and approved work permit.",
+            "Review the employment contract and prepare the applicable work authorization documentation.",
         },
 
         {
           title: "Visa Application",
 
-          description: "Complete embassy submission and biometric processing.",
+          description:
+            "Prepare and submit the applicable visa application and complete the required consular procedures.",
         },
 
         {
           title: "Travel Preparation",
 
-          description: "Prepare relocation after visa approval.",
+          description:
+            "Prepare relocation arrangements after the necessary approvals have been obtained.",
         },
       ],
+
+      // PRICING
 
       pricing: {
         total: "₦8,000,000",
@@ -200,17 +210,15 @@ const poland = {
         currency: "NGN",
 
         includes: [
-          "Job Placement",
-
+          "Job Placement Assistance",
           "Employer Matching",
-
-          "Work Permit Processing",
-
-          "Visa Processing Support",
-
-          "Flight Arrangement Fees",
+          "Work Authorization Processing Support",
+          "Visa Application Support",
+          "Flight Arrangement Assistance",
         ],
       },
+
+      // PAYMENT PLAN
 
       paymentPlan: [
         {
@@ -221,7 +229,7 @@ const poland = {
 
         {
           stage:
-            "Job Offer + Employment Contract + Accommodation + Work Permit",
+            "Job Offer + Employment Contract + Accommodation + Work Authorization Milestone",
 
           amount: "₦3,000,000",
         },
@@ -233,18 +241,17 @@ const poland = {
         },
       ],
 
+      // TERMS AND CONDITIONS
+
       terms: [
-        "Applicants must meet eligibility requirements and provide valid documents.",
-
-        "Processing begins after Migration Service Agreement signing.",
-
-        "Placements depend on employer availability and immigration approval.",
-
-        "Accommodation is provided by employer.",
-
-        "Transportation depends on employer location.",
-
-        "Limited slots available.",
+        "Applicants must meet the applicable eligibility requirements and provide genuine documents.",
+        "Processing begins after the Migration Service Agreement is signed and the required initial screening is completed.",
+        "Employment placement depends on employer availability and successful recruitment.",
+        "Accommodation arrangements are subject to the employer's written agreement.",
+        "Working hours, salary, overtime and other employment conditions must be confirmed in the employment contract.",
+        "Work authorization and visa decisions are made by the relevant authorities.",
+        "Processing times are estimates and are not guaranteed.",
+        "Payment milestones and included services must be documented in the signed agreement.",
       ],
     },
   ],
