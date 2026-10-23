@@ -1,0 +1,1730 @@
+/* =========================================================
+   COLOSSUS MIGRATION & TOURS
+   AUSTRALIA TRAINEE & APPRENTICESHIP PAGE
+   Colours: Midnight Navy / Electric Blue / Cyan / White
+   ========================================================= */
+
+.auta-page {
+    --auta-navy: #071426;
+    --auta-navy-deep: #040d1a;
+    --auta-blue: #0066ff;
+    --auta-blue-dark: #0052cc;
+    --auta-cyan: #00d4ff;
+    --auta-text: #14233b;
+    --auta-muted: #64748b;
+    --auta-border: #dce7f5;
+    --auta-light: #f4f8ff;
+    --auta-white: #ffffff;
+
+    margin: 0;
+    padding: 0;
+    color: var(--auta-text);
+    background: var(--auta-white);
+    font-family: inherit;
+    overflow: clip;
+}
+
+.auta-page *,
+.auta-page *::before,
+.auta-page *::after {
+    box-sizing: border-box;
+}
+
+.auta-page h1,
+.auta-page h2,
+.auta-page h3,
+.auta-page h4,
+.auta-page p {
+    margin-top: 0;
+}
+
+.auta-page h1,
+.auta-page h2,
+.auta-page h3,
+.auta-page h4 {
+    line-height: 1.2;
+}
+
+.auta-page p {
+    line-height: 1.75;
+}
+
+.auta-page a {
+    text-decoration: none;
+}
+
+.auta-container {
+    width: min(1180px, calc(100% - 48px));
+    margin-inline: auto;
+}
+
+.auta-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+    color: var(--auta-blue);
+    font-size: 10px;
+    font-weight: 850;
+    letter-spacing: 2px;
+    line-height: 1.6;
+    text-transform: uppercase;
+}
+
+.auta-eyebrow>span {
+    width: 8px;
+    height: 8px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--auta-cyan);
+    box-shadow: 0 0 12px rgba(0, 212, 255, 0.55);
+}
+
+.auta-eyebrow-light {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.auta-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 49px;
+    padding: 13px 20px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 750;
+    line-height: 1.35;
+    text-align: center;
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.auta-button svg {
+    flex-shrink: 0;
+    font-size: 17px;
+}
+
+.auta-button:hover {
+    transform: translateY(-2px);
+}
+
+.auta-button-primary {
+    color: #fff;
+    background: var(--auta-blue);
+    box-shadow: 0 8px 24px rgba(0, 102, 255, 0.22);
+}
+
+.auta-button-primary:hover {
+    color: #fff;
+    background: var(--auta-blue-dark);
+    box-shadow: 0 11px 30px rgba(0, 102, 255, 0.32);
+}
+
+.auta-button-ghost {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.auta-button-ghost:hover {
+    color: var(--auta-navy);
+    border-color: #fff;
+    background: #fff;
+}
+
+.auta-button-secondary {
+    color: var(--auta-blue-dark);
+    border-color: #cbdcff;
+    background: #eef4ff;
+}
+
+.auta-button-secondary:hover {
+    color: #fff;
+    border-color: var(--auta-blue);
+    background: var(--auta-blue);
+}
+
+.auta-button:focus-visible,
+.auta-page a:focus-visible,
+.auta-faq-question:focus-visible,
+.auta-modal-close:focus-visible,
+.auta-text-button:focus-visible {
+    outline: 3px solid rgba(0, 212, 255, 0.8);
+    outline-offset: 4px;
+}
+
+/* =========================================================
+   HERO
+   The page begins with a continuous navy background.
+   Extra top padding separates the content from the navbar.
+   ========================================================= */
+
+.auta-hero {
+    position: relative;
+    z-index: 0;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 130px 0 100px;
+    color: #fff;
+    background:
+        radial-gradient(ellipse at 82% 20%,
+            rgba(0, 102, 255, 0.25),
+            transparent 42%),
+        radial-gradient(ellipse at 15% 90%,
+            rgba(0, 212, 255, 0.1),
+            transparent 38%),
+        var(--auta-navy-deep);
+}
+
+.auta-hero-grid-pattern {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    opacity: 0.14;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.11) 1px,
+            transparent 1px),
+        linear-gradient(90deg,
+            rgba(255, 255, 255, 0.11) 1px,
+            transparent 1px);
+    background-size: 54px 54px;
+    mask-image: linear-gradient(90deg,
+            transparent,
+            #000 45%,
+            #000);
+    pointer-events: none;
+}
+
+.auta-hero-layout {
+    display: grid;
+    grid-template-columns:
+        minmax(0, 1.15fr) minmax(320px, 0.78fr);
+    align-items: center;
+    gap: 75px;
+}
+
+.auta-hero-copy {
+    max-width: 680px;
+}
+
+.auta-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 37px;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 12px;
+    font-weight: 650;
+    transition: color 0.2s ease;
+}
+
+.auta-back-link:hover {
+    color: var(--auta-cyan);
+}
+
+.auta-back-link svg {
+    font-size: 16px;
+}
+
+.auta-hero-copy h1 {
+    margin-bottom: 24px;
+    color: #fff;
+    font-size: clamp(42px, 5.3vw, 67px);
+    font-weight: 850;
+    letter-spacing: -2.8px;
+    line-height: 1.06;
+}
+
+.auta-hero-copy h1 em {
+    color: var(--auta-cyan);
+    font-style: normal;
+    text-shadow: 0 0 35px rgba(0, 212, 255, 0.18);
+}
+
+.auta-hero-copy>p {
+    max-width: 600px;
+    margin-bottom: 30px;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 15px;
+}
+
+.auta-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.auta-hero-trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 22px;
+    margin-top: 29px;
+}
+
+.auta-hero-trust span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.auta-hero-trust svg {
+    color: var(--auta-cyan);
+    font-size: 16px;
+}
+
+/* Hero information card */
+
+.auta-hero-card {
+    position: relative;
+    overflow: hidden;
+    padding: 29px;
+    border: 1px solid rgba(0, 212, 255, 0.23);
+    border-radius: 17px;
+    background:
+        radial-gradient(ellipse at 100% 0%,
+            rgba(0, 102, 255, 0.17),
+            transparent 55%),
+        rgba(9, 27, 49, 0.86);
+    box-shadow:
+        0 28px 70px rgba(0, 0, 0, 0.25),
+        0 0 45px rgba(0, 102, 255, 0.07);
+    backdrop-filter: blur(16px);
+}
+
+.auta-hero-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 33px;
+}
+
+.auta-country-mark {
+    display: grid;
+    width: 53px;
+    height: 53px;
+    place-items: center;
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    border-radius: 13px;
+    color: var(--auta-cyan);
+    background: rgba(0, 102, 255, 0.14);
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.auta-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border: 1px solid rgba(0, 212, 255, 0.18);
+    border-radius: 30px;
+    color: rgba(255, 255, 255, 0.76);
+    background: rgba(0, 212, 255, 0.06);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.auta-status-pill>span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--auta-cyan);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.7);
+}
+
+.auta-card-label {
+    color: var(--auta-cyan);
+    font-size: 10px;
+    font-weight: 850;
+    letter-spacing: 1.8px;
+}
+
+.auta-hero-card h2 {
+    margin: 13px 0 12px;
+    color: #fff;
+    font-size: clamp(29px, 3vw, 39px);
+    font-weight: 850;
+    letter-spacing: -1.5px;
+}
+
+.auta-hero-card h2 span {
+    color: var(--auta-cyan);
+}
+
+.auta-hero-card>p {
+    margin-bottom: 24px;
+    color: rgba(255, 255, 255, 0.68);
+    font-size: 12px;
+}
+
+.auta-card-divider {
+    height: 1px;
+    margin: 23px 0;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.auta-stat-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 17px;
+}
+
+.auta-stat-row:last-of-type {
+    margin-bottom: 0;
+}
+
+.auta-stat-row>span {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 11px;
+}
+
+.auta-stat-row>span svg {
+    color: var(--auta-cyan);
+    font-size: 16px;
+}
+
+.auta-stat-row strong {
+    color: #fff;
+    font-size: 12px;
+    text-align: right;
+}
+
+.auta-card-footnote {
+    display: block;
+    margin-top: 24px;
+    color: rgba(255, 255, 255, 0.49);
+    font-size: 10px;
+    line-height: 1.7;
+}
+
+.auta-hero-footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 17px max(24px, calc((100% - 1180px) / 2));
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.57);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+/* =========================================================
+   SECTION HEADINGS
+   ========================================================= */
+
+.auta-section-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 25px;
+    margin-bottom: 36px;
+}
+
+.auta-section-heading h2,
+.auta-intro-grid h2,
+.auta-eligibility-copy h2,
+.auta-faq-heading h2 {
+    margin-bottom: 13px;
+    color: var(--auta-navy);
+    font-size: clamp(30px, 3.5vw, 43px);
+    font-weight: 850;
+    letter-spacing: -1.4px;
+}
+
+.auta-section-heading p {
+    max-width: 650px;
+    margin-bottom: 0;
+    color: var(--auta-muted);
+    font-size: 14px;
+}
+
+.auta-heading-count {
+    flex-shrink: 0;
+    padding: 12px 15px;
+    border: 1px solid var(--auta-border);
+    border-radius: 8px;
+    color: var(--auta-blue-dark);
+    background: #fff;
+    font-size: 10px;
+    font-weight: 850;
+    letter-spacing: 1.3px;
+}
+
+/* =========================================================
+   INTRODUCTION
+   ========================================================= */
+
+.auta-intro-section {
+    padding: 85px 0;
+    background: #fff;
+}
+
+.auta-intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 0.9fr;
+    align-items: start;
+    gap: 75px;
+}
+
+.auta-intro-grid h2 {
+    max-width: 550px;
+    margin-bottom: 0;
+}
+
+.auta-intro-copy p {
+    margin-bottom: 15px;
+    color: var(--auta-muted);
+    font-size: 14px;
+}
+
+.auta-intro-copy p:last-child {
+    margin-bottom: 0;
+}
+
+/* =========================================================
+   PROGRAMME AREAS
+   ========================================================= */
+
+.auta-programmes-section {
+    padding: 90px 0;
+    background:
+        radial-gradient(ellipse at 100% 0%,
+            rgba(0, 102, 255, 0.055),
+            transparent 38%),
+        var(--auta-light);
+}
+
+.auta-programme-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.auta-programme-card {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    padding: 27px;
+    border: 1px solid var(--auta-border);
+    border-radius: 13px;
+    background: #fff;
+    transition:
+        transform 0.23s ease,
+        border-color 0.23s ease,
+        box-shadow 0.23s ease;
+}
+
+.auta-programme-card::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 3px;
+    border-radius: 13px 0 0;
+    background: linear-gradient(90deg,
+            var(--auta-blue),
+            var(--auta-cyan));
+    transition: width 0.25s ease;
+    content: "";
+}
+
+.auta-programme-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(0, 102, 255, 0.25);
+    box-shadow: 0 17px 38px rgba(0, 102, 255, 0.08);
+}
+
+.auta-programme-card:hover::before {
+    width: 100%;
+}
+
+.auta-programme-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.auta-programme-number {
+    color: #9aaac0;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+}
+
+.auta-programme-icon {
+    display: grid;
+    width: 48px;
+    height: 48px;
+    place-items: center;
+    border: 1px solid #dceaff;
+    border-radius: 12px;
+    color: var(--auta-blue);
+    background: #edf4ff;
+}
+
+.auta-programme-icon svg {
+    font-size: 23px;
+}
+
+.auta-programme-card h3 {
+    margin-bottom: 11px;
+    color: var(--auta-navy);
+    font-size: 20px;
+    font-weight: 850;
+    letter-spacing: -0.4px;
+}
+
+.auta-programme-card>p {
+    margin-bottom: 22px;
+    color: var(--auta-muted);
+    font-size: 13px;
+}
+
+.auta-programme-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+    padding: 13px 0;
+    border-top: 1px solid #edf1f7;
+    color: var(--auta-muted);
+    font-size: 11px;
+}
+
+.auta-programme-meta svg {
+    color: var(--auta-blue);
+    font-size: 16px;
+}
+
+.auta-inline-link {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    gap: 9px;
+    margin-top: 8px;
+    padding: 0;
+    border: 0;
+    color: var(--auta-blue-dark);
+    background: transparent;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 850;
+    cursor: pointer;
+}
+
+.auta-inline-link svg {
+    font-size: 16px;
+    transition: transform 0.2s ease;
+}
+
+.auta-inline-link:hover svg {
+    transform: translateX(4px);
+}
+
+/* =========================================================
+   DURATION AND STIPEND OVERVIEW
+   ========================================================= */
+
+.auta-overview-section {
+    padding: 85px 0;
+    background: #fff;
+}
+
+.auta-overview-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.auta-overview-card {
+    position: relative;
+    overflow: hidden;
+    padding: 30px;
+    border: 1px solid var(--auta-border);
+    border-radius: 14px;
+    background: #fff;
+}
+
+.auta-duration-card {
+    background:
+        radial-gradient(circle at 100% 0%,
+            rgba(0, 102, 255, 0.09),
+            transparent 43%),
+        #fff;
+}
+
+.auta-stipend-card {
+    background:
+        radial-gradient(circle at 100% 0%,
+            rgba(0, 212, 255, 0.11),
+            transparent 43%),
+        #fff;
+}
+
+.auta-overview-icon {
+    display: grid;
+    width: 47px;
+    height: 47px;
+    margin-bottom: 23px;
+    place-items: center;
+    border-radius: 12px;
+    color: var(--auta-blue);
+    background: #eaf2ff;
+}
+
+.auta-overview-icon svg {
+    font-size: 23px;
+}
+
+.auta-overview-label {
+    display: block;
+    margin-bottom: 13px;
+    color: var(--auta-muted);
+    font-size: 9px;
+    font-weight: 850;
+    letter-spacing: 1.4px;
+}
+
+.auta-overview-card h2 {
+    margin-bottom: 16px;
+    color: var(--auta-navy);
+    font-size: clamp(28px, 3vw, 39px);
+    font-weight: 900;
+    letter-spacing: -1.3px;
+}
+
+.auta-overview-card h2 small {
+    color: var(--auta-blue);
+    font-size: 14px;
+    font-weight: 750;
+    letter-spacing: 0;
+}
+
+.auta-overview-card p {
+    margin-bottom: 0;
+    color: var(--auta-muted);
+    font-size: 12px;
+}
+
+.auta-information-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    margin: 24px 0 0;
+    padding: 18px 20px;
+    border: 1px solid #d9e9ff;
+    border-radius: 10px;
+    color: var(--auta-muted);
+    background: #f5f9ff;
+    font-size: 12px;
+}
+
+.auta-information-notice>svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: var(--auta-blue);
+    font-size: 20px;
+}
+
+.auta-information-notice strong {
+    color: var(--auta-navy);
+}
+
+/* =========================================================
+   ELIGIBILITY
+   ========================================================= */
+
+.auta-eligibility-section {
+    padding: 90px 0;
+    background: var(--auta-light);
+}
+
+.auta-eligibility-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1fr;
+    align-items: center;
+    gap: 75px;
+}
+
+.auta-eligibility-copy h2 {
+    max-width: 500px;
+}
+
+.auta-eligibility-copy>p {
+    margin-bottom: 25px;
+    color: var(--auta-muted);
+    font-size: 14px;
+}
+
+.auta-checklist {
+    display: grid;
+    gap: 0;
+    padding: 10px 23px;
+    border: 1px solid var(--auta-border);
+    border-radius: 13px;
+    background: #fff;
+}
+
+.auta-checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 17px 0;
+    border-bottom: 1px solid #edf1f7;
+    color: var(--auta-text);
+    font-size: 12px;
+    line-height: 1.65;
+}
+
+.auta-checklist-item:last-child {
+    border-bottom: 0;
+}
+
+.auta-checklist-item svg {
+    flex-shrink: 0;
+    margin-top: 1px;
+    color: var(--auta-blue);
+    font-size: 18px;
+}
+
+/* =========================================================
+   APPLICATION PROCESS
+   ========================================================= */
+
+.auta-process-section {
+    padding: 90px 0;
+    background: #fff;
+}
+
+.auta-process-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.auta-process-step {
+    min-width: 0;
+    padding: 23px 19px;
+    border: 1px solid var(--auta-border);
+    border-radius: 12px;
+    background: #fff;
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.auta-process-step:hover {
+    transform: translateY(-3px);
+    border-color: rgba(0, 102, 255, 0.25);
+    box-shadow: 0 12px 28px rgba(0, 102, 255, 0.06);
+}
+
+.auta-step-number {
+    display: grid;
+    width: 38px;
+    height: 38px;
+    margin-bottom: 24px;
+    place-items: center;
+    border: 1px solid #dceaff;
+    border-radius: 10px;
+    color: var(--auta-blue-dark);
+    background: #eaf2ff;
+    font-size: 11px;
+    font-weight: 900;
+}
+
+.auta-process-step h3 {
+    margin-bottom: 11px;
+    color: var(--auta-navy);
+    font-size: 15px;
+    font-weight: 850;
+}
+
+.auta-process-step p {
+    margin-bottom: 0;
+    color: var(--auta-muted);
+    font-size: 11px;
+    line-height: 1.75;
+}
+
+.auta-process-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    margin-top: 30px;
+    padding: 25px;
+    border: 1px solid #dceaff;
+    border-radius: 13px;
+    background: linear-gradient(110deg, #f3f7ff, #f7fcff);
+}
+
+.auta-process-cta>div {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.auta-process-cta>div>svg {
+    flex-shrink: 0;
+    color: var(--auta-blue);
+    font-size: 25px;
+}
+
+.auta-process-cta h3 {
+    margin-bottom: 5px;
+    color: var(--auta-navy);
+    font-size: 15px;
+}
+
+.auta-process-cta p {
+    margin-bottom: 0;
+    color: var(--auta-muted);
+    font-size: 12px;
+}
+
+/* =========================================================
+   REFUND INFORMATION
+   ========================================================= */
+
+.auta-refund-section {
+    padding: 0 0 85px;
+    background: #fff;
+}
+
+.auta-refund-panel {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 25px;
+    padding: 30px;
+    border: 1px solid #dceaff;
+    border-radius: 14px;
+    background:
+        radial-gradient(circle at 0% 0%,
+            rgba(0, 102, 255, 0.07),
+            transparent 40%),
+        #f8faff;
+}
+
+.auta-refund-icon {
+    display: grid;
+    width: 55px;
+    height: 55px;
+    place-items: center;
+    border: 1px solid #dceaff;
+    border-radius: 14px;
+    color: var(--auta-blue);
+    background: #fff;
+}
+
+.auta-refund-icon svg {
+    font-size: 27px;
+}
+
+.auta-refund-panel .auta-eyebrow {
+    margin-bottom: 10px;
+}
+
+.auta-refund-panel h2 {
+    margin-bottom: 10px;
+    color: var(--auta-navy);
+    font-size: 23px;
+    font-weight: 850;
+    letter-spacing: -0.5px;
+}
+
+.auta-refund-panel p {
+    margin-bottom: 0;
+    color: var(--auta-muted);
+    font-size: 12px;
+}
+
+/* =========================================================
+   FAQ
+   ========================================================= */
+
+.auta-faq-section {
+    padding: 90px 0;
+    background: var(--auta-light);
+}
+
+.auta-faq-layout {
+    display: grid;
+    grid-template-columns: 0.7fr 1fr;
+    align-items: start;
+    gap: 75px;
+}
+
+.auta-faq-heading {
+    position: sticky;
+    top: 30px;
+}
+
+.auta-faq-heading>p {
+    margin-bottom: 24px;
+    color: var(--auta-muted);
+    font-size: 14px;
+}
+
+.auta-faq-list {
+    overflow: hidden;
+    border: 1px solid var(--auta-border);
+    border-radius: 13px;
+    background: #fff;
+}
+
+.auta-faq-item {
+    border-bottom: 1px solid #eaf0f7;
+}
+
+.auta-faq-item:last-child {
+    border-bottom: 0;
+}
+
+.auta-faq-question {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 21px 22px;
+    border: 0;
+    color: var(--auta-navy);
+    background: #fff;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1.5;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.auta-faq-question:hover,
+.auta-faq-item.is-open .auta-faq-question {
+    background: #f7faff;
+}
+
+.auta-faq-question>svg {
+    flex-shrink: 0;
+    color: var(--auta-blue);
+    font-size: 19px;
+    transition: transform 0.2s ease;
+}
+
+.auta-faq-item.is-open .auta-faq-question>svg {
+    transform: rotate(180deg);
+}
+
+.auta-faq-answer {
+    padding: 0 22px 20px;
+    background: #f7faff;
+}
+
+.auta-faq-answer p {
+    margin-bottom: 0;
+    color: var(--auta-muted);
+    font-size: 12px;
+}
+
+/* =========================================================
+   FINAL CALL TO ACTION
+   ========================================================= */
+
+.auta-final-cta {
+    position: relative;
+    overflow: hidden;
+    padding: 80px 0;
+    background:
+        radial-gradient(circle at 90% 10%,
+            rgba(0, 102, 255, 0.27),
+            transparent 36%),
+        radial-gradient(circle at 10% 100%,
+            rgba(0, 212, 255, 0.11),
+            transparent 35%),
+        var(--auta-navy);
+}
+
+.auta-final-cta-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 35px;
+}
+
+.auta-final-cta h2 {
+    max-width: 600px;
+    margin-bottom: 13px;
+    color: #fff;
+    font-size: clamp(31px, 3.5vw, 43px);
+    font-weight: 850;
+    letter-spacing: -1.4px;
+}
+
+.auta-final-cta p {
+    max-width: 620px;
+    margin-bottom: 0;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 14px;
+}
+
+.auta-final-cta .auta-eyebrow {
+    color: rgba(255, 255, 255, 0.78);
+}
+
+/* =========================================================
+   CONTACT STRIP
+   ========================================================= */
+
+.auta-contact-strip {
+    padding: 30px 0;
+    border-bottom: 1px solid var(--auta-border);
+    background: #fff;
+}
+
+.auta-contact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 25px;
+}
+
+.auta-contact-grid>div {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    min-width: 0;
+}
+
+.auta-contact-grid>div>svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: var(--auta-blue);
+    font-size: 21px;
+}
+
+.auta-contact-grid>div>span {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+}
+
+.auta-contact-grid strong {
+    color: var(--auta-navy);
+    font-size: 12px;
+    font-weight: 850;
+}
+
+.auta-contact-grid small {
+    color: var(--auta-muted);
+    font-size: 11px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   LEGAL DISCLAIMER
+   ========================================================= */
+
+.auta-legal {
+    padding: 20px 0;
+    background: #f7faff;
+}
+
+.auta-legal .auta-container {
+    color: var(--auta-muted);
+    font-size: 10px;
+    line-height: 1.8;
+}
+
+/* =========================================================
+   ENQUIRY MODALS
+   ========================================================= */
+
+.auta-modal-backdrop {
+    position: fixed;
+    z-index: 9999;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+    padding: 24px;
+    background: rgba(3, 11, 24, 0.78);
+    backdrop-filter: blur(8px);
+    animation: auta-fade-in 0.18s ease;
+}
+
+.auta-modal {
+    position: relative;
+    width: min(100%, 620px);
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+    padding: 34px;
+    border: 1px solid rgba(0, 102, 255, 0.16);
+    border-radius: 17px;
+    background: #fff;
+    box-shadow: 0 30px 100px rgba(0, 0, 0, 0.3);
+    animation: auta-modal-up 0.22s ease;
+}
+
+.auta-modal-close {
+    position: absolute;
+    top: 17px;
+    right: 17px;
+    display: grid;
+    width: 37px;
+    height: 37px;
+    place-items: center;
+    border: 1px solid var(--auta-border);
+    border-radius: 9px;
+    color: var(--auta-muted);
+    background: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    transition: color 0.2s ease, background 0.2s ease;
+}
+
+.auta-modal-close:hover {
+    color: var(--auta-blue);
+    background: #f1f6ff;
+}
+
+.auta-modal-kicker {
+    display: block;
+    margin-bottom: 13px;
+    color: var(--auta-blue);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 1.8px;
+}
+
+.auta-modal h2 {
+    max-width: 480px;
+    margin-bottom: 12px;
+    color: var(--auta-navy);
+    font-size: clamp(27px, 4vw, 35px);
+    font-weight: 850;
+    letter-spacing: -1px;
+}
+
+.auta-modal-intro {
+    margin-bottom: 24px;
+    color: var(--auta-muted);
+    font-size: 13px;
+}
+
+.auta-enquiry-form {
+    display: grid;
+    gap: 17px;
+}
+
+.auta-enquiry-form label {
+    display: grid;
+    gap: 8px;
+    color: var(--auta-navy);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.auta-enquiry-form label>span {
+    display: inline;
+    color: #e04444;
+}
+
+.auta-enquiry-form input,
+.auta-enquiry-form select,
+.auta-enquiry-form textarea {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    padding: 12px 13px;
+    border: 1px solid #d8e2ef;
+    border-radius: 8px;
+    outline: none;
+    color: var(--auta-text);
+    background: #fff;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 450;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auta-enquiry-form input,
+.auta-enquiry-form select {
+    min-height: 45px;
+}
+
+.auta-enquiry-form textarea {
+    min-height: 95px;
+    resize: vertical;
+}
+
+.auta-enquiry-form input::placeholder,
+.auta-enquiry-form textarea::placeholder {
+    color: #9aa8b9;
+}
+
+.auta-enquiry-form input:focus,
+.auta-enquiry-form select:focus,
+.auta-enquiry-form textarea:focus {
+    border-color: var(--auta-blue);
+    box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+}
+
+.auta-form-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.auta-form-error {
+    margin: 0;
+    padding: 11px 13px;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    color: #b91c1c;
+    background: #fef2f2;
+    font-size: 12px;
+}
+
+.auta-form-disclaimer {
+    margin: 0;
+    color: var(--auta-muted);
+    font-size: 10px;
+    line-height: 1.7;
+}
+
+.auta-enquiry-form>.auta-button {
+    width: 100%;
+}
+
+/* Post-enquiry modal */
+
+.auta-post-enquiry {
+    width: min(100%, 500px);
+    text-align: center;
+}
+
+.auta-post-enquiry h2 {
+    margin-inline: auto;
+}
+
+.auta-post-enquiry .auta-modal-intro {
+    margin-bottom: 25px;
+}
+
+.auta-success-icon {
+    display: grid;
+    width: 61px;
+    height: 61px;
+    margin: 5px auto 23px;
+    place-items: center;
+    border: 1px solid #cfe1ff;
+    border-radius: 17px;
+    color: var(--auta-blue);
+    background: #edf4ff;
+}
+
+.auta-success-icon svg {
+    font-size: 29px;
+}
+
+.auta-post-actions {
+    display: grid;
+    gap: 11px;
+}
+
+.auta-post-actions .auta-button {
+    width: 100%;
+}
+
+.auta-text-button {
+    justify-self: center;
+    padding: 9px 12px;
+    border: 0;
+    color: var(--auta-muted);
+    background: transparent;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.auta-text-button:hover {
+    color: var(--auta-blue);
+}
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes auta-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes auta-modal-up {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.99);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1050px) {
+    .auta-hero-layout {
+        grid-template-columns:
+            minmax(0, 1fr) minmax(290px, 0.8fr);
+        gap: 35px;
+    }
+
+    .auta-hero-copy h1 {
+        font-size: clamp(40px, 5vw, 57px);
+    }
+
+    .auta-process-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .auta-eligibility-grid,
+    .auta-faq-layout {
+        gap: 40px;
+    }
+
+    .auta-refund-panel {
+        grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .auta-refund-panel>.auta-button {
+        grid-column: 2;
+        justify-self: start;
+    }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+    .auta-container {
+        width: min(calc(100% - 36px), 520px);
+    }
+
+    .auta-hero {
+        padding: 100px 0 90px;
+    }
+
+    .auta-hero-layout {
+        grid-template-columns: 1fr;
+        gap: 38px;
+    }
+
+    .auta-back-link {
+        margin-bottom: 30px;
+    }
+
+    .auta-hero-copy h1 {
+        font-size: clamp(39px, 10vw, 53px);
+        letter-spacing: -1.8px;
+    }
+
+    .auta-hero-copy>p {
+        font-size: 14px;
+    }
+
+    .auta-hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .auta-hero-actions .auta-button {
+        width: 100%;
+    }
+
+    .auta-hero-trust {
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 24px;
+    }
+
+    .auta-hero-card {
+        padding: 23px;
+    }
+
+    .auta-hero-card h2 {
+        font-size: 32px;
+    }
+
+    .auta-hero-footer {
+        padding: 16px 18px;
+        font-size: 8px;
+        letter-spacing: 0.8px;
+    }
+
+    .auta-intro-section,
+    .auta-programmes-section,
+    .auta-overview-section,
+    .auta-eligibility-section,
+    .auta-process-section,
+    .auta-faq-section {
+        padding: 65px 0;
+    }
+
+    .auta-section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 27px;
+    }
+
+    .auta-section-heading h2,
+    .auta-intro-grid h2,
+    .auta-eligibility-copy h2,
+    .auta-faq-heading h2 {
+        font-size: 32px;
+        letter-spacing: -1px;
+    }
+
+    .auta-intro-grid {
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+
+    .auta-intro-copy p {
+        font-size: 13px;
+    }
+
+    .auta-programme-grid,
+    .auta-overview-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .auta-programme-card {
+        padding: 23px;
+    }
+
+    .auta-overview-card {
+        padding: 24px;
+    }
+
+    .auta-overview-card h2 {
+        font-size: 32px;
+    }
+
+    .auta-information-notice {
+        padding: 15px;
+    }
+
+    .auta-eligibility-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .auta-process-grid {
+        grid-template-columns: 1fr;
+        gap: 13px;
+    }
+
+    .auta-process-step {
+        padding: 22px;
+    }
+
+    .auta-step-number {
+        margin-bottom: 17px;
+    }
+
+    .auta-process-cta {
+        align-items: stretch;
+        flex-direction: column;
+        padding: 22px;
+    }
+
+    .auta-process-cta .auta-button {
+        width: 100%;
+    }
+
+    .auta-refund-section {
+        padding-bottom: 65px;
+    }
+
+    .auta-refund-panel {
+        grid-template-columns: 1fr;
+        gap: 17px;
+        padding: 23px;
+    }
+
+    .auta-refund-panel>.auta-button {
+        grid-column: auto;
+        width: 100%;
+    }
+
+    .auta-refund-panel h2 {
+        font-size: 22px;
+    }
+
+    .auta-faq-layout {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .auta-faq-heading {
+        position: static;
+    }
+
+    .auta-faq-question {
+        padding: 18px;
+        font-size: 12px;
+    }
+
+    .auta-faq-answer {
+        padding: 0 18px 18px;
+    }
+
+    .auta-final-cta {
+        padding: 60px 0;
+    }
+
+    .auta-final-cta-inner {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .auta-final-cta h2 {
+        font-size: 33px;
+        letter-spacing: -0.9px;
+    }
+
+    .auta-final-cta p {
+        font-size: 13px;
+    }
+
+    .auta-final-cta .auta-button {
+        width: 100%;
+    }
+
+    .auta-contact-grid {
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+
+    .auta-modal-backdrop {
+        align-items: flex-start;
+        padding: 12px;
+    }
+
+    .auta-modal {
+        max-height: calc(100dvh - 24px);
+        margin: auto 0;
+        padding: 27px 20px 22px;
+        border-radius: 14px;
+    }
+
+    .auta-modal h2 {
+        padding-right: 22px;
+        font-size: 28px;
+    }
+
+    .auta-form-row {
+        grid-template-columns: 1fr;
+        gap: 17px;
+    }
+}
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 380px) {
+    .auta-container {
+        width: calc(100% - 28px);
+    }
+
+    .auta-hero-copy h1 {
+        font-size: 37px;
+    }
+
+    .auta-hero-card {
+        padding: 18px;
+    }
+
+    .auta-status-pill {
+        font-size: 8px;
+        letter-spacing: 0.6px;
+    }
+
+    .auta-hero-footer {
+        font-size: 7px;
+    }
+
+    .auta-overview-card h2 {
+        font-size: 27px;
+    }
+
+    .auta-modal {
+        padding-inline: 16px;
+    }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .auta-page *,
+    .auta-page *::before,
+    .auta-page *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

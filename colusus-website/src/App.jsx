@@ -209,6 +209,8 @@ import Webmailer
 
 import TraineeApprenticeship
     from "./pages/Services/TraineeApprenticeship/TraineeApprenticeship";
+import NewZealandTraineeApprenticeship from "./pages/Services/TraineeApprenticeship/NewZealandTraineeApprenticeship";
+import AustraliaTraineeApprenticeship from "./pages/Services/TraineeApprenticeship/AustraliaTraineeApprenticeship";
 /**
  * Display the WhatsApp floating button on public website pages.
  *
@@ -358,6 +360,26 @@ function App() {
                         <>
                             <Navbar />
                             <TraineeApprenticeship />
+                            <Footer />
+                        </>
+                    }
+                />
+                  <Route
+                    path="/services/new-zealand-trainee-apprenticeship"
+                    element={
+                        <>
+                            <Navbar />
+                            <NewZealandTraineeApprenticeship />
+                            <Footer />
+                        </>
+                    }
+                />
+                 <Route
+                    path="/services/australia-trainee-apprenticeship"
+                    element={
+                        <>
+                            <Navbar />
+                            <AustraliaTraineeApprenticeship />
                             <Footer />
                         </>
                     }
