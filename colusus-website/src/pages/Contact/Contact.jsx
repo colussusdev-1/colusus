@@ -32,6 +32,7 @@ const Contact = () => {
         email: "",
         phone: "",
         service: "",
+        subject: "",
         message: "",
     });
 
@@ -87,6 +88,7 @@ const Contact = () => {
                     email: formData.email.trim(),
                     phone: formData.phone.trim(),
                     service: formData.service,
+                    subject: formData.subject.trim(),
                     message: formData.message.trim(),
                 },
                 source: "website-contact",
@@ -103,6 +105,7 @@ const Contact = () => {
                 email: "",
                 phone: "",
                 service: "",
+                subject: "",
                 message: "",
             });
 
@@ -148,6 +151,7 @@ const Contact = () => {
     return (
 
         <main className="contact-page">
+            <div className="contact-nav-spacer" aria-hidden="true" />
 
 
             {/* ==================================================
@@ -160,17 +164,15 @@ const Contact = () => {
 
                     <div className="contact-hero__content">
 
-                        <span className="contact-eyebrow">
-                            CONTACT COLOSSUS
-                        </span>
+
 
 
                         <h1>
 
-                            Let's talk about your{" "}
+                            Let's talk about{" "}
 
                             <span>
-                                journey abroad.
+                                your journey.
                             </span>
 
                         </h1>
@@ -178,9 +180,9 @@ const Contact = () => {
 
                         <p>
 
-                            Tell us where you're trying to go
-                            and we'll help you understand the
-                            clearest next step.
+                            Have questions about your migration options, need personalised
+                            guidance, or want to book a consultation? Our team is here to help
+                            you every step of the way.
 
                         </p>
 
@@ -229,7 +231,7 @@ const Contact = () => {
 
                         <img
                             src={contactHero}
-                            alt="Family preparing for international travel"
+                            alt="Airplane flying over Sydney Harbour, representing international travel"
                         />
 
                     </div>
@@ -237,87 +239,31 @@ const Contact = () => {
                 </div>
 
             </section>
-
-
             {/* ==================================================
-                TRUST STRIP
+                HERO TRUST FEATURES
             ================================================== */}
 
             <section className="contact-trust">
-
                 <div className="contact-shell contact-trust__grid">
-
-
                     <div className="contact-trust__item">
-
-                        <span className="contact-trust__icon">
-                            <HiOutlineCheckCircle />
-                        </span>
-
-                        <div>
-
-                            <strong>
-                                Trusted Guidance
-                            </strong>
-
-                            <small>
-                                Expert advice you can rely on
-                            </small>
-
-                        </div>
-
+                        <span className="contact-trust__icon"><HiOutlinePaperAirplane /></span>
+                        <div><strong>Expert Guidance</strong><small>Get advice from migration professionals.</small></div>
                     </div>
-
-
                     <div className="contact-trust__item">
-
-                        <span className="contact-trust__icon">
-                            <HiOutlineGlobeAlt />
-                        </span>
-
-                        <div>
-
-                            <strong>
-                                Global Opportunities
-                            </strong>
-
-                            <small>
-                                Pathways to top destinations
-                            </small>
-
-                        </div>
-
+                        <span className="contact-trust__icon"><HiOutlineCheckCircle /></span>
+                        <div><strong>Trusted Support</strong><small>Accurate, reliable and up-to-date information.</small></div>
                     </div>
-
-
                     <div className="contact-trust__item">
-
-                        <span className="contact-trust__icon">
-                            <HiOutlineClock />
-                        </span>
-
-                        <div>
-
-                            <strong>
-                                Fast Response
-                            </strong>
-
-                            <small>
-                                We respond quickly
-                            </small>
-
-                        </div>
-
+                        <span className="contact-trust__icon"><HiOutlineGlobeAlt /></span>
+                        <div><strong>Global Opportunities</strong><small>Pathways to destinations worldwide.</small></div>
                     </div>
-
                 </div>
-
             </section>
-
 
             {/* ==================================================
                 CONTACT WORKSPACE
             ================================================== */}
+
 
             <section className="contact-workspace">
 
@@ -345,12 +291,11 @@ const Contact = () => {
                                     </span>
 
                                     <h2>
-                                        Tell us how we can help.
+                                        How can we help you?
                                     </h2>
 
                                     <p>
-                                        Fill out the form and our
-                                        team will get back to you shortly.
+                                        Fill out the form below and our team will get back to you as soon as possible.
                                     </p>
 
                                 </div>
@@ -494,11 +439,24 @@ const Contact = () => {
                                 </div>
 
 
-                                <label className="contact-field">
+                                <label className="contact-field contact-field--full">
+                                    <span>Subject <b aria-hidden="true">*</b></span>
+                                    <div className="contact-field__input">
+                                        <HiOutlineMail />
+                                        <input
+                                            type="text"
+                                            name="subject"
+                                            value={formData.subject}
+                                            onChange={handleChange}
+                                            placeholder="Briefly describe your enquiry"
+                                            maxLength={120}
+                                            required
+                                        />
+                                    </div>
+                                </label>
 
-                                    <span>
-                                        Your Message
-                                    </span>
+                                <label className="contact-field contact-field--full">
+                                    <span>Your Message <b aria-hidden="true">*</b></span>
 
                                     <div className="contact-field__textarea">
 
@@ -510,11 +468,11 @@ const Contact = () => {
                                             onChange={handleChange}
                                             placeholder="Tell us about your goals, destination or what you need help with..."
                                             rows="5"
+                                            maxLength={500}
                                             required
                                         />
-
                                     </div>
-
+                                    <small className="contact-message-count">{formData.message.length}/500</small>
                                 </label>
 
 
@@ -649,31 +607,50 @@ const Contact = () => {
                                 </a>
 
 
-                                {/* PHONE */}
+                                {/* NIGERIA TEAM CONTACTS */}
 
-                                <div className="contact-method">
+                                <div className="contact-method contact-method--team">
 
                                     <span className="contact-method__icon">
                                         <HiOutlinePhone />
                                     </span>
 
-                                    <div>
+                                    <div className="contact-method__details">
 
-                                        <small>
-                                            PHONE
-                                        </small>
+                                        <small>CONTACT OUR TEAM</small>
 
                                         <a href="tel:+2347035209306">
-                                            +234 703 520 9306
+                                            <strong>Rose</strong>
+                                            <span>+234 703 520 9306</span>
                                         </a>
 
                                         <a href="tel:+2349026953513">
-                                            +234 902 695 3513
+                                            <strong>Tony <em>(Migration Director)</em></strong>
+                                            <span>+234 902 695 3513</span>
                                         </a>
 
+                                        <a href="tel:+2349169830624">
+                                            <strong>Blessing</strong>
+                                            <span>+234 916 983 0624</span>
+                                        </a>
                                     </div>
-
                                 </div>
+
+                                {/* UK OFFICE */}
+
+                                <a
+                                    href="tel:+447455674027"
+                                    className="contact-method"
+                                >
+                                    <span className="contact-method__icon">
+                                        <HiOutlinePhone />
+                                    </span>
+
+                                    <div>
+                                        <small>UK OFFICE</small>
+                                        <strong>+44 7455 674027</strong>
+                                    </div>
+                                </a>
 
 
                                 {/* EMAIL */}
