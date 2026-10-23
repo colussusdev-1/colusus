@@ -1,7 +1,7 @@
 /* ============================================================
    COLOSSUS MIGRATION & TOURS
    NEW ZEALAND TRAINEE & APPRENTICESHIP PAGE
-   Electric Blue | Midnight Navy | Ice White
+   Midnight Navy | Electric Blue | Cyan | Ice White
    ============================================================ */
 
 .nzta-page {
@@ -16,10 +16,11 @@
     --nzta-light: #f4f8ff;
     --nzta-white: #ffffff;
 
+    width: 100%;
+    overflow: clip;
     color: var(--nzta-text);
     background: var(--nzta-white);
     font-family: inherit;
-    overflow: hidden;
 }
 
 .nzta-page *,
@@ -81,7 +82,9 @@
     color: rgba(255, 255, 255, 0.8);
 }
 
-/* Buttons */
+/* ============================================================
+   BUTTONS
+   ============================================================ */
 
 .nzta-button {
     display: inline-flex;
@@ -159,37 +162,64 @@
     outline-offset: 4px;
 }
 
-/* Hero */
+/* ============================================================
+   HERO — NEW ZEALAND BACKGROUND IMAGE
+   The image is supplied by the inline backgroundImage in JSX.
+   ============================================================ */
 
 .nzta-hero {
     position: relative;
     z-index: 0;
+    isolation: isolate;
     overflow: hidden;
-    /* Extra top space keeps the fixed site navbar clear of the hero content.
-       The same navy background continues behind this space, avoiding a white gap. */
     padding: 142px 0 85px;
     color: #ffffff;
+    background-color: var(--nzta-navy-deep);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+/* Darkens the image without hiding the New Zealand skyline. */
+.nzta-hero::before {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
     background:
-        radial-gradient(ellipse at 82% 20%, rgba(0, 102, 255, 0.25), transparent 42%),
-        radial-gradient(ellipse at 15% 90%, rgba(0, 212, 255, 0.10), transparent 38%),
-        var(--nzta-navy-deep);
-    isolation: isolate;
+        linear-gradient(90deg,
+            rgba(3, 13, 29, 0.20) 0%,
+            rgba(3, 13, 29, 0.08) 48%,
+            rgba(3, 13, 29, 0.12) 100%),
+        linear-gradient(180deg,
+            rgba(4, 13, 26, 0.10) 0%,
+            rgba(4, 13, 26, 0.05) 55%,
+            rgba(4, 13, 26, 0.75) 100%);
+    content: "";
+    pointer-events: none;
 }
 
 .nzta-hero-grid-pattern {
     position: absolute;
     z-index: -1;
     inset: 0;
-    opacity: 0.14;
+    opacity: 0.10;
     background-image:
-        linear-gradient(rgba(255, 255, 255, 0.11) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.11) 1px, transparent 1px);
+        linear-gradient(rgba(255, 255, 255, 0.10) 1px,
+            transparent 1px),
+        linear-gradient(90deg,
+            rgba(255, 255, 255, 0.10) 1px,
+            transparent 1px);
     background-size: 54px 54px;
-    mask-image: linear-gradient(90deg, transparent, #000 45%, #000);
+    mask-image: linear-gradient(90deg,
+            transparent,
+            #000 35%,
+            #000);
     pointer-events: none;
 }
 
 .nzta-hero-layout {
+    position: relative;
+    z-index: 1;
     display: grid;
     grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.78fr);
     align-items: center;
@@ -205,7 +235,7 @@
     align-items: center;
     gap: 8px;
     margin-bottom: 37px;
-    color: rgba(255, 255, 255, 0.72);
+    color: rgba(255, 255, 255, 0.82);
     font-size: 12px;
     font-weight: 650;
     transition: color 0.2s ease;
@@ -217,6 +247,10 @@
 
 .nzta-back-link svg {
     font-size: 16px;
+}
+
+.nzta-hero-copy .nzta-eyebrow {
+    color: #1684ff;
 }
 
 .nzta-hero-copy h1 {
@@ -237,7 +271,7 @@
 .nzta-hero-copy>p {
     max-width: 600px;
     margin-bottom: 30px;
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.88);
     font-size: 15px;
 }
 
@@ -258,7 +292,7 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: rgba(255, 255, 255, 0.78);
+    color: rgba(255, 255, 255, 0.90);
     font-size: 11px;
     font-weight: 600;
 }
@@ -274,14 +308,16 @@
     position: relative;
     overflow: hidden;
     padding: 29px;
-    border: 1px solid rgba(0, 212, 255, 0.23);
+    border: 1px solid rgba(0, 212, 255, 0.30);
     border-radius: 17px;
+    color: #ffffff;
     background:
-        radial-gradient(ellipse at 100% 0%, rgba(0, 102, 255, 0.17), transparent 55%),
-        rgba(9, 27, 49, 0.86);
+        linear-gradient(145deg,
+            rgba(8, 30, 58, 0.96),
+            rgba(5, 20, 39, 0.95));
     box-shadow:
-        0 28px 70px rgba(0, 0, 0, 0.25),
-        0 0 45px rgba(0, 102, 255, 0.07);
+        0 28px 70px rgba(0, 0, 0, 0.30),
+        0 0 45px rgba(0, 102, 255, 0.08);
     backdrop-filter: blur(16px);
 }
 
@@ -314,7 +350,7 @@
     padding: 8px 10px;
     border: 1px solid rgba(0, 212, 255, 0.18);
     border-radius: 30px;
-    color: rgba(255, 255, 255, 0.76);
+    color: rgba(255, 255, 255, 0.82);
     background: rgba(0, 212, 255, 0.06);
     font-size: 9px;
     font-weight: 800;
@@ -350,7 +386,7 @@
 
 .nzta-hero-card>p {
     margin-bottom: 24px;
-    color: rgba(255, 255, 255, 0.68);
+    color: rgba(255, 255, 255, 0.78);
     font-size: 12px;
 }
 
@@ -376,7 +412,7 @@
     display: inline-flex;
     align-items: center;
     gap: 9px;
-    color: rgba(255, 255, 255, 0.65);
+    color: rgba(255, 255, 255, 0.74);
     font-size: 11px;
 }
 
@@ -394,7 +430,7 @@
 .nzta-card-footnote {
     display: block;
     margin-top: 24px;
-    color: rgba(255, 255, 255, 0.49);
+    color: rgba(255, 255, 255, 0.62);
     font-size: 10px;
     line-height: 1.7;
 }
@@ -408,14 +444,17 @@
     justify-content: space-between;
     gap: 20px;
     padding: 17px max(24px, calc((100% - 1180px) / 2));
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
-    color: rgba(255, 255, 255, 0.57);
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    color: rgba(255, 255, 255, 0.70);
+    background: rgba(4, 13, 26, 0.55);
     font-size: 9px;
     font-weight: 800;
     letter-spacing: 1.5px;
 }
 
-/* Shared section headings */
+/* ============================================================
+   SHARED SECTION HEADINGS
+   ============================================================ */
 
 .nzta-section-heading {
     display: flex;
@@ -508,10 +547,7 @@
     border: 1px solid var(--nzta-border);
     border-radius: 13px;
     background: #ffffff;
-    transition:
-        transform 0.23s ease,
-        border-color 0.23s ease,
-        box-shadow 0.23s ease;
+    transition: transform 0.23s ease, border-color 0.23s ease, box-shadow 0.23s ease;
 }
 
 .nzta-programme-card::before {
@@ -797,10 +833,7 @@
     border: 1px solid var(--nzta-border);
     border-radius: 12px;
     background: #ffffff;
-    transition:
-        transform 0.2s ease,
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .nzta-process-step:hover {
@@ -1156,9 +1189,7 @@
     background: #ffffff;
     font-size: 20px;
     cursor: pointer;
-    transition:
-        color 0.2s ease,
-        background 0.2s ease;
+    transition: color 0.2s ease, background 0.2s ease;
 }
 
 .nzta-modal-close:hover {
@@ -1223,9 +1254,7 @@
     font: inherit;
     font-size: 13px;
     font-weight: 450;
-    transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .nzta-enquiry-form input,
@@ -1396,11 +1425,22 @@
 
 @media (max-width: 700px) {
     .nzta-container {
-        width: min(100% - 36px, 520px);
+        width: min(calc(100% - 36px), 520px);
     }
 
     .nzta-hero {
         padding: 112px 0 78px;
+        background-position: 58% center;
+    }
+
+    .nzta-hero::before {
+        background:
+            linear-gradient(90deg,
+                rgba(3, 13, 29, 0.78),
+                rgba(3, 13, 29, 0.56)),
+            linear-gradient(180deg,
+                rgba(4, 13, 26, 0.18),
+                rgba(4, 13, 26, 0.75));
     }
 
     .nzta-hero-layout {
@@ -1669,23 +1709,5 @@
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
-    }
-}
-
-
-
-/* Navbar clearance: keep the gap navy, never white */
-.nzta-page {
-    padding-top: 0;
-    background: var(--nzta-navy-deep);
-}
-
-.nzta-hero {
-    padding-top: max(142px, 9vw);
-}
-
-@media (max-width: 700px) {
-    .nzta-hero {
-        padding-top: 112px;
     }
 }

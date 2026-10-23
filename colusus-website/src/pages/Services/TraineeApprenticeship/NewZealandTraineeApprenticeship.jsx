@@ -17,6 +17,7 @@ import {
     HiXMark,
 } from "react-icons/hi2";
 import "./NewZealandTraineeApprenticeship.css";
+import newZealandTrainingBg from "../../../assets/newzealand-training-bg.png";
 
 const PROGRAMMES = [
     {
@@ -128,8 +129,11 @@ const INITIAL_FORM = {
     message: "",
 };
 
-function EnquiryModal({ onClose, onContinue }) {
-    const [form, setForm] = useState(INITIAL_FORM);
+function EnquiryModal({ onClose, onContinue, selectedProgramme }) {
+    const [form, setForm] = useState({
+        ...INITIAL_FORM,
+        programme: selectedProgramme || "",
+    });
     const [error, setError] = useState("");
 
     const updateField = (event) => {
@@ -164,7 +168,9 @@ function EnquiryModal({ onClose, onContinue }) {
                 `Programme interest: ${form.programme}`,
                 `Education/background: ${form.education.trim() || "Not provided"}`,
                 "",
-                `Questions or additional information: ${form.message.trim() || "Please share the current programme details, eligibility requirements, full fees, duration, intake availability and any applicable stipend conditions."}`,
+                `Questions or additional information: ${form.message.trim() ||
+                "Please share the current programme details, eligibility requirements, full fees, duration, intake availability and any applicable stipend conditions."
+                }`,
                 "",
                 "Please confirm the programme details and applicable terms in writing.",
             ].join("\n")
@@ -172,13 +178,17 @@ function EnquiryModal({ onClose, onContinue }) {
 
         const mailto = `mailto:admin@colossusmigration.com?subject=${subject}&body=${body}`;
 
-        // Open the user's configured email application. This does not send the email automatically.
         window.location.href = mailto;
         onContinue();
     };
 
     return (
-        <div className="nzta-modal-backdrop" onMouseDown={onClose}>
+        <div
+            className="nzta-modal-backdrop"
+            onMouseDown={(event) => {
+                if (event.target === event.currentTarget) onClose();
+            }}
+        >
             <section
                 className="nzta-modal"
                 role="dialog"
@@ -298,7 +308,12 @@ function EnquiryModal({ onClose, onContinue }) {
 
 function PostEnquiryModal({ onClose }) {
     return (
-        <div className="nzta-modal-backdrop" onMouseDown={onClose}>
+        <div
+            className="nzta-modal-backdrop"
+            onMouseDown={(event) => {
+                if (event.target === event.currentTarget) onClose();
+            }}
+        >
             <section
                 className="nzta-modal nzta-post-enquiry"
                 role="dialog"
@@ -354,8 +369,12 @@ export default function NewZealandTraineeApprenticeship() {
     const [showEnquiry, setShowEnquiry] = useState(false);
     const [showPostEnquiry, setShowPostEnquiry] = useState(false);
     const [openFaq, setOpenFaq] = useState(0);
+    const [selectedProgramme, setSelectedProgramme] = useState("");
 
-    const openEnquiry = () => setShowEnquiry(true);
+    const openEnquiry = (programme = "") => {
+        setSelectedProgramme(programme);
+        setShowEnquiry(true);
+    };
 
     const handleEnquiryContinue = () => {
         setShowEnquiry(false);
@@ -365,7 +384,23 @@ export default function NewZealandTraineeApprenticeship() {
     return (
         <main className="nzta-page">
             {/* HERO */}
-            <section className="nzta-hero">
+            <section
+                className="nzta-hero"
+                style={{
+                    backgroundImage: `
+                        linear-gradient(
+                            90deg,
+                            rgba(3, 13, 29, 0.96) 0%,
+                            rgba(3, 18, 39, 0.86) 42%,
+                            rgba(3, 18, 39, 0.48) 100%
+                        ),
+                        url(${newZealandTrainingBg})
+                    `,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                }}
+            >
                 <div className="nzta-hero-grid-pattern" aria-hidden="true" />
                 <div className="nzta-container nzta-hero-layout">
                     <div className="nzta-hero-copy">
@@ -396,7 +431,7 @@ export default function NewZealandTraineeApprenticeship() {
                             <button
                                 className="nzta-button nzta-button-primary"
                                 type="button"
-                                onClick={openEnquiry}
+                                onClick={() => openEnquiry()}
                             >
                                 Enquire about programmes <HiArrowRight />
                             </button>
@@ -444,7 +479,7 @@ export default function NewZealandTraineeApprenticeship() {
                 </div>
 
                 <div className="nzta-hero-footer">
-                    <span>COLOSSUS MIGRATION & TOURS</span>
+                    <span>COLOSSUS MIGRATION &amp; TOURS</span>
                     <span>EXPLORE · PREPARE · PROGRESS</span>
                 </div>
             </section>
@@ -506,9 +541,7 @@ export default function NewZealandTraineeApprenticeship() {
                                     <button
                                         className="nzta-inline-link"
                                         type="button"
-                                        onClick={() => {
-                                            setShowEnquiry(true);
-                                        }}
+                                        onClick={() => openEnquiry(programme.title)}
                                     >
                                         Ask about this area <HiArrowRight />
                                     </button>
@@ -573,7 +606,7 @@ export default function NewZealandTraineeApprenticeship() {
                         <button
                             className="nzta-button nzta-button-primary"
                             type="button"
-                            onClick={openEnquiry}
+                            onClick={() => openEnquiry()}
                         >
                             Ask about eligibility <HiArrowRight />
                         </button>
@@ -635,7 +668,7 @@ export default function NewZealandTraineeApprenticeship() {
                         <button
                             className="nzta-button nzta-button-primary"
                             type="button"
-                            onClick={openEnquiry}
+                            onClick={() => openEnquiry()}
                         >
                             Start an enquiry <HiArrowRight />
                         </button>
@@ -660,7 +693,7 @@ export default function NewZealandTraineeApprenticeship() {
                     <button
                         className="nzta-button nzta-button-secondary"
                         type="button"
-                        onClick={openEnquiry}
+                        onClick={() => openEnquiry()}
                     >
                         Ask about refund terms
                     </button>
@@ -680,7 +713,7 @@ export default function NewZealandTraineeApprenticeship() {
                         <button
                             className="nzta-button nzta-button-primary"
                             type="button"
-                            onClick={openEnquiry}
+                            onClick={() => openEnquiry()}
                         >
                             Ask a question <HiArrowRight />
                         </button>
@@ -728,7 +761,7 @@ export default function NewZealandTraineeApprenticeship() {
                     <button
                         className="nzta-button nzta-button-primary"
                         type="button"
-                        onClick={openEnquiry}
+                        onClick={() => openEnquiry()}
                     >
                         Enquire now <HiArrowRight />
                     </button>
@@ -764,7 +797,7 @@ export default function NewZealandTraineeApprenticeship() {
 
             <footer className="nzta-legal">
                 <div className="nzta-container">
-                    Colossus Migration & Tours provides guidance and application support.
+                    Colossus Migration &amp; Tours provides guidance and application support.
                     Programme availability, duration, fees and conditions may change.
                     Stipends are not guaranteed unless confirmed in writing by the
                     responsible provider. Training does not guarantee admission, a visa,
@@ -775,6 +808,7 @@ export default function NewZealandTraineeApprenticeship() {
 
             {showEnquiry && (
                 <EnquiryModal
+                    selectedProgramme={selectedProgramme}
                     onClose={() => setShowEnquiry(false)}
                     onContinue={handleEnquiryContinue}
                 />
