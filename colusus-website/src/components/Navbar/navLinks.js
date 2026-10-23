@@ -21,7 +21,10 @@ const navLinks = [
         name: "Global Work & Immigration Pathways",
         path: "/services/global-works",
       },
-
+      {
+        name: "Trainee & Apprenticeship Programs",
+        path: "/services/trainee-apprenticeship",
+      },
       {
         name: "Ireland Nursing & Healthcare",
         path: "/services/ireland-nursing",

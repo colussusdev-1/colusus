@@ -206,6 +206,9 @@ import Webmailer
    PUBLIC WEBSITE WHATSAPP BUTTON
 ====================================================== */
 
+
+import TraineeApprenticeship
+    from "./pages/Services/TraineeApprenticeship/TraineeApprenticeship";
 /**
  * Display the WhatsApp floating button on public website pages.
  *
@@ -344,6 +347,17 @@ function App() {
                         <>
                             <Navbar />
                             <IrelandNursing />
+                            <Footer />
+                        </>
+                    }
+                />
+
+                <Route
+                    path="/services/trainee-apprenticeship"
+                    element={
+                        <>
+                            <Navbar />
+                            <TraineeApprenticeship />
                             <Footer />
                         </>
                     }
