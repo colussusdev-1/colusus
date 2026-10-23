@@ -1,9 +1,7 @@
 import { loadOpportunityPool, getOpportunityPool } from "./opportunityPool";
 
 import { resolveNextQuestion } from "./questionResolver";
-
 import { evaluateEligibility } from "./eligibility";
-
 import { matchOpportunities } from "./matcher";
 
 /* -------------------------------------------------------------------------- */
@@ -30,15 +28,10 @@ export const createAssessment = () => {
     answers: {
       ...state.answers,
     },
-
     currentQuestion: state.currentQuestion,
-
     completed: state.completed,
-
     results: [...state.results],
-
     loading: state.loading,
-
     error: state.error,
   });
 
@@ -66,11 +59,22 @@ export const createAssessment = () => {
         );
       }
 
+      /*
+       * Initialize the first assessment question.
+       */
       state.currentQuestion = resolveNextQuestion(state.answers, opportunities);
 
       if (!state.currentQuestion) {
         throw new Error("The assessment questions could not be initialized.");
       }
+
+      /*
+       * IMPORTANT:
+       * Set loading to false BEFORE returning the state.
+       * Otherwise, getState() captures loading: true, and the UI
+       * may remain stuck on the loading screen.
+       */
+      state.loading = false;
 
       return getState();
     } catch (error) {
@@ -82,6 +86,9 @@ export const createAssessment = () => {
 
       throw error;
     } finally {
+      /*
+       * Keep the internal state consistent on success or failure.
+       */
       state.loading = false;
     }
   };

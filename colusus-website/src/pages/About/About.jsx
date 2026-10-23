@@ -1,4 +1,3 @@
-import { useState } from "react";
 
 import AboutHero from "./sections/Hero/AboutHero";
 import AboutProcess from "./sections/Process/AboutProcess";
@@ -9,36 +8,16 @@ import AboutTeam from "./sections/Team/AboutTeam";
 
 import Footer from "../Home/sections/Footer/Footer";
 
-import ServicesMegaMenu
-    from "../Home/sections/Hero/ServiceMegaMenu/ServiceMegaMenu";
-
-import {
-    servicesLinks
-} from "../../components/Navbar/serviceData";
-
 const About = () => {
-
-    const [servicesOpen, setServicesOpen] = useState(false);
-
-    const closeServices = () => {
-        setServicesOpen(false);
+    const handleOpenServices = () => {
+        window.dispatchEvent(
+            new CustomEvent("colossus:explore-services")
+        );
     };
 
     return (
         <>
-
-            {servicesOpen && (
-                <ServicesMegaMenu
-                    services={servicesLinks}
-                    onClose={closeServices}
-                />
-            )}
-
-            <AboutHero
-                onOpenServices={() =>
-                    setServicesOpen(true)
-                }
-            />
+            <AboutHero onOpenServices={handleOpenServices} />
 
             <AboutStory />
 
@@ -50,8 +29,10 @@ const About = () => {
 
             <AboutTeam />
 
+          
         </>
     );
 };
 
 export default About;
+

@@ -13,9 +13,17 @@ import {
 import aboutBackground from "../../../../assets/about/about-background.jpg";
 
 
-const AboutHero = ({
-    onOpenServices = () => { }
-}) => {
+const AboutHero = ({ onOpenServices }) => {
+    const handleExploreServices = () => {
+        if (typeof onOpenServices === "function") {
+            onOpenServices();
+            return;
+        }
+
+        // Navbar listens for this event and opens the correct Services menu
+        // based on the current viewport (desktop dropdown or mobile sidebar).
+        window.dispatchEvent(new CustomEvent("colossus:explore-services"));
+    };
 
     return (
 
@@ -69,16 +77,6 @@ const AboutHero = ({
 
                 <div className="about-hero-content">
 
-
-                    <span className="about-hero-tag about-hero-reveal reveal-1">
-
-                        <span className="tag-dot"></span>
-
-                        ABOUT COLOSSUS
-
-                    </span>
-
-
                     <h1 className="about-hero-title">
 
                         <span className="hero-title-line about-hero-reveal reveal-2">
@@ -96,7 +94,6 @@ const AboutHero = ({
                     </h1>
 
 
-                    <div className="about-title-line about-hero-reveal reveal-5"></div>
 
 
                     <p className="about-hero-description about-hero-reveal reveal-6">
@@ -120,7 +117,7 @@ const AboutHero = ({
                         <button
                             type="button"
                             className="about-btn about-btn-primary"
-                            onClick={onOpenServices}
+                            onClick={handleExploreServices}
                         >
 
                             <span>

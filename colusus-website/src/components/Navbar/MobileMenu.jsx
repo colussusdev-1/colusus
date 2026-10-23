@@ -29,17 +29,20 @@ const MobileMenu = ({
 
     const drawerRef = useRef(null);
     const destinationPendingRef = useRef(false);
+    const previousPathRef = useRef(location.pathname);
 
     /* ---------------------------------------------------------------------- */
-    /* CLOSE SERVICES DROPDOWN WHEN ROUTE CHANGES                             */
+    /* RESET SERVICES WHEN THE DRAWER CLOSES                                  */
     /* ---------------------------------------------------------------------- */
 
     useEffect(() => {
-        setServicesOpen(false);
-    }, [location.pathname, setServicesOpen]);
+        if (!menuOpen) {
+            setServicesOpen(false);
+        }
+    }, [menuOpen, setServicesOpen]);
 
     /* ---------------------------------------------------------------------- */
-    /* DESTINATION NAVIGATION AFTER HOMEPAGE LOADS                            */
+    /* DESTINATION NAVIGATION                                                 */
     /* ---------------------------------------------------------------------- */
 
     const scrollToDestinations = useCallback(() => {
@@ -47,7 +50,8 @@ const MobileMenu = ({
             document.getElementById("countries") ||
             document.getElementById("global-opportunities");
 
-        const searchInput = document.getElementById("country-search");
+        const searchInput =
+            document.getElementById("country-search");
 
         if (!section && !searchInput) {
             return false;
@@ -78,9 +82,10 @@ const MobileMenu = ({
         ) {
             destinationPendingRef.current = false;
 
-            // Let React finish rendering the homepage before scrolling.
             window.requestAnimationFrame(() => {
-                window.requestAnimationFrame(scrollToDestinations);
+                window.requestAnimationFrame(
+                    scrollToDestinations
+                );
             });
         }
     }, [location.pathname, scrollToDestinations]);
@@ -124,10 +129,16 @@ const MobileMenu = ({
             }
         };
 
-        document.addEventListener("keydown", handleKeyDown);
+        document.addEventListener(
+            "keydown",
+            handleKeyDown
+        );
 
         return () => {
-            document.removeEventListener("keydown", handleKeyDown);
+            document.removeEventListener(
+                "keydown",
+                handleKeyDown
+            );
         };
     }, [menuOpen, closeMenu]);
 
@@ -135,13 +146,12 @@ const MobileMenu = ({
     /* CLOSE WHEN A ROUTE CHANGES                                             */
     /* ---------------------------------------------------------------------- */
 
-    const previousPathRef = useRef(location.pathname);
-
     useEffect(() => {
-        if (previousPathRef.current !== location.pathname) {
+        if (
+            previousPathRef.current !== location.pathname
+        ) {
             previousPathRef.current = location.pathname;
 
-            // Keep the drawer open only when a destination jump is pending.
             if (!destinationPendingRef.current) {
                 closeMenu();
             }
@@ -149,7 +159,7 @@ const MobileMenu = ({
     }, [location.pathname, closeMenu]);
 
     /* ---------------------------------------------------------------------- */
-    /* RESTORE FOCUS AFTER CLOSING                                            */
+    /* RESTORE FOCUS WHEN OPENING                                             */
     /* ---------------------------------------------------------------------- */
 
     useEffect(() => {
@@ -157,11 +167,12 @@ const MobileMenu = ({
             return;
         }
 
-        const firstFocusable = drawerRef.current?.querySelector(
-            ".mobile-close"
-        );
+        const closeButton =
+            drawerRef.current?.querySelector(
+                ".mobile-close"
+            );
 
-        firstFocusable?.focus({
+        closeButton?.focus({
             preventScroll: true,
         });
     }, [menuOpen]);
@@ -175,7 +186,8 @@ const MobileMenu = ({
             <aside
                 ref={drawerRef}
                 id="mobile-navigation"
-                className={`mobile-menu ${menuOpen ? "active" : ""}`}
+                className={`mobile-menu ${menuOpen ? "active" : ""
+                    }`}
                 aria-label="Mobile navigation"
                 aria-hidden={!menuOpen}
                 inert={!menuOpen}
@@ -220,7 +232,9 @@ const MobileMenu = ({
                         </span>
 
                         <span className="mobile-destinations-copy">
-                            <strong>Explore Destinations</strong>
+                            <strong>
+                                Explore Destinations
+                            </strong>
 
                             <small>
                                 Discover countries and pathways
@@ -246,25 +260,33 @@ const MobileMenu = ({
                         aria-label="Main navigation"
                     >
                         {navLinks.map((item) => {
-                            /* SERVICES */
+                            /* SERVICES DROPDOWN */
 
                             if (item.dropdown) {
                                 const isOpen = servicesOpen;
 
-                                const servicesActive = item.dropdown.some(
-                                    (service) =>
-                                        location.pathname === service.path ||
-                                        location.pathname.startsWith(
-                                            `${service.path}/`
-                                        )
-                                );
+                                const servicesActive =
+                                    item.dropdown.some(
+                                        (service) =>
+                                            location.pathname ===
+                                            service.path ||
+                                            location.pathname.startsWith(
+                                                `${service.path}/`
+                                            )
+                                    );
 
                                 return (
                                     <div
                                         key={item.name}
-                                        className={`mobile-dropdown ${isOpen ? "open" : ""
-                                            } ${servicesActive ? "active" : ""
-                                            }`}
+                                        className={[
+                                            "mobile-dropdown",
+                                            isOpen ? "open" : "",
+                                            servicesActive
+                                                ? "active"
+                                                : "",
+                                        ]
+                                            .filter(Boolean)
+                                            .join(" ")}
                                     >
                                         <button
                                             type="button"
@@ -273,13 +295,19 @@ const MobileMenu = ({
                                             aria-expanded={isOpen}
                                             aria-controls="mobile-services-panel"
                                             aria-haspopup="true"
-                                            tabIndex={menuOpen ? 0 : -1}
+                                            tabIndex={
+                                                menuOpen ? 0 : -1
+                                            }
                                         >
-                                            <span>{item.name}</span>
+                                            <span>
+                                                {item.name}
+                                            </span>
 
                                             <HiChevronDown
                                                 className={
-                                                    isOpen ? "rotate" : ""
+                                                    isOpen
+                                                        ? "rotate"
+                                                        : ""
                                                 }
                                                 aria-hidden="true"
                                             />
@@ -343,7 +371,7 @@ const MobileMenu = ({
                                 );
                             }
 
-                            /* REGULAR LINKS */
+                            /* REGULAR NAVIGATION LINKS */
 
                             return (
                                 <NavLink
@@ -351,7 +379,9 @@ const MobileMenu = ({
                                     to={item.path}
                                     end={item.path === "/"}
                                     onClick={closeMenu}
-                                    tabIndex={menuOpen ? 0 : -1}
+                                    tabIndex={
+                                        menuOpen ? 0 : -1
+                                    }
                                     className={({ isActive }) =>
                                         `mobile-nav-link ${isActive ? "active" : ""
                                         }`
@@ -378,7 +408,9 @@ const MobileMenu = ({
                         tabIndex={menuOpen ? 0 : -1}
                     >
                         <span className="mobile-consultation-copy">
-                            <strong>Book a Consultation</strong>
+                            <strong>
+                                Book a Consultation
+                            </strong>
 
                             <small>
                                 Let's discuss your plans

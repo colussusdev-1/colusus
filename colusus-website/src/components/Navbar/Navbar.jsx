@@ -17,11 +17,13 @@ import { HiArrowUpRight } from "react-icons/hi2";
 import authService from "../../services/authService";
 
 import "./Navbar.css";
-
 import logo from "../../assets/logo.png";
 
 import DesktopMenu from "./DesktopMenu";
 import MobileMenu from "./MobileMenu";
+
+const EXPLORE_SERVICES_EVENT = "colossus:explore-services";
+const OPEN_DESKTOP_SERVICES_EVENT = "colossus:open-services-dropdown";
 
 const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -35,25 +37,19 @@ const Navbar = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    /* -------------------------------------------------------------------------- */
-    /* AUTHENTICATION STATE                                                       */
-    /* -------------------------------------------------------------------------- */
+    /* ---------------------------------------------------------------------- */
+    /* AUTHENTICATION                                                         */
+    /* ---------------------------------------------------------------------- */
 
     const refreshAuthentication = useCallback(() => {
         setAuthenticated(authService.isAuthenticated());
     }, []);
 
     useEffect(() => {
-        // Recheck whenever the current route changes.
         refreshAuthentication();
-    }, [
-        location.pathname,
-        location.key,
-        refreshAuthentication,
-    ]);
+    }, [location.pathname, location.key, refreshAuthentication]);
 
     useEffect(() => {
-        // Recheck when the user returns to the browser tab.
         const handleVisibilityChange = () => {
             if (document.visibilityState === "visible") {
                 refreshAuthentication();
@@ -61,133 +57,127 @@ const Navbar = () => {
         };
 
         const handleStorageChange = (event) => {
-            if (
-                event.key === "colossus_token" ||
-                event.key === null
-            ) {
+            if (event.key === "colossus_token" || event.key === null) {
                 refreshAuthentication();
             }
         };
 
-        window.addEventListener(
-            "focus",
-            refreshAuthentication
-        );
-
-        document.addEventListener(
-            "visibilitychange",
-            handleVisibilityChange
-        );
-
-        window.addEventListener(
-            "storage",
-            handleStorageChange
-        );
+        window.addEventListener("focus", refreshAuthentication);
+        document.addEventListener("visibilitychange", handleVisibilityChange);
+        window.addEventListener("storage", handleStorageChange);
 
         return () => {
-            window.removeEventListener(
-                "focus",
-                refreshAuthentication
-            );
-
-            document.removeEventListener(
-                "visibilitychange",
-                handleVisibilityChange
-            );
-
-            window.removeEventListener(
-                "storage",
-                handleStorageChange
-            );
+            window.removeEventListener("focus", refreshAuthentication);
+            document.removeEventListener("visibilitychange", handleVisibilityChange);
+            window.removeEventListener("storage", handleStorageChange);
         };
     }, [refreshAuthentication]);
 
-    /* -------------------------------------------------------------------------- */
-    /* SCROLL STATE                                                               */
-    /* -------------------------------------------------------------------------- */
+    /* ---------------------------------------------------------------------- */
+    /* SCROLL STATE                                                            */
+    /* ---------------------------------------------------------------------- */
 
     useEffect(() => {
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 12);
-        };
+        const handleScroll = () => setScrolled(window.scrollY > 12);
 
         handleScroll();
+        window.addEventListener("scroll", handleScroll, { passive: true });
 
-        window.addEventListener("scroll", handleScroll, {
-            passive: true,
-        });
-
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
+        return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    /* -------------------------------------------------------------------------- */
-    /* MOBILE SCROLL LOCK                                                         */
-    /* -------------------------------------------------------------------------- */
+    /* ---------------------------------------------------------------------- */
+    /* MOBILE SCROLL LOCK                                                      */
+    /* ---------------------------------------------------------------------- */
 
     useEffect(() => {
+        const previousOverflow = document.body.style.overflow;
         document.body.style.overflow = menuOpen ? "hidden" : "";
 
         return () => {
-            document.body.style.overflow = "";
+            document.body.style.overflow = previousOverflow;
         };
     }, [menuOpen]);
 
-    /* -------------------------------------------------------------------------- */
-    /* ROUTE CHANGES                                                              */
-    /* -------------------------------------------------------------------------- */
+    /* ---------------------------------------------------------------------- */
+    /* ROUTE CHANGES                                                           */
+    /* ---------------------------------------------------------------------- */
 
     useEffect(() => {
         setMenuOpen(false);
         setServicesOpen(false);
     }, [location.pathname]);
 
-    /* -------------------------------------------------------------------------- */
-    /* MENU ACTIONS                                                               */
-    /* -------------------------------------------------------------------------- */
+    /* ---------------------------------------------------------------------- */
+    /* MENU ACTIONS                                                            */
+    /* ---------------------------------------------------------------------- */
 
     const closeMenu = useCallback(() => {
         setMenuOpen(false);
         setServicesOpen(false);
     }, []);
 
-    const toggleMobileMenu = () => {
-        setMenuOpen((previous) => !previous);
-    };
+    const toggleMobileMenu = useCallback(() => {
+        setMenuOpen((previous) => {
+            const next = !previous;
+            if (!next) setServicesOpen(false);
+            return next;
+        });
+    }, []);
 
-    /* -------------------------------------------------------------------------- */
-    /* CLIENT DASHBOARD                                                           */
-    /* -------------------------------------------------------------------------- */
+    /* ---------------------------------------------------------------------- */
+    /* EXPLORE SERVICES: HERO -> EXISTING NAVBAR MENU                          */
+    /* ---------------------------------------------------------------------- */
+
+    const handleExploreServices = useCallback(() => {
+        const isMobile = window.matchMedia("(max-width: 900px)").matches;
+
+        if (isMobile) {
+            // Set Services open before showing the drawer so it renders expanded.
+            setServicesOpen(true);
+            setMenuOpen(true);
+            return;
+        }
+
+        setMenuOpen(false);
+        setServicesOpen(false);
+
+        window.dispatchEvent(new CustomEvent(OPEN_DESKTOP_SERVICES_EVENT));
+    }, []);
+
+    useEffect(() => {
+        window.addEventListener(EXPLORE_SERVICES_EVENT, handleExploreServices);
+
+        return () => {
+            window.removeEventListener(
+                EXPLORE_SERVICES_EVENT,
+                handleExploreServices
+            );
+        };
+    }, [handleExploreServices]);
+
+    /* ---------------------------------------------------------------------- */
+    /* CLIENT DASHBOARD                                                        */
+    /* ---------------------------------------------------------------------- */
 
     const handleDashboardClick = (event) => {
+        event.preventDefault();
         closeMenu();
 
-        // Prevent a full-page navigation.
-        event.preventDefault();
-
-        // Recheck the stored authentication state before navigating.
         const isLoggedIn = authService.isAuthenticated();
-
         setAuthenticated(isLoggedIn);
-
-        if (isLoggedIn) {
-            navigate("/portal");
-        } else {
-            navigate("/login");
-        }
+        navigate(isLoggedIn ? "/portal" : "/login");
     };
 
-    /* -------------------------------------------------------------------------- */
-    /* DESTINATION SEARCH                                                         */
-    /* -------------------------------------------------------------------------- */
+    /* ---------------------------------------------------------------------- */
+    /* DESTINATION SEARCH                                                      */
+    /* ---------------------------------------------------------------------- */
 
     const handleSearch = () => {
         closeMenu();
 
         const focusSearch = () => {
-            const searchInput =
-                document.getElementById("country-search");
+            const searchInput = document.getElementById("country-search");
 
             if (searchInput) {
                 searchInput.scrollIntoView({
@@ -196,9 +186,7 @@ const Navbar = () => {
                 });
 
                 window.setTimeout(() => {
-                    searchInput.focus({
-                        preventScroll: true,
-                    });
+                    searchInput.focus({ preventScroll: true });
                 }, 350);
 
                 return;
@@ -216,30 +204,27 @@ const Navbar = () => {
 
         if (location.pathname !== "/") {
             navigate("/");
-
             window.setTimeout(focusSearch, 450);
-
             return;
         }
 
         focusSearch();
     };
 
-    /* -------------------------------------------------------------------------- */
-    /* RENDER                                                                     */
-    /* -------------------------------------------------------------------------- */
+    /* ---------------------------------------------------------------------- */
+    /* RENDER                                                                  */
+    /* ---------------------------------------------------------------------- */
 
     return (
         <>
             <header
-                className={`navbar ${scrolled ? "scrolled" : ""
-                    } ${menuOpen ? "menu-is-open" : ""
-                    }`}
+                className={[
+                    "navbar",
+                    scrolled ? "scrolled" : "",
+                    menuOpen ? "menu-is-open" : "",
+                ].filter(Boolean).join(" ")}
             >
                 <div className="navbar-container">
-
-                    {/* BRAND */}
-
                     <NavLink
                         to="/"
                         className="navbar-brand"
@@ -253,18 +238,11 @@ const Navbar = () => {
                         />
                     </NavLink>
 
-                    {/* DESKTOP NAVIGATION */}
-
                     <div className="navbar-navigation">
                         <DesktopMenu closeMenu={closeMenu} />
                     </div>
 
-                    {/* ACTIONS */}
-
                     <div className="nav-actions">
-
-                        {/* DESTINATION SEARCH */}
-
                         <button
                             type="button"
                             className="nav-search-btn"
@@ -272,20 +250,14 @@ const Navbar = () => {
                             onClick={handleSearch}
                         >
                             <HiOutlineSearch aria-hidden="true" />
-
-                            <span className="nav-search-label">
-                                Destinations
-                            </span>
+                            <span className="nav-search-label">Destinations</span>
                         </button>
-
-                        {/* CLIENT ACCOUNT */}
 
                         {authenticated ? (
                             <NavLink
                                 to="/portal"
                                 className={({ isActive }) =>
-                                    `nav-login-btn ${isActive ? "active" : ""
-                                    }`
+                                    `nav-login-btn ${isActive ? "active" : ""}`
                                 }
                                 onClick={handleDashboardClick}
                             >
@@ -293,15 +265,13 @@ const Navbar = () => {
                                     className="nav-login-icon"
                                     aria-hidden="true"
                                 />
-
                                 <span>My Dashboard</span>
                             </NavLink>
                         ) : (
                             <NavLink
                                 to="/login"
                                 className={({ isActive }) =>
-                                    `nav-login-btn ${isActive ? "active" : ""
-                                    }`
+                                    `nav-login-btn ${isActive ? "active" : ""}`
                                 }
                                 onClick={closeMenu}
                             >
@@ -309,12 +279,9 @@ const Navbar = () => {
                                     className="nav-login-icon"
                                     aria-hidden="true"
                                 />
-
                                 <span>Client Login</span>
                             </NavLink>
                         )}
-
-                        {/* CONSULTATION CTA */}
 
                         <NavLink
                             to="/contact"
@@ -322,21 +289,13 @@ const Navbar = () => {
                             onClick={closeMenu}
                         >
                             <span>Book a Consultation</span>
-
                             <HiArrowUpRight aria-hidden="true" />
                         </NavLink>
 
-                        {/* MOBILE MENU TOGGLE */}
-
                         <button
                             type="button"
-                            className={`menu-btn ${menuOpen ? "active" : ""
-                                }`}
-                            aria-label={
-                                menuOpen
-                                    ? "Close navigation"
-                                    : "Open navigation"
-                            }
+                            className={`menu-btn ${menuOpen ? "active" : ""}`}
+                            aria-label={menuOpen ? "Close navigation" : "Open navigation"}
                             aria-expanded={menuOpen}
                             aria-controls="mobile-navigation"
                             onClick={toggleMobileMenu}
@@ -347,12 +306,9 @@ const Navbar = () => {
                                 <HiOutlineMenuAlt3 aria-hidden="true" />
                             )}
                         </button>
-
                     </div>
                 </div>
             </header>
-
-            {/* MOBILE NAVIGATION */}
 
             <MobileMenu
                 menuOpen={menuOpen}

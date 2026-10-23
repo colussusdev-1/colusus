@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
@@ -7,7 +8,9 @@ import { HiArrowUpRight } from "react-icons/hi2";
 import navLinks from "./navLinks";
 import "./DesktopMenu.css";
 
-const DesktopMenu = ({ closeMenu = () => { } }) => {
+const DesktopMenu = ({
+  closeMenu = () => { },
+}) => {
   const location = useLocation();
 
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -23,20 +26,59 @@ const DesktopMenu = ({ closeMenu = () => { } }) => {
   }, [location.pathname]);
 
   /* -------------------------------------------------------------------------- */
+  /* LISTEN FOR EXPLORE SERVICES BUTTON                                         */
+  /* -------------------------------------------------------------------------- */
+
+  useEffect(() => {
+    const handleOpenServices = () => {
+      const servicesItem = navLinks.find(
+        (item) =>
+          item.dropdown &&
+          item.name.toLowerCase() === "services"
+      );
+
+      if (servicesItem) {
+        setOpenDropdown(servicesItem.name);
+      }
+    };
+
+    window.addEventListener(
+      "colossus:open-services-dropdown",
+      handleOpenServices
+    );
+
+    return () => {
+      window.removeEventListener(
+        "colossus:open-services-dropdown",
+        handleOpenServices
+      );
+    };
+  }, []);
+
+  /* -------------------------------------------------------------------------- */
   /* CLOSE DROPDOWN WHEN CLICKING OUTSIDE                                       */
   /* -------------------------------------------------------------------------- */
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
-      if (navRef.current && !navRef.current.contains(event.target)) {
+      if (
+        navRef.current &&
+        !navRef.current.contains(event.target)
+      ) {
         setOpenDropdown(null);
       }
     };
 
-    document.addEventListener("pointerdown", handleOutsideClick);
+    document.addEventListener(
+      "pointerdown",
+      handleOutsideClick
+    );
 
     return () => {
-      document.removeEventListener("pointerdown", handleOutsideClick);
+      document.removeEventListener(
+        "pointerdown",
+        handleOutsideClick
+      );
     };
   }, []);
 
@@ -45,7 +87,9 @@ const DesktopMenu = ({ closeMenu = () => { } }) => {
   /* -------------------------------------------------------------------------- */
 
   const toggleDropdown = (name) => {
-    setOpenDropdown((current) => (current === name ? null : name));
+    setOpenDropdown((current) =>
+      current === name ? null : name
+    );
   };
 
   const closeDropdown = () => {
@@ -62,11 +106,9 @@ const DesktopMenu = ({ closeMenu = () => { } }) => {
   /* -------------------------------------------------------------------------- */
 
   const handleKeyDown = (event) => {
-    if (event.key === "Escape") {
-      if (openDropdown) {
-        closeDropdown();
-        event.preventDefault();
-      }
+    if (event.key === "Escape" && openDropdown) {
+      closeDropdown();
+      event.preventDefault();
     }
   };
 
@@ -87,44 +129,68 @@ const DesktopMenu = ({ closeMenu = () => { } }) => {
         /* ------------------------------------------------------------------ */
 
         if (item.dropdown) {
-          const isOpen = openDropdown === item.name;
+          const isOpen =
+            openDropdown === item.name;
 
-          const servicesActive = item.dropdown.some(
-            (service) =>
-              location.pathname === service.path ||
-              location.pathname.startsWith(`${service.path}/`)
-          );
+          const servicesActive =
+            item.dropdown.some(
+              (service) =>
+                location.pathname === service.path ||
+                location.pathname.startsWith(
+                  `${service.path}/`
+                )
+            );
 
           return (
             <div
               key={item.name}
-              className={`desktop-dropdown ${servicesActive ? "active" : ""
-                } ${isOpen ? "is-open" : ""}`}
+              className={[
+                "desktop-dropdown",
+                servicesActive ? "active" : "",
+                isOpen ? "is-open" : "",
+              ]
+                .filter(Boolean)
+                .join(" ")}
             >
               {/* Dropdown trigger */}
 
               <button
                 type="button"
-                className={`desktop-nav-link dropdown-btn ${servicesActive ? "active" : ""
-                  }`}
+                className={[
+                  "desktop-nav-link",
+                  "dropdown-btn",
+                  servicesActive ? "active" : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
                 aria-haspopup="true"
                 aria-expanded={isOpen}
-                onClick={() => toggleDropdown(item.name)}
+                onClick={() =>
+                  toggleDropdown(item.name)
+                }
               >
                 <span>{item.name}</span>
 
                 <HiChevronDown
-                  className={`dropdown-icon ${isOpen ? "rotate" : ""
-                    }`}
+                  className={[
+                    "dropdown-icon",
+                    isOpen ? "rotate" : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
                   aria-hidden="true"
                 />
               </button>
 
-              {/* Dropdown panel */}
+              {/* Existing dropdown panel */}
 
               <div
-                className={`desktop-dropdown-menu ${isOpen ? "show" : ""
-                  }`}
+                className={[
+                  "desktop-dropdown-menu",
+                  isOpen ? "show" : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
                 aria-label={`${item.name} menu`}
                 aria-hidden={!isOpen}
                 inert={!isOpen}
@@ -152,8 +218,12 @@ const DesktopMenu = ({ closeMenu = () => { } }) => {
                         key={service.path}
                         to={service.path}
                         onClick={handleLinkClick}
-                        className={`dropdown-link ${serviceActive ? "active" : ""
-                          }`}
+                        className={[
+                          "dropdown-link",
+                          serviceActive ? "active" : "",
+                        ]
+                          .filter(Boolean)
+                          .join(" ")}
                         tabIndex={isOpen ? 0 : -1}
                       >
                         <span className="dropdown-link-text">
@@ -198,8 +268,13 @@ const DesktopMenu = ({ closeMenu = () => { } }) => {
             end={item.path === "/"}
             onClick={handleLinkClick}
             className={({ isActive }) =>
-              `desktop-nav-link nav-link ${isActive ? "active" : ""
-              }`
+              [
+                "desktop-nav-link",
+                "nav-link",
+                isActive ? "active" : "",
+              ]
+                .filter(Boolean)
+                .join(" ")
             }
           >
             {item.name}
@@ -211,3 +286,4 @@ const DesktopMenu = ({ closeMenu = () => { } }) => {
 };
 
 export default DesktopMenu;
+
