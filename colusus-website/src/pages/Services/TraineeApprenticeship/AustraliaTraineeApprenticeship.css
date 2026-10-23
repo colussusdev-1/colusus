@@ -177,14 +177,19 @@
     overflow: hidden;
     padding: 130px 0 100px;
     color: #fff;
-    background:
+    /* The JSX supplies the Australia image via inline backgroundImage.
+       Keep this layered background as a fallback if the image fails to load. */
+    background-color: var(--auta-navy-deep);
+    background-image:
         radial-gradient(ellipse at 82% 20%,
             rgba(0, 102, 255, 0.25),
             transparent 42%),
         radial-gradient(ellipse at 15% 90%,
             rgba(0, 212, 255, 0.1),
-            transparent 38%),
-        var(--auta-navy-deep);
+            transparent 38%);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .auta-hero-grid-pattern {
@@ -1726,5 +1731,44 @@
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+    }
+}
+
+/* =========================================================
+   AUSTRALIA HERO BACKGROUND IMAGE SUPPORT
+   ========================================================= */
+
+/* Keep the supplied background image cinematic while protecting text contrast. */
+.auta-hero::before {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        rgba(3, 13, 29, 0.28) 0%,
+        rgba(3, 18, 39, 0.12) 52%,
+        rgba(3, 18, 39, 0.2) 100%
+    );
+    content: "";
+    pointer-events: none;
+}
+
+.auta-hero-layout,
+.auta-hero-footer {
+    position: relative;
+    z-index: 1;
+}
+
+@media (max-width: 700px) {
+    .auta-hero {
+        background-position: 58% center;
+    }
+
+    .auta-hero::before {
+        background: linear-gradient(
+            180deg,
+            rgba(3, 13, 29, 0.34) 0%,
+            rgba(3, 18, 39, 0.62) 100%
+        );
     }
 }

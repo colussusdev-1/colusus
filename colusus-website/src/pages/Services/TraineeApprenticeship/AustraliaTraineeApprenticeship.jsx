@@ -17,6 +17,7 @@ import {
 } from "react-icons/hi2";
 
 import "./AustraliaTraineeApprenticeship.css";
+import australiaTrainingBg from "../../../assets/australia-training-bg.png";
 
 const PROGRAMMES = [
     {
@@ -431,7 +432,23 @@ export default function AustraliaTraineeApprenticeship() {
     return (
         <main className="auta-page">
             {/* HERO */}
-            <section className="auta-hero">
+            <section
+                className="auta-hero"
+                style={{
+                    backgroundImage: `
+                        linear-gradient(
+                            90deg,
+                            rgba(3, 13, 29, 0.96) 0%,
+                            rgba(3, 18, 39, 0.86) 42%,
+                            rgba(3, 18, 39, 0.48) 100%
+                        ),
+                        url(${australiaTrainingBg})
+                    `,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                }}
+            >
                 <div
                     className="auta-hero-grid-pattern"
                     aria-hidden="true"
