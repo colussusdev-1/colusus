@@ -1,13 +1,8 @@
-import {
-    useEffect,
-} from "react";
-
-import {
-    useLocation,
-} from "react-router-dom";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 /* ======================================================
-   HOME SECTIONS
+HOME SECTIONS
 ====================================================== */
 
 import Hero from "./sections/Hero/Hero";
@@ -19,7 +14,7 @@ import MigrationJourney
     from "./sections/MigrationJourney/MigrationJourney";
 
 /* ======================================================
-   SHARED COMPONENTS
+SHARED COMPONENTS
 ====================================================== */
 
 import Services from "../../components/Services/Services";
@@ -37,76 +32,89 @@ import ScrollReveal
     from "../../components/ScrollReveal/ScrollReveal";
 
 /* ======================================================
-   STYLES
+STYLES
 ====================================================== */
 
 import "./Home.css";
 
-
 const Home = () => {
     const location = useLocation();
 
+
     /* ======================================================
        HASH / SECTION NAVIGATION
-
+    
        Supports:
        /#countries
        /#global-opportunities
-
-       Both navigate to the Countries section.
     ====================================================== */
 
     useEffect(() => {
         const hash = location.hash;
 
         if (
-            hash === "#countries" ||
-            hash === "#global-opportunities"
+            hash !== "#countries" &&
+            hash !== "#global-opportunities"
         ) {
-            const timer = setTimeout(() => {
-                const target = document.getElementById("countries");
-
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start",
-                    });
-                }
-            }, 250);
-
-            return () => {
-                clearTimeout(timer);
-            };
+            return;
         }
-    }, [location.hash]);
 
+        let attempts = 0;
+        let timer;
+
+        const scrollToCountries = () => {
+            const target = document.getElementById("countries");
+
+            if (target) {
+                target.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                });
+
+                return;
+            }
+
+            attempts += 1;
+
+            if (attempts < 10) {
+                timer = window.setTimeout(
+                    scrollToCountries,
+                    50
+                );
+            }
+        };
+
+        timer = window.setTimeout(scrollToCountries, 0);
+
+        return () => {
+            window.clearTimeout(timer);
+        };
+    }, [location.hash]);
 
     return (
         <main className="home-page">
 
             {/* =====================================================
-                1. HERO
-            ===================================================== */}
+            1. HERO
+        ===================================================== */}
 
             <Hero />
 
-
             {/* =====================================================
-                2. STATS / TRUST INDICATORS
-            ===================================================== */}
+            2. STATS / TRUST INDICATORS
+        ===================================================== */}
 
             <ScrollReveal
                 direction="up"
-                duration={1.1}
-                distance={35}
+                duration={0.45}
+                distance={18}
             >
                 <StatsStrip />
             </ScrollReveal>
 
-
             {/* =====================================================
-                3. DESTINATIONS / GLOBAL OPPORTUNITIES
-            ===================================================== */}
+            3. DESTINATIONS / GLOBAL OPPORTUNITIES
+        ===================================================== */}
 
             <div
                 id="countries"
@@ -114,95 +122,89 @@ const Home = () => {
             >
                 <ScrollReveal
                     direction="up"
-                    duration={1.1}
-                    distance={35}
+                    duration={0.45}
+                    distance={18}
                 >
                     <Countries />
                 </ScrollReveal>
             </div>
 
-
             {/* =====================================================
-                4. MIGRATION JOURNEY
-                8 STEPS TO YOUR DREAM DESTINATION
-            ===================================================== */}
+            4. MIGRATION JOURNEY
+        ===================================================== */}
 
             <ScrollReveal
                 direction="up"
-                duration={1.1}
-                distance={35}
+                duration={0.45}
+                distance={18}
             >
                 <MigrationJourney />
             </ScrollReveal>
 
-
             {/* =====================================================
-                5. SERVICES
-            ===================================================== */}
+            5. SERVICES
+        ===================================================== */}
 
             <ScrollReveal
                 direction="up"
-                duration={1.1}
-                distance={35}
+                duration={0.45}
+                distance={18}
             >
                 <Services />
             </ScrollReveal>
 
-
             {/* =====================================================
-                6. ZERO DEPOSIT PROGRAM
-            ===================================================== */}
+            6. ZERO DEPOSIT PROGRAM
+        ===================================================== */}
 
             <ScrollReveal
                 direction="up"
-                duration={1.1}
-                distance={35}
+                duration={0.45}
+                distance={18}
             >
                 <ZeroDepositProgram />
             </ScrollReveal>
 
-
             {/* =====================================================
-                7. SUCCESS STORIES
-            ===================================================== */}
+            7. SUCCESS STORIES
+        ===================================================== */}
 
             <ScrollReveal
                 direction="up"
-                duration={1.1}
-                distance={35}
+                duration={0.45}
+                distance={18}
             >
                 <SuccessStories />
             </ScrollReveal>
 
-
             {/* =====================================================
-                8. ABOUT COLOSSUS
-            ===================================================== */}
+            8. ABOUT COLOSSUS
+        ===================================================== */}
 
             <ScrollReveal
                 direction="up"
-                duration={1.1}
-                distance={35}
+                duration={0.45}
+                distance={18}
             >
                 <About />
             </ScrollReveal>
 
-
             {/* =====================================================
-                9. CONTACT CTA
-            ===================================================== */}
+            9. CONTACT CTA
+        ===================================================== */}
 
             <ScrollReveal
                 direction="up"
-                duration={1.1}
-                distance={35}
+                duration={0.45}
+                distance={18}
             >
                 <ContactCTA />
             </ScrollReveal>
 
         </main>
     );
-};
 
+
+};
 
 export default Home;

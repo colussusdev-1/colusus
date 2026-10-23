@@ -6,6 +6,7 @@
 
 .new-application {
     position: relative;
+    z-index: auto;
 
     width: 100%;
     min-height: 100%;
@@ -14,8 +15,12 @@
 
     color: #14243a;
 
-    animation:
-        newApplicationPageIn 420ms ease-out both;
+    /*
+     * Do not animate the page wrapper with transform/opacity.
+     * Those properties can create a stacking context that traps
+     * the fixed profile modal underneath other portal UI.
+     */
+    animation: none;
 }
 
 
@@ -2064,4 +2069,107 @@
         animation: none;
     }
 
+}
+
+
+/* =========================================================
+   PROFILE COMPLETION MODAL — TOPMOST LAYER
+   Keep this section at the end of NewApplication.css.
+========================================================= */
+
+.application-profile-gate {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 2147483000 !important;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+
+    isolation: isolate;
+}
+
+.application-profile-gate-backdrop {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 0 !important;
+
+    background: rgba(9, 29, 49, 0.58);
+
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+
+    animation: profileBackdropIn 220ms ease-out both;
+}
+
+.application-profile-gate-modal {
+    position: relative !important;
+    z-index: 1 !important;
+
+    width: min(100%, 520px);
+    max-height: calc(100vh - 48px);
+    max-height: calc(100dvh - 48px);
+
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+
+    padding: 34px;
+
+    border: 1px solid #e1e9f1;
+    border-radius: 22px;
+
+    background: #ffffff;
+
+    box-shadow: 0 28px 90px rgba(9, 35, 62, 0.28);
+
+    animation: applicationProfileGateIn 280ms cubic-bezier(.22, .61, .36, 1) both;
+}
+
+.application-profile-gate-modal button {
+    position: relative;
+    z-index: 2;
+    pointer-events: auto;
+}
+
+@media (max-width: 620px) {
+    .application-profile-gate {
+        padding: 15px;
+    }
+
+    .application-profile-gate-modal {
+        width: 100%;
+        max-height: calc(100vh - 30px);
+        max-height: calc(100dvh - 30px);
+
+        padding: 26px 20px;
+        border-radius: 18px;
+    }
+}
+
+@media (max-width: 420px) {
+    .application-profile-gate {
+        padding: 10px;
+    }
+
+    .application-profile-gate-modal {
+        max-height: calc(100vh - 20px);
+        max-height: calc(100dvh - 20px);
+
+        padding: 23px 17px;
+        border-radius: 16px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .new-application {
+        animation: none !important;
+    }
+
+    .application-profile-gate-backdrop,
+    .application-profile-gate-modal {
+        animation: none !important;
+    }
 }

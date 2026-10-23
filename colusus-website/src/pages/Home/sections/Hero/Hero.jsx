@@ -5,18 +5,15 @@ import {
 } from "react-icons/hi";
 
 import { Link } from "react-router-dom";
-
 import "./Hero.css";
 
 const Hero = () => {
     /*
     =====================================================
     COUNTRIES
-
-    Displayed as a static list beneath the airplane image.
-    No flags, orbital movement, or country animations.
     =====================================================
     */
+
 
     const countries = [
         "Canada",
@@ -28,7 +25,6 @@ const Hero = () => {
         "Germany",
         "Netherlands",
     ];
-
 
     /*
     =====================================================
@@ -48,7 +44,6 @@ const Hero = () => {
             block: "start",
         });
     };
-
 
     return (
         <section className="hero">
@@ -73,14 +68,12 @@ const Hero = () => {
                 </video>
             </div>
 
-
             {/* BACKGROUND OVERLAY */}
 
             <div
                 className="hero-overlay"
                 aria-hidden="true"
             />
-
 
             {/* BACKGROUND DETAILS */}
 
@@ -90,7 +83,6 @@ const Hero = () => {
             >
                 <div className="hero-grid" />
             </div>
-
 
             {/* HERO CONTENT */}
 
@@ -106,8 +98,6 @@ const Hero = () => {
 
                         <div className="hero-eyebrow hero-reveal hero-delay-1">
 
-                          
-
                             <span className="hero-eyebrow-brand">
                                 CM&amp;T
                             </span>
@@ -117,7 +107,6 @@ const Hero = () => {
                             </span>
 
                         </div>
-
 
                         {/* HEADLINE */}
 
@@ -137,7 +126,6 @@ const Hero = () => {
 
                         </h1>
 
-
                         {/* DESCRIPTION */}
 
                         <p className="hero-description hero-reveal hero-delay-3">
@@ -146,7 +134,6 @@ const Hero = () => {
                             entrepreneurs seeking opportunities to
                             live, work and thrive globally.
                         </p>
-
 
                         {/* ACTION BUTTONS */}
 
@@ -163,7 +150,6 @@ const Hero = () => {
                                 <HiArrowRight aria-hidden="true" />
                             </Link>
 
-
                             <button
                                 type="button"
                                 className="hero-secondary-btn"
@@ -178,7 +164,6 @@ const Hero = () => {
 
                         </div>
 
-
                         {/* SOCIAL PROOF */}
 
                         <div className="hero-social hero-reveal hero-delay-5">
@@ -192,7 +177,6 @@ const Hero = () => {
                                 <span className="hero-avatar">&amp;</span>
                                 <span className="hero-avatar">T</span>
                             </div>
-
 
                             <div className="hero-rating">
 
@@ -214,9 +198,7 @@ const Hero = () => {
 
                             </div>
 
-
                             <div className="hero-trust-divider" />
-
 
                             <div className="hero-licensed">
 
@@ -240,41 +222,23 @@ const Hero = () => {
 
                     </div>
 
-
-                    {/* RIGHT VISUAL */}
+                    {/* RIGHT SECTION: DESTINATIONS ONLY */}
 
                     <div className="hero-visual hero-reveal hero-delay-3">
 
-                        {/* STATIC AIRPLANE IMAGE */}
+                        {/* AIRPLANE IMAGE REMOVED */}
 
-                        <div className="hero-visual-stage">
-
-                            <div className="hero-artwork">
-
-                                <img
-                                    src="/images/cmt-hero-right-visual-reference.png"
-                                    alt="Airplane representing international travel and global opportunities"
-                                    fetchPriority="high"
-                                />
-
-                            </div>
-
-                        </div>
-
-
-                        {/* COUNTRY NAMES */}
+                        {/* DESTINATION LIST PRESERVED */}
 
                         <div className="hero-country-list">
 
                             <div className="hero-country-list-heading">
-                               
 
                                 <span>
                                     EXPLORE DESTINATIONS
                                 </span>
 
                             </div>
-
 
                             <div className="hero-country-list-items">
 
@@ -304,6 +268,8 @@ const Hero = () => {
 
         </section>
     );
+
+
 };
 
 export default Hero;

@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+
 import {
   Link,
   useLocation,
@@ -10,241 +11,292 @@ import authService from "../../services/authService";
 
 import "./Login.css";
 
+/* ============================================================
+   APPLICATION CONTEXT STORAGE
+============================================================ */
 
-// ------------------------------------------------------------
-// COMPANY LOGO
-// ------------------------------------------------------------
+const PENDING_APPLICATION_KEY =
+  "colossus_pending_application";
 
-const LOGO = "/logo.png";
+const PENDING_APPLICATION_RETURN_KEY =
+  "colossus_pending_application_return_to";
 
+/* ============================================================
+   SAFE STORAGE HELPERS
+============================================================ */
+
+const getPendingApplication = () => {
+  try {
+    const stored = sessionStorage.getItem(
+      PENDING_APPLICATION_KEY
+    );
+
+    if (!stored) {
+      return null;
+    }
+
+    const parsed = JSON.parse(stored);
+
+    return parsed && typeof parsed === "object"
+      ? parsed
+      : null;
+  } catch (error) {
+    console.error(
+      "Unable to restore pending application:",
+      error
+    );
+
+    return null;
+  }
+};
+
+const getPendingReturnTo = () => {
+  try {
+    return sessionStorage.getItem(
+      PENDING_APPLICATION_RETURN_KEY
+    );
+  } catch (error) {
+    console.error(
+      "Unable to restore application destination:",
+      error
+    );
+
+    return null;
+  }
+};
+
+/* ============================================================
+   VALIDATE APPLICATION CONTEXT
+============================================================ */
+
+const isApplicationDestination = (path) => {
+  return (
+    typeof path === "string" &&
+    path.startsWith("/") &&
+    !path.startsWith("//") &&
+    path.split("?")[0].split("#")[0] ===
+    "/portal/applications/new"
+  );
+};
+
+const hasSelectedPathway = (application) => {
+  if (!application || typeof application !== "object") {
+    return false;
+  }
+
+  const opportunity = application.opportunity;
+
+  return Boolean(
+    application.opportunityId ||
+    application.opportunitySlug ||
+    (
+      opportunity &&
+      typeof opportunity === "object" &&
+      (
+        opportunity._id ||
+        opportunity.id ||
+        opportunity.slug
+      )
+    )
+  );
+};
+
+/* ============================================================
+   LOGIN COMPONENT
+============================================================ */
 
 const Login = () => {
-
   const navigate = useNavigate();
   const location = useLocation();
 
+  /* ========================================================
+     RESTORE APPLICATION CONTEXT
+  ======================================================== */
+
+  const storedApplication = getPendingApplication();
+  const storedReturnTo = getPendingReturnTo();
+
+  const stateReturnTo = location.state?.returnTo;
+  const stateReturnState = location.state?.returnState;
+
+  const candidateReturnTo =
+    stateReturnTo || storedReturnTo || null;
+
+  const candidateReturnState =
+    stateReturnState || storedApplication || null;
+
+  const hasPendingApplication = Boolean(
+    isApplicationDestination(candidateReturnTo) &&
+    hasSelectedPathway(candidateReturnState)
+  );
+
+  const returnTo = hasPendingApplication
+    ? candidateReturnTo
+    : null;
+
+  const returnState = hasPendingApplication
+    ? candidateReturnState
+    : null;
+
+  /* ========================================================
+     FORM STATE
+  ======================================================== */
 
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const [loading, setLoading] =
-    useState(false);
+  /* ========================================================
+     PRESERVE APPLICATION CONTEXT
+  ======================================================== */
 
+  const preserveApplicationContext = () => {
+    if (!hasPendingApplication) {
+      return;
+    }
 
-  const [error, setError] =
-    useState("");
+    try {
+      sessionStorage.setItem(
+        PENDING_APPLICATION_KEY,
+        JSON.stringify(returnState)
+      );
 
+      sessionStorage.setItem(
+        PENDING_APPLICATION_RETURN_KEY,
+        returnTo
+      );
+    } catch (storageError) {
+      console.error(
+        "Unable to preserve application context:",
+        storageError
+      );
+    }
+  };
 
-  // ============================================================
-  // PRESERVE THE PATHWAY THE USER WAS TRYING TO CONTINUE WITH
-  // ============================================================
-
-  const returnTo =
-    location.state?.returnTo || null;
-
-  const returnState =
-    location.state?.returnState || null;
-
-
-  // ============================================================
-  // FORM CHANGE
-  // ============================================================
+  /* ========================================================
+     FORM CHANGE
+  ======================================================== */
 
   const handleChange = (event) => {
-
-    const {
-      name,
-      value,
-    } = event.target;
-
+    const { name, value } = event.target;
 
     setForm((previous) => ({
       ...previous,
       [name]: value,
     }));
-
   };
 
-
-  // ============================================================
-  // AFTER LOGIN
-  // ============================================================
+  /* ========================================================
+     REDIRECT AFTER LOGIN
+  ======================================================== */
 
   const handlePostLoginRedirect = () => {
+    if (hasPendingApplication) {
+      preserveApplicationContext();
 
-    /*
-     * If the user came from an opportunity pathway,
-     * continue directly to the application flow.
-     *
-     * The selected pathway is preserved in React Router
-     * state and is therefore available to NewApplication.
-     */
-
-    if (
-      returnTo &&
-      returnState
-    ) {
-
-      navigate(
-        returnTo,
-        {
-          state: returnState,
-          replace: true,
-        },
-      );
+      navigate(returnTo, {
+        state: returnState,
+        replace: true,
+      });
 
       return;
-
     }
 
-
-    /*
-     * Normal login with no pending pathway.
-     */
-
-    navigate(
-      "/portal",
-      {
-        replace: true,
-      },
-    );
-
+    navigate("/portal", {
+      replace: true,
+    });
   };
 
-
-  // ============================================================
-  // SUBMIT
-  // ============================================================
+  /* ========================================================
+     SUBMIT LOGIN
+  ======================================================== */
 
   const handleSubmit = async (event) => {
-
     event.preventDefault();
 
     setError("");
 
-
     if (
-      !form.email ||
+      !form.email.trim() ||
       !form.password
     ) {
-
       setError(
-        "Please enter your email and password.",
+        "Please enter your email and password."
       );
 
       return;
-
     }
 
-
     try {
-
       setLoading(true);
 
+      preserveApplicationContext();
 
-      const result =
-        await authService.login(
-          form.email,
-          form.password,
-        );
+      const result = await authService.login(
+        form.email.trim(),
+        form.password
+      );
 
+      /* CLIENT PORTAL ONLY */
 
-      // ========================================================
-      // CLIENT PORTAL ONLY
-      // ========================================================
-
-      if (
-        result.user?.role !==
-        "CLIENT"
-      ) {
-
+      if (result?.user?.role !== "CLIENT") {
         authService.logout();
 
         setError(
-          "This portal is for clients only.",
+          "This portal is for clients only."
         );
 
         return;
-
       }
 
-
-      // ========================================================
-      // CONTINUE TO ORIGINAL DESTINATION
-      // ========================================================
-
       handlePostLoginRedirect();
-
-
     } catch (error) {
-
       setError(
         error.response?.data?.message ||
-        "Unable to sign in. Please check your credentials.",
+        "Unable to sign in. Please check your credentials."
       );
-
     } finally {
-
       setLoading(false);
-
     }
-
   };
 
+  /* ========================================================
+     RENDER
+  ======================================================== */
 
   return (
-
     <main className="login-page">
-
       <div className="login-card">
 
-
-        {/* =====================================================
-            LEFT — WELCOME EXPERIENCE
-        ===================================================== */}
+        {/* LEFT — WELCOME EXPERIENCE */}
 
         <section className="login-welcome">
 
-
-          {/* BRAND */}
-
           <div className="login-brand">
-
             <div className="login-brand-logo">
-
               <img
-                src={LOGO}
-                alt="colossus"
+                src="/logo.png"
+                alt="Colossus"
               />
-
             </div>
 
             <div className="login-brand-name">
-
-              <strong>
-                colossus
-              </strong>
+              <strong>colossus</strong>
 
               <span>
                 Migration Platform
               </span>
-
             </div>
-
           </div>
 
-
-          {/* WELCOME CONTENT */}
-
           <div className="login-welcome-content">
-
             <span className="login-eyebrow">
               CLIENT PORTAL
             </span>
-
 
             <h1>
               Your journey
@@ -252,28 +304,21 @@ const Login = () => {
               starts here.
             </h1>
 
-
             <p>
-              Welcome back to colossus. Sign in to
-              continue your migration journey, keep
-              your documents organized and stay
-              up to date with your application.
+              Welcome back to Colossus. Sign in
+              to continue your migration journey,
+              keep your documents organized and
+              stay up to date with your application.
             </p>
-
-
-            {/* JOURNEY POINTS */}
 
             <div className="login-journey-list">
 
-
               <div className="login-journey-item">
-
                 <span className="login-journey-number">
                   01
                 </span>
 
                 <div>
-
                   <strong>
                     Manage your application
                   </strong>
@@ -281,20 +326,15 @@ const Login = () => {
                   <span>
                     Follow your progress from one place.
                   </span>
-
                 </div>
-
               </div>
 
-
               <div className="login-journey-item">
-
                 <span className="login-journey-number">
                   02
                 </span>
 
                 <div>
-
                   <strong>
                     Keep documents organized
                   </strong>
@@ -302,20 +342,15 @@ const Login = () => {
                   <span>
                     Upload and track everything securely.
                   </span>
-
                 </div>
-
               </div>
 
-
               <div className="login-journey-item">
-
                 <span className="login-journey-number">
                   03
                 </span>
 
                 <div>
-
                   <strong>
                     Stay informed
                   </strong>
@@ -323,107 +358,96 @@ const Login = () => {
                   <span>
                     Receive important application updates.
                   </span>
-
                 </div>
-
               </div>
 
-
             </div>
-
           </div>
 
-
-          {/* BOTTOM TRUST */}
-
           <div className="login-welcome-footer">
-
             <div className="login-security-icon">
               ✓
             </div>
 
             <div>
-
               <strong>
                 Your journey, securely managed.
               </strong>
 
               <span>
                 Your account and application information
-                are protected within the colossus platform.
+                are protected within the Colossus platform.
               </span>
-
             </div>
-
           </div>
-
 
         </section>
 
-
-        {/* =====================================================
-            RIGHT — LOGIN FORM
-        ===================================================== */}
+        {/* RIGHT — LOGIN FORM */}
 
         <section className="login-form-panel">
 
-
-          {/* FORM HEADER */}
-
           <div className="login-form-header">
-
             <span>
-              WELCOME BACK
+              {hasPendingApplication
+                ? "CONTINUE YOUR JOURNEY"
+                : "WELCOME BACK"}
             </span>
 
             <h2>
-              Sign in to your account
+              {hasPendingApplication
+                ? "Continue your application"
+                : "Sign in to your account"}
             </h2>
 
             <p>
-              {returnTo
-                ? "Sign in to continue with your selected migration pathway."
-                : "Continue where you left off. Your migration journey is waiting for you."
-              }
+              {hasPendingApplication
+                ? "Sign in to continue with the migration pathway you selected."
+                : "Sign in to access your client portal, manage your documents and track your migration journey."}
             </p>
-
           </div>
 
+          {/* SHOW ONLY IF A PATHWAY WAS SELECTED */}
 
-          {/* FORM */}
+          {hasPendingApplication && (
+            <div className="login-pathway-notice">
+              <span aria-hidden="true">
+                ✓
+              </span>
+
+              <div>
+                <strong>
+                  Your pathway is saved
+                </strong>
+
+                <p>
+                  After signing in, you'll return
+                  to the application for your
+                  selected migration pathway.
+                </p>
+              </div>
+            </div>
+          )}
 
           <form
             className="login-form"
             onSubmit={handleSubmit}
           >
 
-
-            {/* ERROR */}
-
             {error && (
-
               <div
                 className="login-error"
                 role="alert"
               >
-
                 <span className="login-error-icon">
                   !
                 </span>
 
-                <span>
-                  {error}
-                </span>
-
+                <span>{error}</span>
               </div>
-
             )}
 
-
-            {/* EMAIL */}
-
             <div className="form-group">
-
               <label htmlFor="email">
                 Email Address
               </label>
@@ -437,23 +461,16 @@ const Login = () => {
                 placeholder="you@example.com"
                 autoComplete="email"
                 autoFocus
+                required
               />
-
             </div>
 
-
-            {/* PASSWORD */}
-
             <div className="form-group">
-
               <div className="form-label-row">
-
                 <label htmlFor="password">
                   Password
                 </label>
-
               </div>
-
 
               <input
                 id="password"
@@ -463,68 +480,58 @@ const Login = () => {
                 onChange={handleChange}
                 placeholder="Enter your password"
                 autoComplete="current-password"
+                required
               />
-
             </div>
-
-
-            {/* SUBMIT */}
 
             <button
               type="submit"
               className="login-submit"
               disabled={loading}
             >
-
               <span>
                 {loading
                   ? "Signing in..."
-                  : returnTo
+                  : hasPendingApplication
                     ? "Continue to application"
-                    : "Sign In"
-                }
+                    : "Sign In"}
               </span>
 
               {!loading && (
-
                 <span className="login-submit-arrow">
                   →
                 </span>
-
               )}
-
             </button>
-
 
           </form>
 
-
-          {/* REGISTER */}
-
           <div className="login-register">
-
             <span>
-              New to colossus?
+              New to Colossus?
             </span>
 
-            <Link to="/register">
+            <Link
+              to="/register"
+              state={{
+                ...(hasPendingApplication
+                  ? {
+                    returnTo,
+                    returnState,
+                  }
+                  : {}),
+              }}
+              onClick={preserveApplicationContext}
+            >
               Create an account
 
-              <span>
-                →
-              </span>
-
+              <span>→</span>
             </Link>
-
           </div>
 
-
-          {/* FORM FOOTER */}
-
           <div className="login-form-footer">
-
             <span>
-              © {new Date().getFullYear()} colossus
+              © {new Date().getFullYear()} Colossus
             </span>
 
             <span className="login-footer-dot" />
@@ -532,20 +539,14 @@ const Login = () => {
             <span>
               Migration Platform
             </span>
-
           </div>
-
 
         </section>
 
-
       </div>
-
     </main>
-
   );
-
 };
 
-
 export default Login;
+

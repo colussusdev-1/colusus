@@ -925,29 +925,32 @@ const OpportunityDetails = () => {
 
 
                         <div className="opportunity-details__hero-actions">
+                            <div className="opportunity-details__hero-cta-copy">
+                                <span>YOUR NEXT CHAPTER STARTS HERE</span>
+                                <p>
+                                    Ready to move forward? Start your application
+                                    for this migration pathway.
+                                </p>
+                            </div>
+
 
                             <button
                                 className="opportunity-details__hero-apply"
                                 type="button"
-                                onClick={
-                                    handleContinueWithPathway
-                                }
+                                onClick={handleContinueWithPathway}
                             >
-                                Continue with pathway
+                                <span>Start Your Application</span>
+                                <HiOutlineChevronRight aria-hidden="true" />
                             </button>
 
-
-                            <button
-                                className="opportunity-details__hero-eligibility"
-                                type="button"
-                                onClick={
-                                    handleCheckEligibility
-                                }
-                            >
-                                Check eligibility
-                            </button>
+                            <small className="opportunity-details__hero-cta-note">
+                                Takes you to the application process. Sign in or create
+                                an account to continue.
+                            </small>
+                            
 
                         </div>
+
 
                     </div>
 

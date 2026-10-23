@@ -1,4 +1,3 @@
-
 import {
     useEffect,
     useMemo,
@@ -60,13 +59,6 @@ import {
 
 import "./NewApplication.css";
 
-
-/*
-============================================================
-COUNTRY IMAGE MAP
-============================================================
-*/
-
 const COUNTRY_IMAGES = {
     canada,
 
@@ -103,13 +95,6 @@ const COUNTRY_IMAGES = {
     romania,
 };
 
-
-/*
-============================================================
-NORMALIZE COUNTRY NAME
-============================================================
-*/
-
 const normalizeCountryName = (value) => {
     return String(value || "")
         .trim()
@@ -118,26 +103,12 @@ const normalizeCountryName = (value) => {
         .replace(/\s+/g, " ");
 };
 
-
-/*
-============================================================
-NORMALIZE OPPORTUNITY SLUG
-============================================================
-*/
-
 const normalizeOpportunitySlug = (value) => {
     return String(value || "")
         .trim()
         .toLowerCase()
         .replace(/^\/+|\/+$/g, "");
 };
-
-
-/*
-============================================================
-GET OPPORTUNITY ID
-============================================================
-*/
 
 const getOpportunityId = (opportunity) => {
     return (
@@ -148,19 +119,11 @@ const getOpportunityId = (opportunity) => {
     );
 };
 
-
-/*
-============================================================
-GET LOCAL COUNTRY IMAGE
-============================================================
-*/
-
 const getCountryImage = (country) => {
 
     if (!country) {
         return null;
     }
-
 
     const possibleNames = [
         country.name,
@@ -169,12 +132,10 @@ const getCountryImage = (country) => {
         country.code,
     ];
 
-
     for (const value of possibleNames) {
 
         const normalized =
             normalizeCountryName(value);
-
 
         if (
             normalized &&
@@ -187,7 +148,6 @@ const getCountryImage = (country) => {
             const image =
                 COUNTRY_IMAGES[normalized];
 
-
             if (image) {
                 return image;
             }
@@ -196,49 +156,59 @@ const getCountryImage = (country) => {
 
     }
 
-
     return null;
 };
-
-
-/*
-============================================================
-NEW APPLICATION
-============================================================
-*/
 
 const NewApplication = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
 
+    const PENDING_APPLICATION_KEY =
+        "colossus_pending_application";
 
-    /*
-    ============================================================
-    PENDING PATHWAY
-    ------------------------------------------------------------
-    This is supplied by OpportunityDetails.
-    ============================================================
-    */
+    const PENDING_APPLICATION_RETURN_KEY =
+        "colossus_pending_application_return_to";
+
+    const storedPendingApplication = useMemo(() => {
+        try {
+            const raw = sessionStorage.getItem(
+                PENDING_APPLICATION_KEY,
+            );
+
+            return raw ? JSON.parse(raw) : null;
+        } catch (storageError) {
+            console.error(
+                "Unable to restore pending application context:",
+                storageError,
+            );
+
+            return null;
+        }
+    }, []);
 
     const pendingOpportunity =
-        location.state?.opportunity || null;
+        location.state?.opportunity ||
+        storedPendingApplication?.opportunity ||
+        null;
 
     const pendingOpportunityId =
-        location.state?.opportunityId || null;
+        location.state?.opportunityId ||
+        storedPendingApplication?.opportunityId ||
+        getOpportunityId(storedPendingApplication?.opportunity) ||
+        null;
 
     const pendingOpportunitySlug =
-        location.state?.opportunitySlug || null;
+        location.state?.opportunitySlug ||
+        storedPendingApplication?.opportunitySlug ||
+        storedPendingApplication?.opportunity?.slug ||
+        null;
 
     const pendingCountrySlug =
-        location.state?.countrySlug || null;
-
-
-    /*
-    ============================================================
-    OPPORTUNITIES
-    ============================================================
-    */
+        location.state?.countrySlug ||
+        storedPendingApplication?.countrySlug ||
+        storedPendingApplication?.opportunity?.countrySlug ||
+        null;
 
     const [opportunities, setOpportunities] =
         useState([]);
@@ -246,25 +216,11 @@ const NewApplication = () => {
     const [loading, setLoading] =
         useState(true);
 
-
-    /*
-    ============================================================
-    SELECTED COUNTRY
-    ============================================================
-    */
-
     const [selectedCountry, setSelectedCountry] =
         useState(null);
 
     const [countrySearch, setCountrySearch] =
         useState("");
-
-
-    /*
-    ============================================================
-    SELECTED OPPORTUNITY
-    ============================================================
-    */
 
     const [selectedOpportunity, setSelectedOpportunity] =
         useState(null);
@@ -272,49 +228,20 @@ const NewApplication = () => {
     const [startingApplication, setStartingApplication] =
         useState(false);
 
-
-    /*
-    ============================================================
-    PROFILE COMPLETION PROMPT
-    ============================================================
-    */
-
     const [profilePrompt, setProfilePrompt] =
         useState(null);
 
-
-    /*
-    ============================================================
-    ERROR
-    ============================================================
-    */
-
     const [error, setError] =
         useState("");
-
-
-    /*
-    ============================================================
-    PATHWAY FILTERS
-    ============================================================
-    */
 
     const [filters, setFilters] = useState({
         search: "",
         category: "",
     });
 
-
-    /*
-    ============================================================
-    LOAD OPPORTUNITIES
-    ============================================================
-    */
-
     useEffect(() => {
 
         let mounted = true;
-
 
         const loadOpportunities = async () => {
 
@@ -324,15 +251,12 @@ const NewApplication = () => {
 
                 setError("");
 
-
                 const data =
                     await opportunityService.getOpportunities();
-
 
                 if (!mounted) {
                     return;
                 }
-
 
                 setOpportunities(
                     Array.isArray(data)
@@ -346,18 +270,15 @@ const NewApplication = () => {
                     return;
                 }
 
-
                 console.error(
                     "FAILED TO LOAD OPPORTUNITIES:",
                     error,
                 );
 
-
                 setError(
                     error?.response?.data?.message ||
                     "Unable to load migration opportunities. Please try again.",
                 );
-
 
                 setOpportunities([]);
 
@@ -371,9 +292,7 @@ const NewApplication = () => {
 
         };
 
-
         loadOpportunities();
-
 
         return () => {
             mounted = false;
@@ -381,34 +300,11 @@ const NewApplication = () => {
 
     }, []);
 
-
-    /*
-    ============================================================
-    FIND PENDING OPPORTUNITY
-    ------------------------------------------------------------
-    When the page is opened from:
-        OpportunityDetails
-            ↓
-        Login
-            ↓
-        NewApplication
-
-    automatically restore the exact pathway.
-    ============================================================
-    */
-
     const pendingOpportunityFromApi = useMemo(() => {
 
         if (!opportunities.length) {
             return null;
         }
-
-
-        /*
-        --------------------------------------------------------
-        1. Match by database ID
-        --------------------------------------------------------
-        */
 
         if (pendingOpportunityId) {
 
@@ -425,19 +321,11 @@ const NewApplication = () => {
                         ),
                 );
 
-
             if (byId) {
                 return byId;
             }
 
         }
-
-
-        /*
-        --------------------------------------------------------
-        2. Match by slug + country
-        --------------------------------------------------------
-        */
 
         if (
             pendingOpportunitySlug
@@ -448,12 +336,10 @@ const NewApplication = () => {
                     pendingOpportunitySlug,
                 );
 
-
             const targetCountry =
                 normalizeCountryName(
                     pendingCountrySlug,
                 );
-
 
             const bySlug =
                 opportunities.find(
@@ -464,23 +350,19 @@ const NewApplication = () => {
                                 opportunity?.slug,
                             );
 
-
                         const opportunityCountry =
                             normalizeCountryName(
                                 opportunity?.countrySlug,
                             );
 
-
                         const slugMatches =
                             opportunitySlug ===
                             targetSlug;
-
 
                         const countryMatches =
                             !targetCountry ||
                             opportunityCountry ===
                             targetCountry;
-
 
                         return (
                             slugMatches &&
@@ -490,19 +372,11 @@ const NewApplication = () => {
                     },
                 );
 
-
             if (bySlug) {
                 return bySlug;
             }
 
         }
-
-
-        /*
-        --------------------------------------------------------
-        3. Match the opportunity object passed through state
-        --------------------------------------------------------
-        */
 
         if (pendingOpportunity) {
 
@@ -510,7 +384,6 @@ const NewApplication = () => {
                 getOpportunityId(
                     pendingOpportunity,
                 );
-
 
             if (passedId) {
 
@@ -527,19 +400,16 @@ const NewApplication = () => {
                             ),
                     );
 
-
                 if (byPassedId) {
                     return byPassedId;
                 }
 
             }
 
-
             const passedSlug =
                 normalizeOpportunitySlug(
                     pendingOpportunity?.slug,
                 );
-
 
             if (passedSlug) {
 
@@ -552,7 +422,6 @@ const NewApplication = () => {
                             passedSlug,
                     );
 
-
                 if (byPassedSlug) {
                     return byPassedSlug;
                 }
@@ -560,7 +429,6 @@ const NewApplication = () => {
             }
 
         }
-
 
         return null;
 
@@ -572,16 +440,6 @@ const NewApplication = () => {
         pendingCountrySlug,
     ]);
 
-
-    /*
-    ============================================================
-    AUTO-RESTORE SELECTED PATHWAY
-    ------------------------------------------------------------
-    If the user arrived here from OpportunityDetails, don't make
-    them select the country/pathway again.
-    ============================================================
-    */
-
     useEffect(() => {
 
         if (
@@ -591,17 +449,14 @@ const NewApplication = () => {
             return;
         }
 
-
         const opportunity =
             pendingOpportunityFromApi;
-
 
         const countryName =
             opportunity?.countryName ||
             opportunity?.destinationCountry ||
             opportunity?.country ||
             "";
-
 
         if (countryName) {
 
@@ -611,28 +466,16 @@ const NewApplication = () => {
 
         }
 
-
         setSelectedOpportunity(
             opportunity,
         );
 
-
         setCountrySearch("");
-
 
         setFilters({
             search: "",
             category: "",
         });
-
-
-        /*
-        --------------------------------------------------------
-        Remove the router state after restoring it.
-        This prevents accidental restoration if the user later
-        navigates around and comes back to this page.
-        --------------------------------------------------------
-        */
 
         window.history.replaceState(
             {},
@@ -645,17 +488,9 @@ const NewApplication = () => {
         loading,
     ]);
 
-
-    /*
-    ============================================================
-    BUILD COUNTRY LIST
-    ============================================================
-    */
-
     const countries = useMemo(() => {
 
         const countryMap = new Map();
-
 
         opportunities.forEach(
             (opportunity) => {
@@ -668,17 +503,14 @@ const NewApplication = () => {
                         "",
                     ).trim();
 
-
                 if (!countryName) {
                     return;
                 }
-
 
                 const countryKey =
                     normalizeCountryName(
                         countryName,
                     );
-
 
                 if (!countryMap.has(countryKey)) {
 
@@ -709,12 +541,10 @@ const NewApplication = () => {
 
                     };
 
-
                     country.image =
                         getCountryImage(
                             country,
                         );
-
 
                     countryMap.set(
                         countryKey,
@@ -723,7 +553,6 @@ const NewApplication = () => {
 
                 }
 
-
                 countryMap
                     .get(countryKey)
                     .opportunities
@@ -731,7 +560,6 @@ const NewApplication = () => {
 
             },
         );
-
 
         return Array.from(
             countryMap.values(),
@@ -746,13 +574,6 @@ const NewApplication = () => {
         opportunities,
     ]);
 
-
-    /*
-    ============================================================
-    FILTER COUNTRIES
-    ============================================================
-    */
-
     const filteredCountries = useMemo(() => {
 
         const search =
@@ -760,11 +581,9 @@ const NewApplication = () => {
                 .trim()
                 .toLowerCase();
 
-
         if (!search) {
             return countries;
         }
-
 
         return countries.filter(
             (country) => {
@@ -782,7 +601,6 @@ const NewApplication = () => {
                     .join(" ")
                     .toLowerCase();
 
-
                 return searchableText.includes(
                     search,
                 );
@@ -795,25 +613,16 @@ const NewApplication = () => {
         countrySearch,
     ]);
 
-
-    /*
-    ============================================================
-    SELECTED COUNTRY DATA
-    ============================================================
-    */
-
     const selectedCountryData = useMemo(() => {
 
         if (!selectedCountry) {
             return null;
         }
 
-
         const selectedKey =
             normalizeCountryName(
                 selectedCountry,
             );
-
 
         return (
             countries.find(
@@ -829,22 +638,13 @@ const NewApplication = () => {
         selectedCountry,
     ]);
 
-
-    /*
-    ============================================================
-    CATEGORY OPTIONS
-    ============================================================
-    */
-
     const categories = useMemo(() => {
 
         if (!selectedCountryData) {
             return [];
         }
 
-
         const values = [];
-
 
         selectedCountryData.opportunities.forEach(
             (opportunity) => {
@@ -856,7 +656,6 @@ const NewApplication = () => {
                     );
 
                 }
-
 
                 if (
                     Array.isArray(
@@ -872,7 +671,6 @@ const NewApplication = () => {
 
             },
         );
-
 
         return [
             ...new Set(
@@ -890,25 +688,16 @@ const NewApplication = () => {
         selectedCountryData,
     ]);
 
-
-    /*
-    ============================================================
-    FILTER PATHWAYS FOR SELECTED COUNTRY
-    ============================================================
-    */
-
     const filteredOpportunities = useMemo(() => {
 
         if (!selectedCountryData) {
             return [];
         }
 
-
         const search =
             filters.search
                 .trim()
                 .toLowerCase();
-
 
         return selectedCountryData.opportunities.filter(
             (opportunity) => {
@@ -942,13 +731,11 @@ const NewApplication = () => {
                     .join(" ")
                     .toLowerCase();
 
-
                 const matchesSearch =
                     !search ||
                     searchableText.includes(
                         search,
                     );
-
 
                 const opportunityCategories =
                     Array.isArray(
@@ -957,15 +744,13 @@ const NewApplication = () => {
                         ? opportunity.countryCategories
                         : [];
 
-
                 const matchesCategory =
                     !filters.category ||
                     opportunity?.category ===
-                        filters.category ||
+                    filters.category ||
                     opportunityCategories.includes(
                         filters.category,
                     );
-
 
                 return (
                     matchesSearch &&
@@ -980,36 +765,24 @@ const NewApplication = () => {
         filters,
     ]);
 
-
-    /*
-    ============================================================
-    SELECT COUNTRY
-    ============================================================
-    */
-
     const handleSelectCountry = (country) => {
 
         if (!country?.name) {
             return;
         }
 
-
         setError("");
-
 
         setSelectedCountry(
             country.name,
         );
 
-
         setCountrySearch("");
-
 
         setFilters({
             search: "",
             category: "",
         });
-
 
         setSelectedOpportunity(
             null,
@@ -1017,19 +790,11 @@ const NewApplication = () => {
 
     };
 
-
-    /*
-    ============================================================
-    BACK TO COUNTRIES
-    ============================================================
-    */
-
     const handleBackToCountries = () => {
 
         if (startingApplication) {
             return;
         }
-
 
         setSelectedCountry(null);
 
@@ -1037,23 +802,14 @@ const NewApplication = () => {
 
         setCountrySearch("");
 
-
         setFilters({
             search: "",
             category: "",
         });
 
-
         setError("");
 
     };
-
-
-    /*
-    ============================================================
-    PATHWAY SEARCH
-    ============================================================
-    */
 
     const handleSearchChange = (value) => {
 
@@ -1069,13 +825,6 @@ const NewApplication = () => {
 
     };
 
-
-    /*
-    ============================================================
-    PATHWAY CATEGORY
-    ============================================================
-    */
-
     const handleCategoryChange = (value) => {
 
         setFilters(
@@ -1090,13 +839,6 @@ const NewApplication = () => {
 
     };
 
-
-    /*
-    ============================================================
-    SELECT PATHWAY
-    ============================================================
-    */
-
     const handleSelectOpportunity = (
         opportunity,
     ) => {
@@ -1104,7 +846,6 @@ const NewApplication = () => {
         if (!opportunity) {
             return;
         }
-
 
         setError("");
 
@@ -1114,19 +855,11 @@ const NewApplication = () => {
 
     };
 
-
-    /*
-    ============================================================
-    CLOSE OPPORTUNITY PREVIEW
-    ============================================================
-    */
-
     const handleClosePreview = () => {
 
         if (startingApplication) {
             return;
         }
-
 
         setSelectedOpportunity(
             null,
@@ -1134,32 +867,17 @@ const NewApplication = () => {
 
     };
 
-
-    /*
-    ============================================================
-    CLOSE PROFILE PROMPT
-    ============================================================
-    */
-
     const handleCloseProfilePrompt = () => {
 
         if (startingApplication) {
             return;
         }
 
-
         setProfilePrompt(
             null,
         );
 
     };
-
-
-    /*
-    ============================================================
-    CHOOSE ANOTHER PATHWAY
-    ============================================================
-    */
 
     const handleChooseAnotherPathway = () => {
 
@@ -1171,55 +889,48 @@ const NewApplication = () => {
 
     };
 
-
-    /*
-    ============================================================
-    CONTINUE TO PROFILE
-    ============================================================
-    */
-
     const handleContinueToProfile = () => {
-
-        if (
-            !profilePrompt?.opportunityId
-        ) {
+        if (!profilePrompt?.opportunityId) {
             return;
         }
 
+        const opportunity = profilePrompt.opportunity;
 
-        /*
-        --------------------------------------------------------
-        Keep the selected pathway alive while the user completes
-        their profile.
-        --------------------------------------------------------
-        */
+        const pendingApplication = {
+            opportunityId: profilePrompt.opportunityId,
+            opportunity,
+            opportunitySlug: opportunity?.slug || null,
+            countrySlug: opportunity?.countrySlug || null,
+            source: "new-application-profile-gate",
+        };
 
-        sessionStorage.setItem(
-            "colossus_pending_application",
-            JSON.stringify({
+        try {
+            sessionStorage.setItem(
+                PENDING_APPLICATION_KEY,
+                JSON.stringify(pendingApplication),
+            );
 
-                opportunityId:
-                    profilePrompt.opportunityId,
+            sessionStorage.setItem(
+                PENDING_APPLICATION_RETURN_KEY,
+                "/portal/applications/new",
+            );
+        } catch (storageError) {
+            console.error(
+                "Unable to save pending application context:",
+                storageError,
+            );
 
-                opportunity:
-                    profilePrompt.opportunity,
+            setError(
+                "We couldn't save your selected pathway. Please try again.",
+            );
 
-            }),
-        );
-
+            return;
+        }
 
         navigate(
             "/portal/profile?returnTo=/portal/applications/new",
         );
-
     };
-
-
-    /*
-    ============================================================
-    START APPLICATION
-    ============================================================
-    */
 
     const handleStartApplication =
         async () => {
@@ -1231,7 +942,6 @@ const NewApplication = () => {
                 return;
             }
 
-
             try {
 
                 setStartingApplication(
@@ -1240,29 +950,14 @@ const NewApplication = () => {
 
                 setError("");
 
-
-                /*
-                ------------------------------------------------
-                CHECK PROFILE
-                ------------------------------------------------
-                */
-
                 const profileCompletion =
                     await applicationService
                         .getProfileCompletion();
-
 
                 console.log(
                     "PROFILE COMPLETION:",
                     profileCompletion,
                 );
-
-
-                /*
-                ------------------------------------------------
-                PROFILE INCOMPLETE
-                ------------------------------------------------
-                */
 
                 if (
                     !profileCompletion?.isComplete
@@ -1292,23 +987,14 @@ const NewApplication = () => {
 
                     });
 
-
                     return;
 
                 }
-
-
-                /*
-                ------------------------------------------------
-                CREATE APPLICATION
-                ------------------------------------------------
-                */
 
                 const opportunityId =
                     getOpportunityId(
                         selectedOpportunity,
                     );
-
 
                 if (!opportunityId) {
 
@@ -1317,7 +1003,6 @@ const NewApplication = () => {
                     );
 
                 }
-
 
                 const result =
                     await applicationService
@@ -1332,30 +1017,15 @@ const NewApplication = () => {
 
                         });
 
-
                 console.log(
                     "CREATE APPLICATION RESPONSE:",
                     result,
                 );
 
-
-                /*
-                ------------------------------------------------
-                NORMALIZE RESPONSE
-                ------------------------------------------------
-                */
-
                 const application =
                     result?.application ||
                     result?.data?.application ||
                     result;
-
-
-                /*
-                ------------------------------------------------
-                SAFETY CHECK
-                ------------------------------------------------
-                */
 
                 if (
                     !application?._id
@@ -1366,35 +1036,23 @@ const NewApplication = () => {
                         result,
                     );
 
-
                     throw new Error(
                         "The application was created, but no application ID was returned.",
                     );
 
                 }
 
-
-                /*
-                ------------------------------------------------
-                CLEAN UP PENDING STATE
-                ------------------------------------------------
-                */
-
                 sessionStorage.removeItem(
-                    "colossus_pending_application",
+                    PENDING_APPLICATION_KEY,
                 );
 
-
-                /*
-                ------------------------------------------------
-                OPEN APPLICATION
-                ------------------------------------------------
-                */
+                sessionStorage.removeItem(
+                    PENDING_APPLICATION_RETURN_KEY,
+                );
 
                 setSelectedOpportunity(
                     null,
                 );
-
 
                 navigate(
                     `/portal/applications/${application._id}`,
@@ -1406,7 +1064,6 @@ const NewApplication = () => {
                     "FAILED TO START APPLICATION:",
                     error,
                 );
-
 
                 setError(
                     error?.response?.data?.message ||
@@ -1424,30 +1081,17 @@ const NewApplication = () => {
 
         };
 
-
-    /*
-    ============================================================
-    RENDER
-    ============================================================
-    */
-
     return (
 
         <section className="new-application">
 
-
-            {/* ====================================================
-                WORKFLOW
-            ==================================================== */}
+            { }
 
             <WorkflowStepper
                 currentStep={1}
             />
 
-
-            {/* ====================================================
-                HEADER
-            ==================================================== */}
+            { }
 
             <NewApplicationHeader
                 opportunitiesCount={
@@ -1457,10 +1101,7 @@ const NewApplication = () => {
                 }
             />
 
-
-            {/* ====================================================
-                ERROR
-            ==================================================== */}
+            { }
 
             {error && (
 
@@ -1473,19 +1114,13 @@ const NewApplication = () => {
 
             )}
 
-
-            {/* ====================================================
-                COUNTRY SELECTION
-            ==================================================== */}
+            { }
 
             {!selectedCountry && (
 
                 <div className="new-application-countries">
 
-
-                    {/* =================================================
-                        COUNTRY HEADER
-                    ================================================= */}
+                    { }
 
                     <div className="new-application-countries-header">
 
@@ -1506,7 +1141,6 @@ const NewApplication = () => {
 
                         </div>
 
-
                         <div className="new-application-country-count">
 
                             <strong>
@@ -1521,10 +1155,7 @@ const NewApplication = () => {
 
                     </div>
 
-
-                    {/* =================================================
-                        COUNTRY SEARCH
-                    ================================================= */}
+                    { }
 
                     <div className="new-application-country-search">
 
@@ -1544,10 +1175,7 @@ const NewApplication = () => {
 
                     </div>
 
-
-                    {/* =================================================
-                        LOADING
-                    ================================================= */}
+                    { }
 
                     {loading ? (
 
@@ -1588,7 +1216,6 @@ const NewApplication = () => {
                                         country.image ||
                                         country.flag ||
                                         null;
-
 
                                     return (
 
@@ -1635,7 +1262,6 @@ const NewApplication = () => {
 
                                             </div>
 
-
                                             <div className="new-application-country-card-content">
 
                                                 <h3>
@@ -1656,7 +1282,7 @@ const NewApplication = () => {
                                                         country
                                                             .opportunities
                                                             .length ===
-                                                        1
+                                                            1
                                                             ? "pathway"
                                                             : "pathways"
                                                     }
@@ -1683,19 +1309,13 @@ const NewApplication = () => {
 
             )}
 
-
-            {/* ====================================================
-                SELECTED COUNTRY / PATHWAYS
-            ==================================================== */}
+            { }
 
             {selectedCountry && (
 
                 <div className="new-application-country-pathways">
 
-
-                    {/* =================================================
-                        BACK TO COUNTRIES
-                    ================================================= */}
+                    { }
 
                     <button
                         type="button"
@@ -1713,10 +1333,7 @@ const NewApplication = () => {
 
                     </button>
 
-
-                    {/* =================================================
-                        SELECTED COUNTRY HEADER
-                    ================================================= */}
+                    { }
 
                     <div className="new-application-selected-country-header">
 
@@ -1750,7 +1367,6 @@ const NewApplication = () => {
 
                             </div>
 
-
                             <div>
 
                                 <span className="new-application-section-eyebrow">
@@ -1771,7 +1387,6 @@ const NewApplication = () => {
 
                         </div>
 
-
                         <div className="new-application-selected-country-count">
 
                             <strong>
@@ -1790,10 +1405,7 @@ const NewApplication = () => {
 
                     </div>
 
-
-                    {/* =================================================
-                        PATHWAYS
-                    ================================================= */}
+                    { }
 
                     <ChoosePathwayPanel
 
@@ -1835,10 +1447,7 @@ const NewApplication = () => {
 
             )}
 
-
-            {/* ====================================================
-                PATHWAY PREVIEW
-            ==================================================== */}
+            { }
 
             {selectedOpportunity && (
 
@@ -1864,10 +1473,7 @@ const NewApplication = () => {
 
             )}
 
-
-            {/* ====================================================
-                PROFILE COMPLETION PROMPT
-            ==================================================== */}
+            { }
 
             {profilePrompt?.open && (
 
@@ -1885,9 +1491,7 @@ const NewApplication = () => {
                         }
                     />
 
-
                     <div className="application-profile-gate-modal">
-
 
                         <button
                             type="button"
@@ -1902,13 +1506,11 @@ const NewApplication = () => {
 
                         </button>
 
-
                         <div className="application-profile-gate-icon">
 
                             <HiOutlineUser />
 
                         </div>
-
 
                         <span className="application-profile-gate-eyebrow">
 
@@ -1916,13 +1518,11 @@ const NewApplication = () => {
 
                         </span>
 
-
                         <h2 id="application-profile-gate-title">
 
                             Complete your profile to continue
 
                         </h2>
-
 
                         <p className="application-profile-gate-description">
 
@@ -1953,7 +1553,6 @@ const NewApplication = () => {
 
                         </p>
 
-
                         <div className="application-profile-gate-saved">
 
                             <div className="application-profile-gate-saved-icon">
@@ -1961,7 +1560,6 @@ const NewApplication = () => {
                                 <HiOutlineCheckCircle />
 
                             </div>
-
 
                             <div>
 
@@ -1980,7 +1578,6 @@ const NewApplication = () => {
                             </div>
 
                         </div>
-
 
                         {Array.isArray(
                             profilePrompt
@@ -2012,9 +1609,7 @@ const NewApplication = () => {
 
                             )}
 
-
                         <div className="application-profile-gate-actions">
-
 
                             <button
                                 type="button"
@@ -2033,7 +1628,6 @@ const NewApplication = () => {
                                 <HiOutlineArrowRight />
 
                             </button>
-
 
                             <button
                                 type="button"
@@ -2055,7 +1649,6 @@ const NewApplication = () => {
 
                         </div>
 
-
                         <p className="application-profile-gate-footnote">
 
                             Your application will only be created
@@ -2074,6 +1667,5 @@ const NewApplication = () => {
     );
 
 };
-
 
 export default NewApplication;
