@@ -53,7 +53,7 @@ const DESTINATIONS = [
     ],
     note: "Programme availability, duration, entry criteria and provider terms should be confirmed before applying.",
     // Keep this path exactly aligned with the route in App.jsx.
-    href: "/services/newzealandtrainee-apprenticeship",
+    href: "/services/new-zealand-trainee-apprenticeship",
     className: "ta-destination-card-new-zealand",
   },
 ];
