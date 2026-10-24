@@ -146,6 +146,7 @@
     color: white;
     background: var(--assessment-primary);
     border-color: var(--assessment-primary);
+    background-color: #155eef;
 }
 
 .assessment-button--primary:hover:not(:disabled) {
