@@ -1,130 +1,162 @@
-import React, { useState } from "react";
+
+import React, { useRef, useState } from "react";
 import {
-    HiArrowLeft,
     HiArrowRight,
+    HiArrowUpTray,
     HiCheckCircle,
     HiChevronDown,
     HiClock,
+    HiDocumentText,
     HiEnvelope,
+    HiExclamationCircle,
     HiGlobeAlt,
-    HiOutlineAcademicCap,
-    HiOutlineBriefcase,
-    HiOutlineChatBubbleLeftRight,
-    HiOutlineDocumentText,
-    HiOutlineShieldCheck,
-    HiOutlineUserGroup,
+    HiIdentification,
+    HiMapPin,
+    HiPhone,
+    HiShieldCheck,
+    HiTrash,
+    HiUser,
+    HiAcademicCap,
     HiXMark,
 } from "react-icons/hi2";
 
 import "./AustraliaTraineeApprenticeship.css";
 import australiaTrainingBg from "../../../assets/australia-training-bg.png";
 
+/**
+ * IMPORTANT
+ *
+ * The backend upload endpoint must be implemented before applications
+ * can actually be submitted and emailed.
+ *
+ * Set VITE_API_URL in the frontend .env file to your backend base URL.
+ *
+ * Example:
+ * VITE_API_URL=http://localhost:5000
+ *
+ * This component expects the backend endpoint:
+ * POST /api/public/australia-trainee-applications
+ *
+ * The backend must accept multipart/form-data and send the application
+ * details and uploaded documents to admin@colossusmigration.com.
+ */
+
+const API_BASE_URL = (
+    import.meta.env.VITE_API_URL || "http://localhost:5000"
+).replace(/\/+$/, "");
+
+const APPLICATION_ENDPOINT =
+    `${API_BASE_URL}/api/public/australia-trainee-applications`;
+
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const MAX_TOTAL_FILE_SIZE = 15 * 1024 * 1024;
+const MAX_FILES = 5;
+
+const ALLOWED_FILE_TYPES = [
+    "application/pdf",
+    "image/jpeg",
+    "image/png",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+];
+
+const ALLOWED_EXTENSIONS = [".pdf", ".jpg", ".jpeg", ".png", ".doc", ".docx"];
+
 const PROGRAMMES = [
     {
         id: "automotive-technical",
         title: "Automotive & Technical",
         description:
-            "Explore automotive training options, including vehicle servicing, mechanical technology and diagnostic skills.",
-        icon: HiOutlineBriefcase,
-        duration: "Confirm with provider",
+            "Explore practical training pathways in automotive and technical fields.",
+        icon: "⚙️",
     },
     {
         id: "business-management",
         title: "Business & Management",
         description:
-            "Explore business pathways covering workplace operations, administration and professional practice.",
-        icon: HiOutlineShieldCheck,
-        duration: "Confirm with provider",
+            "Explore business operations, administration and management training.",
+        icon: "📊",
     },
     {
         id: "construction-trades",
         title: "Construction & Trades",
         description:
-            "Explore practical vocational training related to construction, trades and technical skills.",
-        icon: HiOutlineUserGroup,
-        duration: "Confirm with provider",
+            "Discover practical training options across construction and skilled trades.",
+        icon: "🏗️",
     },
     {
         id: "aged-care-support",
         title: "Aged Care & Support",
         description:
-            "Ask about training pathways in aged care, community support and care-related services.",
-        icon: HiOutlineAcademicCap,
-        duration: "Availability must be confirmed",
+            "Explore training pathways in care, community support and related fields.",
+        icon: "🤝",
     },
     {
         id: "information-technology",
         title: "Information Technology",
         description:
-            "Explore potential vocational pathways in information technology and digital skills.",
-        icon: HiOutlineDocumentText,
-        duration: "Confirm with provider",
+            "Explore IT training options and technology-related career pathways.",
+        icon: "💻",
     },
 ];
 
 const APPLICATION_STEPS = [
     {
         number: "01",
-        title: "Send an enquiry",
+        title: "Complete your application",
         description:
-            "Tell the Colossus team which training area interests you and share your contact details.",
+            "Provide your personal information, education background and preferred training programme.",
     },
     {
         number: "02",
-        title: "Review programme information",
+        title: "Upload your documents",
         description:
-            "Confirm the course, provider, duration, entry requirements and applicable fees.",
+            "Attach the available identification, educational and supporting documents requested.",
     },
     {
         number: "03",
-        title: "Prepare your documents",
+        title: "Application review",
         description:
-            "Follow the provider's instructions for the documents required.",
+            "The Colossus team reviews the information submitted and assesses the appropriate next steps.",
     },
     {
         number: "04",
-        title: "Submit your application",
+        title: "Receive further guidance",
         description:
-            "Proceed after the programme details, eligibility criteria and terms have been explained.",
-    },
-    {
-        number: "05",
-        title: "Confirm your next steps",
-        description:
-            "Review the provider's decision and obtain official guidance about any relevant visa process.",
+            "Eligible applicants can receive guidance on programme requirements, providers and subsequent steps.",
     },
 ];
 
 const FAQS = [
     {
-        question: "When is the next intake?",
+        question: "Who can apply?",
         answer:
-            "Intake dates depend on the course and provider. Contact Colossus to confirm current dates and application deadlines.",
+            "Applicants should have a genuine interest in vocational training or apprenticeship opportunities in Australia. Eligibility depends on the selected programme, training provider and applicable requirements.",
     },
     {
-        question: "How long do the programmes last?",
+        question: "Which programmes are available?",
         answer:
-            "Duration varies by qualification and provider. Confirm the official duration of your selected course before applying.",
+            "The programmes highlighted on this page include Automotive & Technical, Business & Management, Construction & Trades, Aged Care & Support, and Information Technology. Availability depends on the provider and intake.",
     },
     {
-        question: "Is a monthly stipend guaranteed?",
+        question: "What documents should I upload?",
         answer:
-            "No stipend or wage is guaranteed. Ask for written confirmation of the amount, eligibility, payment arrangements and conditions.",
+            "You can submit your available passport or identification document, CV, educational certificates, academic transcripts and other relevant supporting documents. Only upload documents you are comfortable sharing for this application.",
     },
     {
-        question: "Will I automatically receive a visa or a job?",
+        question: "Does submitting an application guarantee admission?",
         answer:
-            "No. Training or submitting an application does not guarantee admission, a visa, employment, a stipend or permanent residency.",
+            "No. Submitting an application does not guarantee eligibility, admission, placement, employment, a stipend or visa approval. Each outcome depends on the applicable requirements and decisions.",
     },
     {
-        question: "What happens if my visa is refused?",
+        question: "Is a stipend guaranteed?",
         answer:
-            "Any refund depends on the provider's written refund policy and your agreement. Review those terms before making a payment.",
+            "No. Any stipend is subject to the specific programme, provider, placement arrangement and applicable terms. Details must be confirmed before you make a commitment.",
     },
     {
-        question: "How do I confirm fees and requirements?",
+        question: "What happens after I submit my documents?",
         answer:
-            "Ask for the provider's details, course information, entry criteria, full cost breakdown, refund conditions and any stipend terms in writing.",
+            "Your application will be reviewed after successful submission. The team can then contact you about your information, programme suitability and any additional documents required.",
     },
 ];
 
@@ -132,212 +164,825 @@ const INITIAL_FORM = {
     fullName: "",
     email: "",
     phone: "",
+    dateOfBirth: "",
+    countryOfResidence: "",
     programme: "",
     education: "",
+    workExperience: "",
+    passportStatus: "",
     message: "",
+    consent: false,
 };
 
-function EnquiryModal({ onClose, onContinue, selectedProgramme }) {
-    const [form, setForm] = useState({
-        ...INITIAL_FORM,
-        programme: selectedProgramme || "",
-    });
-    const [error, setError] = useState("");
+function formatFileSize(bytes) {
+    if (bytes < 1024 * 1024) {
+        return `${Math.ceil(bytes / 1024)} KB`;
+    }
 
-    const updateField = (event) => {
-        const { name, value } = event.target;
+    return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+}
 
-        setForm((current) => ({
-            ...current,
-            [name]: value,
+function validateFile(file) {
+    const extension = `.${file.name.split(".").pop().toLowerCase()}`;
+
+    if (!ALLOWED_EXTENSIONS.includes(extension)) {
+        return "This file format is not supported. Upload PDF, JPG, PNG, DOC or DOCX files.";
+    }
+
+    if (file.size > MAX_FILE_SIZE) {
+        return `This file exceeds the 5 MB limit: ${file.name}`;
+    }
+
+    if (file.size === 0) {
+        return `This file is empty: ${file.name}`;
+    }
+
+    if (
+        file.type &&
+        !ALLOWED_FILE_TYPES.includes(file.type) &&
+        ![".jpg", ".jpeg", ".png", ".doc", ".docx", ".pdf"].includes(extension)
+    ) {
+        return `Unsupported file type: ${file.name}`;
+    }
+
+    return null;
+}
+
+function EnquiryModal({ onClose }) {
+    const [form, setForm] = useState(INITIAL_FORM);
+    const [files, setFiles] = useState([]);
+    const [errors, setErrors] = useState({});
+    const [status, setStatus] = useState("idle");
+    const [serverMessage, setServerMessage] = useState("");
+    const [reference, setReference] = useState("");
+
+    const fileInputRef = useRef(null);
+
+    const selectedProgramme = PROGRAMMES.find(
+        (programme) => programme.id === form.programme
+    );
+
+    const totalFileSize = files.reduce((total, file) => total + file.size, 0);
+
+    function updateField(event) {
+        const { name, value, type, checked } = event.target;
+
+        setForm((previous) => ({
+            ...previous,
+            [name]: type === "checkbox" ? checked : value,
         }));
-    };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        setError("");
+        setErrors((previous) => ({
+            ...previous,
+            [name]: "",
+            submit: "",
+        }));
+    }
 
-        if (
-            !form.fullName.trim() ||
-            !form.email.trim() ||
-            !form.programme
-        ) {
-            setError(
-                "Please provide your name, email address and programme interest."
-            );
+    function handleFileSelection(event) {
+        const incomingFiles = Array.from(event.target.files || []);
+
+        if (!incomingFiles.length) {
             return;
         }
 
-        const subject = encodeURIComponent(
-            `Australia Training Enquiry — ${form.programme}`
+        const nextFiles = [...files];
+        const fileErrors = [];
+
+        incomingFiles.forEach((file) => {
+            const validationError = validateFile(file);
+
+            if (validationError) {
+                fileErrors.push(validationError);
+                return;
+            }
+
+            const alreadySelected = nextFiles.some(
+                (existingFile) =>
+                    existingFile.name === file.name &&
+                    existingFile.size === file.size &&
+                    existingFile.lastModified === file.lastModified
+            );
+
+            if (alreadySelected) {
+                return;
+            }
+
+            if (nextFiles.length >= MAX_FILES) {
+                fileErrors.push(`You can upload a maximum of ${MAX_FILES} documents.`);
+                return;
+            }
+
+            const proposedTotal = nextFiles.reduce(
+                (total, existingFile) => total + existingFile.size,
+                0
+            );
+
+            if (proposedTotal + file.size > MAX_TOTAL_FILE_SIZE) {
+                fileErrors.push("Your documents cannot exceed 15 MB in total.");
+                return;
+            }
+
+            nextFiles.push(file);
+        });
+
+        setFiles(nextFiles);
+
+        setErrors((previous) => ({
+            ...previous,
+            files: fileErrors.join(" "),
+            submit: "",
+        }));
+
+        // Clear the input so the same file can be selected again if removed.
+        event.target.value = "";
+    }
+
+    function removeFile(indexToRemove) {
+        setFiles((previous) =>
+            previous.filter((_, index) => index !== indexToRemove)
         );
 
-        const body = encodeURIComponent(
-            [
-                "Hello Colossus Migration & Tours,",
-                "",
-                "I would like to enquire about Australia's trainee and vocational training opportunities.",
-                "",
-                `Full name: ${form.fullName.trim()}`,
-                `Email: ${form.email.trim()}`,
-                `Phone/WhatsApp: ${form.phone.trim() || "Not provided"}`,
-                `Programme interest: ${form.programme}`,
-                `Education/background: ${form.education.trim() || "Not provided"}`,
-                "",
-                `Questions: ${form.message.trim() ||
-                "Please share the current programme details, eligibility requirements, fees, duration and intake availability."
-                }`,
-                "",
-                "Please confirm the programme details and applicable terms in writing.",
-            ].join("\n")
-        );
+        setErrors((previous) => ({
+            ...previous,
+            files: "",
+            submit: "",
+        }));
+    }
 
-        const mailto =
-            `mailto:admin@colossusmigration.com?subject=${subject}&body=${body}`;
+    function validateForm() {
+        const nextErrors = {};
 
-        window.location.href = mailto;
-        onContinue();
-    };
+        if (!form.fullName.trim()) {
+            nextErrors.fullName = "Enter your full name.";
+        }
+
+        if (!form.email.trim()) {
+            nextErrors.email = "Enter your email address.";
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) {
+            nextErrors.email = "Enter a valid email address.";
+        }
+
+        if (!form.phone.trim()) {
+            nextErrors.phone = "Enter your phone number.";
+        }
+
+        if (!form.countryOfResidence.trim()) {
+            nextErrors.countryOfResidence = "Enter your country of residence.";
+        }
+
+        if (!form.programme) {
+            nextErrors.programme = "Select your preferred programme.";
+        }
+
+        if (!form.education) {
+            nextErrors.education = "Select your highest education level.";
+        }
+
+        if (!files.length) {
+            nextErrors.files =
+                "Upload at least one supporting document before submitting.";
+        }
+
+        if (!form.consent) {
+            nextErrors.consent =
+                "Please confirm that the information you provided is accurate and that you consent to its use for application review.";
+        }
+
+        if (totalFileSize > MAX_TOTAL_FILE_SIZE) {
+            nextErrors.files = "Your documents cannot exceed 15 MB in total.";
+        }
+
+        setErrors(nextErrors);
+
+        return Object.keys(nextErrors).length === 0;
+    }
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+
+        if (status === "submitting") {
+            return;
+        }
+
+        if (!validateForm()) {
+            setServerMessage("");
+            return;
+        }
+
+        setStatus("submitting");
+        setServerMessage("");
+        setReference("");
+
+        try {
+            const payload = new FormData();
+
+            Object.entries(form).forEach(([key, value]) => {
+                if (key === "consent") {
+                    payload.append(key, value ? "true" : "false");
+                } else {
+                    payload.append(key, String(value ?? "").trim());
+                }
+            });
+
+            if (selectedProgramme) {
+                payload.append("programmeTitle", selectedProgramme.title);
+            }
+
+            files.forEach((file) => {
+                payload.append("documents", file);
+            });
+
+            const response = await fetch(APPLICATION_ENDPOINT, {
+                method: "POST",
+                body: payload,
+            });
+
+            let result = {};
+
+            try {
+                result = await response.json();
+            } catch {
+                result = {};
+            }
+
+            if (!response.ok || result.success === false) {
+                throw new Error(
+                    result.message ||
+                    "Your application could not be submitted. Please try again."
+                );
+            }
+
+            setReference(
+                result.reference ||
+                result.referenceNumber ||
+                result.application?.reference ||
+                ""
+            );
+
+            setServerMessage(
+                result.message ||
+                "Your application has been submitted successfully."
+            );
+
+            setStatus("success");
+        } catch (error) {
+            setStatus("error");
+
+            setServerMessage(
+                error.message ||
+                "We could not submit your application. Please check your connection and try again."
+            );
+        }
+    }
 
     return (
         <div
             className="auta-modal-backdrop"
+            role="presentation"
             onMouseDown={(event) => {
-                if (event.target === event.currentTarget) onClose();
+                if (event.target === event.currentTarget && status !== "submitting") {
+                    onClose();
+                }
             }}
         >
             <section
                 className="auta-modal"
                 role="dialog"
                 aria-modal="true"
-                aria-labelledby="auta-enquiry-title"
-                onMouseDown={(event) => event.stopPropagation()}
+                aria-labelledby="auta-application-title"
             >
                 <button
-                    className="auta-modal-close"
                     type="button"
+                    className="auta-modal-close"
                     onClick={onClose}
-                    aria-label="Close enquiry form"
+                    aria-label="Close application"
+                    disabled={status === "submitting"}
                 >
                     <HiXMark />
                 </button>
 
-                <span className="auta-modal-kicker">AUSTRALIA PATHWAYS</span>
+                {status === "success" ? (
+                    <div className="auta-success-state">
+                        <div className="auta-success-icon">
+                            <HiCheckCircle />
+                        </div>
 
-                <h2 id="auta-enquiry-title">
-                    Tell us what you're looking for.
-                </h2>
+                        <span className="auta-eyebrow">APPLICATION RECEIVED</span>
 
-                <p className="auta-modal-intro">
-                    Complete this form to prepare an enquiry email for our team.
-                    Your email application will open so you can review and send it.
-                </p>
+                        <h2 id="auta-application-title">
+                            Thank you for applying.
+                        </h2>
 
-                <form
-                    className="auta-enquiry-form"
-                    onSubmit={handleSubmit}
-                >
-                    <label>
-                        Full name <span>*</span>
-                        <input
-                            name="fullName"
-                            value={form.fullName}
-                            onChange={updateField}
-                            autoComplete="name"
-                            required
-                            placeholder="Your full name"
-                        />
-                    </label>
+                        <p>{serverMessage}</p>
 
-                    <div className="auta-form-row">
-                        <label>
-                            Email address <span>*</span>
-                            <input
-                                name="email"
-                                type="email"
-                                value={form.email}
-                                onChange={updateField}
-                                autoComplete="email"
-                                required
-                                placeholder="you@example.com"
-                            />
-                        </label>
+                        {reference && (
+                            <div className="auta-reference-box">
+                                <span>Application reference</span>
+                                <strong>{reference}</strong>
+                            </div>
+                        )}
 
-                        <label>
-                            Phone / WhatsApp
-                            <input
-                                name="phone"
-                                type="tel"
-                                value={form.phone}
-                                onChange={updateField}
-                                autoComplete="tel"
-                                placeholder="+234..."
-                            />
-                        </label>
-                    </div>
+                        <p className="auta-success-note">
+                            Please keep your application reference if one was provided.
+                            The team can contact you if further information is required.
+                        </p>
 
-                    <label>
-                        Programme interest <span>*</span>
-                        <select
-                            name="programme"
-                            value={form.programme}
-                            onChange={updateField}
-                            required
+                        <button
+                            type="button"
+                            className="auta-btn auta-btn-primary"
+                            onClick={onClose}
                         >
-                            <option value="">Choose a training area</option>
+                            Done <HiArrowRight />
+                        </button>
+                    </div>
+                ) : (
+                    <>
+                        <div className="auta-modal-header">
+                            <span className="auta-eyebrow">AUSTRALIA TRAINING PROGRAMME</span>
 
-                            {PROGRAMMES.map((programme) => (
-                                <option
-                                    key={programme.id}
-                                    value={programme.title}
+                            <h2 id="auta-application-title">
+                                Start your application
+                            </h2>
+
+                            <p>
+                                Complete your details and upload your supporting documents
+                                for review by the Colossus team.
+                            </p>
+                        </div>
+
+                        {status === "error" && (
+                            <div className="auta-form-alert auta-form-alert-error" role="alert">
+                                <HiExclamationCircle />
+                                <span>{serverMessage}</span>
+                            </div>
+                        )}
+
+                        <form
+                            className="auta-application-form"
+                            onSubmit={handleSubmit}
+                            noValidate
+                        >
+                            <div className="auta-form-section">
+                                <div className="auta-form-section-heading">
+                                    <HiUser />
+                                    <div>
+                                        <h3>Personal information</h3>
+                                        <p>Tell us how to identify and contact you.</p>
+                                    </div>
+                                </div>
+
+                                <div className="auta-form-grid">
+                                    <div className="auta-form-field auta-form-field-full">
+                                        <label htmlFor="auta-fullName">
+                                            Full name <span>*</span>
+                                        </label>
+
+                                        <input
+                                            id="auta-fullName"
+                                            name="fullName"
+                                            type="text"
+                                            autoComplete="name"
+                                            placeholder="Enter your full name"
+                                            value={form.fullName}
+                                            onChange={updateField}
+                                            aria-invalid={Boolean(errors.fullName)}
+                                        />
+
+                                        {errors.fullName && (
+                                            <small className="auta-field-error">
+                                                {errors.fullName}
+                                            </small>
+                                        )}
+                                    </div>
+
+                                    <div className="auta-form-field">
+                                        <label htmlFor="auta-email">
+                                            Email address <span>*</span>
+                                        </label>
+
+                                        <input
+                                            id="auta-email"
+                                            name="email"
+                                            type="email"
+                                            autoComplete="email"
+                                            placeholder="you@example.com"
+                                            value={form.email}
+                                            onChange={updateField}
+                                            aria-invalid={Boolean(errors.email)}
+                                        />
+
+                                        {errors.email && (
+                                            <small className="auta-field-error">
+                                                {errors.email}
+                                            </small>
+                                        )}
+                                    </div>
+
+                                    <div className="auta-form-field">
+                                        <label htmlFor="auta-phone">
+                                            Phone number <span>*</span>
+                                        </label>
+
+                                        <input
+                                            id="auta-phone"
+                                            name="phone"
+                                            type="tel"
+                                            autoComplete="tel"
+                                            placeholder="+234..."
+                                            value={form.phone}
+                                            onChange={updateField}
+                                            aria-invalid={Boolean(errors.phone)}
+                                        />
+
+                                        {errors.phone && (
+                                            <small className="auta-field-error">
+                                                {errors.phone}
+                                            </small>
+                                        )}
+                                    </div>
+
+                                    <div className="auta-form-field">
+                                        <label htmlFor="auta-dateOfBirth">
+                                            Date of birth
+                                        </label>
+
+                                        <input
+                                            id="auta-dateOfBirth"
+                                            name="dateOfBirth"
+                                            type="date"
+                                            autoComplete="bday"
+                                            value={form.dateOfBirth}
+                                            onChange={updateField}
+                                        />
+                                    </div>
+
+                                    <div className="auta-form-field">
+                                        <label htmlFor="auta-countryOfResidence">
+                                            Country of residence <span>*</span>
+                                        </label>
+
+                                        <input
+                                            id="auta-countryOfResidence"
+                                            name="countryOfResidence"
+                                            type="text"
+                                            autoComplete="country-name"
+                                            placeholder="e.g. Nigeria"
+                                            value={form.countryOfResidence}
+                                            onChange={updateField}
+                                            aria-invalid={Boolean(errors.countryOfResidence)}
+                                        />
+
+                                        {errors.countryOfResidence && (
+                                            <small className="auta-field-error">
+                                                {errors.countryOfResidence}
+                                            </small>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="auta-form-section">
+                                <div className="auta-form-section-heading">
+                                    <HiAcademicCap />
+                                    <div>
+                                        <h3>Education and programme</h3>
+                                        <p>Help us understand your background and interests.</p>
+                                    </div>
+                                </div>
+
+                                <div className="auta-form-grid">
+                                    <div className="auta-form-field auta-form-field-full">
+                                        <label htmlFor="auta-programme">
+                                            Preferred training programme <span>*</span>
+                                        </label>
+
+                                        <div className="auta-select-wrap">
+                                            <select
+                                                id="auta-programme"
+                                                name="programme"
+                                                value={form.programme}
+                                                onChange={updateField}
+                                                aria-invalid={Boolean(errors.programme)}
+                                            >
+                                                <option value="">Choose a programme</option>
+
+                                                {PROGRAMMES.map((programme) => (
+                                                    <option key={programme.id} value={programme.id}>
+                                                        {programme.title}
+                                                    </option>
+                                                ))}
+                                            </select>
+
+                                            <HiChevronDown />
+                                        </div>
+
+                                        {errors.programme && (
+                                            <small className="auta-field-error">
+                                                {errors.programme}
+                                            </small>
+                                        )}
+
+                                        {selectedProgramme && (
+                                            <div className="auta-selected-programme">
+                                                <span>{selectedProgramme.icon}</span>
+                                                <div>
+                                                    <strong>{selectedProgramme.title}</strong>
+                                                    <p>{selectedProgramme.description}</p>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <div className="auta-form-field">
+                                        <label htmlFor="auta-education">
+                                            Highest education level <span>*</span>
+                                        </label>
+
+                                        <div className="auta-select-wrap">
+                                            <select
+                                                id="auta-education"
+                                                name="education"
+                                                value={form.education}
+                                                onChange={updateField}
+                                                aria-invalid={Boolean(errors.education)}
+                                            >
+                                                <option value="">Select education level</option>
+                                                <option value="secondary">Secondary school</option>
+                                                <option value="certificate">Certificate</option>
+                                                <option value="diploma">Diploma / ND / HND</option>
+                                                <option value="bachelors">Bachelor's degree</option>
+                                                <option value="postgraduate">
+                                                    Postgraduate degree
+                                                </option>
+                                                <option value="other">Other</option>
+                                            </select>
+
+                                            <HiChevronDown />
+                                        </div>
+
+                                        {errors.education && (
+                                            <small className="auta-field-error">
+                                                {errors.education}
+                                            </small>
+                                        )}
+                                    </div>
+
+                                    <div className="auta-form-field">
+                                        <label htmlFor="auta-workExperience">
+                                            Work experience
+                                        </label>
+
+                                        <div className="auta-select-wrap">
+                                            <select
+                                                id="auta-workExperience"
+                                                name="workExperience"
+                                                value={form.workExperience}
+                                                onChange={updateField}
+                                            >
+                                                <option value="">Select experience</option>
+                                                <option value="none">No work experience</option>
+                                                <option value="less-than-1">
+                                                    Less than 1 year
+                                                </option>
+                                                <option value="1-3">1–3 years</option>
+                                                <option value="3-5">3–5 years</option>
+                                                <option value="5-plus">5+ years</option>
+                                            </select>
+
+                                            <HiChevronDown />
+                                        </div>
+                                    </div>
+
+                                    <div className="auta-form-field auta-form-field-full">
+                                        <label htmlFor="auta-passportStatus">
+                                            International passport status
+                                        </label>
+
+                                        <div className="auta-select-wrap">
+                                            <select
+                                                id="auta-passportStatus"
+                                                name="passportStatus"
+                                                value={form.passportStatus}
+                                                onChange={updateField}
+                                            >
+                                                <option value="">Select passport status</option>
+                                                <option value="valid">I have a valid passport</option>
+                                                <option value="expired">
+                                                    I have an expired passport
+                                                </option>
+                                                <option value="processing">
+                                                    My passport application is in progress
+                                                </option>
+                                                <option value="none">
+                                                    I do not have a passport yet
+                                                </option>
+                                            </select>
+
+                                            <HiChevronDown />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="auta-form-section">
+                                <div className="auta-form-section-heading">
+                                    <HiDocumentText />
+                                    <div>
+                                        <h3>Supporting documents</h3>
+                                        <p>
+                                            Upload up to {MAX_FILES} documents. Each file must be
+                                            5 MB or smaller.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="auta-upload-guidance">
+                                    <HiIdentification />
+
+                                    <div>
+                                        <strong>Documents you may provide</strong>
+
+                                        <p>
+                                            Passport or identification, CV, educational certificates,
+                                            academic transcripts and other relevant supporting
+                                            documents.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <input
+                                    ref={fileInputRef}
+                                    className="auta-file-input"
+                                    type="file"
+                                    multiple
+                                    accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+                                    onChange={handleFileSelection}
+                                    aria-label="Choose supporting documents"
+                                />
+
+                                <button
+                                    type="button"
+                                    className="auta-upload-dropzone"
+                                    onClick={() => fileInputRef.current?.click()}
+                                    disabled={status === "submitting" || files.length >= MAX_FILES}
                                 >
-                                    {programme.title}
-                                </option>
-                            ))}
+                                    <span className="auta-upload-icon">
+                                        <HiArrowUpTray />
+                                    </span>
 
-                            <option value="Not sure yet">
-                                I'm not sure yet
-                            </option>
-                        </select>
-                    </label>
+                                    <strong>
+                                        {files.length >= MAX_FILES
+                                            ? "Maximum number of files reached"
+                                            : "Click to upload your documents"}
+                                    </strong>
 
-                    <label>
-                        Education or work background
-                        <input
-                            name="education"
-                            value={form.education}
-                            onChange={updateField}
-                            placeholder="e.g. graduate, secondary school, work experience"
-                        />
-                    </label>
+                                    <span>
+                                        PDF, JPG, PNG, DOC or DOCX · Max 5 MB per file
+                                    </span>
 
-                    <label>
-                        Questions or additional information
-                        <textarea
-                            name="message"
-                            value={form.message}
-                            onChange={updateField}
-                            rows="3"
-                            placeholder="What would you like us to clarify?"
-                        />
-                    </label>
+                                    <span className="auta-upload-button-text">
+                                        Choose files
+                                    </span>
+                                </button>
 
-                    {error && (
-                        <p className="auta-form-error">{error}</p>
-                    )}
+                                {errors.files && (
+                                    <small className="auta-field-error auta-file-error">
+                                        {errors.files}
+                                    </small>
+                                )}
 
-                    <p className="auta-form-disclaimer">
-                        This form prepares an email. It does not save information
-                        to a Colossus database or send an email automatically.
-                    </p>
+                                {files.length > 0 && (
+                                    <div className="auta-uploaded-files">
+                                        <div className="auta-uploaded-files-heading">
+                                            <strong>Selected documents ({files.length})</strong>
 
-                    <button
-                        className="auta-button auta-button-primary"
-                        type="submit"
-                    >
-                        Continue to email <HiArrowRight />
-                    </button>
-                </form>
+                                            <span>
+                                                {formatFileSize(totalFileSize)} / 15 MB
+                                            </span>
+                                        </div>
+
+                                        {files.map((file, index) => (
+                                            <div
+                                                className="auta-uploaded-file"
+                                                key={`${file.name}-${file.lastModified}-${index}`}
+                                            >
+                                                <span className="auta-uploaded-file-icon">
+                                                    <HiDocumentText />
+                                                </span>
+
+                                                <div className="auta-uploaded-file-info">
+                                                    <strong>{file.name}</strong>
+                                                    <span>{formatFileSize(file.size)}</span>
+                                                </div>
+
+                                                <button
+                                                    type="button"
+                                                    onClick={() => removeFile(index)}
+                                                    aria-label={`Remove ${file.name}`}
+                                                    disabled={status === "submitting"}
+                                                >
+                                                    <HiTrash />
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+
+                                <div className="auta-upload-privacy">
+                                    <HiShieldCheck />
+
+                                    <p>
+                                        Your documents contain personal information. Only submit
+                                        files relevant to your application. The backend must
+                                        securely process the files and restrict access to
+                                        authorised personnel.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="auta-form-section">
+                                <div className="auta-form-section-heading">
+                                    <HiEnvelope />
+                                    <div>
+                                        <h3>Additional information</h3>
+                                        <p>Tell us anything else we should know.</p>
+                                    </div>
+                                </div>
+
+                                <div className="auta-form-field">
+                                    <label htmlFor="auta-message">
+                                        Additional information
+                                    </label>
+
+                                    <textarea
+                                        id="auta-message"
+                                        name="message"
+                                        rows="4"
+                                        placeholder="Tell us about your training interests, goals or questions..."
+                                        value={form.message}
+                                        onChange={updateField}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="auta-consent-field">
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        name="consent"
+                                        checked={form.consent}
+                                        onChange={updateField}
+                                        aria-invalid={Boolean(errors.consent)}
+                                    />
+
+                                    <span>
+                                        I confirm that the information I have provided is accurate
+                                        and consent to Colossus Migration & Tours using my
+                                        information and documents to review and respond to this
+                                        application. <strong>*</strong>
+                                    </span>
+                                </label>
+
+                                {errors.consent && (
+                                    <small className="auta-field-error">
+                                        {errors.consent}
+                                    </small>
+                                )}
+                            </div>
+
+                            {errors.submit && (
+                                <div className="auta-form-alert auta-form-alert-error">
+                                    <HiExclamationCircle />
+                                    <span>{errors.submit}</span>
+                                </div>
+                            )}
+
+                            <button
+                                type="submit"
+                                className="auta-btn auta-btn-primary auta-submit-button"
+                                disabled={status === "submitting"}
+                            >
+                                {status === "submitting" ? (
+                                    <>
+                                        <span className="auta-spinner" />
+                                        Submitting application...
+                                    </>
+                                ) : (
+                                    <>
+                                        Submit application
+                                        <HiArrowRight />
+                                    </>
+                                )}
+                            </button>
+
+                            <p className="auta-form-footnote">
+                                Submission is subject to review. It does not guarantee
+                                admission, placement, employment, a stipend or visa approval.
+                            </p>
+                        </form>
+                    </>
+                )}
             </section>
         </div>
     );
@@ -347,65 +992,50 @@ function PostEnquiryModal({ onClose }) {
     return (
         <div
             className="auta-modal-backdrop"
+            role="presentation"
             onMouseDown={(event) => {
-                if (event.target === event.currentTarget) onClose();
+                if (event.target === event.currentTarget) {
+                    onClose();
+                }
             }}
         >
             <section
-                className="auta-modal auta-post-enquiry"
+                className="auta-modal auta-post-enquiry-modal"
                 role="dialog"
                 aria-modal="true"
-                aria-labelledby="auta-post-title"
-                onMouseDown={(event) => event.stopPropagation()}
+                aria-labelledby="auta-enquiry-success-title"
             >
                 <button
-                    className="auta-modal-close"
                     type="button"
+                    className="auta-modal-close"
                     onClick={onClose}
                     aria-label="Close"
                 >
                     <HiXMark />
                 </button>
 
-                <span className="auta-success-icon">
-                    <HiEnvelope />
-                </span>
+                <div className="auta-success-state">
+                    <div className="auta-success-icon">
+                        <HiCheckCircle />
+                    </div>
 
-                <span className="auta-modal-kicker">ONE MORE STEP</span>
+                    <span className="auta-eyebrow">APPLICATION INFORMATION</span>
 
-                <h2 id="auta-post-title">
-                    Your enquiry email is ready.
-                </h2>
+                    <h2 id="auta-enquiry-success-title">
+                        Your next step starts here.
+                    </h2>
 
-                <p className="auta-modal-intro">
-                    Your email application should have opened with your enquiry.
-                    Review the message and press Send in your email application.
-                    It has not been sent automatically.
-                </p>
-
-                <div className="auta-post-actions">
-                    <a
-                        className="auta-button auta-button-primary"
-                        href="/services/trainee-apprenticeship"
-                        onClick={onClose}
-                    >
-                        Explore other pathways <HiArrowRight />
-                    </a>
-
-                    <a
-                        className="auta-button auta-button-secondary"
-                        href="/register"
-                        onClick={onClose}
-                    >
-                        Create an account <HiOutlineAcademicCap />
-                    </a>
+                    <p>
+                        When you are ready, complete the application form and upload your
+                        supporting documents so the team can review your information.
+                    </p>
 
                     <button
-                        className="auta-text-button"
                         type="button"
+                        className="auta-btn auta-btn-primary"
                         onClick={onClose}
                     >
-                        Stay on this page
+                        Continue <HiArrowRight />
                     </button>
                 </div>
             </section>
@@ -414,20 +1044,14 @@ function PostEnquiryModal({ onClose }) {
 }
 
 export default function AustraliaTraineeApprenticeship() {
-    const [showEnquiry, setShowEnquiry] = useState(false);
-    const [showPostEnquiry, setShowPostEnquiry] = useState(false);
+    const [showApplication, setShowApplication] = useState(false);
+    const [showInfoModal, setShowInfoModal] = useState(false);
     const [openFaq, setOpenFaq] = useState(0);
-    const [selectedProgramme, setSelectedProgramme] = useState("");
 
-    const openEnquiry = (programme = "") => {
-        setSelectedProgramme(programme);
-        setShowEnquiry(true);
-    };
-
-    const handleEnquiryContinue = () => {
-        setShowEnquiry(false);
-        setShowPostEnquiry(true);
-    };
+    function openApplication() {
+        setShowInfoModal(false);
+        setShowApplication(true);
+    }
 
     return (
         <main className="auta-page">
@@ -435,370 +1059,367 @@ export default function AustraliaTraineeApprenticeship() {
             <section
                 className="auta-hero"
                 style={{
-                    backgroundImage: `
-                        linear-gradient(
-                            90deg,
-                            rgba(3, 13, 29, 0.96) 0%,
-                            rgba(3, 18, 39, 0.86) 42%,
-                            rgba(3, 18, 39, 0.48) 100%
-                        ),
-                        url(${australiaTrainingBg})
-                    `,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat",
+                    backgroundImage: `linear-gradient(90deg, rgba(8, 19, 39, 0.94) 0%, rgba(8, 19, 39, 0.79) 48%, rgba(8, 19, 39, 0.35) 100%), url(${australiaTrainingBg})`,
                 }}
             >
-                <div
-                    className="auta-hero-grid-pattern"
-                    aria-hidden="true"
-                />
-
-                <div className="auta-container auta-hero-layout">
-                    <div className="auta-hero-copy">
-                        <a
-                            className="auta-back-link"
-                            href="/services/trainee-apprenticeship"
-                        >
-                            <HiArrowLeft />
-                            All training destinations
-                        </a>
-
-                        <span className="auta-eyebrow">
-                            <span />
-                            AUSTRALIA · TRAINING PATHWAYS
-                        </span>
-
-                        <h1>
-                            Build your skills.
-                            <br />
-                            <em>Explore what's next.</em>
-                        </h1>
-
-                        <p>
-                            Explore vocational and career-focused training opportunities
-                            in Australia. Review the available programme areas, then
-                            enquire to confirm current courses, entry requirements
-                            and provider terms.
-                        </p>
-
-                        <div className="auta-hero-actions">
-                            <button
-                                className="auta-button auta-button-primary"
-                                type="button"
-                                onClick={() => openEnquiry()}
-                            >
-                                Enquire about programmes <HiArrowRight />
-                            </button>
-
-                            <a
-                                className="auta-button auta-button-ghost"
-                                href="#auta-programmes"
-                            >
-                                Explore training areas
-                            </a>
-                        </div>
-
-                        <div className="auta-hero-trust">
-                            <span>
-                                <HiCheckCircle />
-                                Programme-specific guidance
-                            </span>
-
-                            <span>
-                                <HiCheckCircle />
-                                Requirements to be confirmed
-                            </span>
-                        </div>
+                <div className="auta-container auta-hero-content">
+                    <div className="auta-hero-badge">
+                        <HiGlobeAlt />
+                        AUSTRALIA TRAINING OPPORTUNITIES
                     </div>
 
-                    <aside className="auta-hero-card">
-                        <div className="auta-hero-card-top">
-                            <span className="auta-country-mark">AU</span>
+                    <h1>
+                        Build practical skills.
+                        <br />
+                        <span>Explore your future in Australia.</span>
+                    </h1>
 
-                            <span className="auta-status-pill">
-                                <span />
-                                PROGRAMME INFORMATION
-                            </span>
+                    <p>
+                        Discover trainee and apprenticeship pathways, explore training
+                        options and submit your information for an initial application
+                        review with Colossus Migration & Tours.
+                    </p>
+
+                    <div className="auta-hero-actions">
+                        <button
+                            type="button"
+                            className="auta-btn auta-btn-primary"
+                            onClick={openApplication}
+                        >
+                            Start your application <HiArrowRight />
+                        </button>
+
+                        <a href="#auta-programmes" className="auta-btn auta-btn-outline">
+                            Explore programmes
+                        </a>
+                    </div>
+
+                    <div className="auta-hero-highlights">
+                        <div>
+                            <HiCheckCircle />
+                            <span>Multiple training areas</span>
                         </div>
 
-                        <span className="auta-card-label">
-                            EXPLORE AUSTRALIAN PATHWAYS
-                        </span>
-
-                        <h2>
-                            Build skills.
-                            <span> Plan ahead.</span>
-                        </h2>
-
-                        <p>
-                            Explore vocational training areas and request details
-                            for courses currently available through the relevant
-                            education provider.
-                        </p>
-
-                        <div className="auta-card-divider" />
-
-                        <div className="auta-stat-row">
-                            <span>
-                                <HiClock />
-                                Course duration
-                            </span>
-                            <strong>Provider confirmed</strong>
+                        <div>
+                            <HiCheckCircle />
+                            <span>Application guidance</span>
                         </div>
 
-                        <div className="auta-stat-row">
-                            <span>
-                                <HiGlobeAlt />
-                                Destination
-                            </span>
-                            <strong>Australia</strong>
+                        <div>
+                            <HiCheckCircle />
+                            <span>Document submission</span>
                         </div>
-
-                        <small className="auta-card-footnote">
-                            Course availability, fees, intake dates and entry
-                            requirements must be confirmed with the provider.
-                        </small>
-                    </aside>
+                    </div>
                 </div>
 
-                <div className="auta-hero-footer">
-                    <span>COLOSSUS MIGRATION &amp; TOURS</span>
-                    <span>EXPLORE · PREPARE · PROGRESS</span>
+                <div className="auta-hero-bottom">
+                    <div className="auta-container">
+                        <span>TRAINING</span>
+                        <span className="auta-hero-bottom-divider" />
+                        <span>SKILLS DEVELOPMENT</span>
+                        <span className="auta-hero-bottom-divider" />
+                        <span>CAREER PATHWAYS</span>
+                    </div>
                 </div>
             </section>
 
             {/* INTRODUCTION */}
-            <section className="auta-intro-section">
+            <section className="auta-section auta-intro-section">
                 <div className="auta-container auta-intro-grid">
-                    <div>
-                        <span className="auta-eyebrow">
-                            ABOUT THE PATHWAYS
-                        </span>
+                    <div className="auta-intro-copy">
+                        <span className="auta-eyebrow">YOUR NEXT CHAPTER</span>
 
                         <h2>
-                            Practical training starts with the right information.
+                            Take the first step towards a
+                            <span> practical training pathway.</span>
                         </h2>
+
+                        <p>
+                            Australia offers vocational education and training opportunities
+                            across a range of industries. The right pathway depends on your
+                            background, chosen course, training provider and eligibility.
+                        </p>
+
+                        <p>
+                            Colossus Migration & Tours helps prospective applicants
+                            understand the process and identify the next steps relevant to
+                            their circumstances.
+                        </p>
+
+                        <button
+                            type="button"
+                            className="auta-text-link"
+                            onClick={openApplication}
+                        >
+                            Begin your application <HiArrowRight />
+                        </button>
                     </div>
 
-                    <div className="auta-intro-copy">
-                        <p>
-                            These opportunities cover several vocational and
-                            career-focused areas. The exact course, education provider,
-                            fees, entry criteria and any available support depend
-                            on the programme.
-                        </p>
+                    <div className="auta-intro-card">
+                        <div className="auta-intro-card-icon">
+                            <HiAcademicCap />
+                        </div>
+
+                        <h3>Your application journey</h3>
 
                         <p>
-                            Use this page to identify your area of interest. Our team
-                            can help you request current programme information before
-                            you decide whether to proceed.
+                            Tell us about yourself, choose an area of interest and upload
+                            relevant supporting documents for review.
                         </p>
+
+                        <ul>
+                            <li>
+                                <HiCheckCircle />
+                                Personal and education details
+                            </li>
+
+                            <li>
+                                <HiCheckCircle />
+                                Preferred training area
+                            </li>
+
+                            <li>
+                                <HiCheckCircle />
+                                Supporting documentation
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </section>
 
             {/* PROGRAMMES */}
             <section
-                className="auta-programmes-section"
+                className="auta-section auta-programmes-section"
                 id="auta-programmes"
             >
                 <div className="auta-container">
                     <div className="auta-section-heading">
-                        <div>
-                            <span className="auta-eyebrow">
-                                EXPLORE YOUR OPTIONS
-                            </span>
+                        <span className="auta-eyebrow">EXPLORE YOUR OPTIONS</span>
 
-                            <h2>Training areas</h2>
+                        <h2>
+                            Find a training area that
+                            <span> fits your interests.</span>
+                        </h2>
 
-                            <p>
-                                Choose an area to discuss with the Colossus team.
-                                Availability of individual courses must be confirmed.
-                            </p>
-                        </div>
-
-                        <span className="auta-heading-count">
-                            {String(PROGRAMMES.length).padStart(2, "0")} AREAS
-                        </span>
+                        <p>
+                            Explore the areas below and select your preferred programme
+                            when completing the application form.
+                        </p>
                     </div>
 
                     <div className="auta-programme-grid">
-                        {PROGRAMMES.map((programme, index) => {
-                            const Icon = programme.icon;
+                        {PROGRAMMES.map((programme, index) => (
+                            <article
+                                className="auta-programme-card"
+                                key={programme.id}
+                            >
+                                <div className="auta-programme-card-top">
+                                    <span className="auta-programme-number">
+                                        0{index + 1}
+                                    </span>
 
-                            return (
-                                <article
-                                    className="auta-programme-card"
-                                    key={programme.id}
+                                    <span className="auta-programme-icon">
+                                        {programme.icon}
+                                    </span>
+                                </div>
+
+                                <h3>{programme.title}</h3>
+
+                                <p>{programme.description}</p>
+
+                                <button
+                                    type="button"
+                                    className="auta-text-link"
+                                    onClick={openApplication}
                                 >
-                                    <div className="auta-programme-card-top">
-                                        <span className="auta-programme-number">
-                                            {String(index + 1).padStart(2, "0")}
-                                        </span>
+                                    Apply in this area <HiArrowRight />
+                                </button>
+                            </article>
+                        ))}
+                    </div>
 
-                                        <span className="auta-programme-icon">
-                                            <Icon />
-                                        </span>
-                                    </div>
+                    <div className="auta-programmes-note">
+                        <HiExclamationCircle />
 
-                                    <h3>{programme.title}</h3>
-
-                                    <p>{programme.description}</p>
-
-                                    <div className="auta-programme-meta">
-                                        <HiClock />
-                                        <span>Duration: {programme.duration}</span>
-                                    </div>
-
-                                    <button
-                                        className="auta-inline-link"
-                                        type="button"
-                                        onClick={() => openEnquiry(programme.title)}
-                                    >
-                                        Ask about this area <HiArrowRight />
-                                    </button>
-                                </article>
-                            );
-                        })}
+                        <p>
+                            Programme availability, course duration, fees and entry
+                            requirements vary by training provider. Your preferred programme
+                            will need to be checked against current availability.
+                        </p>
                     </div>
                 </div>
             </section>
 
             {/* DURATION AND STIPEND */}
-            <section className="auta-overview-section">
-                <div className="auta-container auta-overview-grid">
-                    <article className="auta-overview-card auta-duration-card">
-                        <span className="auta-overview-icon">
-                            <HiClock />
-                        </span>
-
-                        <span className="auta-overview-label">
-                            PROGRAMME DURATION
-                        </span>
+            <section className="auta-section auta-duration-section">
+                <div className="auta-container auta-duration-grid">
+                    <div>
+                        <span className="auta-eyebrow">PLAN WITH CLARITY</span>
 
                         <h2>
-                            Varies <small>by course</small>
+                            Understand the
+                            <span> programme requirements.</span>
                         </h2>
 
                         <p>
-                            Programme length depends on the selected qualification
-                            and provider. Request the official course duration
-                            before applying.
+                            Course duration, fees, placement arrangements and any financial
+                            benefits depend on the particular programme and provider.
+                            Confirm these details before committing to a course.
                         </p>
-                    </article>
 
-                    <article className="auta-overview-card auta-stipend-card">
-                        <span className="auta-overview-icon">
-                            <HiOutlineBriefcase />
-                        </span>
+                        <button
+                            type="button"
+                            className="auta-btn auta-btn-primary"
+                            onClick={openApplication}
+                        >
+                            Discuss your options <HiArrowRight />
+                        </button>
+                    </div>
 
-                        <span className="auta-overview-label">
-                            STIPEND OR WAGE
-                        </span>
+                    <div className="auta-duration-cards">
+                        <article className="auta-duration-card">
+                            <div className="auta-duration-icon">
+                                <HiClock />
+                            </div>
 
-                        <h2>
-                            Confirm <small>in writing</small>
-                        </h2>
+                            <h3>Course duration</h3>
 
-                        <p>
-                            A stipend or wage is not guaranteed. Ask whether your
-                            specific programme is paid and request written details
-                            of the amount, eligibility and payment conditions.
-                        </p>
-                    </article>
-                </div>
+                            <p>
+                                Duration varies according to the qualification, training
+                                provider and course structure.
+                            </p>
+                        </article>
 
-                <div className="auta-container">
-                    <div className="auta-information-notice">
-                        <HiOutlineShieldCheck />
+                        <article className="auta-duration-card">
+                            <div className="auta-duration-icon">
+                                <HiAcademicCap />
+                            </div>
 
-                        <span>
-                            <strong>Before making a decision:</strong> Request the
-                            provider's official course information, full fees,
-                            eligibility criteria, stipend terms if applicable,
-                            and refund policy in writing.
-                        </span>
+                            <h3>Training arrangements</h3>
+
+                            <p>
+                                Confirm whether the programme involves classroom study,
+                                practical training or a formal apprenticeship arrangement.
+                            </p>
+                        </article>
+
+                        <article className="auta-duration-card">
+                            <div className="auta-duration-icon">
+                                <HiShieldCheck />
+                            </div>
+
+                            <h3>Stipend and benefits</h3>
+
+                            <p>
+                                Any stipend or other benefit is subject to the applicable
+                                provider, placement and programme terms. It is not guaranteed.
+                            </p>
+                        </article>
+
+                        <article className="auta-duration-card">
+                            <div className="auta-duration-icon">
+                                <HiDocumentText />
+                            </div>
+
+                            <h3>Course fees</h3>
+
+                            <p>
+                                Obtain written confirmation of tuition, additional costs,
+                                payment conditions and any applicable refund policy.
+                            </p>
+                        </article>
                     </div>
                 </div>
             </section>
 
             {/* ELIGIBILITY */}
-            <section className="auta-eligibility-section">
+            <section className="auta-section auta-eligibility-section">
                 <div className="auta-container auta-eligibility-grid">
-                    <div className="auta-eligibility-copy">
-                        <span className="auta-eyebrow">
-                            CHECK BEFORE APPLYING
-                        </span>
+                    <div className="auta-eligibility-main">
+                        <span className="auta-eyebrow">BE PREPARED</span>
 
-                        <h2>Confirm your eligibility first.</h2>
+                        <h2>
+                            Is this pathway
+                            <span> right for you?</span>
+                        </h2>
 
                         <p>
-                            Entry requirements vary by programme and education
-                            provider. Request the exact criteria for your chosen
-                            course and confirm that your education, experience
-                            and documents meet those requirements.
+                            Your suitability depends on the course requirements, your
+                            qualifications, your circumstances and the applicable
+                            immigration rules.
                         </p>
 
                         <button
-                            className="auta-button auta-button-primary"
                             type="button"
-                            onClick={() => openEnquiry()}
+                            className="auta-btn auta-btn-primary"
+                            onClick={openApplication}
                         >
-                            Ask about eligibility <HiArrowRight />
+                            Submit your details <HiArrowRight />
                         </button>
                     </div>
 
-                    <div className="auta-checklist">
-                        {[
-                            "Confirm the exact course and provider.",
-                            "Request the official entry requirements.",
-                            "Ask which academic and identity documents are needed.",
-                            "Confirm the full cost and payment schedule.",
-                            "Review stipend conditions, if applicable.",
-                            "Read the written refund and cancellation terms.",
-                        ].map((item) => (
-                            <div
-                                className="auta-checklist-item"
-                                key={item}
-                            >
-                                <HiCheckCircle />
-                                <span>{item}</span>
-                            </div>
-                        ))}
+                    <div className="auta-eligibility-list">
+                        <div>
+                            <HiCheckCircle />
+                            <span>
+                                <strong>Educational background</strong>
+                                Be ready to provide your qualifications and transcripts.
+                            </span>
+                        </div>
+
+                        <div>
+                            <HiCheckCircle />
+                            <span>
+                                <strong>Training interests</strong>
+                                Identify the industry or programme you wish to explore.
+                            </span>
+                        </div>
+
+                        <div>
+                            <HiCheckCircle />
+                            <span>
+                                <strong>Supporting documents</strong>
+                                Prepare identification and other relevant records.
+                            </span>
+                        </div>
+
+                        <div>
+                            <HiCheckCircle />
+                            <span>
+                                <strong>Readiness for assessment</strong>
+                                Be prepared to discuss course requirements, fees and next steps.
+                            </span>
+                        </div>
                     </div>
                 </div>
             </section>
 
             {/* APPLICATION PROCESS */}
-            <section className="auta-process-section">
+            <section className="auta-section auta-process-section">
                 <div className="auta-container">
                     <div className="auta-section-heading">
-                        <div>
-                            <span className="auta-eyebrow">
-                                YOUR APPLICATION JOURNEY
-                            </span>
+                        <span className="auta-eyebrow">HOW IT WORKS</span>
 
-                            <h2>Five steps to get started.</h2>
+                        <h2>
+                            From application to
+                            <span> the next steps.</span>
+                        </h2>
 
-                            <p>
-                                This is a general overview. The provider's official
-                                instructions take precedence for your selected programme.
-                            </p>
-                        </div>
+                        <p>
+                            Start by providing your details and the documents available to
+                            you. The team can then review your submission.
+                        </p>
                     </div>
 
                     <div className="auta-process-grid">
                         {APPLICATION_STEPS.map((step) => (
-                            <article
-                                className="auta-process-step"
-                                key={step.number}
-                            >
-                                <span className="auta-step-number">
+                            <article className="auta-process-card" key={step.number}>
+                                <span className="auta-process-number">
                                     {step.number}
                                 </span>
 
                                 <h3>{step.title}</h3>
+
                                 <p>{step.description}</p>
                             </article>
                         ))}
@@ -806,196 +1427,208 @@ export default function AustraliaTraineeApprenticeship() {
 
                     <div className="auta-process-cta">
                         <div>
-                            <HiOutlineDocumentText />
+                            <h3>Ready to get started?</h3>
 
-                            <div>
-                                <h3>Need the programme details?</h3>
-                                <p>
-                                    Enquire about current course options, provider
-                                    information and applicable requirements.
-                                </p>
-                            </div>
+                            <p>
+                                Complete the application form and provide your supporting
+                                documents for review.
+                            </p>
                         </div>
 
                         <button
-                            className="auta-button auta-button-primary"
                             type="button"
-                            onClick={() => openEnquiry()}
+                            className="auta-btn auta-btn-primary"
+                            onClick={openApplication}
                         >
-                            Start an enquiry <HiArrowRight />
+                            Start application <HiArrowRight />
                         </button>
                     </div>
                 </div>
             </section>
 
             {/* REFUND INFORMATION */}
-            <section className="auta-refund-section">
-                <div className="auta-container auta-refund-panel">
-                    <span className="auta-refund-icon">
-                        <HiOutlineShieldCheck />
-                    </span>
+            <section className="auta-section auta-refund-section">
+                <div className="auta-container auta-refund-card">
+                    <div className="auta-refund-icon">
+                        <HiShieldCheck />
+                    </div>
 
                     <div>
-                        <span className="auta-eyebrow">
-                            IMPORTANT INFORMATION
-                        </span>
+                        <span className="auta-eyebrow">UNDERSTAND THE TERMS</span>
 
-                        <h2>Understand the refund terms.</h2>
+                        <h2>Review refund conditions before paying.</h2>
 
                         <p>
-                            Any refund following a visa refusal depends on the
-                            education provider's written refund policy and your
-                            agreement. Review the applicable policy before paying.
-                            Never assume a refund is automatic or unconditional.
+                            Any visa-refusal refund arrangement depends on the written
+                            policy of the participating provider and the specific fees
+                            covered. Confirm the eligible amounts, exclusions, process and
+                            timelines in writing before making a payment.
+                        </p>
+
+                        <p>
+                            Do not assume that every payment, service fee or third-party
+                            expense is refundable.
                         </p>
                     </div>
 
                     <button
-                        className="auta-button auta-button-secondary"
                         type="button"
-                        onClick={() => openEnquiry()}
+                        className="auta-btn auta-btn-primary"
+                        onClick={openApplication}
                     >
-                        Ask about refund terms
+                        Make an enquiry <HiArrowRight />
                     </button>
                 </div>
             </section>
 
             {/* FAQ */}
-            <section className="auta-faq-section">
-                <div className="auta-container auta-faq-layout">
-                    <div className="auta-faq-heading">
-                        <span className="auta-eyebrow">
-                            COMMON QUESTIONS
-                        </span>
+            <section className="auta-section auta-faq-section" id="auta-faq">
+                <div className="auta-container auta-faq-grid">
+                    <div className="auta-faq-intro">
+                        <span className="auta-eyebrow">COMMON QUESTIONS</span>
 
-                        <h2>What should you know?</h2>
+                        <h2>
+                            Questions before
+                            <span> you apply?</span>
+                        </h2>
 
                         <p>
-                            Review these answers, then ask our team to confirm
-                            the details that apply to your selected programme.
+                            Here are some important things to understand before submitting
+                            your application.
                         </p>
 
                         <button
-                            className="auta-button auta-button-primary"
                             type="button"
-                            onClick={() => openEnquiry()}
+                            className="auta-text-link"
+                            onClick={openApplication}
                         >
-                            Ask a question <HiArrowRight />
+                            Contact the team <HiArrowRight />
                         </button>
                     </div>
 
                     <div className="auta-faq-list">
-                        {FAQS.map((faq, index) => (
-                            <article
-                                className={`auta-faq-item ${openFaq === index ? "is-open" : ""
-                                    }`}
-                                key={faq.question}
-                            >
-                                <button
-                                    className="auta-faq-question"
-                                    type="button"
-                                    aria-expanded={openFaq === index}
-                                    onClick={() =>
-                                        setOpenFaq(openFaq === index ? -1 : index)
-                                    }
-                                >
-                                    <span>{faq.question}</span>
-                                    <HiChevronDown />
-                                </button>
+                        {FAQS.map((faq, index) => {
+                            const isOpen = openFaq === index;
 
-                                {openFaq === index && (
-                                    <div className="auta-faq-answer">
-                                        <p>{faq.answer}</p>
-                                    </div>
-                                )}
-                            </article>
-                        ))}
+                            return (
+                                <article
+                                    className={`auta-faq-item ${isOpen ? "is-open" : ""}`}
+                                    key={faq.question}
+                                >
+                                    <button
+                                        type="button"
+                                        className="auta-faq-question"
+                                        onClick={() => setOpenFaq(isOpen ? -1 : index)}
+                                        aria-expanded={isOpen}
+                                    >
+                                        <span>{faq.question}</span>
+
+                                        <HiChevronDown />
+                                    </button>
+
+                                    {isOpen && (
+                                        <div className="auta-faq-answer">
+                                            <p>{faq.answer}</p>
+                                        </div>
+                                    )}
+                                </article>
+                            );
+                        })}
                     </div>
                 </div>
             </section>
 
             {/* FINAL CTA */}
-            <section className="auta-final-cta">
+            <section className="auta-section auta-final-cta">
                 <div className="auta-container auta-final-cta-inner">
-                    <div>
-                        <span className="auta-eyebrow auta-eyebrow-light">
-                            YOUR NEXT STEP STARTS HERE
-                        </span>
+                    <span className="auta-eyebrow">YOUR JOURNEY STARTS HERE</span>
 
-                        <h2>Let's clarify your options.</h2>
+                    <h2>
+                        Take the first step towards
+                        <span> your training goals.</span>
+                    </h2>
 
-                        <p>
-                            Tell us which training area interests you. We'll prepare
-                            an enquiry so you can request the latest programme
-                            information.
-                        </p>
-                    </div>
+                    <p>
+                        Tell us about your background, select your preferred training
+                        area and upload your supporting documents for review.
+                    </p>
 
                     <button
-                        className="auta-button auta-button-primary"
                         type="button"
-                        onClick={() => openEnquiry()}
+                        className="auta-btn auta-btn-light"
+                        onClick={openApplication}
                     >
-                        Enquire now <HiArrowRight />
+                        Start your application <HiArrowRight />
                     </button>
                 </div>
             </section>
 
             {/* CONTACT */}
-            <section className="auta-contact-strip">
+            <section className="auta-section auta-contact-section">
                 <div className="auta-container auta-contact-grid">
                     <div>
-                        <HiGlobeAlt />
-                        <span>
-                            <strong>Destination</strong>
-                            <small>Australia</small>
-                        </span>
+                        <span className="auta-eyebrow">COLossus MIGRATION & TOURS</span>
+
+                        <h2>Need guidance before applying?</h2>
+
+                        <p>
+                            You can contact our team with questions about the application
+                            process and the information you need to prepare.
+                        </p>
                     </div>
 
-                    <div>
-                        <HiEnvelope />
-                        <span>
-                            <strong>Email</strong>
-                            <small>admin@colossusmigration.com</small>
-                        </span>
-                    </div>
+                    <div className="auta-contact-details">
+                        <a href="mailto:admin@colossusmigration.com">
+                            <span>
+                                <HiEnvelope />
+                            </span>
 
-                    <div>
-                        <HiOutlineChatBubbleLeftRight />
-                        <span>
-                            <strong>WhatsApp</strong>
-                            <small>+234 703 520 9306</small>
-                        </span>
+                            <div>
+                                <small>Email us</small>
+                                <strong>admin@colossusmigration.com</strong>
+                            </div>
+                        </a>
+
+                        <div className="auta-contact-detail-note">
+                            <span>
+                                <HiMapPin />
+                            </span>
+
+                            <div>
+                                <small>Programme</small>
+                                <strong>Australia trainee & apprenticeship pathways</strong>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
 
             {/* DISCLAIMER */}
-            <footer className="auta-legal">
+            <section className="auta-disclaimer-section">
                 <div className="auta-container">
-                    Colossus Migration &amp; Tours provides guidance and application
-                    support. Programme availability, duration, fees and conditions
-                    may change. Stipends are not guaranteed unless confirmed in
-                    writing by the responsible provider. Training does not
-                    guarantee admission, a visa, employment or permanent residency.
-                    Confirm details with the provider and relevant authorities
-                    before making payments or commitments.
-                </div>
-            </footer>
+                    <HiShieldCheck />
 
-            {showEnquiry && (
-                <EnquiryModal
-                    selectedProgramme={selectedProgramme}
-                    onClose={() => setShowEnquiry(false)}
-                    onContinue={handleEnquiryContinue}
-                />
+                    <p>
+                        <strong>Important information:</strong> Programme availability,
+                        admission, course fees, stipends, employment opportunities and
+                        immigration outcomes depend on the relevant provider, programme
+                        conditions and applicable requirements. Submitting an application
+                        does not guarantee admission, placement, employment, a stipend,
+                        permanent residency or visa approval. Confirm all material terms
+                        in writing before making financial commitments.
+                    </p>
+                </div>
+            </section>
+
+            {/* APPLICATION MODAL */}
+            {showApplication && (
+                <EnquiryModal onClose={() => setShowApplication(false)} />
             )}
 
-            {showPostEnquiry && (
-                <PostEnquiryModal
-                    onClose={() => setShowPostEnquiry(false)}
-                />
+            {showInfoModal && (
+                <PostEnquiryModal onClose={() => setShowInfoModal(false)} />
             )}
         </main>
     );
 }
+

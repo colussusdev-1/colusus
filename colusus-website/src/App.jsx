@@ -59,6 +59,9 @@ import Pathways
 import Assessment
     from "./features/assessment/Assessment";
 
+import TraineeProgramAssessment
+    from "./pages/TraineeProgramAssessment/TraineeProgramAssessment";
+
 import ConsultationBooking
     from "./components/ConsultationBooking/ConsultationBooking";
 
@@ -211,6 +214,7 @@ import TraineeApprenticeship
     from "./pages/Services/TraineeApprenticeship/TraineeApprenticeship";
 import NewZealandTraineeApprenticeship from "./pages/Services/TraineeApprenticeship/NewZealandTraineeApprenticeship";
 import AustraliaTraineeApprenticeship from "./pages/Services/TraineeApprenticeship/AustraliaTraineeApprenticeship";
+import AdminAssessment from "./pages/admin/Assessment/AdminAssessment";
 /**
  * Display the WhatsApp floating button on public website pages.
  *
@@ -364,7 +368,7 @@ function App() {
                         </>
                     }
                 />
-                  <Route
+                <Route
                     path="/services/new-zealand-trainee-apprenticeship"
                     element={
                         <>
@@ -374,7 +378,7 @@ function App() {
                         </>
                     }
                 />
-                 <Route
+                <Route
                     path="/services/australia-trainee-apprenticeship"
                     element={
                         <>
@@ -507,6 +511,22 @@ function App() {
                 />
 
                 {/* ======================================================
+                    TRAINEE PROGRAM ASSESSMENT
+                    Shared by Australia and New Zealand
+                ====================================================== */}
+
+                <Route
+                    path="/trainee-program-assessment"
+                    element={
+                        <>
+                            <Navbar />
+                            <TraineeProgramAssessment />
+                            <Footer />
+                        </>
+                    }
+                />
+
+                {/* ======================================================
                     CONSULTATION
                 ====================================================== */}
 
@@ -586,6 +606,12 @@ function App() {
                         <Route
                             path="applications"
                             element={<AdminApplications />}
+                        />
+
+                        {/* TRAINEE ASSESSMENTS */}
+                        <Route
+                            path="assessments"
+                            element={<AdminAssessment />}
                         />
 
                         <Route

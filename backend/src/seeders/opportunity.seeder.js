@@ -18,10 +18,7 @@ import opportunitiesData from "./data/opportunities.data.js";
    - Never automatically deletes unmatched records.
    - Reports duplicate existing identities for manual review.
    - Preserves application configuration and required-document handling.
-
-   IMPORTANT:
-   This seeder runs automatically when imported by the database seeder.
-   Do not restart the backend until the dry-run report has been reviewed.
+   - Preserves applicationFlow and programDetails.
 
    ========================================================================== */
 
@@ -46,10 +43,11 @@ const AUTHORITATIVE_COUNTRIES = new Map([
   [14, { name: "Serbia", slug: "serbia" }],
   [15, { name: "Spain", slug: "spain" }],
   [16, { name: "United Kingdom", slug: "united-kingdom" }],
+  [17, { name: "New Zealand", slug: "new-zealand" }],
 ]);
 
 /* -------------------------------------------------------------------------- */
-/* DEFAULT APPLICATION CONFIGURATION                                          */
+/* DEFAULT APPLICATION CONFIGURATION                                         */
 /* -------------------------------------------------------------------------- */
 
 const DEFAULT_APPLICATION_STEPS = ["DOCUMENTS", "REVIEW"];
@@ -138,17 +136,11 @@ const buildRequiredDocuments = (opportunity) => {
 
       return {
         key: document?.key || `DOCUMENT_${index + 1}`,
-
         name,
-
         label: document?.label || name,
-
         description: document?.description || "",
-
         required: document?.required !== false,
-
         type,
-
         order: document?.order || index + 1,
       };
     });
@@ -175,17 +167,11 @@ const buildRequiredDocuments = (opportunity) => {
 
     return {
       key: document?.key || `DOCUMENT_${index + 1}`,
-
       name,
-
       label: document?.label || name,
-
       description: document?.description || "",
-
       required: document?.required !== false,
-
       type,
-
       order: document?.order || index + 1,
     };
   });
@@ -269,7 +255,7 @@ const validateOpportunities = (opportunities) => {
       continue;
     }
 
-    const country = AUTHORITATIVE_COUNTRIES.get(opportunity.countryId);
+    const country = AUTHORITATIVE_COUNTRIES.get(Number(opportunity.countryId));
 
     if (!country) {
       errors.push(
@@ -310,6 +296,23 @@ const validateOpportunities = (opportunities) => {
     }
 
     seenKeys.add(key);
+
+    if (
+      opportunity.applicationFlow != null &&
+      !["DIRECT_APPLICATION", "ASSESSMENT_FIRST"].includes(
+        opportunity.applicationFlow,
+      )
+    ) {
+      errors.push(`Invalid applicationFlow for "${opportunity.title}".`);
+    }
+
+    if (
+      opportunity.programDetails != null &&
+      (typeof opportunity.programDetails !== "object" ||
+        Array.isArray(opportunity.programDetails))
+    ) {
+      errors.push(`Invalid programDetails for "${opportunity.title}".`);
+    }
   }
 
   if (errors.length > 0) {
@@ -329,6 +332,10 @@ const validateOpportunities = (opportunities) => {
 const buildOpportunityDocument = (opportunity) => ({
   ...opportunity,
 
+  applicationFlow: opportunity.applicationFlow || "DIRECT_APPLICATION",
+
+  programDetails: opportunity.programDetails ?? null,
+
   applicationConfig: buildApplicationConfig(opportunity),
 
   active: opportunity.active !== false,
@@ -343,17 +350,11 @@ const getOpportunityKey = (opportunity) =>
 
 const summarizeRecord = (record) => ({
   id: String(record._id),
-
   title: record.title || "",
-
   countryId: record.countryId ?? null,
-
   countryName: record.countryName || "",
-
   countrySlug: record.countrySlug || "",
-
   slug: record.slug || "",
-
   active: record.active !== false,
 });
 
@@ -420,7 +421,6 @@ const seedOpportunities = async () => {
     if (records.length > 1) {
       existingDuplicates.push({
         key,
-
         records: records.map(summarizeRecord),
       });
     }
@@ -437,15 +437,12 @@ const seedOpportunities = async () => {
 
   for (const opportunity of opportunities) {
     const key = getOpportunityKey(opportunity);
-
     const matches = existingByKey.get(key) || [];
 
     if (matches.length > 1) {
       manualReview.push({
         key,
-
         reason: "Multiple existing records share this country-scoped identity.",
-
         records: matches.map(summarizeRecord),
       });
 
@@ -455,9 +452,7 @@ const seedOpportunities = async () => {
     if (matches.length === 1) {
       updates.push({
         key,
-
         existingId: String(matches[0]._id),
-
         opportunity,
       });
 
@@ -466,7 +461,6 @@ const seedOpportunities = async () => {
 
     inserts.push({
       key,
-
       opportunity,
     });
   }
@@ -474,9 +468,9 @@ const seedOpportunities = async () => {
   /*
    * Existing records absent from the source catalogue are retained.
    */
-  const unmatchedExisting = existingRecords.filter((record) => {
-    return !sourceKeys.has(getOpportunityKey(record));
-  });
+  const unmatchedExisting = existingRecords.filter(
+    (record) => !sourceKeys.has(getOpportunityKey(record)),
+  );
 
   /*
    * Display comparison summary.
@@ -524,27 +518,18 @@ const seedOpportunities = async () => {
 
     return {
       mode: "DRY_RUN",
-
       sourceCount: opportunities.length,
-
       existingCount: existingRecords.length,
-
       plannedUpdates: updates.length,
-
       plannedInserts: inserts.length,
-
       duplicateIdentityCount: existingDuplicates.length,
-
       manualReviewCount: manualReview.length,
-
       unmatchedCount: unmatchedExisting.length,
     };
   }
 
   /*
    * Fail closed when the existing database contains ambiguous identities.
-   *
-   * Do not insert or update anything until duplicates are resolved.
    */
   if (existingDuplicates.length > 0 || manualReview.length > 0) {
     throw new Error(
@@ -565,7 +550,6 @@ const seedOpportunities = async () => {
     const result = await Opportunity.updateOne(
       {
         countrySlug: opportunity.countrySlug,
-
         slug: opportunity.slug,
       },
       {
@@ -592,7 +576,6 @@ const seedOpportunities = async () => {
   for (const { key, opportunity } of inserts) {
     try {
       await Opportunity.create(opportunity);
-
       insertedCount += 1;
     } catch (error) {
       throw new Error(
@@ -614,13 +597,9 @@ const seedOpportunities = async () => {
 
   return {
     mode: "LIVE",
-
     sourceCount: opportunities.length,
-
     updatedCount,
-
     insertedCount,
-
     unmatchedCount: unmatchedExisting.length,
   };
 };

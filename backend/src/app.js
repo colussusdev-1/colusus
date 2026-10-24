@@ -9,32 +9,21 @@ import config from "./config/environment.js";
 
 import notFound from "./middleware/notFound.js";
 import errorHandler from "./middleware/errorHandler.js";
-  
+
 import routes from "./routes/index.js";
 import contactRoutes from "./routes/contactRoutes.js";
+
 import consultationRoutes from "./modules/consultations/consultation.routes.js";
 import adminDocumentRoutes from "./modules/admin/admin.document.routes.js";
-
-/* -------------------------------------------------------------------------- */
-/* FINANCE                                                                   */
-/* -------------------------------------------------------------------------- */
 
 import paymentRoutes from "./modules/finance/payments/payment.routes.js";
 import invoiceRoutes from "./modules/finance/invoices/invoice.routes.js";
 import receiptRoutes from "./modules/finance/reciepts/reciept.routes.js";
 import financeAdminRoutes from "./modules/finance/finance.admin.routes.js";
 
-/*
- * Business-owned payment workflow registrations.
- *
- * Finance remains generic and does not import Application/Booking/Opportunity
- * modules directly. These modules register their own completion handlers here.
- */
 import "./modules/applications/application.payment.workflow.js";
 
-/* -------------------------------------------------------------------------- */
-/* BLOG                                                                      */
-/* -------------------------------------------------------------------------- */
+import assessmentRoutes from "./modules/assessment/assessment.routes.js";
 
 import {
   publicRoutes as blogPublicRoutes,
@@ -43,15 +32,15 @@ import {
 
 const app = express();
 
-/* -------------------------------------------------------------------------- */
-/* GLOBAL MIDDLEWARE                                                         */
-/* -------------------------------------------------------------------------- */
+/* ==========================================================================
+   SECURITY
+   ========================================================================== */
 
 app.use(helmet());
 
-/* -------------------------------------------------------------------------- */
-/* CORS                                                                      */
-/* -------------------------------------------------------------------------- */
+/* ==========================================================================
+   CORS
+   ========================================================================== */
 
 const allowedOrigins = [
   "http://localhost:3000",
@@ -62,7 +51,7 @@ const allowedOrigins = [
   config.clientUrl,
 ]
   .filter(Boolean)
-  .map((origin) => origin.trim().replace(/\/$/, ""))
+  .map((origin) => origin.trim().replace(/\/+$/, ""))
   .filter((origin, index, array) => array.indexOf(origin) === index);
 
 console.log("=================================");
@@ -79,24 +68,33 @@ app.use((req, res, next) => {
     return next();
   }
 
-  const normalizedOrigin = origin.trim().replace(/\/$/, "");
+  const normalizedOrigin = origin.trim().replace(/\/+$/, "");
 
-  if (allowedOrigins.includes(normalizedOrigin)) {
+  if (
+    allowedOrigins.includes(normalizedOrigin) ||
+    /^http:\/\/localhost:\d+$/.test(normalizedOrigin)
+  ) {
     res.header("Access-Control-Allow-Origin", normalizedOrigin);
     res.header("Access-Control-Allow-Credentials", "true");
+
     res.header(
       "Access-Control-Allow-Methods",
       "GET,POST,PUT,PATCH,DELETE,OPTIONS",
     );
+
     res.header(
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content-Type, Accept, Authorization",
     );
+
     res.header("Vary", "Origin");
   }
 
   if (req.method === "OPTIONS") {
-    if (allowedOrigins.includes(normalizedOrigin)) {
+    if (
+      allowedOrigins.includes(normalizedOrigin) ||
+      /^http:\/\/localhost:\d+$/.test(normalizedOrigin)
+    ) {
       return res.sendStatus(204);
     }
 
@@ -116,13 +114,12 @@ app.use(
         return callback(null, true);
       }
 
-      const normalizedOrigin = origin.trim().replace(/\/$/, "");
+      const normalizedOrigin = origin.trim().replace(/\/+$/, "");
 
-      if (allowedOrigins.includes(normalizedOrigin)) {
-        return callback(null, true);
-      }
-
-      if (normalizedOrigin.startsWith("http://localhost:")) {
+      if (
+        allowedOrigins.includes(normalizedOrigin) ||
+        /^http:\/\/localhost:\d+$/.test(normalizedOrigin)
+      ) {
         return callback(null, true);
       }
 
@@ -132,11 +129,8 @@ app.use(
         new Error(`CORS blocked for origin: ${normalizedOrigin}`),
       );
     },
-
     credentials: true,
-
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-
     allowedHeaders: [
       "Origin",
       "X-Requested-With",
@@ -144,21 +138,15 @@ app.use(
       "Accept",
       "Authorization",
     ],
-
     optionsSuccessStatus: 204,
   }),
 );
 
 app.use(compression());
 
-/* -------------------------------------------------------------------------- */
-/* PAYSTACK WEBHOOK                                                          */
-/* -------------------------------------------------------------------------- */
-
-/*
- * Paystack webhook must receive the raw request body before express.json()
- * so the HMAC signature can be verified.
- */
+/* ==========================================================================
+   PAYSTACK WEBHOOK
+   ========================================================================== */
 
 app.use(
   "/api/v1/payments/webhook",
@@ -166,6 +154,10 @@ app.use(
     type: "application/json",
   }),
 );
+
+/* ==========================================================================
+   BODY PARSING
+   ========================================================================== */
 
 app.use(express.json());
 
@@ -176,12 +168,11 @@ app.use(
 );
 
 app.use(cookieParser());
-
 app.use(morgan("dev"));
 
-/* -------------------------------------------------------------------------- */
-/* HEALTH CHECK / ROOT ROUTE                                                 */
-/* -------------------------------------------------------------------------- */
+/* ==========================================================================
+   HEALTH CHECK
+   ========================================================================== */
 
 app.get("/", (req, res) => {
   res.json({
@@ -190,98 +181,69 @@ app.get("/", (req, res) => {
   });
 });
 
-/* -------------------------------------------------------------------------- */
-/* CORE API ROUTES                                                           */
-/* -------------------------------------------------------------------------- */
+/* ==========================================================================
+   CORE API ROUTES
+   ========================================================================== */
 
 app.use("/api/v1", routes);
 
-/* -------------------------------------------------------------------------- */
-/* PAYMENT & BILLING INFRASTRUCTURE                                          */
-/* -------------------------------------------------------------------------- */
-
-/*
- * Generic financial infrastructure.
- *
- * Payments:
- *   /api/v1/payments/*
- *
- * Invoices:
- *   /api/v1/invoices/*
- *
- * Receipts:
- *   /api/v1/receipts/*
- *
- * Business modules such as Application, Opportunity and Booking consume
- * this infrastructure rather than owning payment processing logic.
- */
+/* ==========================================================================
+   PAYMENT & BILLING
+   ========================================================================== */
 
 app.use("/api/v1/payments", paymentRoutes);
-
 app.use("/api/v1/invoices", invoiceRoutes);
-
 app.use("/api/v1/receipts", receiptRoutes);
 
-/* -------------------------------------------------------------------------- */
-/* ADMIN FINANCE MONITORING                                                  */
-/* -------------------------------------------------------------------------- */
-
-/*
- * Centralized admin financial monitoring.
- *
- * Overview:
- *   /api/v1/admin/finance/overview
- *
- * Invoices:
- *   /api/v1/admin/finance/invoices/*
- *
- * Payments:
- *   /api/v1/admin/finance/payments/*
- *
- * Receipts:
- *   /api/v1/admin/finance/receipts
- *
- * Access is restricted to authenticated ADMIN users
- * inside finance.admin.routes.js.
- */
+/* ==========================================================================
+   ADMIN FINANCE
+   ========================================================================== */
 
 app.use("/api/v1/admin/finance", financeAdminRoutes);
 
-/* -------------------------------------------------------------------------- */
-/* CONTACT ROUTES                                                            */
-/* -------------------------------------------------------------------------- */
-
-
-
-/* -------------------------------------------------------------------------- */
-/* CONSULTATION ROUTES                                                       */
-/* -------------------------------------------------------------------------- */
+/* ==========================================================================
+   CONSULTATIONS
+   ========================================================================== */
 
 app.use("/api/v1/admin/consultations", consultationRoutes);
 
-/* -------------------------------------------------------------------------- */
-/* ADMIN DOCUMENT ROUTES                                                     */
-/* -------------------------------------------------------------------------- */
+/* ==========================================================================
+   ADMIN DOCUMENTS
+   ========================================================================== */
 
 app.use("/api/v1/admin/documents", adminDocumentRoutes);
 
-/* -------------------------------------------------------------------------- */
-/* BLOG MODULE                                                               */
-/* -------------------------------------------------------------------------- */
+/* ==========================================================================
+   BLOG
+   ========================================================================== */
 
 app.use("/api/v1/blog", blogPublicRoutes);
-
 app.use("/api/v1/admin/blog", blogAdminRoutes);
 
-/* -------------------------------------------------------------------------- */
-/* 404 HANDLER                                                               */
-/* -------------------------------------------------------------------------- */
+/* ==========================================================================
+   ASSESSMENTS
+   ========================================================================== |
+   Public:
+     POST  /api/v1/assessments
+
+   Admin:
+     GET   /api/v1/assessments/admin
+     GET   /api/v1/assessments/admin/:id
+     PATCH /api/v1/assessments/admin/:id/status
+     PATCH /api/v1/assessments/admin/:id/notes
+   ========================================================================== */
+
+app.use("/api/v1/assessments", assessmentRoutes);
+
+/* ==========================================================================
+   404 HANDLER
+   ========================================================================== */
 
 app.use(notFound);
 
-/* -------------------------------------------------------------------------- */
-/* GLOBAL ERROR HANDLER                                                      */
-/* -------------------------------------------------------------------------- */
+/* ==========================================================================
+   GLOBAL ERROR HANDLER
+   ========================================================================== */
 
 app.use(errorHandler);
 

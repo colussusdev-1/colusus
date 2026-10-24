@@ -322,6 +322,255 @@ const australiaData = {
         "Salary and employment conditions depend on the employer, role and location.",
       ],
     },
+
+    // =====================================================
+    // AUSTRALIA TRAINEE & APPRENTICESHIP PROGRAM
+    // =====================================================
+
+    {
+      id: 5,
+
+      title: "Australia Trainee & Apprenticeship Program",
+      slug: "australia-trainee-apprenticeship",
+
+      image: "",
+      category: "Training",
+      location: "Australia",
+      type: "Traineeship & Apprenticeship",
+      duration: "6–12 Months",
+
+      icon: "🇦🇺",
+
+      salary: "Potential stipend: AUD $2,000–$3,000/month",
+      demand: "Program Dependent",
+
+      // The frontend/backend should route this opportunity
+      // through the assessment-first journey.
+      applicationFlow: "ASSESSMENT_FIRST",
+
+      programDetails: {
+        programType: "Trainee & Apprenticeship",
+        country: "Australia",
+
+        targetAudience: [
+          "Young adults interested in practical training",
+          "Applicants seeking vocational education",
+          "Individuals interested in developing job-ready skills",
+          "Eligible international applicants",
+        ],
+
+        ageRequirement: {
+          minimum: 18,
+          maximum: 35,
+          note: "Age eligibility depends on the training provider, program and applicable visa requirements.",
+        },
+
+        durationOptions: ["6 months", "12 months"],
+
+        trainingCategories: [
+          {
+            name: "Hospitality & Tourism",
+
+            courses: [
+              "Commercial Cookery",
+              "Hospitality Operations",
+              "Food and Beverage Service",
+              "Tourism Operations",
+              "Hotel Operations",
+            ],
+
+            indicativeCourseFees: "AUD $5,000–$12,000",
+          },
+
+          {
+            name: "Business & Administration",
+
+            courses: [
+              "Business Administration",
+              "Office Administration",
+              "Customer Service",
+              "Business Operations",
+            ],
+
+            indicativeCourseFees: "AUD $4,000–$10,000",
+          },
+
+          {
+            name: "Information Technology",
+
+            courses: [
+              "IT Support",
+              "Networking Fundamentals",
+              "Software Development Fundamentals",
+              "Cybersecurity Fundamentals",
+            ],
+
+            indicativeCourseFees: "AUD $6,000–$15,000",
+          },
+
+          {
+            name: "Community & Aged Care",
+
+            courses: [
+              "Individual Support",
+              "Community Services",
+              "Aged Care Support",
+              "Disability Support",
+            ],
+
+            indicativeCourseFees: "AUD $5,000–$12,000",
+          },
+
+          {
+            name: "Trades & Technical Skills",
+
+            courses: [
+              "Automotive Fundamentals",
+              "Electrical Fundamentals",
+              "Construction Skills",
+              "Technical Maintenance",
+            ],
+
+            indicativeCourseFees: "AUD $6,000–$15,000",
+          },
+        ],
+
+        targetIntakes: ["February", "May", "August", "November"],
+
+        stipend: {
+          minimum: 2000,
+          maximum: 3000,
+          currency: "AUD",
+          frequency: "Monthly",
+
+          note: "This is an indicative proposed range, not a guaranteed payment. Any stipend depends on the specific placement, employer, funding arrangements and written program terms.",
+        },
+
+        refundPolicy: {
+          available: "Subject to written terms",
+
+          note: "Refund eligibility, conditions, deductions and timelines must be confirmed in the applicable written agreement and training provider's refund policy. Refunds are not automatic.",
+        },
+
+        assessment: {
+          required: true,
+          fee: 0,
+          accountRequiredBeforeAssessment: false,
+          nextStep: "CREATE_ACCOUNT",
+
+          note: "Applicants can complete the initial eligibility assessment before creating an account.",
+        },
+      },
+
+      description:
+        "Explore Australian trainee and apprenticeship opportunities designed to help eligible applicants develop practical skills through vocational training and potential workplace experience. Available courses, placements, funding arrangements and visa options depend on the provider and the applicant's circumstances.",
+
+      highlights: [
+        "Free initial eligibility assessment",
+        "Multiple vocational training categories",
+        "Potential practical training opportunities",
+        "Course options across selected industries",
+        "Guidance on provider and program requirements",
+        "Account creation after the initial assessment",
+      ],
+
+      requirements: [
+        "Must meet the minimum age requirement for the selected program",
+        "Valid passport or ability to obtain one",
+        "Relevant educational background for the selected course",
+        "English language proficiency where required",
+        "Ability to meet applicable course and financial requirements",
+        "Eligibility for any required visa or placement arrangements",
+      ],
+
+      documents: [
+        "Valid passport",
+        "Educational certificates",
+        "Academic transcripts where applicable",
+        "CV or resume where required",
+        "English language results where required",
+        "Proof of financial capacity where required",
+        "Additional documents requested by the training provider",
+      ],
+
+      benefits: [
+        "Explore vocational training pathways",
+        "Develop practical and industry-related skills",
+        "Compare available training categories",
+        "Receive guidance on potential program suitability",
+        "Explore possible workplace learning opportunities where available",
+      ],
+
+      positions: [
+        "Hospitality Trainee",
+        "Business Administration Trainee",
+        "IT Support Trainee",
+        "Community Services Trainee",
+        "Technical Skills Trainee",
+      ],
+
+      steps: [
+        "Complete Free Eligibility Assessment",
+        "Create an Account or Sign In",
+        "Review Assessment and Program Suitability",
+        "Select an Appropriate Training Option",
+        "Confirm Provider Requirements and Costs",
+        "Prepare Required Documents",
+        "Proceed With the Applicable Application Process",
+      ],
+
+      pricing: null,
+      paymentPlan: [],
+
+      terms: [
+        "The initial eligibility assessment is not an offer of admission, employment or a visa.",
+        "Course availability, entry requirements and tuition fees must be confirmed with the relevant provider.",
+        "Indicative course fees are estimates and may differ from actual provider charges.",
+        "The proposed monthly stipend is not guaranteed and must be confirmed in writing for the specific placement.",
+        "A traineeship or apprenticeship does not automatically provide employment or permanent residency.",
+        "Visa eligibility and approval are determined under the applicable immigration rules.",
+        "Refund eligibility is governed by the relevant written agreement and provider refund policy.",
+        "Applicants must verify all program costs and conditions before making payments.",
+      ],
+
+      faq: [
+        {
+          question: "Is the initial eligibility assessment free?",
+
+          answer:
+            "Yes. The initial eligibility assessment is free and can be completed before creating an account.",
+        },
+
+        {
+          question: "Do I need an account before taking the assessment?",
+
+          answer:
+            "No. You can submit the initial assessment first. You will then be prompted to create an account or sign in to continue.",
+        },
+
+        {
+          question: "Is the monthly stipend guaranteed?",
+
+          answer:
+            "No. Any stipend depends on the specific placement, employer, funding arrangements and written terms.",
+        },
+
+        {
+          question:
+            "Does completing this program guarantee a visa or permanent residency?",
+
+          answer:
+            "No. Visa approval and permanent residency eligibility depend on the applicable immigration rules and individual circumstances.",
+        },
+
+        {
+          question: "How much does the program cost?",
+
+          answer:
+            "Costs depend on the selected course, provider and placement. Obtain a written breakdown of fees before making a payment.",
+        },
+      ],
+    },
   ],
 };
 

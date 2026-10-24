@@ -14,6 +14,7 @@ import romania from "./romania.js";
 import serbia from "./serbia.js";
 import spain from "./spain.js";
 import uk from "./uk.js";
+import newZealand from "./new-zealand.js";
 
 /* -------------------------------------------------------------------------- */
 /* COUNTRY DATA                                                               */
@@ -36,10 +37,11 @@ const countries = [
   serbia,
   spain,
   uk,
+  newZealand,
 ];
 
 /* -------------------------------------------------------------------------- */
-/* VALIDATE COUNTRY DATA                                                      */
+/* VALIDATION COLLECTIONS                                                     */
 /* -------------------------------------------------------------------------- */
 
 const errors = [];
@@ -54,12 +56,6 @@ const opportunityIds = new Map();
 /* NORMALIZATION HELPERS                                                      */
 /* -------------------------------------------------------------------------- */
 
-/**
- * Converts public-facing migration pathway steps into the embedded-object
- * structure expected by Opportunity.steps.
- *
- * Supports existing string entries and structured objects.
- */
 function normalizeJourneySteps(steps, opportunityTitle) {
   if (steps == null) {
     return [];
@@ -108,11 +104,6 @@ function normalizeJourneySteps(steps, opportunityTitle) {
     .filter(Boolean);
 }
 
-/**
- * Ensures applicationConfig.steps remains an array of strings.
- *
- * This field is separate from the public-facing Opportunity.steps field.
- */
 function normalizeApplicationConfig(config, opportunityTitle) {
   const defaults = {
     steps: ["PERSONAL_INFORMATION", "DOCUMENTS", "REVIEW"],
@@ -159,7 +150,7 @@ function normalizeApplicationConfig(config, opportunityTitle) {
 }
 
 /* -------------------------------------------------------------------------- */
-/* VALIDATE COUNTRIES AND OPPORTUNITIES                                       */
+/* VALIDATE COUNTRY DATA                                                      */
 /* -------------------------------------------------------------------------- */
 
 for (const country of countries) {
@@ -290,6 +281,27 @@ for (const country of countries) {
         `"${opportunity.title}" in "${country.name}" has invalid applicationConfig.`,
       );
     }
+
+    if (
+      opportunity.applicationFlow != null &&
+      !["DIRECT_APPLICATION", "ASSESSMENT_FIRST"].includes(
+        opportunity.applicationFlow,
+      )
+    ) {
+      errors.push(
+        `"${opportunity.title}" in "${country.name}" has invalid applicationFlow.`,
+      );
+    }
+
+    if (
+      opportunity.programDetails != null &&
+      (typeof opportunity.programDetails !== "object" ||
+        Array.isArray(opportunity.programDetails))
+    ) {
+      errors.push(
+        `"${opportunity.title}" in "${country.name}" has invalid programDetails.`,
+      );
+    }
   }
 }
 
@@ -309,7 +321,7 @@ const opportunities = countries.flatMap((country) => {
     countryName: country.name,
     countrySlug: country.slug,
     countryFlag: country.flag || "",
-    countryImage: "",
+    countryImage: country.image || "",
 
     /* Country metadata */
 
@@ -340,6 +352,14 @@ const opportunities = countries.flatMap((country) => {
     demand: opportunity.demand || "",
     description: opportunity.description || "",
 
+    /* Assessment-first or direct application flow */
+
+    applicationFlow: opportunity.applicationFlow || "DIRECT_APPLICATION",
+
+    /* Additional information for special programs */
+
+    programDetails: opportunity.programDetails ?? null,
+
     /* Opportunity content */
 
     highlights: Array.isArray(opportunity.highlights)
@@ -357,10 +377,10 @@ const opportunities = countries.flatMap((country) => {
     benefits: Array.isArray(opportunity.benefits) ? opportunity.benefits : [],
 
     /*
-     * FIX:
-     * Opportunity.steps requires embedded objects containing
-     * title, description and duration.
+     * Opportunity.steps contains public-facing journey steps.
+     * Normalize them into the structure expected by the model.
      */
+
     steps: normalizeJourneySteps(opportunity.steps, opportunity.title),
 
     positions: Array.isArray(opportunity.positions)
@@ -384,11 +404,10 @@ const opportunities = countries.flatMap((country) => {
     terms: Array.isArray(opportunity.terms) ? opportunity.terms : [],
 
     /*
-     * Application configuration.
-     *
-     * Keep applicationConfig.steps as strings.
-     * These are not the same as the public-facing journey steps above.
+     * applicationConfig.steps remains an array of strings.
+     * It is separate from the public-facing journey steps.
      */
+
     applicationConfig: normalizeApplicationConfig(
       opportunity.applicationConfig,
       opportunity.title,
@@ -396,7 +415,7 @@ const opportunities = countries.flatMap((country) => {
 
     /* Status */
 
-    active: true,
+    active: opportunity.active !== false,
   }));
 });
 
@@ -491,6 +510,8 @@ console.log("\nVALIDATION PASSED");
 console.log("No duplicate country IDs or country-scoped offer keys found.");
 
 console.log("Journey steps and application workflow steps have valid formats.");
+
+console.log("Application flow and program details have been normalized.");
 
 console.log("========================================\n");
 

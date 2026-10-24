@@ -1,21 +1,34 @@
 import jwt from "jsonwebtoken";
-
 import config from "../config/environment.js";
+
+/*
+|--------------------------------------------------------------------------
+| AUTHENTICATION MIDDLEWARE
+|--------------------------------------------------------------------------
+|
+| Responsibilities:
+| - Extract and validate Bearer tokens.
+| - Verify JWT signatures and expiration.
+| - Validate the authenticated user's identity.
+| - Attach the authenticated user to req.user.
+| - Normalize the user's role for authorization checks.
+|
+*/
 
 const authenticate = (req, res, next) => {
   try {
+    const authHeader = req.headers.authorization;
+
     /*
     |--------------------------------------------------------------------------
     | AUTHORIZATION HEADER
     |--------------------------------------------------------------------------
     */
 
-    const authHeader = req.headers.authorization;
-
     if (!authHeader) {
       return res.status(401).json({
         success: false,
-        message: "Authentication required",
+        message: "Authentication required.",
       });
     }
 
@@ -25,12 +38,27 @@ const authenticate = (req, res, next) => {
     |--------------------------------------------------------------------------
     */
 
-    const [scheme, token] = authHeader.split(" ");
+    const [scheme, token, ...extraParts] = authHeader.trim().split(/\s+/);
 
-    if (!token || scheme?.toLowerCase() !== "bearer") {
+    if (scheme?.toLowerCase() !== "bearer" || !token || extraParts.length > 0) {
       return res.status(401).json({
         success: false,
-        message: "Invalid authentication format",
+        message: "Invalid authentication format. Use Bearer <token>.",
+      });
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | JWT CONFIGURATION
+    |--------------------------------------------------------------------------
+    */
+
+    if (!config.jwtSecret) {
+      console.error("Authentication configuration error: JWT secret missing.");
+
+      return res.status(500).json({
+        success: false,
+        message: "Authentication service is not configured.",
       });
     }
 
@@ -40,26 +68,42 @@ const authenticate = (req, res, next) => {
     |--------------------------------------------------------------------------
     */
 
-    const decoded = jwt.verify(token, config.jwtSecret);
+    const decoded = jwt.verify(token, config.jwtSecret, {
+      algorithms: ["HS256"],
+    });
 
     /*
     |--------------------------------------------------------------------------
     | VALIDATE JWT PAYLOAD
     |--------------------------------------------------------------------------
+    */
+
+    if (
+      !decoded ||
+      typeof decoded !== "object" ||
+      typeof decoded.id !== "string" ||
+      !decoded.id.trim()
+    ) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid authentication token.",
+      });
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | NORMALIZE ROLE
+    |--------------------------------------------------------------------------
     |
-    | Every authenticated request needs a user identity.
-    |
-    | The role is also required by allowRoles() and the
-    | permission system.
+    | This supports role checks such as:
+    | allowRoles("ADMIN", "SUPER_ADMIN")
     |
     */
 
-    if (!decoded?.id) {
-      return res.status(401).json({
-        success: false,
-        message: "Invalid authentication token",
-      });
-    }
+    const role =
+      typeof decoded.role === "string"
+        ? decoded.role.trim().toUpperCase()
+        : null;
 
     /*
     |--------------------------------------------------------------------------
@@ -69,17 +113,8 @@ const authenticate = (req, res, next) => {
 
     req.user = {
       id: decoded.id,
-      role: decoded.role || null,
+      role,
     };
-
-    /*
-    |--------------------------------------------------------------------------
-    | OPTIONAL JWT METADATA
-    |--------------------------------------------------------------------------
-    |
-    | Preserve common JWT fields if they exist.
-    |
-    */
 
     if (decoded.iat !== undefined) {
       req.user.iat = decoded.iat;
@@ -91,25 +126,38 @@ const authenticate = (req, res, next) => {
 
     /*
     |--------------------------------------------------------------------------
-    | DEBUG
+    | TEMPORARY DEBUG LOG
     |--------------------------------------------------------------------------
-    |
-    | Keep this temporarily while we verify the current token.
-    |
-    | Remove the console.log after confirming the role is correct.
-    |
     */
 
-    console.log("Authenticated user:", {
-      id: req.user.id,
-      role: req.user.role,
-    });
+    if (process.env.NODE_ENV !== "production") {
+      console.log("Authenticated user:", {
+        id: req.user.id,
+        role: req.user.role,
+      });
+    }
 
-    next();
+    return next();
   } catch (error) {
-    return res.status(401).json({
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({
+        success: false,
+        message: "Your session has expired. Please log in again.",
+      });
+    }
+
+    if (error.name === "JsonWebTokenError" || error.name === "NotBeforeError") {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid authentication token.",
+      });
+    }
+
+    console.error("Authentication middleware error:", error.message);
+
+    return res.status(500).json({
       success: false,
-      message: "Invalid or expired token",
+      message: "Authentication failed due to a server error.",
     });
   }
 };

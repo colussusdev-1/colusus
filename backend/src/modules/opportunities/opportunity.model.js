@@ -47,39 +47,30 @@ const opportunitySchema = new mongoose.Schema(
 
     countryId: {
       type: Number,
-
       required: true,
     },
 
     countryName: {
       type: String,
-
       required: true,
-
       trim: true,
     },
 
     countrySlug: {
       type: String,
-
       required: true,
-
       trim: true,
-
       lowercase: true,
-
       index: true,
     },
 
     countryFlag: {
       type: String,
-
       default: "",
     },
 
     countryImage: {
       type: String,
-
       default: "",
     },
 
@@ -91,55 +82,46 @@ const opportunitySchema = new mongoose.Schema(
 
     applicants: {
       type: String,
-
       default: "",
     },
 
     countryCategories: {
       type: [String],
-
       default: [],
     },
 
     countryVisa: {
       type: String,
-
       default: "",
     },
 
     countryDuration: {
       type: String,
-
       default: "",
     },
 
     countryProcessingTime: {
       type: String,
-
       default: "",
     },
 
     countryDescription: {
       type: String,
-
       default: "",
     },
 
     opportunityScore: {
       type: String,
-
       default: "",
     },
 
     successRate: {
       type: String,
-
       default: "",
     },
 
     featured: {
       type: Boolean,
-
       default: false,
     },
 
@@ -151,59 +133,48 @@ const opportunitySchema = new mongoose.Schema(
 
     legacyId: {
       type: Number,
-
       required: true,
     },
 
     title: {
       type: String,
-
       required: true,
-
       trim: true,
     },
 
     slug: {
       type: String,
-
       required: true,
-
       trim: true,
     },
 
     image: {
       type: String,
-
       default: "",
     },
 
     category: {
       type: String,
-
       default: "",
     },
 
     location: {
       type: String,
-
       default: "",
     },
 
     type: {
       type: String,
-
       default: "",
     },
 
     duration: {
       type: String,
-
       default: "",
     },
 
     icon: {
       type: String,
-
       default: "",
     },
 
@@ -215,19 +186,16 @@ const opportunitySchema = new mongoose.Schema(
 
     salary: {
       type: String,
-
       default: "",
     },
 
     demand: {
       type: String,
-
       default: "",
     },
 
     description: {
       type: String,
-
       default: "",
     },
 
@@ -239,7 +207,6 @@ const opportunitySchema = new mongoose.Schema(
 
     highlights: {
       type: [String],
-
       default: [],
     },
 
@@ -251,7 +218,6 @@ const opportunitySchema = new mongoose.Schema(
 
     requirements: {
       type: [String],
-
       default: [],
     },
 
@@ -274,7 +240,6 @@ const opportunitySchema = new mongoose.Schema(
 
     documents: {
       type: [String],
-
       default: [],
     },
 
@@ -286,7 +251,6 @@ const opportunitySchema = new mongoose.Schema(
 
     benefits: {
       type: [String],
-
       default: [],
     },
 
@@ -304,19 +268,16 @@ const opportunitySchema = new mongoose.Schema(
         {
           title: {
             type: String,
-
             default: "",
           },
 
           description: {
             type: String,
-
             default: "",
           },
 
           duration: {
             type: String,
-
             default: "",
           },
         },
@@ -333,7 +294,6 @@ const opportunitySchema = new mongoose.Schema(
 
     positions: {
       type: [mongoose.Schema.Types.Mixed],
-
       default: [],
     },
 
@@ -345,7 +305,6 @@ const opportunitySchema = new mongoose.Schema(
 
     workConditions: {
       type: mongoose.Schema.Types.Mixed,
-
       default: null,
     },
 
@@ -357,7 +316,6 @@ const opportunitySchema = new mongoose.Schema(
 
     contract: {
       type: String,
-
       default: "",
     },
 
@@ -369,7 +327,6 @@ const opportunitySchema = new mongoose.Schema(
 
     faq: {
       type: [mongoose.Schema.Types.Mixed],
-
       default: [],
     },
 
@@ -381,7 +338,6 @@ const opportunitySchema = new mongoose.Schema(
 
     pricing: {
       type: mongoose.Schema.Types.Mixed,
-
       default: null,
     },
 
@@ -393,7 +349,6 @@ const opportunitySchema = new mongoose.Schema(
 
     paymentPlan: {
       type: [mongoose.Schema.Types.Mixed],
-
       default: [],
     },
 
@@ -405,8 +360,87 @@ const opportunitySchema = new mongoose.Schema(
 
     terms: {
       type: [String],
-
       default: [],
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | APPLICATION FLOW
+    |--------------------------------------------------------------------------
+    |
+    | DIRECT_APPLICATION:
+    |   Existing opportunity application process.
+    |
+    | ASSESSMENT_FIRST:
+    |   The visitor submits an eligibility assessment before being
+    |   prompted to sign up or sign in.
+    |
+    | Existing opportunities retain their current flow by default.
+    |
+    */
+
+    applicationFlow: {
+      type: String,
+
+      enum: ["DIRECT_APPLICATION", "ASSESSMENT_FIRST"],
+
+      default: "DIRECT_APPLICATION",
+
+      trim: true,
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | PROGRAM DETAILS
+    |--------------------------------------------------------------------------
+    |
+    | Optional structured information for specialised opportunities,
+    | including trainee and apprenticeship programs.
+    |
+    | Example:
+    |
+    | {
+    |   programType: "TRAINEE_APPRENTICESHIP",
+    |
+    |   targetIntakes: [
+    |     "January 2027",
+    |     "February 2027"
+    |   ],
+    |
+    |   stipend: {
+    |     minimum: 2000,
+    |     maximum: 3000,
+    |     currency: "NZD",
+    |     frequency: "MONTHLY",
+    |     status: "SUBJECT_TO_PROVIDER_CONFIRMATION"
+    |   },
+    |
+    |   estimatedBudget: {
+    |     minimum: 5000000,
+    |     maximum: 15000000,
+    |     currency: "NGN"
+    |   },
+    |
+    |   visaRefusalRefund: {
+    |     available: true,
+    |     percentage: 100,
+    |     appliesTo: "COVERED_TRAINING_FEE_DEPOSIT",
+    |     subjectToWrittenPolicy: true
+    |   },
+    |
+    |   courseCategories: []
+    | }
+    |
+    | This is Mixed because individual programs and providers may
+    | have different requirements and information.
+    |
+    | Validate program details in the relevant service/controller.
+    |
+    */
+
+    programDetails: {
+      type: mongoose.Schema.Types.Mixed,
+      default: null,
     },
 
     /*
@@ -433,7 +467,6 @@ const opportunitySchema = new mongoose.Schema(
 
       steps: {
         type: [String],
-
         default: DEFAULT_APPLICATION_STEPS,
       },
 
@@ -450,7 +483,6 @@ const opportunitySchema = new mongoose.Schema(
 
       questions: {
         type: [mongoose.Schema.Types.Mixed],
-
         default: [],
       },
 
@@ -480,31 +512,24 @@ const opportunitySchema = new mongoose.Schema(
           {
             name: {
               type: String,
-
               required: true,
-
               trim: true,
             },
 
             type: {
               type: String,
-
               enum: DOCUMENT_TYPES,
-
               required: true,
             },
 
             description: {
               type: String,
-
               default: "",
-
               trim: true,
             },
 
             required: {
               type: Boolean,
-
               default: true,
             },
           },
@@ -521,7 +546,6 @@ const opportunitySchema = new mongoose.Schema(
 
       workflow: {
         type: [mongoose.Schema.Types.Mixed],
-
         default: [],
       },
     },
@@ -534,7 +558,6 @@ const opportunitySchema = new mongoose.Schema(
 
     active: {
       type: Boolean,
-
       default: true,
     },
   },
@@ -553,7 +576,6 @@ const opportunitySchema = new mongoose.Schema(
 opportunitySchema.index(
   {
     countrySlug: 1,
-
     slug: 1,
   },
 

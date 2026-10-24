@@ -602,8 +602,7 @@ const OpportunityDetails = () => {
         title,
         image,
         category,
-        location:
-        opportunityLocation,
+        location: opportunityLocation,
         type,
         duration,
         salary,
@@ -618,7 +617,131 @@ const OpportunityDetails = () => {
         pricing,
         paymentPlan = [],
         terms = [],
+        applicationFlow = "DIRECT_APPLICATION",
+        programDetails = null,
     } = selectedOpportunity;
+
+    /*
+     * Australia and New Zealand trainee/apprenticeship pathways use
+     * the same assessment-first journey. Prefer the backend flag, but
+     * keep these two known program slugs working if production data
+     * has not yet returned applicationFlow.
+     */
+    const normalizedOpportunitySlug = normalize(
+        selectedOpportunity?.slug || slug,
+    ).replace(/\\s+/g, "-");
+
+    const isTraineeProgram =
+        normalizedOpportunitySlug.includes("australia-trainee-apprenticeship") ||
+        normalizedOpportunitySlug.includes("new-zealand-trainee-apprenticeship");
+
+    const isAssessmentFirst =
+        applicationFlow === "ASSESSMENT_FIRST" || isTraineeProgram;
+
+    const rawTrainingCategories = Array.isArray(
+        programDetails?.trainingCategories,
+    )
+        ? programDetails.trainingCategories
+        : [];
+
+    const trainingCategories = rawTrainingCategories
+        .map((item, index) => {
+            if (typeof item === "string") {
+                return {
+                    id: `${selectedOpportunity.slug || slug}-training-${index}`,
+                    name: item,
+                    courses: [],
+                    description: "",
+                };
+            }
+
+            if (!item || typeof item !== "object") {
+                return null;
+            }
+
+            return {
+                id: item._id || item.id ||
+                    `${selectedOpportunity.slug || slug}-training-${index}`,
+                name:
+                    item.name ||
+                    item.title ||
+                    item.label ||
+                    item.category ||
+                    item.sector ||
+                    "",
+                courses: Array.isArray(item.courses)
+                    ? item.courses
+                    : Array.isArray(item.roles)
+                        ? item.roles
+                        : [],
+                description: item.description || "",
+            };
+        })
+        .filter((item) => item && item.name);
+
+    const traineeProgramPositions = trainingCategories.map((item) => ({
+        id: item.id,
+        title: item.name,
+        category: "Training & apprenticeship",
+        description: item.description,
+        roles: item.courses,
+    }));
+
+    /*
+     * Some older catalogue records store the training/employment
+     * details in positions rather than programDetails.trainingCategories.
+     * Normalize those records too so the page does not show repeated
+     * generic "Employment opportunity" labels.
+     */
+    const normalizedExistingPositions = Array.isArray(positions)
+        ? positions.map((item, index) => {
+            if (typeof item === "string") {
+                return {
+                    id: `${selectedOpportunity.slug || slug}-position-${index}`,
+                    title: item,
+                    category: isTraineeProgram
+                        ? "Training & apprenticeship"
+                        : "Employment",
+                    description: "",
+                    roles: [],
+                };
+            }
+
+            return {
+                ...item,
+                id: item?.id || item?._id ||
+                    `${selectedOpportunity.slug || slug}-position-${index}`,
+                title:
+                    item?.title ||
+                    item?.name ||
+                    item?.position ||
+                    item?.role ||
+                    item?.sector ||
+                    item?.occupation ||
+                    "Opportunity details",
+                category:
+                    item?.category ||
+                    item?.sector ||
+                    (isTraineeProgram
+                        ? "Training & apprenticeship"
+                        : "Employment"),
+                description: item?.description || "",
+                roles: Array.isArray(item?.roles)
+                    ? item.roles
+                    : Array.isArray(item?.courses)
+                        ? item.courses
+                        : [],
+            };
+        })
+        : [];
+
+    const displayedPositions = isAssessmentFirst
+        ? (
+            traineeProgramPositions.length > 0
+                ? traineeProgramPositions
+                : normalizedExistingPositions
+        )
+        : normalizedExistingPositions;
 
 
     /* ========================================================
@@ -647,6 +770,12 @@ const OpportunityDetails = () => {
     const handleContinueWithPathway = () => {
 
         if (!selectedOpportunity) {
+            return;
+        }
+
+        // Assessment-first opportunities must not enter the direct application.
+        if (selectedOpportunity.applicationFlow === "ASSESSMENT_FIRST") {
+            handleCheckEligibility();
             return;
         }
 
@@ -710,7 +839,9 @@ const OpportunityDetails = () => {
     const handleCheckEligibility = () => {
 
         navigate(
-            "/free-assessment",
+            isAssessmentFirst
+                ? "/trainee-program-assessment"
+                : "/free-assessment",
             {
                 state: {
 
@@ -928,8 +1059,9 @@ const OpportunityDetails = () => {
                             <div className="opportunity-details__hero-cta-copy">
                                 <span>YOUR NEXT CHAPTER STARTS HERE</span>
                                 <p>
-                                    Ready to move forward? Start your application
-                                    for this migration pathway.
+                                    {isAssessmentFirst
+                                        ? "Submit your details for an initial eligibility assessment."
+                                        : "Ready to move forward? Start your application for this migration pathway."}
                                 </p>
                             </div>
 
@@ -939,15 +1071,16 @@ const OpportunityDetails = () => {
                                 type="button"
                                 onClick={handleContinueWithPathway}
                             >
-                                <span>Start Your Application</span>
+                                <span>{isAssessmentFirst ? "Submit Details for Assessment" : "Start Your Application"}</span>
                                 <HiOutlineChevronRight aria-hidden="true" />
                             </button>
 
                             <small className="opportunity-details__hero-cta-note">
-                                Takes you to the application process. Sign in or create
-                                an account to continue.
+                                {isAssessmentFirst
+                                    ? "Submit your assessment details first. You can create an account afterward to continue."
+                                    : "Takes you to the application process. Sign in or create an account to continue."}
                             </small>
-                            
+
 
                         </div>
 
@@ -1185,7 +1318,7 @@ const OpportunityDetails = () => {
                     POSITIONS
                 ================================================== */}
 
-                {positions.length > 0 && (
+                {displayedPositions.length > 0 && (
 
                     <section className="opportunity-details__positions-section">
 
@@ -1198,11 +1331,13 @@ const OpportunityDetails = () => {
                             <div>
 
                                 <small>
-                                    Available opportunities
+                                    {isAssessmentFirst ? "Training pathways" : "Available opportunities"}
                                 </small>
 
                                 <h2>
-                                    Jobs & employment areas
+                                    {isAssessmentFirst
+                                        ? "Training & apprenticeship areas"
+                                        : "Jobs & employment areas"}
                                 </h2>
 
                             </div>
@@ -1211,14 +1346,15 @@ const OpportunityDetails = () => {
 
 
                         <p className="opportunity-details__section-lead">
-                            Review the positions associated
-                            with this migration pathway.
+                            {isAssessmentFirst
+                                ? "Explore the training categories and courses associated with this program."
+                                : "Review the positions associated with this migration pathway."}
                         </p>
 
 
                         <div className="opportunity-details__positions-list">
 
-                            {positions.map(
+                            {displayedPositions.map(
                                 (
                                     position,
                                     index,
@@ -1778,7 +1914,9 @@ const OpportunityDetails = () => {
                                         handleContinueWithPathway
                                     }
                                 >
-                                    Continue with pathway
+                                    {isAssessmentFirst
+                                        ? "Submit Details for Assessment"
+                                        : "Continue with pathway"}
                                 </button>
 
                             </section>
@@ -1920,10 +2058,9 @@ const OpportunityDetails = () => {
                         </h2>
 
                         <p>
-                            Continue with this pathway
-                            to begin your application.
-                            We'll preserve this pathway
-                            while you sign in.
+                            {isAssessmentFirst
+                                ? "Submit your details for an initial assessment before creating an account to continue."
+                                : "Continue with this pathway to begin your application. We'll preserve this pathway while you sign in."}
                         </p>
 
                     </div>
@@ -1949,7 +2086,9 @@ const OpportunityDetails = () => {
                             }
                             className="opportunity-details__final-primary-action"
                         >
-                            Continue with pathway
+                            {isAssessmentFirst
+                                ? "Submit Details for Assessment"
+                                : "Continue with pathway"}
                         </button>
 
                     </div>
