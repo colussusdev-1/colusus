@@ -13,7 +13,7 @@
 
     width: 100%;
     min-width: 0;
-    padding: 28px;
+    padding: 36px 32px 32px;
     color: var(--assessment-text);
     background: var(--assessment-background);
     font-family: inherit;
@@ -60,7 +60,9 @@
     align-items: flex-end;
     justify-content: space-between;
     gap: 24px;
-    margin-bottom: 28px;
+    margin-bottom: 36px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #e9edf5;
 }
 
 .assessments-header__main {
@@ -71,7 +73,7 @@
     display: flex;
     align-items: center;
     gap: 9px;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
     color: #8b95a7;
     font-size: 12px;
 }
@@ -1468,11 +1470,13 @@
 
 @media (max-width: 850px) {
     .assessments-page {
-        padding: 20px;
+        padding: 26px 20px;
     }
 
     .assessments-header {
         align-items: flex-start;
+        margin-bottom: 28px;
+        padding-bottom: 20px;
     }
 
     .assessment-metrics {
@@ -1507,13 +1511,14 @@
 
 @media (max-width: 600px) {
     .assessments-page {
-        padding: 15px;
+        padding: 22px 15px;
     }
 
     .assessments-header {
         flex-direction: column;
         gap: 17px;
-        margin-bottom: 21px;
+        margin-bottom: 24px;
+        padding-bottom: 18px;
     }
 
     .assessments-header>.assessment-button {

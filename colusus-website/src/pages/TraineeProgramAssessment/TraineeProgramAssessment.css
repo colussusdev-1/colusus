@@ -18,7 +18,7 @@
     --assessment-success: #13845b;
 
     min-height: 100vh;
-    padding: 28px 24px 76px;
+    padding: 165px 24px 76px;
     overflow-x: clip;
     background:
         radial-gradient(ellipse at 88% 8%, rgba(57, 198, 230, 0.13), transparent 31%),
@@ -1321,7 +1321,7 @@
 
 @media (max-width: 720px) {
     .free-assessment-page {
-        padding: 18px 14px 46px;
+        padding: 125px 14px 46px;
     }
 
     .assessment-intro--premium {
