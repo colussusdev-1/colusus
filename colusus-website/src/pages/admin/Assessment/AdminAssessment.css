@@ -154,6 +154,7 @@
     background: var(--assessment-primary-dark);
     border-color: var(--assessment-primary-dark);
     box-shadow: 0 4px 12px rgb(21 94 239 / 15%);
+     background-color: #155eef;
 }
 
 .assessment-button--secondary {
