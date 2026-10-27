@@ -1,5 +1,5 @@
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
     ArrowLeft,
@@ -24,6 +24,85 @@ const API_BASE_URL = (
 ).replace(/\/$/, "");
 
 const ASSESSMENT_ENDPOINT = `${API_BASE_URL}/assessments`;
+
+
+const ASSESSMENT_DRAFT_DB = "colossus_assessment_drafts";
+const ASSESSMENT_DRAFT_STORE = "drafts";
+const ASSESSMENT_DRAFT_KEY = "pending-assessment-v1";
+
+function getAuthToken() {
+    const keys = ["colossus_token", "token", "accessToken", "authToken", "access_token"];
+    for (const key of keys) {
+        try {
+            const value = localStorage.getItem(key);
+            if (value) return value;
+        } catch {
+            // Storage may be unavailable in restricted browser contexts.
+        }
+    }
+
+    try {
+        const user = JSON.parse(localStorage.getItem("user") || "null");
+        return user?.token || user?.accessToken || null;
+    } catch {
+        return null;
+    }
+}
+
+function openAssessmentDraftDB() {
+    return new Promise((resolve, reject) => {
+        if (!("indexedDB" in window)) {
+            reject(new Error("This browser cannot securely preserve your assessment draft. Please use a modern browser."));
+            return;
+        }
+
+        const request = indexedDB.open(ASSESSMENT_DRAFT_DB, 1);
+        request.onupgradeneeded = () => {
+            const db = request.result;
+            if (!db.objectStoreNames.contains(ASSESSMENT_DRAFT_STORE)) {
+                db.createObjectStore(ASSESSMENT_DRAFT_STORE);
+            }
+        };
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error || new Error("Could not open assessment draft storage."));
+    });
+}
+
+async function saveAssessmentDraft(draft) {
+    const db = await openAssessmentDraftDB();
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction(ASSESSMENT_DRAFT_STORE, "readwrite");
+        transaction.objectStore(ASSESSMENT_DRAFT_STORE).put(draft, ASSESSMENT_DRAFT_KEY);
+        transaction.oncomplete = () => { db.close(); resolve(); };
+        transaction.onerror = () => { db.close(); reject(transaction.error || new Error("Could not save your assessment draft.")); };
+        transaction.onabort = () => { db.close(); reject(transaction.error || new Error("Could not save your assessment draft.")); };
+    });
+}
+
+async function loadAssessmentDraft() {
+    const db = await openAssessmentDraftDB();
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction(ASSESSMENT_DRAFT_STORE, "readonly");
+        const request = transaction.objectStore(ASSESSMENT_DRAFT_STORE).get(ASSESSMENT_DRAFT_KEY);
+        request.onsuccess = () => { db.close(); resolve(request.result || null); };
+        request.onerror = () => { db.close(); reject(request.error || new Error("Could not restore your assessment draft.")); };
+    });
+}
+
+async function clearAssessmentDraft() {
+    try {
+        const db = await openAssessmentDraftDB();
+        await new Promise((resolve, reject) => {
+            const transaction = db.transaction(ASSESSMENT_DRAFT_STORE, "readwrite");
+            transaction.objectStore(ASSESSMENT_DRAFT_STORE).delete(ASSESSMENT_DRAFT_KEY);
+            transaction.oncomplete = resolve;
+            transaction.onerror = () => reject(transaction.error);
+        });
+        db.close();
+    } catch (error) {
+        console.warn("Could not clear assessment draft:", error);
+    }
+}
 
 const initialForm = {
     firstName: "",
@@ -277,6 +356,70 @@ export default function TraineeProgramAssessment() {
 
     const [documentErrors, setDocumentErrors] = useState({});
 
+    const [draftRestored, setDraftRestored] = useState(false);
+    const [authModalOpen, setAuthModalOpen] = useState(false);
+    const [authModalMode, setAuthModalMode] = useState("choose");
+    const [emailCheckLoading, setEmailCheckLoading] = useState(false);
+    const [authenticated, setAuthenticated] = useState(Boolean(getAuthToken()));
+    const [returningFromAuth, setReturningFromAuth] = useState(false);
+    const submitButtonRef = React.useRef(null);
+    const confirmedSubmitRef = React.useRef(false);
+
+    useEffect(() => {
+        let cancelled = false;
+
+        (async () => {
+            try {
+                const draft = await loadAssessmentDraft();
+                if (cancelled || !draft) return;
+
+                if (draft.form) {
+                    setForm((current) => ({ ...current, ...draft.form }));
+                }
+                if (draft.documents) {
+                    setDocuments((current) => ({ ...current, ...draft.documents }));
+                }
+            } catch (error) {
+                console.warn("Assessment draft could not be restored:", error);
+            } finally {
+                if (!cancelled) setDraftRestored(true);
+            }
+        })();
+
+        return () => { cancelled = true; };
+    }, []);
+
+    useEffect(() => {
+        const hasToken = Boolean(getAuthToken());
+        setAuthenticated(hasToken);
+
+        const cameFromAuth =
+            location.state?.source === "trainee-program-assessment" ||
+            location.state?.assessmentAuthSuccess === true;
+
+        if (hasToken && cameFromAuth) {
+            setReturningFromAuth(true);
+            setAuthModalMode("confirm");
+            setAuthModalOpen(true);
+
+            window.setTimeout(() => {
+                submitButtonRef.current?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                });
+            }, 250);
+        }
+    }, [location.key, location.state]);
+
+    useEffect(() => {
+        if (location.state?.email) {
+            setForm((current) => ({
+                ...current,
+                email: current.email || location.state.email,
+            }));
+        }
+    }, [location.state?.email]);
+
     const setField = (event) => {
         const { name, value, type, checked } = event.target;
 
@@ -496,8 +639,47 @@ export default function TraineeProgramAssessment() {
             return;
         }
 
-        setSubmitting(true);
         setSubmitError("");
+
+        const token = getAuthToken();
+        setAuthenticated(Boolean(token));
+
+        if (!token) {
+            try {
+                await saveAssessmentDraft({
+                    form,
+                    documents,
+                    savedAt: new Date().toISOString(),
+                    routeState,
+                    pathname: location.pathname,
+                });
+            } catch (draftError) {
+                setSubmitError(
+                    `${draftError.message || "We could not preserve your draft."} Please keep this page open and try again.`
+                );
+                return;
+            }
+
+            setAuthModalOpen(true);
+            setAuthModalMode("choose");
+            await checkAccountEmail();
+            return;
+        }
+
+        // First click after authentication opens a final confirmation modal.
+        if (!confirmedSubmitRef.current) {
+            setAuthModalMode("confirm");
+            setAuthModalOpen(true);
+            window.setTimeout(() => {
+                submitButtonRef.current?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                });
+            }, 100);
+            return;
+        }
+
+        setSubmitting(true);
 
         const fullName = [
             form.firstName.trim(),
@@ -595,22 +777,73 @@ export default function TraineeProgramAssessment() {
                 }
             });
 
+            /*
+             * Preserve the purpose of each upload from the form field.
+             * The backend should persist documentLabel and documentType
+             * from this metadata rather than infer them from the filename.
+             */
+            const documentMetadata = {
+                passport: documents.passport
+                    ? {
+                        fieldKey: "passport",
+                        documentLabel: "International passport bio-data page",
+                        documentType: "PASSPORT",
+                        originalName: documents.passport.name,
+                    }
+                    : null,
+                cv: documents.cv
+                    ? {
+                        fieldKey: "cv",
+                        documentLabel: "CV or résumé",
+                        documentType: "CV",
+                        originalName: documents.cv.name,
+                    }
+                    : null,
+                education: documents.education
+                    ? {
+                        fieldKey: "education",
+                        documentLabel: "Education certificate or transcript",
+                        documentType: "EDUCATIONAL_CERTIFICATE",
+                        originalName: documents.education.name,
+                    }
+                    : null,
+                englishTest: documents.englishTest
+                    ? {
+                        fieldKey: "englishTest",
+                        documentLabel: "English test result (if available)",
+                        documentType: "OTHER",
+                        originalName: documents.englishTest.name,
+                    }
+                    : null,
+                experience: documents.experience
+                    ? {
+                        fieldKey: "experience",
+                        documentLabel: isAustralia
+                            ? "Trade / work experience evidence (if available)"
+                            : "Training / work experience evidence (if available)",
+                        documentType: "OTHER",
+                        originalName: documents.experience.name,
+                    }
+                    : null,
+                additional: documents.additional.map((file) => ({
+                    fieldKey: "additional",
+                    documentLabel: "Other supporting document",
+                    documentType: "OTHER",
+                    originalName: file.name,
+                })),
+            };
+
             requestBody.append(
                 "documentMetadata",
-                JSON.stringify({
-                    passport: documents.passport?.name || "",
-                    cv: documents.cv?.name || "",
-                    education: documents.education?.name || "",
-                    englishTest: documents.englishTest?.name || "",
-                    experience: documents.experience?.name || "",
-                    additional: documents.additional.map(
-                        (file) => file.name
-                    ),
-                })
+                JSON.stringify(documentMetadata)
             );
 
             const response = await fetch(ASSESSMENT_ENDPOINT, {
                 method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    Accept: "application/json",
+                },
                 body: requestBody,
             });
 
@@ -646,32 +879,122 @@ export default function TraineeProgramAssessment() {
                 email: payload.personalDetails.email,
             };
 
+            await clearAssessmentDraft();
             try {
-                sessionStorage.setItem(
-                    "colossus_pending_assessment",
-                    JSON.stringify(savedAssessment)
-                );
-            } catch (storageError) {
-                console.warn(
-                    "Could not save pending assessment locally:",
-                    storageError
-                );
+                sessionStorage.removeItem("colossus_pending_assessment_return_to");
+            } catch {
+                // Ignore storage cleanup failures.
             }
 
-            setSuccess(savedAssessment);
-
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth",
+            navigate("/portal", {
+                replace: true,
+                state: {
+                    assessmentSubmitted: true,
+                    assessmentReference: reference,
+                    assessmentId: savedAssessment?._id || savedAssessment?.id || null,
+                },
             });
         } catch (error) {
             setSubmitError(getErrorMessage(error));
         } finally {
             setSubmitting(false);
+            confirmedSubmitRef.current = false;
         }
     };
 
+    const checkAccountEmail = async () => {
+        const email = form.email.trim().toLowerCase();
+        if (!email) {
+            setAuthModalMode("choose");
+            return;
+        }
+
+        setEmailCheckLoading(true);
+        try {
+            // This endpoint should return { exists: true|false }.
+            // If it is not deployed yet, keep both safe options available.
+            const response = await fetch(`${API_BASE_URL}/auth/check-email`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
+                body: JSON.stringify({ email }),
+            });
+
+            const body = await response.json().catch(() => ({}));
+            if (response.ok && typeof body?.exists === "boolean") {
+                setAuthModalMode(body.exists ? "login" : "register");
+            } else {
+                setAuthModalMode("choose");
+            }
+        } catch {
+            setAuthModalMode("choose");
+        } finally {
+            setEmailCheckLoading(false);
+        }
+    };
+
+    const preserveDraftAndNavigate = async (destination) => {
+        try {
+            await saveAssessmentDraft({
+                form,
+                documents,
+                savedAt: new Date().toISOString(),
+                routeState,
+                pathname: location.pathname,
+            });
+            sessionStorage.setItem(
+                "colossus_pending_assessment_return_to",
+                location.pathname
+            );
+        } catch (error) {
+            setSubmitError(
+                error.message || "Could not preserve your assessment. Please try again."
+            );
+            return;
+        }
+
+        setAuthModalOpen(false);
+        navigate(destination, {
+            state: {
+                source: "trainee-program-assessment",
+                assessmentAuthSuccess: false,
+                returnTo: location.pathname,
+                returnState: routeState,
+                email: form.email.trim().toLowerCase(),
+            },
+        });
+    };
+
     const handleCreateAccount = () => {
+        preserveDraftAndNavigate("/register");
+    };
+
+    const handleSignIn = () => {
+        preserveDraftAndNavigate("/login");
+    };
+
+    const closeAuthModal = () => {
+        setAuthModalOpen(false);
+    };
+
+    const submitAuthenticatedAssessment = () => {
+        if (!getAuthToken()) {
+            setAuthenticated(false);
+            setAuthModalMode("choose");
+            return;
+        }
+        confirmedSubmitRef.current = true;
+        setAuthModalOpen(false);
+        const formElement = document.querySelector(".assessment-form-card");
+        if (formElement) {
+            formElement.requestSubmit();
+        }
+    };
+
+    /* Legacy post-submission handlers are retained for compatibility. */
+    const handleCreateAccountLegacy = () => {
         navigate("/register", {
             state: {
                 source: "trainee-program-assessment",
@@ -682,7 +1005,7 @@ export default function TraineeProgramAssessment() {
         });
     };
 
-    const handleSignIn = () => {
+    const handleSignInLegacy = () => {
         navigate("/login", {
             state: {
                 source: "trainee-program-assessment",
@@ -835,6 +1158,50 @@ export default function TraineeProgramAssessment() {
 
     return (
         <main className="free-assessment-page tpa-page">
+            <style>{`
+                .assessment-auth-modal-backdrop {
+                    position: fixed; inset: 0; z-index: 9999;
+                    display: flex; align-items: center; justify-content: center;
+                    padding: 20px; background: rgba(3, 12, 28, .72);
+                    backdrop-filter: blur(7px);
+                }
+                .assessment-auth-modal {
+                    position: relative; width: min(100%, 480px); padding: 34px;
+                    border-radius: 22px; background: #fff; color: #0b1c33;
+                    box-shadow: 0 24px 90px rgba(0,0,0,.28);
+                    animation: assessmentModalIn .18s ease-out;
+                }
+                .assessment-auth-modal-close {
+                    position: absolute; top: 14px; right: 14px; border: 0;
+                    background: #f1f5f9; color: #334155; width: 36px; height: 36px;
+                    border-radius: 50%; display: grid; place-items: center; cursor: pointer;
+                }
+                .assessment-auth-modal-icon {
+                    width: 54px; height: 54px; display: grid; place-items: center;
+                    border-radius: 16px; background: #eaf4ff; color: #1264c0; margin-bottom: 20px;
+                }
+                .assessment-auth-modal h2 { font-size: clamp(1.45rem, 4vw, 1.9rem); margin: 7px 0 12px; line-height: 1.2; }
+                .assessment-auth-modal-copy { color: #526174; line-height: 1.65; margin: 0 0 18px; }
+                .assessment-auth-email {
+                    display: flex; align-items: center; gap: 9px; padding: 12px 14px;
+                    border: 1px solid #e2e8f0; border-radius: 12px; color: #334155;
+                    overflow-wrap: anywhere; margin-bottom: 18px; font-size: .92rem;
+                }
+                .assessment-auth-email small { margin-left: auto; color: #64748b; }
+                .assessment-auth-primary { width: 100%; justify-content: center; margin-top: 8px; }
+                .assessment-auth-secondary {
+                    display: block; margin: 12px auto 0; padding: 9px 12px;
+                    border: 0; background: transparent; color: #526174; cursor: pointer;
+                    font-weight: 600;
+                }
+                @keyframes assessmentModalIn {
+                    from { opacity: 0; transform: translateY(8px) scale(.985); }
+                    to { opacity: 1; transform: translateY(0) scale(1); }
+                }
+                @media (max-width: 520px) {
+                    .assessment-auth-modal { padding: 27px 21px; border-radius: 18px; }
+                }
+            `}</style>
             <div className="assessment-page-wrap tpa-page-wrap">
                 <section className="assessment-intro--premium">
                     <div className="assessment-hero-topline">
@@ -884,8 +1251,7 @@ export default function TraineeProgramAssessment() {
                                     minutes
                                 </span>
                                 <span>
-                                    <UserRound size={16} /> No account needed
-                                    yet
+                                    <UserRound size={16} /> Secure client account required
                                 </span>
                             </div>
                         </div>
@@ -944,8 +1310,8 @@ export default function TraineeProgramAssessment() {
                         <div className="assessment-journey-step">
                             <span>03</span>
                             <div>
-                                <strong>Create account</strong>
-                                <small>Continue your journey</small>
+                                <strong>Submit securely</strong>
+                                <small>Track progress in your portal</small>
                             </div>
                         </div>
                     </div>
@@ -966,6 +1332,12 @@ export default function TraineeProgramAssessment() {
                             </p>
                         </div>
                     </div>
+
+                    {!draftRestored && (
+                        <div className="assessment-alert" role="status">
+                            Restoring any saved assessment draft…
+                        </div>
+                    )}
 
                     {submitError && (
                         <div className="assessment-alert" role="alert">
@@ -1241,8 +1613,8 @@ export default function TraineeProgramAssessment() {
                                 return (
                                     <div
                                         className={`assessment-document-card ${fileError
-                                                ? "assessment-document-error"
-                                                : ""
+                                            ? "assessment-document-error"
+                                            : ""
                                             }`}
                                         key={documentItem.key}
                                     >
@@ -1253,8 +1625,8 @@ export default function TraineeProgramAssessment() {
 
                                             <span
                                                 className={`assessment-document-tag ${documentItem.required
-                                                        ? "is-required"
-                                                        : ""
+                                                    ? "is-required"
+                                                    : ""
                                                     }`}
                                             >
                                                 {documentItem.required
@@ -1387,8 +1759,8 @@ export default function TraineeProgramAssessment() {
 
                     <label
                         className={`assessment-consent ${errors.consentToContact
-                                ? "assessment-field-error"
-                                : ""
+                            ? "assessment-field-error"
+                            : ""
                             }`}
                     >
                         <input
@@ -1413,22 +1785,141 @@ export default function TraineeProgramAssessment() {
                     <div className="assessment-submit-row">
                         <p>
                             <ShieldCheck size={16} />
-                            Free to submit. After submission, create an account
-                            to continue.
+                            Sign in or create an account before submitting. Your assessment will be linked to your account.
                         </p>
 
                         <button
+                            ref={submitButtonRef}
                             className="assessment-button assessment-button--primary"
                             type="submit"
-                            disabled={submitting}
+                            disabled={submitting || !draftRestored}
                         >
                             {submitting
                                 ? "Submitting your assessment…"
-                                : "Submit assessment & documents"}
+                                : authenticated
+                                    ? "Submit Assessment"
+                                    : "Continue to Submit Assessment"}
 
                             {!submitting && <ArrowRight size={17} />}
                         </button>
                     </div>
+
+                    {authModalOpen && (
+                        <div
+                            className="assessment-auth-modal-backdrop"
+                            role="presentation"
+                            onMouseDown={(event) => {
+                                if (event.target === event.currentTarget) closeAuthModal();
+                            }}
+                        >
+                            <section
+                                className="assessment-auth-modal"
+                                role="dialog"
+                                aria-modal="true"
+                                aria-labelledby="assessment-auth-modal-title"
+                            >
+                                <button
+                                    type="button"
+                                    className="assessment-auth-modal-close"
+                                    onClick={closeAuthModal}
+                                    aria-label="Close dialog"
+                                >
+                                    <X size={20} />
+                                </button>
+
+                                <div className="assessment-auth-modal-icon">
+                                    {authModalMode === "confirm" ? (
+                                        <CheckCircle2 size={27} />
+                                    ) : (
+                                        <LockKeyhole size={26} />
+                                    )}
+                                </div>
+
+                                <p className="assessment-eyebrow">
+                                    COLOSSUS CLIENT ACCOUNT
+                                </p>
+
+                                <h2 id="assessment-auth-modal-title">
+                                    {authModalMode === "confirm"
+                                        ? "You're authenticated"
+                                        : authModalMode === "login"
+                                            ? "Sign in to continue"
+                                            : authModalMode === "register"
+                                                ? "Create an account to continue"
+                                                : "Sign up to continue"}
+                                </h2>
+
+                                <p className="assessment-auth-modal-copy">
+                                    {authModalMode === "confirm"
+                                        ? `You're ready to submit your assessment for ${programTitle}. Your assessment will be linked to your account.`
+                                        : authModalMode === "login"
+                                            ? "An account may already exist for this email. Sign in to submit your assessment and track your programme."
+                                            : authModalMode === "register"
+                                                ? "Create your Colossus account to submit this assessment and track your programme."
+                                                : "Create a Colossus account or sign in to submit your assessment. Your answers and selected documents are saved."}
+                                </p>
+
+                                <div className="assessment-auth-email">
+                                    <Mail size={17} />
+                                    <span>{form.email.trim() || "Enter your email in the form"}</span>
+                                    {emailCheckLoading && <small>Checking…</small>}
+                                </div>
+
+                                {authModalMode === "confirm" ? (
+                                    <>
+                                        <button
+                                            type="button"
+                                            className="assessment-button assessment-button--primary assessment-auth-primary"
+                                            onClick={submitAuthenticatedAssessment}
+                                            disabled={submitting}
+                                        >
+                                            {submitting ? "Submitting…" : "Submit Assessment"}
+                                            {!submitting && <ArrowRight size={17} />}
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="assessment-auth-secondary"
+                                            onClick={closeAuthModal}
+                                        >
+                                            Continue editing
+                                        </button>
+                                    </>
+                                ) : (
+                                    <>
+                                        {(authModalMode === "register" || authModalMode === "choose") && (
+                                            <button
+                                                type="button"
+                                                className="assessment-button assessment-button--primary assessment-auth-primary"
+                                                onClick={handleCreateAccount}
+                                            >
+                                                Create Account &amp; Continue
+                                                <ArrowRight size={17} />
+                                            </button>
+                                        )}
+
+                                        {(authModalMode === "login" || authModalMode === "choose") && (
+                                            <button
+                                                type="button"
+                                                className="assessment-button assessment-button--primary assessment-auth-primary"
+                                                onClick={handleSignIn}
+                                            >
+                                                Sign In &amp; Continue
+                                                <ArrowRight size={17} />
+                                            </button>
+                                        )}
+
+                                        <button
+                                            type="button"
+                                            className="assessment-auth-secondary"
+                                            onClick={closeAuthModal}
+                                        >
+                                            Return to assessment
+                                        </button>
+                                    </>
+                                )}
+                            </section>
+                        </div>
+                    )}
 
                     <p className="assessment-disclaimer">
                         This form is for an initial review only. Eligibility

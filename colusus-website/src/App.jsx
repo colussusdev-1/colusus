@@ -102,6 +102,9 @@ import ClientUpdates
 import Profile
     from "./pages/Client/Profile";
 
+import MyAssessments
+    from "./pages/Client/MyAssessments";
+
 /* ======================================================
    AUTHENTICATION
 ====================================================== */
@@ -828,6 +831,13 @@ function App() {
                         <Route
                             path="profile"
                             element={<Profile />}
+                        />
+
+                        {/* CLIENT ASSESSMENTS */}
+
+                        <Route
+                            path="assessments"
+                            element={<MyAssessments />}
                         />
 
                         {/* CLIENT ELIGIBILITY ASSESSMENT */}

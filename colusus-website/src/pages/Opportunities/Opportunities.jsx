@@ -1,3 +1,4 @@
+
 import {
     useEffect,
     useState,
@@ -88,7 +89,7 @@ const Opportunities = () => {
                 /* ==================================================
                    LOAD COUNTRY DIRECTORY
                 ==================================================
-                   
+
                    Country-level information comes from MongoDB.
 
                    Example:
@@ -97,7 +98,6 @@ const Opportunities = () => {
                        slug: "ireland",
                        name: "Ireland",
                        image: "...",
-                       flag: "...",
                        applicants: "...",
                        visa: "...",
                        duration: "...",
@@ -470,3 +470,4 @@ const Opportunities = () => {
 
 
 export default Opportunities;
+

@@ -3,12 +3,6 @@ import { Readable } from "node:stream";
 
 import assessmentService from "./assessment.service.js";
 
-/*
-|--------------------------------------------------------------------------
-| CLOUDINARY CONFIGURATION
-|--------------------------------------------------------------------------
-*/
-
 function validateCloudinaryConfiguration() {
   const { CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } =
     process.env;
@@ -29,13 +23,35 @@ function validateCloudinaryConfiguration() {
   });
 }
 
-/*
-|--------------------------------------------------------------------------
-| DOCUMENT HELPERS
-|--------------------------------------------------------------------------
-*/
+function createControllerError(message, statusCode = 500) {
+  const error = new Error(message);
+  error.statusCode = statusCode;
+  return error;
+}
 
-function getDocumentType(file) {
+const DOCUMENT_METADATA_KEYS = [
+  "passport",
+  "cv",
+  "education",
+  "englishTest",
+  "experience",
+  "additional",
+];
+
+const ALLOWED_DOCUMENT_TYPES = new Set([
+  "PASSPORT",
+  "EDUCATIONAL_CERTIFICATE",
+  "CV",
+  "OTHER",
+]);
+
+function getDocumentType(file, metadata = {}) {
+  const requestedType = String(metadata?.documentType || "").toUpperCase();
+
+  if (ALLOWED_DOCUMENT_TYPES.has(requestedType)) {
+    return requestedType;
+  }
+
   const fieldName = String(file.fieldname || "").toUpperCase();
   const originalName = String(file.originalname || "").toUpperCase();
 
@@ -63,31 +79,85 @@ function getDocumentType(file) {
   return "OTHER";
 }
 
-/*
-|--------------------------------------------------------------------------
-| CLOUDINARY RESOURCE TYPE
-|--------------------------------------------------------------------------
-|
-| IMPORTANT:
-| Uploads are stored as:
-| - image/* -> image
-| - everything else -> raw
-|
-| Retrieval and deletion must use the same resource type.
-|
-*/
+/**
+ * Parse metadata sent by the assessment form and match it
+ * to the uploaded files.
+ */
+function parseDocumentMetadata(req, files = []) {
+  let rawMetadata = req.body?.documentMetadata;
+
+  if (typeof rawMetadata === "string") {
+    try {
+      rawMetadata = JSON.parse(rawMetadata);
+    } catch {
+      throw createControllerError(
+        "Invalid document metadata. Please refresh the form and try again.",
+        400,
+      );
+    }
+  }
+
+  if (
+    !rawMetadata ||
+    typeof rawMetadata !== "object" ||
+    Array.isArray(rawMetadata)
+  ) {
+    rawMetadata = {};
+  }
+
+  const flattened = [];
+
+  for (const key of DOCUMENT_METADATA_KEYS) {
+    const value = rawMetadata[key];
+
+    if (key === "additional") {
+      if (Array.isArray(value)) {
+        for (const item of value) {
+          if (item && typeof item === "object") {
+            flattened.push(item);
+          }
+        }
+      }
+
+      continue;
+    }
+
+    if (value && typeof value === "object") {
+      flattened.push(value);
+    }
+  }
+
+  const queues = new Map();
+
+  for (const item of flattened) {
+    const name = String(item.originalName || "").trim();
+
+    if (!name) continue;
+
+    const queue = queues.get(name) || [];
+    queue.push(item);
+    queues.set(name, queue);
+  }
+
+  return files.map((file, index) => {
+    const name = String(file.originalname || "").trim();
+    const queue = queues.get(name);
+
+    const matched = queue?.length ? queue.shift() : flattened[index];
+
+    return {
+      fieldKey: String(matched?.fieldKey || ""),
+      documentLabel: String(matched?.documentLabel || "").trim(),
+      documentType: getDocumentType(file, matched),
+    };
+  });
+}
 
 function getCloudinaryResourceType(document) {
   const mimeType = String(document?.mimeType || "").toLowerCase();
 
   return mimeType.startsWith("image/") ? "image" : "raw";
 }
-
-/*
-|--------------------------------------------------------------------------
-| FILENAME SANITIZATION
-|--------------------------------------------------------------------------
-*/
 
 function sanitizeFilename(value = "assessment-document") {
   const cleaned = String(value)
@@ -99,33 +169,71 @@ function sanitizeFilename(value = "assessment-document") {
   return cleaned || "assessment-document";
 }
 
-function createControllerError(message, statusCode) {
-  const error = new Error(message);
-  error.statusCode = statusCode;
-  return error;
+const MAX_FILE_SIZE = 10 * 1024 * 1024;
+const MAX_DOCUMENTS = 5;
+
+const ALLOWED_MIME_TYPES = new Set([
+  "application/pdf",
+  "image/jpeg",
+  "image/png",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+]);
+
+function validateUploadedFiles(files = []) {
+  if (!Array.isArray(files)) {
+    throw createControllerError("Invalid document upload request.", 400);
+  }
+
+  if (files.length > MAX_DOCUMENTS) {
+    throw createControllerError(
+      `A maximum of ${MAX_DOCUMENTS} documents can be uploaded.`,
+      400,
+    );
+  }
+
+  for (const file of files) {
+    if (!file || !Buffer.isBuffer(file.buffer)) {
+      throw createControllerError(
+        `The uploaded file "${file?.originalname || "unknown"}" could not be read.`,
+        400,
+      );
+    }
+
+    if (file.size > MAX_FILE_SIZE) {
+      throw createControllerError(
+        `${file.originalname} exceeds the 10 MB file limit.`,
+        400,
+      );
+    }
+
+    const mimeType = String(file.mimetype || "").toLowerCase();
+
+    if (!ALLOWED_MIME_TYPES.has(mimeType)) {
+      throw createControllerError(
+        `${file.originalname} has an unsupported file type.`,
+        400,
+      );
+    }
+  }
 }
 
-/*
-|--------------------------------------------------------------------------
-| UPLOAD BUFFER TO CLOUDINARY
-|--------------------------------------------------------------------------
-*/
-
-function uploadBufferToCloudinary(file) {
+function uploadBufferToCloudinary(file, metadata = {}) {
   return new Promise((resolve, reject) => {
     if (!file?.buffer || !Buffer.isBuffer(file.buffer)) {
       reject(
-        new Error(`Invalid uploaded file: ${file?.originalname || "unknown"}`),
+        createControllerError(
+          `Invalid uploaded file: ${file?.originalname || "unknown"}`,
+          400,
+        ),
       );
 
       return;
     }
 
-    const isImage = String(file.mimetype || "")
-      .toLowerCase()
-      .startsWith("image/");
+    const mimeType = String(file.mimetype || "").toLowerCase();
 
-    const resourceType = isImage ? "image" : "raw";
+    const resourceType = mimeType.startsWith("image/") ? "image" : "raw";
 
     const uploadStream = cloudinary.uploader.upload_stream(
       {
@@ -135,8 +243,9 @@ function uploadBufferToCloudinary(file) {
         use_filename: false,
         unique_filename: true,
         context: {
-          originalName: file.originalname,
-          documentType: getDocumentType(file),
+          originalName: sanitizeFilename(file.originalname),
+          documentType: getDocumentType(file, metadata),
+          documentLabel: sanitizeFilename(metadata.documentLabel || ""),
         },
       },
       (error, result) => {
@@ -147,11 +256,14 @@ function uploadBufferToCloudinary(file) {
 
         if (!result?.public_id) {
           reject(new Error("Cloudinary did not return a file reference."));
+
           return;
         }
 
         resolve({
-          documentType: getDocumentType(file),
+          documentType: getDocumentType(file, metadata),
+          documentLabel: String(metadata.documentLabel || "").trim(),
+          fieldKey: String(metadata.fieldKey || "").trim(),
           originalName: file.originalname,
           mimeType: file.mimetype,
           size: file.size,
@@ -168,25 +280,19 @@ function uploadBufferToCloudinary(file) {
   });
 }
 
-/*
-|--------------------------------------------------------------------------
-| DELETE CLOUDINARY UPLOADS
-|--------------------------------------------------------------------------
-*/
-
 async function deleteCloudinaryUploads(documents = []) {
+  const cloudinaryDocuments = documents.filter(
+    (document) =>
+      document?.storageProvider === "CLOUDINARY" && document?.storageKey,
+  );
+
   const results = await Promise.allSettled(
-    documents
-      .filter(
-        (document) =>
-          document.storageProvider === "CLOUDINARY" && document.storageKey,
-      )
-      .map((document) =>
-        cloudinary.uploader.destroy(document.storageKey, {
-          resource_type: getCloudinaryResourceType(document),
-          type: "authenticated",
-        }),
-      ),
+    cloudinaryDocuments.map((document) =>
+      cloudinary.uploader.destroy(document.storageKey, {
+        resource_type: getCloudinaryResourceType(document),
+        type: "authenticated",
+      }),
+    ),
   );
 
   for (const result of results) {
@@ -199,18 +305,16 @@ async function deleteCloudinaryUploads(documents = []) {
   }
 }
 
-/*
-|--------------------------------------------------------------------------
-| UPLOAD ALL ASSESSMENT DOCUMENTS
-|--------------------------------------------------------------------------
-*/
-
-async function uploadAssessmentDocuments(files = []) {
+async function uploadAssessmentDocuments(files = [], documentMetadata = []) {
   const uploadedDocuments = [];
 
   try {
-    for (const file of files) {
-      const document = await uploadBufferToCloudinary(file);
+    for (let index = 0; index < files.length; index += 1) {
+      const file = files[index];
+      const metadata = documentMetadata[index] || {};
+
+      const document = await uploadBufferToCloudinary(file, metadata);
+
       uploadedDocuments.push(document);
     }
 
@@ -221,23 +325,9 @@ async function uploadAssessmentDocuments(files = []) {
   }
 }
 
-/*
-|--------------------------------------------------------------------------
-| SECURE PRIVATE DOCUMENT DELIVERY
-|--------------------------------------------------------------------------
-|
-| GET /api/v1/assessments/admin/:id/documents/:documentId
-|
-| Inline viewing:
-| GET /api/v1/assessments/admin/:id/documents/:documentId
-|
-| Download:
-| GET /api/v1/assessments/admin/:id/documents/:documentId?download=1
-|
-| The route must use authentication and admin role middleware.
-|
-*/
-
+/**
+ * Securely streams private assessment documents to authorized admins.
+ */
 export async function accessAssessmentDocument(req, res, next) {
   let upstream;
 
@@ -246,24 +336,15 @@ export async function accessAssessmentDocument(req, res, next) {
 
     const { id: assessmentId, documentId } = req.params;
 
-    /*
-    |--------------------------------------------------------------------------
-    | FIND THE DOCUMENT THROUGH THE SERVICE
-    |--------------------------------------------------------------------------
-    |
-    | The service validates both IDs and ensures the document belongs
-    | to the specified assessment.
-    |
-    */
-
     const result = await assessmentService.getAssessmentDocumentForAdmin(
       assessmentId,
       documentId,
     );
 
-    const document = result.document;
+    const document = result?.document;
 
     if (
+      !document ||
       String(document.storageProvider || "").toUpperCase() !== "CLOUDINARY" ||
       !document.storageKey
     ) {
@@ -273,28 +354,12 @@ export async function accessAssessmentDocument(req, res, next) {
       );
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | DETERMINE DELIVERY MODE
-    |--------------------------------------------------------------------------
-    */
-
     const isDownload = ["1", "true", "yes"].includes(
       String(req.query.download || "").toLowerCase(),
     );
 
     const filename = sanitizeFilename(document.originalName);
     const resourceType = getCloudinaryResourceType(document);
-
-    /*
-    |--------------------------------------------------------------------------
-    | GENERATE AUTHENTICATED CLOUDINARY URL
-    |--------------------------------------------------------------------------
-    |
-    | This URL is used server-side only. It is never included in the
-    | JSON response to the frontend.
-    |
-    */
 
     const privateUrl = cloudinary.url(document.storageKey, {
       resource_type: resourceType,
@@ -303,16 +368,10 @@ export async function accessAssessmentDocument(req, res, next) {
       secure: true,
     });
 
-    /*
-    |--------------------------------------------------------------------------
-    | RETRIEVE THE PRIVATE FILE
-    |--------------------------------------------------------------------------
-    */
-
     upstream = await fetch(privateUrl, {
       method: "GET",
       redirect: "follow",
-      signal: AbortSignal.timeout(30_000),
+      signal: AbortSignal.timeout(30000),
     });
 
     if (!upstream.ok || !upstream.body) {
@@ -328,12 +387,6 @@ export async function accessAssessmentDocument(req, res, next) {
       );
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | RESPONSE HEADERS
-    |--------------------------------------------------------------------------
-    */
-
     const contentType =
       document.mimeType ||
       upstream.headers.get("content-type") ||
@@ -341,14 +394,19 @@ export async function accessAssessmentDocument(req, res, next) {
 
     const disposition = isDownload ? "attachment" : "inline";
 
+    const encodedFilename = encodeURIComponent(
+      document.originalName || filename,
+    );
+
     res.setHeader("Content-Type", contentType);
 
     res.setHeader(
       "Content-Disposition",
-      `${disposition}; filename="${filename}"; filename*=UTF-8''${encodeURIComponent(document.originalName || filename)}`,
+      `${disposition}; filename="${filename}"; filename*=UTF-8''${encodedFilename}`,
     );
 
     res.setHeader("Cache-Control", "private, no-store, max-age=0");
+
     res.setHeader("Pragma", "no-cache");
     res.setHeader("X-Content-Type-Options", "nosniff");
 
@@ -357,12 +415,6 @@ export async function accessAssessmentDocument(req, res, next) {
     if (contentLength) {
       res.setHeader("Content-Length", contentLength);
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | STREAM FILE TO THE AUTHENTICATED CLIENT
-    |--------------------------------------------------------------------------
-    */
 
     const documentStream = Readable.fromWeb(upstream.body);
 
@@ -382,7 +434,7 @@ export async function accessAssessmentDocument(req, res, next) {
       try {
         await upstream.body.cancel();
       } catch {
-        // The upstream body may already be consumed or closed.
+        // The response stream may already have been consumed.
       }
     }
 
@@ -393,12 +445,6 @@ export async function accessAssessmentDocument(req, res, next) {
     return next(error);
   }
 }
-
-/*
-|--------------------------------------------------------------------------
-| PARSE AND NORMALIZE ASSESSMENT PAYLOAD
-|--------------------------------------------------------------------------
-*/
 
 function parseAssessmentPayload(req) {
   let rawAssessment = req.body?.assessment;
@@ -449,55 +495,44 @@ function parseAssessmentPayload(req) {
     rawAssessment.privacyAccepted === true ||
     rawAssessment.consentToContact === true;
 
+  const fullName =
+    rawAssessment.fullName ||
+    personalDetails.fullName ||
+    [rawAssessment.firstName, rawAssessment.lastName]
+      .filter(Boolean)
+      .join(" ")
+      .trim();
+
+  const email = String(rawAssessment.email || personalDetails.email || "")
+    .trim()
+    .toLowerCase();
+
   return {
     ...rawAssessment,
-
-    fullName:
-      rawAssessment.fullName ||
-      personalDetails.fullName ||
-      [rawAssessment.firstName, rawAssessment.lastName]
-        .filter(Boolean)
-        .join(" ")
-        .trim(),
-
-    email: rawAssessment.email || personalDetails.email || "",
-
+    fullName,
+    email,
     phone: rawAssessment.phone || personalDetails.phone || "",
-
     age: rawAssessment.age ?? personalDetails.age ?? null,
-
     countryOfResidence:
       rawAssessment.countryOfResidence ||
       personalDetails.countryOfResidence ||
       "",
-
     education: rawAssessment.education || background.education || "",
-
     fieldOfStudy: rawAssessment.fieldOfStudy || background.fieldOfStudy || "",
-
     workExperience:
       rawAssessment.workExperience || background.workExperience || "",
-
     yearsOfExperience:
       rawAssessment.yearsOfExperience ?? background.yearsOfExperience ?? "",
-
     trainingCategory:
       rawAssessment.trainingCategory || preferences.trainingCategory || "",
-
     preferredCourse:
       rawAssessment.preferredCourse || preferences.preferredCourse || "",
-
     preferredIntake:
       rawAssessment.preferredIntake || preferences.preferredIntake || "",
-
     budget: rawAssessment.budget ?? preferences.budget ?? "",
-
     hasPassport: normalizedPassport || "NO",
-
     additionalInformation: rawAssessment.additionalInformation || "",
-
     privacyAccepted,
-
     consent: {
       ...originalConsent,
       privacyAccepted,
@@ -505,55 +540,64 @@ function parseAssessmentPayload(req) {
   };
 }
 
-/*
-|--------------------------------------------------------------------------
-| PUBLIC: SUBMIT ASSESSMENT
-|--------------------------------------------------------------------------
-|
-| POST /api/v1/assessments
-|
-*/
-
 export async function submitAssessment(req, res, next) {
   let uploadedDocuments = [];
 
   try {
+    const userId = req.user?.id || req.user?._id;
+
+    if (!userId) {
+      throw createControllerError(
+        "Authentication is required to submit an assessment.",
+        401,
+      );
+    }
+
     const files = Array.isArray(req.files) ? req.files : [];
 
-    if (files.length > 5) {
+    validateUploadedFiles(files);
+
+    const payload = parseAssessmentPayload(req);
+    const documentMetadata = parseDocumentMetadata(req, files);
+
+    if (!payload.fullName || !payload.email) {
       throw createControllerError(
-        "A maximum of five documents can be uploaded.",
+        "Your full name and email address are required.",
         400,
       );
     }
 
-    const payload = parseAssessmentPayload(req);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
+      throw createControllerError("Please provide a valid email address.", 400);
+    }
 
-    console.info("Assessment submission received:", {
-      hasAssessmentField: Boolean(req.body?.assessment),
-      fileCount: files.length,
-      hasFullName: Boolean(payload.fullName),
-      hasEmail: Boolean(payload.email),
-      hasPhone: Boolean(payload.phone),
-      hasAge: payload.age != null,
-      hasCountryOfResidence: Boolean(payload.countryOfResidence),
-      hasEducation: Boolean(payload.education),
-      hasTrainingCategory: Boolean(payload.trainingCategory),
-      hasPreferredIntake: Boolean(payload.preferredIntake),
-      hasBudget: Boolean(payload.budget),
-      hasPassport: Boolean(payload.hasPassport),
-      privacyAccepted: payload.privacyAccepted,
-      nestedPrivacyAccepted: payload.consent.privacyAccepted,
-    });
+    if (!payload.opportunityId) {
+      throw createControllerError(
+        "Please select a trainee or apprenticeship programme.",
+        400,
+      );
+    }
+
+    if (!payload.privacyAccepted) {
+      throw createControllerError(
+        "Consent is required before submitting your assessment.",
+        400,
+      );
+    }
 
     if (files.length > 0) {
       validateCloudinaryConfiguration();
-      uploadedDocuments = await uploadAssessmentDocuments(files);
+
+      uploadedDocuments = await uploadAssessmentDocuments(
+        files,
+        documentMetadata,
+      );
     }
 
     const result = await assessmentService.submitAssessment(
       payload,
       uploadedDocuments,
+      userId,
     );
 
     return res.status(201).json({
@@ -570,11 +614,50 @@ export async function submitAssessment(req, res, next) {
   }
 }
 
-/*
-|--------------------------------------------------------------------------
-| ADMIN: LIST ASSESSMENTS
-|--------------------------------------------------------------------------
-*/
+export async function getMyAssessments(req, res, next) {
+  try {
+    const userId = req.user?.id || req.user?._id;
+
+    if (!userId) {
+      throw createControllerError("Authentication is required.", 401);
+    }
+
+    const result = await assessmentService.getMyAssessments(userId, {
+      page: req.query.page,
+      limit: req.query.limit,
+    });
+
+    return res.status(200).json({
+      success: true,
+      data: result.assessments,
+      pagination: result.pagination,
+    });
+  } catch (error) {
+    return next(error);
+  }
+}
+
+export async function getMyAssessment(req, res, next) {
+  try {
+    const userId = req.user?.id || req.user?._id;
+
+    if (!userId) {
+      throw createControllerError("Authentication is required.", 401);
+    }
+
+    const assessment = await assessmentService.getMyAssessment(
+      userId,
+      req.params.id,
+    );
+
+    return res.status(200).json({
+      success: true,
+      data: assessment,
+    });
+  } catch (error) {
+    return next(error);
+  }
+}
 
 export async function getAssessmentsForAdmin(req, res, next) {
   try {
@@ -596,12 +679,6 @@ export async function getAssessmentsForAdmin(req, res, next) {
   }
 }
 
-/*
-|--------------------------------------------------------------------------
-| ADMIN: GET ASSESSMENT DETAILS
-|--------------------------------------------------------------------------
-*/
-
 export async function getAssessmentForAdmin(req, res, next) {
   try {
     const assessment = await assessmentService.getAssessmentForAdmin(
@@ -617,15 +694,13 @@ export async function getAssessmentForAdmin(req, res, next) {
   }
 }
 
-/*
-|--------------------------------------------------------------------------
-| ADMIN: UPDATE ASSESSMENT STATUS
-|--------------------------------------------------------------------------
-*/
-
 export async function updateAssessmentStatus(req, res, next) {
   try {
     const { status } = req.body || {};
+
+    if (!status) {
+      throw createControllerError("An assessment status is required.", 400);
+    }
 
     const assessment = await assessmentService.updateAssessmentStatus(
       req.params.id,
@@ -641,12 +716,6 @@ export async function updateAssessmentStatus(req, res, next) {
     return next(error);
   }
 }
-
-/*
-|--------------------------------------------------------------------------
-| ADMIN: UPDATE INTERNAL NOTES
-|--------------------------------------------------------------------------
-*/
 
 export async function updateAssessmentNotes(req, res, next) {
   try {
@@ -667,14 +736,10 @@ export async function updateAssessmentNotes(req, res, next) {
   }
 }
 
-/*
-|--------------------------------------------------------------------------
-| DEFAULT CONTROLLER EXPORT
-|--------------------------------------------------------------------------
-*/
-
 const assessmentController = {
   submitAssessment,
+  getMyAssessments,
+  getMyAssessment,
   getAssessmentsForAdmin,
   getAssessmentForAdmin,
   accessAssessmentDocument,

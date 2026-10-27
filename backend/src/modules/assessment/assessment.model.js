@@ -36,11 +36,6 @@ function generateAssessmentReference() {
 |--------------------------------------------------------------------------
 | DOCUMENT SCHEMA
 |--------------------------------------------------------------------------
-|
-| Stores metadata and storage references only.
-| The actual document contents must be stored using the application's
-| configured file storage solution.
-|
 */
 
 const assessmentDocumentSchema = new mongoose.Schema(
@@ -51,6 +46,23 @@ const assessmentDocumentSchema = new mongoose.Schema(
       required: true,
     },
 
+    // Human-readable description of the document's purpose.
+    documentLabel: {
+      type: String,
+      trim: true,
+      default: "",
+      maxlength: 200,
+    },
+
+    // Identifies the originating field in the assessment form.
+    fieldKey: {
+      type: String,
+      trim: true,
+      default: "",
+      maxlength: 100,
+    },
+
+    // Original filename supplied by the applicant.
     originalName: {
       type: String,
       required: true,
@@ -71,11 +83,6 @@ const assessmentDocumentSchema = new mongoose.Schema(
       min: 1,
     },
 
-    /*
-     * Provider used to store the file, for example LOCAL or CLOUDINARY.
-     * Set this according to the storage implementation actually used.
-     */
-
     storageProvider: {
       type: String,
       trim: true,
@@ -83,23 +90,12 @@ const assessmentDocumentSchema = new mongoose.Schema(
       maxlength: 50,
     },
 
-    /*
-     * Storage identifier or relative path.
-     * Do not put file contents or private credentials here.
-     */
-
     storageKey: {
       type: String,
       trim: true,
       default: "",
       maxlength: 1000,
     },
-
-    /*
-     * Optional storage URL/reference.
-     * For private documents, prefer a private storage reference rather
-     * than a permanently public URL.
-     */
 
     url: {
       type: String,
@@ -145,10 +141,6 @@ const assessmentSchema = new mongoose.Schema(
     |--------------------------------------------------------------------------
     | OPPORTUNITY
     |--------------------------------------------------------------------------
-    |
-    | Supports Australia, New Zealand, and future assessment-first
-    | opportunities through the existing Opportunity model.
-    |
     */
 
     opportunity: {
@@ -317,10 +309,6 @@ const assessmentSchema = new mongoose.Schema(
     |--------------------------------------------------------------------------
     | SUPPORTING DOCUMENTS
     |--------------------------------------------------------------------------
-    |
-    | Metadata and references for documents uploaded with the assessment.
-    | Actual file storage is handled by the upload/storage layer.
-    |
     */
 
     documents: {
@@ -371,15 +359,11 @@ const assessmentSchema = new mongoose.Schema(
     |--------------------------------------------------------------------------
     | CLIENT ACCOUNT LINK
     |--------------------------------------------------------------------------
-    |
-    | Null before the candidate links their assessment to an account.
-    | The backend must verify the authenticated client before setting it.
-    |
     */
 
     client: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "ClientProfile",
+      ref: "User",
       default: null,
       index: true,
     },
@@ -393,10 +377,6 @@ const assessmentSchema = new mongoose.Schema(
     |--------------------------------------------------------------------------
     | CONVERSION METADATA
     |--------------------------------------------------------------------------
-    |
-    | The formal application reference is intentionally not added until
-    | the actual application model and its relationship are confirmed.
-    |
     */
 
     convertedAt: {
@@ -408,9 +388,6 @@ const assessmentSchema = new mongoose.Schema(
     |--------------------------------------------------------------------------
     | INTERNAL REVIEW NOTES
     |--------------------------------------------------------------------------
-    |
-    | Never expose these fields through public assessment responses.
-    |
     */
 
     internalNotes: {

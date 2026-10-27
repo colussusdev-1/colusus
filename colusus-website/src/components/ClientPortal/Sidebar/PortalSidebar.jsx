@@ -14,15 +14,16 @@ import {
     HiOutlineQuestionMarkCircle,
     HiOutlineLogout,
     HiOutlineX,
+    HiOutlineClipboardCheck,
 } from "react-icons/hi";
 
 import "./PortalSidebar.css";
 
 import colossusLogo from "../../../assets/logo.png";
 
-
 const PortalSidebar = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
+
 
     /* ============================================================
        NAVIGATION
@@ -39,6 +40,11 @@ const PortalSidebar = () => {
             label: "Applications",
             path: "/portal/applications",
             icon: HiOutlineDocumentText,
+        },
+        {
+            label: "My Assessments",
+            path: "/portal/assessments",
+            icon: HiOutlineClipboardCheck,
         },
         {
             label: "Documents",
@@ -184,8 +190,8 @@ const PortalSidebar = () => {
             <aside
                 id="portal-sidebar"
                 className={`portal-sidebar ${mobileOpen
-                        ? "portal-sidebar--mobile-open"
-                        : ""
+                    ? "portal-sidebar--mobile-open"
+                    : ""
                     }`}
                 aria-label="Client portal sidebar"
             >
@@ -293,6 +299,8 @@ const PortalSidebar = () => {
             </aside>
         </>
     );
+
+
 };
 
 export default PortalSidebar;

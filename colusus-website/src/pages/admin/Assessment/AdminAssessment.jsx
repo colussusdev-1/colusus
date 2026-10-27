@@ -457,9 +457,13 @@ function DocumentList({
 
                         <div className="assessment-document__info">
                             <strong>
-                                {file.originalName ||
-                                    `Document ${index + 1}`}
+                                {file.documentLabel ||
+                                    (file.documentType || "OTHER").replaceAll("_", " ")}
                             </strong>
+
+                            <span className="assessment-document__filename">
+                                {file.originalName || `Document ${index + 1}`}
+                            </span>
 
                             <span>
                                 {(file.documentType || "OTHER")

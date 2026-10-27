@@ -1,3 +1,4 @@
+
 import {
   HiOutlineGlobeAlt,
   HiOutlineArrowRight,
@@ -7,12 +8,8 @@ import {
 
 import "./CountryHero.css";
 
-
 const CountryHero = ({ country }) => {
-
-  const pathways =
-    country?.opportunities || [];
-
+  const pathways = country?.opportunities || [];
 
   const categories = [
     ...new Set(
@@ -22,32 +19,23 @@ const CountryHero = ({ country }) => {
     ),
   ];
 
-
   return (
-
     <section className="country-hero">
-
 
       {/* =====================================================
                 BACKGROUND
             ===================================================== */}
 
       <div className="country-hero__background">
-
         {country?.image && (
-
           <img
             src={country.image}
             alt=""
           />
-
         )}
-
       </div>
 
-
       <div className="country-hero__wash" />
-
 
       {/* =====================================================
                 CONTENT
@@ -55,13 +43,11 @@ const CountryHero = ({ country }) => {
 
       <div className="country-hero__container">
 
-
         {/* =================================================
                     TOP LINE
                 ================================================= */}
 
         <div className="country-hero__topline">
-
 
           <div className="country-hero__crumb">
 
@@ -75,26 +61,11 @@ const CountryHero = ({ country }) => {
               /
             </i>
 
-
-            {/* COUNTRY FLAG */}
-
-            {country?.flag && (
-
-              <img
-                className="country-hero__flag"
-                src={country.flag}
-                alt={`${country.name} flag`}
-              />
-
-            )}
-
-
             <strong>
               {country?.name}
             </strong>
 
           </div>
-
 
           <div className="country-hero__status">
 
@@ -112,21 +83,17 @@ const CountryHero = ({ country }) => {
 
         </div>
 
-
-
         {/* =================================================
                     MAIN
                 ================================================= */}
 
         <div className="country-hero__main">
 
-
           {/* =================================================
                         LEFT CONTENT
                     ================================================= */}
 
           <div className="country-hero__content">
-
 
             <span className="country-hero__eyebrow">
 
@@ -136,17 +103,13 @@ const CountryHero = ({ country }) => {
 
             </span>
 
-
             <h1>
-
               Explore{" "}
 
               <span>
                 {country?.name}
               </span>
-
             </h1>
-
 
             <p className="country-hero__description">
 
@@ -161,7 +124,6 @@ const CountryHero = ({ country }) => {
 
             </p>
 
-
             {/* =================================================
                             CATEGORY SIGNALS
                         ================================================= */}
@@ -174,9 +136,7 @@ const CountryHero = ({ country }) => {
                   .slice(0, 4)
                   .map((category) => (
 
-                    <span
-                      key={category}
-                    >
+                    <span key={category}>
 
                       <HiOutlineCheckCircle />
 
@@ -192,14 +152,11 @@ const CountryHero = ({ country }) => {
 
           </div>
 
-
-
           {/* =================================================
                         RIGHT INTELLIGENCE PANEL
                     ================================================= */}
 
           <div className="country-hero__intel">
-
 
             <div className="country-hero__intel-label">
 
@@ -210,7 +167,6 @@ const CountryHero = ({ country }) => {
               <HiOutlineSparkles />
 
             </div>
-
 
             <div className="country-hero__intel-title">
 
@@ -225,16 +181,13 @@ const CountryHero = ({ country }) => {
 
             </div>
 
-
             <div className="country-hero__intel-line">
 
               <span />
 
             </div>
 
-
             <div className="country-hero__intel-grid">
-
 
               <div>
 
@@ -249,7 +202,6 @@ const CountryHero = ({ country }) => {
 
               </div>
 
-
               <div>
 
                 <strong>
@@ -262,7 +214,6 @@ const CountryHero = ({ country }) => {
                 </span>
 
               </div>
-
 
               <div>
 
@@ -283,14 +234,11 @@ const CountryHero = ({ country }) => {
 
         </div>
 
-
-
         {/* =================================================
                     BOTTOM ACTION
                 ================================================= */}
 
         <div className="country-hero__bottom">
-
 
           <button
             type="button"
@@ -312,7 +260,6 @@ const CountryHero = ({ country }) => {
 
           </button>
 
-
           <span className="country-hero__hint">
 
             Compare available routes before
@@ -322,14 +269,11 @@ const CountryHero = ({ country }) => {
 
         </div>
 
-
       </div>
 
     </section>
-
   );
-
 };
 
-
 export default CountryHero;
+

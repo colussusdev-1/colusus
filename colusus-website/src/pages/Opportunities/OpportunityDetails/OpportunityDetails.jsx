@@ -33,31 +33,6 @@ import "./OpportunityDetails.css";
 
 
 /* ============================================================
-   COUNTRY FLAG
-============================================================ */
-
-const CountryFlag = ({
-    flag,
-    countryName,
-    className = "",
-}) => {
-
-    if (!flag) {
-        return null;
-    }
-
-
-    return (
-        <img
-            src={flag}
-            alt={`${countryName} flag`}
-            className={`opportunity-details__country-flag ${className}`}
-        />
-    );
-};
-
-
-/* ============================================================
    NORMALIZATION
 ============================================================ */
 
@@ -285,11 +260,6 @@ const OpportunityDetails = () => {
                     countrySlug:
                         foundOpportunity.countrySlug ||
                         foundCountry.slug,
-
-                    countryFlag:
-                        foundOpportunity.countryFlag ||
-                        foundCountry.flag ||
-                        "",
 
                     image:
                         foundOpportunity.image ||
@@ -537,15 +507,6 @@ const OpportunityDetails = () => {
                 <div className="opportunity-details__error">
 
                     <div className="opportunity-details__error-country">
-
-                        <CountryFlag
-                            flag={
-                                selectedCountry.flag
-                            }
-                            countryName={
-                                selectedCountry.name
-                            }
-                        />
 
                         <span>
                             {
@@ -943,15 +904,6 @@ const OpportunityDetails = () => {
 
                 <div className="opportunity-details__topbar-meta">
 
-                    <CountryFlag
-                        flag={
-                            selectedCountry.flag
-                        }
-                        countryName={
-                            selectedCountry.name
-                        }
-                    />
-
                     <span>
                         {selectedCountry.name}
                     </span>
@@ -987,15 +939,6 @@ const OpportunityDetails = () => {
 
                         <div className="opportunity-details__hero-image-fallback">
 
-                            <CountryFlag
-                                flag={
-                                    selectedCountry.flag
-                                }
-                                countryName={
-                                    selectedCountry.name
-                                }
-                            />
-
                             <span>
                                 {selectedCountry.name}
                             </span>
@@ -1010,15 +953,6 @@ const OpportunityDetails = () => {
                 <div className="opportunity-details__hero-content">
 
                     <div className="opportunity-details__hero-breadcrumb">
-
-                        <CountryFlag
-                            flag={
-                                selectedCountry.flag
-                            }
-                            countryName={
-                                selectedCountry.name
-                            }
-                        />
 
                         <span>
                             {selectedCountry.name}
