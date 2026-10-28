@@ -1,98 +1,108 @@
-/*
-|--------------------------------------------------------------------------
-| ADMIN DOCUMENTS
-|--------------------------------------------------------------------------
-*/
+/* ============================================================
+   ADMIN DOCUMENTS — BASE
+============================================================ */
 
 .adminDocuments {
     width: 100%;
     min-width: 0;
     color: #172033;
+    font-family: inherit;
 }
 
+.adminDocuments *,
+.adminDocuments *::before,
+.adminDocuments *::after {
+    box-sizing: border-box;
+}
 
-/*
-|--------------------------------------------------------------------------
-| HEADER
-|--------------------------------------------------------------------------
-*/
+.adminDocuments button,
+.adminDocuments input,
+.adminDocuments select,
+.adminDocuments textarea {
+    font: inherit;
+}
+
+.adminDocuments button:focus-visible,
+.adminDocuments input:focus-visible,
+.adminDocuments select:focus-visible,
+.adminDocuments textarea:focus-visible {
+    outline: 3px solid rgba(53, 105, 238, 0.22);
+    outline-offset: 2px;
+}
+
+/* ============================================================
+   PAGE HEADER
+============================================================ */
 
 .adminDocuments__header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 24px;
-    margin-bottom: 26px;
+    margin-bottom: 28px;
+}
+
+.adminDocuments__heading {
+    min-width: 0;
 }
 
 .adminDocuments__eyebrow {
     display: block;
-    margin-bottom: 7px;
-    color: #6f7d95;
+    margin-bottom: 8px;
+    color: #71809a;
     font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
+    font-weight: 750;
+    letter-spacing: 0.13em;
     text-transform: uppercase;
 }
 
 .adminDocuments__header h1 {
     margin: 0;
     color: #172033;
-    font-size: 28px;
-    line-height: 1.15;
-    font-weight: 700;
-    letter-spacing: -0.035em;
+    font-size: 29px;
+    line-height: 1.2;
+    font-weight: 750;
+    letter-spacing: -0.045em;
 }
 
 .adminDocuments__header p {
-    margin: 8px 0 0;
-    color: #7c879a;
+    max-width: 580px;
+    margin: 9px 0 0;
+    color: #7b879b;
     font-size: 13px;
-    line-height: 1.6;
+    line-height: 1.7;
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| REFRESH BUTTON
-|--------------------------------------------------------------------------
-*/
+/* ============================================================
+   REFRESH BUTTON
+============================================================ */
 
 .adminDocuments__refresh {
-    height: 40px;
+    min-height: 41px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 9px;
     flex-shrink: 0;
-    padding: 0 14px;
-    border: 1px solid #dce2eb;
+    padding: 0 15px;
+    border: 1px solid #e0e5ed;
     border-radius: 9px;
     background: #ffffff;
     color: #344158;
     cursor: pointer;
-    font: inherit;
     font-size: 12px;
-    font-weight: 600;
-    transition:
-        background 0.2s ease,
-        border-color 0.2s ease,
-        color 0.2s ease,
-        transform 0.2s ease;
+    font-weight: 650;
+    transition: all 0.2s ease;
 }
 
 .adminDocuments__refresh:hover:not(:disabled) {
-    border-color: #cbd4e3;
-    background: #f9fafc;
-    color: #172033;
-}
-
-.adminDocuments__refresh:active:not(:disabled) {
-    transform: scale(0.98);
+    border-color: #cbd5e4;
+    background: #f8faff;
+    color: #315fd6;
 }
 
 .adminDocuments__refresh:disabled {
-    opacity: 0.65;
+    opacity: 0.6;
     cursor: not-allowed;
 }
 
@@ -102,99 +112,99 @@
 }
 
 .adminDocuments__refreshIcon.is-spinning {
-    animation: adminDocumentsSpin 0.9s linear infinite;
+    animation: adminDocumentsSpin 0.8s linear infinite;
 }
 
-@keyframes adminDocumentsSpin {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-
-/*
-|--------------------------------------------------------------------------
-| SUMMARY
-|--------------------------------------------------------------------------
-*/
+/* ============================================================
+   SUMMARY CARDS
+============================================================ */
 
 .adminDocuments__summary {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 14px;
-    margin-bottom: 20px;
+    gap: 15px;
+    margin-bottom: 24px;
 }
 
 .adminDocuments__summaryCard {
     min-width: 0;
-    padding: 18px 19px;
-    border: 1px solid #e5e9f0;
-    border-radius: 12px;
+    min-height: 133px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 19px 20px;
+    border: 1px solid #e6eaf1;
+    border-radius: 13px;
     background: #ffffff;
-    box-shadow: 0 2px 8px rgba(19, 35, 63, 0.025);
+    box-shadow: 0 3px 12px rgba(23, 32, 51, 0.025);
+    transition: all 0.2s ease;
 }
 
-.adminDocuments__summaryCard span {
-    display: block;
-    margin-bottom: 9px;
-    color: #7b879b;
+.adminDocuments__summaryCard:hover {
+    border-color: #d6deec;
+    box-shadow: 0 7px 22px rgba(23, 32, 51, 0.045);
+    transform: translateY(-2px);
+}
+
+.adminDocuments__summaryCard>span {
+    color: #748198;
     font-size: 11px;
-    font-weight: 500;
+    font-weight: 550;
 }
 
-.adminDocuments__summaryCard strong {
+.adminDocuments__summaryCard>strong {
     display: block;
+    margin-top: 15px;
     color: #172033;
-    font-size: 24px;
+    font-size: 29px;
     line-height: 1;
-    font-weight: 700;
-    letter-spacing: -0.03em;
+    font-weight: 750;
+    letter-spacing: -0.05em;
 }
 
+.adminDocuments__summaryCard>small {
+    display: block;
+    margin-top: 9px;
+    color: #9aa4b5;
+    font-size: 10px;
+    line-height: 1.5;
+}
 
-/*
-|--------------------------------------------------------------------------
-| TOOLBAR
-|--------------------------------------------------------------------------
-*/
+/* ============================================================
+   SEARCH AND FILTER TOOLBAR
+============================================================ */
 
 .adminDocuments__toolbar {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 17px;
 }
 
 .adminDocuments__search {
-    height: 43px;
     min-width: 0;
+    height: 45px;
     flex: 1;
     display: flex;
     align-items: center;
-    gap: 9px;
-    padding: 0 13px;
-    border: 1px solid #dfe4ec;
-    border-radius: 9px;
+    gap: 10px;
+    padding: 0 14px;
+    border: 1px solid #dfe5ee;
+    border-radius: 10px;
     background: #ffffff;
-    transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
+    transition: all 0.2s ease;
 }
 
 .adminDocuments__search:focus-within {
-    border-color: #7d9af0;
+    border-color: #8ca8f5;
     box-shadow: 0 0 0 3px rgba(53, 105, 238, 0.08);
 }
 
-.adminDocuments__search svg {
+.adminDocuments__search>svg {
     width: 17px;
     height: 17px;
     flex-shrink: 0;
-    color: #8995a9;
+    color: #8996aa;
 }
 
 .adminDocuments__search input {
@@ -205,13 +215,40 @@
     border: 0;
     outline: 0;
     background: transparent;
-    color: #172033;
-    font: inherit;
+    color: #26344b;
     font-size: 12px;
 }
 
+.adminDocuments__search input:focus-visible {
+    outline: none;
+}
+
 .adminDocuments__search input::placeholder {
-    color: #9aa5b6;
+    color: #a0aabb;
+}
+
+.adminDocuments__search input::-webkit-search-cancel-button {
+    display: none;
+}
+
+.adminDocuments__clearSearch {
+    width: 25px;
+    height: 25px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    background: #f0f3f8;
+    color: #68768d;
+    cursor: pointer;
+}
+
+.adminDocuments__clearSearch svg {
+    width: 13px;
+    height: 13px;
 }
 
 .adminDocuments__filter {
@@ -219,122 +256,107 @@
 }
 
 .adminDocuments__filter select {
-    height: 43px;
-    min-width: 155px;
-    padding: 0 34px 0 12px;
-    border: 1px solid #dfe4ec;
-    border-radius: 9px;
-    outline: 0;
-    background: #ffffff;
+    height: 45px;
+    min-width: 165px;
+    padding: 0 34px 0 13px;
+    border: 1px solid #dfe5ee;
+    border-radius: 10px;
+    outline: none;
+    background-color: #ffffff;
     color: #344158;
     cursor: pointer;
-    font: inherit;
     font-size: 12px;
-    font-weight: 500;
+    font-weight: 550;
 }
 
 .adminDocuments__filter select:focus {
-    border-color: #7d9af0;
+    border-color: #8ca8f5;
     box-shadow: 0 0 0 3px rgba(53, 105, 238, 0.08);
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| ERROR
-|--------------------------------------------------------------------------
-*/
+/* ============================================================
+   ERROR MESSAGE
+============================================================ */
 
 .adminDocuments__error {
-    min-height: 48px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 16px;
+    gap: 11px;
     margin-bottom: 16px;
-    padding: 11px 14px;
-    border: 1px solid #f0d9d9;
-    border-radius: 9px;
+    padding: 13px 15px;
+    border: 1px solid #f0d7d7;
+    border-radius: 10px;
     background: #fff8f8;
-    color: #9b4242;
+    color: #a74444;
     font-size: 12px;
+}
+
+.adminDocuments__error>svg {
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+}
+
+.adminDocuments__error>span {
+    min-width: 0;
+    flex: 1;
+    line-height: 1.5;
 }
 
 .adminDocuments__error button {
     flex-shrink: 0;
+    padding: 5px 8px;
     border: 0;
+    border-radius: 6px;
     background: transparent;
-    color: #315fd6;
+    color: #a33d3d;
     cursor: pointer;
-    font: inherit;
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 11px;
+    font-weight: 700;
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| MAIN PANEL
-|--------------------------------------------------------------------------
-*/
+/* ============================================================
+   DOCUMENT TABLE
+============================================================ */
 
 .adminDocuments__panel {
     min-width: 0;
     overflow: hidden;
-    border: 1px solid #e3e7ee;
+    border: 1px solid #e4e8ef;
     border-radius: 13px;
     background: #ffffff;
-    box-shadow: 0 2px 10px rgba(19, 35, 63, 0.025);
+    box-shadow: 0 3px 12px rgba(23, 32, 51, 0.025);
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| PANEL HEADER
-|--------------------------------------------------------------------------
-*/
-
 .adminDocuments__panelHeader {
-    min-height: 67px;
+    min-height: 75px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 20px;
-    border-bottom: 1px solid #edf0f4;
+    padding: 15px 21px;
+    border-bottom: 1px solid #edf0f5;
 }
 
 .adminDocuments__panelHeader h2 {
-    margin: 0 0 4px;
-    color: #172033;
+    margin: 0;
+    color: #202d43;
     font-size: 14px;
-    line-height: 1.2;
-    font-weight: 650;
-    letter-spacing: -0.015em;
+    font-weight: 700;
 }
 
 .adminDocuments__panelHeader span {
-    color: #8a95a7;
+    display: block;
+    margin-top: 5px;
+    color: #8995a8;
     font-size: 10px;
 }
-
-
-/*
-|--------------------------------------------------------------------------
-| TABLE WRAPPER
-|--------------------------------------------------------------------------
-|
-| The document list scrolls inside the panel.
-| This prevents many documents from stretching the whole page.
-|
-|--------------------------------------------------------------------------
-*/
 
 .adminDocuments__tableWrapper {
     width: 100%;
     max-height: 560px;
     overflow: auto;
     scrollbar-width: thin;
-    scrollbar-color: #cbd3df transparent;
+    scrollbar-color: #cbd4e1 transparent;
 }
 
 .adminDocuments__tableWrapper::-webkit-scrollbar {
@@ -342,29 +364,14 @@
     height: 7px;
 }
 
-.adminDocuments__tableWrapper::-webkit-scrollbar-track {
-    background: transparent;
-}
-
 .adminDocuments__tableWrapper::-webkit-scrollbar-thumb {
-    border-radius: 999px;
-    background: #cbd3df;
+    border-radius: 99px;
+    background: #cbd4e1;
 }
-
-.adminDocuments__tableWrapper::-webkit-scrollbar-thumb:hover {
-    background: #b5c0cf;
-}
-
-
-/*
-|--------------------------------------------------------------------------
-| TABLE
-|--------------------------------------------------------------------------
-*/
 
 .adminDocuments__table {
     width: 100%;
-    min-width: 980px;
+    min-width: 1000px;
     border-collapse: separate;
     border-spacing: 0;
     text-align: left;
@@ -377,299 +384,231 @@
 }
 
 .adminDocuments__table th {
-    height: 44px;
+    height: 46px;
     padding: 0 16px;
-    border-bottom: 1px solid #e9edf3;
-    background: #fafbfd;
-    color: #7e899c;
-    font-size: 10px;
-    font-weight: 650;
-    letter-spacing: 0.025em;
+    border-bottom: 1px solid #e8edf4;
+    background: #f9fafc;
+    color: #8290a5;
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: 0.075em;
     text-transform: uppercase;
     white-space: nowrap;
 }
 
 .adminDocuments__table td {
-    height: 72px;
-    padding: 10px 16px;
-    border-bottom: 1px solid #eef1f5;
+    height: 75px;
+    padding: 11px 16px;
+    border-bottom: 1px solid #eff2f6;
+    color: #3c4960;
+    font-size: 11px;
     vertical-align: middle;
-    color: #3a465b;
-    font-size: 12px;
+}
+
+.adminDocuments__table tbody tr:hover {
+    background: #fafbfe;
 }
 
 .adminDocuments__table tbody tr:last-child td {
     border-bottom: 0;
 }
 
-.adminDocuments__table tbody tr {
-    transition: background 0.15s ease;
-}
-
-.adminDocuments__table tbody tr:hover {
-    background: #fbfcfe;
-}
-
-
-/*
-|--------------------------------------------------------------------------
-| DOCUMENT CELL
-|--------------------------------------------------------------------------
-*/
-
 .adminDocuments__documentCell {
+    min-width: 190px;
     display: flex;
     align-items: center;
     gap: 11px;
-    min-width: 185px;
 }
 
 .adminDocuments__documentIcon {
-    width: 36px;
-    height: 36px;
-    flex-shrink: 0;
+    width: 39px;
+    height: 39px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #e2e7ef;
-    border-radius: 9px;
-    background: #f7f9fc;
-    color: #5474c9;
+    flex-shrink: 0;
+    border: 1px solid #e2e8f4;
+    border-radius: 10px;
+    background: #f2f5ff;
+    color: #4568d8;
 }
 
 .adminDocuments__documentIcon svg {
-    width: 17px;
-    height: 17px;
+    width: 18px;
+    height: 18px;
 }
 
-.adminDocuments__documentCell>div:last-child {
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-}
-
-.adminDocuments__documentCell strong {
-    display: block;
-    max-width: 190px;
-    overflow: hidden;
-    color: #253148;
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 1.35;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.adminDocuments__documentCell span {
-    margin-top: 4px;
-    color: #8b96a8;
-    font-size: 10px;
-}
-
-
-/*
-|--------------------------------------------------------------------------
-| CLIENT CELL
-|--------------------------------------------------------------------------
-*/
-
-.adminDocuments__clientCell {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    min-width: 145px;
-}
-
-.adminDocuments__clientCell>svg {
-    width: 16px;
-    height: 16px;
-    flex-shrink: 0;
-    color: #8b96a8;
-}
-
+.adminDocuments__documentCell>div:last-child,
 .adminDocuments__clientCell>div {
     min-width: 0;
     display: flex;
     flex-direction: column;
 }
 
+.adminDocuments__documentCell strong {
+    max-width: 200px;
+    overflow: hidden;
+    color: #27344b;
+    font-size: 11px;
+    font-weight: 650;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.adminDocuments__documentCell span {
+    margin-top: 4px;
+    color: #909caf;
+    font-size: 10px;
+}
+
+.adminDocuments__clientCell {
+    min-width: 150px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.adminDocuments__clientCell>svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    color: #8b98ad;
+}
+
 .adminDocuments__clientCell strong {
-    display: block;
-    max-width: 145px;
+    max-width: 150px;
     overflow: hidden;
     color: #344158;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 650;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
 .adminDocuments__clientCell span {
-    max-width: 145px;
-    margin-top: 3px;
+    max-width: 160px;
+    margin-top: 4px;
     overflow: hidden;
-    color: #919bad;
+    color: #929db0;
     font-size: 9px;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| APPLICATION
-|--------------------------------------------------------------------------
-*/
-
 .adminDocuments__application {
     display: inline-block;
-    max-width: 150px;
+    max-width: 160px;
     overflow: hidden;
-    color: #445169;
+    color: #4c5970;
     font-size: 11px;
-    font-weight: 550;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| COUNTRY
-|--------------------------------------------------------------------------
-*/
-
 .adminDocuments__country {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
-    color: #536076;
-    font-size: 11px;
+    gap: 6px;
+    color: #536178;
+    font-size: 10px;
     white-space: nowrap;
 }
 
 .adminDocuments__country svg {
     width: 14px;
     height: 14px;
-    color: #8995a8;
+    color: #8795ab;
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| STATUS
-|--------------------------------------------------------------------------
-*/
-
 .adminDocuments__status {
+    min-height: 25px;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    min-height: 25px;
-    padding: 0 8px;
-    border-radius: 999px;
+    justify-content: center;
+    gap: 7px;
+    padding: 4px 9px;
+    border-radius: 99px;
     font-size: 9px;
-    font-weight: 650;
+    font-weight: 750;
     white-space: nowrap;
 }
 
 .adminDocuments__status>span {
-    width: 5px;
-    height: 5px;
+    width: 6px;
+    height: 6px;
     flex-shrink: 0;
     border-radius: 50%;
     background: currentColor;
 }
 
 .adminDocuments__status--approved {
-    background: #eef8f2;
-    color: #318054;
+    background: #eaf7ef;
+    color: #27814e;
 }
 
 .adminDocuments__status--pending {
-    background: #fff7e8;
-    color: #a87418;
+    background: #fff5df;
+    color: #a36d13;
 }
 
 .adminDocuments__status--rejected {
     background: #fff0f0;
-    color: #b84c4c;
+    color: #b54141;
 }
 
 .adminDocuments__status--reupload {
-    background: #fff0f0;
-    color: #a84848;
+    background: #fff0e8;
+    color: #b65b2a;
 }
 
 .adminDocuments__status--default {
-    background: #f1f3f7;
+    background: #f0f2f6;
     color: #69758a;
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| DATE
-|--------------------------------------------------------------------------
-*/
-
 .adminDocuments__date {
-    color: #788499;
+    color: #7d899e;
     font-size: 10px;
     white-space: nowrap;
 }
 
+.adminDocuments__actions {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
 
-/*
-|--------------------------------------------------------------------------
-| REVIEW BUTTON
-|--------------------------------------------------------------------------
-*/
-
-.adminDocuments__viewButton {
-    height: 32px;
+.adminDocuments__action {
+    min-height: 33px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
     padding: 0 10px;
-    border: 1px solid #dce2eb;
-    border-radius: 7px;
+    border: 1px solid #dfe5f0;
+    border-radius: 8px;
     background: #ffffff;
-    color: #526078;
+    color: #506078;
     cursor: pointer;
-    font: inherit;
     font-size: 10px;
-    font-weight: 600;
+    font-weight: 650;
     white-space: nowrap;
-    transition:
-        background 0.2s ease,
-        border-color 0.2s ease,
-        color 0.2s ease,
-        transform 0.2s ease;
 }
 
-.adminDocuments__viewButton:hover {
-    border-color: #c6d1e2;
-    background: #f7f9fc;
-    color: #315fd6;
-}
-
-.adminDocuments__viewButton:active {
-    transform: scale(0.97);
-}
-
-.adminDocuments__viewButton svg {
+.adminDocuments__action svg {
     width: 15px;
     height: 15px;
 }
 
+.adminDocuments__action:hover {
+    border-color: #c8d5fa;
+    background: #f0f4ff;
+    color: #315fd6;
+}
 
-/*
-|--------------------------------------------------------------------------
-| LOADING / EMPTY STATE
-|--------------------------------------------------------------------------
-*/
+/* ============================================================
+   LOADING AND EMPTY STATES
+============================================================ */
 
 .adminDocuments__state {
     min-height: 300px;
@@ -679,89 +618,1015 @@
     justify-content: center;
     padding: 40px 20px;
     color: #8995a8;
+    text-align: center;
 }
 
 .adminDocuments__state>span {
-    margin-top: 12px;
+    margin-top: 13px;
     font-size: 11px;
 }
 
 .adminDocuments__state--empty {
-    text-align: center;
+    min-height: 330px;
 }
 
 .adminDocuments__emptyIcon {
-    width: 48px;
-    height: 48px;
+    width: 54px;
+    height: 54px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 12px;
-    background: #f3f6fa;
-    color: #8390a4;
+    border: 1px solid #e7ebf2;
+    border-radius: 15px;
+    background: #f5f7fb;
+    color: #8290a5;
 }
 
 .adminDocuments__emptyIcon svg {
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
 }
 
 .adminDocuments__state h3 {
-    margin: 15px 0 5px;
-    color: #344158;
-    font-size: 13px;
-    font-weight: 650;
+    margin: 16px 0 6px;
+    color: #35435b;
+    font-size: 14px;
+    font-weight: 700;
 }
 
 .adminDocuments__state p {
     max-width: 360px;
     margin: 0;
-    color: #909bad;
+    color: #929db0;
     font-size: 11px;
-    line-height: 1.6;
+    line-height: 1.8;
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| LOADER
-|--------------------------------------------------------------------------
-*/
+.adminDocuments__resetFilters {
+    margin-top: 16px;
+    padding: 9px 13px;
+    border: 1px solid #dce5fa;
+    border-radius: 8px;
+    background: #f3f6ff;
+    color: #315fd6;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 650;
+}
 
 .adminDocuments__loader {
-    width: 24px;
-    height: 24px;
-    border: 2px solid #e3e8f0;
+    width: 27px;
+    height: 27px;
+    border: 2px solid #e3e9f3;
     border-top-color: #3569ee;
     border-radius: 50%;
     animation: adminDocumentsSpin 0.75s linear infinite;
 }
 
+/* ============================================================
+   MODAL OVERLAY
+============================================================ */
 
-/*
-|--------------------------------------------------------------------------
-| TABLET
-|--------------------------------------------------------------------------
-*/
+.adminDocuments__modalOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    overflow: hidden;
+    background: rgba(10, 17, 31, 0.78);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    animation: adminDocumentsOverlayIn 0.2s ease both;
+}
+
+/* ============================================================
+   EXTRA-LARGE DOCUMENT MODAL
+
+   The modal now occupies almost the entire viewport.
+============================================================ */
+
+.adminDocuments__modal {
+    position: relative;
+    width: 100%;
+    max-width: 1800px;
+    height: calc(100dvh - 24px);
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid rgba(226, 232, 242, 0.9);
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 30px 100px rgba(0, 0, 0, 0.3);
+    animation: adminDocumentsModalIn 0.22s ease both;
+}
+
+/* ============================================================
+   MODAL HEADER
+============================================================ */
+
+.adminDocuments__modalHeader {
+    position: relative;
+    z-index: 2;
+    min-height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    flex-shrink: 0;
+    padding: 11px 22px;
+    border-bottom: 1px solid #e9edf4;
+    background: #ffffff;
+}
+
+.adminDocuments__modalTitleGroup {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.adminDocuments__modalFileIcon {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid #dce5ff;
+    border-radius: 11px;
+    background: #f0f4ff;
+    color: #4166dc;
+}
+
+.adminDocuments__modalFileIcon svg {
+    width: 21px;
+    height: 21px;
+}
+
+.adminDocuments__modalTitleText {
+    min-width: 0;
+}
+
+.adminDocuments__modalEyebrow {
+    display: block;
+    margin-bottom: 4px;
+    color: #7c8aa3;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.adminDocuments__modalTitleText h2 {
+    max-width: 700px;
+    margin: 0;
+    overflow: hidden;
+    color: #1c2940;
+    font-size: 15px;
+    font-weight: 750;
+    line-height: 1.4;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.adminDocuments__modalTitleText p {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 4px 0 0;
+    overflow: hidden;
+    color: #8692a6;
+    font-size: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.adminDocuments__modalHeaderActions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.adminDocuments__modalClose {
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 0;
+    border: 1px solid #e4e8ef;
+    border-radius: 9px;
+    background: #ffffff;
+    color: #6e7b90;
+    cursor: pointer;
+}
+
+.adminDocuments__modalClose svg {
+    width: 18px;
+    height: 18px;
+}
+
+.adminDocuments__modalClose:hover:not(:disabled) {
+    border-color: #f0cccc;
+    background: #fff2f2;
+    color: #bc4444;
+}
+
+.adminDocuments__modalClose:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+/* ============================================================
+   MODAL BODY
+
+   Give 80% of the width to the document.
+   Keep the review sidebar compact.
+============================================================ */
+
+.adminDocuments__modalBody {
+    min-height: 0;
+    flex: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    overflow: hidden;
+    background: #f4f6fa;
+}
+
+/* ============================================================
+   LARGE PREVIEW COLUMN
+============================================================ */
+
+.adminDocuments__previewColumn {
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 12px 15px 10px;
+    border-right: 1px solid #e5eaf2;
+}
+
+.adminDocuments__previewToolbar {
+    min-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 9px;
+    flex-shrink: 0;
+}
+
+.adminDocuments__previewToolbar>div {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #4e5d75;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.adminDocuments__previewToolbarDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #4770e8;
+    box-shadow: 0 0 0 4px rgba(71, 112, 232, 0.1);
+}
+
+.adminDocuments__fileType {
+    min-height: 23px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 9px;
+    border: 1px solid #e1e6ef;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #748199;
+    font-size: 9px;
+    font-weight: 800;
+}
+
+/* ============================================================
+   DOCUMENT CANVAS
+
+   Uses the maximum available height and width.
+============================================================ */
+
+.adminDocuments__preview {
+    position: relative;
+    min-width: 0;
+    min-height: 0;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 1px solid #dfe5ee;
+    border-radius: 9px;
+    background: #e9edf4;
+    background-image:
+        linear-gradient(45deg, #e3e8f0 25%, transparent 25%),
+        linear-gradient(-45deg, #e3e8f0 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #e3e8f0 75%),
+        linear-gradient(-45deg, transparent 75%, #e3e8f0 75%);
+    background-position:
+        0 0,
+        0 8px,
+        8px -8px,
+        -8px 0;
+    background-size: 16px 16px;
+}
+
+/* ============================================================
+   IMAGE PREVIEW
+
+   Make the entire image visible at the largest possible size.
+============================================================ */
+
+.adminDocuments__imagePreview {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    overflow: auto;
+}
+
+.adminDocuments__imagePreview img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 3px;
+    background: #ffffff;
+    box-shadow: 0 5px 24px rgba(21, 32, 52, 0.12);
+}
+
+/* ============================================================
+   PDF PREVIEW
+
+   The iframe fills the entire preview canvas.
+============================================================ */
+
+.adminDocuments__pdfPreview {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    display: block;
+    border: 0;
+    background: #ffffff;
+}
+
+/* ============================================================
+   PREVIEW STATES
+============================================================ */
+
+.adminDocuments__previewState {
+    width: 100%;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 24px;
+    text-align: center;
+}
+
+.adminDocuments__previewState .adminDocuments__loader {
+    margin-bottom: 8px;
+}
+
+.adminDocuments__previewState .adminDocuments__emptyIcon {
+    margin-bottom: 4px;
+    background: #ffffff;
+}
+
+.adminDocuments__previewState h3 {
+    margin: 13px 0 7px;
+    color: #344158;
+    font-size: 14px;
+    font-weight: 750;
+}
+
+.adminDocuments__previewState p {
+    max-width: 360px;
+    margin: 0;
+    color: #7d899e;
+    font-size: 11px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+.adminDocuments__previewState--error {
+    background: rgba(255, 255, 255, 0.45);
+}
+
+.adminDocuments__previewErrorIcon {
+    width: 47px;
+    height: 47px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #f1d8d8;
+    border-radius: 13px;
+    background: #fff0f0;
+    color: #b94848;
+}
+
+.adminDocuments__previewErrorIcon svg {
+    width: 22px;
+    height: 22px;
+}
+
+/* ============================================================
+   PREVIEW FOOTER
+============================================================ */
+
+.adminDocuments__previewFooter {
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+    flex-shrink: 0;
+}
+
+.adminDocuments__previewFooterIcon {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid #dce8e1;
+    border-radius: 8px;
+    background: #eff8f2;
+    color: #328458;
+}
+
+.adminDocuments__previewFooterIcon svg {
+    width: 15px;
+    height: 15px;
+}
+
+.adminDocuments__previewFooter>p {
+    min-width: 0;
+    flex: 1;
+    margin: 0;
+    color: #7e8a9f;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+/* ============================================================
+   DOWNLOAD BUTTON
+============================================================ */
+
+.adminDocuments__download {
+    min-height: 33px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    flex-shrink: 0;
+    padding: 0 10px;
+    border: 1px solid #dfe5ef;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #45546c;
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.adminDocuments__download svg {
+    width: 15px;
+    height: 15px;
+}
+
+.adminDocuments__download:hover:not(:disabled) {
+    border-color: #cad6fb;
+    background: #f0f4ff;
+    color: #315fd6;
+}
+
+.adminDocuments__download:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+/* ============================================================
+   REVIEW SIDEBAR
+
+   Compact sidebar gives the preview more horizontal space.
+============================================================ */
+
+.adminDocuments__reviewPanel {
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 18px 15px;
+    background: #ffffff;
+    scrollbar-width: thin;
+    scrollbar-color: #d4dce8 transparent;
+}
+
+.adminDocuments__reviewPanel::-webkit-scrollbar {
+    width: 5px;
+}
+
+.adminDocuments__reviewPanel::-webkit-scrollbar-thumb {
+    border-radius: 99px;
+    background: #d4dce8;
+}
+
+.adminDocuments__reviewPanelHeading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.adminDocuments__reviewPanelHeading h3 {
+    margin: 0;
+    color: #26334a;
+    font-size: 14px;
+    font-weight: 750;
+}
+
+/* ============================================================
+   DOCUMENT DETAILS
+============================================================ */
+
+.adminDocuments__detailList {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e9edf3;
+    border-radius: 10px;
+    background: #ffffff;
+}
+
+.adminDocuments__detailItem {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px 11px;
+    border-bottom: 1px solid #edf0f5;
+}
+
+.adminDocuments__detailItem:last-child {
+    border-bottom: 0;
+}
+
+.adminDocuments__detailItem>span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #8793a7;
+    font-size: 9px;
+    font-weight: 550;
+}
+
+.adminDocuments__detailItem>span svg {
+    width: 12px;
+    height: 12px;
+}
+
+.adminDocuments__detailItem>strong {
+    display: block;
+    color: #35435a;
+    font-size: 10px;
+    font-weight: 650;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+/* ============================================================
+   LAST REVIEW
+============================================================ */
+
+.adminDocuments__lastReview {
+    margin-top: 13px;
+    padding: 12px;
+    border: 1px solid #e8edf5;
+    border-radius: 9px;
+    background: #f9fafe;
+}
+
+.adminDocuments__reviewLabel {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 9px;
+    color: #79869b;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.adminDocuments__reviewer {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.adminDocuments__reviewerIcon {
+    width: 31px;
+    height: 31px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid #e0e6f0;
+    border-radius: 9px;
+    background: #ffffff;
+    color: #6b7a94;
+}
+
+.adminDocuments__reviewerIcon svg {
+    width: 15px;
+    height: 15px;
+}
+
+.adminDocuments__reviewer>div:last-child {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.adminDocuments__reviewer strong {
+    color: #344158;
+    font-size: 10px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.adminDocuments__reviewer span {
+    color: #8c98ab;
+    font-size: 9px;
+}
+
+/* ============================================================
+   REVIEW FORM
+============================================================ */
+
+.adminDocuments__reviewForm {
+    display: flex;
+    flex-direction: column;
+    margin-top: 18px;
+}
+
+.adminDocuments__formHeading {
+    margin-bottom: 11px;
+}
+
+.adminDocuments__formHeading h3 {
+    margin: 0;
+    color: #28354c;
+    font-size: 12px;
+    font-weight: 750;
+}
+
+.adminDocuments__formHeading p {
+    margin: 5px 0 0;
+    color: #8793a7;
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+/* ============================================================
+   REVIEW DECISION BUTTONS
+============================================================ */
+
+.adminDocuments__decisionGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+    margin-bottom: 17px;
+}
+
+.adminDocuments__decision {
+    min-height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 7px;
+    border: 1px solid #e3e7ee;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #6e7b90;
+    cursor: pointer;
+    font-size: 9px;
+    font-weight: 650;
+    transition: all 0.2s ease;
+}
+
+.adminDocuments__decision svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+.adminDocuments__decision:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+}
+
+.adminDocuments__decision:hover {
+    border-color: #cbd4e2;
+    background: #f9fafc;
+}
+
+.adminDocuments__decision--approved.adminDocuments__decision--active {
+    border-color: #a8d9b8;
+    background: #edf9f1;
+    color: #27814e;
+}
+
+.adminDocuments__decision--rejected.adminDocuments__decision--active {
+    border-color: #efb5b5;
+    background: #fff1f1;
+    color: #b54141;
+}
+
+.adminDocuments__decision--reupload.adminDocuments__decision--active {
+    border-color: #f0c2a6;
+    background: #fff5ef;
+    color: #b65b2a;
+}
+
+/* ============================================================
+   REVIEW NOTE
+============================================================ */
+
+.adminDocuments__reviewForm>.adminDocuments__reviewLabel {
+    margin-bottom: 8px;
+}
+
+.adminDocuments__reviewForm>.adminDocuments__reviewLabel>span {
+    margin-left: auto;
+    color: #a0aabb;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+.adminDocuments__reviewForm textarea {
+    width: 100%;
+    min-height: 85px;
+    padding: 10px;
+    resize: vertical;
+    border: 1px solid #dfe5ee;
+    border-radius: 8px;
+    outline: none;
+    background: #ffffff;
+    color: #35435a;
+    font-size: 10px;
+    line-height: 1.7;
+    transition: all 0.2s ease;
+}
+
+.adminDocuments__reviewForm textarea::placeholder {
+    color: #a0aabb;
+}
+
+.adminDocuments__reviewForm textarea:focus {
+    border-color: #8ca8f5;
+    box-shadow: 0 0 0 3px rgba(53, 105, 238, 0.08);
+}
+
+/* ============================================================
+   REVIEW FEEDBACK
+============================================================ */
+
+.adminDocuments__reviewError,
+.adminDocuments__reviewSuccess {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 10px;
+    padding: 9px 10px;
+    border-radius: 8px;
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+.adminDocuments__reviewError {
+    border: 1px solid #f0d6d6;
+    background: #fff5f5;
+    color: #aa4141;
+}
+
+.adminDocuments__reviewSuccess {
+    border: 1px solid #d0e9d8;
+    background: #f0faf3;
+    color: #2c8050;
+}
+
+.adminDocuments__reviewError svg,
+.adminDocuments__reviewSuccess svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+/* ============================================================
+   REVIEW ACTIONS
+============================================================ */
+
+.adminDocuments__reviewActions {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 8px;
+    margin-top: 14px;
+    padding-top: 13px;
+    border-top: 1px solid #edf0f5;
+}
+
+.adminDocuments__cancelReview,
+.adminDocuments__submitReview {
+    min-height: 39px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 0 11px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+
+.adminDocuments__cancelReview {
+    border: 1px solid #dfe5ee;
+    background: #ffffff;
+    color: #637087;
+}
+
+.adminDocuments__cancelReview:hover:not(:disabled) {
+    background: #f7f9fc;
+}
+
+.adminDocuments__submitReview {
+    border: 1px solid #315fd6;
+    background: #315fd6;
+    color: #ffffff;
+    box-shadow: 0 3px 8px rgba(49, 95, 214, 0.14);
+}
+
+.adminDocuments__submitReview svg {
+    width: 15px;
+    height: 15px;
+}
+
+.adminDocuments__submitReview:hover:not(:disabled) {
+    border-color: #244fc1;
+    background: #244fc1;
+}
+
+.adminDocuments__cancelReview:disabled,
+.adminDocuments__submitReview:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.adminDocuments__buttonSpinner {
+    width: 13px;
+    height: 13px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: adminDocumentsSpin 0.7s linear infinite;
+}
+
+/* ============================================================
+   ANIMATIONS
+============================================================ */
+
+@keyframes adminDocumentsSpin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes adminDocumentsOverlayIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes adminDocumentsModalIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.99);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ============================================================
+   TABLET AND SMALL DESKTOP
+============================================================ */
 
 @media (max-width: 1100px) {
-
     .adminDocuments__summary {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    .adminDocuments__modalBody {
+        grid-template-columns: minmax(0, 1fr) 270px;
+    }
+
+    .adminDocuments__previewColumn {
+        padding: 10px;
+    }
+
+    .adminDocuments__reviewPanel {
+        padding: 15px 12px;
+    }
+
+    .adminDocuments__modalTitleText h2 {
+        max-width: 420px;
+    }
 }
 
+/* ============================================================
+   COMPACT TABLET
+============================================================ */
 
-/*
-|--------------------------------------------------------------------------
-| COMPACT TABLET
-|--------------------------------------------------------------------------
-*/
+@media (max-width: 800px) {
+    .adminDocuments__modalOverlay {
+        padding: 8px;
+    }
 
-@media (max-width: 900px) {
+    .adminDocuments__modal {
+        height: calc(100dvh - 16px);
+    }
 
+    .adminDocuments__modalBody {
+        grid-template-columns: minmax(0, 1fr) 245px;
+    }
+
+    .adminDocuments__modalHeader {
+        min-height: 66px;
+        padding: 10px 14px;
+    }
+
+    .adminDocuments__modalTitleText h2 {
+        max-width: 300px;
+        font-size: 13px;
+    }
+
+    .adminDocuments__previewFooter>p {
+        font-size: 9px;
+    }
+
+    .adminDocuments__previewFooterIcon {
+        display: none;
+    }
+}
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 640px) {
     .adminDocuments__header {
+        flex-direction: column;
+        gap: 17px;
         margin-bottom: 22px;
     }
 
@@ -769,44 +1634,8 @@
         font-size: 25px;
     }
 
-    .adminDocuments__summary {
-        gap: 12px;
-    }
-
-    .adminDocuments__summaryCard {
-        padding: 16px;
-    }
-
-    .adminDocuments__toolbar {
-        align-items: stretch;
-    }
-
-    .adminDocuments__search {
-        flex: 1;
-    }
-
-    .adminDocuments__filter select {
-        min-width: 145px;
-    }
-
-}
-
-
-/*
-|--------------------------------------------------------------------------
-| MOBILE
-|--------------------------------------------------------------------------
-*/
-
-@media (max-width: 640px) {
-
-    .adminDocuments__header {
-        flex-direction: column;
-        gap: 16px;
-    }
-
     .adminDocuments__header p {
-        max-width: 500px;
+        font-size: 12px;
     }
 
     .adminDocuments__refresh {
@@ -816,66 +1645,278 @@
     .adminDocuments__summary {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 10px;
+        margin-bottom: 19px;
     }
 
     .adminDocuments__summaryCard {
-        padding: 14px;
+        min-height: 116px;
+        padding: 15px;
     }
 
-    .adminDocuments__summaryCard span {
-        font-size: 10px;
+    .adminDocuments__summaryCard>strong {
+        margin-top: 12px;
+        font-size: 25px;
     }
 
-    .adminDocuments__summaryCard strong {
-        font-size: 21px;
+    .adminDocuments__summaryCard>small {
+        font-size: 9px;
     }
 
     .adminDocuments__toolbar {
         flex-direction: column;
+        align-items: stretch;
     }
 
-    .adminDocuments__search {
-        width: 100%;
-        flex: none;
-    }
-
-    .adminDocuments__filter {
-        width: 100%;
-    }
-
+    .adminDocuments__search,
+    .adminDocuments__filter,
     .adminDocuments__filter select {
         width: 100%;
     }
 
+    .adminDocuments__search {
+        flex: none;
+    }
+
     .adminDocuments__panelHeader {
-        padding: 0 15px;
+        min-height: 67px;
+        padding: 13px 15px;
     }
 
     .adminDocuments__tableWrapper {
-        max-height: 520px;
+        max-height: 500px;
     }
 
+    /* Full-screen mobile viewer */
+
+    .adminDocuments__modalOverlay {
+        align-items: stretch;
+        justify-content: stretch;
+        padding: 0;
+        overflow: hidden;
+        background: #ffffff;
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
+
+    .adminDocuments__modal {
+        width: 100%;
+        max-width: none;
+        height: 100%;
+        height: 100dvh;
+        min-height: 0;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        animation: none;
+    }
+
+    .adminDocuments__modalHeader {
+        min-height: 67px;
+        gap: 8px;
+        padding: 10px 12px;
+    }
+
+    .adminDocuments__modalTitleGroup {
+        gap: 9px;
+    }
+
+    .adminDocuments__modalFileIcon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .adminDocuments__modalTitleText h2 {
+        max-width: 230px;
+        font-size: 12px;
+    }
+
+    .adminDocuments__modalTitleText p {
+        font-size: 9px;
+    }
+
+    .adminDocuments__modalHeaderActions {
+        gap: 5px;
+    }
+
+    .adminDocuments__modalHeaderActions>.adminDocuments__status {
+        display: none;
+    }
+
+    .adminDocuments__modalClose {
+        width: 33px;
+        height: 33px;
+    }
+
+    .adminDocuments__modalBody {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+        background: #ffffff;
+    }
+
+    .adminDocuments__previewColumn {
+        min-height: 0;
+        height: min(70dvh, 700px);
+        flex: none;
+        padding: 10px;
+        border-right: 0;
+        border-bottom: 1px solid #e8edf4;
+        background: #f4f6fa;
+    }
+
+    .adminDocuments__preview {
+        min-height: 0;
+        height: auto;
+        flex: 1;
+    }
+
+    .adminDocuments__imagePreview {
+        padding: 5px;
+    }
+
+    .adminDocuments__previewFooter {
+        min-height: 35px;
+        gap: 7px;
+    }
+
+    .adminDocuments__previewFooter>p {
+        font-size: 8px;
+    }
+
+    .adminDocuments__previewFooter .adminDocuments__download {
+        min-height: 30px;
+        padding: 0 8px;
+        font-size: 9px;
+    }
+
+    .adminDocuments__reviewPanel {
+        min-height: auto;
+        flex: none;
+        overflow: visible;
+        padding: 20px 14px 26px;
+    }
+
+    .adminDocuments__reviewPanelHeading h3 {
+        font-size: 14px;
+    }
+
+    .adminDocuments__reviewForm {
+        margin-top: 20px;
+    }
+
+    .adminDocuments__reviewActions {
+        position: sticky;
+        bottom: 0;
+        z-index: 2;
+        margin: 16px -14px -26px;
+        padding: 12px 14px;
+        border-top: 1px solid #e7ebf2;
+        background: rgba(255, 255, 255, 0.97);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+    }
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| VERY SMALL MOBILE
-|--------------------------------------------------------------------------
-*/
+/* ============================================================
+   SMALL MOBILE
+============================================================ */
 
 @media (max-width: 420px) {
-
-    .adminDocuments__summary {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .adminDocuments__summaryCard strong {
-        font-size: 19px;
-    }
-
     .adminDocuments__header h1 {
         font-size: 23px;
     }
 
+    .adminDocuments__summary {
+        gap: 8px;
+    }
+
+    .adminDocuments__summaryCard {
+        min-height: 108px;
+        padding: 13px;
+    }
+
+    .adminDocuments__summaryCard>span {
+        font-size: 10px;
+    }
+
+    .adminDocuments__summaryCard>strong {
+        font-size: 23px;
+    }
+
+    .adminDocuments__summaryCard>small {
+        font-size: 8px;
+    }
+
+    .adminDocuments__modalHeader {
+        padding: 9px;
+    }
+
+    .adminDocuments__modalTitleGroup {
+        gap: 7px;
+    }
+
+    .adminDocuments__modalFileIcon {
+        width: 31px;
+        height: 31px;
+    }
+
+    .adminDocuments__modalTitleText h2 {
+        max-width: 180px;
+        font-size: 11px;
+    }
+
+    .adminDocuments__modalTitleText p {
+        max-width: 180px;
+        gap: 5px;
+    }
+
+    .adminDocuments__previewColumn {
+        height: 65dvh;
+        padding: 8px;
+    }
+
+    .adminDocuments__previewFooter>p {
+        font-size: 8px;
+    }
+
+    .adminDocuments__previewFooter .adminDocuments__download {
+        gap: 4px;
+        padding: 0 6px;
+    }
+
+    .adminDocuments__reviewPanel {
+        padding-right: 11px;
+        padding-left: 11px;
+    }
+
+    .adminDocuments__decision {
+        gap: 5px;
+        padding: 8px 5px;
+        font-size: 9px;
+    }
+
+    .adminDocuments__reviewActions {
+        margin-right: -11px;
+        margin-left: -11px;
+        padding-right: 11px;
+        padding-left: 11px;
+    }
+}
+
+/* ============================================================
+   REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .adminDocuments *,
+    .adminDocuments *::before,
+    .adminDocuments *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }

@@ -1,3 +1,4 @@
+
 import React, {
     useEffect,
     useMemo,
@@ -16,17 +17,13 @@ import {
     HiOutlineX,
     HiOutlineCheck,
     HiOutlineExclamation,
+    HiOutlineCalendar,
+    HiOutlineExternalLink,
+    HiOutlineShieldCheck,
 } from "react-icons/hi";
 
 import documentsService from "./documents.service";
-
 import "./AdminDocuments.css";
-
-/*
-============================================================
-STATUS CONFIG
-============================================================
-*/
 
 const STATUS_OPTIONS = [
     "ALL",
@@ -42,16 +39,8 @@ const REVIEW_STATUS_OPTIONS = [
     "REUPLOAD_REQUIRED",
 ];
 
-/*
-============================================================
-FORMAT LABEL
-============================================================
-*/
-
 const formatLabel = (value) => {
-    if (!value) {
-        return "—";
-    }
+    if (!value) return "—";
 
     return String(value)
         .replace(/[_-]+/g, " ")
@@ -59,22 +48,12 @@ const formatLabel = (value) => {
         .replace(/\b\w/g, (letter) => letter.toUpperCase());
 };
 
-/*
-============================================================
-FORMAT DATE
-============================================================
-*/
-
 const formatDate = (value) => {
-    if (!value) {
-        return "—";
-    }
+    if (!value) return "—";
 
     const date = new Date(value);
 
-    if (Number.isNaN(date.getTime())) {
-        return "—";
-    }
+    if (Number.isNaN(date.getTime())) return "—";
 
     return new Intl.DateTimeFormat("en-GB", {
         day: "numeric",
@@ -83,22 +62,12 @@ const formatDate = (value) => {
     }).format(date);
 };
 
-/*
-============================================================
-FORMAT DATE + TIME
-============================================================
-*/
-
 const formatDateTime = (value) => {
-    if (!value) {
-        return "—";
-    }
+    if (!value) return "—";
 
     const date = new Date(value);
 
-    if (Number.isNaN(date.getTime())) {
-        return "—";
-    }
+    if (Number.isNaN(date.getTime())) return "—";
 
     return new Intl.DateTimeFormat("en-GB", {
         day: "numeric",
@@ -109,71 +78,28 @@ const formatDateTime = (value) => {
     }).format(date);
 };
 
-/*
-============================================================
-GET DOCUMENT NAME
-============================================================
-*/
+const getDocumentName = (document) =>
+    document?.originalFileName ||
+    document?.name ||
+    document?.documentName ||
+    document?.type ||
+    "Untitled document";
 
-const getDocumentName = (document) => {
-    return (
-        document?.originalFileName ||
-        document?.name ||
-        document?.documentName ||
-        document?.type ||
-        "Untitled document"
-    );
-};
+const getDocumentType = (document) =>
+    document?.type ||
+    document?.documentType ||
+    "OTHER";
 
-/*
-============================================================
-GET DOCUMENT TYPE
-============================================================
-*/
+const getClientName = (document) =>
+    document?.user?.name ||
+    "Unknown client";
 
-const getDocumentType = (document) => {
-    return (
-        document?.type ||
-        document?.documentType ||
-        "OTHER"
-    );
-};
-
-/*
-============================================================
-GET CLIENT NAME
-============================================================
-*/
-
-const getClientName = (document) => {
-    return (
-        document?.user?.name ||
-        "Unknown client"
-    );
-};
-
-/*
-============================================================
-GET APPLICATION
-============================================================
-*/
-
-const getApplication = (document) => {
-    return document?.application;
-};
-
-/*
-============================================================
-GET APPLICATION LABEL
-============================================================
-*/
+const getApplication = (document) => document?.application;
 
 const getApplicationLabel = (document) => {
     const application = getApplication(document);
 
-    if (!application) {
-        return "—";
-    }
+    if (!application) return "—";
 
     return (
         application?.applicationReference ||
@@ -184,44 +110,17 @@ const getApplicationLabel = (document) => {
     );
 };
 
-/*
-============================================================
-GET COUNTRY
-============================================================
-*/
+const getCountry = (document) =>
+    getApplication(document)?.destinationCountry || "—";
 
-const getCountry = (document) => {
-    const application = getApplication(document);
-
-    return (
-        application?.destinationCountry ||
-        "—"
-    );
-};
-
-/*
-============================================================
-STATUS NORMALIZATION
-============================================================
-*/
-
-const normalizeStatus = (value) => {
-    return String(value || "")
+const normalizeStatus = (value) =>
+    String(value || "")
         .trim()
         .toUpperCase()
         .replace(/\s+/g, "_");
-};
-
-/*
-============================================================
-STATUS CLASS
-============================================================
-*/
 
 const getStatusClass = (status) => {
-    const normalized = normalizeStatus(status);
-
-    switch (normalized) {
+    switch (normalizeStatus(status)) {
         case "APPROVED":
             return "approved";
 
@@ -241,12 +140,6 @@ const getStatusClass = (status) => {
     }
 };
 
-/*
-============================================================
-FILE TYPE HELPERS
-============================================================
-*/
-
 const getFileExtension = (document) => {
     const fileName =
         document?.originalFileName ||
@@ -255,45 +148,21 @@ const getFileExtension = (document) => {
         document?.fileName ||
         "";
 
-    const normalizedFileName =
-        String(fileName)
-            .toLowerCase()
-            .split("?")[0]
-            .split("#")[0];
+    const normalizedFileName = String(fileName)
+        .toLowerCase()
+        .split("?")[0]
+        .split("#")[0];
 
-    if (!normalizedFileName.includes(".")) {
-        return "";
-    }
+    if (!normalizedFileName.includes(".")) return "";
 
-    return normalizedFileName
-        .split(".")
-        .pop();
+    return normalizedFileName.split(".").pop();
 };
-
-/*
-============================================================
-GET PREVIEW MIME TYPE
-============================================================
-
-We do not blindly trust Cloudinary's content-type.
-
-For raw uploads, Cloudinary can sometimes return:
-
-application/octet-stream
-
-even when the actual file is a PDF/image.
-
-The document filename is therefore used as the primary
-source of truth.
-============================================================
-*/
 
 const getPreviewMimeType = (document, blob) => {
     const extension = getFileExtension(document);
 
     const mimeMap = {
         pdf: "application/pdf",
-
         jpg: "image/jpeg",
         jpeg: "image/jpeg",
         png: "image/png",
@@ -301,22 +170,12 @@ const getPreviewMimeType = (document, blob) => {
         gif: "image/gif",
     };
 
-    if (mimeMap[extension]) {
-        return mimeMap[extension];
-    }
+    if (mimeMap[extension]) return mimeMap[extension];
 
-    if (blob?.type) {
-        return blob.type;
-    }
+    if (blob?.type) return blob.type;
 
     return "application/octet-stream";
 };
-
-/*
-============================================================
-PDF DETECTION
-============================================================
-*/
 
 const isPdfDocument = (document) => {
     const extension = getFileExtension(document);
@@ -328,17 +187,8 @@ const isPdfDocument = (document) => {
         "",
     ).toLowerCase();
 
-    return (
-        extension === "pdf" ||
-        mimeType.includes("pdf")
-    );
+    return extension === "pdf" || mimeType.includes("pdf");
 };
-
-/*
-============================================================
-IMAGE DETECTION
-============================================================
-*/
 
 const isImageDocument = (document) => {
     const extension = getFileExtension(document);
@@ -351,126 +201,48 @@ const isImageDocument = (document) => {
     ).toLowerCase();
 
     return (
-        [
-            "jpg",
-            "jpeg",
-            "png",
-            "webp",
-            "gif",
-        ].includes(extension) ||
+        ["jpg", "jpeg", "png", "webp", "gif"].includes(extension) ||
         mimeType.startsWith("image/")
     );
 };
 
-/*
-============================================================
-COMPONENT
-============================================================
-*/
-
 const AdminDocuments = () => {
     const [documents, setDocuments] = useState([]);
-
     const [search, setSearch] = useState("");
+    const [statusFilter, setStatusFilter] = useState("ALL");
 
-    const [statusFilter, setStatusFilter] =
-        useState("ALL");
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
+    const [refreshing, setRefreshing] = useState(false);
 
-    const [loading, setLoading] =
-        useState(true);
+    // Document viewer
+    const [selectedDocument, setSelectedDocument] = useState(null);
+    const [previewUrl, setPreviewUrl] = useState("");
+    const [previewLoading, setPreviewLoading] = useState(false);
+    const [previewError, setPreviewError] = useState("");
 
-    const [error, setError] =
-        useState("");
-
-    const [refreshing, setRefreshing] =
-        useState(false);
-
-    /*
-    ========================================================
-    DOCUMENT VIEWER
-    ========================================================
-    */
-
-    const [selectedDocument, setSelectedDocument] =
-        useState(null);
-
-    const [previewUrl, setPreviewUrl] =
-        useState("");
-
-    const [previewLoading, setPreviewLoading] =
-        useState(false);
-
-    const [previewError, setPreviewError] =
-        useState("");
-
-    /*
-    ========================================================
-    REVIEW
-    ========================================================
-    */
-
-    const [reviewStatus, setReviewStatus] =
-        useState("APPROVED");
-
-    const [reviewNote, setReviewNote] =
-        useState("");
-
-    const [reviewing, setReviewing] =
-        useState(false);
-
-    const [reviewError, setReviewError] =
-        useState("");
-
-    /*
-    ========================================================
-    PREVIEW REQUEST TRACKER
-    ========================================================
-
-    Prevents an older preview request from replacing the
-    preview belonging to a newer document.
-    ========================================================
-    */
+    // Document review
+    const [reviewStatus, setReviewStatus] = useState("APPROVED");
+    const [reviewNote, setReviewNote] = useState("");
+    const [reviewing, setReviewing] = useState(false);
+    const [reviewError, setReviewError] = useState("");
+    const [reviewSuccess, setReviewSuccess] = useState(false);
 
     const previewRequestRef = useRef(0);
-
-    /*
-    ========================================================
-    PREVIEW URL REF
-    ========================================================
-    */
-
     const previewUrlRef = useRef("");
-
-    /*
-    ========================================================
-    STORE PREVIEW URL
-    ========================================================
-    */
+    const modalRef = useRef(null);
+    const previouslyFocusedElementRef = useRef(null);
 
     const replacePreviewUrl = (nextUrl) => {
         if (previewUrlRef.current) {
-            URL.revokeObjectURL(
-                previewUrlRef.current,
-            );
+            URL.revokeObjectURL(previewUrlRef.current);
         }
 
-        previewUrlRef.current =
-            nextUrl || "";
-
-        setPreviewUrl(
-            nextUrl || "",
-        );
+        previewUrlRef.current = nextUrl || "";
+        setPreviewUrl(nextUrl || "");
     };
 
-    /*
-    ========================================================
-    LOAD DOCUMENTS
-    ========================================================
-    */
-
-    const loadDocuments = async (
-        isRefresh = false,
-    ) => {
+    const loadDocuments = async (isRefresh = false) => {
         try {
             if (isRefresh) {
                 setRefreshing(true);
@@ -483,11 +255,7 @@ const AdminDocuments = () => {
             const result =
                 await documentsService.getAllDocuments();
 
-            setDocuments(
-                Array.isArray(result)
-                    ? result
-                    : [],
-            );
+            setDocuments(Array.isArray(result) ? result : []);
         } catch (requestError) {
             console.error(
                 "FAILED TO LOAD DOCUMENTS:",
@@ -495,8 +263,7 @@ const AdminDocuments = () => {
             );
 
             setError(
-                requestError?.response?.data
-                    ?.message ||
+                requestError?.response?.data?.message ||
                 "Unable to load documents.",
             );
         } finally {
@@ -505,43 +272,26 @@ const AdminDocuments = () => {
         }
     };
 
-    /*
-    ========================================================
-    INITIAL LOAD
-    ========================================================
-    */
-
     useEffect(() => {
         loadDocuments();
+
+        // This component loads documents when mounted.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    /*
-    ========================================================
-    FILTER DOCUMENTS
-    ========================================================
-    */
-
     const filteredDocuments = useMemo(() => {
-        const normalizedSearch =
-            search.trim().toLowerCase();
+        const normalizedSearch = search.trim().toLowerCase();
 
         return documents.filter((document) => {
-            const status =
-                normalizeStatus(
-                    document?.status,
-                );
+            const status = normalizeStatus(document?.status);
 
             const matchesStatus =
                 statusFilter === "ALL" ||
                 status === statusFilter;
 
-            if (!matchesStatus) {
-                return false;
-            }
+            if (!matchesStatus) return false;
 
-            if (!normalizedSearch) {
-                return true;
-            }
+            if (!normalizedSearch) return true;
 
             const searchableText = [
                 getDocumentName(document),
@@ -555,92 +305,48 @@ const AdminDocuments = () => {
                 .join(" ")
                 .toLowerCase();
 
-            return searchableText.includes(
-                normalizedSearch,
-            );
+            return searchableText.includes(normalizedSearch);
         });
-    }, [
-        documents,
-        search,
-        statusFilter,
-    ]);
+    }, [documents, search, statusFilter]);
 
-    /*
-    ========================================================
-    SUMMARY COUNTS
-    ========================================================
-    */
-
-    const summary = useMemo(() => {
-        return {
+    const summary = useMemo(
+        () => ({
             total: documents.length,
 
-            pending: documents.filter(
-                (document) =>
-                    [
-                        "PENDING",
-                        "UNDER_REVIEW",
-                    ].includes(
-                        normalizeStatus(
-                            document?.status,
-                        ),
-                    ),
+            pending: documents.filter((document) =>
+                ["PENDING", "UNDER_REVIEW"].includes(
+                    normalizeStatus(document?.status),
+                ),
             ).length,
 
             approved: documents.filter(
                 (document) =>
-                    normalizeStatus(
-                        document?.status,
-                    ) === "APPROVED",
+                    normalizeStatus(document?.status) === "APPROVED",
             ).length,
 
-            rejected: documents.filter(
-                (document) =>
-                    [
-                        "REJECTED",
-                        "REUPLOAD_REQUIRED",
-                    ].includes(
-                        normalizeStatus(
-                            document?.status,
-                        ),
-                    ),
+            rejected: documents.filter((document) =>
+                ["REJECTED", "REUPLOAD_REQUIRED"].includes(
+                    normalizeStatus(document?.status),
+                ),
             ).length,
-        };
-    }, [documents]);
-
-    /*
-    ========================================================
-    OPEN DOCUMENT
-    ========================================================
-    */
+        }),
+        [documents],
+    );
 
     const openDocument = async (document) => {
-        if (!document?._id) {
-            return;
-        }
+        if (!document?._id) return;
 
-        /*
-        ----------------------------------------------------
-        NEW REQUEST ID
-        ----------------------------------------------------
-        */
+        previouslyFocusedElementRef.current =
+            window.document.activeElement;
 
-        const requestId =
-            ++previewRequestRef.current;
-
-        /*
-        ----------------------------------------------------
-        CLEAR PREVIOUS PREVIEW
-        ----------------------------------------------------
-        */
+        const requestId = ++previewRequestRef.current;
 
         replacePreviewUrl("");
 
         setSelectedDocument(document);
-
         setPreviewError("");
-
         setReviewError("");
+        setReviewSuccess(false);
 
         setReviewNote(
             document?.reviewNote ||
@@ -648,16 +354,12 @@ const AdminDocuments = () => {
             "",
         );
 
-        const currentStatus =
-            normalizeStatus(
-                document?.status,
-            );
+        const currentStatus = normalizeStatus(document?.status);
 
         setReviewStatus(
             currentStatus === "REJECTED"
                 ? "REJECTED"
-                : currentStatus ===
-                    "REUPLOAD_REQUIRED"
+                : currentStatus === "REUPLOAD_REQUIRED"
                     ? "REUPLOAD_REQUIRED"
                     : "APPROVED",
         );
@@ -665,29 +367,12 @@ const AdminDocuments = () => {
         setPreviewLoading(true);
 
         try {
-            /*
-            ------------------------------------------------
-            REQUEST AUTHENTICATED BLOB
-            ------------------------------------------------
-            */
-
             const blob =
                 await documentsService.getDocumentPreview(
                     document._id,
                 );
 
-            /*
-            ------------------------------------------------
-            MAKE SURE THIS REQUEST IS STILL CURRENT
-            ------------------------------------------------
-            */
-
-            if (
-                requestId !==
-                previewRequestRef.current
-            ) {
-                return;
-            }
+            if (requestId !== previewRequestRef.current) return;
 
             if (!(blob instanceof Blob)) {
                 throw new Error(
@@ -696,82 +381,26 @@ const AdminDocuments = () => {
             }
 
             if (blob.size === 0) {
-                throw new Error(
-                    "The document preview is empty.",
-                );
+                throw new Error("The document preview is empty.");
             }
 
-            /*
-            ------------------------------------------------
-            DETERMINE CORRECT MIME TYPE
-            ------------------------------------------------
-            */
-
-            const mimeType =
-                getPreviewMimeType(
-                    document,
-                    blob,
-                );
-
-            /*
-            ------------------------------------------------
-            NORMALIZE BLOB
-            ------------------------------------------------
-
-            This is particularly important for PDFs because
-            Cloudinary raw resources can sometimes return
-            application/octet-stream.
-            ------------------------------------------------
-            */
+            const mimeType = getPreviewMimeType(document, blob);
 
             const previewBlob =
                 blob.type === mimeType
                     ? blob
-                    : new Blob(
-                        [blob],
-                        {
-                            type: mimeType,
-                        },
-                    );
+                    : new Blob([blob], { type: mimeType });
 
-            /*
-            ------------------------------------------------
-            CREATE BLOB URL
-            ------------------------------------------------
-            */
+            const objectUrl = URL.createObjectURL(previewBlob);
 
-            const objectUrl =
-                URL.createObjectURL(
-                    previewBlob,
-                );
-
-            /*
-            ------------------------------------------------
-            CHECK AGAIN BEFORE COMMITTING
-            ------------------------------------------------
-            */
-
-            if (
-                requestId !==
-                previewRequestRef.current
-            ) {
-                URL.revokeObjectURL(
-                    objectUrl,
-                );
-
+            if (requestId !== previewRequestRef.current) {
+                URL.revokeObjectURL(objectUrl);
                 return;
             }
 
-            replacePreviewUrl(
-                objectUrl,
-            );
+            replacePreviewUrl(objectUrl);
         } catch (requestError) {
-            if (
-                requestId !==
-                previewRequestRef.current
-            ) {
-                return;
-            }
+            if (requestId !== previewRequestRef.current) return;
 
             console.error(
                 "FAILED TO LOAD DOCUMENT PREVIEW:",
@@ -779,151 +408,130 @@ const AdminDocuments = () => {
             );
 
             setPreviewError(
-                requestError?.response?.data
-                    ?.message ||
+                requestError?.response?.data?.message ||
                 requestError?.message ||
                 "Unable to load document preview.",
             );
         } finally {
-            if (
-                requestId ===
-                previewRequestRef.current
-            ) {
+            if (requestId === previewRequestRef.current) {
                 setPreviewLoading(false);
             }
         }
     };
 
-    /*
-    ========================================================
-    CLOSE DOCUMENT
-    ========================================================
-    */
-
     const closeDocument = () => {
-        /*
-        Invalidate any request currently in flight.
-        */
-
         ++previewRequestRef.current;
 
         replacePreviewUrl("");
 
         setSelectedDocument(null);
-
         setPreviewError("");
-
         setPreviewLoading(false);
-
         setReviewError("");
-
+        setReviewSuccess(false);
         setReviewNote("");
-
         setReviewStatus("APPROVED");
+
+        window.requestAnimationFrame(() => {
+            previouslyFocusedElementRef.current?.focus?.();
+        });
     };
 
-    /*
-    ========================================================
-    CLEAN OBJECT URL ON UNMOUNT
-    ========================================================
-    */
-
-    useEffect(() => {
-        return () => {
+    // Release the preview URL if the component is unmounted.
+    useEffect(
+        () => () => {
             if (previewUrlRef.current) {
-                URL.revokeObjectURL(
-                    previewUrlRef.current,
-                );
-
+                URL.revokeObjectURL(previewUrlRef.current);
                 previewUrlRef.current = "";
             }
-        };
-    }, []);
+        },
+        [],
+    );
 
-    /*
-    ========================================================
-    ESC KEY
-    ========================================================
-    */
-
+    // Modal keyboard behaviour and background scroll locking.
     useEffect(() => {
-        if (!selectedDocument) {
-            return undefined;
-        }
+        if (!selectedDocument) return undefined;
+
+        const previousOverflow = window.document.body.style.overflow;
+
+        window.document.body.style.overflow = "hidden";
 
         const handleKeyDown = (event) => {
-            if (event.key === "Escape") {
+            if (event.key === "Escape" && !reviewing) {
                 closeDocument();
+            }
+
+            if (event.key === "Tab" && modalRef.current) {
+                const focusableElements = modalRef.current.querySelectorAll(
+                    'button:not(:disabled), textarea:not(:disabled), input:not(:disabled), select:not(:disabled), a[href], iframe, [tabindex]:not([tabindex="-1"])',
+                );
+
+                const focusable = Array.from(focusableElements).filter(
+                    (element) => element.offsetParent !== null,
+                );
+
+                if (!focusable.length) return;
+
+                const first = focusable[0];
+                const last = focusable[focusable.length - 1];
+
+                if (
+                    event.shiftKey &&
+                    window.document.activeElement === first
+                ) {
+                    event.preventDefault();
+                    last.focus();
+                } else if (
+                    !event.shiftKey &&
+                    window.document.activeElement === last
+                ) {
+                    event.preventDefault();
+                    first.focus();
+                }
             }
         };
 
-        window.addEventListener(
-            "keydown",
-            handleKeyDown,
-        );
+        window.addEventListener("keydown", handleKeyDown);
+
+        const focusTimer = window.setTimeout(() => {
+            modalRef.current
+                ?.querySelector(".adminDocuments__modalClose")
+                ?.focus();
+        }, 0);
 
         return () => {
-            window.removeEventListener(
-                "keydown",
-                handleKeyDown,
-            );
+            window.document.body.style.overflow = previousOverflow;
+            window.removeEventListener("keydown", handleKeyDown);
+            window.clearTimeout(focusTimer);
         };
-    }, [selectedDocument]);
 
-    /*
-    ========================================================
-    DOWNLOAD DOCUMENT
-    ========================================================
-    */
+        // closeDocument is intentionally defined inside this component.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedDocument, reviewing]);
 
     const downloadDocument = () => {
-        if (
-            !previewUrl ||
-            !selectedDocument
-        ) {
-            return;
-        }
+        if (!previewUrl || !selectedDocument) return;
 
-        const anchor =
-            window.document.createElement(
-                "a",
-            );
+        const anchor = window.document.createElement("a");
 
         anchor.href = previewUrl;
-
         anchor.download =
-            selectedDocument?.originalFileName ||
-            selectedDocument?.name ||
-            selectedDocument?.documentName ||
-            "document";
-
+            getDocumentName(selectedDocument) || "document";
         anchor.style.display = "none";
 
-        window.document.body.appendChild(
-            anchor,
-        );
-
+        window.document.body.appendChild(anchor);
         anchor.click();
-
-        window.document.body.removeChild(
-            anchor,
-        );
+        window.document.body.removeChild(anchor);
     };
 
-    /*
-    ========================================================
-    UPDATE DOCUMENT STATUS
-    ========================================================
-    */
+    const handleReviewSubmit = async (event) => {
+        event.preventDefault();
 
-    const handleReviewSubmit = async () => {
-        if (!selectedDocument?._id) {
-            return;
-        }
+        if (!selectedDocument?._id || reviewing) return;
 
         setReviewing(true);
-
         setReviewError("");
+        setReviewSuccess(false);
 
         try {
             const updatedDocument =
@@ -933,49 +541,26 @@ const AdminDocuments = () => {
                     reviewNote.trim(),
                 );
 
-            if (updatedDocument) {
-                setSelectedDocument(
-                    updatedDocument,
-                );
+            const localUpdate = updatedDocument || {
+                ...selectedDocument,
+                status: reviewStatus,
+                reviewNote: reviewNote.trim(),
+            };
 
-                setDocuments(
-                    (currentDocuments) =>
-                        currentDocuments.map(
-                            (document) =>
-                                document._id ===
-                                    updatedDocument._id
-                                    ? updatedDocument
-                                    : document,
-                        ),
-                );
-            } else {
-                const localUpdate = {
-                    status: reviewStatus,
-                    reviewNote:
-                        reviewNote.trim(),
-                };
+            setSelectedDocument((currentDocument) => ({
+                ...currentDocument,
+                ...localUpdate,
+            }));
 
-                setDocuments(
-                    (currentDocuments) =>
-                        currentDocuments.map(
-                            (document) =>
-                                document._id ===
-                                    selectedDocument._id
-                                    ? {
-                                        ...document,
-                                        ...localUpdate,
-                                    }
-                                    : document,
-                        ),
-                );
+            setDocuments((currentDocuments) =>
+                currentDocuments.map((document) =>
+                    document._id === selectedDocument._id
+                        ? { ...document, ...localUpdate }
+                        : document,
+                ),
+            );
 
-                setSelectedDocument(
-                    (currentDocument) => ({
-                        ...currentDocument,
-                        ...localUpdate,
-                    }),
-                );
-            }
+            setReviewSuccess(true);
         } catch (requestError) {
             console.error(
                 "FAILED TO UPDATE DOCUMENT STATUS:",
@@ -983,8 +568,7 @@ const AdminDocuments = () => {
             );
 
             setReviewError(
-                requestError?.response?.data
-                    ?.message ||
+                requestError?.response?.data?.message ||
                 "Unable to update document status.",
             );
         } finally {
@@ -992,47 +576,29 @@ const AdminDocuments = () => {
         }
     };
 
-    /*
-    ========================================================
-    RENDER
-    ========================================================
-    */
-
     return (
         <section className="adminDocuments">
-
-            {/* ==================================================
-                HEADER
-            ================================================== */}
-
+            {/* Page header */}
             <header className="adminDocuments__header">
-
-                <div>
-
+                <div className="adminDocuments__heading">
                     <span className="adminDocuments__eyebrow">
                         DOCUMENT MANAGEMENT
                     </span>
 
-                    <h1>
-                        Documents
-                    </h1>
+                    <h1>Documents</h1>
 
                     <p>
-                        Manage documents submitted across
-                        client applications.
+                        Review, verify and manage documents submitted
+                        across client applications.
                     </p>
-
                 </div>
 
                 <button
                     type="button"
                     className="adminDocuments__refresh"
-                    onClick={() =>
-                        loadDocuments(true)
-                    }
+                    onClick={() => loadDocuments(true)}
                     disabled={refreshing}
                 >
-
                     <HiOutlineRefresh
                         className={
                             refreshing
@@ -1042,767 +608,573 @@ const AdminDocuments = () => {
                     />
 
                     <span>
-                        Refresh
+                        {refreshing ? "Refreshing..." : "Refresh"}
                     </span>
-
                 </button>
-
             </header>
 
-            {/* ==================================================
-                SUMMARY
-            ================================================== */}
-
+            {/* Summary cards */}
             <div className="adminDocuments__summary">
-
                 <div className="adminDocuments__summaryCard">
-
-                    <span>
-                        Total Documents
-                    </span>
-
-                    <strong>
-                        {summary.total}
-                    </strong>
-
+                    <span>Total Documents</span>
+                    <strong>{summary.total}</strong>
+                    <small>All submitted files</small>
                 </div>
 
                 <div className="adminDocuments__summaryCard">
-
-                    <span>
-                        Pending Review
-                    </span>
-
-                    <strong>
-                        {summary.pending}
-                    </strong>
-
+                    <span>Pending Review</span>
+                    <strong>{summary.pending}</strong>
+                    <small>Awaiting a decision</small>
                 </div>
 
                 <div className="adminDocuments__summaryCard">
-
-                    <span>
-                        Approved
-                    </span>
-
-                    <strong>
-                        {summary.approved}
-                    </strong>
-
+                    <span>Approved</span>
+                    <strong>{summary.approved}</strong>
+                    <small>Successfully reviewed</small>
                 </div>
 
                 <div className="adminDocuments__summaryCard">
-
-                    <span>
-                        Needs Attention
-                    </span>
-
-                    <strong>
-                        {summary.rejected}
-                    </strong>
-
+                    <span>Needs Attention</span>
+                    <strong>{summary.rejected}</strong>
+                    <small>Rejected or needs reupload</small>
                 </div>
-
             </div>
 
-            {/* ==================================================
-                TOOLBAR
-            ================================================== */}
-
+            {/* Search and filters */}
             <div className="adminDocuments__toolbar">
-
-                <div className="adminDocuments__search">
-
+                <label className="adminDocuments__search">
                     <HiOutlineSearch />
 
                     <input
-                        type="text"
+                        type="search"
                         value={search}
                         onChange={(event) =>
-                            setSearch(
-                                event.target.value,
-                            )
+                            setSearch(event.target.value)
                         }
                         placeholder="Search documents, clients or applications..."
+                        aria-label="Search documents"
                     />
 
-                </div>
+                    {search && (
+                        <button
+                            type="button"
+                            className="adminDocuments__clearSearch"
+                            onClick={() => setSearch("")}
+                            aria-label="Clear search"
+                        >
+                            <HiOutlineX />
+                        </button>
+                    )}
+                </label>
 
                 <div className="adminDocuments__filter">
-
                     <select
                         value={statusFilter}
                         onChange={(event) =>
-                            setStatusFilter(
-                                event.target.value,
-                            )
+                            setStatusFilter(event.target.value)
                         }
+                        aria-label="Filter by document status"
                     >
-
-                        {STATUS_OPTIONS.map(
-                            (status) => (
-
-                                <option
-                                    key={status}
-                                    value={status}
-                                >
-
-                                    {status ===
-                                        "ALL"
-                                        ? "All statuses"
-                                        : formatLabel(
-                                            status,
-                                        )}
-
-                                </option>
-
-                            ),
-                        )}
-
+                        {STATUS_OPTIONS.map((status) => (
+                            <option key={status} value={status}>
+                                {status === "ALL"
+                                    ? "All statuses"
+                                    : formatLabel(status)}
+                            </option>
+                        ))}
                     </select>
-
                 </div>
-
             </div>
 
-            {/* ==================================================
-                ERROR
-            ================================================== */}
-
+            {/* Load error */}
             {error && (
+                <div className="adminDocuments__error" role="alert">
+                    <HiOutlineExclamation />
 
-                <div className="adminDocuments__error">
-
-                    <span>
-                        {error}
-                    </span>
+                    <span>{error}</span>
 
                     <button
                         type="button"
-                        onClick={() =>
-                            loadDocuments()
-                        }
+                        onClick={() => loadDocuments()}
                     >
                         Try again
                     </button>
-
                 </div>
-
             )}
 
-            {/* ==================================================
-                DOCUMENT TABLE
-            ================================================== */}
-
+            {/* Documents table */}
             <div className="adminDocuments__panel">
-
                 <div className="adminDocuments__panelHeader">
-
                     <div>
-
-                        <h2>
-                            All Documents
-                        </h2>
+                        <h2>All Documents</h2>
 
                         <span>
-                            {filteredDocuments.length}{" "}
-                            {filteredDocuments.length ===
-                                1
-                                ? "document"
-                                : "documents"}
+                            Showing {filteredDocuments.length} of{" "}
+                            {documents.length} documents
                         </span>
-
                     </div>
-
                 </div>
 
                 {loading ? (
-
                     <div className="adminDocuments__state">
-
                         <div className="adminDocuments__loader" />
-
-                        <span>
-                            Loading documents...
-                        </span>
-
+                        <span>Loading documents...</span>
                     </div>
-
-                ) : filteredDocuments.length ===
-                    0 ? (
-
+                ) : filteredDocuments.length === 0 ? (
                     <div className="adminDocuments__state adminDocuments__state--empty">
-
                         <div className="adminDocuments__emptyIcon">
-
                             <HiOutlineDocumentText />
-
                         </div>
 
-                        <h3>
-                            No documents found
-                        </h3>
+                        <h3>No documents found</h3>
 
                         <p>
-
-                            {search ||
-                                statusFilter !==
-                                "ALL"
+                            {search || statusFilter !== "ALL"
                                 ? "Try adjusting your search or filter."
                                 : "Documents submitted by clients will appear here."}
-
                         </p>
 
+                        {(search || statusFilter !== "ALL") && (
+                            <button
+                                type="button"
+                                className="adminDocuments__resetFilters"
+                                onClick={() => {
+                                    setSearch("");
+                                    setStatusFilter("ALL");
+                                }}
+                            >
+                                Clear filters
+                            </button>
+                        )}
                     </div>
-
                 ) : (
-
                     <div className="adminDocuments__tableWrapper">
-
                         <table className="adminDocuments__table">
-
                             <thead>
-
                                 <tr>
-
-                                    <th>
-                                        Document
-                                    </th>
-
-                                    <th>
-                                        Client
-                                    </th>
-
-                                    <th>
-                                        Application
-                                    </th>
-
-                                    <th>
-                                        Country
-                                    </th>
-
-                                    <th>
-                                        Status
-                                    </th>
-
-                                    <th>
-                                        Uploaded
-                                    </th>
-
-                                    <th>
-                                        Actions
-                                    </th>
-
+                                    <th>Document</th>
+                                    <th>Client</th>
+                                    <th>Application</th>
+                                    <th>Country</th>
+                                    <th>Status</th>
+                                    <th>Uploaded</th>
+                                    <th>Actions</th>
                                 </tr>
-
                             </thead>
 
                             <tbody>
+                                {filteredDocuments.map((document) => {
+                                    const status = normalizeStatus(
+                                        document?.status,
+                                    );
 
-                                {filteredDocuments.map(
-                                    (
-                                        document,
-                                    ) => {
-
-                                        const status =
-                                            normalizeStatus(
-                                                document?.status,
-                                            );
-
-                                        return (
-
-                                            <tr
-                                                key={
-                                                    document?._id
-                                                }
-                                            >
-
-                                                <td>
-
-                                                    <div className="adminDocuments__documentCell">
-
-                                                        <div className="adminDocuments__documentIcon">
-
-                                                            <HiOutlineDocumentText />
-
-                                                        </div>
-
-                                                        <div>
-
-                                                            <strong
-                                                                title={getDocumentName(
-                                                                    document,
-                                                                )}
-                                                            >
-                                                                {getDocumentName(
-                                                                    document,
-                                                                )}
-                                                            </strong>
-
-                                                            <span>
-                                                                {formatLabel(
-                                                                    getDocumentType(
-                                                                        document,
-                                                                    ),
-                                                                )}
-                                                            </span>
-
-                                                        </div>
-
+                                    return (
+                                        <tr key={document?._id}>
+                                            <td>
+                                                <div className="adminDocuments__documentCell">
+                                                    <div className="adminDocuments__documentIcon">
+                                                        <HiOutlineDocumentText />
                                                     </div>
 
-                                                </td>
+                                                    <div>
+                                                        <strong
+                                                            title={getDocumentName(
+                                                                document,
+                                                            )}
+                                                        >
+                                                            {getDocumentName(
+                                                                document,
+                                                            )}
+                                                        </strong>
 
-                                                <td>
-
-                                                    <div className="adminDocuments__clientCell">
-
-                                                        <HiOutlineUser />
-
-                                                        <div>
-
-                                                            <strong>
-                                                                {getClientName(
+                                                        <span>
+                                                            {formatLabel(
+                                                                getDocumentType(
                                                                     document,
-                                                                )}
-                                                            </strong>
-
-                                                            <span>
-                                                                {
-                                                                    document
-                                                                        ?.user
-                                                                        ?.email
-                                                                }
-                                                            </span>
-
-                                                        </div>
-
+                                                                ),
+                                                            )}
+                                                        </span>
                                                     </div>
+                                                </div>
+                                            </td>
 
-                                                </td>
+                                            <td>
+                                                <div className="adminDocuments__clientCell">
+                                                    <HiOutlineUser />
 
-                                                <td>
+                                                    <div>
+                                                        <strong>
+                                                            {getClientName(
+                                                                document,
+                                                            )}
+                                                        </strong>
 
-                                                    <span className="adminDocuments__application">
-                                                        {getApplicationLabel(
+                                                        <span>
+                                                            {document?.user
+                                                                ?.email ||
+                                                                "No email"}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <span
+                                                    className="adminDocuments__application"
+                                                    title={getApplicationLabel(
+                                                        document,
+                                                    )}
+                                                >
+                                                    {getApplicationLabel(
+                                                        document,
+                                                    )}
+                                                </span>
+                                            </td>
+
+                                            <td>
+                                                <span className="adminDocuments__country">
+                                                    <HiOutlineGlobeAlt />
+                                                    {getCountry(document)}
+                                                </span>
+                                            </td>
+
+                                            <td>
+                                                <span
+                                                    className={`adminDocuments__status adminDocuments__status--${getStatusClass(
+                                                        status,
+                                                    )}`}
+                                                >
+                                                    <span />
+                                                    {formatLabel(status)}
+                                                </span>
+                                            </td>
+
+                                            <td>
+                                                <span className="adminDocuments__date">
+                                                    {formatDate(
+                                                        document?.createdAt,
+                                                    )}
+                                                </span>
+                                            </td>
+
+                                            <td>
+                                                <div className="adminDocuments__actions">
+                                                    <button
+                                                        type="button"
+                                                        className="adminDocuments__action"
+                                                        onClick={() =>
+                                                            openDocument(
+                                                                document,
+                                                            )
+                                                        }
+                                                        title="View and review document"
+                                                        aria-label={`View ${getDocumentName(
                                                             document,
-                                                        )}
-                                                    </span>
-
-                                                </td>
-
-                                                <td>
-
-                                                    <span className="adminDocuments__country">
-
-                                                        <HiOutlineGlobeAlt />
-
-                                                        {getCountry(
-                                                            document,
-                                                        )}
-
-                                                    </span>
-
-                                                </td>
-
-                                                <td>
-
-                                                    <span
-                                                        className={`adminDocuments__status adminDocuments__status--${getStatusClass(
-                                                            status,
                                                         )}`}
                                                     >
-
-                                                        <span />
-
-                                                        {formatLabel(
-                                                            status,
-                                                        )}
-
-                                                    </span>
-
-                                                </td>
-
-                                                <td>
-
-                                                    <span className="adminDocuments__date">
-                                                        {formatDate(
-                                                            document?.createdAt,
-                                                        )}
-                                                    </span>
-
-                                                </td>
-
-                                                <td>
-
-                                                    <div className="adminDocuments__actions">
-
-                                                        <button
-                                                            type="button"
-                                                            className="adminDocuments__action"
-                                                            onClick={() =>
-                                                                openDocument(
-                                                                    document,
-                                                                )
-                                                            }
-                                                            title="View document"
-                                                            aria-label="View document"
-                                                        >
-
-                                                            <HiOutlineEye />
-
-                                                        </button>
-
-                                                    </div>
-
-                                                </td>
-
-                                            </tr>
-
-                                        );
-                                    },
-                                )}
-
+                                                        <HiOutlineEye />
+                                                        <span>Review</span>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
                             </tbody>
-
                         </table>
-
                     </div>
-
                 )}
-
             </div>
 
-            {/* ==================================================
-                DOCUMENT REVIEW MODAL
-            ================================================== */}
-
+            {/* Document review modal */}
             {selectedDocument && (
-
                 <div
                     className="adminDocuments__modalOverlay"
                     onMouseDown={(event) => {
-
                         if (
-                            event.target ===
-                            event.currentTarget
+                            event.target === event.currentTarget &&
+                            !reviewing
                         ) {
                             closeDocument();
                         }
-
                     }}
                 >
-
-                    <div className="adminDocuments__modal">
-
-                        {/* ==================================================
-                            MODAL HEADER
-                        ================================================== */}
-
-                        <div className="adminDocuments__modalHeader">
-
-                            <div>
-
-                                <span className="adminDocuments__modalEyebrow">
-                                    DOCUMENT REVIEW
-                                </span>
-
-                                <h2>
-                                    {getDocumentName(
-                                        selectedDocument,
-                                    )}
-                                </h2>
-
-                                <p>
-                                    {getClientName(
-                                        selectedDocument,
-                                    )}
-                                    {" · "}
-                                    {formatLabel(
-                                        getDocumentType(
-                                            selectedDocument,
-                                        ),
-                                    )}
-                                </p>
-
-                            </div>
-
-                            <button
-                                type="button"
-                                className="adminDocuments__modalClose"
-                                onClick={
-                                    closeDocument
-                                }
-                                aria-label="Close document review"
-                            >
-
-                                <HiOutlineX />
-
-                            </button>
-
-                        </div>
-
-                        {/* ==================================================
-                            MODAL BODY
-                        ================================================== */}
-
-                        <div className="adminDocuments__modalBody">
-
-                            {/* ==================================================
-                                DOCUMENT PREVIEW
-                            ================================================== */}
-
-                            <div className="adminDocuments__preview">
-
-                                {previewLoading ? (
-
-                                    <div className="adminDocuments__previewState">
-
-                                        <div className="adminDocuments__loader" />
-
-                                        <span>
-                                            Loading document...
-                                        </span>
-
-                                    </div>
-
-                                ) : previewError ? (
-
-                                    <div className="adminDocuments__previewState adminDocuments__previewState--error">
-
-                                        <div className="adminDocuments__previewErrorIcon">
-
-                                            <HiOutlineExclamation />
-
-                                        </div>
-
-                                        <h3>
-                                            Preview unavailable
-                                        </h3>
-
-                                        <p>
-                                            {previewError}
-                                        </p>
-
-                                    </div>
-
-                                ) : previewUrl &&
-                                    isImageDocument(
-                                        selectedDocument,
-                                    ) ? (
-
-                                    <div className="adminDocuments__imagePreview">
-
-                                        <img
-                                            src={
-                                                previewUrl
-                                            }
-                                            alt={getDocumentName(
-                                                selectedDocument,
-                                            )}
-                                        />
-
-                                    </div>
-
-                                ) : previewUrl &&
-                                    isPdfDocument(
-                                        selectedDocument,
-                                    ) ? (
-
-                                    <iframe
-                                        src={
-                                            previewUrl
-                                        }
-                                        title={getDocumentName(
-                                            selectedDocument,
-                                        )}
-                                        className="adminDocuments__pdfPreview"
-                                    />
-
-                                ) : previewUrl ? (
-
-                                    <div className="adminDocuments__previewState">
-
-                                        <div className="adminDocuments__emptyIcon">
-
-                                            <HiOutlineDocumentText />
-
-                                        </div>
-
-                                        <h3>
-                                            Preview loaded
-                                        </h3>
-
-                                        <p>
-                                            This file type
-                                            cannot be rendered
-                                            directly in the
-                                            preview panel.
-                                        </p>
-
-                                    </div>
-
-                                ) : (
-
-                                    <div className="adminDocuments__previewState">
-
-                                        <div className="adminDocuments__emptyIcon">
-
-                                            <HiOutlineDocumentText />
-
-                                        </div>
-
-                                        <h3>
-                                            No preview available
-                                        </h3>
-
-                                    </div>
-
-                                )}
-
-                            </div>
-
-                            {/* ==================================================
-                                REVIEW PANEL
-                            ================================================== */}
-
-                            <aside className="adminDocuments__reviewPanel">
-
-                                <div className="adminDocuments__reviewSection">
-
-                                    <span className="adminDocuments__reviewLabel">
-                                        DOCUMENT STATUS
-                                    </span>
-
-                                    <span
-                                        className={`adminDocuments__status adminDocuments__status--${getStatusClass(
-                                            selectedDocument?.status,
-                                        )}`}
-                                    >
-
-                                        <span />
-
-                                        {formatLabel(
-                                            selectedDocument?.status,
-                                        )}
-
-                                    </span>
-
+                    <section
+                        ref={modalRef}
+                        className="adminDocuments__modal"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="adminDocuments-modal-title"
+                    >
+                        {/* Modal header */}
+                        <header className="adminDocuments__modalHeader">
+                            <div className="adminDocuments__modalTitleGroup">
+                                <div className="adminDocuments__modalFileIcon">
+                                    <HiOutlineDocumentText />
                                 </div>
 
-                                <div className="adminDocuments__reviewSection">
-
-                                    <span className="adminDocuments__reviewLabel">
-                                        DOCUMENT DETAILS
+                                <div className="adminDocuments__modalTitleText">
+                                    <span className="adminDocuments__modalEyebrow">
+                                        DOCUMENT REVIEW
                                     </span>
 
-                                    <div className="adminDocuments__detailList">
+                                    <h2 id="adminDocuments-modal-title">
+                                        {getDocumentName(
+                                            selectedDocument,
+                                        )}
+                                    </h2>
 
-                                        <div>
+                                    <p>
+                                        {getClientName(selectedDocument)}
+                                        <span>·</span>
+                                        {formatLabel(
+                                            getDocumentType(
+                                                selectedDocument,
+                                            ),
+                                        )}
+                                    </p>
+                                </div>
+                            </div>
 
-                                            <span>
-                                                Client
-                                            </span>
+                            <div className="adminDocuments__modalHeaderActions">
+                                <span
+                                    className={`adminDocuments__status adminDocuments__status--${getStatusClass(
+                                        selectedDocument?.status,
+                                    )}`}
+                                >
+                                    <span />
+                                    {formatLabel(
+                                        selectedDocument?.status,
+                                    )}
+                                </span>
 
-                                            <strong>
-                                                {getClientName(
-                                                    selectedDocument,
-                                                )}
-                                            </strong>
+                                <button
+                                    type="button"
+                                    className="adminDocuments__modalClose"
+                                    onClick={closeDocument}
+                                    disabled={reviewing}
+                                    aria-label="Close document review"
+                                    title="Close"
+                                >
+                                    <HiOutlineX />
+                                </button>
+                            </div>
+                        </header>
 
-                                        </div>
-
-                                        <div>
-
-                                            <span>
-                                                Email
-                                            </span>
-
-                                            <strong>
-                                                {
-                                                    selectedDocument
-                                                        ?.user
-                                                        ?.email ||
-                                                    "—"
-                                                }
-                                            </strong>
-
-                                        </div>
-
-                                        <div>
-
-                                            <span>
-                                                Application
-                                            </span>
-
-                                            <strong>
-                                                {getApplicationLabel(
-                                                    selectedDocument,
-                                                )}
-                                            </strong>
-
-                                        </div>
-
-                                        <div>
-
-                                            <span>
-                                                Country
-                                            </span>
-
-                                            <strong>
-                                                {getCountry(
-                                                    selectedDocument,
-                                                )}
-                                            </strong>
-
-                                        </div>
-
-                                        <div>
-
-                                            <span>
-                                                Uploaded
-                                            </span>
-
-                                            <strong>
-                                                {formatDateTime(
-                                                    selectedDocument?.createdAt,
-                                                )}
-                                            </strong>
-
-                                        </div>
-
+                        {/* Modal body */}
+                        <div className="adminDocuments__modalBody">
+                            {/* File preview */}
+                            <main className="adminDocuments__previewColumn">
+                                <div className="adminDocuments__previewToolbar">
+                                    <div>
+                                        <span className="adminDocuments__previewToolbarDot" />
+                                        <span>Document preview</span>
                                     </div>
 
+                                    <span className="adminDocuments__fileType">
+                                        {getFileExtension(
+                                            selectedDocument,
+                                        ).toUpperCase() || "FILE"}
+                                    </span>
+                                </div>
+
+                                <div className="adminDocuments__preview">
+                                    {previewLoading ? (
+                                        <div className="adminDocuments__previewState">
+                                            <div className="adminDocuments__loader" />
+
+                                            <h3>Preparing document</h3>
+
+                                            <p>
+                                                Please wait while the
+                                                document is loaded.
+                                            </p>
+                                        </div>
+                                    ) : previewError ? (
+                                        <div className="adminDocuments__previewState adminDocuments__previewState--error">
+                                            <div className="adminDocuments__previewErrorIcon">
+                                                <HiOutlineExclamation />
+                                            </div>
+
+                                            <h3>Preview unavailable</h3>
+
+                                            <p>{previewError}</p>
+                                        </div>
+                                    ) : previewUrl &&
+                                        isImageDocument(
+                                            selectedDocument,
+                                        ) ? (
+                                        <div className="adminDocuments__imagePreview">
+                                            <img
+                                                src={previewUrl}
+                                                alt={getDocumentName(
+                                                    selectedDocument,
+                                                )}
+                                            />
+                                        </div>
+                                    ) : previewUrl &&
+                                        isPdfDocument(
+                                            selectedDocument,
+                                        ) ? (
+                                        <iframe
+                                            src={previewUrl}
+                                            title={getDocumentName(
+                                                selectedDocument,
+                                            )}
+                                            className="adminDocuments__pdfPreview"
+                                        />
+                                    ) : previewUrl ? (
+                                        <div className="adminDocuments__previewState">
+                                            <div className="adminDocuments__emptyIcon">
+                                                <HiOutlineDocumentText />
+                                            </div>
+
+                                            <h3>File loaded successfully</h3>
+
+                                            <p>
+                                                This file type cannot be
+                                                displayed in the preview.
+                                                Download it to inspect the
+                                                contents.
+                                            </p>
+
+                                            <button
+                                                type="button"
+                                                className="adminDocuments__download"
+                                                onClick={downloadDocument}
+                                            >
+                                                <HiOutlineDownload />
+                                                Download file
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <div className="adminDocuments__previewState">
+                                            <div className="adminDocuments__emptyIcon">
+                                                <HiOutlineDocumentText />
+                                            </div>
+
+                                            <h3>No preview available</h3>
+
+                                            <p>
+                                                There is no preview to
+                                                display for this document.
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="adminDocuments__previewFooter">
+                                    <div className="adminDocuments__previewFooterIcon">
+                                        <HiOutlineShieldCheck />
+                                    </div>
+
+                                    <p>
+                                        Review the uploaded file carefully
+                                        before making a decision.
+                                    </p>
+
+                                    <button
+                                        type="button"
+                                        className="adminDocuments__download"
+                                        onClick={downloadDocument}
+                                        disabled={!previewUrl}
+                                    >
+                                        <HiOutlineDownload />
+                                        Download
+                                    </button>
+                                </div>
+                            </main>
+
+                            {/* Document details and review form */}
+                            <aside className="adminDocuments__reviewPanel">
+                                <div className="adminDocuments__reviewPanelHeading">
+                                    <div>
+                                        <span className="adminDocuments__modalEyebrow">
+                                            REVIEW WORKSPACE
+                                        </span>
+
+                                        <h3>Document details</h3>
+                                    </div>
+                                </div>
+
+                                <div className="adminDocuments__detailList">
+                                    <div className="adminDocuments__detailItem">
+                                        <span>Client name</span>
+                                        <strong>
+                                            {getClientName(
+                                                selectedDocument,
+                                            )}
+                                        </strong>
+                                    </div>
+
+                                    <div className="adminDocuments__detailItem">
+                                        <span>Email address</span>
+                                        <strong>
+                                            {selectedDocument?.user
+                                                ?.email || "—"}
+                                        </strong>
+                                    </div>
+
+                                    <div className="adminDocuments__detailItem">
+                                        <span>Document type</span>
+                                        <strong>
+                                            {formatLabel(
+                                                getDocumentType(
+                                                    selectedDocument,
+                                                ),
+                                            )}
+                                        </strong>
+                                    </div>
+
+                                    <div className="adminDocuments__detailItem">
+                                        <span>Application</span>
+                                        <strong>
+                                            {getApplicationLabel(
+                                                selectedDocument,
+                                            )}
+                                        </strong>
+                                    </div>
+
+                                    <div className="adminDocuments__detailItem">
+                                        <span>Destination</span>
+                                        <strong>
+                                            {getCountry(selectedDocument)}
+                                        </strong>
+                                    </div>
+
+                                    <div className="adminDocuments__detailItem">
+                                        <span>
+                                            <HiOutlineCalendar />
+                                            Uploaded on
+                                        </span>
+
+                                        <strong>
+                                            {formatDateTime(
+                                                selectedDocument?.createdAt,
+                                            )}
+                                        </strong>
+                                    </div>
                                 </div>
 
                                 {selectedDocument?.reviewedBy && (
-
-                                    <div className="adminDocuments__reviewSection">
-
+                                    <div className="adminDocuments__lastReview">
                                         <span className="adminDocuments__reviewLabel">
                                             LAST REVIEW
                                         </span>
 
                                         <div className="adminDocuments__reviewer">
-
                                             <div className="adminDocuments__reviewerIcon">
-
                                                 <HiOutlineUser />
-
                                             </div>
 
                                             <div>
-
                                                 <strong>
-                                                    {
-                                                        selectedDocument
-                                                            ?.reviewedBy
-                                                            ?.name ||
+                                                    {selectedDocument
+                                                        ?.reviewedBy?.name ||
                                                         selectedDocument
                                                             ?.reviewedBy
                                                             ?.email ||
-                                                        "Staff"
-                                                    }
+                                                        "Staff"}
                                                 </strong>
 
                                                 <span>
@@ -1810,173 +1182,158 @@ const AdminDocuments = () => {
                                                         selectedDocument?.reviewedAt,
                                                     )}
                                                 </span>
-
                                             </div>
-
                                         </div>
-
                                     </div>
-
                                 )}
 
-                                <div className="adminDocuments__reviewSection">
+                                <form
+                                    className="adminDocuments__reviewForm"
+                                    onSubmit={handleReviewSubmit}
+                                >
+                                    <div className="adminDocuments__formHeading">
+                                        <h3>Review decision</h3>
 
-                                    <span className="adminDocuments__reviewLabel">
-                                        REVIEW DECISION
-                                    </span>
-
-                                    <div className="adminDocuments__decisionGrid">
-
-                                        {REVIEW_STATUS_OPTIONS.map(
-                                            (
-                                                status,
-                                            ) => (
-
-                                                <button
-                                                    key={
-                                                        status
-                                                    }
-                                                    type="button"
-                                                    className={
-                                                        reviewStatus ===
-                                                            status
-                                                            ? `adminDocuments__decision adminDocuments__decision--active adminDocuments__decision--${getStatusClass(
-                                                                status,
-                                                            )}`
-                                                            : "adminDocuments__decision"
-                                                    }
-                                                    onClick={() =>
-                                                        setReviewStatus(
-                                                            status,
-                                                        )
-                                                    }
-                                                >
-
-                                                    {status ===
-                                                        "APPROVED" ? (
-                                                        <HiOutlineCheck />
-                                                    ) : (
-                                                        <HiOutlineExclamation />
-                                                    )}
-
-                                                    <span>
-                                                        {formatLabel(
-                                                            status,
-                                                        )}
-                                                    </span>
-
-                                                </button>
-
-                                            ),
-                                        )}
-
+                                        <p>
+                                            Choose an outcome for this
+                                            document.
+                                        </p>
                                     </div>
 
-                                </div>
+                                    <div className="adminDocuments__decisionGrid">
+                                        {REVIEW_STATUS_OPTIONS.map(
+                                            (status) => {
+                                                const active =
+                                                    reviewStatus === status;
 
-                                <div className="adminDocuments__reviewSection">
+                                                const statusClass =
+                                                    getStatusClass(status);
+
+                                                return (
+                                                    <button
+                                                        key={status}
+                                                        type="button"
+                                                        className={[
+                                                            "adminDocuments__decision",
+                                                            active
+                                                                ? "adminDocuments__decision--active"
+                                                                : "",
+                                                            `adminDocuments__decision--${statusClass}`,
+                                                        ]
+                                                            .filter(Boolean)
+                                                            .join(" ")}
+                                                        onClick={() => {
+                                                            setReviewStatus(
+                                                                status,
+                                                            );
+                                                            setReviewError(
+                                                                "",
+                                                            );
+                                                            setReviewSuccess(
+                                                                false,
+                                                            );
+                                                        }}
+                                                        aria-pressed={active}
+                                                    >
+                                                        {status ===
+                                                            "APPROVED" ? (
+                                                            <HiOutlineCheck />
+                                                        ) : (
+                                                            <HiOutlineExclamation />
+                                                        )}
+
+                                                        <span>
+                                                            {formatLabel(
+                                                                status,
+                                                            )}
+                                                        </span>
+                                                    </button>
+                                                );
+                                            },
+                                        )}
+                                    </div>
 
                                     <label
                                         className="adminDocuments__reviewLabel"
                                         htmlFor="document-review-note"
                                     >
                                         REVIEW NOTE
+                                        <span>Optional</span>
                                     </label>
 
                                     <textarea
                                         id="document-review-note"
-                                        value={
-                                            reviewNote
-                                        }
-                                        onChange={(event) =>
+                                        value={reviewNote}
+                                        onChange={(event) => {
                                             setReviewNote(
-                                                event
-                                                    .target
-                                                    .value,
-                                            )
-                                        }
-                                        placeholder="Add a note for the client or internal review record..."
-                                        rows={5}
+                                                event.target.value,
+                                            );
+                                            setReviewSuccess(false);
+                                        }}
+                                        placeholder="Explain your decision or tell the client what needs to be corrected..."
+                                        rows={4}
                                     />
 
-                                </div>
+                                    {reviewError && (
+                                        <div
+                                            className="adminDocuments__reviewError"
+                                            role="alert"
+                                        >
+                                            <HiOutlineExclamation />
+                                            <span>{reviewError}</span>
+                                        </div>
+                                    )}
 
-                                {reviewError && (
+                                    {reviewSuccess && (
+                                        <div
+                                            className="adminDocuments__reviewSuccess"
+                                            role="status"
+                                        >
+                                            <HiOutlineCheck />
+                                            <span>
+                                                Document review saved
+                                                successfully.
+                                            </span>
+                                        </div>
+                                    )}
 
-                                    <div className="adminDocuments__reviewError">
+                                    <div className="adminDocuments__reviewActions">
+                                        <button
+                                            type="button"
+                                            className="adminDocuments__cancelReview"
+                                            onClick={closeDocument}
+                                            disabled={reviewing}
+                                        >
+                                            Close
+                                        </button>
 
-                                        <HiOutlineExclamation />
-
-                                        <span>
-                                            {reviewError}
-                                        </span>
-
+                                        <button
+                                            type="submit"
+                                            className="adminDocuments__submitReview"
+                                            disabled={reviewing}
+                                        >
+                                            {reviewing ? (
+                                                <>
+                                                    <span className="adminDocuments__buttonSpinner" />
+                                                    Saving...
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <HiOutlineCheck />
+                                                    Save review
+                                                </>
+                                            )}
+                                        </button>
                                     </div>
-
-                                )}
-
-                                <div className="adminDocuments__reviewActions">
-
-                                    <button
-                                        type="button"
-                                        className="adminDocuments__download"
-                                        onClick={
-                                            downloadDocument
-                                        }
-                                        disabled={
-                                            !previewUrl
-                                        }
-                                    >
-
-                                        <HiOutlineDownload />
-
-                                        <span>
-                                            Download
-                                        </span>
-
-                                    </button>
-
-                                    <button
-                                        type="button"
-                                        className="adminDocuments__submitReview"
-                                        onClick={
-                                            handleReviewSubmit
-                                        }
-                                        disabled={
-                                            reviewing
-                                        }
-                                    >
-
-                                        {reviewing ? (
-                                            <>
-                                                <span className="adminDocuments__buttonSpinner" />
-
-                                                Saving...
-                                            </>
-                                        ) : (
-                                            <>
-                                                <HiOutlineCheck />
-
-                                                Save Review
-                                            </>
-                                        )}
-
-                                    </button>
-
-                                </div>
-
+                                </form>
                             </aside>
-
                         </div>
-
-                    </div>
-
+                    </section>
                 </div>
-
             )}
-
         </section>
     );
 };
 
 export default AdminDocuments;
+
