@@ -1,157 +1,1707 @@
-/* =====================================================
-   GLOBAL WORK IMMIGRATION PAGE
-===================================================== */
+/* =========================================================
+   COLOSSUS MIGRATION & TOURS
+   GLOBAL WORK & IMMIGRATION
+   Premium editorial layout
+   ========================================================= */
 
+.gwi-page {
+    --gwi-navy: #071426;
+    --gwi-navy-deep: #040b15;
+    --gwi-blue: #1765e8;
+    --gwi-blue-bright: #347cf4;
+    --gwi-cyan: #43dff2;
+    --gwi-ink: #101a2b;
+    --gwi-muted: #677386;
+    --gwi-paper: #f5f7fa;
+    --gwi-white: #ffffff;
+    --gwi-border: #e1e6ee;
 
-.global-work {
+    --gwi-container: 1240px;
+    --gwi-gutter: 36px;
 
     width: 100%;
-
     min-height: 100vh;
-
-    overflow: hidden;
-
+    overflow: clip;
     background: #ffffff;
-
+    color: var(--gwi-ink);
+    font-family:
+        Inter,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
 
-
-
-
-
-/* =====================================================
-   HERO FULL WIDTH CONTROL
-===================================================== */
-
-
-.global-work .global-hero {
-
-
-    width: 100%;
-
-    min-height: 100vh;
-
-
+.gwi-page *,
+.gwi-page *::before,
+.gwi-page *::after {
+    box-sizing: border-box;
 }
 
-
-
-
-
-
-/* =====================================================
-   SECTION TRANSITION
-===================================================== */
-
-
-.global-work section {
-
-
-    width: 100%;
-
-    position: relative;
-
-
+.gwi-page img {
+    display: block;
+    max-width: 100%;
 }
 
-
-
-
-
-
-
-/* =====================================================
-   GENERAL CONTENT CONTAINER
-===================================================== */
-
-
-.global-work .container,
-.global-work .trust-container,
-.global-work .why-container,
-.global-work .work-container,
-.global-work .benefits-container,
-.global-work .how-container {
-
-
-    width: min(1200px, 92%);
-
-    margin: auto;
-
-
+.gwi-page a {
+    color: inherit;
+    text-decoration: none;
 }
 
-
-
-
-
-
-/* =====================================================
-   PREMIUM PAGE BACKGROUND FLOW
-===================================================== */
-
-
-.global-work section:nth-child(even) {
-
-
-    background:
-
-
-        linear-gradient(180deg,
-
-            #ffffff,
-
-            #f8fafc);
-
-
+.gwi-page button {
+    font: inherit;
 }
 
-
-
-
-
-
-/* =====================================================
-   REMOVE OLD HERO CONFLICTS
-===================================================== */
-
-
-.global-work .global-hero h1 {
-
-
-    max-width: none;
-
-
+.gwi-page a:focus-visible,
+.gwi-page button:focus-visible {
+    outline: 3px solid var(--gwi-cyan);
+    outline-offset: 4px;
 }
 
-
-.global-work .global-hero p {
-
-
+.gwi-page h1,
+.gwi-page h2,
+.gwi-page h3,
+.gwi-page h4,
+.gwi-page p {
     margin-top: 0;
-
-
 }
 
+.gwi-container {
+    width: min(calc(100% - var(--gwi-gutter) * 2),
+            var(--gwi-container));
+    margin-inline: auto;
+}
 
+.gwi-eyebrow {
+    margin: 0;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.17em;
+    line-height: 1.6;
+    text-transform: uppercase;
+}
 
+.gwi-section-index {
+    color: var(--gwi-blue);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    line-height: 1.6;
+    text-transform: uppercase;
+}
 
+.gwi-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--gwi-cyan);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    line-height: 1.6;
+    text-transform: uppercase;
+}
 
-/* =====================================================
-   RESPONSIVE
-===================================================== */
+/* =========================================================
+   HERO
+   Navbar is rendered by App.jsx before this component.
+   No duplicate header and no fixed positioning here.
+   ========================================================= */
 
+.gwi-hero {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    min-height: clamp(650px, 79vh, 850px);
+    align-items: center;
+    overflow: hidden;
+    background: var(--gwi-navy-deep);
+    color: #ffffff;
+}
 
-@media(max-width:768px) {
+.gwi-hero__background,
+.gwi-hero__overlay,
+.gwi-hero__grid {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    pointer-events: none;
+}
 
+.gwi-hero__background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 46%;
+    opacity: 0.58;
+    transform: scale(1.025);
+}
 
-    .global-work .global-hero {
+.gwi-hero__overlay {
+    background:
+        linear-gradient(90deg,
+            rgba(4, 11, 21, 0.98) 0%,
+            rgba(4, 11, 21, 0.91) 34%,
+            rgba(4, 11, 21, 0.62) 65%,
+            rgba(4, 11, 21, 0.5) 100%),
+        linear-gradient(0deg,
+            rgba(4, 11, 21, 0.95) 0%,
+            transparent 35%,
+            rgba(4, 11, 21, 0.16) 100%);
+}
 
+.gwi-hero__grid {
+    opacity: 0.12;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.1) 1px,
+            transparent 1px),
+        linear-gradient(90deg,
+            rgba(255, 255, 255, 0.1) 1px,
+            transparent 1px);
+    background-size: 100px 100px;
+    mask-image: linear-gradient(90deg,
+            #000 0%,
+            rgba(0, 0, 0, 0.7) 60%,
+            transparent 100%);
+}
 
-        min-height: 100vh;
+.gwi-hero__inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.6fr);
+    align-items: center;
+    gap: clamp(38px, 8vw, 110px);
+    padding-top: 90px;
+    padding-bottom: 115px;
+}
 
+.gwi-hero__copy {
+    max-width: 730px;
+    animation: gwi-rise-in 650ms ease both;
+}
 
+.gwi-hero__copy>.gwi-label {
+    margin-bottom: 28px;
+}
+
+.gwi-hero h1 {
+    max-width: 800px;
+    margin: 0;
+    color: #ffffff;
+    font-size: clamp(48px, 6.4vw, 86px);
+    font-weight: 720;
+    letter-spacing: -0.075em;
+    line-height: 0.99;
+}
+
+.gwi-hero h1 span {
+    color: var(--gwi-cyan);
+}
+
+.gwi-hero__description {
+    max-width: 520px;
+    margin: 28px 0 0;
+    color: rgba(255, 255, 255, 0.76);
+    font-size: clamp(14px, 1.2vw, 16px);
+    line-height: 1.9;
+}
+
+.gwi-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 13px;
+    margin-top: 34px;
+}
+
+.gwi-button {
+    display: inline-flex;
+    min-height: 54px;
+    align-items: center;
+    justify-content: center;
+    gap: 17px;
+    padding: 0 22px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.4;
+    transition:
+        background 180ms ease,
+        border-color 180ms ease,
+        color 180ms ease,
+        transform 180ms ease;
+}
+
+.gwi-button:hover {
+    transform: translateY(-2px);
+}
+
+.gwi-button--primary {
+    background: var(--gwi-blue);
+    color: #ffffff !important;
+}
+
+.gwi-button--primary:hover {
+    background: var(--gwi-blue-bright);
+}
+
+.gwi-button--glass {
+    border-color: rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.055);
+    color: #ffffff !important;
+    backdrop-filter: blur(10px);
+}
+
+.gwi-button--glass:hover {
+    border-color: var(--gwi-cyan);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.gwi-button--dark {
+    background: var(--gwi-navy);
+    color: #ffffff !important;
+}
+
+.gwi-button--dark:hover {
+    background: var(--gwi-blue);
+}
+
+.gwi-hero__assurance {
+    display: flex;
+    max-width: 540px;
+    align-items: flex-start;
+    gap: 11px;
+    margin-top: 29px;
+}
+
+.gwi-hero__assurance-icon {
+    display: grid;
+    width: 22px;
+    height: 22px;
+    flex: 0 0 auto;
+    place-items: center;
+    border: 1px solid rgba(67, 223, 242, 0.42);
+    border-radius: 50%;
+    color: var(--gwi-cyan);
+}
+
+.gwi-hero__assurance p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.64);
+    font-size: 10px;
+    line-height: 1.8;
+}
+
+.gwi-hero__assurance strong {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 650;
+}
+
+.gwi-hero-panel {
+    align-self: center;
+    padding: 27px;
+    border: 1px solid rgba(255, 255, 255, 0.19);
+    border-radius: 5px;
+    background: rgba(6, 17, 32, 0.57);
+    backdrop-filter: blur(18px);
+    animation: gwi-rise-in 750ms 120ms ease both;
+}
+
+.gwi-hero-panel__top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.gwi-hero-panel__icon {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: 4px;
+    background: rgba(67, 223, 242, 0.12);
+    color: var(--gwi-cyan);
+}
+
+.gwi-hero-panel__index {
+    color: rgba(255, 255, 255, 0.64);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+}
+
+.gwi-hero-panel__heading {
+    margin: 31px 0 13px;
+    color: #ffffff;
+    font-size: clamp(23px, 2.2vw, 30px);
+    font-weight: 680;
+    letter-spacing: -0.045em;
+    line-height: 1.25;
+}
+
+.gwi-hero-panel__description {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 12px;
+    line-height: 1.9;
+}
+
+.gwi-hero-panel__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 27px;
+    padding-top: 17px;
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    color: var(--gwi-cyan) !important;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.gwi-hero__scroll {
+    position: absolute;
+    bottom: 42px;
+    left: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    color: rgba(255, 255, 255, 0.64) !important;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+}
+
+.gwi-hero__scroll svg {
+    color: var(--gwi-cyan);
+    transition: transform 180ms ease;
+}
+
+.gwi-hero__scroll:hover svg {
+    transform: translateY(4px);
+}
+
+.gwi-hero__bottom-bar {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    min-height: 54px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 0 max(var(--gwi-gutter),
+            calc((100vw - var(--gwi-container)) / 2));
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(3, 10, 20, 0.4);
+}
+
+.gwi-hero__bottom-bar span {
+    color: rgba(255, 255, 255, 0.64);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.13em;
+}
+
+/* =========================================================
+   INTRODUCTION
+   ========================================================= */
+
+.gwi-intro {
+    padding: 105px 0 110px;
+    background: #ffffff;
+}
+
+.gwi-intro__inner {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 40px;
+}
+
+.gwi-intro__label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.gwi-intro__label .gwi-section-index {
+    display: inline-flex;
+    width: 39px;
+    height: 39px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--gwi-border);
+    border-radius: 50%;
+}
+
+.gwi-intro__label .gwi-eyebrow {
+    color: var(--gwi-muted);
+    line-height: 1.9;
+}
+
+.gwi-intro__main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(240px, 0.75fr);
+    align-items: end;
+    gap: 55px;
+}
+
+.gwi-intro h2,
+.gwi-section-heading h2,
+.gwi-services h2,
+.gwi-journey h2,
+.gwi-faq h2 {
+    margin: 0;
+    color: var(--gwi-navy);
+    font-size: clamp(34px, 4.3vw, 55px);
+    font-weight: 730;
+    letter-spacing: -0.065em;
+    line-height: 1.13;
+}
+
+.gwi-intro h2 span,
+.gwi-section-heading h2 span,
+.gwi-services h2 span,
+.gwi-journey h2 span,
+.gwi-faq h2 span {
+    color: #8a96a7;
+}
+
+.gwi-intro__right p {
+    margin: 0 0 22px;
+    color: var(--gwi-muted);
+    font-size: 13px;
+    line-height: 2;
+}
+
+.gwi-text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 13px;
+    color: var(--gwi-blue) !important;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.gwi-text-link svg {
+    flex: 0 0 auto;
+    transition: transform 180ms ease;
+}
+
+.gwi-text-link:hover svg {
+    transform: translateX(4px);
+}
+
+/* =========================================================
+   DESTINATIONS
+   ========================================================= */
+
+.gwi-destinations {
+    padding: 110px 0 100px;
+    background: var(--gwi-paper);
+    scroll-margin-top: 25px;
+}
+
+.gwi-section-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 45px;
+    margin-bottom: 49px;
+}
+
+.gwi-section-heading .gwi-section-index {
+    margin-bottom: 20px;
+}
+
+.gwi-section-heading__aside {
+    max-width: 340px;
+}
+
+.gwi-section-heading__aside p {
+    margin: 0 0 19px;
+    color: var(--gwi-muted);
+    font-size: 12px;
+    line-height: 1.95;
+}
+
+.gwi-destinations__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 27px;
+}
+
+.gwi-destination {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid #e6eaf0;
+    border-radius: 5px;
+    background: #ffffff;
+    box-shadow: 0 5px 20px rgba(10, 25, 46, 0.025);
+    animation: gwi-rise-in 550ms ease both;
+    animation-delay: calc(var(--gwi-card-index, 0) * 65ms);
+    transition:
+        box-shadow 220ms ease,
+        transform 220ms ease;
+}
+
+.gwi-destination:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 42px rgba(10, 25, 46, 0.09);
+}
+
+.gwi-destination__image-link {
+    position: relative;
+    display: block;
+    height: clamp(220px, 25vw, 310px);
+    overflow: hidden;
+    background: var(--gwi-navy);
+}
+
+.gwi-destination__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 550ms cubic-bezier(0.2, 0.65, 0.3, 1);
+}
+
+.gwi-destination:hover .gwi-destination__image {
+    transform: scale(1.055);
+}
+
+.gwi-destination__image-shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+            rgba(4, 11, 21, 0.28) 0%,
+            transparent 38%,
+            rgba(4, 11, 21, 0.48) 100%);
+    pointer-events: none;
+}
+
+.gwi-destination__code {
+    position: absolute;
+    top: 20px;
+    left: 21px;
+    display: grid;
+    min-width: 43px;
+    height: 36px;
+    place-items: center;
+    padding: 0 8px;
+    border: 1px solid rgba(255, 255, 255, 0.38);
+    border-radius: 3px;
+    background: rgba(5, 15, 29, 0.36);
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    backdrop-filter: blur(10px);
+}
+
+.gwi-destination__image-action {
+    position: absolute;
+    right: 19px;
+    bottom: 19px;
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    backdrop-filter: blur(8px);
+    transition:
+        color 180ms ease,
+        background 180ms ease;
+}
+
+.gwi-destination:hover .gwi-destination__image-action {
+    background: var(--gwi-cyan);
+    color: var(--gwi-navy);
+}
+
+.gwi-destination__content {
+    padding: 25px 27px 28px;
+}
+
+.gwi-destination__category {
+    margin-bottom: 11px;
+    color: var(--gwi-blue);
+}
+
+.gwi-destination__content h3 {
+    margin: 0;
+    color: var(--gwi-navy);
+    font-size: clamp(25px, 3vw, 34px);
+    font-weight: 740;
+    letter-spacing: -0.055em;
+    line-height: 1.2;
+}
+
+.gwi-destination__content h4 {
+    margin: 10px 0 0;
+    color: #566277;
+    font-size: 13px;
+    font-weight: 650;
+}
+
+.gwi-destination__description {
+    min-height: 62px;
+    margin: 13px 0 20px;
+    color: var(--gwi-muted);
+    font-size: 12px;
+    line-height: 1.9;
+}
+
+.gwi-destination__content .gwi-text-link {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding-top: 18px;
+    border-top: 1px solid #edf0f4;
+}
+
+.gwi-destinations__footnote {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-top: 34px;
+    padding: 22px 24px;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    background: #ffffff;
+}
+
+.gwi-destinations__footnote-icon {
+    display: grid;
+    width: 36px;
+    height: 36px;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: 4px;
+    background: #edf4ff;
+    color: var(--gwi-blue);
+}
+
+.gwi-destinations__footnote p {
+    margin: 0;
+    color: var(--gwi-muted);
+    font-size: 11px;
+    line-height: 1.9;
+}
+
+.gwi-destinations__footnote strong {
+    color: var(--gwi-ink);
+}
+
+/* =========================================================
+   SERVICES
+   ========================================================= */
+
+.gwi-services {
+    padding: 120px 0;
+    background: #ffffff;
+    scroll-margin-top: 30px;
+}
+
+.gwi-services__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.83fr) minmax(0, 1.17fr);
+    align-items: start;
+    gap: clamp(45px, 8vw, 105px);
+}
+
+.gwi-services__intro>.gwi-section-index {
+    margin-bottom: 20px;
+}
+
+.gwi-services__intro>p {
+    max-width: 410px;
+    margin: 23px 0 25px;
+    color: var(--gwi-muted);
+    font-size: 13px;
+    line-height: 2;
+}
+
+.gwi-services__visual {
+    position: relative;
+    height: 275px;
+    margin-top: 42px;
+    overflow: hidden;
+    border-radius: 4px;
+    background: var(--gwi-navy);
+}
+
+.gwi-services__visual>img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+    transition: transform 500ms ease;
+}
+
+.gwi-services__visual:hover>img {
+    transform: scale(1.04);
+}
+
+.gwi-services__visual-caption {
+    position: absolute;
+    right: 14px;
+    bottom: 14px;
+    left: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 4px;
+    background: rgba(5, 15, 29, 0.77);
+    color: #ffffff;
+    backdrop-filter: blur(12px);
+}
+
+.gwi-services__visual-icon {
+    display: grid;
+    width: 40px;
+    height: 40px;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: 4px;
+    background: rgba(67, 223, 242, 0.13);
+    color: var(--gwi-cyan);
+}
+
+.gwi-services__visual-caption>div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.gwi-services__visual-caption strong {
+    font-size: 11px;
+    font-weight: 750;
+}
+
+.gwi-services__visual-caption>div>span {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 10px;
+}
+
+.gwi-services__list {
+    border-top: 1px solid var(--gwi-border);
+}
+
+.gwi-service {
+    display: grid;
+    grid-template-columns: 33px 48px minmax(0, 1fr) 26px;
+    align-items: start;
+    gap: 18px;
+    padding: 29px 0;
+    border-bottom: 1px solid var(--gwi-border);
+    transition: padding 180ms ease;
+}
+
+.gwi-service:hover {
+    padding-right: 7px;
+    padding-left: 7px;
+}
+
+.gwi-service__number {
+    padding-top: 4px;
+    color: #8793a5;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.gwi-service__icon {
+    display: grid;
+    width: 48px;
+    height: 48px;
+    place-items: center;
+    border: 1px solid #e4eaf3;
+    border-radius: 4px;
+    background: #f7f9fc;
+    color: var(--gwi-blue);
+    transition:
+        background 180ms ease,
+        color 180ms ease;
+}
+
+.gwi-service:hover .gwi-service__icon {
+    background: var(--gwi-navy);
+    color: var(--gwi-cyan);
+}
+
+.gwi-service__body h3 {
+    margin: 1px 0 8px;
+    color: var(--gwi-navy);
+    font-size: 17px;
+    font-weight: 730;
+    letter-spacing: -0.035em;
+    line-height: 1.45;
+}
+
+.gwi-service__body p {
+    max-width: 400px;
+    margin: 0;
+    color: var(--gwi-muted);
+    font-size: 11px;
+    line-height: 1.95;
+}
+
+.gwi-service__arrow {
+    display: grid;
+    width: 26px;
+    height: 26px;
+    place-items: center;
+    color: #8b96a7;
+    transition:
+        color 180ms ease,
+        transform 180ms ease;
+}
+
+.gwi-service:hover .gwi-service__arrow {
+    transform: translate(2px, -2px);
+    color: var(--gwi-blue);
+}
+
+/* =========================================================
+   JOURNEY
+   ========================================================= */
+
+.gwi-journey {
+    padding: 105px 0 100px;
+    background: #f4f7fb;
+}
+
+.gwi-journey__heading {
+    max-width: 790px;
+    margin-bottom: 45px;
+}
+
+.gwi-journey__heading .gwi-section-index {
+    margin-bottom: 19px;
+}
+
+.gwi-journey__heading>p {
+    max-width: 520px;
+    margin: 21px 0 0;
+    color: var(--gwi-muted);
+    font-size: 13px;
+    line-height: 1.95;
+}
+
+.gwi-journey__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.gwi-journey-step {
+    min-width: 0;
+    padding: 26px;
+    border: 1px solid #e1e7ef;
+    border-radius: 4px;
+    background: #ffffff;
+    transition:
+        border-color 180ms ease,
+        transform 180ms ease,
+        box-shadow 180ms ease;
+}
+
+.gwi-journey-step:hover {
+    transform: translateY(-4px);
+    border-color: #c3d5f6;
+    box-shadow: 0 15px 35px rgba(10, 25, 46, 0.05);
+}
+
+.gwi-journey-step__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+}
+
+.gwi-journey-step__top>span {
+    color: var(--gwi-blue);
+    font-size: 12px;
+    font-weight: 850;
+}
+
+.gwi-journey-step__top>svg {
+    color: #8c9bb0;
+}
+
+.gwi-journey-step h3 {
+    max-width: 260px;
+    margin: 0 0 13px;
+    color: var(--gwi-navy);
+    font-size: 19px;
+    font-weight: 740;
+    letter-spacing: -0.045em;
+    line-height: 1.4;
+}
+
+.gwi-journey-step p {
+    margin: 0;
+    color: var(--gwi-muted);
+    font-size: 12px;
+    line-height: 1.95;
+}
+
+.gwi-journey__action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 25px;
+    padding: 24px 26px;
+    border-radius: 4px;
+    background: var(--gwi-navy);
+    color: #ffffff;
+}
+
+.gwi-journey__action>div,
+.gwi-journey__action>a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.gwi-journey__action>div {
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.gwi-journey__action>div svg {
+    flex: 0 0 auto;
+    color: var(--gwi-cyan);
+}
+
+.gwi-journey__action>a {
+    flex: 0 0 auto;
+    color: var(--gwi-cyan) !important;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+/* =========================================================
+   FAQ
+   ========================================================= */
+
+.gwi-faq {
+    padding: 115px 0;
+    background: #ffffff;
+}
+
+.gwi-faq__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+    align-items: start;
+    gap: clamp(45px, 8vw, 110px);
+}
+
+.gwi-faq__intro .gwi-section-index {
+    margin-bottom: 20px;
+}
+
+.gwi-faq__intro>p {
+    max-width: 340px;
+    margin: 21px 0;
+    color: var(--gwi-muted);
+    font-size: 12px;
+    line-height: 1.95;
+}
+
+.gwi-faq__list {
+    border-top: 1px solid var(--gwi-border);
+}
+
+.gwi-faq-item {
+    border-bottom: 1px solid var(--gwi-border);
+}
+
+.gwi-faq-item__question {
+    display: flex;
+    width: 100%;
+    min-height: 77px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 0;
+    border: 0;
+    background: transparent;
+    color: var(--gwi-navy);
+    text-align: left;
+    cursor: pointer;
+}
+
+.gwi-faq-item__question>span:first-child {
+    max-width: 500px;
+    font-size: 13px;
+    font-weight: 720;
+    line-height: 1.7;
+}
+
+.gwi-faq-item__toggle {
+    display: grid;
+    width: 32px;
+    height: 32px;
+    flex: 0 0 auto;
+    place-items: center;
+    border: 1px solid var(--gwi-border);
+    border-radius: 50%;
+    color: var(--gwi-blue);
+    transition:
+        transform 180ms ease,
+        background 180ms ease,
+        border-color 180ms ease;
+}
+
+.gwi-faq-item--open .gwi-faq-item__toggle {
+    transform: rotate(180deg);
+    border-color: var(--gwi-navy);
+    background: var(--gwi-navy);
+    color: #ffffff;
+}
+
+.gwi-faq-item__answer {
+    padding: 0 48px 22px 0;
+}
+
+.gwi-faq-item__answer p {
+    margin: 0;
+    color: var(--gwi-muted);
+    font-size: 12px;
+    line-height: 2;
+}
+
+.gwi-faq-item__answer[hidden] {
+    display: none;
+}
+
+/* =========================================================
+   FINAL CTA
+   ========================================================= */
+
+.gwi-final-cta {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--gwi-navy-deep);
+    color: #ffffff;
+}
+
+.gwi-final-cta__background,
+.gwi-final-cta__overlay {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    pointer-events: none;
+}
+
+.gwi-final-cta__background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 55%;
+    opacity: 0.4;
+}
+
+.gwi-final-cta__overlay {
+    background:
+        linear-gradient(90deg,
+            rgba(4, 11, 21, 0.97) 0%,
+            rgba(4, 11, 21, 0.88) 48%,
+            rgba(4, 11, 21, 0.62) 100%),
+        linear-gradient(0deg,
+            rgba(4, 11, 21, 0.6),
+            transparent);
+}
+
+.gwi-final-cta__inner {
+    padding-top: 100px;
+    padding-bottom: 105px;
+}
+
+.gwi-final-cta__content {
+    max-width: 750px;
+}
+
+.gwi-final-cta__content>.gwi-label {
+    margin-bottom: 24px;
+}
+
+.gwi-final-cta h2 {
+    margin: 0;
+    color: #ffffff;
+    font-size: clamp(44px, 6vw, 76px);
+    font-weight: 730;
+    letter-spacing: -0.075em;
+    line-height: 1.02;
+}
+
+.gwi-final-cta h2 span {
+    color: var(--gwi-cyan);
+}
+
+.gwi-final-cta__content>p {
+    max-width: 540px;
+    margin: 24px 0 0;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 13px;
+    line-height: 2;
+}
+
+.gwi-final-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 13px;
+    margin-top: 31px;
+}
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes gwi-rise-in {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
     }
 
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
+/* =========================================================
+   TABLET
+   ========================================================= */
 
+@media (max-width: 1050px) {
+    .gwi-page {
+        --gwi-gutter: 27px;
+    }
+
+    .gwi-hero__inner {
+        grid-template-columns: minmax(0, 1.2fr) minmax(230px, 0.8fr);
+        gap: 40px;
+    }
+
+    .gwi-hero h1 {
+        font-size: clamp(47px, 6.5vw, 68px);
+    }
+
+    .gwi-intro__inner {
+        grid-template-columns: 150px minmax(0, 1fr);
+        gap: 25px;
+    }
+
+    .gwi-intro__main {
+        gap: 30px;
+    }
+
+    .gwi-services__layout {
+        gap: 40px;
+    }
+
+    .gwi-service {
+        grid-template-columns: 27px 42px minmax(0, 1fr) 23px;
+        gap: 13px;
+    }
+
+    .gwi-service__icon {
+        width: 42px;
+        height: 42px;
+    }
+
+    .gwi-faq__layout {
+        gap: 45px;
+    }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 780px) {
+    .gwi-page {
+        --gwi-gutter: 22px;
+    }
+
+    .gwi-hero {
+        min-height: auto;
+    }
+
+    .gwi-hero__background img {
+        object-position: 58% center;
+    }
+
+    .gwi-hero__overlay {
+        background:
+            linear-gradient(90deg,
+                rgba(4, 11, 21, 0.96) 0%,
+                rgba(4, 11, 21, 0.82) 100%),
+            linear-gradient(0deg,
+                rgba(4, 11, 21, 0.9),
+                transparent 80%);
+    }
+
+    .gwi-hero__grid {
+        background-size: 65px 65px;
+    }
+
+    .gwi-hero__inner {
+        grid-template-columns: 1fr;
+        gap: 35px;
+        padding-top: 76px;
+        padding-bottom: 108px;
+    }
+
+    .gwi-hero__copy>.gwi-label {
+        margin-bottom: 23px;
+    }
+
+    .gwi-hero h1 {
+        font-size: clamp(48px, 10vw, 72px);
+        line-height: 1.01;
+    }
+
+    .gwi-hero__description {
+        max-width: 500px;
+        margin-top: 22px;
+        font-size: 14px;
+    }
+
+    .gwi-hero-panel {
+        max-width: 430px;
+        padding: 22px;
+    }
+
+    .gwi-hero-panel__heading {
+        margin-top: 23px;
+    }
+
+    .gwi-hero__scroll {
+        bottom: 60px;
+    }
+
+    .gwi-hero__bottom-bar {
+        min-height: 43px;
+        gap: 12px;
+    }
+
+    .gwi-hero__bottom-bar span {
+        font-size: 7px;
+        letter-spacing: 0.08em;
+    }
+
+    .gwi-intro,
+    .gwi-destinations,
+    .gwi-services,
+    .gwi-journey,
+    .gwi-faq {
+        padding-top: 78px;
+        padding-bottom: 78px;
+    }
+
+    .gwi-intro__inner {
+        grid-template-columns: 1fr;
+        gap: 27px;
+    }
+
+    .gwi-intro__label {
+        flex-direction: row;
+        align-items: center;
+        gap: 13px;
+    }
+
+    .gwi-intro__main {
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+
+    .gwi-intro h2,
+    .gwi-section-heading h2,
+    .gwi-services h2,
+    .gwi-journey h2,
+    .gwi-faq h2 {
+        font-size: clamp(34px, 7vw, 47px);
+    }
+
+    .gwi-intro__right {
+        max-width: 550px;
+    }
+
+    .gwi-section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 22px;
+        margin-bottom: 32px;
+    }
+
+    .gwi-section-heading__aside {
+        max-width: 500px;
+    }
+
+    .gwi-destinations__grid {
+        gap: 18px;
+    }
+
+    .gwi-destination__image-link {
+        height: 235px;
+    }
+
+    .gwi-destination__content {
+        padding: 22px 20px 24px;
+    }
+
+    .gwi-destination__content h3 {
+        font-size: 27px;
+    }
+
+    .gwi-destination__description {
+        min-height: 0;
+    }
+
+    .gwi-destinations__footnote {
+        padding: 18px;
+    }
+
+    .gwi-services__layout {
+        grid-template-columns: 1fr;
+        gap: 45px;
+    }
+
+    .gwi-services__intro>p {
+        max-width: 520px;
+    }
+
+    .gwi-services__visual {
+        height: 300px;
+        max-width: 540px;
+    }
+
+    .gwi-journey__heading {
+        margin-bottom: 30px;
+    }
+
+    .gwi-journey__grid {
+        gap: 14px;
+    }
+
+    .gwi-journey-step {
+        padding: 20px;
+    }
+
+    .gwi-journey-step h3 {
+        font-size: 17px;
+    }
+
+    .gwi-journey-step p {
+        font-size: 11px;
+    }
+
+    .gwi-faq__layout {
+        grid-template-columns: 1fr;
+        gap: 35px;
+    }
+
+    .gwi-faq__intro>p {
+        max-width: 500px;
+    }
+
+    .gwi-final-cta__inner {
+        padding-top: 80px;
+        padding-bottom: 80px;
+    }
+
+    .gwi-final-cta h2 {
+        font-size: clamp(45px, 9vw, 67px);
+    }
+}
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 540px) {
+    .gwi-page {
+        --gwi-gutter: 18px;
+    }
+
+    .gwi-hero__inner {
+        gap: 30px;
+        padding-top: 62px;
+        padding-bottom: 102px;
+    }
+
+    .gwi-label {
+        gap: 9px;
+        font-size: 9px;
+        letter-spacing: 0.12em;
+    }
+
+    .gwi-hero__copy>.gwi-label {
+        margin-bottom: 24px;
+    }
+
+    .gwi-hero h1 {
+        font-size: clamp(43px, 10.5vw, 57px);
+        letter-spacing: -0.07em;
+    }
+
+    .gwi-hero__description {
+        margin-top: 21px;
+        font-size: 13px;
+        line-height: 1.85;
+    }
+
+    .gwi-hero__actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .gwi-hero__actions .gwi-button {
+        width: 100%;
+    }
+
+    .gwi-hero__assurance {
+        margin-top: 23px;
+    }
+
+    .gwi-hero__assurance p {
+        font-size: 9px;
+    }
+
+    .gwi-hero-panel {
+        padding: 19px;
+    }
+
+    .gwi-hero-panel__heading {
+        font-size: 25px;
+    }
+
+    .gwi-hero__scroll {
+        bottom: 61px;
+        font-size: 8px;
+    }
+
+    .gwi-hero__bottom-bar {
+        justify-content: center;
+        padding-inline: 12px;
+    }
+
+    .gwi-hero__bottom-bar span {
+        font-size: 6px;
+        text-align: center;
+        letter-spacing: 0.035em;
+    }
+
+    .gwi-intro,
+    .gwi-destinations,
+    .gwi-services,
+    .gwi-journey,
+    .gwi-faq {
+        padding-top: 67px;
+        padding-bottom: 67px;
+    }
+
+    .gwi-intro h2,
+    .gwi-section-heading h2,
+    .gwi-services h2,
+    .gwi-journey h2,
+    .gwi-faq h2 {
+        font-size: clamp(32px, 8vw, 41px);
+    }
+
+    .gwi-intro__right p,
+    .gwi-section-heading__aside p {
+        font-size: 12px;
+    }
+
+    .gwi-destinations__grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .gwi-destination__image-link {
+        height: 250px;
+    }
+
+    .gwi-destination__content {
+        padding: 23px;
+    }
+
+    .gwi-destination__content h3 {
+        font-size: 30px;
+    }
+
+    .gwi-destination__description {
+        margin-bottom: 20px;
+        font-size: 12px;
+    }
+
+    .gwi-destinations__footnote {
+        gap: 12px;
+        margin-top: 23px;
+        padding: 16px;
+    }
+
+    .gwi-destinations__footnote p {
+        font-size: 10px;
+    }
+
+    .gwi-services__visual {
+        height: 245px;
+        margin-top: 30px;
+    }
+
+    .gwi-service {
+        grid-template-columns: 24px 39px minmax(0, 1fr) 20px;
+        gap: 10px;
+        padding: 24px 0;
+    }
+
+    .gwi-service__number {
+        font-size: 9px;
+    }
+
+    .gwi-service__icon {
+        width: 39px;
+        height: 39px;
+    }
+
+    .gwi-service__icon svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .gwi-service__body h3 {
+        font-size: 15px;
+    }
+
+    .gwi-service__body p {
+        font-size: 10px;
+        line-height: 1.9;
+    }
+
+    .gwi-service__arrow {
+        width: 20px;
+    }
+
+    .gwi-journey__grid {
+        grid-template-columns: 1fr;
+        gap: 13px;
+    }
+
+    .gwi-journey-step {
+        padding: 22px;
+    }
+
+    .gwi-journey-step__top {
+        margin-bottom: 22px;
+    }
+
+    .gwi-journey-step h3 {
+        max-width: 330px;
+        font-size: 19px;
+    }
+
+    .gwi-journey-step p {
+        font-size: 12px;
+    }
+
+    .gwi-journey__action {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 18px;
+        padding: 21px;
+    }
+
+    .gwi-journey__action>div {
+        align-items: flex-start;
+        font-size: 11px;
+    }
+
+    .gwi-journey__action>a {
+        justify-content: space-between;
+        width: 100%;
+        padding-top: 15px;
+        border-top: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .gwi-faq-item__question {
+        min-height: 72px;
+        gap: 12px;
+    }
+
+    .gwi-faq-item__question>span:first-child {
+        font-size: 12px;
+    }
+
+    .gwi-faq-item__toggle {
+        width: 29px;
+        height: 29px;
+    }
+
+    .gwi-faq-item__answer {
+        padding-right: 5px;
+        padding-bottom: 19px;
+    }
+
+    .gwi-faq-item__answer p {
+        font-size: 11px;
+    }
+
+    .gwi-final-cta__inner {
+        padding-top: 67px;
+        padding-bottom: 67px;
+    }
+
+    .gwi-final-cta h2 {
+        font-size: clamp(42px, 10vw, 56px);
+    }
+
+    .gwi-final-cta__content>p {
+        font-size: 12px;
+    }
+
+    .gwi-final-cta__actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .gwi-final-cta__actions .gwi-button {
+        width: 100%;
+    }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .gwi-page *,
+    .gwi-page *::before,
+    .gwi-page *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }
