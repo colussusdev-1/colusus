@@ -845,3 +845,214 @@
     }
 
 }
+
+/* ============================================================
+   MOBILE ICON-ONLY SIDEBAR
+============================================================ */
+
+@media (max-width: 900px) {
+    .admin-sidebar {
+        width: 76px;
+        min-width: 76px;
+        padding: 20px 9px 14px;
+        overflow: hidden;
+    }
+
+    /* Brand */
+    .admin-brand {
+        justify-content: center;
+        padding: 2px 0 26px;
+    }
+
+    .admin-brand-text {
+        display: none !important;
+    }
+
+    .admin-brand-mark {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        font-size: 18px;
+    }
+
+    /* Navigation */
+    .admin-navigation {
+        align-items: stretch;
+        gap: 7px;
+        overflow-x: hidden;
+    }
+
+    .admin-navigation-section {
+        display: none !important;
+    }
+
+    /* Hide navigation text, preserving icons */
+    .admin-nav-label,
+    .admin-nav-item > span:not(.admin-nav-icon-wrapper),
+    .admin-nav-item-disabled small {
+        display: none !important;
+    }
+
+    /* Icon-only navigation buttons */
+    .admin-nav-item {
+        width: 100%;
+        min-width: 0;
+        min-height: 46px;
+        padding: 0;
+        justify-content: center;
+        align-items: center;
+        gap: 0;
+        border-radius: 12px;
+        position: relative;
+    }
+
+    .admin-nav-icon,
+    .admin-nav-icon-wrapper {
+        width: 21px;
+        height: 21px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .admin-nav-icon {
+        display: block;
+    }
+
+    /* Active icon */
+    .admin-nav-item-active {
+        background: #3569ee;
+        box-shadow: 0 5px 14px rgba(53, 105, 238, 0.25);
+    }
+
+    /* Profile */
+    .admin-sidebar-bottom {
+        gap: 9px;
+        padding-top: 12px;
+    }
+
+    .admin-profile-link {
+        width: 100%;
+        box-sizing: border-box;
+        justify-content: center;
+        padding: 9px 0;
+        border-radius: 12px;
+    }
+
+    .admin-profile-info,
+    .admin-profile-icon,
+    .admin-profile-link small {
+        display: none !important;
+    }
+
+    .admin-avatar {
+        width: 36px;
+        height: 36px;
+        font-size: 11px;
+    }
+
+    /* Logout */
+    .admin-logout-button {
+        width: 100%;
+        min-height: 44px;
+        padding: 0;
+        justify-content: center;
+        align-items: center;
+        gap: 0;
+        border-radius: 12px;
+    }
+
+    .admin-logout-button span {
+        display: none !important;
+    }
+
+    .admin-logout-button svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* ============================================================
+   SMALL MOBILE
+============================================================ */
+
+@media (max-width: 560px) {
+    .admin-sidebar {
+        width: 64px;
+        min-width: 64px;
+        padding: 16px 7px 12px;
+    }
+
+    .admin-brand {
+        padding-bottom: 22px;
+    }
+
+    .admin-brand-mark {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+    }
+
+    .admin-navigation {
+        gap: 6px;
+    }
+
+    .admin-nav-item {
+        min-height: 43px;
+        border-radius: 10px;
+    }
+
+    .admin-nav-icon,
+    .admin-nav-icon-wrapper {
+        width: 19px;
+        height: 19px;
+    }
+
+    .admin-sidebar-bottom {
+        gap: 7px;
+    }
+
+    .admin-avatar {
+        width: 32px;
+        height: 32px;
+    }
+
+    .admin-logout-button {
+        min-height: 42px;
+    }
+}
+
+/* ============================================================
+   VERY SMALL MOBILE
+============================================================ */
+
+@media (max-width: 380px) {
+    .admin-sidebar {
+        width: 58px;
+        min-width: 58px;
+        padding-left: 6px;
+        padding-right: 6px;
+    }
+
+    .admin-brand-mark {
+        width: 34px;
+        height: 34px;
+    }
+
+    .admin-nav-item {
+        min-height: 40px;
+    }
+
+    .admin-nav-icon,
+    .admin-nav-icon-wrapper {
+        width: 18px;
+        height: 18px;
+    }
+
+    .admin-avatar {
+        width: 30px;
+        height: 30px;
+    }
+}
+

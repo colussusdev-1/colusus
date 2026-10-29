@@ -15,6 +15,7 @@ import {
     HiOutlineLogout,
     HiOutlineX,
     HiOutlineClipboardCheck,
+    HiOutlineChatAlt2,
 } from "react-icons/hi";
 
 import "./PortalSidebar.css";
@@ -23,7 +24,6 @@ import colossusLogo from "../../../assets/logo.png";
 
 const PortalSidebar = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
-
 
     /* ============================================================
        NAVIGATION
@@ -52,6 +52,11 @@ const PortalSidebar = () => {
             icon: HiOutlineFolderOpen,
         },
         {
+            label: "Messages",
+            path: "/portal/chat",
+            icon: HiOutlineChatAlt2,
+        },
+        {
             label: "Finance",
             path: "/portal/finance",
             icon: HiOutlineCreditCard,
@@ -62,7 +67,6 @@ const PortalSidebar = () => {
             icon: HiOutlineUser,
         },
     ];
-
 
     /* ============================================================
        MOBILE MENU EVENTS
@@ -86,7 +90,6 @@ const PortalSidebar = () => {
         };
     }, []);
 
-
     /* ============================================================
        LOCK BODY SCROLL WHEN MOBILE MENU IS OPEN
     ============================================================ */
@@ -108,7 +111,6 @@ const PortalSidebar = () => {
             );
         };
     }, [mobileOpen]);
-
 
     /* ============================================================
        ESCAPE KEY HANDLING
@@ -134,7 +136,6 @@ const PortalSidebar = () => {
         };
     }, [mobileOpen]);
 
-
     /* ============================================================
        CLOSE MENU AFTER NAVIGATION
     ============================================================ */
@@ -142,7 +143,6 @@ const PortalSidebar = () => {
     const handleNavigation = () => {
         setMobileOpen(false);
     };
-
 
     /* ============================================================
        LOGOUT
@@ -159,7 +159,6 @@ const PortalSidebar = () => {
         window.location.href = "/login";
     };
 
-
     /* ============================================================
        CLOSE MENU
     ============================================================ */
@@ -167,7 +166,6 @@ const PortalSidebar = () => {
     const handleCloseMenu = () => {
         setMobileOpen(false);
     };
-
 
     /* ============================================================
        RENDER
@@ -184,14 +182,13 @@ const PortalSidebar = () => {
                 aria-hidden="true"
             />
 
-
             {/* SIDEBAR */}
 
             <aside
                 id="portal-sidebar"
                 className={`portal-sidebar ${mobileOpen
-                    ? "portal-sidebar--mobile-open"
-                    : ""
+                        ? "portal-sidebar--mobile-open"
+                        : ""
                     }`}
                 aria-label="Client portal sidebar"
             >
@@ -211,7 +208,6 @@ const PortalSidebar = () => {
                         />
                     </NavLink>
 
-
                     {/* MOBILE CLOSE BUTTON */}
 
                     <button
@@ -223,7 +219,6 @@ const PortalSidebar = () => {
                         <HiOutlineX aria-hidden="true" />
                     </button>
                 </div>
-
 
                 {/* NAVIGATION */}
 
@@ -260,7 +255,6 @@ const PortalSidebar = () => {
                     })}
                 </nav>
 
-
                 {/* BOTTOM AREA */}
 
                 <div className="portal-sidebar__bottom">
@@ -280,7 +274,6 @@ const PortalSidebar = () => {
                         <small>Not available</small>
                     </div>
 
-
                     {/* LOGOUT */}
 
                     <button
@@ -299,8 +292,6 @@ const PortalSidebar = () => {
             </aside>
         </>
     );
-
-
 };
 
 export default PortalSidebar;

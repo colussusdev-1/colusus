@@ -218,6 +218,9 @@ import TraineeApprenticeship
 import NewZealandTraineeApprenticeship from "./pages/Services/TraineeApprenticeship/NewZealandTraineeApprenticeship";
 import AustraliaTraineeApprenticeship from "./pages/Services/TraineeApprenticeship/AustraliaTraineeApprenticeship";
 import AdminAssessment from "./pages/admin/Assessment/AdminAssessment";
+import AdminChat from "./pages/admin/chat/AdminChat";
+import ClientChat
+    from "./pages/Client/ClientChat";
 /**
  * Display the WhatsApp floating button on public website pages.
  *
@@ -604,6 +607,12 @@ function App() {
                             element={<AdminOverview />}
                         />
 
+                        {/* CLIENT CHAT */}
+                        <Route
+                            path="chat"
+                            element={<AdminChat />}
+                        />
+
                         {/* APPLICATIONS */}
 
                         <Route
@@ -805,6 +814,11 @@ function App() {
                         <Route
                             path="documents"
                             element={<Documents />}
+                        />
+
+                        <Route
+                            path="chat"
+                            element={<ClientChat />}
                         />
 
                         <Route

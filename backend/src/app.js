@@ -1,3 +1,4 @@
+
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -6,16 +7,13 @@ import cookieParser from "cookie-parser";
 import morgan from "morgan";
 
 import config from "./config/environment.js";
-
 import notFound from "./middleware/notFound.js";
 import errorHandler from "./middleware/errorHandler.js";
 
 import routes from "./routes/index.js";
 import contactRoutes from "./routes/contactRoutes.js";
-
 import consultationRoutes from "./modules/consultations/consultation.routes.js";
 import adminDocumentRoutes from "./modules/admin/admin.document.routes.js";
-
 import paymentRoutes from "./modules/finance/payments/payment.routes.js";
 import invoiceRoutes from "./modules/finance/invoices/invoice.routes.js";
 import receiptRoutes from "./modules/finance/reciepts/reciept.routes.js";
@@ -29,6 +27,9 @@ import {
   publicRoutes as blogPublicRoutes,
   adminRoutes as blogAdminRoutes,
 } from "./modules/blog/index.js";
+
+// CHAT MODULE
+import chatRoutes from "./modules/chat/chat.routes.js";
 
 const app = express();
 
@@ -54,6 +55,17 @@ const allowedOrigins = [
   .map((origin) => origin.trim().replace(/\/+$/, ""))
   .filter((origin, index, array) => array.indexOf(origin) === index);
 
+const isAllowedOrigin = (origin) => {
+  if (!origin) return true;
+
+  const normalizedOrigin = origin.trim().replace(/\/+$/, "");
+
+  return (
+    allowedOrigins.includes(normalizedOrigin) ||
+    /^https?:\/\/localhost:\d+$/.test(normalizedOrigin)
+  );
+};
+
 console.log("=================================");
 console.log("CORS CONFIGURATION");
 console.log("=================================");
@@ -61,73 +73,16 @@ console.log("Allowed Origins:", allowedOrigins);
 console.log("CLIENT_URL:", config.clientUrl);
 console.log("=================================");
 
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-
-  if (!origin) {
-    return next();
-  }
-
-  const normalizedOrigin = origin.trim().replace(/\/+$/, "");
-
-  if (
-    allowedOrigins.includes(normalizedOrigin) ||
-    /^http:\/\/localhost:\d+$/.test(normalizedOrigin)
-  ) {
-    res.header("Access-Control-Allow-Origin", normalizedOrigin);
-    res.header("Access-Control-Allow-Credentials", "true");
-
-    res.header(
-      "Access-Control-Allow-Methods",
-      "GET,POST,PUT,PATCH,DELETE,OPTIONS",
-    );
-
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept, Authorization",
-    );
-
-    res.header("Vary", "Origin");
-  }
-
-  if (req.method === "OPTIONS") {
-    if (
-      allowedOrigins.includes(normalizedOrigin) ||
-      /^http:\/\/localhost:\d+$/.test(normalizedOrigin)
-    ) {
-      return res.sendStatus(204);
-    }
-
-    return res.status(403).json({
-      success: false,
-      message: "CORS origin not allowed",
-    });
-  }
-
-  next();
-});
-
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin) {
+      if (isAllowedOrigin(origin)) {
         return callback(null, true);
       }
 
-      const normalizedOrigin = origin.trim().replace(/\/+$/, "");
+      console.error("CORS BLOCKED ORIGIN:", origin);
 
-      if (
-        allowedOrigins.includes(normalizedOrigin) ||
-        /^http:\/\/localhost:\d+$/.test(normalizedOrigin)
-      ) {
-        return callback(null, true);
-      }
-
-      console.error("CORS BLOCKED ORIGIN:", normalizedOrigin);
-
-      return callback(
-        new Error(`CORS blocked for origin: ${normalizedOrigin}`),
-      );
+      return callback(new Error(`CORS blocked for origin: ${origin}`));
     },
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
@@ -142,10 +97,15 @@ app.use(
   }),
 );
 
+/* ==========================================================================
+   COMPRESSION
+   ========================================================================== */
+
 app.use(compression());
 
 /* ==========================================================================
    PAYSTACK WEBHOOK
+   Keep raw-body parsing before express.json().
    ========================================================================== */
 
 app.use(
@@ -159,11 +119,12 @@ app.use(
    BODY PARSING
    ========================================================================== */
 
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
 
 app.use(
   express.urlencoded({
     extended: true,
+    limit: "10mb",
   }),
 );
 
@@ -222,18 +183,16 @@ app.use("/api/v1/admin/blog", blogAdminRoutes);
 
 /* ==========================================================================
    ASSESSMENTS
-   ========================================================================== |
-   Public:
-     POST  /api/v1/assessments
-
-   Admin:
-     GET   /api/v1/assessments/admin
-     GET   /api/v1/assessments/admin/:id
-     PATCH /api/v1/assessments/admin/:id/status
-     PATCH /api/v1/assessments/admin/:id/notes
    ========================================================================== */
 
 app.use("/api/v1/assessments", assessmentRoutes);
+
+/* ==========================================================================
+   CHAT MODULE
+   Admin ↔ Client messaging and document communication.
+   ========================================================================== */
+
+app.use("/api/v1/chat", chatRoutes);
 
 /* ==========================================================================
    404 HANDLER
@@ -248,3 +207,4 @@ app.use(notFound);
 app.use(errorHandler);
 
 export default app;
+
