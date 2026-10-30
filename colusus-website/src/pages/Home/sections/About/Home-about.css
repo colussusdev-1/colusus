@@ -2657,3 +2657,530 @@
     }
 
 }
+
+
+/* ================================================================
+   QUICK FACTS
+================================================================ */
+
+.home-about__quick-facts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 21px;
+    padding: 15px 0;
+    border-top: 1px solid #e5edf5;
+    border-bottom: 1px solid #e5edf5;
+}
+
+.home-about__quick-facts div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.home-about__quick-facts strong {
+    color: #15253b;
+    font-size: 1rem;
+    font-weight: 850;
+}
+
+.home-about__quick-facts span {
+    color: #8190a2;
+    font-size: .61rem;
+}
+
+
+/* ================================================================
+   COMPANY STORY
+================================================================ */
+
+.home-about__story {
+    display: grid;
+    grid-template-columns: .9fr 1.1fr;
+    gap: 65px;
+    align-items: start;
+    margin-top: 75px;
+    padding: 45px 0;
+    border-top: 1px solid #e5edf5;
+    border-bottom: 1px solid #e5edf5;
+}
+
+.home-about__story-heading > span,
+.home-about__services-heading > div > span,
+.home-about__destinations-copy > span {
+    display: block;
+    margin-bottom: 15px;
+    color: #1689ff;
+    font-size: .65rem;
+    font-weight: 850;
+    letter-spacing: .16em;
+}
+
+.home-about__story-heading h3 {
+    margin: 0;
+    color: #0b1525;
+    font-size: clamp(2rem, 3.5vw, 3.1rem);
+    line-height: 1.12;
+    letter-spacing: -.045em;
+    font-weight: 850;
+}
+
+.home-about__story-heading h3 em {
+    color: #1689ff;
+    font-style: normal;
+}
+
+.home-about__story-content p {
+    margin: 0 0 17px;
+    color: #637187;
+    font-size: .88rem;
+    line-height: 1.9;
+}
+
+.home-about__story-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+    color: #1689ff;
+    font-size: .76rem;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.home-about__story-link svg {
+    transition: transform .25s ease;
+}
+
+.home-about__story-link:hover svg {
+    transform: translateX(5px);
+}
+
+
+/* ================================================================
+   WHAT WE DO
+================================================================ */
+
+.home-about__services-intro {
+    margin-top: 75px;
+}
+
+.home-about__services-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 35px;
+    margin-bottom: 30px;
+}
+
+.home-about__services-heading h3 {
+    margin: 0;
+    color: #0b1525;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    line-height: 1.12;
+    letter-spacing: -.045em;
+    font-weight: 850;
+}
+
+.home-about__services-heading > p {
+    max-width: 330px;
+    margin: 0 0 5px;
+    color: #758398;
+    font-size: .85rem;
+    line-height: 1.8;
+}
+
+.home-about__service-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.home-about__service-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 23px;
+    border: 1px solid #e5edf5;
+    border-radius: 15px;
+    background: rgba(255,255,255,.8);
+    transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+
+.home-about__service-item:hover {
+    transform: translateY(-4px);
+    border-color: #cde5ff;
+    box-shadow: 0 15px 35px rgba(8,40,70,.07);
+}
+
+.home-about__service-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 43px;
+    height: 43px;
+    flex-shrink: 0;
+    color: #1689ff;
+    background: #edf6ff;
+    border-radius: 12px;
+    font-size: 1.25rem;
+}
+
+.home-about__service-item h4 {
+    margin: 2px 0 8px;
+    color: #15253b;
+    font-size: .88rem;
+    font-weight: 800;
+}
+
+.home-about__service-item p {
+    margin: 0;
+    color: #758398;
+    font-size: .75rem;
+    line-height: 1.7;
+}
+
+
+/* ================================================================
+   GLOBAL DESTINATIONS
+================================================================ */
+
+.home-about__destinations {
+    display: grid;
+    grid-template-columns: .85fr 1.15fr;
+    align-items: center;
+    gap: 55px;
+    margin-top: 75px;
+    padding: 42px;
+    border-radius: 20px;
+    background: #071b31;
+    box-shadow: 0 20px 50px rgba(7,27,49,.10);
+}
+
+.home-about__destinations-copy > span {
+    color: #51aaff;
+}
+
+.home-about__destinations-copy h3 {
+    margin: 0 0 17px;
+    color: #fff;
+    font-size: clamp(2rem, 3.4vw, 3rem);
+    line-height: 1.1;
+    letter-spacing: -.045em;
+    font-weight: 850;
+}
+
+.home-about__destinations-copy p {
+    margin: 0;
+    color: #a9bad0;
+    font-size: .82rem;
+    line-height: 1.8;
+}
+
+.home-about__destination-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 13px;
+}
+
+.home-about__destination {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 10px 13px;
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 10px;
+    background: rgba(255,255,255,.045);
+    color: #fff;
+    font-size: .75rem;
+    font-weight: 700;
+}
+
+.home-about__destination svg {
+    flex-shrink: 0;
+    color: #51aaff;
+    font-size: 1.1rem;
+}
+
+.home-about__destination-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    grid-column: 1 / -1;
+    margin-top: 8px;
+    color: #69b8ff;
+    font-size: .75rem;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.home-about__destination-link svg {
+    transition: transform .25s ease;
+}
+
+.home-about__destination-link:hover svg {
+    transform: translateX(5px);
+}
+
+
+/* ================================================================
+   VALUES FOOTER EXPANSION
+================================================================ */
+
+.home-about__footer-intro p {
+    margin: 10px 0 0;
+    color: #78879a;
+    font-size: .68rem;
+    line-height: 1.7;
+}
+
+.home-about__values {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+
+/* ================================================================
+   COMMITMENT
+================================================================ */
+
+.home-about__commitment {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    margin-top: 35px;
+    padding: 24px;
+    border: 1px solid #dceaff;
+    border-radius: 14px;
+    background: #f1f7ff;
+}
+
+.home-about__commitment-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 43px;
+    height: 43px;
+    flex-shrink: 0;
+    border-radius: 11px;
+    color: #1689ff;
+    background: #fff;
+    font-size: 1.3rem;
+}
+
+.home-about__commitment strong {
+    display: block;
+    margin-bottom: 7px;
+    color: #15253b;
+    font-size: .83rem;
+    font-weight: 850;
+}
+
+.home-about__commitment p {
+    margin: 0;
+    color: #66778e;
+    font-size: .73rem;
+    line-height: 1.8;
+}
+
+
+/* ================================================================
+   FINAL LINK
+================================================================ */
+
+.home-about__final-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+    margin-top: 30px;
+    padding: 25px 0 0;
+    border-top: 1px solid #e5edf5;
+}
+
+.home-about__final-link > div > span {
+    display: block;
+    margin-bottom: 7px;
+    color: #1689ff;
+    font-size: .58rem;
+    font-weight: 850;
+    letter-spacing: .13em;
+}
+
+.home-about__final-link h3 {
+    margin: 0;
+    color: #0b1525;
+    font-size: 1.3rem;
+    font-weight: 850;
+}
+
+.home-about__final-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 48px;
+    padding: 0 22px;
+    flex-shrink: 0;
+    border-radius: 7px;
+    color: #fff;
+    background: #1689ff;
+    font-size: .75rem;
+    font-weight: 800;
+    text-decoration: none;
+    transition: background .25s ease, transform .25s ease;
+}
+
+.home-about__final-button:hover {
+    background: #0872dc;
+    transform: translateY(-3px);
+}
+
+
+/* ================================================================
+   TABLET
+================================================================ */
+
+@media (max-width: 850px) {
+
+    .home-about__story {
+        grid-template-columns: 1fr;
+        gap: 22px;
+        margin-top: 55px;
+    }
+
+    .home-about__services-intro {
+        margin-top: 55px;
+    }
+
+    .home-about__destinations {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        margin-top: 55px;
+        padding: 32px;
+    }
+
+    .home-about__footer {
+        align-items: flex-start;
+    }
+
+    .home-about__values {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+/* ================================================================
+   MOBILE
+================================================================ */
+
+@media (max-width: 560px) {
+
+    .home-about__quick-facts {
+        gap: 7px;
+    }
+
+    .home-about__quick-facts strong {
+        font-size: .9rem;
+    }
+
+    .home-about__quick-facts span {
+        font-size: .55rem;
+    }
+
+    .home-about__story {
+        margin-top: 45px;
+        padding: 30px 0;
+    }
+
+    .home-about__story-heading h3 {
+        font-size: 2rem;
+    }
+
+    .home-about__services-intro {
+        margin-top: 45px;
+    }
+
+    .home-about__services-heading {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .home-about__services-heading h3 {
+        font-size: 2rem;
+    }
+
+    .home-about__service-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .home-about__service-item {
+        padding: 18px;
+    }
+
+    .home-about__destinations {
+        margin-top: 45px;
+        padding: 25px 19px;
+        border-radius: 15px;
+    }
+
+    .home-about__destinations-copy h3 {
+        font-size: 2rem;
+    }
+
+    .home-about__destination-list {
+        grid-template-columns: 1fr 1fr;
+        gap: 9px;
+    }
+
+    .home-about__destination {
+        padding: 9px;
+        font-size: .67rem;
+    }
+
+    .home-about__values {
+        grid-template-columns: 1fr;
+    }
+
+    .home-about__commitment {
+        padding: 18px;
+        gap: 12px;
+    }
+
+    .home-about__commitment p {
+        font-size: .69rem;
+    }
+
+    .home-about__final-link {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
+    }
+
+    .home-about__final-button {
+        width: 100%;
+    }
+
+}
+
+
+/* ================================================================
+   REDUCED MOTION
+================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .home-about__story,
+    .home-about__service-item,
+    .home-about__destination,
+    .home-about__commitment,
+    .home-about__final-link {
+        transition: none !important;
+    }
+
+}
+

@@ -1,387 +1,169 @@
-import {
-    useEffect,
-    useState
-} from "react";
-
-import StoryHero
-    from "./StoryHero/StoryHero";
-
-import StoryGrid
-    from "./StoryGrid/StoryGrid";
-
-import ImpactStats
-    from "./ImpactStats/ImpactStats";
-
-import SuccessCTA
-    from "./SuccessCTA/SuccessCTA";
-
-import VideoModal
-    from "./VideoModal/VideoModal";
-
-import successStoriesData
-    from "./successStoriesData";
+import React from "react";
+import { ArrowRight, Play, Quote } from "lucide-react";
+import { Link } from "react-router-dom";
 
 import "./SuccessStories.css";
 
-
-/* =========================================================
-   STORY FILTERS
-========================================================= */
-
-const filters = [
-
-    {
-        key: "all",
-        label: "All Stories"
-    },
-
-    {
-        key: "pr",
-        label: "Canada PR"
-    },
-
-    {
-        key: "work",
-        label: "Work Visa"
-    },
-
-    {
-        key: "study",
-        label: "Study Abroad"
-    }
-
-];
-
-
 const SuccessStories = () => {
-
-
-    /* =====================================================
-       FILTER
-    ===================================================== */
-
-    const [
-        activeFilter,
-        setActiveFilter
-    ] = useState("all");
-
-
-
-    /* =====================================================
-       VIDEO MODAL
-    ===================================================== */
-
-    const [
-        selectedStory,
-        setSelectedStory
-    ] = useState(null);
-
-
-    const [
-        isOpen,
-        setIsOpen
-    ] = useState(false);
-
-
-
-    /* =====================================================
-       FEATURED STORY
-    ===================================================== */
-
-    const featuredStory =
-        successStoriesData?.[0];
-
-
-
-    /* =====================================================
-       REMAINING STORIES
-    ===================================================== */
-
-    const remainingStories =
-        successStoriesData.filter(
-            (story) =>
-                story.id !== featuredStory?.id
-        );
-
-
-
-    /* =====================================================
-       FILTERED STORIES
-    ===================================================== */
-
-    const filteredStories =
-
-        activeFilter === "all"
-
-            ? remainingStories
-
-            : remainingStories.filter(
-                (story) =>
-                    story.type === activeFilter
-            );
-
-
-
-    /* =====================================================
-       OPEN VIDEO
-    ===================================================== */
-
-    const handleWatch = (story) => {
-
-        if (!story) {
-            return;
-        }
-
-
-        setSelectedStory(story);
-
-        setIsOpen(true);
-
-    };
-
-
-
-    /* =====================================================
-       CLOSE VIDEO
-    ===================================================== */
-
-    const closeVideo = () => {
-
-        setIsOpen(false);
-
-        setSelectedStory(null);
-
-    };
-
-
-
-    /* =====================================================
-       LOCK PAGE SCROLL WHEN MODAL IS OPEN
-    ===================================================== */
-
-    useEffect(() => {
-
-        if (!isOpen) {
-
-            document.body.style.overflow = "";
-
-            return;
-
-        }
-
-
-        const previousOverflow =
-            document.body.style.overflow;
-
-
-        document.body.style.overflow = "hidden";
-
-
-        return () => {
-
-            document.body.style.overflow =
-                previousOverflow;
-
-        };
-
-    }, [isOpen]);
-
-
-
-    /* =====================================================
-       ESCAPE KEY
-    ===================================================== */
-
-    useEffect(() => {
-
-        if (!isOpen) {
-            return;
-        }
-
-
-        const handleKeyDown = (event) => {
-
-            if (event.key === "Escape") {
-
-                closeVideo();
-
-            }
-
-        };
-
-
-        document.addEventListener(
-            "keydown",
-            handleKeyDown
-        );
-
-
-        return () => {
-
-            document.removeEventListener(
-                "keydown",
-                handleKeyDown
-            );
-
-        };
-
-    }, [isOpen]);
-
-
-
-    /* =====================================================
-       RENDER
-    ===================================================== */
+    const videoId = "N8mIZQsjj18";
 
     return (
+        <section className="success-stories">
 
-        <section className="success">
+            <div className="success-stories-container">
 
+                {/* HEADER */}
+                <div className="success-header">
 
-            {/* =================================================
-                PAGE CONTAINER
-            ================================================= */}
+                    <div className="success-header-content">
 
-            <div className="container">
+                        <span className="success-label">
+                            REAL PEOPLE. REAL EXPERIENCES.
+                        </span>
 
+                        <h2>
+                            Every Journey
+                            <br />
+                            Has a <span>Story.</span>
+                        </h2>
 
-                {/* =================================================
-                    HERO
-                ================================================= */}
+                    </div>
 
-                {
-                    featuredStory && (
+                    <div className="success-header-description">
 
-                        <StoryHero
+                        <p>
+                            Every international journey is unique.
+                            Hear directly from people sharing their
+                            experiences and the journeys that brought
+                            them closer to new opportunities.
+                        </p>
 
-                            story={featuredStory}
-
-                            onWatch={handleWatch}
-
-                        />
-
-                    )
-                }
-
-
-
-                {/* =================================================
-                    FILTER BAR
-                ================================================= */}
-
-                <div className="filter-bar">
-
-
-                    {
-                        filters.map(
-                            (filter) => (
-
-                                <button
-
-                                    key={filter.key}
-
-                                    type="button"
-
-                                    className={
-
-                                        activeFilter ===
-                                            filter.key
-
-                                            ? "filter-btn active"
-
-                                            : "filter-btn"
-
-                                    }
-
-                                    onClick={() =>
-                                        setActiveFilter(
-                                            filter.key
-                                        )
-                                    }
-
-                                >
-
-                                    {filter.label}
-
-                                </button>
-
-                            )
-                        )
-                    }
-
+                    </div>
 
                 </div>
 
 
+                {/* VIDEO EXPERIENCE */}
+                <div className="success-video-layout">
 
-                {/* =================================================
-                    STORY COLLECTION
-                ================================================= */}
+                    {/* VIDEO */}
+                    <div className="success-video-frame">
 
-                <StoryGrid
+                        <div className="success-video-top">
 
-                    stories={filteredStories}
+                            <span className="success-video-indicator">
+                                <span></span>
+                                CLIENT EXPERIENCES
+                            </span>
 
-                    onWatch={handleWatch}
+                            <span className="success-video-duration">
+                                COLOSSUS STORIES
+                            </span>
 
-                />
-
-
-
-                {/* =================================================
-                    IMPACT STATISTICS
-                ================================================= */}
-
-                <ImpactStats />
+                        </div>
 
 
+                        <div className="success-video-player">
 
-                {/* =================================================
-                    SUCCESS CTA
-                ================================================= */}
+                            <iframe
+                                src={`https://www.youtube.com/embed/${videoId}?rel=0`}
+                                title="Colossus Client Testimonials"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerPolicy="strict-origin-when-cross-origin"
+                                allowFullScreen
+                            />
 
-                <SuccessCTA />
+                        </div>
+
+                    </div>
 
 
+                    {/* STORY INFORMATION */}
+                    <div className="success-video-information">
+
+                        <div className="success-quote-icon">
+                            <Quote size={28} />
+                        </div>
+
+                        <span className="success-information-label">
+                            THE PEOPLE BEHIND THE JOURNEYS
+                        </span>
+
+                        <h3>
+                            Different People.
+                            <br />
+                            Different Journeys.
+                            <br />
+                            <span>Shared Experiences.</span>
+                        </h3>
+
+                        <p>
+                            Behind every application is a person with
+                            a dream, an ambition and a story worth
+                            telling.
+
+                            Discover the experiences of people who
+                            have connected with Colossus as they share
+                            their perspectives in their own words.
+                        </p>
+
+                        <div className="success-information-divider"></div>
+
+                        <div className="success-information-bottom">
+
+                            <div>
+                                <strong>Watch their stories</strong>
+                                <span>
+                                    One video. Multiple voices. Real experiences.
+                                </span>
+                            </div>
+
+                            <a
+                                href={`https://www.youtube.com/watch?v=${videoId}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="Watch video on YouTube"
+                            >
+                                <ArrowRight size={20} />
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                {/* BOTTOM CTA */}
+                <div className="success-bottom-cta">
+
+                    <div>
+
+                        <h3>
+                            Your story could be next.
+                        </h3>
+
+                        <p>
+                            Let's explore the opportunities available
+                            for your next chapter.
+                        </p>
+
+                    </div>
+
+                    <Link
+                        to="/contact"
+                        className="success-cta-button"
+                    >
+                        Start Your Journey
+                        <ArrowRight size={18} />
+                    </Link>
+
+                </div>
 
             </div>
 
-
-
-            {/* =====================================================
-                VIDEO MODAL
-
-                IMPORTANT:
-                Kept outside the page container so the fixed
-                modal is positioned relative to the viewport.
-            ===================================================== */}
-
-            <VideoModal
-
-                isOpen={isOpen}
-
-                onClose={closeVideo}
-
-                videoUrl={
-                    selectedStory?.video
-                }
-
-                title={
-                    selectedStory?.name
-                }
-
-                story={
-                    selectedStory
-                }
-
-            />
-
-
         </section>
-
     );
-
 };
-
 
 export default SuccessStories;

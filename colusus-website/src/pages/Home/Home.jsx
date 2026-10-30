@@ -17,7 +17,7 @@ import MigrationJourney
 SHARED COMPONENTS
 ====================================================== */
 
-import Services from "../../components/Services/Services";
+import Services from "../../components/Services/HomeServices";
 
 import ZeroDepositProgram
     from "../../components/ZeroDepositProgram/ZeroDepositProgram";
@@ -36,6 +36,7 @@ STYLES
 ====================================================== */
 
 import "./Home.css";
+import HomeServices from "../../components/Services/HomeServices";
 
 const Home = () => {
     const location = useLocation();
@@ -150,7 +151,7 @@ const Home = () => {
                 duration={0.45}
                 distance={18}
             >
-                <Services />
+                <HomeServices/>
             </ScrollReveal>
 
             {/* =====================================================
