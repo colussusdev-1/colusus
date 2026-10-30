@@ -4,6 +4,17 @@ import Assessment from "./assessment.model.js";
 import Opportunity from "../opportunities/opportunity.model.js";
 import User from "../users/user.model.js";
 
+// Adjust this relative path if your finance directory is located elsewhere.
+import invoiceService from "../finance/invoices/invoice.service.js";
+
+/*
+|--------------------------------------------------------------------------
+| CONSTANTS
+|--------------------------------------------------------------------------
+*/
+
+const ASSESSMENT_FEE = 50000;
+
 const ALLOWED_PASSPORT_STATUSES = ["YES", "NO", "IN_PROGRESS"];
 
 const ALLOWED_DOCUMENT_TYPES = [
@@ -22,6 +33,10 @@ const ASSESSMENT_STATUSES = [
   "CONVERTED",
   "WITHDRAWN",
 ];
+
+const SUBMISSION_STATUSES = ["DRAFT", "PENDING_PAYMENT", "SUBMITTED"];
+
+const PAYMENT_STATUSES = ["UNPAID", "PENDING", "PAID", "FAILED"];
 
 const REQUIRED_FIELDS = [
   "fullName",
@@ -44,9 +59,11 @@ const EXPERIENCE_VALUE_MAP = {
   "6_PLUS": 6,
 };
 
-/* -------------------------------------------------------------------------- */
-/* ERROR HELPERS                                                              */
-/* -------------------------------------------------------------------------- */
+/*
+|--------------------------------------------------------------------------
+| ERROR HELPERS
+|--------------------------------------------------------------------------
+*/
 
 function createValidationError(message) {
   const error = new Error(message);
@@ -72,9 +89,11 @@ function createNotFoundError(message = "Assessment not found.") {
   return error;
 }
 
-/* -------------------------------------------------------------------------- */
-/* NORMALIZATION HELPERS                                                      */
-/* -------------------------------------------------------------------------- */
+/*
+|--------------------------------------------------------------------------
+| NORMALIZATION HELPERS
+|--------------------------------------------------------------------------
+*/
 
 function normalizeText(value) {
   if (typeof value === "string") {
@@ -99,9 +118,11 @@ function normalizeStatus(value) {
   return normalizeText(value).toUpperCase();
 }
 
-/* -------------------------------------------------------------------------- */
-/* VERIFY CLIENT ACCOUNT                                                      */
-/* -------------------------------------------------------------------------- */
+/*
+|--------------------------------------------------------------------------
+| VERIFY CLIENT ACCOUNT
+|--------------------------------------------------------------------------
+*/
 
 async function getAuthenticatedClient(userId) {
   if (!userId || !mongoose.isValidObjectId(userId)) {
@@ -111,7 +132,7 @@ async function getAuthenticatedClient(userId) {
   }
 
   const user = await User.findById(userId).select(
-    "_id name email role isActive",
+    "_id name email phone role isActive",
   );
 
   if (!user) {
@@ -135,9 +156,11 @@ async function getAuthenticatedClient(userId) {
   return user;
 }
 
-/* -------------------------------------------------------------------------- */
-/* NORMALIZE YEARS OF EXPERIENCE                                              */
-/* -------------------------------------------------------------------------- */
+/*
+|--------------------------------------------------------------------------
+| NORMALIZE YEARS OF EXPERIENCE
+|--------------------------------------------------------------------------
+*/
 
 function normalizeYearsOfExperience(value) {
   if (
@@ -195,9 +218,11 @@ function normalizeYearsOfExperience(value) {
   return numericValue;
 }
 
-/* -------------------------------------------------------------------------- */
-/* VALIDATE ASSESSMENT PAYLOAD                                                */
-/* -------------------------------------------------------------------------- */
+/*
+|--------------------------------------------------------------------------
+| VALIDATE ASSESSMENT PAYLOAD
+|--------------------------------------------------------------------------
+*/
 
 function validateAssessmentPayload(payload) {
   if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
@@ -283,9 +308,11 @@ function validateAssessmentPayload(payload) {
   };
 }
 
-/* -------------------------------------------------------------------------- */
-/* DOCUMENT LABEL HELPERS                                                     */
-/* -------------------------------------------------------------------------- */
+/*
+|--------------------------------------------------------------------------
+| DOCUMENT LABEL HELPERS
+|--------------------------------------------------------------------------
+*/
 
 function getFallbackDocumentLabel(documentType) {
   const labels = {
@@ -298,9 +325,11 @@ function getFallbackDocumentLabel(documentType) {
   return labels[documentType] || "Supporting document";
 }
 
-/* -------------------------------------------------------------------------- */
-/* VALIDATE DOCUMENT METADATA                                                 */
-/* -------------------------------------------------------------------------- */
+/*
+|--------------------------------------------------------------------------
+| VALIDATE DOCUMENT METADATA
+|--------------------------------------------------------------------------
+*/
 
 function validateAssessmentDocuments(documents = []) {
   if (!Array.isArray(documents)) {
@@ -353,27 +382,27 @@ function validateAssessmentDocuments(documents = []) {
     return {
       documentType,
 
-      // Human-readable form-field label.
       documentLabel: documentLabel || getFallbackDocumentLabel(documentType),
 
-      // Internal key identifying the form field.
       fieldKey,
 
-      // Preserve the actual uploaded filename separately.
       originalName,
       mimeType,
       size,
       storageProvider,
       storageKey,
       url,
+
       uploadedAt: document.uploadedAt || new Date(),
     };
   });
 }
 
-/* -------------------------------------------------------------------------- */
-/* FORMAT CLIENT-FACING ASSESSMENT                                            */
-/* -------------------------------------------------------------------------- */
+/*
+|--------------------------------------------------------------------------
+| FORMAT CLIENT-FACING ASSESSMENT
+|--------------------------------------------------------------------------
+*/
 
 function formatClientAssessment(assessment) {
   const opportunity =
@@ -383,8 +412,24 @@ function formatClientAssessment(assessment) {
 
   return {
     id: assessment._id,
+
     reference: assessment.reference,
+
     status: assessment.status,
+
+    submissionStatus: assessment.submissionStatus || "DRAFT",
+
+    paymentStatus: assessment.paymentStatus || "UNPAID",
+
+    assessmentFee: assessment.assessmentFee || ASSESSMENT_FEE,
+
+    invoiceId: assessment.invoice?._id || assessment.invoice || null,
+
+    payment: assessment.payment || null,
+
+    paymentReference: assessment.paymentReference || "",
+
+    paidAt: assessment.paidAt || null,
 
     opportunity: {
       id: opportunity?._id || assessment.opportunity,
@@ -420,10 +465,13 @@ function formatClientAssessment(assessment) {
 
     documents: (assessment.documents || []).map((document) => ({
       id: document._id,
+
       documentLabel:
         document.documentLabel ||
         getFallbackDocumentLabel(document.documentType),
+
       fieldKey: document.fieldKey || "",
+
       documentType: document.documentType,
       originalName: document.originalName,
       mimeType: document.mimeType,
@@ -435,24 +483,97 @@ function formatClientAssessment(assessment) {
 
     consent: {
       privacyAccepted: assessment.consent.privacyAccepted,
+
       acceptedAt: assessment.consent.acceptedAt,
     },
 
     accountLinkedAt: assessment.accountLinkedAt,
+
     submittedAt: assessment.submittedAt,
+
     createdAt: assessment.createdAt,
     updatedAt: assessment.updatedAt,
   };
 }
 
-/* -------------------------------------------------------------------------- */
-/* CLIENT: SUBMIT ASSESSMENT                                                   */
-/* -------------------------------------------------------------------------- */
+/*
+|--------------------------------------------------------------------------
+| CREATE ASSESSMENT INVOICE
+|--------------------------------------------------------------------------
+*/
+
+async function createAssessmentInvoice({ assessment, user, session }) {
+  const invoice = await invoiceService.createInvoice({
+    invoiceType: "ASSESSMENT",
+
+    customer: {
+      id: user._id,
+
+      name: user.name || assessment.personalDetails.fullName,
+
+      email: user.email,
+
+      phone: user.phone || assessment.personalDetails.phone,
+    },
+
+    items: [
+      {
+        name: "Trainee Program Assessment Fee",
+
+        description:
+          "Eligibility assessment and application evaluation for the selected trainee or apprenticeship program.",
+
+        quantity: 1,
+
+        unitPrice: ASSESSMENT_FEE,
+      },
+    ],
+
+    currency: "NGN",
+
+    discount: 0,
+
+    context: {
+      flow: "TRAINEE_ASSESSMENT",
+
+      assessmentId: assessment._id,
+
+      assessmentReference: assessment.reference,
+
+      opportunityId: assessment.opportunity,
+
+      opportunityTitle: assessment.opportunityTitle,
+    },
+
+    notes: `Assessment fee for ${assessment.reference}.`,
+
+    metadata: {
+      assessmentReference: assessment.reference,
+
+      opportunityTitle: assessment.opportunityTitle,
+
+      paymentPurpose: "TRAINEE_ASSESSMENT",
+    },
+
+    session,
+  });
+
+  const issuedInvoice = await invoiceService.issueInvoice(invoice._id, session);
+
+  return issuedInvoice;
+}
+
+/*
+|--------------------------------------------------------------------------
+| CLIENT: CREATE ASSESSMENT - PAYMENT REQUIRED
+|--------------------------------------------------------------------------
+*/
 
 export async function submitAssessment(payload, documentMetadata = [], userId) {
   const user = await getAuthenticatedClient(userId);
 
   const validated = validateAssessmentPayload(payload);
+
   const documents = validateAssessmentDocuments(documentMetadata);
 
   const accountEmail = normalizeText(user.email).toLowerCase();
@@ -486,64 +607,227 @@ export async function submitAssessment(payload, documentMetadata = [], userId) {
     );
   }
 
+  /*
+  |--------------------------------------------------------------------------
+  | CHECK EXISTING ASSESSMENT
+  |--------------------------------------------------------------------------
+  */
+
+  const existingAssessment = await Assessment.findOne({
+    client: user._id,
+    opportunity: opportunity._id,
+  }).sort({ createdAt: -1 });
+
+  if (
+    existingAssessment?.submissionStatus === "SUBMITTED" ||
+    existingAssessment?.paymentStatus === "PAID"
+  ) {
+    throw createValidationError(
+      "You have already submitted an assessment for this program.",
+    );
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | PREVENT DUPLICATE PENDING ASSESSMENTS
+  |--------------------------------------------------------------------------
+  */
+
+  if (existingAssessment) {
+    throw createValidationError(
+      "You already have an assessment awaiting payment for this program. Please continue with your existing assessment instead of creating another one.",
+    );
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | CREATE ASSESSMENT + INVOICE
+  |--------------------------------------------------------------------------
+  |
+  | Both operations run inside one MongoDB transaction.
+  |
+  | If invoice creation or issuing fails, assessment creation
+  | is rolled back as well.
+  |
+  */
+
+  const session = await mongoose.startSession();
+
+  let createdAssessment = null;
+  let createdInvoice = null;
+
   const linkedAt = new Date();
 
-  const assessment = await Assessment.create({
-    opportunity: opportunity._id,
-    opportunitySlug: opportunity.slug,
-    opportunityTitle: opportunity.title,
-    countryName: opportunity.countryName,
+  try {
+    await session.withTransaction(async () => {
+      /*
+      |--------------------------------------------------------------------------
+      | CREATE ASSESSMENT
+      |--------------------------------------------------------------------------
+      */
 
-    client: user._id,
-    accountLinkedAt: linkedAt,
+      const [assessment] = await Assessment.create(
+        [
+          {
+            opportunity: opportunity._id,
 
-    personalDetails: {
-      fullName: validated.fullName,
-      email: accountEmail,
-      phone: validated.phone,
-      age: validated.age,
-      countryOfResidence: validated.countryOfResidence,
-    },
+            opportunitySlug: opportunity.slug,
 
-    background: {
-      education: validated.education,
-      fieldOfStudy: validated.fieldOfStudy,
-      workExperience: validated.workExperience,
-      yearsOfExperience: validated.yearsOfExperience,
-    },
+            opportunityTitle: opportunity.title,
 
-    preferences: {
-      trainingCategory: validated.trainingCategory,
-      preferredCourse: validated.preferredCourse,
-      preferredIntake: validated.preferredIntake,
-      budget: validated.budget,
-      hasPassport: validated.hasPassport,
-    },
+            countryName: opportunity.countryName,
 
-    additionalInformation: validated.additionalInformation,
+            client: user._id,
 
-    documents,
+            accountLinkedAt: linkedAt,
 
-    consent: {
-      privacyAccepted: validated.privacyAccepted,
-      acceptedAt: linkedAt,
-    },
+            personalDetails: {
+              fullName: validated.fullName,
+              email: accountEmail,
+              phone: validated.phone,
+              age: validated.age,
+              countryOfResidence: validated.countryOfResidence,
+            },
 
-    status: "PENDING",
-    submittedAt: linkedAt,
-  });
+            background: {
+              education: validated.education,
+              fieldOfStudy: validated.fieldOfStudy,
+              workExperience: validated.workExperience,
+              yearsOfExperience: validated.yearsOfExperience,
+            },
+
+            preferences: {
+              trainingCategory: validated.trainingCategory,
+              preferredCourse: validated.preferredCourse,
+              preferredIntake: validated.preferredIntake,
+              budget: validated.budget,
+              hasPassport: validated.hasPassport,
+            },
+
+            additionalInformation: validated.additionalInformation,
+
+            documents,
+
+            consent: {
+              privacyAccepted: validated.privacyAccepted,
+              acceptedAt: linkedAt,
+            },
+
+            assessmentFee: ASSESSMENT_FEE,
+
+            paymentStatus: "PENDING",
+
+            payment: null,
+
+            paymentReference: "",
+
+            paidAt: null,
+
+            submissionStatus: "PENDING_PAYMENT",
+
+            status: "PENDING",
+
+            submittedAt: null,
+          },
+        ],
+        {
+          session,
+        },
+      );
+
+      createdAssessment = assessment;
+
+      /*
+      |--------------------------------------------------------------------------
+      | CREATE AND ISSUE FINANCE INVOICE
+      |--------------------------------------------------------------------------
+      */
+
+      const invoice = await createAssessmentInvoice({
+        assessment,
+        user,
+        session,
+      });
+
+      createdInvoice = invoice;
+
+      /*
+      |--------------------------------------------------------------------------
+      | LINK INVOICE TO ASSESSMENT
+      |--------------------------------------------------------------------------
+      */
+
+      assessment.invoice = invoice._id;
+
+      await assessment.save({
+        session,
+      });
+    });
+  } finally {
+    await session.endSession();
+  }
+
+  if (!createdAssessment || !createdInvoice) {
+    throw new Error(
+      "Assessment and payment invoice could not be created successfully.",
+    );
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | RETURN PAYMENT INITIALIZATION DETAILS
+  |--------------------------------------------------------------------------
+  */
 
   return {
-    ...formatClientAssessment(assessment),
+    ...formatClientAssessment(createdAssessment),
+
     message:
-      "Your eligibility assessment has been submitted successfully. You can track its progress from your client portal.",
-    nextStep: "VIEW_ASSESSMENT",
+      "Your assessment has been saved successfully. Your ₦50,000 assessment invoice has been generated. Complete payment to officially submit your assessment.",
+
+    paymentRequired: true,
+
+    paymentDetails: {
+      amount: createdInvoice.total,
+
+      currency: createdInvoice.currency,
+
+      description: "Trainee Program Assessment Fee",
+
+      paymentType: "ASSESSMENT",
+
+      invoiceId: createdInvoice._id,
+
+      invoiceNumber: createdInvoice.invoiceNumber,
+
+      invoiceStatus: createdInvoice.status,
+    },
+
+    invoice: {
+      id: createdInvoice._id,
+
+      invoiceNumber: createdInvoice.invoiceNumber,
+
+      total: createdInvoice.total,
+
+      amountPaid: createdInvoice.amountPaid,
+
+      balanceDue: createdInvoice.balanceDue,
+
+      currency: createdInvoice.currency,
+
+      status: createdInvoice.status,
+    },
+
+    nextStep: "INITIALIZE_PAYMENT",
   };
 }
 
-/* -------------------------------------------------------------------------- */
-/* CLIENT: LIST OWN ASSESSMENTS                                               */
-/* -------------------------------------------------------------------------- */
+/*
+|--------------------------------------------------------------------------
+| CLIENT: LIST OWN ASSESSMENTS
+|--------------------------------------------------------------------------
+*/
 
 export async function getMyAssessments(userId, { page = 1, limit = 10 } = {}) {
   const user = await getAuthenticatedClient(userId);
@@ -555,14 +839,17 @@ export async function getMyAssessments(userId, { page = 1, limit = 10 } = {}) {
     Math.max(1, Number.parseInt(limit, 10) || 10),
   );
 
-  const filter = { client: user._id };
+  const filter = {
+    client: user._id,
+  };
+
   const skip = (parsedPage - 1) * parsedLimit;
 
   const [assessments, total] = await Promise.all([
     Assessment.find(filter)
       .select("-internalNotes")
       .populate("opportunity", "title slug countryName")
-      .sort({ submittedAt: -1 })
+      .sort({ createdAt: -1 })
       .skip(skip)
       .limit(parsedLimit)
       .lean(),
@@ -572,6 +859,7 @@ export async function getMyAssessments(userId, { page = 1, limit = 10 } = {}) {
 
   return {
     assessments: assessments.map(formatClientAssessment),
+
     pagination: {
       page: parsedPage,
       limit: parsedLimit,
@@ -581,9 +869,11 @@ export async function getMyAssessments(userId, { page = 1, limit = 10 } = {}) {
   };
 }
 
-/* -------------------------------------------------------------------------- */
-/* CLIENT: GET OWN ASSESSMENT                                                 */
-/* -------------------------------------------------------------------------- */
+/*
+|--------------------------------------------------------------------------
+| CLIENT: GET OWN ASSESSMENT
+|--------------------------------------------------------------------------
+*/
 
 export async function getMyAssessment(userId, assessmentId) {
   const user = await getAuthenticatedClient(userId);
@@ -607,14 +897,18 @@ export async function getMyAssessment(userId, assessmentId) {
   return formatClientAssessment(assessment);
 }
 
-/* -------------------------------------------------------------------------- */
-/* ADMIN: LIST ASSESSMENTS                                                    */
-/* -------------------------------------------------------------------------- */
+/*
+|--------------------------------------------------------------------------
+| ADMIN: LIST ASSESSMENTS
+|--------------------------------------------------------------------------
+*/
 
 export async function getAssessmentsForAdmin({
   page = 1,
   limit = 20,
   status,
+  submissionStatus,
+  paymentStatus,
   opportunityId,
   search,
 } = {}) {
@@ -625,7 +919,9 @@ export async function getAssessmentsForAdmin({
     Math.max(1, Number.parseInt(limit, 10) || 20),
   );
 
-  const filter = {};
+  const filter = {
+    submissionStatus: "SUBMITTED",
+  };
 
   if (status) {
     const normalizedStatus = normalizeStatus(status);
@@ -635,6 +931,26 @@ export async function getAssessmentsForAdmin({
     }
 
     filter.status = normalizedStatus;
+  }
+
+  if (submissionStatus) {
+    const normalized = normalizeStatus(submissionStatus);
+
+    if (!SUBMISSION_STATUSES.includes(normalized)) {
+      throw createValidationError("Invalid submission status.");
+    }
+
+    filter.submissionStatus = normalized;
+  }
+
+  if (paymentStatus) {
+    const normalized = normalizeStatus(paymentStatus);
+
+    if (!PAYMENT_STATUSES.includes(normalized)) {
+      throw createValidationError("Invalid payment status.");
+    }
+
+    filter.paymentStatus = normalized;
   }
 
   if (opportunityId) {
@@ -647,7 +963,9 @@ export async function getAssessmentsForAdmin({
 
   if (search && normalizeText(search)) {
     const term = normalizeText(search);
+
     const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
     const expression = new RegExp(escapedTerm, "i");
 
     filter.$or = [
@@ -675,6 +993,7 @@ export async function getAssessmentsForAdmin({
 
   return {
     assessments,
+
     pagination: {
       page: parsedPage,
       limit: parsedLimit,
@@ -684,9 +1003,11 @@ export async function getAssessmentsForAdmin({
   };
 }
 
-/* -------------------------------------------------------------------------- */
-/* ADMIN: GET ONE ASSESSMENT                                                  */
-/* -------------------------------------------------------------------------- */
+/*
+|--------------------------------------------------------------------------
+| ADMIN: GET ONE ASSESSMENT
+|--------------------------------------------------------------------------
+*/
 
 export async function getAssessmentForAdmin(assessmentId) {
   if (!mongoose.isValidObjectId(assessmentId)) {
@@ -694,29 +1015,33 @@ export async function getAssessmentForAdmin(assessmentId) {
   }
 
   const assessment = await Assessment.findById(assessmentId)
-    .select("+internalNotes")
     .populate("opportunity", "title slug countryName")
     .populate("client", "name email role isActive")
+    .populate("invoice")
+    .populate("payment")
     .lean();
 
   if (!assessment) {
     throw createNotFoundError();
   }
 
-  // Preserve compatibility with documents saved before labels were added.
   assessment.documents = (assessment.documents || []).map((document) => ({
     ...document,
+
     documentLabel:
       document.documentLabel || getFallbackDocumentLabel(document.documentType),
+
     fieldKey: document.fieldKey || "",
   }));
 
   return assessment;
 }
 
-/* -------------------------------------------------------------------------- */
-/* ADMIN: GET ONE ASSESSMENT DOCUMENT                                         */
-/* -------------------------------------------------------------------------- */
+/*
+|--------------------------------------------------------------------------
+| ADMIN: GET ONE ASSESSMENT DOCUMENT
+|--------------------------------------------------------------------------
+*/
 
 export async function getAssessmentDocumentForAdmin(assessmentId, documentId) {
   if (!mongoose.isValidObjectId(assessmentId)) {
@@ -756,27 +1081,40 @@ export async function getAssessmentDocumentForAdmin(assessmentId, documentId) {
 
   return {
     assessmentId: String(assessment._id),
+
     assessmentReference: assessment.reference,
+
     document: {
       id: String(document._id),
+
       documentLabel:
         document.documentLabel ||
         getFallbackDocumentLabel(document.documentType),
+
       fieldKey: document.fieldKey || "",
+
       documentType: document.documentType,
+
       originalName: document.originalName,
+
       mimeType: document.mimeType,
+
       size: document.size,
+
       storageProvider: document.storageProvider,
+
       storageKey: document.storageKey,
+
       uploadedAt: document.uploadedAt,
     },
   };
 }
 
-/* -------------------------------------------------------------------------- */
-/* ADMIN: UPDATE ASSESSMENT STATUS                                            */
-/* -------------------------------------------------------------------------- */
+/*
+|--------------------------------------------------------------------------
+| ADMIN: UPDATE ASSESSMENT STATUS
+|--------------------------------------------------------------------------
+*/
 
 export async function updateAssessmentStatus(assessmentId, status) {
   if (!mongoose.isValidObjectId(assessmentId)) {
@@ -797,7 +1135,17 @@ export async function updateAssessmentStatus(assessmentId, status) {
     throw createNotFoundError();
   }
 
+  if (
+    assessment.submissionStatus !== "SUBMITTED" ||
+    assessment.paymentStatus !== "PAID"
+  ) {
+    throw createValidationError(
+      "This assessment cannot be reviewed until payment has been verified and submission is complete.",
+    );
+  }
+
   const previousStatus = assessment.status;
+
   assessment.status = normalizedStatus;
 
   if (normalizedStatus !== "PENDING" && !assessment.reviewedAt) {
@@ -812,17 +1160,24 @@ export async function updateAssessmentStatus(assessmentId, status) {
 
   return {
     id: assessment._id,
+
     reference: assessment.reference,
+
     previousStatus,
+
     status: assessment.status,
+
     reviewedAt: assessment.reviewedAt,
+
     convertedAt: assessment.convertedAt,
   };
 }
 
-/* -------------------------------------------------------------------------- */
-/* ADMIN: UPDATE INTERNAL NOTES                                               */
-/* -------------------------------------------------------------------------- */
+/*
+|--------------------------------------------------------------------------
+| ADMIN: UPDATE INTERNAL NOTES
+|--------------------------------------------------------------------------
+*/
 
 export async function updateAssessmentNotes(assessmentId, internalNotes) {
   if (!mongoose.isValidObjectId(assessmentId)) {
@@ -848,27 +1203,39 @@ export async function updateAssessmentNotes(assessmentId, internalNotes) {
   }
 
   assessment.internalNotes = normalizedNotes;
+
   await assessment.save();
 
   return {
     id: assessment._id,
+
     reference: assessment.reference,
+
     internalNotes: assessment.internalNotes,
   };
 }
 
-/* -------------------------------------------------------------------------- */
-/* DEFAULT SERVICE EXPORT                                                     */
-/* -------------------------------------------------------------------------- */
+/*
+|--------------------------------------------------------------------------
+| DEFAULT SERVICE EXPORT
+|--------------------------------------------------------------------------
+*/
 
 const assessmentService = {
   submitAssessment,
+
   getMyAssessments,
+
   getMyAssessment,
+
   getAssessmentsForAdmin,
+
   getAssessmentForAdmin,
+
   getAssessmentDocumentForAdmin,
+
   updateAssessmentStatus,
+
   updateAssessmentNotes,
 };
 

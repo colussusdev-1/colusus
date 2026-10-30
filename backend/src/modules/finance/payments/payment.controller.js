@@ -52,14 +52,40 @@ export const initializePayment = async (req, res, next) => {
  * Verify a payment for an authenticated customer or administrator.
  *
  * Workflow:
- * Paystack → Payment → Invoice → Receipt → Business workflow.
+ *
+ * Paystack
+ *    ↓
+ * Payment verification
+ *    ↓
+ * Invoice completion
+ *    ↓
+ * Receipt generation
+ *    ↓
+ * Registered business workflow
+ *
+ * The business workflow is resolved using the invoice type.
+ * This supports ASSESSMENT, BOOKING, APPLICATION, OPPORTUNITY and SERVICE.
  */
 export const verifyPayment = async (req, res, next) => {
   try {
-    const { reference } = req.params;
+    const reference = String(req.params.reference || "").trim();
 
+    if (!reference) {
+      return res.status(400).json({
+        success: false,
+        message: "Payment reference is required.",
+      });
+    }
+
+    /*
+     * Verify the transaction directly with Paystack.
+     */
     const result = await paymentService.verifyPayment(reference, req.user);
 
+    /*
+     * Do not complete the invoice or generate a receipt
+     * if Paystack has not confirmed successful payment.
+     */
     if (!result.verified) {
       return res.status(400).json({
         success: false,
@@ -72,6 +98,12 @@ export const verifyPayment = async (req, res, next) => {
       });
     }
 
+    /*
+     * Complete the financial and business workflow.
+     *
+     * For an ASSESSMENT invoice, the registered assessment handler
+     * must update the assessment record after successful payment.
+     */
     const workflow = await paymentWorkflowService.completeSuccessfulPayment({
       paymentId: result.payment._id,
     });
@@ -101,11 +133,11 @@ export const verifyPayment = async (req, res, next) => {
  * Authentication is not required for this endpoint.
  *
  * Security:
- * - The payment service must verify that the linked invoice is a
+ * - The payment service validates that the linked invoice is a
  *   consultation invoice.
- * - The transaction is checked against Paystack.
+ * - The transaction is verified directly with Paystack.
  * - Only a limited confirmation response is returned.
- * - The full payment, invoice, and customer records are not exposed.
+ * - Full payment, invoice and customer records are not exposed.
  *
  * The existing financial workflow completes the payment records.
  */
@@ -127,8 +159,8 @@ export const verifyConsultationPayment = async (req, res, next) => {
     const result = await paymentService.verifyConsultationPayment(reference);
 
     /*
-     * A pending or unsuccessful transaction must not complete the
-     * invoice or generate a receipt.
+     * A pending or unsuccessful transaction must not complete
+     * the invoice or generate a receipt.
      */
     if (!result.verified) {
       return res.status(200).json({
@@ -145,10 +177,10 @@ export const verifyConsultationPayment = async (req, res, next) => {
     }
 
     /*
-     * Complete invoice, receipt, and any registered business workflow.
+     * Complete invoice, receipt and registered business workflow.
      *
-     * This method is idempotent, so a customer can revisit the page
-     * without intentionally creating a duplicate receipt.
+     * This method is designed to support repeated verification
+     * without creating duplicate financial records.
      */
     const workflow = await paymentWorkflowService.completeSuccessfulPayment({
       paymentId: result.paymentId,
@@ -184,6 +216,7 @@ export const verifyConsultationPayment = async (req, res, next) => {
 /**
  * Handle Paystack webhook events.
  *
+ * IMPORTANT:
  * This endpoint must be mounted with express.raw() before express.json()
  * processes the request body.
  *
@@ -271,6 +304,14 @@ export const paystackWebhook = async (req, res, next) => {
     /* ---------------------------------------------------------------------- */
 
     if (payment.status === "SUCCESS") {
+      /*
+       * Complete the financial workflow.
+       *
+       * The workflow service resolves the correct business handler
+       * using the invoice type.
+       *
+       * This includes the ASSESSMENT payment workflow once registered.
+       */
       const workflow = await paymentWorkflowService.completeSuccessfulPayment({
         paymentId: payment._id,
       });
@@ -308,6 +349,10 @@ export const paystackWebhook = async (req, res, next) => {
     console.error("PAYSTACK WEBHOOK ERROR");
     console.error(error);
 
+    /*
+     * Forward the error rather than acknowledging a failed workflow.
+     * Paystack can retry webhook delivery when it receives an error.
+     */
     return next(error);
   }
 };
@@ -323,7 +368,14 @@ export const paystackWebhook = async (req, res, next) => {
  */
 export const getPaymentByReference = async (req, res, next) => {
   try {
-    const { reference } = req.params;
+    const reference = String(req.params.reference || "").trim();
+
+    if (!reference) {
+      return res.status(400).json({
+        success: false,
+        message: "Payment reference is required.",
+      });
+    }
 
     const payment = await paymentService.getPaymentByReference(
       reference,
@@ -348,6 +400,10 @@ export const getPaymentByReference = async (req, res, next) => {
 
 /**
  * Retrieve payment history for the authenticated client or administrator.
+ *
+ * Supports filtering by:
+ * - Payment status
+ * - Payment type, including ASSESSMENT
  */
 export const getMyPayments = async (req, res, next) => {
   try {

@@ -67,14 +67,19 @@ const invoiceSchema = new mongoose.Schema(
      * APPLICATION  → application-related charge
      * OPPORTUNITY  → migration opportunity charge
      * SERVICE      → Colossus service charge
+     * ASSESSMENT   → trainee/apprenticeship assessment charge
      * OTHER        → future/unclassified charge
-     *
-     * Finance owns the invoice and payment lifecycle.
-     * The related business record is identified through `context`.
      */
     invoiceType: {
       type: String,
-      enum: ["BOOKING", "APPLICATION", "OPPORTUNITY", "SERVICE", "OTHER"],
+      enum: [
+        "BOOKING",
+        "APPLICATION",
+        "OPPORTUNITY",
+        "SERVICE",
+        "ASSESSMENT",
+        "OTHER",
+      ],
       required: true,
       index: true,
     },
@@ -83,34 +88,6 @@ const invoiceSchema = new mongoose.Schema(
     /* BUSINESS CONTEXT                                                       */
     /* ---------------------------------------------------------------------- */
 
-    /*
-     * Identifies the business transaction that generated the invoice.
-     *
-     * Examples:
-     *
-     * Booking:
-     * {
-     *   bookingId: "..."
-     * }
-     *
-     * Application:
-     * {
-     *   applicationId: "..."
-     * }
-     *
-     * Opportunity:
-     * {
-     *   opportunityId: "..."
-     * }
-     *
-     * Service:
-     * {
-     *   serviceId: "..."
-     * }
-     *
-     * Finance stores the context but does not own the business logic
-     * of the referenced module.
-     */
     context: {
       type: mongoose.Schema.Types.Mixed,
       default: () => ({}),
@@ -120,18 +97,6 @@ const invoiceSchema = new mongoose.Schema(
     /* CUSTOMER                                                               */
     /* ---------------------------------------------------------------------- */
 
-    /*
-     * Optional authenticated customer reference.
-     *
-     * Authenticated transaction:
-     *     customerId → User._id
-     *
-     * Guest/public transaction:
-     *     customerId → null
-     *
-     * The customer snapshot fields remain required so the invoice
-     * remains self-contained even if the customer profile changes later.
-     */
     customerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -264,15 +229,6 @@ const invoiceSchema = new mongoose.Schema(
     /* PAYMENT REFERENCE                                                      */
     /* ---------------------------------------------------------------------- */
 
-    /*
-     * This does NOT store the payment itself.
-     *
-     * Payment documents remain the source of truth for individual
-     * financial transactions.
-     *
-     * This field only makes the latest/current payment easy to
-     * trace from the invoice.
-     */
     lastPaymentReference: {
       type: String,
       default: null,
@@ -294,10 +250,6 @@ const invoiceSchema = new mongoose.Schema(
     /* ADDITIONAL METADATA                                                    */
     /* ---------------------------------------------------------------------- */
 
-    /*
-     * Additional invoice information that does not belong in the
-     * core financial fields.
-     */
     metadata: {
       type: mongoose.Schema.Types.Mixed,
       default: () => ({}),
@@ -312,35 +264,21 @@ const invoiceSchema = new mongoose.Schema(
 /* INDEXES                                                                    */
 /* -------------------------------------------------------------------------- */
 
-/*
- * Customer financial history.
- *
- * Works for both authenticated users and guest invoices.
- */
 invoiceSchema.index({
   customerId: 1,
   createdAt: -1,
 });
 
-/*
- * Outstanding / overdue invoice queries.
- */
 invoiceSchema.index({
   status: 1,
   dueDate: 1,
 });
 
-/*
- * Financial reporting by invoice type and status.
- */
 invoiceSchema.index({
   invoiceType: 1,
   status: 1,
 });
 
-/*
- * Recent invoices.
- */
 invoiceSchema.index({
   createdAt: -1,
 });
@@ -349,6 +287,7 @@ invoiceSchema.index({
 /* MODEL                                                                      */
 /* -------------------------------------------------------------------------- */
 
-const Invoice = mongoose.model("Invoice", invoiceSchema);
+const Invoice =
+  mongoose.models.Invoice || mongoose.model("Invoice", invoiceSchema);
 
 export default Invoice;

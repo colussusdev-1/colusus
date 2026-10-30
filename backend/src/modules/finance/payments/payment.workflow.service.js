@@ -12,22 +12,76 @@ import receiptService from "../reciepts/reciept.service.js";
 /* -------------------------------------------------------------------------- */
 
 /**
+ * Create a standardized service error.
+ */
+const createError = (message, statusCode = 400) => {
+  const error = new Error(message);
+  error.statusCode = statusCode;
+  return error;
+};
+
+/**
  * Resolve a business workflow.
  *
  * Finance may receive an explicit handler from the caller.
  *
- * If no explicit handler is provided, Finance looks for a registered
- * business workflow using the invoice type.
+ * Otherwise, Finance resolves the registered workflow using invoiceType.
  *
- * Finance itself does not import Application, Booking, Opportunity, Service,
- * or any other business module.
+ * Finance does not directly import business modules.
  */
 const resolveBusinessWorkflow = ({ invoiceType, businessWorkflow = null }) => {
   if (businessWorkflow) {
+    if (typeof businessWorkflow !== "function") {
+      throw createError("Business workflow handler must be a function.", 500);
+    }
+
     return businessWorkflow;
   }
 
-  return paymentWorkflowRegistry.getPaymentWorkflow(invoiceType);
+  const handler = paymentWorkflowRegistry.getPaymentWorkflow(invoiceType);
+
+  /*
+   * Assessment payments must never silently complete without
+   * updating their associated assessment record.
+   */
+
+  if (String(invoiceType).trim().toUpperCase() === "ASSESSMENT" && !handler) {
+    throw createError(
+      "Assessment payment workflow has not been registered. Payment completion cannot continue.",
+      500,
+    );
+  }
+
+  return handler;
+};
+
+/**
+ * Validate that the payment belongs to the invoice.
+ */
+const validatePaymentInvoice = ({ payment, invoice }) => {
+  if (!invoice) {
+    throw createError("Invoice linked to payment was not found.", 404);
+  }
+
+  if (
+    String(payment.paymentType).toUpperCase() !==
+    String(invoice.invoiceType).toUpperCase()
+  ) {
+    throw createError("Payment type does not match invoice type.");
+  }
+
+  if (
+    String(payment.currency).toUpperCase() !==
+    String(invoice.currency).toUpperCase()
+  ) {
+    throw createError("Payment currency does not match invoice currency.");
+  }
+
+  if (String(invoice.customerId || "") !== String(payment.customerId || "")) {
+    throw createError("Payment customer does not match invoice customer.", 403);
+  }
+
+  return true;
 };
 
 /* -------------------------------------------------------------------------- */
@@ -46,32 +100,29 @@ const resolveBusinessWorkflow = ({ invoiceType, businessWorkflow = null }) => {
  * Invoice
  *   ↓
  * Receipt
+ *   ↓
+ * Business workflow
  *
- * Business workflows are intentionally resolved outside Finance's business
- * domain knowledge.
+ * The optional user argument is passed to paymentService.verifyPayment
+ * for ownership validation.
  */
-const completePayment = async ({ reference, businessWorkflow = null }) => {
+const completePayment = async ({
+  reference,
+  user = null,
+  businessWorkflow = null,
+}) => {
   if (!reference) {
-    const error = new Error("Payment reference is required.");
-
-    error.statusCode = 400;
-
-    throw error;
+    throw createError("Payment reference is required.");
   }
 
-  const verification = await paymentService.verifyPayment(reference);
+  const verification = await paymentService.verifyPayment(reference, user);
 
   if (!verification.verified) {
-    const error = new Error("Payment verification failed.");
-
-    error.statusCode = 400;
-
-    throw error;
+    throw createError("Payment verification failed.");
   }
 
   return completeSuccessfulPayment({
     paymentId: verification.payment._id,
-
     businessWorkflow,
   });
 };
@@ -83,7 +134,18 @@ const completePayment = async ({ reference, businessWorkflow = null }) => {
 /**
  * Run an optional business-side completion handler.
  *
- * This is called only after the invoice reaches PAID.
+ * This runs only after the invoice reaches PAID.
+ *
+ * The handler receives:
+ * - payment
+ * - invoice
+ * - receipt
+ * - session
+ *
+ * The session allows the business module to update its records
+ * within the same MongoDB transaction as the financial records.
+ *
+ * Business handlers must be idempotent.
  */
 const completeBusinessWorkflow = async ({
   payment,
@@ -93,24 +155,26 @@ const completeBusinessWorkflow = async ({
   businessWorkflow,
 }) => {
   if (!businessWorkflow) {
+    /*
+     * Assessment workflows are mandatory.
+     * Other invoice types may legitimately have no registered handler.
+     */
+
+    if (String(invoice.invoiceType).trim().toUpperCase() === "ASSESSMENT") {
+      throw createError("Assessment payment workflow is unavailable.", 500);
+    }
+
     return null;
   }
 
   if (typeof businessWorkflow !== "function") {
-    const error = new Error("Business workflow handler must be a function.");
-
-    error.statusCode = 500;
-
-    throw error;
+    throw createError("Business workflow handler must be a function.", 500);
   }
 
   return businessWorkflow({
     payment,
-
     invoice,
-
     receipt,
-
     session,
   });
 };
@@ -122,26 +186,30 @@ const completeBusinessWorkflow = async ({
 /**
  * Complete all financial records associated with a successful payment.
  *
- * This operation is intentionally idempotent.
+ * This operation supports repeated verification and webhook delivery.
  *
- * Partial payment:
+ * PARTIAL PAYMENT:
  *
  * Payment → Invoice → Receipt
  *
- * Full payment:
+ * FULL PAYMENT:
  *
  * Payment → Invoice → Receipt → Business workflow
+ *
+ * ASSESSMENT:
+ *
+ * Payment → Invoice → Receipt → Assessment submission
  */
 const completeSuccessfulPayment = async ({
   paymentId,
   businessWorkflow = null,
 }) => {
   if (!paymentId) {
-    const error = new Error("Payment ID is required.");
+    throw createError("Payment ID is required.");
+  }
 
-    error.statusCode = 400;
-
-    throw error;
+  if (!mongoose.Types.ObjectId.isValid(paymentId)) {
+    throw createError("Invalid payment ID.");
   }
 
   /* ------------------------------------------------------------------------ */
@@ -151,11 +219,7 @@ const completeSuccessfulPayment = async ({
   const payment = await Payment.findById(paymentId);
 
   if (!payment) {
-    const error = new Error("Payment not found.");
-
-    error.statusCode = 404;
-
-    throw error;
+    throw createError("Payment not found.", 404);
   }
 
   /* ------------------------------------------------------------------------ */
@@ -163,13 +227,9 @@ const completeSuccessfulPayment = async ({
   /* ------------------------------------------------------------------------ */
 
   if (payment.status !== "SUCCESS") {
-    const error = new Error(
+    throw createError(
       "Only successful payments can complete the financial workflow.",
     );
-
-    error.statusCode = 400;
-
-    throw error;
   }
 
   /* ------------------------------------------------------------------------ */
@@ -177,11 +237,7 @@ const completeSuccessfulPayment = async ({
   /* ------------------------------------------------------------------------ */
 
   if (!payment.invoice) {
-    const error = new Error("Payment is not linked to an invoice.");
-
-    error.statusCode = 400;
-
-    throw error;
+    throw createError("Payment is not linked to an invoice.");
   }
 
   /* ------------------------------------------------------------------------ */
@@ -191,30 +247,13 @@ const completeSuccessfulPayment = async ({
   const invoice = await invoiceService.getInvoiceById(payment.invoice);
 
   if (!invoice) {
-    const error = new Error("Invoice linked to payment was not found.");
-
-    error.statusCode = 404;
-
-    throw error;
+    throw createError("Invoice linked to payment was not found.", 404);
   }
 
-  if (payment.paymentType !== invoice.invoiceType) {
-    const error = new Error("Payment type does not match invoice type.");
-
-    error.statusCode = 400;
-
-    throw error;
-  }
-
-  if (payment.currency !== invoice.currency) {
-    const error = new Error(
-      "Payment currency does not match invoice currency.",
-    );
-
-    error.statusCode = 400;
-
-    throw error;
-  }
+  validatePaymentInvoice({
+    payment,
+    invoice,
+  });
 
   /* ------------------------------------------------------------------------ */
   /* RESOLVE BUSINESS WORKFLOW                                                */
@@ -222,60 +261,8 @@ const completeSuccessfulPayment = async ({
 
   const resolvedBusinessWorkflow = resolveBusinessWorkflow({
     invoiceType: invoice.invoiceType,
-
     businessWorkflow,
   });
-
-  /* ------------------------------------------------------------------------ */
-  /* FAST IDEMPOTENCY CHECK                                                   */
-  /* ------------------------------------------------------------------------ */
-
-  const existingReceipt = await receiptService.findReceiptByPayment(
-    payment._id,
-  );
-
-  if (existingReceipt) {
-    const currentInvoice = await invoiceService.getInvoiceById(payment.invoice);
-
-    let businessRecord = null;
-
-    /**
-     * Only a fully paid invoice may trigger the business workflow.
-     */
-    if (currentInvoice.status === "PAID") {
-      const session = await mongoose.startSession();
-
-      try {
-        await session.withTransaction(async () => {
-          businessRecord = await completeBusinessWorkflow({
-            payment,
-
-            invoice: currentInvoice,
-
-            receipt: existingReceipt,
-
-            session,
-
-            businessWorkflow: resolvedBusinessWorkflow,
-          });
-        });
-      } finally {
-        await session.endSession();
-      }
-    }
-
-    return {
-      alreadyCompleted: true,
-
-      payment,
-
-      invoice: currentInvoice,
-
-      receipt: existingReceipt,
-
-      businessRecord,
-    };
-  }
 
   /* ------------------------------------------------------------------------ */
   /* TRANSACTION                                                              */
@@ -285,42 +272,78 @@ const completeSuccessfulPayment = async ({
 
   try {
     let completedInvoice = null;
-
     let receipt = null;
-
     let businessRecord = null;
 
     let alreadyCompleted = false;
 
     await session.withTransaction(async () => {
       /* -------------------------------------------------------------------- */
-      /* RE-CHECK RECEIPT INSIDE TRANSACTION                                  */
+      /* RELOAD PAYMENT                                                       */
       /* -------------------------------------------------------------------- */
 
-      const existingReceiptInsideTransaction =
-        await receiptService.findReceiptByPayment(payment._id, session);
+      const currentPayment = await Payment.findById(payment._id).session(
+        session,
+      );
 
-      if (existingReceiptInsideTransaction) {
-        completedInvoice = await invoiceService.getInvoiceById(
-          payment.invoice,
+      if (!currentPayment) {
+        throw createError("Payment not found during transaction.", 404);
+      }
 
-          session,
-        );
+      if (currentPayment.status !== "SUCCESS") {
+        throw createError("Payment is no longer marked as successful.");
+      }
 
-        receipt = existingReceiptInsideTransaction;
+      /* -------------------------------------------------------------------- */
+      /* RELOAD INVOICE                                                       */
+      /* -------------------------------------------------------------------- */
+
+      const currentInvoice = await invoiceService.getInvoiceById(
+        currentPayment.invoice,
+        session,
+      );
+
+      if (!currentInvoice) {
+        throw createError("Invoice linked to payment was not found.", 404);
+      }
+
+      validatePaymentInvoice({
+        payment: currentPayment,
+        invoice: currentInvoice,
+      });
+
+      /* -------------------------------------------------------------------- */
+      /* CHECK EXISTING RECEIPT                                               */
+      /* -------------------------------------------------------------------- */
+
+      const existingReceipt = await receiptService.findReceiptByPayment(
+        currentPayment._id,
+        session,
+      );
+
+      if (existingReceipt) {
+        /*
+         * Financial completion already happened.
+         *
+         * Do not record the payment again.
+         * Do not create another receipt.
+         *
+         * If the invoice is fully paid, rerun the business workflow.
+         * This recovers a previously incomplete business-side update.
+         */
+
+        completedInvoice = currentInvoice;
+
+        receipt = existingReceipt;
 
         alreadyCompleted = true;
 
-        if (completedInvoice.status === "PAID") {
+        if (currentInvoice.status === "PAID") {
           businessRecord = await completeBusinessWorkflow({
-            payment,
-
-            invoice: completedInvoice,
-
-            receipt,
-
+            payment: currentPayment,
+            invoice: currentInvoice,
+            receipt: existingReceipt,
             session,
-
             businessWorkflow: resolvedBusinessWorkflow,
           });
         }
@@ -329,55 +352,36 @@ const completeSuccessfulPayment = async ({
       }
 
       /* -------------------------------------------------------------------- */
-      /* RECORD PAYMENT AGAINST INVOICE                                        */
+      /* RECORD PAYMENT AGAINST INVOICE                                       */
       /* -------------------------------------------------------------------- */
 
       completedInvoice = await invoiceService.recordPayment({
-        invoiceId: payment.invoice,
-
-        amount: payment.amount,
-
-        paymentReference: payment.reference,
-
+        invoiceId: currentPayment.invoice,
+        amount: currentPayment.amount,
+        paymentReference: currentPayment.reference,
         session,
       });
 
       /* -------------------------------------------------------------------- */
-      /* CREATE RECEIPT                                                        */
+      /* CREATE RECEIPT                                                       */
       /* -------------------------------------------------------------------- */
 
       receipt = await receiptService.createReceipt({
-        paymentId: payment._id,
-
-        invoiceId: payment.invoice,
-
+        paymentId: currentPayment._id,
+        invoiceId: currentPayment.invoice,
         session,
       });
 
       /* -------------------------------------------------------------------- */
-      /* BUSINESS COMPLETION                                                   */
+      /* BUSINESS COMPLETION                                                  */
       /* -------------------------------------------------------------------- */
 
-      /**
-       * PARTIALLY_PAID:
-       *
-       *   Payment → Invoice → Receipt
-       *   Business workflow = NOT RUN
-       *
-       * PAID:
-       *
-       *   Payment → Invoice → Receipt → Business workflow
-       */
       if (completedInvoice.status === "PAID") {
         businessRecord = await completeBusinessWorkflow({
-          payment,
-
+          payment: currentPayment,
           invoice: completedInvoice,
-
           receipt,
-
           session,
-
           businessWorkflow: resolvedBusinessWorkflow,
         });
       }
@@ -409,6 +413,5 @@ const completeSuccessfulPayment = async ({
 
 export default {
   completePayment,
-
   completeSuccessfulPayment,
 };

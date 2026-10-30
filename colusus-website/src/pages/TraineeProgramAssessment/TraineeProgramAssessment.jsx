@@ -24,6 +24,8 @@ const API_BASE_URL = (
 ).replace(/\/$/, "");
 
 const ASSESSMENT_ENDPOINT = `${API_BASE_URL}/assessments`;
+const PAYMENT_INITIALIZE_ENDPOINT = `${API_BASE_URL}/payments/initialize`;
+const ASSESSMENT_PENDING_PAYMENT_KEY = "colossus_pending_assessment_payment";
 
 
 const ASSESSMENT_DRAFT_DB = "colossus_assessment_drafts";
@@ -131,6 +133,61 @@ function getErrorMessage(error, body) {
         error?.message ||
         "We could not submit your assessment. Please check your connection and try again."
     );
+}
+
+async function initializeAssessmentPayment(invoiceId, token) {
+    if (!invoiceId) {
+        throw new Error(
+            "Your assessment was created, but its payment invoice could not be found. Please contact Colossus support before submitting again."
+        );
+    }
+
+    const response = await fetch(PAYMENT_INITIALIZE_ENDPOINT, {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        },
+        body: JSON.stringify({
+            paymentType: "ASSESSMENT",
+            invoiceId,
+        }),
+    });
+
+    const body = await response.json().catch(() => ({}));
+
+    if (!response.ok || body?.success === false) {
+        throw new Error(
+            body?.message ||
+            body?.error ||
+            "Your assessment was created, but payment could not be initialized. Please try again or contact support."
+        );
+    }
+
+    const payment =
+        body?.data?.payment ||
+        body?.payment ||
+        body?.data ||
+        body;
+
+    const authorizationUrl =
+        payment?.authorizationUrl ||
+        payment?.authorization_url ||
+        body?.data?.authorizationUrl ||
+        body?.authorizationUrl;
+
+    if (!authorizationUrl) {
+        throw new Error(
+            "The payment gateway did not return a checkout link. Please contact Colossus support."
+        );
+    }
+
+    return {
+        authorizationUrl,
+        payment,
+        response: body,
+    };
 }
 
 function getCountryName(opportunity, opportunitySlug) {
@@ -760,6 +817,30 @@ export default function TraineeProgramAssessment() {
         };
 
         try {
+            // If the assessment was already created but checkout was interrupted,
+            // retry payment initialization instead of creating a duplicate assessment.
+            let pendingPayment = null;
+            try {
+                pendingPayment = JSON.parse(
+                    localStorage.getItem(ASSESSMENT_PENDING_PAYMENT_KEY) || "null"
+                );
+            } catch {
+                pendingPayment = null;
+            }
+
+            if (
+                pendingPayment?.invoiceId &&
+                String(pendingPayment?.opportunityId || "") === String(opportunityId)
+            ) {
+                const checkout = await initializeAssessmentPayment(
+                    pendingPayment.invoiceId,
+                    token
+                );
+
+                window.location.assign(checkout.authorizationUrl);
+                return;
+            }
+
             const requestBody = new FormData();
 
             requestBody.append(
@@ -853,11 +934,25 @@ export default function TraineeProgramAssessment() {
                 throw new Error(getErrorMessage(null, body));
             }
 
+            const responseData = body?.data || body;
+
             const assessment =
-                body?.data?.assessment ||
+                responseData?.assessment ||
                 body?.assessment ||
-                body?.data ||
-                body;
+                responseData;
+
+            const invoice =
+                responseData?.invoice ||
+                assessment?.invoice ||
+                body?.invoice ||
+                null;
+
+            const invoiceId =
+                invoice?._id ||
+                invoice?.id ||
+                assessment?.invoiceId ||
+                assessment?.invoice?._id ||
+                assessment?.invoice?.id;
 
             const reference =
                 assessment?.reference ||
@@ -868,32 +963,64 @@ export default function TraineeProgramAssessment() {
                 body?.reference ||
                 "";
 
-            const savedAssessment = {
-                ...assessment,
-                reference,
+            if (!invoiceId) {
+                throw new Error(
+                    "Your assessment details were received, but the payment invoice was not returned. Please contact Colossus support before submitting again."
+                );
+            }
+
+            const pendingPaymentDetails = {
+                invoiceId,
+                assessmentId: assessment?._id || assessment?.id || null,
+                assessmentReference: reference,
                 opportunityId,
                 opportunitySlug,
                 countrySlug,
                 programTitle,
                 countryName,
                 email: payload.personalDetails.email,
+                createdAt: new Date().toISOString(),
             };
 
+            // Persist the invoice reference so the applicant can retry checkout
+            // without creating a second assessment if the gateway request fails.
+            try {
+                localStorage.setItem(
+                    ASSESSMENT_PENDING_PAYMENT_KEY,
+                    JSON.stringify(pendingPaymentDetails)
+                );
+            } catch {
+                // The current request can still continue even if storage is unavailable.
+            }
+
+            const checkout = await initializeAssessmentPayment(invoiceId, token);
+
+            try {
+                sessionStorage.setItem(
+                    "colossus_assessment_payment_return",
+                    JSON.stringify({
+                        ...pendingPaymentDetails,
+                        paymentReference:
+                            checkout.payment?.reference ||
+                            checkout.payment?.paymentReference ||
+                            null,
+                    })
+                );
+            } catch {
+                // Payment gateway redirect can still proceed.
+            }
+
+            // Keep the saved form draft until the applicant has successfully
+            // reached the Paystack checkout page.
             await clearAssessmentDraft();
+
             try {
                 sessionStorage.removeItem("colossus_pending_assessment_return_to");
             } catch {
                 // Ignore storage cleanup failures.
             }
 
-            navigate("/portal", {
-                replace: true,
-                state: {
-                    assessmentSubmitted: true,
-                    assessmentReference: reference,
-                    assessmentId: savedAssessment?._id || savedAssessment?.id || null,
-                },
-            });
+            window.location.assign(checkout.authorizationUrl);
         } catch (error) {
             setSubmitError(getErrorMessage(error));
         } finally {
@@ -1159,6 +1286,46 @@ export default function TraineeProgramAssessment() {
     return (
         <main className="free-assessment-page tpa-page">
             <style>{`
+                .assessment-payment-notice {
+                    display: flex;
+                    align-items: flex-start;
+                    gap: 14px;
+                    margin: 22px 0;
+                    padding: 18px 20px;
+                    border: 1px solid #f1d49a;
+                    border-radius: 14px;
+                    background: #fff9eb;
+                    color: #253247;
+                }
+                .assessment-payment-notice-icon {
+                    flex: 0 0 40px;
+                    width: 40px;
+                    height: 40px;
+                    display: grid;
+                    place-items: center;
+                    border-radius: 12px;
+                    background: #ffedc2;
+                    color: #946200;
+                }
+                .assessment-payment-notice strong {
+                    display: block;
+                    margin: 1px 0 5px;
+                    color: #694600;
+                    font-size: .98rem;
+                }
+                .assessment-payment-notice p {
+                    margin: 0;
+                    color: #665638;
+                    font-size: .9rem;
+                    line-height: 1.6;
+                }
+                @media (max-width: 520px) {
+                    .assessment-payment-notice {
+                        gap: 11px;
+                        padding: 15px;
+                    }
+                }
+
                 .assessment-auth-modal-backdrop {
                     position: fixed; inset: 0; z-index: 9999;
                     display: flex; align-items: center; justify-content: center;
@@ -1219,7 +1386,7 @@ export default function TraineeProgramAssessment() {
 
                         <span className="assessment-free-badge">
                             <span className="assessment-live-dot" />
-                            FREE INITIAL ASSESSMENT
+                            ₦50,000 ASSESSMENT FEE
                         </span>
                     </div>
 
@@ -1235,10 +1402,11 @@ export default function TraineeProgramAssessment() {
                             </h1>
 
                             <p className="assessment-hero-description">
-                                Tell us about your background and upload the
-                                documents you have. Our team will review your
-                                details for the selected trainee or
-                                apprenticeship pathway.
+                                Complete your profile and upload your supporting
+                                documents. A ₦50,000 assessment fee is required
+                                to submit your assessment and proceed with your
+                                application for this trainee or apprenticeship
+                                pathway.
                             </p>
 
                             <div className="assessment-hero-benefits">
@@ -1277,7 +1445,7 @@ export default function TraineeProgramAssessment() {
                             <div className="assessment-program-card-footer">
                                 <ShieldCheck size={15} />
                                 <span>
-                                    Initial assessment · No payment required
+                                    Initial assessment · ₦50,000 payment required
                                 </span>
                             </div>
                         </aside>
@@ -1328,7 +1496,9 @@ export default function TraineeProgramAssessment() {
                             <h2>Let’s start with you</h2>
                             <p>
                                 Add your contact details and background. Fields
-                                marked * are required.
+                                marked * are required. Payment of the ₦50,000
+                                assessment fee is required to submit your
+                                assessment and proceed with this application.
                             </p>
                         </div>
                     </div>
@@ -1352,6 +1522,21 @@ export default function TraineeProgramAssessment() {
                         <div>
                             <strong>{countryLabel} pathway assessment</strong>
                             <p>{programFocus}</p>
+                        </div>
+                    </div>
+
+                    <div className="assessment-payment-notice" role="note">
+                        <div className="assessment-payment-notice-icon">
+                            <LockKeyhole size={19} />
+                        </div>
+                        <div>
+                            <strong>₦50,000 assessment fee required</strong>
+                            <p>
+                                You must complete the ₦50,000 payment through
+                                Paystack to submit your assessment and proceed
+                                with your application. Your assessment will only
+                                be marked as submitted after payment is confirmed.
+                            </p>
                         </div>
                     </div>
 
@@ -1785,7 +1970,7 @@ export default function TraineeProgramAssessment() {
                     <div className="assessment-submit-row">
                         <p>
                             <ShieldCheck size={16} />
-                            Sign in or create an account before submitting. Your assessment will be linked to your account.
+                            Sign in or create an account, then pay the ₦50,000 assessment fee through Paystack. Payment is required before your assessment can be submitted and your application can proceed.
                         </p>
 
                         <button
@@ -1795,10 +1980,8 @@ export default function TraineeProgramAssessment() {
                             disabled={submitting || !draftRestored}
                         >
                             {submitting
-                                ? "Submitting your assessment…"
-                                : authenticated
-                                    ? "Submit Assessment"
-                                    : "Continue to Submit Assessment"}
+                                ? "Preparing your payment…"
+                                : "Pay ₦50,000 & Submit Assessment"}
 
                             {!submitting && <ArrowRight size={17} />}
                         </button>
@@ -1873,7 +2056,7 @@ export default function TraineeProgramAssessment() {
                                             onClick={submitAuthenticatedAssessment}
                                             disabled={submitting}
                                         >
-                                            {submitting ? "Submitting…" : "Submit Assessment"}
+                                            {submitting ? "Preparing payment…" : "Pay ₦50,000 & Submit Assessment"}
                                             {!submitting && <ArrowRight size={17} />}
                                         </button>
                                         <button

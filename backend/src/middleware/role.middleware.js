@@ -1,38 +1,106 @@
+/*
+|--------------------------------------------------------------------------
+| ROLE-BASED AUTHORIZATION MIDDLEWARE
+|--------------------------------------------------------------------------
+|
+| Responsibilities:
+| - Ensure a user is authenticated.
+| - Normalize user and permitted roles.
+| - Support multiple permitted roles.
+| - Restrict access to permitted roles.
+| - Provide diagnostic logs during development.
+|
+*/
+
 export const authorize = (...roles) => {
+  /*
+    |--------------------------------------------------------------------------
+    | NORMALIZE ALLOWED ROLES
+    |--------------------------------------------------------------------------
+    */
 
-    return (req, res, next) => {
+  const allowedRoles = roles
+    .flat()
+    .filter((role) => typeof role === "string")
+    .map((role) => role.trim().toUpperCase())
+    .filter(Boolean);
 
-        if (!req.user) {
+  return (req, res, next) => {
+    /*
+        |--------------------------------------------------------------------------
+        | AUTHENTICATION CHECK
+        |--------------------------------------------------------------------------
+        */
 
-            return res.status(401).json({
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: "Authentication required.",
+      });
+    }
 
-                success: false,
+    /*
+        |--------------------------------------------------------------------------
+        | NORMALIZE AUTHENTICATED USER ROLE
+        |--------------------------------------------------------------------------
+        */
 
-                message: "Authentication required"
+    const userRole =
+      typeof req.user.role === "string"
+        ? req.user.role.trim().toUpperCase()
+        : null;
 
-            });
+    /*
+        |--------------------------------------------------------------------------
+        | AUTHORIZATION DEBUG
+        |--------------------------------------------------------------------------
+        */
 
-        }
+    console.log("========== AUTHORIZATION DEBUG ==========");
 
+    console.log({
+      userId: req.user.id || req.user._id || null,
+      userRole,
+      allowedRoles,
+      roleMatched: Boolean(userRole && allowedRoles.includes(userRole)),
+    });
 
-        if (!roles.includes(req.user.role)) {
+    console.log("==========================================");
 
-            return res.status(403).json({
+    /*
+        |--------------------------------------------------------------------------
+        | ROLE VALIDATION
+        |--------------------------------------------------------------------------
+        */
 
-                success: false,
+    if (!userRole) {
+      return res.status(403).json({
+        success: false,
+        message: "Access denied: User role is missing.",
+      });
+    }
 
-                message: "Access denied"
+    if (!allowedRoles.includes(userRole)) {
+      return res.status(403).json({
+        success: false,
+        message: "Access denied",
+      });
+    }
 
-            });
+    /*
+        |--------------------------------------------------------------------------
+        | AUTHORIZATION SUCCESSFUL
+        |--------------------------------------------------------------------------
+        */
 
-        }
-
-
-        next();
-
-    };
-
+    return next();
+  };
 };
 
+/*
+|--------------------------------------------------------------------------
+| BACKWARD COMPATIBILITY
+|--------------------------------------------------------------------------
+*/
 
 export const allowRoles = authorize;

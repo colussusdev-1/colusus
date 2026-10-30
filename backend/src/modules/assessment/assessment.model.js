@@ -17,7 +17,13 @@ const ASSESSMENT_STATUSES = [
   "WITHDRAWN",
 ];
 
+const SUBMISSION_STATUSES = ["DRAFT", "PENDING_PAYMENT", "SUBMITTED"];
+
+const PAYMENT_STATUSES = ["UNPAID", "PENDING", "PAID", "FAILED"];
+
 const DOCUMENT_TYPES = ["PASSPORT", "EDUCATIONAL_CERTIFICATE", "CV", "OTHER"];
+
+const ASSESSMENT_FEE = 50000;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +52,6 @@ const assessmentDocumentSchema = new mongoose.Schema(
       required: true,
     },
 
-    // Human-readable description of the document's purpose.
     documentLabel: {
       type: String,
       trim: true,
@@ -54,7 +59,6 @@ const assessmentDocumentSchema = new mongoose.Schema(
       maxlength: 200,
     },
 
-    // Identifies the originating field in the assessment form.
     fieldKey: {
       type: String,
       trim: true,
@@ -62,7 +66,6 @@ const assessmentDocumentSchema = new mongoose.Schema(
       maxlength: 100,
     },
 
-    // Original filename supplied by the applicant.
     originalName: {
       type: String,
       required: true,
@@ -343,8 +346,95 @@ const assessmentSchema = new mongoose.Schema(
 
     /*
     |--------------------------------------------------------------------------
-    | ASSESSMENT STATUS
+    | SUBMISSION STATUS
     |--------------------------------------------------------------------------
+    |
+    | DRAFT:
+    | Assessment is being completed.
+    |
+    | PENDING_PAYMENT:
+    | Assessment is ready but payment has not been confirmed.
+    |
+    | SUBMITTED:
+    | Payment has been verified and assessment officially submitted.
+    |
+    */
+
+    submissionStatus: {
+      type: String,
+      enum: SUBMISSION_STATUSES,
+      default: "DRAFT",
+      required: true,
+      index: true,
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | ASSESSMENT PAYMENT
+    |--------------------------------------------------------------------------
+    */
+
+    paymentStatus: {
+      type: String,
+      enum: PAYMENT_STATUSES,
+      default: "UNPAID",
+      required: true,
+      index: true,
+    },
+
+    assessmentFee: {
+      type: Number,
+      required: true,
+      default: ASSESSMENT_FEE,
+      min: ASSESSMENT_FEE,
+      max: ASSESSMENT_FEE,
+    },
+
+    /*
+     * Finance invoice associated with this assessment.
+     *
+     * The invoice is created by the Finance module.
+     * Its payment lifecycle remains owned by Finance.
+     */
+
+    invoice: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Invoice",
+      default: null,
+      index: true,
+    },
+
+    /*
+     * Successful payment associated with this assessment.
+     */
+
+    payment: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Payment",
+      default: null,
+      index: true,
+    },
+
+    paymentReference: {
+      type: String,
+      trim: true,
+      default: "",
+      index: true,
+    },
+
+    paidAt: {
+      type: Date,
+      default: null,
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | ASSESSMENT REVIEW STATUS
+    |--------------------------------------------------------------------------
+    |
+    | This is independent of payment and submission status.
+    | Admins use this to review submitted assessments.
+    |
     */
 
     status: {
@@ -409,8 +499,7 @@ const assessmentSchema = new mongoose.Schema(
 
     submittedAt: {
       type: Date,
-      default: Date.now,
-      immutable: true,
+      default: null,
     },
   },
   {
@@ -436,6 +525,11 @@ assessmentSchema.index({
 });
 
 assessmentSchema.index({
+  submissionStatus: 1,
+  paymentStatus: 1,
+});
+
+assessmentSchema.index({
   client: 1,
   submittedAt: -1,
 });
@@ -456,11 +550,7 @@ assessmentSchema.pre("validate", function () {
     this.reference = generateAssessmentReference();
   }
 
-  if (
-    this.isNew &&
-    this.consent?.privacyAccepted === true &&
-    !this.consent.acceptedAt
-  ) {
+  if (this.consent?.privacyAccepted === true && !this.consent.acceptedAt) {
     this.consent.acceptedAt = new Date();
   }
 });

@@ -212,8 +212,8 @@ const initializePayment = async ({
   validateInvoiceForPayment(invoice);
 
   if (
-    String(paymentType).toUpperCase() !==
-    String(invoice.invoiceType).toUpperCase()
+    String(paymentType).trim().toUpperCase() !==
+    String(invoice.invoiceType).trim().toUpperCase()
   ) {
     throw createError("Payment type does not match invoice type.");
   }
@@ -239,19 +239,21 @@ const initializePayment = async ({
   }
 
   /*
-   * The invoice remains authoritative for customer, amount and currency.
-   * Request context and metadata may supplement the stored information,
-   * but cannot change the invoice balance.
+   * The invoice remains authoritative.
+   *
+   * Caller-supplied context and metadata can provide additional
+   * information, but persisted invoice values take precedence.
    */
+
   const paymentContext = {
-    ...(invoice.context || {}),
     ...(context || {}),
+    ...(invoice.context || {}),
     invoiceId: invoice._id.toString(),
   };
 
   const paymentMetadata = {
-    ...(invoice.metadata || {}),
     ...(metadata || {}),
+    ...(invoice.metadata || {}),
     invoiceId: invoice._id.toString(),
     paymentType: invoice.invoiceType,
   };
@@ -274,6 +276,9 @@ const initializePayment = async ({
     await existingPayment.save();
   }
 
+  /*
+   * The invoice is authoritative for amount and currency.
+   */
   const amount = Number(invoice.balanceDue);
   const currency = String(invoice.currency || "NGN").toUpperCase();
 
@@ -342,12 +347,16 @@ const initializePayment = async ({
       callback_url: callbackUrl,
 
       metadata: {
+        ...paymentMetadata,
+
+        /*
+         * Protected transaction identifiers must come last.
+         */
         paymentId: payment._id.toString(),
         paymentReference: reference,
         paymentType: payment.paymentType,
         invoiceId: invoice._id.toString(),
         context: paymentContext,
-        ...paymentMetadata,
       },
     });
 

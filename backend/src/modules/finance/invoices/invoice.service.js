@@ -16,6 +16,7 @@ const INVOICE_TYPES = [
   "APPLICATION",
   "OPPORTUNITY",
   "SERVICE",
+  "ASSESSMENT",
   "OTHER",
 ];
 
@@ -35,7 +36,9 @@ const validateInvoiceType = (invoiceType) => {
     throw error;
   }
 
-  if (!INVOICE_TYPES.includes(invoiceType)) {
+  const normalizedType = String(invoiceType).trim().toUpperCase();
+
+  if (!INVOICE_TYPES.includes(normalizedType)) {
     const error = new Error(`Unsupported invoice type: ${invoiceType}.`);
 
     error.statusCode = 400;
@@ -43,7 +46,7 @@ const validateInvoiceType = (invoiceType) => {
     throw error;
   }
 
-  return true;
+  return normalizedType;
 };
 
 /**
@@ -285,7 +288,7 @@ const createInvoice = async ({
   /* VALIDATE INVOICE TYPE                                                    */
   /* ------------------------------------------------------------------------ */
 
-  validateInvoiceType(invoiceType);
+  const normalizedInvoiceType = validateInvoiceType(invoiceType);
 
   /* ------------------------------------------------------------------------ */
   /* VALIDATE CUSTOMER SNAPSHOT                                               */
@@ -338,25 +341,21 @@ const createInvoice = async ({
   const invoiceData = {
     invoiceNumber,
 
-    invoiceType,
+    invoiceType: normalizedInvoiceType,
 
     /*
      * Finance deliberately does not interpret this object.
      *
-     * Examples:
+     * Assessment example:
      *
      * {
-     *   applicationId: "..."
-     * }
-     *
-     * {
-     *   bookingId: "..."
-     * }
-     *
-     * {
-     *   serviceId: "..."
+     *   flow: "TRAINEE_ASSESSMENT",
+     *   assessmentId: "...",
+     *   assessmentReference: "...",
+     *   opportunityId: "..."
      * }
      */
+
     context,
 
     /* ---------------------------------------------------------------------- */
@@ -406,10 +405,6 @@ const createInvoice = async ({
   /* CREATE                                                                   */
   /* ------------------------------------------------------------------------ */
 
-  /*
-   * Mongoose's transaction-aware create form requires an array
-   * when passing the session option.
-   */
   if (session) {
     const [invoice] = await Invoice.create([invoiceData], {
       session,
@@ -537,9 +532,7 @@ const getClientInvoices = async ({
   }
 
   if (invoiceType) {
-    validateInvoiceType(invoiceType);
-
-    query.invoiceType = invoiceType;
+    query.invoiceType = validateInvoiceType(invoiceType);
   }
 
   const invoices = await Invoice.find(query)
@@ -576,8 +569,6 @@ const getInvoiceByNumber = async (invoiceNumber) => {
 
 /**
  * Update an invoice after a successful payment.
- *
- * This function does not perform the payment.
  *
  * Payment service is responsible for establishing that money was received.
  *
@@ -637,18 +628,6 @@ const recordPayment = async ({
   /* IDEMPOTENCY                                                              */
   /* ------------------------------------------------------------------------ */
 
-  /*
-   * The payment workflow normally prevents the same payment from
-   * being applied twice through the receipt/payment relationship.
-   *
-   * This additional guard protects the invoice service itself when
-   * the same payment reference reaches this function again before
-   * another payment has changed the invoice.
-   *
-   * `lastPaymentReference` represents the most recently applied
-   * payment, so repeating that exact reference must not increase
-   * amountPaid again.
-   */
   if (
     invoice.lastPaymentReference &&
     invoice.lastPaymentReference === paymentReference
@@ -835,7 +814,7 @@ const markOverdue = async (invoiceId) => {
 /* EXPORT                                                                     */
 /* -------------------------------------------------------------------------- */
 
-export default {
+const invoiceService = {
   createInvoice,
 
   issueInvoice,
@@ -844,7 +823,7 @@ export default {
 
   getInvoiceByNumber,
 
- getClientInvoices,
+  getClientInvoices,
 
   recordPayment,
 
@@ -852,3 +831,5 @@ export default {
 
   markOverdue,
 };
+
+export default invoiceService;

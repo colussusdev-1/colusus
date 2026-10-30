@@ -1,10 +1,17 @@
 import mongoose from "mongoose";
 
+/*
+|--------------------------------------------------------------------------
+| PAYMENT CONSTANTS
+|--------------------------------------------------------------------------
+*/
+
 const PAYMENT_TYPES = [
   "BOOKING",
   "APPLICATION",
   "OPPORTUNITY",
   "SERVICE",
+  "ASSESSMENT",
   "OTHER",
 ];
 
@@ -17,11 +24,19 @@ const PAYMENT_STATUSES = [
   "REFUNDED",
 ];
 
+/*
+|--------------------------------------------------------------------------
+| PAYMENT SCHEMA
+|--------------------------------------------------------------------------
+*/
+
 const paymentSchema = new mongoose.Schema(
   {
-    /* ---------------------------------------------------------------------- */
-    /* PAYMENT IDENTITY                                                       */
-    /* ---------------------------------------------------------------------- */
+    /*
+    |--------------------------------------------------------------------------
+    | PAYMENT IDENTITY
+    |--------------------------------------------------------------------------
+    */
 
     reference: {
       type: String,
@@ -31,13 +46,6 @@ const paymentSchema = new mongoose.Schema(
       trim: true,
     },
 
-    /*
-     * Describes the business reason for the transaction.
-     *
-     * Finance owns the financial transaction.
-     *
-     * The related business record is identified through `context`.
-     */
     paymentType: {
       type: String,
       enum: PAYMENT_TYPES,
@@ -45,53 +53,23 @@ const paymentSchema = new mongoose.Schema(
       index: true,
     },
 
-    /* ---------------------------------------------------------------------- */
-    /* BUSINESS CONTEXT                                                       */
-    /* ---------------------------------------------------------------------- */
-
     /*
-     * Flexible reference to the business transaction.
-     *
-     * Examples:
-     *
-     * Booking:
-     * {
-     *   bookingId: "..."
-     * }
-     *
-     * Application:
-     * {
-     *   applicationId: "..."
-     * }
-     *
-     * Opportunity:
-     * {
-     *   opportunityId: "..."
-     * }
-     *
-     * Service:
-     * {
-     *   serviceId: "..."
-     * }
-     *
-     * Finance stores this context but does not own the referenced
-     * business module.
-     */
+    |--------------------------------------------------------------------------
+    | BUSINESS CONTEXT
+    |--------------------------------------------------------------------------
+    */
+
     context: {
       type: mongoose.Schema.Types.Mixed,
       default: () => ({}),
     },
 
-    /* ---------------------------------------------------------------------- */
-    /* INVOICE                                                                */
-    /* ---------------------------------------------------------------------- */
-
     /*
-     * A payment settles an invoice.
-     *
-     * `context` identifies the business transaction.
-     * `invoice` identifies the financial document being paid.
-     */
+    |--------------------------------------------------------------------------
+    | INVOICE
+    |--------------------------------------------------------------------------
+    */
+
     invoice: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Invoice",
@@ -99,18 +77,12 @@ const paymentSchema = new mongoose.Schema(
       index: true,
     },
 
-    /* ---------------------------------------------------------------------- */
-    /* CUSTOMER                                                               */
-    /* ---------------------------------------------------------------------- */
-
     /*
-     * Authenticated customer relationship.
-     *
-     * The payment also stores a customer snapshot so the historical
-     * financial record remains intact if the User changes later.
-     *
-     * Guest payments may have customerId = null.
-     */
+    |--------------------------------------------------------------------------
+    | CUSTOMER
+    |--------------------------------------------------------------------------
+    */
+
     customerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -137,9 +109,11 @@ const paymentSchema = new mongoose.Schema(
       default: null,
     },
 
-    /* ---------------------------------------------------------------------- */
-    /* AMOUNT                                                                 */
-    /* ---------------------------------------------------------------------- */
+    /*
+    |--------------------------------------------------------------------------
+    | AMOUNT
+    |--------------------------------------------------------------------------
+    */
 
     amount: {
       type: Number,
@@ -155,9 +129,11 @@ const paymentSchema = new mongoose.Schema(
       trim: true,
     },
 
-    /* ---------------------------------------------------------------------- */
-    /* PAYMENT PROVIDER                                                       */
-    /* ---------------------------------------------------------------------- */
+    /*
+    |--------------------------------------------------------------------------
+    | PAYMENT PROVIDER
+    |--------------------------------------------------------------------------
+    */
 
     provider: {
       type: String,
@@ -173,9 +149,11 @@ const paymentSchema = new mongoose.Schema(
       index: true,
     },
 
-    /* ---------------------------------------------------------------------- */
-    /* PAYMENT STATUS                                                         */
-    /* ---------------------------------------------------------------------- */
+    /*
+    |--------------------------------------------------------------------------
+    | PAYMENT STATUS
+    |--------------------------------------------------------------------------
+    */
 
     status: {
       type: String,
@@ -185,9 +163,11 @@ const paymentSchema = new mongoose.Schema(
       index: true,
     },
 
-    /* ---------------------------------------------------------------------- */
-    /* PAYSTACK CHECKOUT                                                      */
-    /* ---------------------------------------------------------------------- */
+    /*
+    |--------------------------------------------------------------------------
+    | PAYSTACK CHECKOUT
+    |--------------------------------------------------------------------------
+    */
 
     authorizationUrl: {
       type: String,
@@ -201,18 +181,22 @@ const paymentSchema = new mongoose.Schema(
       trim: true,
     },
 
-    /* ---------------------------------------------------------------------- */
-    /* GATEWAY RESPONSE                                                       */
-    /* ---------------------------------------------------------------------- */
+    /*
+    |--------------------------------------------------------------------------
+    | GATEWAY RESPONSE
+    |--------------------------------------------------------------------------
+    */
 
     gatewayResponse: {
       type: mongoose.Schema.Types.Mixed,
       default: null,
     },
 
-    /* ---------------------------------------------------------------------- */
-    /* PAYMENT LIFECYCLE                                                      */
-    /* ---------------------------------------------------------------------- */
+    /*
+    |--------------------------------------------------------------------------
+    | PAYMENT LIFECYCLE
+    |--------------------------------------------------------------------------
+    */
 
     initiatedAt: {
       type: Date,
@@ -234,14 +218,12 @@ const paymentSchema = new mongoose.Schema(
       default: null,
     },
 
-    /* ---------------------------------------------------------------------- */
-    /* ADDITIONAL METADATA                                                    */
-    /* ---------------------------------------------------------------------- */
-
     /*
-     * Additional gateway or application metadata that does not belong
-     * in the core financial fields.
-     */
+    |--------------------------------------------------------------------------
+    | ADDITIONAL METADATA
+    |--------------------------------------------------------------------------
+    */
+
     metadata: {
       type: mongoose.Schema.Types.Mixed,
       default: () => ({}),
@@ -252,9 +234,11 @@ const paymentSchema = new mongoose.Schema(
   },
 );
 
-/* -------------------------------------------------------------------------- */
-/* INDEXES                                                                    */
-/* -------------------------------------------------------------------------- */
+/*
+|--------------------------------------------------------------------------
+| INDEXES
+|--------------------------------------------------------------------------
+*/
 
 paymentSchema.index({
   status: 1,
@@ -285,10 +269,13 @@ paymentSchema.index({
   createdAt: -1,
 });
 
-/* -------------------------------------------------------------------------- */
-/* MODEL                                                                      */
-/* -------------------------------------------------------------------------- */
+/*
+|--------------------------------------------------------------------------
+| MODEL REGISTRATION
+|--------------------------------------------------------------------------
+*/
 
-const Payment = mongoose.model("Payment", paymentSchema);
+const Payment =
+  mongoose.models.Payment || mongoose.model("Payment", paymentSchema);
 
 export default Payment;
