@@ -19,6 +19,7 @@ import {
     HiOutlineCurrencyDollar,
     HiOutlineClipboardCheck,
     HiOutlineChatAlt2,
+    HiOutlineInbox,
 } from "react-icons/hi";
 
 import authService from "../../../services/authService";
@@ -70,11 +71,20 @@ const adminNavigation = [
         icon: HiOutlineChatAlt2,
     },
 
+    // WEBSITE FORMS
     {
         label: "Forms",
         path: "/admin/forms",
         icon: HiOutlineCollection,
     },
+
+    // SERVICE ENQUIRIES
+    {
+        label: "Service Enquiries",
+        path: "/admin/service-enquiries",
+        icon: HiOutlineInbox,
+    },
+
     {
         label: "Blog",
         path: "/admin/blog",
@@ -124,6 +134,12 @@ const staffNavigation = [
         label: "Website Enquiries",
         path: "/admin/staff/form-submissions",
         icon: HiOutlineCollection,
+        permission: "forms.view",
+    },
+    {
+        label: "Service Enquiries",
+        path: "/admin/service-enquiries",
+        icon: HiOutlineInbox,
         permission: "forms.view",
     },
     {

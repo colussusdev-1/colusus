@@ -221,6 +221,8 @@ import AdminAssessment from "./pages/admin/Assessment/AdminAssessment";
 import AdminChat from "./pages/admin/chat/AdminChat";
 import ClientChat
     from "./pages/Client/ClientChat";
+
+import AdminServiceEnquiries from "./pages/admin/service-enquiries/AdminServiceEnquiries";
 /**
  * Display the WhatsApp floating button on public website pages.
  *
@@ -607,6 +609,11 @@ function App() {
                             element={<AdminOverview />}
                         />
 
+                        <Route
+                            path="/admin/service-enquiries"
+                            element={<AdminServiceEnquiries />}
+                        />
+
                         {/* CLIENT CHAT */}
                         <Route
                             path="chat"
@@ -791,6 +798,8 @@ function App() {
                             index
                             element={<ClientDashboard />}
                         />
+
+
 
                         {/* CLIENT APPLICATIONS */}
 

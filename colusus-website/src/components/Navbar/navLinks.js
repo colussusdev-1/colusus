@@ -11,28 +11,9 @@ const navLinks = [
 
   {
     name: "Services",
-    dropdown: [
-      {
-        name: "Canada Migration",
-        path: "/services/canada-migration",
-      },
-
-      {
-        name: "Global Work & Immigration Pathways",
-        path: "/services/global-works",
-      },
-      
-      {
-        name: "Ireland Nursing & Healthcare",
-        path: "/services/ireland-nursing",
-      },
-
-      {
-        name: "Tourist Visa",
-        path: "/services/tourist-visa",
-      },
-    ],
+    path: "/services",
   },
+
   {
     name: "Pathways",
     path: "/pathways",

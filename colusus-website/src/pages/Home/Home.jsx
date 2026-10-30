@@ -156,14 +156,14 @@ const Home = () => {
             {/* =====================================================
             6. ZERO DEPOSIT PROGRAM
         ===================================================== */}
-
+{/* 
             <ScrollReveal
                 direction="up"
                 duration={0.45}
                 distance={18}
             >
                 <ZeroDepositProgram />
-            </ScrollReveal>
+            </ScrollReveal> */}
 
             {/* =====================================================
             7. SUCCESS STORIES

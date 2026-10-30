@@ -19,6 +19,8 @@ import bookingRoutes from "../modules/bookings/booking.routes.js";
 import couponRoutes from "../modules/coupons/coupon.routes.js";
 
 import formSubmissionRoutes from "../modules/form-submissions/form-submission.routes.js";
+import serviceEnquiryRoutes from "../modules/service-enquiries/service-enquiry.routes.js";
+
 import uploadRoutes from "../modules/uploads/upload.routes.js";
 
 import adminRoutes from "../modules/admin/admin.routes.js";
@@ -29,308 +31,143 @@ import contactRoutes from "../modules/contact/contact.routes.js";
 
 const router = express.Router();
 
+/* -------------------------------------------------------------------------- */
+/* HEALTH                                                                     */
+/* -------------------------------------------------------------------------- */
+
+router.use("/health", healthRoutes);
+
+/* -------------------------------------------------------------------------- */
+/* AUTHENTICATION                                                             */
+/* -------------------------------------------------------------------------- */
+
+router.use("/auth", authRoutes);
+
+/* -------------------------------------------------------------------------- */
+/* USERS                                                                      */
+/* -------------------------------------------------------------------------- */
+
+router.use("/users", userRoutes);
+
+/* -------------------------------------------------------------------------- */
+/* CLIENT PORTAL                                                              */
+/* -------------------------------------------------------------------------- */
+
+router.use("/client", clientRoutes);
+
+/* -------------------------------------------------------------------------- */
+/* CLIENT PROFILE                                                             */
+/* -------------------------------------------------------------------------- */
+
+router.use("/client-profile", clientProfileRoutes);
+
+/* -------------------------------------------------------------------------- */
+/* APPLICATIONS                                                               */
+/* -------------------------------------------------------------------------- */
+
+router.use("/applications", applicationRoutes);
+
+/* -------------------------------------------------------------------------- */
+/* DOCUMENTS                                                                  */
+/* -------------------------------------------------------------------------- */
+
+router.use("/documents", documentRoutes);
+
+/* -------------------------------------------------------------------------- */
+/* OPPORTUNITIES                                                              */
+/* -------------------------------------------------------------------------- */
+
+router.use("/opportunities", opportunityRoutes);
+
+/* -------------------------------------------------------------------------- */
+/* EXISTING PUBLIC FORM SUBMISSIONS                                           */
+/* -------------------------------------------------------------------------- */
 
 /*
-|--------------------------------------------------------------------------
-| HEALTH
-|--------------------------------------------------------------------------
-*/
+ * POST /api/v1/form-submissions
+ *
+ * Existing generic website forms:
+ * - Ireland Nursing & Healthcare
+ * - Webinar Registration
+ * - Contact
+ * - Consultation Request
+ */
 
-router.use(
-    "/health",
-    healthRoutes,
-);
+router.use("/form-submissions", formSubmissionRoutes);
 
-
-/*
-|--------------------------------------------------------------------------
-| AUTHENTICATION
-|--------------------------------------------------------------------------
-*/
-
-router.use(
-    "/auth",
-    authRoutes,
-);
-
+/* -------------------------------------------------------------------------- */
+/* SERVICE ENQUIRIES                                                         */
+/* -------------------------------------------------------------------------- */
 
 /*
-|--------------------------------------------------------------------------
-| USERS
-|--------------------------------------------------------------------------
-*/
+ * POST  /api/v1/service-enquiries
+ * GET   /api/v1/service-enquiries
+ * GET   /api/v1/service-enquiries/:id
+ * GET   /api/v1/service-enquiries/:id/documents/:documentId/view
+ * PATCH /api/v1/service-enquiries/:id
+ *
+ * Dedicated service enquiry management:
+ * - International Recruitment
+ * - Study Abroad
+ * - Skilled Migration
+ * - Trainee & Apprenticeship
+ *
+ * Public submission and protected admin endpoints are
+ * handled inside service-enquiry.routes.js.
+ */
 
-router.use(
-    "/users",
-    userRoutes,
-);
+router.use("/service-enquiries", serviceEnquiryRoutes);
 
+/* -------------------------------------------------------------------------- */
+/* PUBLIC FILE UPLOADS                                                        */
+/* -------------------------------------------------------------------------- */
 
-/*
-|--------------------------------------------------------------------------
-| CLIENT PORTAL
-|--------------------------------------------------------------------------
-*/
+router.use("/uploads", uploadRoutes);
 
-router.use(
-    "/client",
-    clientRoutes,
-);
+/* -------------------------------------------------------------------------- */
+/* USER NOTIFICATIONS                                                         */
+/* -------------------------------------------------------------------------- */
 
+router.use("/notifications", notificationRoutes);
 
-/*
-|--------------------------------------------------------------------------
-| CLIENT PROFILE
-|--------------------------------------------------------------------------
-|
-| GET   /api/v1/client-profile
-| POST  /api/v1/client-profile
-| PATCH /api/v1/client-profile
-| GET   /api/v1/client-profile/completion
-|
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* BOOKINGS                                                                   */
+/* -------------------------------------------------------------------------- */
 
-router.use(
-    "/client-profile",
-    clientProfileRoutes,
-);
+router.use("/bookings", bookingRoutes);
 
+/* -------------------------------------------------------------------------- */
+/* COUPONS                                                                    */
+/* -------------------------------------------------------------------------- */
 
-/*
-|--------------------------------------------------------------------------
-| APPLICATIONS
-|--------------------------------------------------------------------------
-*/
+router.use("/coupons", couponRoutes);
 
-router.use(
-    "/applications",
-    applicationRoutes,
-);
+/* -------------------------------------------------------------------------- */
+/* STAFF ACCESS                                                               */
+/* -------------------------------------------------------------------------- */
 
+router.use("/access", accessRoutes);
 
-/*
-|--------------------------------------------------------------------------
-| DOCUMENTS
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* ADMIN PORTAL                                                               */
+/* -------------------------------------------------------------------------- */
 
-router.use(
-    "/documents",
-    documentRoutes,
-);
+router.use("/admin", adminRoutes);
 
+/* -------------------------------------------------------------------------- */
+/* STAFF PORTAL                                                               */
+/* -------------------------------------------------------------------------- */
 
-/*
-|--------------------------------------------------------------------------
-| OPPORTUNITIES
-|--------------------------------------------------------------------------
-|
-| Public migration opportunities.
-|
-|--------------------------------------------------------------------------
-*/
+router.use("/staff", staffRoutes);
 
-router.use(
-    "/opportunities",
-    opportunityRoutes,
-);
+/* -------------------------------------------------------------------------- */
+/* CONTACT                                                                    */
+/* -------------------------------------------------------------------------- */
 
+router.use("/contact", contactRoutes);
 
-/*
-|--------------------------------------------------------------------------
-| PUBLIC FORM SUBMISSIONS
-|--------------------------------------------------------------------------
-|
-| POST /api/v1/form-submissions
-|
-| Generic public form submission endpoint used by website forms such as:
-|
-| - Ireland Nursing & Healthcare
-| - Webinar Registration
-| - Contact
-| - Consultation Request
-| - Future forms
-|
-| The form-submission router handles authentication for its
-| protected administration endpoints separately.
-|
-|--------------------------------------------------------------------------
-*/
-
-router.use(
-    "/form-submissions",
-    formSubmissionRoutes,
-);
-
-
-/*
-|--------------------------------------------------------------------------
-| PUBLIC FILE UPLOADS
-|--------------------------------------------------------------------------
-|
-| POST /api/v1/uploads
-|
-| Generic file upload endpoint.
-|
-|--------------------------------------------------------------------------
-*/
-
-router.use(
-    "/uploads",
-    uploadRoutes,
-);
-
-
-/*
-|--------------------------------------------------------------------------
-| USER NOTIFICATIONS
-|--------------------------------------------------------------------------
-|
-| Recipient-facing notification system.
-|
-| GET    /api/v1/notifications
-| GET    /api/v1/notifications/unread-count
-| PATCH  /api/v1/notifications/:id/read
-| PATCH  /api/v1/notifications/read-all
-| DELETE /api/v1/notifications
-| DELETE /api/v1/notifications/:id
-|
-| Authentication is handled inside notification.routes.js.
-|
-|--------------------------------------------------------------------------
-*/
-
-router.use(
-    "/notifications",
-    notificationRoutes,
-);
-
-
-/*
-|--------------------------------------------------------------------------
-| BOOKINGS
-|--------------------------------------------------------------------------
-*/
-
-router.use(
-    "/bookings",
-    bookingRoutes,
-);
-
-
-/*
-|--------------------------------------------------------------------------
-| COUPONS
-|--------------------------------------------------------------------------
-*/
-
-router.use(
-    "/coupons",
-    couponRoutes,
-);
-
-
-/*
-|--------------------------------------------------------------------------
-| STAFF ACCESS
-|--------------------------------------------------------------------------
-|
-| GET /api/v1/access
-|
-| Returns the effective permissions of the authenticated user.
-|
-| The access service calculates:
-|
-|     role permissions
-|     + direct grants
-|     - direct denials
-|
-| Authentication is handled inside access.routes.js.
-|
-| This endpoint is intentionally not under /admin because it describes
-| the permissions of the currently authenticated user rather than being
-| an Admin management endpoint.
-|
-|--------------------------------------------------------------------------
-*/
-
-router.use(
-    "/access",
-    accessRoutes,
-);
-
-
-/*
-|--------------------------------------------------------------------------
-| ADMIN PORTAL
-|--------------------------------------------------------------------------
-|
-| Complete Admin route tree.
-|
-| Includes:
-|
-| /api/v1/admin/dashboard
-| /api/v1/admin/staff
-| /api/v1/admin/applications
-| /api/v1/admin/documents
-| /api/v1/admin/clients
-| /api/v1/admin/notifications
-|
-| Admin authentication and authorization are handled by the
-| individual Admin route trees.
-|
-|--------------------------------------------------------------------------
-*/
-
-router.use(
-    "/admin",
-    adminRoutes,
-);
-
-
-/*
-|--------------------------------------------------------------------------
-| STAFF PORTAL
-|--------------------------------------------------------------------------
-|
-| Complete Staff route tree.
-|
-| Includes:
-|
-| /api/v1/staff/profile
-| /api/v1/staff/dashboard
-| /api/v1/staff/applications
-| /api/v1/staff/applications/:id
-| /api/v1/staff/applications/:id/status
-| /api/v1/staff/applications/:id/notes
-| /api/v1/staff/applications/:id/documents
-| /api/v1/staff/documents/:id
-| /api/v1/staff/documents/:id/review
-|
-| Staff authentication and STAFF role authorization are
-| handled inside staff.routes.js.
-|
-| Staff access to applications/documents is additionally
-| enforced by staff.service.js.
-|
-|--------------------------------------------------------------------------
-*/
-
-router.use(
-    "/staff",
-    staffRoutes,
-);
-
-router.use(
-    "/contact",
-    contactRoutes,
-);
-
-/*
-|--------------------------------------------------------------------------
-| EXPORT
-|--------------------------------------------------------------------------
-*/
+/* -------------------------------------------------------------------------- */
+/* EXPORT                                                                     */
+/* -------------------------------------------------------------------------- */
 
 export default router;
