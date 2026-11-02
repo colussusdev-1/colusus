@@ -144,7 +144,7 @@ const Hero = () => {
                                 className="hero-primary-btn"
                             >
                                 <span>
-                                    Get Started
+                                    Create an account to Get Started
                                 </span>
 
                                 <HiArrowRight aria-hidden="true" />
