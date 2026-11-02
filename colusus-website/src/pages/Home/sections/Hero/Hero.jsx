@@ -1,3 +1,4 @@
+
 import {
     HiArrowRight,
     HiOutlineShieldCheck,
@@ -13,7 +14,6 @@ const Hero = () => {
     COUNTRIES
     =====================================================
     */
-
 
     const countries = [
         "Canada",
@@ -140,11 +140,11 @@ const Hero = () => {
                         <div className="hero-actions hero-reveal hero-delay-4">
 
                             <Link
-                                to="/free-assessment"
+                                to="/register"
                                 className="hero-primary-btn"
                             >
                                 <span>
-                                    Start Free Assessment
+                                    Get Started
                                 </span>
 
                                 <HiArrowRight aria-hidden="true" />
@@ -222,13 +222,9 @@ const Hero = () => {
 
                     </div>
 
-                    {/* RIGHT SECTION: DESTINATIONS ONLY */}
+                    {/* RIGHT SECTION: DESTINATIONS */}
 
                     <div className="hero-visual hero-reveal hero-delay-3">
-
-                        {/* AIRPLANE IMAGE REMOVED */}
-
-                        {/* DESTINATION LIST PRESERVED */}
 
                         <div className="hero-country-list">
 
@@ -268,8 +264,7 @@ const Hero = () => {
 
         </section>
     );
-
-
 };
 
 export default Hero;
+
