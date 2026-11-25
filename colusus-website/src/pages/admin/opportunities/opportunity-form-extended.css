@@ -1,0 +1,217 @@
+/* ==========================================================================
+   EXTENDED OPPORTUNITY FORM
+   ========================================================================== */
+
+.form-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 27px;
+}
+
+.form-note {
+    margin: 14px 0 0;
+    color: #8993a3;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   DYNAMIC EDITORS
+   ========================================================================== */
+
+.dynamic-editor {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+}
+
+.dynamic-editor__heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 3px;
+}
+
+.dynamic-editor__heading>div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.dynamic-editor__heading strong {
+    color: #303b4d;
+    font-size: 12px;
+    font-weight: 750;
+}
+
+.dynamic-editor__heading small {
+    color: #8993a3;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.dynamic-editor__add {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 32px;
+    padding: 0 10px;
+    border: 1px solid #d5e2ef;
+    border-radius: 7px;
+    background: #f5f9fd;
+    color: #0056b3;
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 750;
+    cursor: pointer;
+    transition: background 150ms ease, border-color 150ms ease;
+}
+
+.dynamic-editor__add:hover {
+    border-color: #b7cde3;
+    background: #edf5fc;
+}
+
+.dynamic-editor__add svg {
+    width: 13px;
+    height: 13px;
+}
+
+.dynamic-editor__empty {
+    padding: 16px;
+    border: 1px dashed #d6dee8;
+    border-radius: 8px;
+    background: #fafbfd;
+    color: #929baa;
+    font-size: 11px;
+    text-align: center;
+}
+
+.dynamic-editor__row {
+    display: grid;
+    grid-template-columns: 30px minmax(0, 1fr) 34px;
+    align-items: center;
+    gap: 9px;
+}
+
+.dynamic-editor__index {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 27px;
+    height: 27px;
+    border-radius: 6px;
+    background: #f0f4f8;
+    color: #7c8797;
+    font-size: 9px;
+    font-weight: 800;
+}
+
+.dynamic-editor__remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid #f0dede;
+    border-radius: 7px;
+    background: #fffafa;
+    color: #a35b5b;
+    cursor: pointer;
+    transition: background 150ms ease, color 150ms ease;
+}
+
+.dynamic-editor__remove:hover {
+    background: #fceeee;
+    color: #923f3f;
+}
+
+.dynamic-editor__remove svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* ==========================================================================
+   OBJECT EDITORS
+   ========================================================================== */
+
+.object-editor {
+    padding: 17px;
+    border: 1px solid #e2e7ee;
+    border-radius: 9px;
+    background: #fafbfd;
+}
+
+.object-editor__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 17px;
+}
+
+.object-editor__top strong {
+    color: #3a4658;
+    font-size: 11px;
+    font-weight: 750;
+}
+
+.object-editor .form-grid {
+    gap: 17px;
+}
+
+/* ==========================================================================
+   EXTENDED FORM SECTIONS
+   ========================================================================== */
+
+.form-card .form-stack>.dynamic-editor+.dynamic-editor {
+    padding-top: 22px;
+    border-top: 1px solid #edf0f4;
+}
+
+.form-card .form-grid+.form-grid {
+    margin-top: 20px;
+}
+
+/* ==========================================================================
+   MOBILE
+   ========================================================================== */
+
+@media (max-width: 640px) {
+    .form-stack {
+        gap: 21px;
+    }
+
+    .dynamic-editor__heading {
+        align-items: flex-start;
+    }
+
+    .dynamic-editor__add {
+        flex: 0 0 auto;
+        min-height: 30px;
+        padding: 0 8px;
+        font-size: 9px;
+    }
+
+    .dynamic-editor__row {
+        grid-template-columns: 25px minmax(0, 1fr) 30px;
+        gap: 6px;
+    }
+
+    .dynamic-editor__index {
+        width: 24px;
+        height: 24px;
+        font-size: 8px;
+    }
+
+    .dynamic-editor__remove {
+        width: 29px;
+        height: 32px;
+    }
+
+    .object-editor {
+        padding: 13px;
+    }
+}

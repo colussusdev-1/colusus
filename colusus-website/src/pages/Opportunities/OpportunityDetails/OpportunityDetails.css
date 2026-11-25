@@ -2074,3 +2074,254 @@ REDUCED MOTION
 
 
 }
+/* ============================================================
+   PROGRAMME DETAILS
+============================================================ */
+
+.opportunity-details__program-section {
+    background: #ffffff;
+}
+
+.opportunity-details__program-type {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    margin-bottom: 22px;
+    padding: 17px 20px;
+
+    background: var(--opportunity-primary-soft);
+    border-left: 3px solid var(--opportunity-primary);
+}
+
+.opportunity-details__program-type span {
+    color: var(--opportunity-text-soft);
+
+    font-size: 11px;
+    font-weight: 750;
+}
+
+.opportunity-details__program-type strong {
+    color: var(--opportunity-primary-dark);
+
+    font-size: 12px;
+    font-weight: 850;
+    text-align: right;
+}
+
+
+/* ============================================================
+   PROGRAMME FACTS
+============================================================ */
+
+.opportunity-details__program-facts {
+    display: grid;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 12px;
+}
+
+.opportunity-details__program-fact {
+    min-width: 0;
+    min-height: 125px;
+
+    padding: 20px;
+
+    background: var(--opportunity-surface-soft);
+    border: 1px solid var(--opportunity-border);
+}
+
+.opportunity-details__program-fact > span {
+    display: block;
+
+    margin-bottom: 13px;
+
+    color: var(--opportunity-muted);
+
+    font-size: 9px;
+    font-weight: 850;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.opportunity-details__program-fact > strong {
+    display: block;
+
+    color: var(--opportunity-navy);
+
+    font-size: 19px;
+    font-weight: 850;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+.opportunity-details__program-fact > small {
+    display: block;
+
+    margin-top: 7px;
+
+    color: var(--opportunity-text-soft);
+
+    font-size: 10px;
+    font-weight: 650;
+}
+
+
+/* ============================================================
+   INTAKE DATES
+============================================================ */
+
+.opportunity-details__intake-list {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 7px;
+}
+
+.opportunity-details__intake-list span {
+    display: inline-flex;
+    align-items: center;
+
+    min-height: 31px;
+
+    padding: 6px 10px;
+
+    background: #ffffff;
+    border: 1px solid #d5e4f3;
+    border-radius: 4px;
+
+    color: var(--opportunity-primary-dark);
+
+    font-size: 10px;
+    font-weight: 800;
+}
+
+
+/* ============================================================
+   COURSE CATEGORIES
+============================================================ */
+
+.opportunity-details__program-categories {
+    margin-top: 32px;
+}
+
+.opportunity-details__program-categories
+.opportunity-details__mini-heading {
+    justify-content: flex-start;
+
+    padding-bottom: 14px;
+
+    border-bottom: 1px solid var(--opportunity-border);
+}
+
+.opportunity-details__category-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+
+    margin-top: 15px;
+}
+
+.opportunity-details__category-card {
+    min-width: 0;
+
+    padding: 20px;
+
+    background: #ffffff;
+    border: 1px solid var(--opportunity-border);
+
+    transition:
+        border-color 180ms ease,
+        transform 180ms ease,
+        box-shadow 180ms ease;
+}
+
+.opportunity-details__category-card h3 {
+    margin: 0;
+
+    color: var(--opportunity-navy);
+
+    font-size: 15px;
+    font-weight: 850;
+    line-height: 1.4;
+}
+
+.opportunity-details__category-card p {
+    margin: 9px 0 0;
+
+    color: var(--opportunity-text-soft);
+
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.opportunity-details__category-card .opportunity-details__role-tags {
+    margin-top: 14px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .opportunity-details__category-card:hover {
+        border-color: #b8d1eb;
+        transform: translateY(-2px);
+
+        box-shadow: 0 7px 20px rgba(15, 42, 70, 0.05);
+    }
+}
+
+
+/* ============================================================
+   PROGRAMME RESPONSIVENESS
+============================================================ */
+
+@media (max-width: 1000px) {
+    .opportunity-details__program-facts {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 760px) {
+    .opportunity-details__program-facts {
+        grid-template-columns: 1fr;
+    }
+
+    .opportunity-details__program-fact {
+        min-height: auto;
+        padding: 17px;
+    }
+
+    .opportunity-details__program-fact > span {
+        margin-bottom: 9px;
+    }
+
+    .opportunity-details__program-fact > strong {
+        font-size: 17px;
+    }
+
+    .opportunity-details__category-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .opportunity-details__program-type {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 7px;
+    }
+
+    .opportunity-details__program-type strong {
+        text-align: left;
+    }
+}
+
+@media (max-width: 380px) {
+    .opportunity-details__program-fact {
+        padding: 14px;
+    }
+
+    .opportunity-details__category-card {
+        padding: 16px;
+    }
+}

@@ -33,26 +33,107 @@ import "./OpportunityDetails.css";
 
 
 /* ============================================================
-   NORMALIZATION
+   HELPERS
 ============================================================ */
 
-const normalize = (
-    value,
-) => {
-
-    return String(
-        value || "",
-    )
+const normalize = (value) => {
+    return String(value || "")
         .trim()
         .toLowerCase()
-        .replace(
-            /[_-]+/g,
-            " ",
-        )
-        .replace(
-            /\s+/g,
-            " ",
-        );
+        .replace(/[_-]+/g, " ")
+        .replace(/\s+/g, " ");
+};
+
+
+const formatLabel = (value) => {
+    if (!value) return "";
+
+    return String(value)
+        .replace(/[_-]+/g, " ")
+        .replace(/\s+/g, " ")
+        .trim()
+        .replace(/\b\w/g, (letter) => letter.toUpperCase());
+};
+
+
+const formatMoney = (amount, currency = "NGN") => {
+    if (amount === undefined || amount === null || amount === "") {
+        return "";
+    }
+
+    const numericAmount = Number(amount);
+
+    if (!Number.isFinite(numericAmount)) {
+        return `${currency} ${amount}`;
+    }
+
+    try {
+        return new Intl.NumberFormat("en", {
+            style: "currency",
+            currency,
+            maximumFractionDigits: 0,
+        }).format(numericAmount);
+    } catch {
+        return `${currency} ${numericAmount.toLocaleString()}`;
+    }
+};
+
+
+const formatMoneyRange = (range) => {
+    if (!range || typeof range !== "object") {
+        return "";
+    }
+
+    const currency = range.currency || "NGN";
+
+    const minimum = range.minimum;
+    const maximum = range.maximum;
+
+    if (
+        minimum !== undefined &&
+        minimum !== null &&
+        maximum !== undefined &&
+        maximum !== null
+    ) {
+        return `${formatMoney(minimum, currency)} – ${formatMoney(maximum, currency)}`;
+    }
+
+    if (minimum !== undefined && minimum !== null) {
+        return `From ${formatMoney(minimum, currency)}`;
+    }
+
+    if (maximum !== undefined && maximum !== null) {
+        return `Up to ${formatMoney(maximum, currency)}`;
+    }
+
+    return "";
+};
+
+
+const normalizeStringList = (items) => {
+    if (!Array.isArray(items)) {
+        return [];
+    }
+
+    return items
+        .map((item) => {
+            if (typeof item === "string") {
+                return item.trim();
+            }
+
+            if (item && typeof item === "object") {
+                return (
+                    item.name ||
+                    item.title ||
+                    item.label ||
+                    item.value ||
+                    ""
+                ).toString().trim();
+            }
+
+            return "";
+        })
+        .filter(Boolean);
 };
 
 
@@ -106,7 +187,6 @@ const OpportunityDetails = () => {
 
         let mounted = true;
 
-
         const loadOpportunity = async () => {
 
             try {
@@ -118,131 +198,60 @@ const OpportunityDetails = () => {
                 setSelectedOpportunity(null);
 
 
-                /* ==================================================
-                   VALIDATE ROUTE
-                ================================================== */
+                if (!country || !slug) {
 
-                if (
-                    !country ||
-                    !slug
-                ) {
+                    if (!mounted) return;
 
-                    if (!mounted) {
-                        return;
-                    }
-
-                    setError(
-                        "OPPORTUNITY_NOT_FOUND",
-                    );
-
+                    setError("OPPORTUNITY_NOT_FOUND");
                     setLoading(false);
 
                     return;
                 }
 
 
-                /* ==================================================
-                   LOAD COUNTRY DIRECTORY
-                ==================================================
-
-                   MongoDB:
-
-                   GET /opportunities/countries
-
-                ================================================== */
-
                 const countries =
                     await opportunityService.getCountries();
 
 
-                if (!mounted) {
-                    return;
-                }
+                if (!mounted) return;
 
 
-                const normalizedCountry =
-                    normalize(
-                        country,
-                    );
+                const normalizedCountry = normalize(country);
 
-
-                const foundCountry =
-                    countries.find(
-                        (item) =>
-                            normalize(
-                                item?.slug,
-                            ) ===
-                            normalizedCountry,
-                    );
-
-
-                /* ==================================================
-                   COUNTRY NOT FOUND
-                ================================================== */
-
-                if (!foundCountry) {
-
-                    setError(
-                        "COUNTRY_NOT_FOUND",
-                    );
-
-                    return;
-                }
-
-
-                setSelectedCountry(
-                    foundCountry,
+                const foundCountry = countries.find(
+                    (item) =>
+                        normalize(item?.slug) === normalizedCountry
                 );
 
 
-                /* ==================================================
-                   LOAD EXACT OPPORTUNITY
-                ==================================================
+                if (!foundCountry) {
 
-                   MongoDB:
+                    setError("COUNTRY_NOT_FOUND");
 
-                   GET
-                   /opportunities/:country/:slug
+                    return;
+                }
 
-                ================================================== */
+
+                setSelectedCountry(foundCountry);
+
 
                 const foundOpportunity =
                     await opportunityService.getOpportunity(
                         foundCountry.slug,
-                        decodeURIComponent(
-                            slug,
-                        ),
+                        decodeURIComponent(slug)
                     );
 
 
-                if (!mounted) {
-                    return;
-                }
+                if (!mounted) return;
 
-
-                /* ==================================================
-                   OPPORTUNITY NOT FOUND
-                ================================================== */
 
                 if (!foundOpportunity) {
 
-                    setError(
-                        "OPPORTUNITY_NOT_FOUND",
-                    );
+                    setError("OPPORTUNITY_NOT_FOUND");
 
                     return;
                 }
 
-
-                /* ==================================================
-                   MERGE COUNTRY FALLBACK DATA
-                ==================================================
-
-                   Opportunity records already contain country
-                   information, but country-level fields remain
-                   available as fallbacks.
-
-                ================================================== */
 
                 const normalizedOpportunity = {
 
@@ -263,7 +272,9 @@ const OpportunityDetails = () => {
 
                     image:
                         foundOpportunity.image ||
+                        foundOpportunity.countryImage ||
                         foundCountry.image ||
+                        foundCountry.countryImage ||
                         "",
 
                     location:
@@ -289,30 +300,25 @@ const OpportunityDetails = () => {
                 };
 
 
-                setSelectedOpportunity(
-                    normalizedOpportunity,
-                );
+                setSelectedOpportunity(normalizedOpportunity);
 
 
             } catch (loadError) {
 
                 console.error(
                     "Failed to load opportunity details:",
-                    loadError,
+                    loadError
                 );
 
 
-                if (!mounted) {
-                    return;
-                }
+                if (!mounted) return;
 
 
                 setSelectedCountry(null);
                 setSelectedOpportunity(null);
 
-                setError(
-                    "LOAD_FAILED",
-                );
+                setError("LOAD_FAILED");
+
 
             } finally {
 
@@ -329,9 +335,7 @@ const OpportunityDetails = () => {
 
 
         return () => {
-
             mounted = false;
-
         };
 
     }, [
@@ -348,12 +352,7 @@ const OpportunityDetails = () => {
 
         return (
 
-            <main
-                className="
-                    opportunity-details
-                    opportunity-details--loading
-                "
-            >
+            <main className="opportunity-details opportunity-details--loading">
 
                 <div className="opportunity-details__error">
 
@@ -361,13 +360,10 @@ const OpportunityDetails = () => {
                         Global Opportunities
                     </span>
 
-                    <h1>
-                        Loading pathway...
-                    </h1>
+                    <h1>Loading pathway...</h1>
 
                     <p>
-                        We're loading the opportunity
-                        details.
+                        We're loading the opportunity details.
                     </p>
 
                 </div>
@@ -387,12 +383,7 @@ const OpportunityDetails = () => {
 
         return (
 
-            <main
-                className="
-                    opportunity-details
-                    opportunity-details--error
-                "
-            >
+            <main className="opportunity-details opportunity-details--error">
 
                 <div className="opportunity-details__error">
 
@@ -400,25 +391,18 @@ const OpportunityDetails = () => {
                         Global Opportunities
                     </span>
 
-                    <h1>
-                        Unable to load pathway
-                    </h1>
+                    <h1>Unable to load pathway</h1>
 
                     <p>
-                        We couldn't load this migration
-                        pathway right now. Please refresh
-                        the page and try again.
+                        We couldn't load this migration pathway right now.
+                        Please refresh the page and try again.
                     </p>
 
                     <button
                         type="button"
-                        onClick={() =>
-                            window.location.reload()
-                        }
+                        onClick={() => window.location.reload()}
                     >
-                        <span>
-                            Try again
-                        </span>
+                        Try again
                     </button>
 
                 </div>
@@ -441,12 +425,7 @@ const OpportunityDetails = () => {
 
         return (
 
-            <main
-                className="
-                    opportunity-details
-                    opportunity-details--error
-                "
-            >
+            <main className="opportunity-details opportunity-details--error">
 
                 <div className="opportunity-details__error">
 
@@ -454,27 +433,19 @@ const OpportunityDetails = () => {
                         Global Opportunities
                     </span>
 
-                    <h1>
-                        Country unavailable
-                    </h1>
+                    <h1>Country unavailable</h1>
 
                     <p>
-                        We couldn't find the destination
-                        associated with this pathway.
+                        We couldn't find the destination associated
+                        with this pathway.
                     </p>
 
                     <button
                         type="button"
-                        onClick={() =>
-                            navigate(-1)
-                        }
+                        onClick={() => navigate(-1)}
                     >
                         <HiOutlineArrowLeft />
-
-                        <span>
-                            Back
-                        </span>
-
+                        Back
                     </button>
 
                 </div>
@@ -497,53 +468,33 @@ const OpportunityDetails = () => {
 
         return (
 
-            <main
-                className="
-                    opportunity-details
-                    opportunity-details--error
-                "
-            >
+            <main className="opportunity-details opportunity-details--error">
 
                 <div className="opportunity-details__error">
 
                     <div className="opportunity-details__error-country">
-
-                        <span>
-                            {
-                                selectedCountry.name
-                            }
-                        </span>
-
+                        {selectedCountry.name}
                     </div>
 
                     <span className="opportunity-details__error-eyebrow">
                         Migration pathway
                     </span>
 
-                    <h1>
-                        Pathway unavailable
-                    </h1>
+                    <h1>Pathway unavailable</h1>
 
                     <p>
-                        The migration pathway
-                        you're looking for
+                        The migration pathway you're looking for
                         could not be found.
                     </p>
 
                     <button
                         type="button"
                         onClick={() =>
-                            navigate(
-                                `/opportunities/${selectedCountry.slug}`,
-                            )
+                            navigate(`/opportunities/${selectedCountry.slug}`)
                         }
                     >
                         <HiOutlineArrowLeft />
-
-                        <span>
-                            Back to pathways
-                        </span>
-
+                        Back to pathways
                     </button>
 
                 </div>
@@ -561,7 +512,6 @@ const OpportunityDetails = () => {
 
     const {
         title,
-        image,
         category,
         location: opportunityLocation,
         type,
@@ -582,47 +532,76 @@ const OpportunityDetails = () => {
         programDetails = null,
     } = selectedOpportunity;
 
-    /*
-     * Australia and New Zealand trainee/apprenticeship pathways use
-     * the same assessment-first journey. Prefer the backend flag, but
-     * keep these two known program slugs working if production data
-     * has not yet returned applicationFlow.
-     */
+
+    /* ========================================================
+       APPLICATION FLOW
+    ======================================================== */
+
     const normalizedOpportunitySlug = normalize(
-        selectedOpportunity?.slug || slug,
-    ).replace(/\\s+/g, "-");
+        selectedOpportunity?.slug || slug
+    ).replace(/\s+/g, "-");
+
 
     const isTraineeProgram =
         normalizedOpportunitySlug.includes("australia-trainee-apprenticeship") ||
         normalizedOpportunitySlug.includes("new-zealand-trainee-apprenticeship");
 
+
     const isAssessmentFirst =
-        applicationFlow === "ASSESSMENT_FIRST" || isTraineeProgram;
+        applicationFlow === "ASSESSMENT_FIRST" ||
+        isTraineeProgram;
 
-    const rawTrainingCategories = Array.isArray(
-        programDetails?.trainingCategories,
-    )
-        ? programDetails.trainingCategories
-        : [];
 
-    const trainingCategories = rawTrainingCategories
+    /* ========================================================
+       PROGRAMME INFORMATION
+    ======================================================== */
+
+    const programType =
+        programDetails?.programType ||
+        (isAssessmentFirst ? "TRAINEE_APPRENTICESHIP" : "");
+
+
+    const targetIntakes = normalizeStringList(
+        programDetails?.targetIntakes
+    );
+
+
+    const courseCategorySource =
+        Array.isArray(programDetails?.trainingCategories) &&
+            programDetails.trainingCategories.length > 0
+            ? programDetails.trainingCategories
+            : Array.isArray(programDetails?.courseCategories)
+                ? programDetails.courseCategories
+                : [];
+
+
+    const trainingCategories = courseCategorySource
         .map((item, index) => {
+
             if (typeof item === "string") {
+
                 return {
                     id: `${selectedOpportunity.slug || slug}-training-${index}`,
                     name: item,
                     courses: [],
                     description: "",
                 };
+
             }
+
 
             if (!item || typeof item !== "object") {
                 return null;
             }
 
+
             return {
-                id: item._id || item.id ||
+
+                id:
+                    item._id ||
+                    item.id ||
                     `${selectedOpportunity.slug || slug}-training-${index}`,
+
                 name:
                     item.name ||
                     item.title ||
@@ -630,15 +609,49 @@ const OpportunityDetails = () => {
                     item.category ||
                     item.sector ||
                     "",
-                courses: Array.isArray(item.courses)
-                    ? item.courses
-                    : Array.isArray(item.roles)
-                        ? item.roles
-                        : [],
-                description: item.description || "",
+
+                courses: normalizeStringList(
+                    item.courses || item.roles
+                ),
+
+                description:
+                    item.description || "",
+
             };
+
         })
         .filter((item) => item && item.name);
+
+
+    const stipend = programDetails?.stipend || null;
+
+    const stipendRange = formatMoneyRange(stipend);
+
+    const stipendFrequency = formatLabel(
+        stipend?.frequency || "Monthly"
+    );
+
+
+    const estimatedBudget = programDetails?.estimatedBudget || null;
+
+    const estimatedBudgetRange = formatMoneyRange(
+        estimatedBudget
+    );
+
+
+    const hasProgramInformation =
+        Boolean(
+            programType ||
+            targetIntakes.length ||
+            trainingCategories.length ||
+            stipendRange ||
+            estimatedBudgetRange
+        );
+
+
+    /* ========================================================
+       POSITIONS
+    ======================================================== */
 
     const traineeProgramPositions = trainingCategories.map((item) => ({
         id: item.id,
@@ -648,30 +661,40 @@ const OpportunityDetails = () => {
         roles: item.courses,
     }));
 
-    /*
-     * Some older catalogue records store the training/employment
-     * details in positions rather than programDetails.trainingCategories.
-     * Normalize those records too so the page does not show repeated
-     * generic "Employment opportunity" labels.
-     */
+
     const normalizedExistingPositions = Array.isArray(positions)
         ? positions.map((item, index) => {
+
             if (typeof item === "string") {
+
                 return {
+
                     id: `${selectedOpportunity.slug || slug}-position-${index}`,
+
                     title: item,
-                    category: isTraineeProgram
+
+                    category: isAssessmentFirst
                         ? "Training & apprenticeship"
                         : "Employment",
+
                     description: "",
+
                     roles: [],
+
                 };
+
             }
 
+
             return {
+
                 ...item,
-                id: item?.id || item?._id ||
+
+                id:
+                    item?.id ||
+                    item?._id ||
                     `${selectedOpportunity.slug || slug}-position-${index}`,
+
                 title:
                     item?.title ||
                     item?.name ||
@@ -680,21 +703,26 @@ const OpportunityDetails = () => {
                     item?.sector ||
                     item?.occupation ||
                     "Opportunity details",
+
                 category:
                     item?.category ||
                     item?.sector ||
-                    (isTraineeProgram
+                    (isAssessmentFirst
                         ? "Training & apprenticeship"
                         : "Employment"),
-                description: item?.description || "",
-                roles: Array.isArray(item?.roles)
-                    ? item.roles
-                    : Array.isArray(item?.courses)
-                        ? item.courses
-                        : [],
+
+                description:
+                    item?.description || "",
+
+                roles: normalizeStringList(
+                    item?.roles || item?.courses
+                ),
+
             };
+
         })
         : [];
+
 
     const displayedPositions = isAssessmentFirst
         ? (
@@ -710,37 +738,37 @@ const OpportunityDetails = () => {
     ======================================================== */
 
     const heroImage =
-        image ||
-        selectedCountry.image;
+        selectedOpportunity.image ||
+        selectedOpportunity.countryImage ||
+        selectedCountry.image ||
+        selectedCountry.countryImage ||
+        "";
 
 
     /* ========================================================
        PRICING
     ======================================================== */
 
-    const hasPublishedPricing =
-        Boolean(
-            pricing?.total,
-        );
+    const hasPublishedPricing = Boolean(pricing?.total);
 
 
     /* ========================================================
-       APPLICATION FLOW
+       APPLICATION HANDLERS
     ======================================================== */
 
     const handleContinueWithPathway = () => {
 
-        if (!selectedOpportunity) {
-            return;
-        }
+        if (!selectedOpportunity) return;
 
-        // Assessment-first opportunities must not enter the direct application.
-        if (selectedOpportunity.applicationFlow === "ASSESSMENT_FIRST") {
+
+        if (isAssessmentFirst) {
             handleCheckEligibility();
             return;
         }
 
+
         const applicationPath = "/portal/applications/new";
+
 
         const opportunityId =
             selectedOpportunity?._id ||
@@ -748,50 +776,72 @@ const OpportunityDetails = () => {
             selectedOpportunity?.legacyId ||
             null;
 
+
         const applicationState = {
+
             opportunity: selectedOpportunity,
+
             opportunityId,
+
             opportunitySlug:
                 selectedOpportunity?.slug ||
                 slug ||
                 null,
+
             countrySlug:
                 selectedCountry?.slug ||
                 country ||
                 null,
+
             source: "opportunity-details",
+
         };
 
-        // Preserve the selected pathway so it can be restored after login.
+
         try {
+
             sessionStorage.setItem(
                 "colossus_pending_application",
                 JSON.stringify(applicationState)
             );
+
         } catch (storageError) {
+
             console.warn(
                 "Unable to preserve pending application:",
                 storageError
             );
+
         }
 
-        // Use the shared auth service so we check the correct token key.
+
         if (authService.isAuthenticated()) {
+
             navigate(applicationPath, {
                 state: applicationState,
             });
+
             return;
+
         }
 
-        // If logged out, sign in first and then resume this pathway.
+
         navigate("/login", {
+
             state: {
+
                 returnTo: applicationPath,
+
                 returnState: applicationState,
+
                 source: "opportunity-details",
+
             },
+
         });
+
     };
+
 
     /* ========================================================
        ELIGIBILITY
@@ -806,8 +856,7 @@ const OpportunityDetails = () => {
             {
                 state: {
 
-                    opportunity:
-                        selectedOpportunity,
+                    opportunity: selectedOpportunity,
 
                     opportunityId:
                         selectedOpportunity?._id ||
@@ -825,11 +874,10 @@ const OpportunityDetails = () => {
                         slug ||
                         null,
 
-                    source:
-                        "opportunity-details",
+                    source: "opportunity-details",
 
                 },
-            },
+            }
         );
 
     };
@@ -841,23 +889,19 @@ const OpportunityDetails = () => {
 
     const handleContactAgent = () => {
 
-        navigate(
-            "/contact",
-            {
-                state: {
+        navigate("/contact", {
 
-                    opportunity:
-                        selectedOpportunity,
+            state: {
 
-                    country:
-                        selectedCountry,
+                opportunity: selectedOpportunity,
 
-                    source:
-                        "opportunity-details",
+                country: selectedCountry,
 
-                },
+                source: "opportunity-details",
+
             },
-        );
+
+        });
 
     };
 
@@ -881,9 +925,7 @@ const OpportunityDetails = () => {
         <main className="opportunity-details">
 
 
-            {/* ==================================================
-                TOP BAR
-            ================================================== */}
+            {/* TOP BAR */}
 
             <div className="opportunity-details__topbar">
 
@@ -891,37 +933,28 @@ const OpportunityDetails = () => {
                     to={`/opportunities/${selectedCountry.slug}`}
                     className="opportunity-details__back-link"
                 >
-
                     <HiOutlineArrowLeft />
 
                     <span>
-                        Back to{" "}
-                        {selectedCountry.name}
+                        Back to {selectedCountry.name}
                     </span>
-
                 </Link>
 
 
                 <div className="opportunity-details__topbar-meta">
 
-                    <span>
-                        {selectedCountry.name}
-                    </span>
+                    <span>{selectedCountry.name}</span>
 
                     <i />
 
-                    <span>
-                        Migration pathway
-                    </span>
+                    <span>Migration pathway</span>
 
                 </div>
 
             </div>
 
 
-            {/* ==================================================
-                HERO
-            ================================================== */}
+            {/* HERO */}
 
             <section className="opportunity-details__hero">
 
@@ -938,11 +971,7 @@ const OpportunityDetails = () => {
                     ) : (
 
                         <div className="opportunity-details__hero-image-fallback">
-
-                            <span>
-                                {selectedCountry.name}
-                            </span>
-
+                            <span>{selectedCountry.name}</span>
                         </div>
 
                     )}
@@ -954,16 +983,11 @@ const OpportunityDetails = () => {
 
                     <div className="opportunity-details__hero-breadcrumb">
 
-                        <span>
-                            {selectedCountry.name}
-                        </span>
+                        <span>{selectedCountry.name}</span>
 
                         <HiOutlineChevronRight />
 
-                        <span>
-                            {category ||
-                                "Opportunity"}
-                        </span>
+                        <span>{category || "Opportunity"}</span>
 
                     </div>
 
@@ -973,13 +997,10 @@ const OpportunityDetails = () => {
                         <div className="opportunity-details__hero-title-content">
 
                             <span className="opportunity-details__hero-eyebrow">
-                                {type ||
-                                    "Migration pathway"}
+                                {type || "Migration pathway"}
                             </span>
 
-                            <h1>
-                                {title}
-                            </h1>
+                            <h1>{title}</h1>
 
                             <p>
                                 {description ||
@@ -990,13 +1011,17 @@ const OpportunityDetails = () => {
 
 
                         <div className="opportunity-details__hero-actions">
+
                             <div className="opportunity-details__hero-cta-copy">
+
                                 <span>YOUR NEXT CHAPTER STARTS HERE</span>
+
                                 <p>
                                     {isAssessmentFirst
                                         ? "Submit your details for an initial eligibility assessment."
                                         : "Ready to move forward? Start your application for this migration pathway."}
                                 </p>
+
                             </div>
 
 
@@ -1005,19 +1030,27 @@ const OpportunityDetails = () => {
                                 type="button"
                                 onClick={handleContinueWithPathway}
                             >
-                                <span>{isAssessmentFirst ? "Submit Details for Assessment" : "Start Your Application"}</span>
+
+                                <span>
+                                    {isAssessmentFirst
+                                        ? "Submit Details for Assessment"
+                                        : "Start Your Application"}
+                                </span>
+
                                 <HiOutlineChevronRight aria-hidden="true" />
+
                             </button>
 
+
                             <small className="opportunity-details__hero-cta-note">
+
                                 {isAssessmentFirst
                                     ? "Submit your assessment details first. You can create an account afterward to continue."
-                                    : "Takes you to the application process. Sign in or create an account to continue."}
+                                    : "Sign in or create an account to continue."}
+
                             </small>
 
-
                         </div>
-
 
                     </div>
 
@@ -1026,9 +1059,7 @@ const OpportunityDetails = () => {
             </section>
 
 
-            {/* ==================================================
-                QUICK FACTS
-            ================================================== */}
+            {/* QUICK FACTS */}
 
             <section className="opportunity-details__quick-facts">
 
@@ -1037,16 +1068,11 @@ const OpportunityDetails = () => {
                     <HiOutlineLocationMarker />
 
                     <div>
-
-                        <span>
-                            Location
-                        </span>
+                        <span>Location</span>
 
                         <strong>
-                            {opportunityLocation ||
-                                selectedCountry.name}
+                            {opportunityLocation || selectedCountry.name}
                         </strong>
-
                     </div>
 
                 </div>
@@ -1057,16 +1083,9 @@ const OpportunityDetails = () => {
                     <HiOutlineClock />
 
                     <div>
+                        <span>Processing</span>
 
-                        <span>
-                            Processing
-                        </span>
-
-                        <strong>
-                            {duration ||
-                                "Varies"}
-                        </strong>
-
+                        <strong>{duration || "Varies"}</strong>
                     </div>
 
                 </div>
@@ -1077,16 +1096,15 @@ const OpportunityDetails = () => {
                     <HiOutlineCurrencyDollar />
 
                     <div>
-
                         <span>
-                            Salary
+                            {stipendRange ? "Monthly stipend" : "Salary"}
                         </span>
 
                         <strong>
-                            {salary ||
-                                "Varies"}
+                            {stipendRange
+                                ? `${stipendRange} ${stipendFrequency}`
+                                : salary || "Varies"}
                         </strong>
-
                     </div>
 
                 </div>
@@ -1097,16 +1115,9 @@ const OpportunityDetails = () => {
                     <HiOutlineBriefcase />
 
                     <div>
+                        <span>Demand</span>
 
-                        <span>
-                            Demand
-                        </span>
-
-                        <strong>
-                            {demand ||
-                                "Available"}
-                        </strong>
-
+                        <strong>{demand || "Available"}</strong>
                     </div>
 
                 </div>
@@ -1114,35 +1125,23 @@ const OpportunityDetails = () => {
             </section>
 
 
-            {/* ==================================================
-                PAGE BODY
-            ================================================== */}
+            {/* PAGE BODY */}
 
             <div className="opportunity-details__body">
 
 
-                {/* ==================================================
-                    OVERVIEW
-                ================================================== */}
+                {/* OVERVIEW */}
 
                 <section className="opportunity-details__overview-section">
 
                     <div className="opportunity-details__section-heading">
 
-                        <span>
-                            01
-                        </span>
+                        <span>01</span>
 
                         <div>
+                            <small>Pathway overview</small>
 
-                            <small>
-                                Pathway overview
-                            </small>
-
-                            <h2>
-                                Understand the opportunity
-                            </h2>
-
+                            <h2>Understand the opportunity</h2>
                         </div>
 
                     </div>
@@ -1166,9 +1165,7 @@ const OpportunityDetails = () => {
 
                                 <div className="opportunity-details__mini-heading">
 
-                                    <span>
-                                        Why this pathway
-                                    </span>
+                                    <span>Why this pathway</span>
 
                                     <HiOutlineCheckCircle />
 
@@ -1177,27 +1174,20 @@ const OpportunityDetails = () => {
 
                                 <div className="opportunity-details__check-list">
 
-                                    {featureItems.map(
-                                        (
-                                            item,
-                                            index,
-                                        ) => (
+                                    {featureItems.map((item, index) => (
 
-                                            <div
-                                                className="opportunity-details__check-item"
-                                                key={`${item}-${index}`}
-                                            >
+                                        <div
+                                            className="opportunity-details__check-item"
+                                            key={`${item}-${index}`}
+                                        >
 
-                                                <HiOutlineCheckCircle />
+                                            <HiOutlineCheckCircle />
 
-                                                <span>
-                                                    {item}
-                                                </span>
+                                            <span>{item}</span>
 
-                                            </div>
+                                        </div>
 
-                                        ),
-                                    )}
+                                    ))}
 
                                 </div>
 
@@ -1216,27 +1206,12 @@ const OpportunityDetails = () => {
 
                             <div>
 
-                                <strong>
-                                    Important pathway terms
-                                </strong>
+                                <strong>Important pathway terms</strong>
 
                                 <ul>
-
-                                    {terms.map(
-                                        (
-                                            term,
-                                            index,
-                                        ) => (
-
-                                            <li
-                                                key={index}
-                                            >
-                                                {term}
-                                            </li>
-
-                                        ),
-                                    )}
-
+                                    {terms.map((term, index) => (
+                                        <li key={index}>{term}</li>
+                                    ))}
                                 </ul>
 
                             </div>
@@ -1248,9 +1223,157 @@ const OpportunityDetails = () => {
                 </section>
 
 
-                {/* ==================================================
-                    POSITIONS
-                ================================================== */}
+                {/* PROGRAMME DETAILS */}
+
+                {hasProgramInformation && (
+
+                    <section className="opportunity-details__program-section">
+
+                        <div className="opportunity-details__section-heading">
+
+                            <span>02</span>
+
+                            <div>
+                                <small>Programme information</small>
+
+                                <h2>Programme details</h2>
+                            </div>
+
+                        </div>
+
+
+                        {programType && (
+
+                            <div className="opportunity-details__program-type">
+
+                                <span>Programme type</span>
+
+                                <strong>{formatLabel(programType)}</strong>
+
+                            </div>
+
+                        )}
+
+
+                        <div className="opportunity-details__program-facts">
+
+                            {targetIntakes.length > 0 && (
+
+                                <article className="opportunity-details__program-fact">
+
+                                    <span>Target intakes</span>
+
+                                    <div className="opportunity-details__intake-list">
+
+                                        {targetIntakes.map((intake, index) => (
+
+                                            <span key={`${intake}-${index}`}>
+                                                {intake}
+                                            </span>
+
+                                        ))}
+
+                                    </div>
+
+                                </article>
+
+                            )}
+
+
+                            {stipendRange && (
+
+                                <article className="opportunity-details__program-fact">
+
+                                    <span>Monthly stipend</span>
+
+                                    <strong>{stipendRange}</strong>
+
+                                    <small>
+                                        {stipendFrequency}
+                                    </small>
+
+                                </article>
+
+                            )}
+
+
+                            {estimatedBudgetRange && (
+
+                                <article className="opportunity-details__program-fact">
+
+                                    <span>Estimated programme budget</span>
+
+                                    <strong>{estimatedBudgetRange}</strong>
+
+                                    <small>
+                                        {estimatedBudget.currency || "NGN"}
+                                    </small>
+
+                                </article>
+
+                            )}
+
+                        </div>
+
+
+                        {trainingCategories.length > 0 && (
+
+                            <div className="opportunity-details__program-categories">
+
+                                <div className="opportunity-details__mini-heading">
+                                    <span>Course categories</span>
+                                    <HiOutlineBriefcase />
+                                </div>
+
+
+                                <div className="opportunity-details__category-grid">
+
+                                    {trainingCategories.map((item) => (
+
+                                        <article
+                                            className="opportunity-details__category-card"
+                                            key={item.id}
+                                        >
+
+                                            <h3>{item.name}</h3>
+
+                                            {item.description && (
+                                                <p>{item.description}</p>
+                                            )}
+
+
+                                            {item.courses.length > 0 && (
+
+                                                <div className="opportunity-details__role-tags">
+
+                                                    {item.courses.map((course, index) => (
+
+                                                        <span key={`${course}-${index}`}>
+                                                            {course}
+                                                        </span>
+
+                                                    ))}
+
+                                                </div>
+
+                                            )}
+
+                                        </article>
+
+                                    ))}
+
+                                </div>
+
+                            </div>
+
+                        )}
+
+                    </section>
+
+                )}
+
+
+                {/* POSITIONS */}
 
                 {displayedPositions.length > 0 && (
 
@@ -1258,14 +1381,14 @@ const OpportunityDetails = () => {
 
                         <div className="opportunity-details__section-heading">
 
-                            <span>
-                                02
-                            </span>
+                            <span>03</span>
 
                             <div>
 
                                 <small>
-                                    {isAssessmentFirst ? "Training pathways" : "Available opportunities"}
+                                    {isAssessmentFirst
+                                        ? "Training pathways"
+                                        : "Available opportunities"}
                                 </small>
 
                                 <h2>
@@ -1281,168 +1404,121 @@ const OpportunityDetails = () => {
 
                         <p className="opportunity-details__section-lead">
                             {isAssessmentFirst
-                                ? "Explore the training categories and courses associated with this program."
+                                ? "Explore the training categories and courses associated with this programme."
                                 : "Review the positions associated with this migration pathway."}
                         </p>
 
 
                         <div className="opportunity-details__positions-list">
 
-                            {displayedPositions.map(
-                                (
-                                    position,
-                                    index,
-                                ) => {
+                            {displayedPositions.map((position, index) => {
 
-                                    const positionTitle =
-                                        position?.title ||
-                                        position?.sector ||
-                                        "Employment opportunity";
+                                const positionTitle =
+                                    position?.title ||
+                                    position?.sector ||
+                                    "Employment opportunity";
 
-                                    const positionCategory =
-                                        position?.category ||
-                                        position?.sector ||
-                                        "Employment";
+                                const positionCategory =
+                                    position?.category ||
+                                    position?.sector ||
+                                    "Employment";
 
 
-                                    return (
+                                return (
 
-                                        <article
-                                            className="opportunity-details__position-row"
-                                            key={
-                                                position?.id ||
-                                                `${positionTitle}-${index}`
-                                            }
-                                        >
+                                    <article
+                                        className="opportunity-details__position-row"
+                                        key={position?.id || `${positionTitle}-${index}`}
+                                    >
 
-                                            <div className="opportunity-details__position-number">
-                                                {String(
-                                                    index + 1,
-                                                ).padStart(
-                                                    2,
-                                                    "0",
-                                                )}
-                                            </div>
+                                        <div className="opportunity-details__position-number">
+                                            {String(index + 1).padStart(2, "0")}
+                                        </div>
 
 
-                                            <div className="opportunity-details__position-main">
+                                        <div className="opportunity-details__position-main">
 
-                                                <div className="opportunity-details__position-heading">
+                                            <div className="opportunity-details__position-heading">
 
-                                                    <div>
+                                                <div>
 
-                                                        <span>
-                                                            {
-                                                                positionCategory
-                                                            }
-                                                        </span>
+                                                    <span>{positionCategory}</span>
 
-                                                        <h3>
-                                                            {
-                                                                positionTitle
-                                                            }
-                                                        </h3>
-
-                                                    </div>
+                                                    <h3>{positionTitle}</h3>
 
                                                 </div>
 
-
-                                                {position?.description && (
-
-                                                    <p className="opportunity-details__position-description">
-                                                        {
-                                                            position.description
-                                                        }
-                                                    </p>
-
-                                                )}
-
-
-                                                {position?.roles?.length > 0 && (
-
-                                                    <div className="opportunity-details__role-tags">
-
-                                                        {position.roles.map(
-                                                            (
-                                                                role,
-                                                                roleIndex,
-                                                            ) => (
-
-                                                                <span
-                                                                    key={
-                                                                        roleIndex
-                                                                    }
-                                                                >
-                                                                    {role}
-                                                                </span>
-
-                                                            ),
-                                                        )}
-
-                                                    </div>
-
-                                                )}
-
-
-                                                {position?.responsibilities?.length > 0 && (
-
-                                                    <div className="opportunity-details__position-responsibilities">
-
-                                                        {position.responsibilities.map(
-                                                            (
-                                                                responsibility,
-                                                                responsibilityIndex,
-                                                            ) => (
-
-                                                                <div
-                                                                    key={
-                                                                        responsibilityIndex
-                                                                    }
-                                                                >
-
-                                                                    <HiOutlineCheckCircle />
-
-                                                                    <span>
-                                                                        {
-                                                                            responsibility
-                                                                        }
-                                                                    </span>
-
-                                                                </div>
-
-                                                            ),
-                                                        )}
-
-                                                    </div>
-
-                                                )}
-
-
-                                                {position?.specialCondition && (
-
-                                                    <div className="opportunity-details__position-condition">
-
-                                                        <HiOutlineInformationCircle />
-
-                                                        <span>
-                                                            {
-                                                                position.specialCondition
-                                                            }
-                                                        </span>
-
-                                                    </div>
-
-                                                )}
-
                                             </div>
 
-                                        </article>
 
-                                    );
+                                            {position?.description && (
 
-                                },
-                            )}
+                                                <p className="opportunity-details__position-description">
+                                                    {position.description}
+                                                </p>
+
+                                            )}
+
+
+                                            {position?.roles?.length > 0 && (
+
+                                                <div className="opportunity-details__role-tags">
+
+                                                    {position.roles.map((role, roleIndex) => (
+
+                                                        <span key={roleIndex}>
+                                                            {role}
+                                                        </span>
+
+                                                    ))}
+
+                                                </div>
+
+                                            )}
+
+
+                                            {position?.responsibilities?.length > 0 && (
+
+                                                <div className="opportunity-details__position-responsibilities">
+
+                                                    {position.responsibilities.map(
+                                                        (responsibility, responsibilityIndex) => (
+
+                                                            <div key={responsibilityIndex}>
+
+                                                                <HiOutlineCheckCircle />
+
+                                                                <span>{responsibility}</span>
+
+                                                            </div>
+
+                                                        )
+                                                    )}
+
+                                                </div>
+
+                                            )}
+
+
+                                            {position?.specialCondition && (
+
+                                                <div className="opportunity-details__position-condition">
+
+                                                    <HiOutlineInformationCircle />
+
+                                                    <span>{position.specialCondition}</span>
+
+                                                </div>
+
+                                            )}
+
+                                        </div>
+
+                                    </article>
+
+                                );
+
+                            })}
 
                         </div>
 
@@ -1451,9 +1527,7 @@ const OpportunityDetails = () => {
                 )}
 
 
-                {/* ==================================================
-                    ELIGIBILITY
-                ================================================== */}
+                {/* ELIGIBILITY */}
 
                 {requirements.length > 0 && (
 
@@ -1461,61 +1535,40 @@ const OpportunityDetails = () => {
 
                         <div className="opportunity-details__section-heading">
 
-                            <span>
-                                03
-                            </span>
+                            <span>04</span>
 
                             <div>
+                                <small>Before you apply</small>
 
-                                <small>
-                                    Before you apply
-                                </small>
-
-                                <h2>
-                                    Eligibility requirements
-                                </h2>
-
+                                <h2>Eligibility requirements</h2>
                             </div>
 
                         </div>
 
 
                         <p className="opportunity-details__section-lead">
-                            Review the basic requirements
-                            for this pathway before starting.
+                            Review the basic requirements for this pathway before starting.
                         </p>
 
 
                         <div className="opportunity-details__requirements-grid">
 
-                            {requirements.map(
-                                (
-                                    requirement,
-                                    index,
-                                ) => (
+                            {requirements.map((requirement, index) => (
 
-                                    <div
-                                        className="opportunity-details__requirement-item"
-                                        key={index}
-                                    >
+                                <div
+                                    className="opportunity-details__requirement-item"
+                                    key={index}
+                                >
 
-                                        <span>
-                                            {String(
-                                                index + 1,
-                                            ).padStart(
-                                                2,
-                                                "0",
-                                            )}
-                                        </span>
+                                    <span>
+                                        {String(index + 1).padStart(2, "0")}
+                                    </span>
 
-                                        <p>
-                                            {requirement}
-                                        </p>
+                                    <p>{requirement}</p>
 
-                                    </div>
+                                </div>
 
-                                ),
-                            )}
+                            ))}
 
                         </div>
 
@@ -1526,9 +1579,7 @@ const OpportunityDetails = () => {
 
                                 <div className="opportunity-details__mini-heading">
 
-                                    <span>
-                                        Included benefits
-                                    </span>
+                                    <span>Included benefits</span>
 
                                     <HiOutlineShieldCheck />
 
@@ -1537,27 +1588,20 @@ const OpportunityDetails = () => {
 
                                 <div className="opportunity-details__check-list">
 
-                                    {benefits.map(
-                                        (
-                                            benefit,
-                                            index,
-                                        ) => (
+                                    {benefits.map((benefit, index) => (
 
-                                            <div
-                                                className="opportunity-details__check-item"
-                                                key={index}
-                                            >
+                                        <div
+                                            className="opportunity-details__check-item"
+                                            key={index}
+                                        >
 
-                                                <HiOutlineCheckCircle />
+                                            <HiOutlineCheckCircle />
 
-                                                <span>
-                                                    {benefit}
-                                                </span>
+                                            <span>{benefit}</span>
 
-                                            </div>
+                                        </div>
 
-                                        ),
-                                    )}
+                                    ))}
 
                                 </div>
 
@@ -1570,9 +1614,7 @@ const OpportunityDetails = () => {
                 )}
 
 
-                {/* ==================================================
-                    DOCUMENTS
-                ================================================== */}
+                {/* DOCUMENTS */}
 
                 {documents.length > 0 && (
 
@@ -1580,77 +1622,54 @@ const OpportunityDetails = () => {
 
                         <div className="opportunity-details__section-heading">
 
-                            <span>
-                                04
-                            </span>
+                            <span>05</span>
 
                             <div>
+                                <small>Application preparation</small>
 
-                                <small>
-                                    Application preparation
-                                </small>
-
-                                <h2>
-                                    Documents you'll need
-                                </h2>
-
+                                <h2>Documents you'll need</h2>
                             </div>
 
                         </div>
 
 
                         <p className="opportunity-details__section-lead">
-                            Prepare the following documents
-                            before beginning your application.
+                            Prepare the following documents before beginning your application.
                         </p>
 
 
                         <div className="opportunity-details__documents-list">
 
-                            {documents.map(
-                                (
-                                    document,
-                                    index,
-                                ) => (
+                            {documents.map((document, index) => (
 
-                                    <div
-                                        className="opportunity-details__document-row"
-                                        key={index}
-                                    >
+                                <div
+                                    className="opportunity-details__document-row"
+                                    key={index}
+                                >
 
-                                        <div className="opportunity-details__document-number">
-                                            {String(
-                                                index + 1,
-                                            ).padStart(
-                                                2,
-                                                "0",
-                                            )}
-                                        </div>
+                                    <div className="opportunity-details__document-number">
+                                        {String(index + 1).padStart(2, "0")}
+                                    </div>
 
 
-                                        <div className="opportunity-details__document-icon">
-
-                                            <HiOutlineDocumentText />
-
-                                        </div>
+                                    <div className="opportunity-details__document-icon">
+                                        <HiOutlineDocumentText />
+                                    </div>
 
 
-                                        <div className="opportunity-details__document-content">
+                                    <div className="opportunity-details__document-content">
 
-                                            <strong>
-                                                {document}
-                                            </strong>
+                                        <strong>{document}</strong>
 
-                                            <span>
-                                                Required for pathway processing
-                                            </span>
-
-                                        </div>
+                                        <span>
+                                            Required for pathway processing
+                                        </span>
 
                                     </div>
 
-                                ),
-                            )}
+                                </div>
+
+                            ))}
 
                         </div>
 
@@ -1659,9 +1678,7 @@ const OpportunityDetails = () => {
                 )}
 
 
-                {/* ==================================================
-                    PROCESS
-                ================================================== */}
+                {/* PROCESS */}
 
                 {steps.length > 0 && (
 
@@ -1669,114 +1686,75 @@ const OpportunityDetails = () => {
 
                         <div className="opportunity-details__section-heading">
 
-                            <span>
-                                05
-                            </span>
+                            <span>06</span>
 
                             <div>
+                                <small>Your journey</small>
 
-                                <small>
-                                    Your journey
-                                </small>
-
-                                <h2>
-                                    Migration process
-                                </h2>
-
+                                <h2>Migration process</h2>
                             </div>
 
                         </div>
 
 
                         <p className="opportunity-details__section-lead">
-                            The major stages from eligibility
-                            through the final decision.
+                            The major stages from eligibility through the final decision.
                         </p>
 
 
                         <div className="opportunity-details__process-list">
 
-                            {steps.map(
-                                (
-                                    step,
-                                    index,
-                                ) => {
+                            {steps.map((step, index) => {
 
-                                    const stepTitle =
-                                        typeof step ===
-                                            "string"
-                                            ? step
-                                            : (
-                                                step?.title ||
-                                                step?.name ||
-                                                `Stage ${index + 1}`
-                                            );
+                                const stepTitle =
+                                    typeof step === "string"
+                                        ? step
+                                        : (
+                                            step?.title ||
+                                            step?.name ||
+                                            `Stage ${index + 1}`
+                                        );
 
-                                    const stepDescription =
-                                        typeof step ===
-                                            "string"
-                                            ? ""
-                                            : (
-                                                step?.description ||
-                                                ""
-                                            );
+                                const stepDescription =
+                                    typeof step === "string"
+                                        ? ""
+                                        : step?.description || "";
 
 
-                                    return (
+                                return (
 
-                                        <article
-                                            className="opportunity-details__process-row"
-                                            key={`${stepTitle}-${index}`}
-                                        >
+                                    <article
+                                        className="opportunity-details__process-row"
+                                        key={`${stepTitle}-${index}`}
+                                    >
 
-                                            <div className="opportunity-details__process-marker">
-
-                                                <span>
-                                                    {String(
-                                                        index + 1,
-                                                    ).padStart(
-                                                        2,
-                                                        "0",
-                                                    )}
-                                                </span>
-
-                                            </div>
+                                        <div className="opportunity-details__process-marker">
+                                            <span>
+                                                {String(index + 1).padStart(2, "0")}
+                                            </span>
+                                        </div>
 
 
-                                            <div className="opportunity-details__process-line" />
+                                        <div className="opportunity-details__process-line" />
 
 
-                                            <div className="opportunity-details__process-content">
+                                        <div className="opportunity-details__process-content">
 
-                                                <span>
-                                                    Stage{" "}
-                                                    {index + 1}
-                                                </span>
+                                            <span>Stage {index + 1}</span>
 
-                                                <h3>
-                                                    {
-                                                        stepTitle
-                                                    }
-                                                </h3>
+                                            <h3>{stepTitle}</h3>
 
-                                                {stepDescription && (
+                                            {stepDescription && (
+                                                <p>{stepDescription}</p>
+                                            )}
 
-                                                    <p>
-                                                        {
-                                                            stepDescription
-                                                        }
-                                                    </p>
+                                        </div>
 
-                                                )}
+                                    </article>
 
-                                            </div>
+                                );
 
-                                        </article>
-
-                                    );
-
-                                },
-                            )}
+                            })}
 
                         </div>
 
@@ -1785,36 +1763,25 @@ const OpportunityDetails = () => {
                 )}
 
 
-                {/* ==================================================
-                    PRICING
-                ================================================== */}
+                {/* PRICING */}
 
                 <section className="opportunity-details__pricing-section">
 
                     <div className="opportunity-details__section-heading">
 
-                        <span>
-                            06
-                        </span>
+                        <span>07</span>
 
                         <div>
+                            <small>Investment</small>
 
-                            <small>
-                                Investment
-                            </small>
-
-                            <h2>
-                                Pricing & payment
-                            </h2>
-
+                            <h2>Pricing & payment</h2>
                         </div>
 
                     </div>
 
 
                     <p className="opportunity-details__section-lead">
-                        Review the pathway cost and payment
-                        stages before continuing.
+                        Review the pathway cost and payment stages before continuing.
                     </p>
 
 
@@ -1826,27 +1793,18 @@ const OpportunityDetails = () => {
 
                                 <div>
 
-                                    <span>
-                                        Total pathway fee
-                                    </span>
+                                    <span>Total pathway fee</span>
 
-                                    <strong>
-                                        {pricing.total}
-                                    </strong>
+                                    <strong>{pricing.total}</strong>
 
-                                    <small>
-                                        {pricing.currency ||
-                                            "NGN"}
-                                    </small>
+                                    <small>{pricing.currency || "NGN"}</small>
 
                                 </div>
 
 
                                 <button
                                     type="button"
-                                    onClick={
-                                        handleContinueWithPathway
-                                    }
+                                    onClick={handleContinueWithPathway}
                                 >
                                     {isAssessmentFirst
                                         ? "Submit Details for Assessment"
@@ -1863,63 +1821,36 @@ const OpportunityDetails = () => {
                                     <div className="opportunity-details__payment-plan-heading">
 
                                         <div>
+                                            <span>Payment structure</span>
 
-                                            <span>
-                                                Payment structure
-                                            </span>
-
-                                            <strong>
-                                                Split payment available
-                                            </strong>
-
+                                            <strong>Split payment available</strong>
                                         </div>
 
                                         <small>
-                                            {
-                                                paymentPlan.length
-                                            }{" "}
-                                            stages
+                                            {paymentPlan.length} stages
                                         </small>
 
                                     </div>
 
 
-                                    {paymentPlan.map(
-                                        (
-                                            payment,
-                                            index,
-                                        ) => (
+                                    {paymentPlan.map((payment, index) => (
 
-                                            <div
-                                                className="opportunity-details__payment-row"
-                                                key={index}
-                                            >
+                                        <div
+                                            className="opportunity-details__payment-row"
+                                            key={index}
+                                        >
 
-                                                <div>
+                                            <div>
+                                                <span>Stage {index + 1}</span>
 
-                                                    <span>
-                                                        Stage{" "}
-                                                        {index + 1}
-                                                    </span>
-
-                                                    <strong>
-                                                        {
-                                                            payment.stage
-                                                        }
-                                                    </strong>
-
-                                                </div>
-
-                                                <b>
-                                                    {
-                                                        payment.amount
-                                                    }
-                                                </b>
-
+                                                <strong>{payment.stage}</strong>
                                             </div>
 
-                                        ),
-                                    )}
+                                            <b>{payment.amount}</b>
+
+                                        </div>
+
+                                    ))}
 
                                 </section>
 
@@ -1932,27 +1863,19 @@ const OpportunityDetails = () => {
                         <div className="opportunity-details__pricing-contact">
 
                             <div className="opportunity-details__pricing-contact-icon">
-
                                 <HiOutlineUserGroup />
-
                             </div>
 
 
                             <div>
 
-                                <span>
-                                    Pricing available on request
-                                </span>
+                                <span>Pricing available on request</span>
 
-                                <h3>
-                                    Speak with our team
-                                </h3>
+                                <h3>Speak with our team</h3>
 
                                 <p>
-                                    You can begin your pathway
-                                    application and our team can
-                                    confirm the current cost and
-                                    payment structure.
+                                    Our team can confirm the current cost
+                                    and payment structure for this pathway.
                                 </p>
 
                             </div>
@@ -1960,9 +1883,7 @@ const OpportunityDetails = () => {
 
                             <button
                                 type="button"
-                                onClick={
-                                    handleContactAgent
-                                }
+                                onClick={handleContactAgent}
                             >
                                 Contact an agent
                             </button>
@@ -1974,21 +1895,16 @@ const OpportunityDetails = () => {
                 </section>
 
 
-                {/* ==================================================
-                    FINAL CTA
-                ================================================== */}
+                {/* FINAL CTA */}
 
                 <section className="opportunity-details__final-cta">
 
                     <div>
 
-                        <span>
-                            Ready to move forward?
-                        </span>
+                        <span>Ready to move forward?</span>
 
                         <h2>
-                            Start your{" "}
-                            {title} pathway
+                            Start your {title} pathway
                         </h2>
 
                         <p>
@@ -2004,9 +1920,7 @@ const OpportunityDetails = () => {
 
                         <button
                             type="button"
-                            onClick={
-                                handleCheckEligibility
-                            }
+                            onClick={handleCheckEligibility}
                             className="opportunity-details__final-secondary-action"
                         >
                             Check eligibility
@@ -2015,9 +1929,7 @@ const OpportunityDetails = () => {
 
                         <button
                             type="button"
-                            onClick={
-                                handleContinueWithPathway
-                            }
+                            onClick={handleContinueWithPathway}
                             className="opportunity-details__final-primary-action"
                         >
                             {isAssessmentFirst

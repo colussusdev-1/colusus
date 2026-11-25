@@ -7,6 +7,10 @@ import Opportunity from "../opportunities/opportunity.model.js";
 
 const DEFAULT_APPLICATION_STEPS = ["DOCUMENTS", "REVIEW"];
 
+const APPLICATION_FLOWS = new Set(["DIRECT_APPLICATION", "ASSESSMENT_FIRST"]);
+
+const DEFAULT_APPLICATION_FLOW = "DIRECT_APPLICATION";
+
 const DOCUMENT_TYPES = new Set([
   "PASSPORT",
   "IDENTIFICATION",
@@ -52,6 +56,8 @@ const OFFER_FIELDS = [
   "paymentPlan",
   "terms",
   "applicationConfig",
+  "applicationFlow",
+  "programDetails",
 ];
 
 /* -------------------------------------------------------------------------- */
@@ -147,6 +153,48 @@ const mapDbError = (error) => {
   }
 
   return error;
+};
+
+/* -------------------------------------------------------------------------- */
+/* NORMALIZE APPLICATION FLOW                                                 */
+/* -------------------------------------------------------------------------- */
+
+const normalizeApplicationFlow = (value) => {
+  if (value == null || value === "") {
+    return DEFAULT_APPLICATION_FLOW;
+  }
+
+  const normalized = str(value).toUpperCase();
+
+  if (!APPLICATION_FLOWS.has(normalized)) {
+    throw fail(
+      `Invalid applicationFlow. Allowed values: ${[...APPLICATION_FLOWS].join(
+        ", ",
+      )}.`,
+    );
+  }
+
+  return normalized;
+};
+
+/* -------------------------------------------------------------------------- */
+/* NORMALIZE PROGRAM DETAILS                                                  */
+/* -------------------------------------------------------------------------- */
+
+const normalizeProgramDetails = (value) => {
+  if (value == null || value === "") {
+    return null;
+  }
+
+  if (!isObject(value)) {
+    throw fail("programDetails must be an object.");
+  }
+
+  // Preserve the supplied program-specific fields.
+  // This field is intended to hold flexible program information.
+  return {
+    ...value,
+  };
 };
 
 /* -------------------------------------------------------------------------- */
@@ -790,6 +838,10 @@ const buildCreateData = async (payload = {}) => {
 
     applicationConfig: normalizeApplicationConfig(payload.applicationConfig),
 
+    applicationFlow: normalizeApplicationFlow(payload.applicationFlow),
+
+    programDetails: normalizeProgramDetails(payload.programDetails),
+
     active: bool(payload.active, true),
     featured: bool(payload.featured, false),
   };
@@ -972,6 +1024,16 @@ const buildUpdateData = async (payload = {}, existing) => {
         data.applicationConfig = normalizeApplicationConfig(
           payload.applicationConfig,
         );
+        break;
+
+      case "applicationFlow":
+        data.applicationFlow = normalizeApplicationFlow(
+          payload.applicationFlow,
+        );
+        break;
+
+      case "programDetails":
+        data.programDetails = normalizeProgramDetails(payload.programDetails);
         break;
 
       default:
@@ -1371,7 +1433,7 @@ const updateDestination = async (countrySlug, payload = {}) => {
 };
 
 /* -------------------------------------------------------------------------- */
-/* READ-ONLY DATA INTEGRITY REPORT                                             */
+/* READ-ONLY DATA INTEGRITY REPORT                                            */
 /* -------------------------------------------------------------------------- */
 
 const getIntegrityReport = async () => {
