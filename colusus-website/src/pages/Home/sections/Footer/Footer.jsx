@@ -1,6 +1,4 @@
-
 import "./Footer.css";
-
 import { Link } from "react-router-dom";
 
 import {
@@ -9,348 +7,345 @@ import {
     HiOutlineLocationMarker,
     HiOutlineArrowRight,
     HiOutlineGlobeAlt,
+    HiOutlineClock,
+    HiOutlineExternalLink,
+    HiOutlineChatAlt2,
 } from "react-icons/hi";
 
 import footerBackground from "../../../../assets/footer/footer-background.png";
 
-const Footer = () => {
-    /* =========================================================
-       COMPANY LINKS
-    ========================================================= */
+const companyLinks = [
+    { label: "Home", to: "/" },
+    { label: "About Us", to: "/about" },
+    { label: "Contact Us", to: "/contact" },
+    { label: "Book a Consultation", to: "/consultation" },
+];
 
-    const companyLinks = [
-        { label: "Home", to: "/" },
-        { label: "About Us", to: "/about" },
-        { label: "Contact", to: "/contact" },
-        { label: "Book Consultation", to: "/consultation" },
-    ];
+const serviceLinks = [
+    { label: "Canada Immigration", to: "/services/canada-migration" },
+    { label: "Global Work Pathways", to: "/services/global-works" },
+    { label: "Tourist Visa", to: "/services/tourist-visa" },
+    { label: "Work Opportunities", to: "/opportunities/work" },
+    { label: "Free Assessment", to: "/free-assessment" },
+];
 
-    /* =========================================================
-       SERVICE LINKS
-    ========================================================= */
+const opportunityLinks = [
+    { label: "Canada Opportunities", to: "/opportunities/canada" },
+    { label: "Germany Opportunities", to: "/opportunities/germany" },
+    { label: "Bulgaria Opportunities", to: "/opportunities/bulgaria" },
+];
 
-    const serviceLinks = [
-        { label: "Canada Immigration", to: "/services/canada-migration" },
-        { label: "Global Work Pathways", to: "/services/global-works" },
-        { label: "Tourist Visa", to: "/services/tourist-visa" },
-        { label: "Work Opportunities", to: "/opportunities/work" },
-        { label: "Free Assessment", to: "/free-assessment" },
-    ];
+const contactNumbers = [
+    {
+        label: "Nigeria",
+        number: "+234 703 520 9306",
+        href: "tel:+2347035209306",
+    },
+    {
+        label: "Additional line",
+        number: "+234 902 695 3513",
+        href: "tel:+2349026953513",
+    },
+    {
+        label: "Additional line",
+        number: "+234 916 983 0624",
+        href: "tel:+2349169830624",
+    },
+    {
+        label: "United Kingdom",
+        number: "+44 7455 674027",
+        href: "tel:+447455674027",
+    },
+];
 
-    /* =========================================================
-       EXPLORE LINKS
-    ========================================================= */
+const offices = [
+    {
+        country: "Canada",
+        city: "Toronto, Ontario",
+        address: "3500 Dufferin St, Toronto, ON M3K 1N2, Canada",
+        mapQuery: "3500 Dufferin St, Toronto, ON M3K 1N2, Canada",
+        mapLink:
+            "https://www.google.com/maps/search/?api=1&query=3500+Dufferin+St%2C+Toronto%2C+ON+M3K+1N2%2C+Canada",
+    },
+    {
+        country: "Nigeria",
+        city: "Ikeja, Lagos",
+        address: "16 Lateef Jakande Rd, Agidingbi, Ikeja 100248, Lagos",
+        mapQuery: "16 Lateef Jakande Rd, Agidingbi, Ikeja 100248, Lagos",
+        mapLink:
+            "https://www.google.com/maps/search/?api=1&query=16+Lateef+Jakande+Rd%2C+Agidingbi%2C+Ikeja+100248%2C+Lagos",
+    },
+];
 
-    const exploreLinks = [
-        { label: "Canada Opportunities", to: "/opportunities/canada" },
-        { label: "Germany Opportunities", to: "/opportunities/germany" },
-        { label: "Bulgaria Opportunities", to: "/opportunities/bulgaria" },
-    ];
+const whatsappLink =
+    "https://wa.me/2347035209306?text=Hello%20Colossus%20Migration%2C%20I%20would%20like%20to%20speak%20with%20an%20agent%20about%20my%20migration%20options.";
 
-    /* =========================================================
-       CONTACT TEAM
-    ========================================================= */
-
-    const teamContacts = [
-        {
-            name: "Rose",
-            phone: "+234 703 520 9306",
-            href: "tel:+2347035209306",
-        },
-        {
-            name: "Tony",
-            role: "Migration Director",
-            phone: "+234 902 695 3513",
-            href: "tel:+2349026953513",
-        },
-        {
-            name: "Blessing",
-            phone: "+234 916 983 0624",
-            href: "tel:+2349169830624",
-        },
-    ];
-
-    const whatsappLink =
-        "https://wa.me/2347035209306?text=Hello%20Colossus%20Migration%2C%20I%20would%20like%20to%20speak%20with%20an%20agent%20about%20my%20migration%20options.";
-
+function FooterLinkColumn({ title, links }) {
     return (
-        <footer className="colossus-footer">
-            {/* BACKGROUND */}
+        <div className="colossus-footer__link-column">
+            <h3>{title}</h3>
 
-            <div
-                className="colossus-footer-background"
-                aria-hidden="true"
-            >
-                <div
-                    className="colossus-footer-background-image"
-                    style={{
-                        backgroundImage: `url(${footerBackground})`,
-                    }}
+            <ul>
+                {links.map((link) => (
+                    <li key={link.to}>
+                        <Link to={link.to}>
+                            <HiOutlineArrowRight />
+                            <span>{link.label}</span>
+                        </Link>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+}
+
+function OfficeMapCard({ office }) {
+    return (
+        <article className="colossus-footer__office-card">
+            <div className="colossus-footer__office-map">
+                <iframe
+                    title={`${office.country} office location map`}
+                    src={`https://maps.google.com/maps?q=${encodeURIComponent(
+                        office.mapQuery
+                    )}&output=embed`}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    allowFullScreen
                 />
 
-                <div className="colossus-footer-background-overlay" />
-
-                <div className="colossus-footer-glow colossus-footer-glow-one" />
-
-                <div className="colossus-footer-glow colossus-footer-glow-two" />
+                <a
+                    href={office.mapLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="colossus-footer__map-open"
+                    aria-label={`Open ${office.country} office in Google Maps`}
+                >
+                    <HiOutlineExternalLink />
+                    Open map
+                </a>
             </div>
 
-            {/* MAIN FOOTER */}
-
-            <div className="colossus-footer-main">
-                {/* BRAND AND CONTACT PANEL */}
-
-                <section
-                    className="
-                        colossus-footer-panel
-                        colossus-footer-brand-panel
-                    "
-                >
-                    {/* BRAND */}
-
-                    <div className="colossus-footer-brand">
-                        <div className="colossus-footer-brand-mark">
-                            <HiOutlineGlobeAlt />
-                        </div>
-
-                        <div className="colossus-footer-brand-name">
-                            <strong>Colossus</strong>
-
-                            <span>Migration &amp; Tours</span>
-                        </div>
+            <div className="colossus-footer__office-details">
+                <div className="colossus-footer__office-heading">
+                    <div className="colossus-footer__office-icon">
+                        <HiOutlineLocationMarker />
                     </div>
 
-                    {/* DESCRIPTION */}
+                    <div>
+                        <span className="colossus-footer__eyebrow">
+                            OUR OFFICE
+                        </span>
+                        <h3>{office.country} Office</h3>
+                        <p>{office.city}</p>
+                    </div>
+                </div>
 
-                    <p className="colossus-footer-description">
-                        Helping professionals, students, families
-                        and entrepreneurs achieve their global
-                        goals through trusted immigration,
-                        relocation and travel solutions.
-                    </p>
+                <a
+                    href={office.mapLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="colossus-footer__office-address"
+                >
+                    {office.address}
+                    <HiOutlineExternalLink />
+                </a>
+            </div>
+        </article>
+    );
+}
 
-                    {/* EXISTING CONTACT INFORMATION */}
+function Footer() {
+    return (
+        <footer className="colossus-footer">
+            <div
+                className="colossus-footer__background"
+                style={{ backgroundImage: `url(${footerBackground})` }}
+            />
 
-                    <div className="colossus-footer-contact-list">
-                        {/* EMAIL */}
+            <div className="colossus-footer__overlay" />
 
-                        <a
-                            href="mailto:admin@colossusmigration.com"
-                            className="colossus-footer-contact-item"
+            <div className="colossus-footer__container">
+                {/* TOP CTA */}
+                <section className="colossus-footer__cta">
+                    <div className="colossus-footer__cta-content">
+                        <span className="colossus-footer__eyebrow">
+                            YOUR JOURNEY STARTS HERE
+                        </span>
+
+                        <h2>
+                            A world of opportunities.
+                            <br />
+                            <span>A future without limits.</span>
+                        </h2>
+
+                        <p>
+                            Whether you're planning to work, study, visit or relocate,
+                            we're here to help you take the next step with confidence.
+                        </p>
+                    </div>
+
+                    <div className="colossus-footer__cta-actions">
+                        <Link
+                            to="/consultation"
+                            className="colossus-footer__primary-button"
                         >
-                            <span className="colossus-footer-contact-icon">
-                                <HiOutlineMail />
-                            </span>
+                            Book a consultation
+                            <HiOutlineArrowRight />
+                        </Link>
 
-                            <span>admin@colossusmigration.com</span>
-                        </a>
-
-                        {/* NIGERIA PHONE */}
-
-                        <a
-                            href="tel:+2347035209306"
-                            className="colossus-footer-contact-item"
+                        <Link
+                            to="/free-assessment"
+                            className="colossus-footer__secondary-button"
                         >
-                            <span className="colossus-footer-contact-icon">
-                                <HiOutlinePhone />
-                            </span>
+                            Get a free assessment
+                        </Link>
+                    </div>
+                </section>
 
-                            <span>+234 703 520 9306</span>
-                        </a>
-
-                        {/* LOCATION */}
-
-                        <div className="colossus-footer-contact-item">
-                            <span className="colossus-footer-contact-icon">
-                                <HiOutlineLocationMarker />
-                            </span>
-
-                            <span>Lagos, Nigeria</span>
-                        </div>
-
-                        {/* WHATSAPP */}
-
-                        <a
-                            href={whatsappLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="colossus-footer-contact-item"
-                        >
-                            <span className="colossus-footer-contact-icon">
-                                <HiOutlinePhone />
+                {/* BRAND AND NAVIGATION */}
+                <section className="colossus-footer__main">
+                    <div className="colossus-footer__brand">
+                        <Link to="/" className="colossus-footer__brand-name">
+                            <span className="colossus-footer__brand-symbol">
+                                <HiOutlineGlobeAlt />
                             </span>
 
                             <span>
-                                <strong>WHATSAPP</strong>
-                                <br />
-                                +234 703 520 9306
+                                <strong>COLOSSUS</strong>
+                                <small>MIGRATION & TOURS</small>
+                            </span>
+                        </Link>
+
+                        <p>
+                            Connecting people to global opportunities through
+                            trusted migration guidance, professional support and
+                            practical pathways to a better future.
+                        </p>
+
+                        <div className="colossus-footer__brand-note">
+                            <span className="colossus-footer__status-dot" />
+                            Your journey. Our guidance. Global possibilities.
+                        </div>
+                    </div>
+
+                    <FooterLinkColumn
+                        title="Company"
+                        links={companyLinks}
+                    />
+
+                    <FooterLinkColumn
+                        title="Our Services"
+                        links={serviceLinks}
+                    />
+
+                    <FooterLinkColumn
+                        title="Explore"
+                        links={opportunityLinks}
+                    />
+
+                    {/* CONTACT PANEL */}
+                    <div className="colossus-footer__contact">
+                        <h3>Get in touch</h3>
+
+                        <p className="colossus-footer__contact-intro">
+                            Have a question about your migration options? Speak
+                            with our team.
+                        </p>
+
+                        <a
+                            href="mailto:admin@colossusmigration.com"
+                            className="colossus-footer__contact-email"
+                        >
+                            <span className="colossus-footer__contact-icon">
+                                <HiOutlineMail />
                             </span>
 
-                            <HiOutlineArrowRight />
+                            <span>
+                                <small>EMAIL OUR TEAM</small>
+                                <strong>admin@colossusmigration.com</strong>
+                            </span>
                         </a>
 
-                        {/* CONTACT OUR TEAM */}
-
-                        <div className="colossus-footer-team">
-                            <h4>CONTACT OUR TEAM</h4>
-
-                            {teamContacts.map((contact) => (
-                                <a
-                                    key={contact.name}
-                                    href={contact.href}
-                                    className="colossus-footer-contact-item"
-                                >
-                                    <span className="colossus-footer-contact-icon">
-                                        <HiOutlinePhone />
-                                    </span>
-
+                        <div className="colossus-footer__phone-list">
+                            {contactNumbers.map((contact, index) => (
+                                <a href={contact.href} key={`${contact.href}-${index}`}>
+                                    <HiOutlinePhone />
                                     <span>
-                                        <strong>{contact.name}</strong>
-
-                                        {contact.role && (
-                                            <>
-                                                <br />
-                                                <small>
-                                                    ({contact.role})
-                                                </small>
-                                                <br />
-                                            </>
-                                        )}
-
-                                        {contact.phone}
+                                        <small>{contact.label}</small>
+                                        <strong>{contact.number}</strong>
                                     </span>
                                 </a>
                             ))}
                         </div>
 
-                        {/* UK OFFICE */}
-
                         <a
-                            href="tel:+447455674027"
-                            className="colossus-footer-contact-item"
+                            href={whatsappLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="colossus-footer__whatsapp"
                         >
-                            <span className="colossus-footer-contact-icon">
-                                <HiOutlinePhone />
-                            </span>
-
-                            <span>
-                                <strong>UK OFFICE</strong>
-                                <br />
-                                +44 7455 674027
-                            </span>
+                            <HiOutlineChatAlt2 />
+                            Chat with us on WhatsApp
+                            <HiOutlineArrowRight />
                         </a>
                     </div>
                 </section>
 
-                {/* COMPANY */}
+                {/* OFFICE LOCATIONS */}
+                <section className="colossus-footer__locations">
+                    <div className="colossus-footer__section-heading">
+                        <div>
+                            <span className="colossus-footer__eyebrow">
+                                FIND US
+                            </span>
 
-                <section
-                    className="
-                        colossus-footer-panel
-                        colossus-footer-links-panel
-                    "
-                >
-                    <div className="colossus-footer-panel-heading">
-                        <h3>Company</h3>
+                            <h2>Our office locations</h2>
+
+                            <p>
+                                Wherever you're planning to go, we're here to help
+                                you move forward.
+                            </p>
+                        </div>
+
+                        <div className="colossus-footer__location-caption">
+                            <HiOutlineGlobeAlt />
+                            <span>Connecting you to the world</span>
+                        </div>
                     </div>
 
-                    <nav className="colossus-footer-links">
-                        {companyLinks.map((link) => (
-                            <Link
-                                key={link.label}
-                                to={link.to}
-                                className="colossus-footer-link"
-                            >
-                                <span className="colossus-footer-link-text">
-                                    {link.label}
-                                </span>
-
-                                <HiOutlineArrowRight />
-                            </Link>
+                    <div className="colossus-footer__office-grid">
+                        {offices.map((office) => (
+                            <OfficeMapCard
+                                key={office.country}
+                                office={office}
+                            />
                         ))}
-                    </nav>
+                    </div>
                 </section>
 
-                {/* SERVICES */}
-
-                <section
-                    className="
-                        colossus-footer-panel
-                        colossus-footer-links-panel
-                    "
-                >
-                    <div className="colossus-footer-panel-heading">
-                        <h3>Services</h3>
+                {/* BOTTOM BAR */}
+                <section className="colossus-footer__bottom">
+                    <div className="colossus-footer__copyright">
+                        <span>
+                            © {new Date().getFullYear()} Colossus Migration & Tours.
+                        </span>
+                        <span>All rights reserved.</span>
                     </div>
 
-                    <nav className="colossus-footer-links">
-                        {serviceLinks.map((link) => (
-                            <Link
-                                key={link.label}
-                                to={link.to}
-                                className="colossus-footer-link"
-                            >
-                                <span className="colossus-footer-link-text">
-                                    {link.label}
-                                </span>
+                    <div className="colossus-footer__bottom-links">
+                        <Link to="/about">About Colossus</Link>
+                        <Link to="/contact">Contact</Link>
+                        <Link to="/consultation">Consultation</Link>
+                    </div>
 
-                                <HiOutlineArrowRight />
-                            </Link>
-                        ))}
-                    </nav>
+                    <div className="colossus-footer__bottom-location">
+                        <HiOutlineLocationMarker />
+                        <span>Canada · Nigeria</span>
+                    </div>
                 </section>
-
-                {/* EXPLORE */}
-
-                <section
-                    className="
-                        colossus-footer-panel
-                        colossus-footer-links-panel
-                    "
-                >
-                    <div className="colossus-footer-panel-heading">
-                        <h3>Explore</h3>
-                    </div>
-
-                    <nav className="colossus-footer-links">
-                        {exploreLinks.map((link) => (
-                            <Link
-                                key={link.label}
-                                to={link.to}
-                                className="colossus-footer-link"
-                            >
-                                <span className="colossus-footer-link-text">
-                                    {link.label}
-                                </span>
-
-                                <HiOutlineArrowRight />
-                            </Link>
-                        ))}
-                    </nav>
-                </section>
-            </div>
-
-            {/* BOTTOM FOOTER */}
-
-            <div className="colossus-footer-bottom">
-                <div className="colossus-footer-bottom-inner">
-                    <p>
-                        © {new Date().getFullYear()} Colossus Migration
-                        &amp; Tours. All rights reserved.
-                    </p>
-
-                    <div className="colossus-footer-bottom-links">
-                        <Link to="/contact">Contact Us</Link>
-
-                        <span>|</span>
-
-                        <Link to="/about">About</Link>
-                    </div>
-                </div>
             </div>
         </footer>
     );
-};
+}
 
 export default Footer;
-
